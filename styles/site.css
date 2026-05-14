@@ -212,15 +212,290 @@ button { font-family: var(--aa-font-sans); }
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
+@keyframes aa-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes aa-slide-down {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes aa-pulse-cyan {
+  0%, 100% { box-shadow: 0 6px 20px rgba(41,171,226,0.35), 0 0 0 0 rgba(41,171,226,0.5); }
+  50%      { box-shadow: 0 6px 24px rgba(41,171,226,0.45), 0 0 0 10px rgba(41,171,226,0); }
+}
 .fade-in { animation: aa-fade-up 250ms ease-out both; }
 
+/* Scroll-reveal — applied to elements once they enter viewport */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Smooth scroll for in-page nav */
+html { scroll-behavior: smooth; }
+
 @media (prefers-reduced-motion: reduce) {
-  .fade-in { animation: none !important; }
+  html { scroll-behavior: auto; }
+  .fade-in, .reveal { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+  .aa-wa-fab { animation: none !important; }
+}
+
+/* ---------- Hamburger menu (mobile) ---------- */
+.topnav__burger {
+  display: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+  color: var(--aa-charcoal);
+}
+.topnav__burger svg { display: block; }
+
+.topnav__drawer {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,46,0.55);
+  z-index: 60;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease-out;
+}
+.topnav__drawer.is-open { opacity: 1; pointer-events: auto; }
+
+.topnav__drawer-panel {
+  position: absolute;
+  top: 0; right: 0;
+  height: 100%;
+  width: min(86vw, 360px);
+  background: #fff;
+  padding: 80px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transform: translateX(100%);
+  transition: transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  box-shadow: -12px 0 32px rgba(0,0,0,0.12);
+  overflow-y: auto;
+}
+.topnav__drawer.is-open .topnav__drawer-panel { transform: translateX(0); }
+
+.topnav__drawer-link {
+  font-family: var(--aa-font-display);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--aa-charcoal);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--aa-rule);
+  text-align: left;
+  padding: 18px 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 150ms ease-out, padding-left 200ms ease-out;
+}
+.topnav__drawer-link:hover { color: var(--aa-cyan); padding-left: 8px; }
+.topnav__drawer-link.is-active { color: var(--aa-cyan); }
+.topnav__drawer-link .mono {
+  font-family: var(--aa-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--aa-steel);
+}
+
+.topnav__drawer-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--aa-charcoal);
+}
+
+.topnav__drawer-cta {
+  margin-top: 24px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.topnav__drawer-meta {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--aa-rule);
+  font-size: 12px;
+  color: var(--aa-steel-700);
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+/* Lock body scroll when drawer is open */
+body.no-scroll { overflow: hidden; }
+
+/* ---------- Floating WhatsApp FAB ---------- */
+.aa-wa-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: #25D366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  z-index: 70;
+  box-shadow: 0 6px 20px rgba(37,211,102,0.35);
+  animation: aa-pulse-cyan 2.6s ease-in-out infinite;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+.aa-wa-fab:hover { transform: translateY(-2px) scale(1.04); }
+.aa-wa-fab:focus-visible { outline: 3px solid var(--aa-cyan); outline-offset: 3px; }
+.aa-wa-fab svg { width: 28px; height: 28px; }
+.aa-wa-fab__label {
+  position: absolute;
+  right: 68px;
+  background: var(--aa-charcoal);
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(8px);
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+.aa-wa-fab:hover .aa-wa-fab__label { opacity: 1; transform: translateX(0); }
+
+/* Recolor pulse to match WA green */
+@keyframes aa-wa-pulse {
+  0%, 100% { box-shadow: 0 6px 20px rgba(37,211,102,0.35), 0 0 0 0 rgba(37,211,102,0.5); }
+  50%      { box-shadow: 0 6px 24px rgba(37,211,102,0.45), 0 0 0 12px rgba(37,211,102,0); }
+}
+.aa-wa-fab { animation-name: aa-wa-pulse; }
+
+/* ---------- Responsive breakpoints ---------- */
+
+/* Tablet down */
+@media (max-width: 960px) {
+  .container { padding: 0 24px; }
+  .section { padding: 72px 0; }
+
+  .topnav { height: 64px; }
+  .topnav__logo img { height: 36px; }
+  .topnav__list { display: none; }
+  .topnav__right .btn { display: none; }
+  .topnav__burger { display: inline-flex; }
+
+  .subbar { display: none; }
+
+  .section-head { margin-bottom: 36px; }
+  .section-head h2 { font-size: clamp(28px, 5vw, 40px); }
+
+  .statline__inner { grid-template-columns: 1fr 1fr !important; }
+
+  .aa-wa-fab { right: 16px; bottom: 16px; }
+  .aa-wa-fab__label { display: none; }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .container { padding: 0 20px; }
+  .section { padding: 56px 0; }
+
+  .btn { padding: 12px 18px; font-size: 13px; }
+  .btn--sm { padding: 9px 14px; font-size: 12px; }
+
+  .statline__inner { grid-template-columns: 1fr !important; }
+  .statline__cell { padding: 22px 20px; }
+  .statline__num { font-size: 36px; }
+
+  .section-head h2 { font-size: clamp(24px, 6vw, 36px); }
+}
+
+/* Generic responsive util: any explicit 2+ column grid stacks on phone */
+@media (max-width: 720px) {
+  .aa-stack-sm { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .aa-hide-sm { display: none !important; }
+
+  /* Auto-stack inline-styled section grids that split into equal-ish columns.
+     React renders style props as the HTML style attribute, kebab-cased — so
+     these substring selectors catch grids like "1fr 1fr", "repeat(3, 1fr)" etc. */
+  main [style*="grid-template-columns: 1fr 1fr"],
+  main [style*="grid-template-columns: 1fr 1.2fr"],
+  main [style*="grid-template-columns: 1fr 1.4fr"],
+  main [style*="grid-template-columns: 1fr 1.6fr"],
+  main [style*="grid-template-columns: 1.2fr 1fr"],
+  main [style*="grid-template-columns: 1.25fr 1fr"],
+  main [style*="grid-template-columns: 1.4fr 1fr"],
+  main [style*="grid-template-columns: 1.5fr 1fr"],
+  main [style*="grid-template-columns: 1.6fr 1fr"],
+  main [style*="grid-template-columns: repeat(2, 1fr)"],
+  main [style*="grid-template-columns: repeat(3, 1fr)"],
+  main [style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  /* When grids stack, children inherit min-width:auto which can push past parent.
+     Force min-width:0 on children of any stacked grid so they shrink to fit. */
+  main [style*="grid-template-columns"] > * { min-width: 0; }
+  /* Prevent any horizontal page scroll on mobile */
+  html, body { overflow-x: hidden; }
+
+  /* But preserve the wizard's 3-step header — keep it visually as steps */
+  /* (no override needed; design is fine stacked too) */
+}
+
+/* Tablet: 4-cols become 2-cols */
+@media (min-width: 721px) and (max-width: 960px) {
+  main [style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }
 
 /* ---------- Density modifier ---------- */
 body[data-density="compact"] .section { padding: 64px 0; }
 body[data-density="compact"] .section-head { margin-bottom: 36px; }
+
+/* ---------- Home hero ---------- */
+.aa-hero__container { padding: 120px 32px 0; }
+.aa-hero__title { font-size: clamp(52px, 7.6vw, 104px); }
+
+@media (max-width: 960px) {
+  .aa-hero__container { padding: 72px 24px 0; }
+  .aa-hero__title { font-size: clamp(40px, 8vw, 72px); }
+}
+@media (max-width: 600px) {
+  .aa-hero__container { padding: 48px 20px 0; }
+  .aa-hero__title { font-size: clamp(34px, 11vw, 56px); }
+}
+
+/* ---------- Hero stat cell ---------- */
+.aa-hero-stat {
+  padding: 32px 24px;
+  text-align: left;
+  border-right: 1px solid var(--aa-rule);
+}
+.aa-hero-stat.is-last { border-right: none; }
+@media (max-width: 720px) {
+  .aa-hero-stat { border-right: none; border-bottom: 1px solid var(--aa-rule); padding: 22px 0; text-align: center; }
+  .aa-hero-stat.is-last { border-bottom: none; }
+}
 
 /* ---------- Print-style numerical grid (Stat strip) ---------- */
 .statline { display: grid; gap: 1px; background: var(--aa-rule); border: 1px solid var(--aa-rule); }
