@@ -1,0 +1,352 @@
+/* ============================================================
+   Authentic Accounting — Design System Tokens
+   colors_and_type.css
+   ============================================================
+   Palette is logo-derived only. No external accent colors.
+   Typography uses Google Fonts substitutes for the brand
+   wordmark font (Antique Olive Bold Condensed, URW) which is
+   not redistributable. See README.md → Typography.
+   ============================================================ */
+
+/* --- Google Font imports (substitutes) --- */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Archivo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ==========================================================
+     COLOR — LOGO DERIVED
+     ========================================================== */
+
+  /* Brand primaries */
+  --aa-cyan:            #29ABE2;  /* Primary accent, wordmark, links, key data */
+  --aa-cyan-600:        #1F8BBA;  /* Hover / pressed on cyan */
+  --aa-cyan-700:        #176E93;  /* Deep cyan, emphasis on light */
+  --aa-cyan-200:        #9BD8F0;  /* Decorative tints only (charts, highlights) */
+  --aa-cyan-100:        #D6EEF9;  /* Soft cyan wash */
+  --aa-cyan-050:        #ECF7FC;  /* Faintest cyan wash, table header bg */
+
+  --aa-steel:           #6D6E71;  /* Body text, secondary, rule lines */
+  --aa-steel-700:       #525358;
+  --aa-steel-300:       #A7A8AB;
+  --aa-steel-200:       #C7C8CA;
+  --aa-steel-100:       #E4E5E7;  /* Dividers */
+
+  --aa-charcoal:        #1A1A2E;  /* Primary headings, institutional surfaces */
+  --aa-charcoal-800:    #242438;
+  --aa-charcoal-600:    #3A3A4F;
+
+  /* Surfaces (light, always preferred) */
+  --aa-surface:         #FFFFFF;  /* Primary canvas */
+  --aa-surface-off:     #FAFAFB;  /* Off-white page bg */
+  --aa-surface-neutral: #F4F4F6;  /* Zebra stripe / disabled bg */
+  --aa-surface-raised:  #FFFFFF;  /* Cards, tiles */
+  --aa-rule:            #E4E5E7;  /* Rule lines, thin dividers */
+  --aa-rule-strong:     #C7C8CA;  /* Stronger divider for tables */
+
+  /* Data / status (derived only from palette) */
+  --aa-data-primary:    var(--aa-cyan);
+  --aa-data-secondary:  var(--aa-steel);
+  --aa-data-reference:  var(--aa-charcoal);
+  --aa-data-series-3:   var(--aa-cyan-700);
+  --aa-data-series-4:   var(--aa-steel-300);
+
+  /* Semantic — muted, control-oriented. NOT marketing colors */
+  --aa-positive:        #1F7A5A;   /* Reserved for reconciled / passed */
+  --aa-negative:        #A1331B;   /* Reserved for variance / failed */
+  --aa-caution:         #8A6D1F;   /* Reserved for review / pending */
+
+  /* ==========================================================
+     TYPOGRAPHY
+     ========================================================== */
+
+  /* Families */
+  --aa-font-display:    'Oswald', 'Archivo', 'Antique Olive', 'Helvetica Neue Condensed', sans-serif;
+  --aa-font-display-alt:'Archivo', 'Helvetica Neue', sans-serif;
+  --aa-font-sans:       'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --aa-font-mono:       'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Weights */
+  --aa-w-regular: 400;
+  --aa-w-medium:  500;
+  --aa-w-semibold:600;
+  --aa-w-bold:    700;
+  --aa-w-display: 700;  /* Oswald top weight for display */
+
+  /* Type scale (modular, 1.200 minor third — dense/institutional) */
+  --aa-t-12: 12px;   /* footnotes (print: 8pt+) */
+  --aa-t-13: 13px;   /* table cells, caption */
+  --aa-t-14: 14px;   /* body small */
+  --aa-t-15: 15px;   /* body default */
+  --aa-t-17: 17px;   /* body large */
+  --aa-t-20: 20px;   /* h5 / subhead */
+  --aa-t-24: 24px;   /* h4 */
+  --aa-t-30: 30px;   /* h3 */
+  --aa-t-38: 38px;   /* h2 */
+  --aa-t-48: 48px;   /* h1 */
+  --aa-t-64: 64px;   /* display */
+  --aa-t-88: 88px;   /* hero display (covers only) */
+
+  /* Line heights */
+  --aa-lh-tight:   1.1;
+  --aa-lh-display: 1.05;
+  --aa-lh-heading: 1.2;
+  --aa-lh-body:    1.55;
+  --aa-lh-dense:   1.35;
+
+  /* Letter spacing */
+  --aa-ls-wordmark:  0.04em;   /* Matches wordmark cadence */
+  --aa-ls-display:   0.01em;
+  --aa-ls-eyebrow:   0.14em;   /* Uppercase micro labels */
+  --aa-ls-body:      0;
+  --aa-ls-tabular:   0;
+
+  /* ==========================================================
+     SPACING — 4pt base
+     ========================================================== */
+  --aa-s-0:   0;
+  --aa-s-1:   4px;
+  --aa-s-2:   8px;
+  --aa-s-3:   12px;
+  --aa-s-4:   16px;
+  --aa-s-5:   20px;
+  --aa-s-6:   24px;
+  --aa-s-8:   32px;
+  --aa-s-10:  40px;
+  --aa-s-12:  48px;
+  --aa-s-16:  64px;
+  --aa-s-20:  80px;
+  --aa-s-24:  96px;
+
+  /* ==========================================================
+     RADII — restrained. Tables + reports use 0.
+     ========================================================== */
+  --aa-r-0:  0;           /* Tables, statutory layouts, report chrome */
+  --aa-r-1:  2px;         /* Inputs, tags */
+  --aa-r-2:  4px;         /* Cards (professional-clean register) */
+  --aa-r-3:  6px;         /* Tiles, dashboard cards */
+  --aa-r-pill: 999px;     /* Status pills only */
+
+  /* ==========================================================
+     ELEVATION — minimal. Audit-clean. Use borders first.
+     ========================================================== */
+  --aa-elev-0: none;
+  --aa-elev-1: 0 1px 0 rgba(26,26,46,0.04), 0 0 0 1px var(--aa-rule);   /* hairline card */
+  --aa-elev-2: 0 1px 2px rgba(26,26,46,0.06), 0 0 0 1px var(--aa-rule); /* dashboard tile */
+  --aa-elev-focus: 0 0 0 2px var(--aa-surface), 0 0 0 4px var(--aa-cyan);
+
+  /* ==========================================================
+     BORDERS
+     ========================================================== */
+  --aa-border-hair:   1px solid var(--aa-rule);
+  --aa-border-rule:   1px solid var(--aa-rule-strong);
+  --aa-border-heavy:  2px solid var(--aa-charcoal);
+  --aa-border-accent: 2px solid var(--aa-cyan);
+
+  /* ==========================================================
+     LAYOUT
+     ========================================================== */
+  --aa-container:     1200px;
+  --aa-container-wide:1360px;
+  --aa-container-doc: 816px;      /* A4-ish report body */
+  --aa-grid-gap:      var(--aa-s-6);
+}
+
+/* ============================================================
+   SEMANTIC DEFAULTS
+   ============================================================ */
+
+html, body {
+  background: var(--aa-surface-off);
+  color: var(--aa-charcoal);
+  font-family: var(--aa-font-sans);
+  font-size: var(--aa-t-15);
+  line-height: var(--aa-lh-body);
+  font-feature-settings: 'ss01','cv11';
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, .aa-h1 {
+  font-family: var(--aa-font-display);
+  font-weight: var(--aa-w-display);
+  font-size: var(--aa-t-48);
+  line-height: var(--aa-lh-display);
+  letter-spacing: var(--aa-ls-display);
+  color: var(--aa-charcoal);
+  text-transform: uppercase;
+  margin: 0;
+}
+h2, .aa-h2 {
+  font-family: var(--aa-font-display);
+  font-weight: var(--aa-w-display);
+  font-size: var(--aa-t-38);
+  line-height: var(--aa-lh-heading);
+  letter-spacing: var(--aa-ls-display);
+  color: var(--aa-charcoal);
+  text-transform: uppercase;
+  margin: 0;
+}
+h3, .aa-h3 {
+  font-family: var(--aa-font-display);
+  font-weight: var(--aa-w-display);
+  font-size: var(--aa-t-30);
+  line-height: var(--aa-lh-heading);
+  letter-spacing: var(--aa-ls-display);
+  color: var(--aa-charcoal);
+  text-transform: uppercase;
+  margin: 0;
+}
+h4, .aa-h4 {
+  font-family: var(--aa-font-sans);
+  font-weight: var(--aa-w-semibold);
+  font-size: var(--aa-t-20);
+  line-height: var(--aa-lh-heading);
+  color: var(--aa-charcoal);
+  margin: 0;
+}
+h5, .aa-h5 {
+  font-family: var(--aa-font-sans);
+  font-weight: var(--aa-w-semibold);
+  font-size: var(--aa-t-17);
+  line-height: var(--aa-lh-heading);
+  color: var(--aa-charcoal);
+  margin: 0;
+}
+
+.aa-eyebrow {
+  font-family: var(--aa-font-sans);
+  font-weight: var(--aa-w-semibold);
+  font-size: var(--aa-t-12);
+  letter-spacing: var(--aa-ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--aa-cyan);
+}
+.aa-eyebrow--steel { color: var(--aa-steel); }
+.aa-eyebrow--charcoal { color: var(--aa-charcoal); }
+
+.aa-wordmark {
+  font-family: var(--aa-font-display);
+  font-weight: var(--aa-w-display);
+  text-transform: uppercase;
+  letter-spacing: var(--aa-ls-wordmark);
+  color: var(--aa-cyan);
+}
+
+p, .aa-p {
+  font-size: var(--aa-t-15);
+  line-height: var(--aa-lh-body);
+  color: var(--aa-steel-700);
+  margin: 0 0 var(--aa-s-4);
+  text-wrap: pretty;
+}
+.aa-p--lead {
+  font-size: var(--aa-t-17);
+  color: var(--aa-charcoal-800);
+}
+.aa-p--small {
+  font-size: var(--aa-t-14);
+}
+.aa-footnote {
+  font-size: var(--aa-t-12);
+  color: var(--aa-steel);
+  line-height: var(--aa-lh-dense);
+}
+
+a {
+  color: var(--aa-cyan-700);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--aa-cyan-600); }
+
+code, .aa-mono, .aa-num {
+  font-family: var(--aa-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.aa-num, .aa-tabular {
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* ============================================================
+   UTILITY: Tables (first-class citizen)
+   ============================================================ */
+.aa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--aa-t-14);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.aa-table th {
+  text-align: left;
+  font-weight: var(--aa-w-semibold);
+  font-size: var(--aa-t-12);
+  letter-spacing: var(--aa-ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--aa-steel);
+  padding: var(--aa-s-3) var(--aa-s-4);
+  border-bottom: var(--aa-border-heavy);
+  background: var(--aa-surface);
+}
+.aa-table td {
+  padding: var(--aa-s-3) var(--aa-s-4);
+  border-bottom: var(--aa-border-hair);
+  color: var(--aa-charcoal);
+  vertical-align: top;
+}
+.aa-table td.aa-num,
+.aa-table th.aa-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.aa-table tr.aa-subtotal td {
+  border-top: 1px solid var(--aa-steel-300);
+  font-weight: var(--aa-w-semibold);
+}
+.aa-table tr.aa-total td {
+  border-top: var(--aa-border-heavy);
+  border-bottom: 3px double var(--aa-charcoal);
+  font-weight: var(--aa-w-bold);
+  color: var(--aa-charcoal);
+}
+.aa-table.aa-table--zebra tbody tr:nth-child(even) td {
+  background: var(--aa-surface-neutral);
+}
+
+/* Negative numbers — parentheses pattern */
+.aa-neg::before { content: '('; }
+.aa-neg::after  { content: ')'; }
+.aa-neg { color: var(--aa-negative); }
+
+/* ============================================================
+   REGISTERS — three deliverable tones
+   ============================================================ */
+
+/* Institutional: statutory, govt, enterprise */
+.aa-register-institutional {
+  --aa-bg: var(--aa-surface);
+  --aa-radius: var(--aa-r-0);
+  --aa-accent: var(--aa-charcoal);
+  color: var(--aa-charcoal);
+}
+
+/* Transaction-grade: advisory, valuations, M&A */
+.aa-register-transaction {
+  --aa-bg: var(--aa-surface-off);
+  --aa-radius: var(--aa-r-0);
+  --aa-accent: var(--aa-charcoal);
+}
+
+/* Professional-clean: SME dashboards, onboarding, decks */
+.aa-register-clean {
+  --aa-bg: var(--aa-surface);
+  --aa-radius: var(--aa-r-3);
+  --aa-accent: var(--aa-cyan);
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

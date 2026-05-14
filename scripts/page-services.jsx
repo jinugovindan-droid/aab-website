@@ -1,0 +1,382 @@
+// Services overview page + VAT service detail page
+const { useState: useStateSvc } = React;
+
+function ServicesPage({ onNav }) {
+  const allServices = [
+    { reg: 'Compliance', t: 'Bookkeeping', icon: 'book-open',
+      d: 'Monthly ledger close on a custom controls engine. Proration, classification and validation framework.',
+      bullets: ['Day-to-day bookkeeping', 'Trial balance close', 'Cash & bank reconciliation', 'Monthly management pack'] },
+    { reg: 'Compliance', t: 'VAT compliance', icon: 'file-check', route: 'service-vat',
+      d: 'Registration, return preparation, review and filing with the FTA — with a defensible position memo per line item.',
+      bullets: ['VAT registration', 'Return preparation', 'FTA filing & queries', 'Review-ready return file'] },
+    { reg: 'Compliance', t: 'UAE Corporate Tax', icon: 'landmark',
+      d: 'Registration, period computation and return filing under the 9% regime, with QFZP analysis where relevant.',
+      bullets: ['CT registration', 'Period computation', 'QFZP / FTA filings', 'Position memos'] },
+    { reg: 'Compliance', t: 'Financial statements', icon: 'file-spreadsheet',
+      d: 'Balance Sheet, P&L, Cash Flow and notes prepared to IFRS / IFRS for SMEs.',
+      bullets: ['Statutory FS', 'Group consolidation', 'Audit preparation', 'Disclosure schedules'] },
+    { reg: 'Advisory', t: 'Business valuations', icon: 'gauge',
+      d: 'DCF, comparables and asset-based valuations for transactions, disputes and statutory purposes.',
+      bullets: ['Equity & enterprise value', 'Purchase price allocation', 'Impairment testing', 'Litigation support'] },
+    { reg: 'Advisory', t: 'M&A support', icon: 'merge',
+      d: 'Buy-side and sell-side assistance, deal structuring and closing support.',
+      bullets: ['Information memorandum', 'Buy-side diligence', 'Closing accounts', 'Completion mechanics'] },
+    { reg: 'Advisory', t: 'Financial due diligence', icon: 'search',
+      d: 'Quality-of-earnings, working capital and debt-like item analyses for investors and lenders.',
+      bullets: ['Quality of earnings', 'Working capital', 'Net debt analysis', 'Red-flag report'] },
+    { reg: 'Advisory', t: 'Internal controls', icon: 'shield',
+      d: 'Design, walkthroughs and remediation for regulated entities and pre-IPO issuers.',
+      bullets: ['Risk & control matrix', 'Walkthrough testing', 'Remediation plan', 'Management attestation'] },
+    { reg: 'Advisory', t: 'Financial modeling', icon: 'function-square',
+      d: 'Operating, transaction and board-pack models — fully auditable, FAST-standard formatted.',
+      bullets: ['Operating models', 'LBO / acquisition', 'Refinancing models', 'Board scenarios'] },
+    { reg: 'Advisory', t: 'Strategic advisory', icon: 'compass',
+      d: 'Accounting policy selection, complex transactions and Board-level positions.',
+      bullets: ['Accounting policy', 'Complex transactions', 'Board memos', 'Restructuring'] },
+  ];
+
+  const [filter, setFilter] = useStateSvc('All');
+
+  const filtered = filter === 'All' ? allServices : allServices.filter(s => s.reg === filter);
+
+  return (
+    <div>
+      {/* Hero */}
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '64px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 80, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ width: 24, height: 1, background: 'var(--aa-cyan)', display: 'inline-block' }}></span>
+                Services
+              </div>
+              <h1 style={{
+                fontFamily: 'var(--aa-font-display)', fontWeight: 700,
+                fontSize: 'clamp(44px, 6vw, 72px)',
+                textTransform: 'uppercase', letterSpacing: '0.01em',
+                margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0, textWrap: 'balance',
+              }}>
+                Ten engagements.<br />
+                One <span style={{ color: 'var(--aa-cyan)' }}>controls</span> standard.
+              </h1>
+            </div>
+            <p style={{ fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 460, margin: 0 }}>
+              Every service is delivered against the same control framework — from a five-line VAT return to a nine-figure valuation. Pick a line below or talk to us about a hybrid scope.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Filter row */}
+      <section style={{ background: 'var(--aa-surface-off)', borderBottom: '1px solid var(--aa-rule)', padding: '24px 0' }}>
+        <div className="container" style={{ display: 'flex', gap: 24, alignItems: 'center', justifyContent: 'space-between' }}>
+          <div className="eyebrow eyebrow--steel">Filter by practice</div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {['All', 'Compliance', 'Advisory'].map(f => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                style={{
+                  padding: '10px 18px',
+                  fontSize: 13, fontWeight: 600, fontFamily: 'var(--aa-font-sans)',
+                  background: filter === f ? 'var(--aa-charcoal)' : '#fff',
+                  color: filter === f ? '#fff' : 'var(--aa-charcoal)',
+                  border: '1px solid ' + (filter === f ? 'var(--aa-charcoal)' : 'var(--aa-rule-strong)'),
+                  cursor: 'pointer',
+                  letterSpacing: '0.04em', textTransform: 'uppercase',
+                }}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Service grid */}
+      <section className="section">
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 0, borderTop: '1px solid var(--aa-rule)', borderLeft: '1px solid var(--aa-rule)' }}>
+            {filtered.map((s, i) => (
+              <a
+                key={s.t}
+                href={`#${s.route || 'services'}`}
+                onClick={(e) => { e.preventDefault(); if (s.route) onNav(s.route); }}
+                style={{
+                  textDecoration: 'none', color: 'inherit',
+                  padding: 36,
+                  borderRight: '1px solid var(--aa-rule)',
+                  borderBottom: '1px solid var(--aa-rule)',
+                  display: 'flex', flexDirection: 'column', gap: 16,
+                  background: '#fff',
+                  transition: 'background 150ms ease-out',
+                  minHeight: 280,
+                  cursor: s.route ? 'pointer' : 'default',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'var(--aa-surface-off)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = '#fff'}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <i data-lucide={s.icon} style={{ width: 28, height: 28, color: 'var(--aa-cyan)' }}></i>
+                  <span className="eyebrow eyebrow--steel" style={{ fontSize: 11 }}>{s.reg}</span>
+                </div>
+                <div>
+                  <div style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 28, textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--aa-charcoal)', lineHeight: 1.1 }}>
+                    {s.t}
+                  </div>
+                  <div style={{ fontSize: 14, color: 'var(--aa-steel-700)', marginTop: 12, lineHeight: 1.55 }}>
+                    {s.d}
+                  </div>
+                </div>
+                <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 16px', fontSize: 13, color: 'var(--aa-charcoal)' }}>
+                  {s.bullets.map(b => (
+                    <li key={b} style={{ display: 'flex', gap: 6 }}>
+                      <span style={{ color: 'var(--aa-cyan)' }}>·</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  <span className="mono">{String(i + 1).padStart(2, '0')} / {filtered.length.toString().padStart(2, '0')}</span>
+                  <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>
+                    {s.route ? 'View detail →' : 'Talk to us →'}
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Engagement models */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">Engagement models</div>
+            <h2>Pick a shape that fits the work.</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+            {[
+              { t: 'Retained',   sub: 'Monthly · ongoing',     d: 'Continuous compliance and management reporting against a fixed monthly fee. Best for SMEs and groups with steady volume.', cta: 'Common for bookkeeping, VAT, CT' },
+              { t: 'Project',    sub: 'Fixed scope · fixed fee', d: 'A defined deliverable — a valuation, a model, a closeout pack. Scoping note in 24 hours.', cta: 'Common for valuations, DD, modeling' },
+              { t: 'Statement of work', sub: 'Time & materials · capped', d: 'Open-ended advisory with a cap. Periodic check-ins, monthly status. Used where the question is still being shaped.', cta: 'Common for controls, restructuring' },
+            ].map(m => (
+              <div key={m.t} style={{ background: '#fff', border: '1px solid var(--aa-rule)', padding: 28, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <div className="eyebrow eyebrow--charcoal">{m.t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-cyan-700)', fontWeight: 600 }}>{m.sub}</div>
+                <div style={{ fontSize: 14, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{m.d}</div>
+                <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid var(--aa-rule)', fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{m.cta}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// VAT detail page (exemplar)
+function ServiceVATPage({ onNav }) {
+  return (
+    <div>
+      {/* Crumbtrail + hero */}
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href="#services" onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <span>/</span>
+            <span>Compliance</span>
+            <span>/</span>
+            <span style={{ color: 'var(--aa-charcoal)' }}>VAT compliance</span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Compliance · 5% standard rate</div>
+              <h1 style={{
+                fontFamily: 'var(--aa-font-display)', fontWeight: 700,
+                fontSize: 'clamp(44px, 6vw, 72px)',
+                textTransform: 'uppercase', letterSpacing: '0.01em',
+                margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0,
+              }}>
+                VAT compliance.<br />
+                Defensible by line item.
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 600 }}>
+                We register, prepare, review and file VAT returns with the Federal Tax Authority — with a position memo behind every contested line and a review-ready return file at the end of every quarter.
+              </p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                  Request a VAT scoping
+                  <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+                </button>
+                <button
+                  className="btn btn--ghost"
+                  onClick={() => alert('Sample VAT201 return file — download mocked in this preview.')}
+                >
+                  Sample return file
+                  <i data-lucide="download" style={{ width: 14, height: 14 }}></i>
+                </button>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {[
+                  ['Registration threshold', 'AED 375,000 (mandatory)'],
+                  ['Voluntary threshold',   'AED 187,500'],
+                  ['Standard rate',         '5%'],
+                  ['Filing cadence',        'Quarterly (most clients)'],
+                  ['Typical fee',           'From AED 2,500 / quarter'],
+                  ['Engagement model',      'Retained or project'],
+                ].map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600 }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">The quarter, end to end</div>
+            <h2>From source data to FTA portal.</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['01', 'Source capture', 'Sales, purchases, imports, RCM transactions ingested from your ERP or workpaper templates.'],
+              ['02', 'Classification', 'Standard, zero-rated, exempt, out-of-scope. Designated zone vs. mainland flagged.'],
+              ['03', 'Position memo', 'Every contested line gets a memo with FTA decision references.'],
+              ['04', 'Review',        'Manager review followed by Partner sign-off before submission.'],
+              ['05', 'File & archive','VAT201 filed; closeout pack archived for the statutory 5-year period.'],
+            ].map((s, i) => (
+              <div key={i} style={{
+                padding: 24,
+                borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none',
+                position: 'relative',
+              }}>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Sample return */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">Sample return file</div>
+            <h2>What you receive at filing.</h2>
+          </div>
+          <div style={{ background: '#fff', border: '1px solid var(--aa-rule)', maxWidth: 1000, margin: '0 auto' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '2px solid var(--aa-charcoal)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="eyebrow eyebrow--charcoal">VAT201 · Q2 FY2026 · AUTHENTIC HOLDINGS FZ-LLC</div>
+              <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)' }}>TRN 100123456700003</div>
+            </div>
+            <table className="aa-table">
+              <thead>
+                <tr>
+                  <th>Box</th>
+                  <th>Description</th>
+                  <th className="aa-num">Amount (AED)</th>
+                  <th className="aa-num">VAT (AED)</th>
+                  <th>Memo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['1a', 'Standard-rated supplies — Dubai',         842210,  42110, '—'],
+                  ['1b', 'Standard-rated supplies — other emirates', 318044,  15902, '—'],
+                  ['2',  'Tax refunds for tourists',                       0,      0, '—'],
+                  ['3',  'Reverse charge — services',                  64200,   3210, 'Cited M-217'],
+                  ['4',  'Zero-rated supplies — exports',             204800,      0, 'Cited M-184'],
+                  ['5',  'Exempt supplies',                            12480,      0, '—'],
+                  ['9',  'Standard-rated expenses',                  421050,  21052, '—'],
+                  ['10', 'Reverse charge — recoverable',              64200,   3210, '—'],
+                ].map((r) => (
+                  <tr key={r[0]}>
+                    <td className="mono" style={{ fontSize: 12 }}>{r[0]}</td>
+                    <td>{r[1]}</td>
+                    <td className="aa-num">{r[2].toLocaleString()}</td>
+                    <td className="aa-num">{r[3].toLocaleString()}</td>
+                    <td style={{ fontSize: 12, color: 'var(--aa-steel)' }}>{r[4]}</td>
+                  </tr>
+                ))}
+                <tr className="aa-total">
+                  <td>—</td>
+                  <td>Net VAT payable</td>
+                  <td className="aa-num">—</td>
+                  <td className="aa-num">36,970</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style={{ padding: '12px 20px', borderTop: '1px solid var(--aa-rule)', fontSize: 11, color: 'var(--aa-steel)', display: 'flex', justifyContent: 'space-between' }}>
+              <span>Reviewed by · Partner / 28 Apr 2026</span>
+              <span className="mono">file-ref vat-2026-q2-0112</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section section--off">
+        <div className="container" style={{ maxWidth: 920 }}>
+          <div className="section-head">
+            <div className="section-head__eyebrow">FAQ</div>
+            <h2>What clients ask first.</h2>
+          </div>
+          <FAQList items={[
+            { q: 'When does my business need to register for VAT?',
+              a: 'You must register if your taxable turnover crossed AED 375,000 in the past 12 months, or you reasonably expect it to in the next 30 days. Voluntary registration is available from AED 187,500.' },
+            { q: 'Can you handle a backlog of unfiled returns?',
+              a: 'Yes. We run a recovery scope: reconstruct source data, file outstanding returns, and propose a voluntary disclosure pathway where penalties may be mitigated.' },
+            { q: 'How do you handle designated-zone vs. mainland classification?',
+              a: 'Every transaction is tagged at source against the relevant designated-zone schedule. Reclassifications are documented in the position memo and revisited each quarter.' },
+            { q: 'What is the typical fee structure?',
+              a: 'Quarterly retainers start at AED 2,500 for SMEs with under 200 monthly transactions. Larger groups are quoted on a per-entity basis. Fees include the closeout pack and one round of FTA queries.' },
+          ]} />
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function FAQList({ items }) {
+  const [open, setOpen] = useStateSvc(0);
+  return (
+    <div style={{ borderTop: '2px solid var(--aa-charcoal)' }}>
+      {items.map((it, i) => (
+        <div key={i} style={{ borderBottom: '1px solid var(--aa-rule)' }}>
+          <button
+            onClick={() => setOpen(open === i ? -1 : i)}
+            style={{
+              width: '100%', textAlign: 'left',
+              padding: '24px 0', background: 'transparent', border: 0, cursor: 'pointer',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24,
+              fontFamily: 'var(--aa-font-sans)',
+            }}
+          >
+            <span style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{it.q}</span>
+            <i data-lucide={open === i ? 'minus' : 'plus'} style={{ width: 18, height: 18, color: 'var(--aa-cyan)', flexShrink: 0 }}></i>
+          </button>
+          {open === i && (
+            <div style={{ paddingBottom: 24, fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 720 }}>
+              {it.a}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+Object.assign(window, { ServicesPage, ServiceVATPage, FAQList });
