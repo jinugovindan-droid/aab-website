@@ -1,129 +1,42 @@
-// Home page — hero, services, industries, approach, recon panel, stats, insights, contact
+// Home page — hero, services, industries, approach, stats, insights, contact
 const { useState: useStateHome, useEffect: useEffectHome, useRef: useRefHome } = React;
 
-// ---------- Animated reconciliation panel (lives in the hero) ----------
-function ReconPanelLive() {
-  const baseRows = [
-    { acct: 'Bank of UAE · 3892',  ledger: 1208, bank: 1205 },
-    { acct: 'Revenue · services',  ledger:  842, bank:  842 },
-    { acct: 'VAT input · Q2',      ledger:  318, bank:  318 },
-    { acct: 'Payroll · Mar',       ledger:   64, bank:   64 },
-    { acct: 'Intercompany · FZ',   ledger:   12, bank:   11 },
-  ];
-  const [tick, setTick] = useStateHome(0);
-  useEffectHome(() => {
-    const i = setInterval(() => setTick(t => t + 1), 2400);
-    return () => clearInterval(i);
-  }, []);
-  // jitter the first row slightly
-  const rows = baseRows.map((r, idx) => {
-    if (idx === 0) {
-      const j = (tick % 3);
-      const bank = j === 0 ? 1205 : j === 1 ? 1208 : 1207;
-      return { ...r, bank };
-    }
-    return r;
-  });
-  const totalLedger = rows.reduce((s, r) => s + r.ledger, 0);
-  const totalBank = rows.reduce((s, r) => s + r.bank, 0);
-  const totalDelta = totalLedger - totalBank;
-
-  return (
-    <div style={{
-      border: '1px solid var(--aa-rule)',
-      background: '#fff',
-      fontFamily: 'var(--aa-font-sans)',
-      boxShadow: 'var(--aa-elev-2)'
-    }}>
-      <div style={{
-        padding: '14px 18px',
-        borderBottom: '2px solid var(--aa-charcoal)',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      }}>
-        <div className="eyebrow eyebrow--charcoal">Reconciliation · Q2 FY2026</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span className="pill pill--positive">Live</span>
-          <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)' }}>REF 2026-0481</div>
-        </div>
-      </div>
-      <table className="aa-table" style={{ fontSize: 13 }}>
-        <thead>
-          <tr>
-            <th>Account</th>
-            <th className="aa-num">Ledger</th>
-            <th className="aa-num">Bank</th>
-            <th className="aa-num">Δ</th>
-            <th>State</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, i) => {
-            const delta = r.ledger - r.bank;
-            const ok = delta === 0;
-            return (
-              <tr key={i}>
-                <td>{r.acct}</td>
-                <td className="aa-num">{r.ledger.toLocaleString()}</td>
-                <td className="aa-num">{r.bank.toLocaleString()}</td>
-                <td className="aa-num" style={{ color: ok ? 'var(--aa-steel)' : 'var(--aa-negative)' }}>{delta}</td>
-                <td>
-                  {ok
-                    ? <span style={{ color: 'var(--aa-positive)', fontWeight: 600 }}>✓ Matched</span>
-                    : <span style={{ color: 'var(--aa-caution)', fontWeight: 600 }}>In review</span>
-                  }
-                </td>
-              </tr>
-            );
-          })}
-          <tr className="aa-total">
-            <td>Total</td>
-            <td className="aa-num">{totalLedger.toLocaleString()}</td>
-            <td className="aa-num">{totalBank.toLocaleString()}</td>
-            <td className="aa-num" style={{ color: totalDelta === 0 ? 'var(--aa-steel)' : 'var(--aa-negative)' }}>{totalDelta}</td>
-            <td>—</td>
-          </tr>
-        </tbody>
-      </table>
-      <div style={{
-        padding: '10px 18px',
-        borderTop: '1px solid var(--aa-rule)',
-        fontSize: 11, color: 'var(--aa-steel)',
-        display: 'flex', justifyContent: 'space-between',
-      }}>
-        <span>Last run · 15 Apr 2026, 09:42 GST</span>
-        <span className="mono">run-id 7f21e</span>
-      </div>
-    </div>
-  );
-}
-
 // ---------- Hero ----------
-function HomeHero({ onNav, variant = 'recon' }) {
+function HomeHero({ onNav }) {
   return (
-    <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', position: 'relative', overflow: 'hidden' }}>
-      {/* faint guide rule */}
-      <div style={{
-        position: 'absolute', top: 0, bottom: 0, left: '50%',
-        width: 1, background: 'var(--aa-rule)', opacity: 0.5
-      }} />
-      <div className="container" style={{
-        padding: '88px 32px 80px',
-        display: 'grid',
-        gridTemplateColumns: '1.25fr 1fr',
-        gap: 80,
-        alignItems: 'start',
+    <section className="aa-hero" style={{
+      background: '#fff',
+      borderBottom: '1px solid var(--aa-rule)',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* corner index marker — quiet editorial touch */}
+      <div className="mono aa-hide-sm" style={{
+        position: 'absolute', top: 24, right: 32,
+        fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+        color: 'var(--aa-steel)',
       }}>
-        <div className="fade-in">
-          <div className="eyebrow" style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
+        01 / Home
+      </div>
+
+      <div className="container aa-hero__container" style={{
+        textAlign: 'center',
+      }}>
+        <div className="fade-in" style={{ maxWidth: 980, margin: '0 auto' }}>
+          <div className="eyebrow" style={{
+            marginBottom: 28,
+            display: 'inline-flex', alignItems: 'center', gap: 12,
+            flexWrap: 'wrap', justifyContent: 'center',
+          }}>
             <span style={{ width: 24, height: 1, background: 'var(--aa-cyan)', display: 'inline-block' }}></span>
             <span>UAE · Compliance & Advisory · Since 2017</span>
+            <span style={{ width: 24, height: 1, background: 'var(--aa-cyan)', display: 'inline-block' }}></span>
           </div>
 
-          <h1 style={{
+          <h1 className="aa-hero__title" style={{
             fontFamily: 'var(--aa-font-display)',
             fontWeight: 700,
-            fontSize: 'clamp(48px, 6.6vw, 84px)',
-            lineHeight: 1.0,
+            lineHeight: 0.98,
             letterSpacing: '0.005em',
             textTransform: 'uppercase',
             color: 'var(--aa-charcoal)',
@@ -136,16 +49,20 @@ function HomeHero({ onNav, variant = 'recon' }) {
           </h1>
 
           <p style={{
-            fontSize: 18, lineHeight: 1.55,
+            fontSize: 19, lineHeight: 1.55,
             color: 'var(--aa-charcoal-800)',
-            marginTop: 28, maxWidth: 560,
+            marginTop: 36, marginLeft: 'auto', marginRight: 'auto',
+            maxWidth: 640,
           }}>
             Bookkeeping, VAT, UAE Corporate Tax, valuations and due diligence
             for SMEs, enterprises and Government organisations across the UAE —
-            delivered on a custom controls engine with reconciliation discipline.
+            delivered with reconciliation discipline.
           </p>
 
-          <div style={{ display: 'flex', gap: 12, marginTop: 36 }}>
+          <div style={{
+            display: 'flex', gap: 12, marginTop: 40,
+            justifyContent: 'center', flexWrap: 'wrap',
+          }}>
             <button className="btn btn--primary" onClick={() => onNav('contact')}>
               Book a consultation
               <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
@@ -155,46 +72,42 @@ function HomeHero({ onNav, variant = 'recon' }) {
               <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
             </button>
           </div>
-
-          <div style={{
-            marginTop: 64,
-            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
-            borderTop: '1px solid var(--aa-rule)',
-            paddingTop: 28,
-            gap: 24,
-          }}>
-            <Stat value="1,200+"  label="Engagements delivered" />
-            <Stat value="9 yrs"   label="Continuous practice" />
-            <Stat value="7 emirates" label="Abu Dhabi · Dubai · Sharjah · Ajman · UAQ · RAK · Fujairah" />
-          </div>
         </div>
 
-        <div style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <ReconPanelLive />
-          <div style={{
-            border: '1px solid var(--aa-rule)',
-            padding: '14px 18px',
-            background: 'var(--aa-surface-off)',
-            display: 'flex', alignItems: 'center', gap: 14,
-          }}>
-            <i data-lucide="shield-check" style={{ width: 20, height: 20, color: 'var(--aa-cyan)' }}></i>
-            <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.5 }}>
-              Every workpaper carries an evidence trail. Every deliverable passes a two-line review before it leaves the firm.
-            </div>
-          </div>
+        <div style={{
+          marginTop: 96,
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+          borderTop: '1px solid var(--aa-rule)',
+          gap: 0,
+        }}>
+          <HeroStat value="1,200+"   label="Engagements delivered" />
+          <HeroStat value="9 yrs"    label="Continuous practice" />
+          <HeroStat value="7"        label="Emirates served" />
+          <HeroStat value="2 line"   label="Review on every deliverable" last />
+        </div>
+
+        <div style={{
+          borderTop: '1px solid var(--aa-rule)',
+          padding: '20px 0 28px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          gap: 12,
+          fontSize: 13, color: 'var(--aa-steel-700)',
+        }}>
+          <i data-lucide="shield-check" style={{ width: 16, height: 16, color: 'var(--aa-cyan)' }}></i>
+          <span>Every workpaper carries an evidence trail. Every deliverable passes a two-line review before it leaves the firm.</span>
         </div>
       </div>
     </section>
   );
 }
 
-function Stat({ value, label }) {
+function HeroStat({ value, label, last }) {
   return (
-    <div>
+    <div className={`aa-hero-stat${last ? ' is-last' : ''}`}>
       <div style={{
         fontFamily: 'var(--aa-font-display)',
         fontWeight: 700,
-        fontSize: 36,
+        fontSize: 'clamp(28px, 3.2vw, 40px)',
         color: 'var(--aa-charcoal)',
         lineHeight: 1,
         letterSpacing: '0.01em',
@@ -487,7 +400,7 @@ function NumbersBand() {
           </div>
         </div>
         <div className="statline">
-          <div className="statline__inner">
+          <div className="statline__inner" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
             <div className="statline__cell">
               <div className="statline__num">1,247</div>
               <div className="statline__lbl">Engagements TTM</div>
@@ -495,10 +408,6 @@ function NumbersBand() {
             <div className="statline__cell">
               <div className="statline__num">98.4<small>%</small></div>
               <div className="statline__lbl">Filings on first review</div>
-            </div>
-            <div className="statline__cell">
-              <div className="statline__num">42</div>
-              <div className="statline__lbl">Professionals on staff</div>
             </div>
             <div className="statline__cell">
               <div className="statline__num">AED 4.2<small>B</small></div>
@@ -690,4 +599,4 @@ function HomePage({ onNav }) {
   );
 }
 
-Object.assign(window, { HomePage, ReconPanelLive });
+Object.assign(window, { HomePage });

@@ -1,9 +1,90 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-AE">
 <head>
   <meta charset="utf-8"/>
-  <title>aaccounting.me — Authentic Accounting</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="theme-color" content="#1A1A2E"/>
+  <meta name="color-scheme" content="light"/>
+
+  <title>Authentic Accounting — UAE Compliance &amp; Advisory · Bookkeeping, VAT, Corporate Tax, Valuations</title>
+  <meta name="description" content="UAE-based chartered accounting firm serving SMEs, enterprises and Government across all 7 emirates. Bookkeeping, VAT, Corporate Tax filing, financial statements (IFRS), valuations, M&amp;A support and due diligence — delivered with reconciliation discipline since 2017."/>
+  <meta name="keywords" content="UAE accounting, Dubai bookkeeping, VAT compliance UAE, UAE Corporate Tax, FTA filing, business valuation Dubai, M&amp;A advisory UAE, financial due diligence, IFRS financial statements, Authentic Accounting"/>
+  <meta name="author" content="Authentic Accounting and Bookkeeping L.L.C"/>
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1"/>
+  <meta name="geo.region" content="AE-DU"/>
+  <meta name="geo.placename" content="Dubai"/>
+  <link rel="canonical" href="https://aaccounting.me/"/>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Authentic Accounting"/>
+  <meta property="og:locale" content="en_AE"/>
+  <meta property="og:url" content="https://aaccounting.me/"/>
+  <meta property="og:title" content="Authentic Accounting — UAE Compliance &amp; Advisory"/>
+  <meta property="og:description" content="Bookkeeping, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government across the UAE. Reconciliation discipline since 2017."/>
+  <meta property="og:image" content="https://aaccounting.me/assets/logos/authentic-accounting-full.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Authentic Accounting and Bookkeeping L.L.C"/>
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Authentic Accounting — UAE Compliance &amp; Advisory"/>
+  <meta name="twitter:description" content="Bookkeeping, VAT, Corporate Tax, valuations and M&amp;A advisory across the UAE. Since 2017."/>
+  <meta name="twitter:image" content="https://aaccounting.me/assets/logos/authentic-accounting-full.png"/>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="assets/logos/authentic-accounting-short.jpg"/>
+  <link rel="apple-touch-icon" href="assets/logos/authentic-accounting-short.jpg"/>
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin/>
+
+  <!-- Structured data: ProfessionalService -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": "https://aaccounting.me/#org",
+    "name": "Authentic Accounting and Bookkeeping L.L.C",
+    "alternateName": "Authentic Accounting",
+    "url": "https://aaccounting.me/",
+    "logo": "https://aaccounting.me/assets/logos/authentic-accounting-full.png",
+    "image": "https://aaccounting.me/assets/logos/authentic-accounting-full.png",
+    "description": "UAE-based chartered accounting and advisory firm offering bookkeeping, VAT, Corporate Tax, financial statements, valuations, M&A support and due diligence.",
+    "telephone": "+971-4-396-0399",
+    "email": "info@aaccounting.me",
+    "foundingDate": "2017",
+    "areaServed": [
+      { "@type": "AdministrativeArea", "name": "Abu Dhabi" },
+      { "@type": "AdministrativeArea", "name": "Dubai" },
+      { "@type": "AdministrativeArea", "name": "Sharjah" },
+      { "@type": "AdministrativeArea", "name": "Ajman" },
+      { "@type": "AdministrativeArea", "name": "Umm Al Quwain" },
+      { "@type": "AdministrativeArea", "name": "Ras Al Khaimah" },
+      { "@type": "AdministrativeArea", "name": "Fujairah" }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Office 406, Mai Tower, Al Nahda 1",
+      "addressLocality": "Dubai",
+      "addressCountry": "AE"
+    },
+    "contactPoint": [
+      { "@type": "ContactPoint", "telephone": "+971-4-396-0399", "contactType": "customer service", "areaServed": "AE", "availableLanguage": ["English", "Arabic"] },
+      { "@type": "ContactPoint", "telephone": "+971-56-548-4635", "contactType": "WhatsApp", "areaServed": "AE", "availableLanguage": ["English", "Arabic"] }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/14621146/",
+      "https://www.facebook.com/aaccounting.me/",
+      "https://www.youtube.com/@authenticaccounting"
+    ],
+    "knowsAbout": ["Bookkeeping", "VAT compliance", "UAE Corporate Tax", "IFRS financial statements", "Business valuation", "M&A advisory", "Financial due diligence", "Internal controls"]
+  }
+  </script>
+
   <link rel="stylesheet" href="styles/tokens.css"/>
   <link rel="stylesheet" href="styles/site.css"/>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -40,12 +121,12 @@
       insight: '07 Insight Article',
       careers: '08 Careers',
       contact: '09 Contact',
-      login: '10 Client Login',
     };
 
     function AppRoot() {
       const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
       const [page, setPage] = useState('home');
+      useScrollReveal();
 
       useEffect(() => {
         document.documentElement.style.setProperty('--aa-font-display',
@@ -86,7 +167,6 @@
           case 'insight': return <InsightArticlePage onNav={setPage}/>;
           case 'careers': return <CareersPage onNav={setPage}/>;
           case 'contact': return <ContactPage onNav={setPage}/>;
-          case 'login': return <LoginPage onNav={setPage}/>;
           default: return <HomePage onNav={setPage}/>;
         }
       };
@@ -99,6 +179,7 @@
           <TopNav active={navActive} onNav={setPage}/>
           <main>{renderPage()}</main>
           <Footer onNav={setPage}/>
+          <WhatsAppFab/>
 
           <TweaksPanel title="Tweaks">
             <TweakSection title="Typography">

@@ -69,9 +69,9 @@ function ServicesPage({ onNav }) {
 
       {/* Filter row */}
       <section style={{ background: 'var(--aa-surface-off)', borderBottom: '1px solid var(--aa-rule)', padding: '24px 0' }}>
-        <div className="container" style={{ display: 'flex', gap: 24, alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className="container" style={{ display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
           <div className="eyebrow eyebrow--steel">Filter by practice</div>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {['All', 'Compliance', 'Advisory'].map(f => (
               <button
                 key={f}

@@ -1,4 +1,4 @@
-// Industries, About, Insights list, Insight article, Careers, Contact, Login pages
+// Industries, About, Insights list, Insight article, Careers, Contact pages
 const { useState: useStateP } = React;
 
 // ---------- Industries ----------
@@ -596,13 +596,13 @@ function ContactPage({ onNav }) {
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>+971 56 548 4635
                 </a>
                 <a href="https://www.linkedin.com/company/14621146/" target="_blank" rel="noopener" style={{ color: 'var(--aa-charcoal)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                  <i data-lucide="linkedin" style={{ width: 16, height: 16 }}></i>LinkedIn
+                  <i data-lucide="briefcase" style={{ width: 16, height: 16 }}></i>LinkedIn
                 </a>
                 <a href="https://www.facebook.com/aaccounting.me/" target="_blank" rel="noopener" style={{ color: 'var(--aa-charcoal)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                  <i data-lucide="facebook" style={{ width: 16, height: 16 }}></i>Facebook
+                  <i data-lucide="users" style={{ width: 16, height: 16 }}></i>Facebook
                 </a>
                 <a href="https://www.youtube.com/@authenticaccounting" target="_blank" rel="noopener" style={{ color: 'var(--aa-charcoal)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                  <i data-lucide="youtube" style={{ width: 16, height: 16 }}></i>YouTube
+                  <i data-lucide="play-circle" style={{ width: 16, height: 16 }}></i>YouTube
                 </a>
               </div>
             </div>
@@ -657,7 +657,7 @@ function ContactPage({ onNav }) {
                   </div>
 
                   <div className="eyebrow eyebrow--charcoal" style={{ marginTop: 8 }}>Client segment</div>
-                  <div style={{ display: 'flex', gap: 8 }}>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     {[['gov', 'Government'], ['ent', 'Enterprise'], ['sme', 'SME / family'], ['fin', 'Financial services']].map(([id, lbl]) =>
                   <button key={id} onClick={() => update('segment', id)} style={{
                     padding: '10px 16px', fontSize: 13,
@@ -756,56 +756,4 @@ function ContactPage({ onNav }) {
 
 }
 
-// ---------- Login gateway ----------
-function LoginPage({ onNav }) {
-  return (
-    <div style={{ background: 'var(--aa-surface-off)', minHeight: 'calc(100vh - 108px)', padding: '64px 0' }}>
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center', maxWidth: 1080 }}>
-        <div>
-          <div className="eyebrow" style={{ marginBottom: 16 }}>Client portal</div>
-          <h1 style={{
-            fontFamily: 'var(--aa-font-display)', fontWeight: 700,
-            fontSize: 'clamp(36px, 4.6vw, 56px)',
-            textTransform: 'uppercase', letterSpacing: '0.01em',
-            margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.05, textWrap: 'balance'
-          }}>
-            Your engagement, on the record.
-          </h1>
-          <p style={{ fontSize: 16, color: 'var(--aa-steel-700)', lineHeight: 1.6, marginTop: 20 }}>
-            Sign in to download closeout packs, review reconciliation status, or upload source documents. Two-factor authentication required.
-          </p>
-          <div style={{ marginTop: 32, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, fontSize: 13, color: 'var(--aa-steel-700)' }}>
-            Trouble signing in? Contact your engagement manager or <a href="#contact" onClick={(e) => {e.preventDefault();onNav('contact');}}>email us</a>.
-          </div>
-        </div>
-        <form style={{ background: '#fff', border: '1px solid var(--aa-rule)', padding: 36, display: 'flex', flexDirection: 'column', gap: 18 }} onSubmit={(e) => e.preventDefault()}>
-          <div className="eyebrow eyebrow--charcoal">Sign in</div>
-          <label className="field">
-            <div className="field__label">Email</div>
-            <input className="field__input" placeholder="name@entity.ae" />
-          </label>
-          <label className="field">
-            <div className="field__label">Password</div>
-            <input className="field__input" type="password" placeholder="••••••••••" />
-          </label>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13 }}>
-            <label style={{ display: 'flex', gap: 8, alignItems: 'center', color: 'var(--aa-steel-700)' }}>
-              <input type="checkbox" /> Remember this device
-            </label>
-            <a href="#" style={{ color: 'var(--aa-cyan-700)' }}>Forgot password</a>
-          </div>
-          <button className="btn btn--primary" style={{ marginTop: 8 }}>
-            Continue
-            <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
-          </button>
-          <div style={{ marginTop: 12, paddingTop: 16, borderTop: '1px solid var(--aa-rule)', fontSize: 12, color: 'var(--aa-steel)', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <i data-lucide="shield-check" style={{ width: 14, height: 14, color: 'var(--aa-cyan)' }}></i>
-            Encrypted in transit and at rest. Sessions expire after 30 minutes.
-          </div>
-        </form>
-      </div>
-    </div>);
-
-}
-
-Object.assign(window, { IndustriesPage, AboutPage, InsightsPage, InsightArticlePage, CareersPage, ContactPage, LoginPage });
+Object.assign(window, { IndustriesPage, AboutPage, InsightsPage, InsightArticlePage, CareersPage, ContactPage });
