@@ -452,13 +452,7 @@ function InsightArticlePage({ onNav }) {
 
 // ---------- Careers ----------
 function CareersPage({ onNav }) {
-  const roles = [
-  { dept: 'Audit & Compliance', t: 'Senior Associate · Compliance', loc: 'Dubai', type: 'Full-time' },
-  { dept: 'Audit & Compliance', t: 'Manager · VAT & Corporate Tax', loc: 'Dubai', type: 'Full-time' },
-  { dept: 'Advisory', t: 'Associate · Valuations & M&A', loc: 'Dubai', type: 'Full-time' },
-  { dept: 'Advisory', t: 'Senior Manager · Financial Modeling', loc: 'Abu Dhabi', type: 'Full-time' },
-  { dept: 'Quality', t: 'Director · Engagement Standards', loc: 'Dubai', type: 'Full-time' },
-  { dept: 'Operations', t: 'Senior · Internal Controls', loc: 'Sharjah', type: 'Full-time' }];
+  const CV_MAILTO = 'mailto:careers@aaccounting.me?subject=CV%20for%20your%20Talent%20Network&body=Hi%20Authentic%20Accounting%20team%2C%0A%0AAttached%20is%20my%20CV%20for%20your%20AI-managed%20talent%20bank.%20Brief%20note%20on%20what%20I%E2%80%99m%20looking%20for%3A%0A%0A%E2%80%94%0A%0AThank%20you.';
 
   return (
     <div>
@@ -466,24 +460,24 @@ function CareersPage({ onNav }) {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 64, alignItems: 'end' }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: 16 }}>Careers</div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Careers · Talent Network</div>
               <h1 style={{
                 fontFamily: 'var(--aa-font-display)', fontWeight: 700,
                 fontSize: 'clamp(44px, 6vw, 72px)',
                 textTransform: 'uppercase', letterSpacing: '0.01em',
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0
               }}>
-                Work that’s <span style={{ color: 'var(--aa-cyan)' }}>signed off</span> before it’s sent off.
+                We hire every quarter. For <span style={{ color: 'var(--aa-cyan)' }}>ourselves</span> — and for our clients.
               </h1>
             </div>
             <p className="muted" style={{ fontSize: 16, lineHeight: 1.6, margin: 0 }}>
-              We hire deliberately. Every role carries review responsibility from day one, and every joiner spends the first month inside the Engagement Standards.
+              Rather than publish a list that goes stale by Wednesday, we keep an AI-managed CV bank. One CV, every brief, on the record.
             </p>
           </div>
         </div>
       </section>
 
-      {/* What you get */}
+      {/* What you get — the work itself */}
       <section className="section section--off">
         <div className="container">
           <div className="section-head"><div className="section-head__eyebrow">Working at the firm</div><h2>What the role looks like.</h2></div>
@@ -504,32 +498,95 @@ function CareersPage({ onNav }) {
         </div>
       </section>
 
-      {/* Roles */}
+      {/* CV bank — the new heart of the page */}
       <section className="section">
         <div className="container">
-          <div className="section-head"><div className="section-head__eyebrow">Open roles · {roles.length}</div><h2>Currently hiring.</h2></div>
-          <div style={{ borderTop: '2px solid var(--aa-charcoal)' }}>
-            {roles.map((r, i) =>
-            <div key={i} style={{
-              display: 'grid', gridTemplateColumns: '1.4fr 2fr 1fr 1fr 120px',
-              gap: 24, padding: '24px 0',
-              borderBottom: '1px solid var(--aa-rule)',
-              alignItems: 'center'
-            }}>
-                <div className="eyebrow eyebrow--steel" style={{ fontSize: 11 }}>{r.dept}</div>
-                <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{r.t}</div>
-                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)' }}>{r.loc}</div>
-                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)' }}>{r.type}</div>
-                <button className="btn btn--ghost btn--sm" style={{ justifySelf: 'end' }}>
-                  Apply
-                  <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
-                </button>
+          <div className="section-head"><div className="section-head__eyebrow">Talent network</div><h2>Send your CV once.<br/>We&rsquo;ll keep finding the match.</h2></div>
+
+          <div style={{
+            display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 64, alignItems: 'start',
+          }}>
+            <div>
+              <p style={{ fontSize: 17, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: 0 }}>
+                There&rsquo;s rarely a week when a brief isn&rsquo;t on the desk &mdash; a Senior Associate for our Compliance bench, a VAT Manager for a free-zone trader, a CFO-on-secondment for a Sharjah manufacturer, a controls reviewer for a healthcare platform. Most never become posts. They move too fast.
+              </p>
+              <p style={{ fontSize: 17, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', marginTop: 16 }}>
+                So instead of a job board, we run a quiet one. <strong style={{ color: 'var(--aa-charcoal)' }}>Send us your CV once.</strong> Our AI-managed talent index reads it, indexes your craft &mdash; ledger close vs.&nbsp;close-to-IPO, FTA filings vs.&nbsp;transfer pricing, audit-side vs.&nbsp;advisory-side &mdash; and watches every brief that lands. When a real match shows up, a partner reviews it and writes to you personally.
+              </p>
+
+              <div style={{ marginTop: 32, display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+                <a className="btn btn--primary" href={CV_MAILTO}>
+                  <i data-lucide="mail" style={{ width: 16, height: 16 }}></i>
+                  Send your CV
+                </a>
+                <a className="btn btn--ghost" href="mailto:careers@aaccounting.me" style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 13, letterSpacing: '0.02em' }}>
+                  careers@aaccounting.me
+                </a>
               </div>
-            )}
+
+              <div style={{
+                marginTop: 28, padding: '14px 18px',
+                background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)',
+                fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55,
+              }}>
+                PDFs, DOCX or a link to your portfolio site &mdash; all welcome. A short note on what you&rsquo;re looking for helps, but isn&rsquo;t required.
+              </div>
+            </div>
+
+            <div style={{
+              background: 'var(--aa-charcoal)', color: '#fff',
+              padding: 32, position: 'relative', overflow: 'hidden',
+            }}>
+              <div className="eyebrow eyebrow--cyan-light" style={{ marginBottom: 18 }}>
+                How the matching works
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+                {[
+                  ['01', 'Indexed, not filed', 'Your CV is parsed into a skills graph: qualifications, sectors, jurisdictions, software, language pairs.'],
+                  ['02', 'Matched on craft, not keywords', 'The system understands the difference between an FTA return and a transfer-pricing memo. No more lost-in-the-stack moments.'],
+                  ['03', 'Surfaced when a brief fits', 'Each new role &mdash; ours or our clients&rsquo; &mdash; runs against the bank. The top matches are flagged to a partner the same day.'],
+                  ['04', 'A human writes the first email', 'AI surfaces the match. A partner reads your CV before anyone reaches out. Always.'],
+                ].map(([n, t, d]) => (
+                  <div key={n} style={{ display: 'grid', gridTemplateColumns: '40px 1fr', gap: 14 }}>
+                    <div className="mono" style={{ fontSize: 12, letterSpacing: '0.12em', color: 'var(--aa-cyan)', paddingTop: 3 }}>{n}</div>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 15, color: '#fff', marginBottom: 4 }}>{t}</div>
+                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.72)', lineHeight: 1.55 }} dangerouslySetInnerHTML={{ __html: d }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{
+                marginTop: 28, paddingTop: 18,
+                borderTop: '1px solid rgba(255,255,255,0.14)',
+                fontSize: 12, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.04em', lineHeight: 1.6,
+              }}>
+                We keep your CV in the bank for 18 months and re-confirm before any client introduction. Withdraw any time by replying to <span style={{ color: 'var(--aa-cyan-200)' }}>careers@aaccounting.me</span>.
+              </div>
+            </div>
           </div>
-          <div style={{ marginTop: 32, padding: '20px 24px', background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ fontSize: 14, color: 'var(--aa-charcoal)' }}>Don’t see your role? We keep an active roster of qualified accountants and advisors.</div>
-            <button className="btn btn--ghost btn--sm" onClick={() => onNav('contact')}>Send a CV</button>
+
+          {/* Who we keep an eye out for */}
+          <div style={{
+            marginTop: 56, paddingTop: 32, borderTop: '1px solid var(--aa-rule)',
+          }}>
+            <div className="eyebrow eyebrow--steel" style={{ marginBottom: 18 }}>Who we&rsquo;re always reading CVs for</div>
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1,
+              background: 'var(--aa-rule)', border: '1px solid var(--aa-rule)',
+            }}>
+              {[
+                ['Compliance', 'Bookkeepers, VAT specialists, Corporate Tax preparers, IFRS reviewers, audit-side associates and managers.'],
+                ['Advisory', 'Valuation analysts, M&A associates, due-diligence leads, financial modellers, controls reviewers.'],
+                ['Client placements', 'Interim CFOs, financial controllers, group accountants and finance managers for our clients across UAE.'],
+              ].map(([t, d]) => (
+                <div key={t} style={{ background: '#fff', padding: '22px 24px' }}>
+                  <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>{t}</div>
+                  <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
