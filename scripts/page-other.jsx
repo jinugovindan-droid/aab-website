@@ -87,8 +87,8 @@ function IndustriesPage({ onNav }) {
 // ---------- About ----------
 function AboutPage({ onNav }) {
   const team = [
-  { name: 'Jimj Govindan', role: 'Founder Director', bio: 'M.Com · CMA. Management consultant, trainer and subject matter expert in Accounting, Financial Management, Taxation and Strategic Planning. 20 years in UAE across Trading, Construction, Manufacturing, Media, Holding Companies and Hospitality.' },
-  { name: 'Jimj Kurikesu', role: 'Audit Manager', bio: 'CMA. Finance professional with 8+ years heading Accounts, Finance and Corporate divisions. Expert in Construction, Manufacturing, Retail and Trading industries.' },
+  { name: 'Jinu Govindan', role: 'Founder Director', bio: 'M.Com · CMA. Management consultant, trainer and subject matter expert in Accounting, Financial Management, Taxation and Strategic Planning. 20 years in UAE across Trading, Construction, Manufacturing, Media, Holding Companies and Hospitality.' },
+  { name: 'Jinu Kurikesu', role: 'Audit Manager', bio: 'CMA. Finance professional with 8+ years heading Accounts, Finance and Corporate divisions. Expert in Construction, Manufacturing, Retail and Trading industries.' },
   { name: 'CA Kiran Prasad S', role: 'Accounts, Audit & Taxation Manager', bio: 'B.Com · ACA. 10+ years across accounting, auditing and taxation. 3 years Big 4 experience at KPMG in Audit (Wealth and Asset Management) — disciplined risk and controls focus.' },
   { name: 'Ratheesh Manoharan', role: 'Manager · IT Operations', bio: 'ITIL V3 Certified Professional. IT Service Delivery Management, Quality Assurance, Design and Implementations.' },
   { name: 'Johncy Mathew', role: 'Marketing Manager', bio: 'B.Com. Customer Relationship and strategy development. 20 years gulf experience in retail and corporate marketing.' }];
@@ -229,13 +229,13 @@ function AboutPage({ onNav }) {
 function InsightsPage({ onNav }) {
   const articles = [
   { tag: 'Corporate Tax', date: '12 Apr 2026', read: '6 min', title: 'Free zone qualifying income — three traps in the FTA\u2019s latest decision.', author: 'CA Kiran Prasad S' },
-  { tag: 'Valuations', date: '02 Apr 2026', read: '9 min', title: 'Why DCF terminal values are mispriced for UAE family-office holdings.', author: 'Jimj Govindan' },
-  { tag: 'Controls', date: '21 Mar 2026', read: '11 min', title: 'A control framework that survives ERP migrations: a practitioner\u2019s note.', author: 'Jimj Kurikesu' },
+  { tag: 'Valuations', date: '02 Apr 2026', read: '9 min', title: 'Why DCF terminal values are mispriced for UAE family-office holdings.', author: 'Jinu Govindan' },
+  { tag: 'Controls', date: '21 Mar 2026', read: '11 min', title: 'A control framework that survives ERP migrations: a practitioner\u2019s note.', author: 'Jinu Kurikesu' },
   { tag: 'VAT', date: '14 Mar 2026', read: '5 min', title: 'Designated zone reclassification — the trail you must keep.', author: 'CA Kiran Prasad S' },
-  { tag: 'M&A', date: '02 Mar 2026', read: '8 min', title: 'Working capital pegs in UAE deals: closing-mechanic patterns we keep seeing.', author: 'Jimj Govindan' },
+  { tag: 'M&A', date: '02 Mar 2026', read: '8 min', title: 'Working capital pegs in UAE deals: closing-mechanic patterns we keep seeing.', author: 'Jinu Govindan' },
   { tag: 'Corporate Tax', date: '18 Feb 2026', read: '7 min', title: 'Transfer pricing thresholds and the documentation a Board should expect.', author: 'CA Kiran Prasad S' },
-  { tag: 'Controls', date: '05 Feb 2026', read: '6 min', title: 'Why every reconciliation should resolve to zero — and what to do when it does not.', author: 'Jimj Kurikesu' },
-  { tag: 'Valuations', date: '21 Jan 2026', read: '10 min', title: 'Cost-of-equity in the GCC: a practitioner\u2019s build-up.', author: 'Jimj Govindan' }];
+  { tag: 'Controls', date: '05 Feb 2026', read: '6 min', title: 'Why every reconciliation should resolve to zero — and what to do when it does not.', author: 'Jinu Kurikesu' },
+  { tag: 'Valuations', date: '21 Jan 2026', read: '10 min', title: 'Cost-of-equity in the GCC: a practitioner\u2019s build-up.', author: 'Jinu Govindan' }];
 
   const [filter, setFilter] = useStateP('All');
   const tags = ['All', 'Corporate Tax', 'VAT', 'Valuations', 'Controls', 'M&A'];
@@ -377,7 +377,7 @@ function InsightArticlePage({ onNav }) {
           </h1>
           <div style={{ marginTop: 28, display: 'flex', gap: 24, fontSize: 13, color: 'var(--aa-steel-700)', borderTop: '1px solid var(--aa-rule)', borderBottom: '1px solid var(--aa-rule)', padding: '16px 0' }}>
             <div><span className="muted">Author</span> · <strong style={{ color: 'var(--aa-charcoal)' }}>CA Kiran Prasad S</strong></div>
-            <div><span className="muted">Reviewed</span> · Jimj Govindan</div>
+            <div><span className="muted">Reviewed</span> · Jinu Govindan</div>
             <div><span className="muted">Reference</span> · <span className="mono">CT-2026-MEMO-018</span></div>
           </div>
         </div>
