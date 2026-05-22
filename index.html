@@ -95,11 +95,12 @@
 <body>
   <div id="root"></div>
 
-  <script type="text/babel" src="scripts/tweaks-panel.jsx"></script>
-  <script type="text/babel" src="scripts/chrome.jsx"></script>
-  <script type="text/babel" src="scripts/page-home.jsx"></script>
-  <script type="text/babel" src="scripts/page-services.jsx"></script>
-  <script type="text/babel" src="scripts/page-other.jsx"></script>
+  <script type="text/babel" src="scripts/tweaks-panel.jsx?v=20260522"></script>
+  <script type="text/babel" src="scripts/chrome.jsx?v=20260522"></script>
+  <script type="text/babel" src="scripts/page-home.jsx?v=20260522"></script>
+  <script type="text/babel" src="scripts/page-services.jsx?v=20260522"></script>
+  <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260522"></script>
+  <script type="text/babel" src="scripts/page-other.jsx?v=20260522"></script>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
@@ -115,12 +116,13 @@
       home: '01 Home',
       services: '02 Services',
       'service-vat': '03 Service · VAT',
-      industries: '04 Industries',
-      about: '05 About',
-      insights: '06 Insights',
-      insight: '07 Insight Article',
-      careers: '08 Careers',
-      contact: '09 Contact',
+      'e-invoicing': '04 E-Invoicing',
+      industries: '05 Industries',
+      about: '06 About',
+      insights: '07 Insights',
+      insight: '08 Insight Article',
+      careers: '09 Careers',
+      contact: '10 Contact',
     };
 
     function AppRoot() {
@@ -161,6 +163,7 @@
           case 'home': return <HomePage onNav={setPage}/>;
           case 'services': return <ServicesPage onNav={setPage}/>;
           case 'service-vat': return <ServiceVATPage onNav={setPage}/>;
+          case 'e-invoicing': return <EInvoicingPage onNav={setPage}/>;
           case 'industries': return <IndustriesPage onNav={setPage}/>;
           case 'about': return <AboutPage onNav={setPage}/>;
           case 'insights': return <InsightsPage onNav={setPage}/>;
