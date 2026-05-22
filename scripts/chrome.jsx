@@ -4,6 +4,7 @@ const { useState, useEffect, useRef } = React;
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
   { id: 'services', label: 'Services' },
+  { id: 'e-invoicing', label: 'E-Invoicing' },
   { id: 'industries', label: 'Industries' },
   { id: 'about', label: 'About' },
   { id: 'insights', label: 'Insights' },
