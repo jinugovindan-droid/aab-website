@@ -1,5 +1,7 @@
 // UAE E-Invoicing client briefing page — adapted from the print flyer design.
 // Institutional register: square corners, hairline rules, tabular dates.
+const { pathForPage } = window.AARoutes;
+
 function EInvoicingPage({ onNav }) {
   const phases = [
     {
@@ -45,7 +47,7 @@ function EInvoicingPage({ onNav }) {
       <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
         <div className="container">
           <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32, flexWrap: 'wrap' }}>
-            <a href="#services" onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <a href={pathForPage('services')} onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
             <span>/</span>
             <span>Compliance</span>
             <span>/</span>

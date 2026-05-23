@@ -1,5 +1,6 @@
 // Site chrome: TopNav (with mobile drawer), SubBar, Footer, WhatsAppFab, ScrollReveal
 const { useState, useEffect, useRef } = React;
+const { pathForPage } = window.AARoutes;
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
@@ -34,17 +35,18 @@ function TopNav({ active, onNav, sticky = true }) {
     <>
       <header className="topnav" style={{ position: sticky ? 'sticky' : 'static' }}>
         <div className="container topnav__inner">
-          <a className="topnav__logo" href="#home" onClick={(e) => { e.preventDefault(); go('home'); }} aria-label="Authentic Accounting — Home">
+          <a className="topnav__logo" href={pathForPage('home')} onClick={(e) => { e.preventDefault(); go('home'); }} aria-label="Authentic Accounting — Home">
             <img src="assets/logos/authentic-accounting-full.png" alt="Authentic Accounting" />
           </a>
           <nav className="topnav__list" aria-label="Primary">
             {NAV_ITEMS.map((it) => (
-              <button
+              <a
                 key={it.id}
+                href={pathForPage(it.id)}
                 className={`topnav__link${active === it.id ? ' is-active' : ''}`}
-                onClick={() => go(it.id)}>
+                onClick={(e) => { e.preventDefault(); go(it.id); }}>
                 {it.label}
-              </button>
+              </a>
             ))}
           </nav>
           <div className="topnav__right">
@@ -86,13 +88,14 @@ function TopNav({ active, onNav, sticky = true }) {
           </button>
 
           {NAV_ITEMS.map((it, i) => (
-            <button
+            <a
               key={it.id}
+              href={pathForPage(it.id)}
               className={`topnav__drawer-link${active === it.id ? ' is-active' : ''}`}
-              onClick={() => go(it.id)}>
+              onClick={(e) => { e.preventDefault(); go(it.id); }}>
               <span>{it.label}</span>
               <span className="mono">{String(i + 1).padStart(2, '0')}</span>
-            </button>
+            </a>
           ))}
 
           <div className="topnav__drawer-cta">
@@ -236,7 +239,7 @@ function Footer({ onNav }) {
                 {col.items.map(([label, route]) => (
                   <a
                     key={label}
-                    href={`#${route}`}
+                    href={pathForPage(route)}
                     onClick={(e) => { e.preventDefault(); onNav(route); }}
                     style={{ fontSize: 14, color: 'var(--aa-steel-700)', textDecoration: 'none' }}>
                     {label}

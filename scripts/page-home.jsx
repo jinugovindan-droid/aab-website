@@ -1,5 +1,6 @@
 // Home page — hero, services, industries, approach, stats, insights, contact
 const { useState: useStateHome, useEffect: useEffectHome, useRef: useRefHome } = React;
+const { pathForPage } = window.AARoutes;
 
 // ---------- Hero ----------
 function HomeHero({ onNav }) {
@@ -232,7 +233,7 @@ function ServiceColumn({ kicker, desc, items, onNav }) {
         {items.map((it, i) => (
           <a
             key={i}
-            href={`#${it.route || 'services'}`}
+            href={pathForPage(it.route || 'services')}
             onClick={(e) => { e.preventDefault(); onNav(it.route || 'services'); }}
             style={{
               display: 'grid',
@@ -451,7 +452,7 @@ function HomeInsights({ onNav }) {
           {items.map((a, i) => (
             <a
               key={i}
-              href="#insight"
+              href={pathForPage('insight')}
               onClick={(e) => { e.preventDefault(); onNav('insight'); }}
               style={{
                 display: 'flex', flexDirection: 'column', gap: 16,

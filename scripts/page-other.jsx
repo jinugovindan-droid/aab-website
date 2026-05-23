@@ -1,5 +1,6 @@
 // Industries, About, Insights list, Insight article, Careers, Contact pages
 const { useState: useStateP } = React;
+const { pathForPage } = window.AARoutes;
 
 // ---------- Industries ----------
 function IndustriesPage({ onNav }) {
@@ -265,7 +266,7 @@ function InsightsPage({ onNav }) {
       {/* Featured */}
       <section className="section">
         <div className="container">
-          <a href="#insight" onClick={(e) => {e.preventDefault();onNav('insight');}} style={{
+          <a href={pathForPage('insight')} onClick={(e) => {e.preventDefault();onNav('insight');}} style={{
             display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0,
             border: '1px solid var(--aa-rule)', textDecoration: 'none', color: 'inherit',
             background: '#fff'
@@ -330,7 +331,7 @@ function InsightsPage({ onNav }) {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 0, borderTop: '1px solid var(--aa-rule)', borderLeft: '1px solid var(--aa-rule)' }}>
             {list.map((a, i) =>
-            <a key={i} href="#insight" onClick={(e) => {e.preventDefault();onNav('insight');}} style={{
+            <a key={i} href={pathForPage('insight')} onClick={(e) => {e.preventDefault();onNav('insight');}} style={{
               padding: 32, background: '#fff',
               borderRight: '1px solid var(--aa-rule)', borderBottom: '1px solid var(--aa-rule)',
               display: 'flex', flexDirection: 'column', gap: 14,
@@ -362,7 +363,7 @@ function InsightArticlePage({ onNav }) {
       <article style={{ background: '#fff' }}>
         <div className="container" style={{ maxWidth: 820, padding: '64px 32px 48px' }}>
           <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
-            <a href="#insights" onClick={(e) => {e.preventDefault();onNav('insights');}} style={{ color: 'var(--aa-steel-700)' }}>Insights</a>
+            <a href={pathForPage('insights')} onClick={(e) => {e.preventDefault();onNav('insights');}} style={{ color: 'var(--aa-steel-700)' }}>Insights</a>
             <span>/</span>
             <span>Corporate Tax</span>
           </div>
@@ -431,7 +432,7 @@ function InsightArticlePage({ onNav }) {
             { tag: 'Controls', title: 'Why every reconciliation should resolve to zero.', date: '05 Feb 2026' },
             { tag: 'Corporate Tax', title: 'Transfer pricing thresholds and the documentation a Board should expect.', date: '18 Feb 2026' }].
             map((a, i) =>
-            <a key={i} href="#insight" onClick={(e) => {e.preventDefault();onNav('insight');}} style={{
+            <a key={i} href={pathForPage('insight')} onClick={(e) => {e.preventDefault();onNav('insight');}} style={{
               borderTop: '2px solid var(--aa-charcoal)', paddingTop: 18,
               textDecoration: 'none', color: 'inherit',
               display: 'flex', flexDirection: 'column', gap: 12

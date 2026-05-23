@@ -95,12 +95,13 @@
 <body>
   <div id="root"></div>
 
-  <script type="text/babel" src="scripts/tweaks-panel.jsx?v=20260522"></script>
-  <script type="text/babel" src="scripts/chrome.jsx?v=20260522"></script>
-  <script type="text/babel" src="scripts/page-home.jsx?v=20260522"></script>
-  <script type="text/babel" src="scripts/page-services.jsx?v=20260522"></script>
-  <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260522"></script>
-  <script type="text/babel" src="scripts/page-other.jsx?v=20260522"></script>
+  <script src="scripts/routes.js?v=20260523"></script>
+  <script type="text/babel" src="scripts/tweaks-panel.jsx?v=20260523"></script>
+  <script type="text/babel" src="scripts/chrome.jsx?v=20260523"></script>
+  <script type="text/babel" src="scripts/page-home.jsx?v=20260523"></script>
+  <script type="text/babel" src="scripts/page-services.jsx?v=20260523"></script>
+  <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260523"></script>
+  <script type="text/babel" src="scripts/page-other.jsx?v=20260523"></script>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
@@ -125,10 +126,38 @@
       contact: '10 Contact',
     };
 
+    const { pageFromPath, pathForPage, applyPageMeta, redirectLegacyHash, VALID_PAGES } = window.AARoutes;
+
+    redirectLegacyHash();
+
+    function pageFromLocation() {
+      return pageFromPath(window.location.pathname);
+    }
+
     function AppRoot() {
       const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
-      const [page, setPage] = useState('home');
+      const [page, setPageState] = useState(pageFromLocation);
       useScrollReveal();
+
+      const navigateTo = (next) => {
+        const id = VALID_PAGES.has(next) ? next : 'home';
+        setPageState(id);
+        const nextUrl = pathForPage(id) + window.location.search;
+        const currentUrl = window.location.pathname + window.location.search;
+        if (currentUrl !== nextUrl) {
+          history.pushState(null, '', nextUrl);
+        }
+      };
+
+      useEffect(() => {
+        const syncFromUrl = () => setPageState(pageFromLocation());
+        window.addEventListener('popstate', syncFromUrl);
+        return () => window.removeEventListener('popstate', syncFromUrl);
+      }, []);
+
+      useEffect(() => {
+        applyPageMeta(page);
+      }, [page]);
 
       useEffect(() => {
         document.documentElement.style.setProperty('--aa-font-display',
@@ -160,17 +189,17 @@
 
       const renderPage = () => {
         switch (page) {
-          case 'home': return <HomePage onNav={setPage}/>;
-          case 'services': return <ServicesPage onNav={setPage}/>;
-          case 'service-vat': return <ServiceVATPage onNav={setPage}/>;
-          case 'e-invoicing': return <EInvoicingPage onNav={setPage}/>;
-          case 'industries': return <IndustriesPage onNav={setPage}/>;
-          case 'about': return <AboutPage onNav={setPage}/>;
-          case 'insights': return <InsightsPage onNav={setPage}/>;
-          case 'insight': return <InsightArticlePage onNav={setPage}/>;
-          case 'careers': return <CareersPage onNav={setPage}/>;
-          case 'contact': return <ContactPage onNav={setPage}/>;
-          default: return <HomePage onNav={setPage}/>;
+          case 'home': return <HomePage onNav={navigateTo}/>;
+          case 'services': return <ServicesPage onNav={navigateTo}/>;
+          case 'service-vat': return <ServiceVATPage onNav={navigateTo}/>;
+          case 'e-invoicing': return <EInvoicingPage onNav={navigateTo}/>;
+          case 'industries': return <IndustriesPage onNav={navigateTo}/>;
+          case 'about': return <AboutPage onNav={navigateTo}/>;
+          case 'insights': return <InsightsPage onNav={navigateTo}/>;
+          case 'insight': return <InsightArticlePage onNav={navigateTo}/>;
+          case 'careers': return <CareersPage onNav={navigateTo}/>;
+          case 'contact': return <ContactPage onNav={navigateTo}/>;
+          default: return <HomePage onNav={navigateTo}/>;
         }
       };
 
@@ -179,9 +208,9 @@
       return (
         <div data-screen-label={PAGE_LABELS[page] || page}>
           {tweaks.showSubBar && <SubBar/>}
-          <TopNav active={navActive} onNav={setPage}/>
+          <TopNav active={navActive} onNav={navigateTo}/>
           <main>{renderPage()}</main>
-          <Footer onNav={setPage}/>
+          <Footer onNav={navigateTo}/>
           <WhatsAppFab/>
 
           <TweaksPanel title="Tweaks">
@@ -219,7 +248,7 @@
                 label="Jump to page"
                 value={page}
                 options={Object.entries(PAGE_LABELS).map(([v,l])=>({value:v,label:l}))}
-                onChange={v => setPage(v)}
+                onChange={v => navigateTo(v)}
               />
             </TweakSection>
           </TweaksPanel>

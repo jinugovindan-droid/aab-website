@@ -1,0 +1,7 @@
+{
+  "name": "aab-website",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -u scripts/dev-server.py"
+  }
+}

@@ -1,5 +1,6 @@
 // Services overview page + VAT service detail page
 const { useState: useStateSvc } = React;
+const { pathForPage } = window.AARoutes;
 
 function ServicesPage({ onNav }) {
   const allServices = [
@@ -100,7 +101,7 @@ function ServicesPage({ onNav }) {
             {filtered.map((s, i) => (
               <a
                 key={s.t}
-                href={`#${s.route || 'services'}`}
+                href={pathForPage(s.route || 'services')}
                 onClick={(e) => { e.preventDefault(); if (s.route) onNav(s.route); }}
                 style={{
                   textDecoration: 'none', color: 'inherit',
@@ -183,7 +184,7 @@ function ServiceVATPage({ onNav }) {
       <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
         <div className="container">
           <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
-            <a href="#services" onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <a href={pathForPage('services')} onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
             <span>/</span>
             <span>Compliance</span>
             <span>/</span>
