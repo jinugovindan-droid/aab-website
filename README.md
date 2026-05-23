@@ -3,6 +3,7 @@
 Static HTML website.
 
 ## Structure
+
 - `index.html` — main page
 - `assets/` — images and media
 - `scripts/` — JavaScript

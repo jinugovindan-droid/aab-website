@@ -1,6 +1,7 @@
 // Industries, About, Insights list, Insight article, Careers, Contact pages
 const { useState: useStateP } = React;
 const { pathForPage } = window.AARoutes;
+const { LucideHost } = window;
 
 // ---------- Industries ----------
 function IndustriesPage({ onNav }) {
@@ -598,10 +599,24 @@ function CareersPage({ onNav }) {
 // ---------- Contact (multi-step wizard) ----------
 function ContactPage({ onNav }) {
   const [step, setStep] = useStateP(1);
+  const [submitting, setSubmitting] = useStateP(false);
+  const [submitted, setSubmitted] = useStateP(false);
   const [form, setForm] = useStateP({
     service: '', entity: '', email: '', context: '', timeline: '6-weeks', segment: 'sme'
   });
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      await window.AAContactSheet.submit(form);
+      setSubmitted(true);
+    } catch (err) {
+      alert('Could not send your request. Please email info@aaccounting.me directly.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div>
@@ -675,6 +690,24 @@ function ContactPage({ onNav }) {
 
           {/* Right: wizard */}
           <div style={{ background: '#fff', border: '1px solid var(--aa-rule)' }}>
+            {submitted ?
+            <div style={{ padding: '64px 32px', textAlign: 'center' }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 16 }}>Request received</div>
+              <h2 style={{
+                fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 32,
+                textTransform: 'uppercase', letterSpacing: '0.01em',
+                margin: '0 0 16px', color: 'var(--aa-charcoal)', lineHeight: 1.1
+              }}>
+                Scoping note within one business day.
+              </h2>
+              <p style={{ fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.65, maxWidth: 420, margin: '0 auto 28px' }}>
+                We received your request for <strong style={{ color: 'var(--aa-charcoal)' }}>{form.service}</strong>.
+                A member of the team will reply to <strong style={{ color: 'var(--aa-charcoal)' }}>{form.email}</strong>.
+              </p>
+              <button className="btn btn--ghost btn--sm" onClick={() => onNav('home')}>Back to home</button>
+            </div> :
+
+            <>
             {/* Stepper */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', borderBottom: '2px solid var(--aa-charcoal)' }}>
               {['Service', 'Context', 'Contact'].map((label, i) => {
@@ -776,7 +809,7 @@ function ContactPage({ onNav }) {
                 fontWeight: 600, fontSize: 13, cursor: step === 1 ? 'default' : 'pointer',
                 fontFamily: 'var(--aa-font-sans)', display: 'flex', alignItems: 'center', gap: 8
               }}>
-                <i data-lucide="arrow-left" style={{ width: 14, height: 14 }}></i>
+                <LucideHost name="arrow-left" style={{ width: 14, height: 14 }} />
                 Back
               </button>
               <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)' }}>STEP {step} / 3</div>
@@ -791,22 +824,24 @@ function ContactPage({ onNav }) {
                 }}>
                 
                   Continue
-                  <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
+                  <LucideHost name="arrow-right" style={{ width: 14, height: 14 }} />
                 </button> :
 
               <button
                 className="btn btn--primary btn--sm"
-                onClick={() => alert('Scoping request submitted (mock).')}
-                disabled={!form.entity.trim() || !form.email.trim()}
+                onClick={handleSubmit}
+                disabled={submitting || !form.entity.trim() || !form.email.trim()}
                 style={{
-                  opacity: !form.entity.trim() || !form.email.trim() ? 0.45 : 1,
-                  cursor: !form.entity.trim() || !form.email.trim() ? 'not-allowed' : 'pointer'
+                  opacity: submitting || !form.entity.trim() || !form.email.trim() ? 0.45 : 1,
+                  cursor: submitting || !form.entity.trim() || !form.email.trim() ? 'not-allowed' : 'pointer'
                 }}>
                 
-                  Send scoping request
+                  {submitting ? 'Sending…' : 'Send scoping request'}
                 </button>
               }
             </div>
+            </>
+            }
           </div>
         </div>
       </section>

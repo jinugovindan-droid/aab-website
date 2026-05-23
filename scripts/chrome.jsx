@@ -296,4 +296,28 @@ function Footer({ onNav }) {
   );
 }
 
-Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, useScrollReveal });
+// Lucide's createIcons() replaces <i> nodes in place; React can't unmount those safely.
+// Mount icons inside a host span React owns so teardown removes the whole subtree.
+function LucideHost({ name, style = {} }) {
+  const hostRef = useRef(null);
+
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host || !window.lucide) return;
+    host.replaceChildren();
+    const icon = document.createElement('i');
+    icon.setAttribute('data-lucide', name);
+    host.appendChild(icon);
+    window.lucide.createIcons({ root: host, nameAttr: 'data-lucide' });
+  }, [name]);
+
+  return (
+    <span
+      ref={hostRef}
+      aria-hidden="true"
+      style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 0, ...style }}
+    />
+  );
+}
+
+Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, useScrollReveal, LucideHost });
