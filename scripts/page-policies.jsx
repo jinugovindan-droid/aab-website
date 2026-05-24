@@ -1,5 +1,5 @@
 // Privacy Policy + Terms of Use — institutional register, statutory voice.
-// Draft for client review. Last updated date displayed at top of each page.
+// Last-updated date is rendered at the top of each page.
 const { pathForPage: pathForPolicyPage } = window.AARoutes;
 
 const POLICY_LAST_UPDATED = '24 May 2026';
@@ -192,15 +192,6 @@ function PrivacyPolicyPage({ onNav }) {
           </P>
         </PolicySection>
 
-        <div style={{
-          marginTop: 56, padding: '20px 24px',
-          background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)',
-          fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55,
-        }}>
-          <strong style={{ color: 'var(--aa-charcoal)' }}>Draft for client review.</strong> This Privacy Policy has been
-          prepared in line with the UAE Personal Data Protection Law and standard professional-firm practice. Please
-          have it reviewed by counsel before relying on it for statutory compliance.
-        </div>
       </PolicyBody>
     </div>
   );
@@ -275,15 +266,6 @@ function TermsPage({ onNav }) {
           </P>
         </PolicySection>
 
-        <div style={{
-          marginTop: 56, padding: '20px 24px',
-          background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)',
-          fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55,
-        }}>
-          <strong style={{ color: 'var(--aa-charcoal)' }}>Draft for client review.</strong> These Terms of Use are
-          provided as a starting point appropriate for a UAE professional-services marketing website. Please have
-          them reviewed by counsel before relying on them.
-        </div>
       </PolicyBody>
     </div>
   );
