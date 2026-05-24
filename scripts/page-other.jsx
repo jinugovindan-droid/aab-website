@@ -137,7 +137,7 @@ function AboutPage({ onNav }) {
             <div style={{ position: 'absolute', left: 0, right: 0, top: 24, height: 1, background: 'var(--aa-rule-strong)' }}></div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, position: 'relative' }}>
               {[
-              ['2017', 'Founded', 'Two-partner firm in Dubai. First retained client: a logistics SME.'],
+              ['2017', 'Founded', 'Single-partner firm in Dubai. First retained client: a logistics SME.'],
               ['2018', 'VAT launch', 'UAE introduces 5% VAT. We file 70 first-quarter returns.'],
               ['2024', 'CT readiness', 'UAE Corporate Tax kicks in. We complete 240 first-period registrations.'],
               ['2026', '1,200+', 'TTM engagements cross 1,200. Serving clients across all seven emirates of the UAE.']].
@@ -158,7 +158,7 @@ function AboutPage({ onNav }) {
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <div className="section-head__eyebrow">Partnership & directors</div>
+            <div className="section-head__eyebrow">Partner & directors</div>
             <h2>The people who sign the work.</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: '1px solid var(--aa-rule)', borderLeft: '1px solid var(--aa-rule)' }}>
@@ -259,7 +259,7 @@ function InsightsPage({ onNav }) {
             Notes from the desk.
           </h1>
           <p className="muted" style={{ fontSize: 17, lineHeight: 1.6, marginTop: 24, maxWidth: 720 }}>
-            Working notes on regulation, controls and practice. Written by partners and directors for finance teams, Boards, and counsel.
+            Working notes on regulation, controls and practice. Written by the partner and directors for finance teams, Boards, and counsel.
           </p>
         </div>
       </section>
