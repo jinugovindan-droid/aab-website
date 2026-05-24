@@ -250,39 +250,8 @@ function Footer({ onNav }) {
           ))}
         </div>
 
-        {/* Newsletter */}
-        <div
-          className="aa-stack-sm"
-          style={{
-            borderTop: '1px solid var(--aa-rule)',
-            borderBottom: '1px solid var(--aa-rule)',
-            padding: '32px 0',
-            display: 'grid',
-            gridTemplateColumns: '1fr auto',
-            gap: 32,
-            alignItems: 'center',
-          }}>
-          <div>
-            <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 6 }}>Quarterly bulletin</div>
-            <div style={{ fontSize: 15, color: 'var(--aa-steel-700)' }}>
-              Regulatory changes, FTA decisions, and advisory notes — four times a year.
-            </div>
-          </div>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            style={{ display: 'flex', gap: 0, alignItems: 'stretch', minWidth: 0, width: '100%', maxWidth: 480 }}>
-            <input
-              className="field__input"
-              type="email"
-              required
-              aria-label="Email address"
-              placeholder="name@entity.ae"
-              style={{ borderRadius: 0, borderRight: 0, flex: 1 }} />
-            <button className="btn btn--primary" style={{ padding: '0 22px' }}>Subscribe</button>
-          </form>
-        </div>
-
         <div style={{
+          borderTop: '1px solid var(--aa-rule)',
           padding: '24px 0',
           display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
           fontSize: 11, color: 'var(--aa-steel)',
