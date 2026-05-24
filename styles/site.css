@@ -476,13 +476,60 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
 .aa-hero__container { padding: 120px 32px 0; }
 .aa-hero__title { font-size: clamp(52px, 7.6vw, 104px); }
 
+/* Slider — keep slide content area a steady min-height so auto-advance
+   doesn't cause page-jump as slides switch. */
+.aa-hero__slide { min-height: 420px; display: flex; flex-direction: column; justify-content: center; }
+.aa-hero__slide:focus-visible { box-shadow: 0 0 0 2px var(--aa-cyan); border-radius: 2px; }
+
+/* Prev / Next arrows */
+.aa-hero__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  background: transparent;
+  border: 1px solid var(--aa-rule);
+  border-radius: 0;
+  color: var(--aa-steel);
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 150ms ease-out, border-color 150ms ease-out, background 150ms ease-out;
+}
+.aa-hero__arrow:hover { color: var(--aa-charcoal); border-color: var(--aa-charcoal); background: var(--aa-surface-off); }
+.aa-hero__arrow:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: 2px; }
+.aa-hero__arrow--prev { left: 24px; }
+.aa-hero__arrow--next { right: 24px; }
+
+/* Dot indicators */
+.aa-hero__dots {
+  margin-top: 36px;
+  display: flex; gap: 10px; justify-content: center; align-items: center;
+}
+.aa-hero__dot {
+  width: 28px; height: 4px;
+  background: var(--aa-rule);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background 150ms ease-out, width 200ms ease-out;
+}
+.aa-hero__dot:hover { background: var(--aa-steel-300); }
+.aa-hero__dot.is-active { background: var(--aa-cyan); width: 48px; }
+.aa-hero__dot:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: 3px; }
+
 @media (max-width: 960px) {
   .aa-hero__container { padding: 72px 24px 0; }
   .aa-hero__title { font-size: clamp(40px, 8vw, 72px); }
+  .aa-hero__slide { min-height: 360px; }
 }
 @media (max-width: 600px) {
   .aa-hero__container { padding: 48px 20px 0; }
   .aa-hero__title { font-size: clamp(34px, 11vw, 56px); }
+  .aa-hero__slide { min-height: 380px; }
+  .aa-hero__dots { margin-top: 28px; }
+  .aa-hero__dot { width: 22px; }
+  .aa-hero__dot.is-active { width: 36px; }
 }
 
 /* ---------- Hero stat cell ---------- */

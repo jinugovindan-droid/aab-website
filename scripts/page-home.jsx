@@ -2,35 +2,139 @@
 const { useState: useStateHome, useEffect: useEffectHome, useRef: useRefHome } = React;
 const { pathForPage } = window.AARoutes;
 
-// ---------- Hero ----------
+// ---------- Hero (3-slide editorial slider) ----------
+// Slide content rotates every 8s. Stats + evidence line below stay fixed.
+// Auto-advance pauses on hover/focus; disabled entirely under prefers-reduced-motion.
+const HERO_SLIDES = [
+  {
+    eyebrow: 'UAE · Compliance & Advisory · Since 2017',
+    title: (
+      <>
+        Compliance<br />
+        and advisory,<br />
+        built on <span style={{ color: 'var(--aa-cyan)' }}>controls</span>.
+      </>
+    ),
+    lead: 'Bookkeeping, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government organisations across the UAE — delivered with reconciliation discipline.',
+    ctaPrimary:   { label: 'Book a consultation', page: 'contact' },
+    ctaSecondary: { label: 'Meet the firm',       page: 'about' },
+  },
+  {
+    eyebrow: 'Phase 1 go-live · 1 January 2027',
+    title: (
+      <>
+        UAE <span style={{ color: 'var(--aa-cyan)' }}>E-Invoicing</span><br />
+        is coming.<br />
+        Are you ready?
+      </>
+    ),
+    lead: 'The Ministry of Finance is rolling out a mandatory OpenPeppol-based, 5-corner e-invoicing system for all B2B and B2G transactions. First ASP-selection deadline lands 30 October 2026 — we help you map readiness, select an ASP, and go live with zero gaps.',
+    ctaPrimary:   { label: 'Read the briefing',       page: 'e-invoicing' },
+    ctaSecondary: { label: 'Book a readiness call',   page: 'contact' },
+  },
+  {
+    eyebrow: 'UAE Corporate Tax · 9% regime',
+    title: (
+      <>
+        Corporate Tax,<br />
+        filed on time.<br />
+        <span style={{ color: 'var(--aa-cyan)' }}>Defensible</span> by line.
+      </>
+    ),
+    lead: 'Registration, period computation, QFZP analysis where relevant, and FTA filing — with a position memo behind every contested item and a review-ready return file at the end of every period.',
+    ctaPrimary:   { label: 'Browse services',         page: 'services' },
+    ctaSecondary: { label: 'Request a CT scoping',    page: 'contact' },
+  },
+];
+
 function HomeHero({ onNav }) {
+  const [slideIndex, setSlideIndex] = useStateHome(0);
+  const [paused, setPaused] = useStateHome(false);
+  const slideCount = HERO_SLIDES.length;
+
+  // Auto-advance every 8s. Pauses on hover/focus. Skipped entirely if the
+  // visitor prefers reduced motion (design system rule: nothing should wiggle).
+  useEffectHome(() => {
+    if (paused) return;
+    const reduce = typeof window !== 'undefined'
+      && window.matchMedia
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    const id = setInterval(() => {
+      setSlideIndex((i) => (i + 1) % slideCount);
+    }, 8000);
+    return () => clearInterval(id);
+  }, [paused, slideCount]);
+
+  const goPrev = () => setSlideIndex((i) => (i - 1 + slideCount) % slideCount);
+  const goNext = () => setSlideIndex((i) => (i + 1) % slideCount);
+
+  // Keyboard nav while the hero is focused
+  const onKeyDown = (e) => {
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); goPrev(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
+  };
+
+  const slide = HERO_SLIDES[slideIndex];
+
   return (
-    <section className="aa-hero" style={{
-      background: '#fff',
-      borderBottom: '1px solid var(--aa-rule)',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
-      {/* corner index marker — quiet editorial touch */}
+    <section
+      className="aa-hero"
+      style={{
+        background: '#fff',
+        borderBottom: '1px solid var(--aa-rule)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+    >
+      {/* corner index marker — quiet editorial touch, now indicating slide position */}
       <div className="mono aa-hide-sm" style={{
         position: 'absolute', top: 24, right: 32,
         fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
         color: 'var(--aa-steel)',
       }}>
-        01 / Home
+        {String(slideIndex + 1).padStart(2, '0')} / {String(slideCount).padStart(2, '0')}
       </div>
 
-      <div className="container aa-hero__container" style={{
-        textAlign: 'center',
-      }}>
-        <div className="fade-in" style={{ maxWidth: 980, margin: '0 auto' }}>
+      {/* Prev / Next arrows — desktop only */}
+      <button
+        type="button"
+        aria-label="Previous slide"
+        onClick={goPrev}
+        className="aa-hero__arrow aa-hero__arrow--prev aa-hide-sm">
+        <i data-lucide="chevron-left" style={{ width: 22, height: 22 }}></i>
+      </button>
+      <button
+        type="button"
+        aria-label="Next slide"
+        onClick={goNext}
+        className="aa-hero__arrow aa-hero__arrow--next aa-hide-sm">
+        <i data-lucide="chevron-right" style={{ width: 22, height: 22 }}></i>
+      </button>
+
+      <div className="container aa-hero__container" style={{ textAlign: 'center' }}>
+        {/* The slide content. key={slideIndex} forces remount so .fade-in plays each change. */}
+        <div
+          key={slideIndex}
+          className="fade-in aa-hero__slide"
+          tabIndex={0}
+          role="region"
+          aria-roledescription="slide"
+          aria-label={`Slide ${slideIndex + 1} of ${slideCount}`}
+          onKeyDown={onKeyDown}
+          style={{ maxWidth: 980, margin: '0 auto', outline: 'none' }}
+        >
           <div className="eyebrow" style={{
             marginBottom: 28,
             display: 'inline-flex', alignItems: 'center', gap: 12,
             flexWrap: 'wrap', justifyContent: 'center',
           }}>
             <span style={{ width: 24, height: 1, background: 'var(--aa-cyan)', display: 'inline-block' }}></span>
-            <span>UAE · Compliance & Advisory · Since 2017</span>
+            <span>{slide.eyebrow}</span>
             <span style={{ width: 24, height: 1, background: 'var(--aa-cyan)', display: 'inline-block' }}></span>
           </div>
 
@@ -44,39 +148,50 @@ function HomeHero({ onNav }) {
             margin: 0,
             textWrap: 'balance',
           }}>
-            Compliance<br />
-            and advisory,<br />
-            built on <span style={{ color: 'var(--aa-cyan)' }}>controls</span>.
+            {slide.title}
           </h1>
 
           <p style={{
             fontSize: 19, lineHeight: 1.55,
             color: 'var(--aa-charcoal-800)',
             marginTop: 36, marginLeft: 'auto', marginRight: 'auto',
-            maxWidth: 640,
+            maxWidth: 720,
           }}>
-            Bookkeeping, VAT, UAE Corporate Tax, valuations and due diligence
-            for SMEs, enterprises and Government organisations across the UAE —
-            delivered with reconciliation discipline.
+            {slide.lead}
           </p>
 
           <div style={{
             display: 'flex', gap: 12, marginTop: 40,
             justifyContent: 'center', flexWrap: 'wrap',
           }}>
-            <button className="btn btn--primary" onClick={() => onNav('contact')}>
-              Book a consultation
+            <button className="btn btn--primary" onClick={() => onNav(slide.ctaPrimary.page)}>
+              {slide.ctaPrimary.label}
               <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
             </button>
-            <button className="btn btn--ghost" onClick={() => onNav('about')}>
-              Meet the firm
+            <button className="btn btn--ghost" onClick={() => onNav(slide.ctaSecondary.page)}>
+              {slide.ctaSecondary.label}
               <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
             </button>
           </div>
         </div>
 
+        {/* Dot indicators */}
+        <div className="aa-hero__dots" role="tablist" aria-label="Hero slides">
+          {HERO_SLIDES.map((s, i) => (
+            <button
+              key={i}
+              type="button"
+              role="tab"
+              aria-label={`Go to slide ${i + 1}`}
+              aria-selected={i === slideIndex}
+              className={`aa-hero__dot${i === slideIndex ? ' is-active' : ''}`}
+              onClick={() => setSlideIndex(i)}
+            />
+          ))}
+        </div>
+
         <div style={{
-          marginTop: 96,
+          marginTop: 64,
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
           borderTop: '1px solid var(--aa-rule)',
           gap: 0,
