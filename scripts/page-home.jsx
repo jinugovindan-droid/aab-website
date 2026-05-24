@@ -354,26 +354,6 @@ function HomeApproach() {
             </div>
           ))}
         </div>
-        <div style={{
-          marginTop: 56,
-          padding: '24px 28px',
-          background: 'rgba(255,255,255,0.04)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          display: 'grid', gridTemplateColumns: '24px 1fr auto', gap: 20, alignItems: 'center',
-        }}>
-          <i data-lucide="file-text" style={{ width: 20, height: 20, color: 'var(--aa-cyan)' }}></i>
-          <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 14, lineHeight: 1.55 }}>
-            <strong style={{ color: '#fff' }}>Engagement standards.</strong>
-            &nbsp;Every retainer is governed by our written Engagement Standards — independence, retention, evidence trail, second-line review.
-          </div>
-          <button
-            className="btn btn--ghost-light btn--sm"
-            onClick={() => alert('Engagement Standards (PDF) — download mocked in this preview.')}
-          >
-            Download (PDF)
-            <i data-lucide="download" style={{ width: 14, height: 14 }}></i>
-          </button>
-        </div>
       </div>
     </section>
   );
