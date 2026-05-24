@@ -12,6 +12,8 @@
     insight: '/insight',
     careers: '/careers',
     contact: '/contact',
+    privacy: '/privacy',
+    terms: '/terms',
   };
 
   const PATH_ALIASES = {
@@ -60,6 +62,14 @@
     contact: {
       title: 'Contact Us — Book a Consultation | Authentic Accounting Dubai',
       description: 'Contact Authentic Accounting in Dubai. Book a consultation for bookkeeping, VAT, Corporate Tax, valuations or advisory support across the UAE.',
+    },
+    privacy: {
+      title: 'Privacy Policy | Authentic Accounting Dubai',
+      description: 'How Authentic Accounting and Bookkeeping L.L.C collects, uses, retains and protects personal information submitted through aaccounting.me, in line with UAE Federal Decree-Law No. 45 of 2021 (PDPL).',
+    },
+    terms: {
+      title: 'Terms of Use | Authentic Accounting Dubai',
+      description: 'Terms governing use of the aaccounting.me website. Marketing site only — does not constitute a professional engagement. UAE law and Dubai courts apply.',
     },
   };
 

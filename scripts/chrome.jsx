@@ -258,7 +258,21 @@ function Footer({ onNav }) {
           letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600,
         }}>
           <span>© 2026 Authentic Accounting and Bookkeeping L.L.C</span>
-          <span>Privacy · Terms · Engagement standards · Whistleblower</span>
+          <span style={{ display: 'inline-flex', gap: 14, alignItems: 'center' }}>
+            <a
+              href="#privacy"
+              onClick={(e) => { e.preventDefault(); onNav('privacy'); }}
+              style={{ color: 'inherit', textDecoration: 'none', letterSpacing: 'inherit' }}>
+              Privacy
+            </a>
+            <span aria-hidden="true" style={{ opacity: 0.5 }}>·</span>
+            <a
+              href="#terms"
+              onClick={(e) => { e.preventDefault(); onNav('terms'); }}
+              style={{ color: 'inherit', textDecoration: 'none', letterSpacing: 'inherit' }}>
+              Terms
+            </a>
+          </span>
         </div>
       </div>
     </footer>

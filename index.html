@@ -103,6 +103,7 @@
   <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260523"></script>
   <script src="scripts/contact-sheet.js?v=20260523"></script>
   <script type="text/babel" src="scripts/page-other.jsx?v=20260523"></script>
+  <script type="text/babel" src="scripts/page-policies.jsx?v=20260524"></script>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
@@ -125,6 +126,8 @@
       insight: '08 Insight Article',
       careers: '09 Careers',
       contact: '10 Contact',
+      privacy: '11 Privacy',
+      terms: '12 Terms',
     };
 
     const { pageFromPath, pathForPage, applyPageMeta, redirectLegacyHash, VALID_PAGES } = window.AARoutes;
@@ -200,6 +203,8 @@
           case 'insight': return <InsightArticlePage onNav={navigateTo}/>;
           case 'careers': return <CareersPage onNav={navigateTo}/>;
           case 'contact': return <ContactPage onNav={navigateTo}/>;
+          case 'privacy': return <PrivacyPolicyPage onNav={navigateTo}/>;
+          case 'terms': return <TermsPage onNav={navigateTo}/>;
           default: return <HomePage onNav={navigateTo}/>;
         }
       };
