@@ -210,7 +210,7 @@ function HomeServices({ onNav }) {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div style={{ fontSize: 14, color: 'var(--aa-charcoal)' }}>
-            <strong>Need a scoping note?</strong> Tell us the deliverable and timeline; we'll send a structured proposal within one business day.
+            <strong>Need a scoping note?</strong> Tell us the deliverable and timeline; we'll send a structured proposal within two business days.
           </div>
           <button className="btn btn--ghost btn--sm" onClick={() => onNav('contact')}>
             Start a scope
@@ -546,7 +546,7 @@ function HomeCTA({ onNav }) {
             Start with a structured conversation.
           </h2>
           <p style={{ marginTop: 16, fontSize: 16, color: 'rgba(255,255,255,0.7)', maxWidth: 540 }}>
-            Tell us the engagement context and the deliverable. We will respond within one business day with a scoping note and a fee indication.
+            Tell us the engagement context and the deliverable. We will respond within two business days with a scoping note and a fee indication.
           </p>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>

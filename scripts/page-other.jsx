@@ -683,7 +683,7 @@ function ContactPage({ onNav }) {
             <div className="divider-thick">
               <div className="eyebrow eyebrow--charcoal">Response time</div>
               <div style={{ marginTop: 14, fontSize: 14, color: 'var(--aa-steel-700)', lineHeight: 1.6 }}>
-                Scoping note within <strong style={{ color: 'var(--aa-charcoal)' }}>one business day</strong>. Fee indication within three.
+                Scoping note within <strong style={{ color: 'var(--aa-charcoal)' }}>two business days</strong>. Fee indication within three.
               </div>
             </div>
           </div>
@@ -698,7 +698,7 @@ function ContactPage({ onNav }) {
                 textTransform: 'uppercase', letterSpacing: '0.01em',
                 margin: '0 0 16px', color: 'var(--aa-charcoal)', lineHeight: 1.1
               }}>
-                Scoping note within one business day.
+                Scoping note within two business days.
               </h2>
               <p style={{ fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.65, maxWidth: 420, margin: '0 auto 28px' }}>
                 We received your request for <strong style={{ color: 'var(--aa-charcoal)' }}>{form.service}</strong>.
@@ -792,7 +792,7 @@ function ContactPage({ onNav }) {
                     <input className="field__input" type="email" value={form.email} onChange={(e) => update('email', e.target.value)} placeholder="name@entity.ae" />
                   </label>
                   <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 16, fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.6 }}>
-                    By submitting, you accept our engagement scoping protocol. We will respond within one business day.
+                    By submitting, you accept our engagement scoping protocol. We will respond within two business days.
                   </div>
                 </div>
               }
