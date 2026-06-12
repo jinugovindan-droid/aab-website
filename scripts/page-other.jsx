@@ -736,7 +736,7 @@ function ContactPage({ onNav }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                   <div className="eyebrow eyebrow--charcoal">Which service line?</div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                    {['Bookkeeping', 'VAT compliance', 'Corporate Tax', 'Financial statements', 'Business valuation', 'M&A support', 'Due diligence', 'Internal controls', 'Financial modeling', 'Other / unsure'].map((s) =>
+                    {['Bookkeeping', 'VAT compliance', 'Corporate Tax', 'Financial statements', 'Business valuation', 'M&A support', 'Due diligence', 'Feasibility Studies', 'Financial modeling', 'Audit Support', 'E Invoicing Support', 'Fixed Asset Tagging', 'Tax Planning', 'Others'].map((s) =>
                   <button key={s} onClick={() => update('service', s)} style={{
                     padding: '14px 16px', textAlign: 'left',
                     background: form.service === s ? 'var(--aa-charcoal)' : '#fff',
