@@ -43,11 +43,17 @@ function ServicesPage({ onNav }) {
   return (
     <div>
       {/* Hero */}
-      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '64px 0 56px' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 80, alignItems: 'end' }}>
+      <section className="aa-hero-image" style={{ position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--aa-rule)', padding: '72px 0 80px' }}>
+        <div
+          className="aa-hero-image__bg"
+          role="img"
+          aria-label="Scattered chess pieces — strategic positioning"
+          style={{ backgroundImage: "url('assets/images/chess-scattered.jpg')" }}
+        />
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 80, alignItems: 'end' }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div className="eyebrow" style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12, color: 'var(--aa-cyan-200)' }}>
                 <span style={{ width: 24, height: 1, background: 'var(--aa-cyan)', display: 'inline-block' }}></span>
                 Services
               </div>
@@ -55,13 +61,13 @@ function ServicesPage({ onNav }) {
                 fontFamily: 'var(--aa-font-display)', fontWeight: 700,
                 fontSize: 'clamp(44px, 6vw, 72px)',
                 textTransform: 'uppercase', letterSpacing: '0.01em',
-                margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0, textWrap: 'balance',
+                margin: 0, color: '#fff', lineHeight: 1.0, textWrap: 'balance',
               }}>
                 Ten engagements.<br />
                 One <span style={{ color: 'var(--aa-cyan)' }}>controls</span> standard.
               </h1>
             </div>
-            <p style={{ fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 460, margin: 0 }}>
+            <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, maxWidth: 460, margin: 0 }}>
               Every service is delivered against the same control framework — from a five-line VAT return to a nine-figure valuation. Pick a line below or talk to us about a hybrid scope.
             </p>
           </div>

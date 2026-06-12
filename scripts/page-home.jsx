@@ -18,6 +18,8 @@ const HERO_SLIDES = [
     lead: 'Bookkeeping, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government organisations across the UAE — delivered with reconciliation discipline.',
     ctaPrimary:   { label: 'Book a consultation', page: 'contact' },
     ctaSecondary: { label: 'Meet the firm',       page: 'about' },
+    bgImage: 'assets/images/dubai-skyline.jpg',
+    bgAlt: 'Dubai skyline at dusk along Sheikh Zayed Road',
   },
   {
     eyebrow: 'Phase 1 go-live · 1 January 2027',
@@ -31,6 +33,8 @@ const HERO_SLIDES = [
     lead: 'The Ministry of Finance is rolling out a mandatory OpenPeppol-based, 5-corner e-invoicing system for all B2B and B2G transactions. First ASP-selection deadline lands 30 October 2026 — we help you map readiness, select an ASP, and go live with zero gaps.',
     ctaPrimary:   { label: 'Read the briefing',       page: 'e-invoicing' },
     ctaSecondary: { label: 'Book a readiness call',   page: 'contact' },
+    bgImage: 'assets/images/chess-knight.jpg',
+    bgAlt: 'A solitary knight facing a line of pieces — strategic preparedness',
   },
   {
     eyebrow: 'UAE Corporate Tax · 9% regime',
@@ -44,6 +48,8 @@ const HERO_SLIDES = [
     lead: 'Registration, period computation, QFZP analysis where relevant, and FTA filing — with a position memo behind every contested item and a review-ready return file at the end of every period.',
     ctaPrimary:   { label: 'Browse services',         page: 'services' },
     ctaSecondary: { label: 'Request a CT scoping',    page: 'contact' },
+    bgImage: 'assets/images/chess-king-smoke.jpg',
+    bgAlt: 'A lone chess king standing in dramatic smoke and shadow',
   },
 ];
 
@@ -77,9 +83,11 @@ function HomeHero({ onNav }) {
 
   const slide = HERO_SLIDES[slideIndex];
 
+  const hasBg = !!slide.bgImage;
+
   return (
     <section
-      className="aa-hero"
+      className={`aa-hero${hasBg ? ' aa-hero--bg' : ''}`}
       style={{
         background: '#fff',
         borderBottom: '1px solid var(--aa-rule)',
@@ -91,11 +99,23 @@ function HomeHero({ onNav }) {
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
+      {/* Slide background image — full-bleed, crossfades on slide change. */}
+      {hasBg && (
+        <div
+          key={`bg-${slideIndex}`}
+          className="aa-hero__bg"
+          role="img"
+          aria-label={slide.bgAlt || ''}
+          style={{ backgroundImage: `url('${slide.bgImage}')` }}
+        />
+      )}
+
       {/* corner index marker — quiet editorial touch, now indicating slide position */}
       <div className="mono aa-hide-sm" style={{
         position: 'absolute', top: 24, right: 32,
         fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-        color: 'var(--aa-steel)',
+        color: hasBg ? 'rgba(255,255,255,0.7)' : 'var(--aa-steel)',
+        zIndex: 3,
       }}>
         {String(slideIndex + 1).padStart(2, '0')} / {String(slideCount).padStart(2, '0')}
       </div>
@@ -144,7 +164,7 @@ function HomeHero({ onNav }) {
             lineHeight: 0.98,
             letterSpacing: '0.005em',
             textTransform: 'uppercase',
-            color: 'var(--aa-charcoal)',
+            color: hasBg ? '#fff' : 'var(--aa-charcoal)',
             margin: 0,
             textWrap: 'balance',
           }}>
@@ -153,7 +173,7 @@ function HomeHero({ onNav }) {
 
           <p style={{
             fontSize: 19, lineHeight: 1.55,
-            color: 'var(--aa-charcoal-800)',
+            color: hasBg ? 'rgba(255,255,255,0.88)' : 'var(--aa-charcoal-800)',
             marginTop: 36, marginLeft: 'auto', marginRight: 'auto',
             maxWidth: 720,
           }}>
@@ -168,7 +188,7 @@ function HomeHero({ onNav }) {
               {slide.ctaPrimary.label}
               <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
             </button>
-            <button className="btn btn--ghost" onClick={() => onNav(slide.ctaSecondary.page)}>
+            <button className={`btn ${hasBg ? 'btn--ghost-light' : 'btn--ghost'}`} onClick={() => onNav(slide.ctaSecondary.page)}>
               {slide.ctaSecondary.label}
               <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
             </button>
@@ -190,11 +210,13 @@ function HomeHero({ onNav }) {
           ))}
         </div>
 
-        <div style={{
+        <div className="aa-hero__below" style={{
           marginTop: 64,
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
           borderTop: '1px solid var(--aa-rule)',
           gap: 0,
+          background: '#fff',
+          position: 'relative', zIndex: 2,
         }}>
           <HeroStat value="1,200+"   label="Engagements delivered" />
           <HeroStat value="9 yrs"    label="Continuous practice" />
@@ -202,12 +224,14 @@ function HomeHero({ onNav }) {
           <HeroStat value="2 line"   label="Review on every deliverable" last />
         </div>
 
-        <div style={{
+        <div className="aa-hero__below" style={{
           borderTop: '1px solid var(--aa-rule)',
           padding: '20px 0 28px',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           gap: 12,
           fontSize: 13, color: 'var(--aa-steel-700)',
+          background: '#fff',
+          position: 'relative', zIndex: 2,
         }}>
           <i data-lucide="shield-check" style={{ width: 16, height: 16, color: 'var(--aa-cyan)' }}></i>
           <span>Every workpaper carries an evidence trail. Every deliverable passes a two-line review before it leaves the firm.</span>

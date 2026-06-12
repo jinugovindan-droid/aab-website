@@ -97,24 +97,30 @@ function AboutPage({ onNav }) {
 
   return (
     <div>
-      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '64px 0 72px' }}>
-        <div className="container">
-          <div className="eyebrow" style={{ marginBottom: 16 }}>About the firm</div>
+      <section className="aa-hero-image" style={{ position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--aa-rule)', padding: '88px 0 96px' }}>
+        <div
+          className="aa-hero-image__bg"
+          role="img"
+          aria-label="Two glass chess kings facing each other across a board"
+          style={{ backgroundImage: "url('assets/images/chess-two-kings.jpg')" }}
+        />
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <div className="eyebrow" style={{ marginBottom: 16, color: 'var(--aa-cyan-200)' }}>About the firm</div>
           <h1 style={{
             fontFamily: 'var(--aa-font-display)', fontWeight: 700,
             fontSize: 'clamp(44px, 6vw, 80px)',
             textTransform: 'uppercase', letterSpacing: '0.005em',
-            margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0, maxWidth: 1100, textWrap: 'balance'
+            margin: 0, color: '#fff', lineHeight: 1.0, maxWidth: 1100, textWrap: 'balance'
           }}>
             A small, deliberate firm —<br />built for institutional work.
           </h1>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 64, marginTop: 48 }}>
-            <p style={{ fontSize: 18, color: 'var(--aa-charcoal-800)', lineHeight: 1.6, margin: 0 }}>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 64, marginTop: 48 }}>
+            <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: 0 }}>
               Authentic Accounting and Bookkeeping L.L.C was founded in 2017 to do compliance and advisory the way an audit committee would want it done — written down, reviewed twice, archived in full. Nine years on, we deliver a thousand-plus engagements a year against the same control framework that started us.
             </p>
-            <div style={{ borderTop: '2px solid var(--aa-charcoal)', paddingTop: 18 }}>
-              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Operating principles</div>
-              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8, fontSize: 14, color: 'var(--aa-charcoal)' }}>
+            <div style={{ borderTop: '2px solid var(--aa-cyan)', paddingTop: 18 }}>
+              <div className="eyebrow" style={{ marginBottom: 12, color: 'var(--aa-cyan-200)' }}>Operating principles</div>
+              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8, fontSize: 14, color: 'rgba(255,255,255,0.88)' }}>
                 <li>· One control framework, scaled to the engagement.</li>
                 <li>· Two-line review on every deliverable.</li>
                 <li>· Position memos for every contested item.</li>

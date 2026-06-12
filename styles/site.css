@@ -472,14 +472,63 @@ body.no-scroll { overflow: hidden; }
 body[data-density="compact"] .section { padding: 64px 0; }
 body[data-density="compact"] .section-head { margin-bottom: 36px; }
 
+/* ---------- Generic image hero (About, etc.) ---------- */
+.aa-hero-image { background: var(--aa-charcoal); color: #fff; }
+.aa-hero-image__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+.aa-hero-image__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26,26,46,0.62) 0%, rgba(26,26,46,0.82) 100%);
+}
+
 /* ---------- Home hero ---------- */
-.aa-hero__container { padding: 120px 32px 0; }
+.aa-hero__container { padding: 120px 32px 0; position: relative; z-index: 2; }
 .aa-hero__title { font-size: clamp(52px, 7.6vw, 104px); }
 
 /* Slider — keep slide content area a steady min-height so auto-advance
    doesn't cause page-jump as slides switch. */
 .aa-hero__slide { min-height: 420px; display: flex; flex-direction: column; justify-content: center; }
 .aa-hero__slide:focus-visible { box-shadow: 0 0 0 2px var(--aa-cyan); border-radius: 2px; }
+
+/* Full-bleed slide background image with a charcoal overlay so the
+   centered text stays readable. Crossfades on slide change via key change. */
+.aa-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  animation: aa-fade-in 600ms ease-out both;
+}
+.aa-hero__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26,26,46,0.72) 0%, rgba(26,26,46,0.82) 100%);
+}
+
+/* When hero has a background image, the dots and chevron arrows need
+   contrast against the dark overlay. */
+.aa-hero--bg .aa-hero__dot { background: rgba(255,255,255,0.28); }
+.aa-hero--bg .aa-hero__dot:hover { background: rgba(255,255,255,0.5); }
+.aa-hero--bg .aa-hero__dot.is-active { background: var(--aa-cyan); }
+.aa-hero--bg .aa-hero__arrow {
+  color: rgba(255,255,255,0.7);
+  border-color: rgba(255,255,255,0.25);
+  background: rgba(0,0,0,0.18);
+}
+.aa-hero--bg .aa-hero__arrow:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.6);
+  background: rgba(0,0,0,0.35);
+}
 
 /* Prev / Next arrows */
 .aa-hero__arrow {
