@@ -63,7 +63,7 @@ function ServicesPage({ onNav }) {
                 textTransform: 'uppercase', letterSpacing: '0.01em',
                 margin: 0, color: '#fff', lineHeight: 1.0, textWrap: 'balance',
               }}>
-                Ten engagements.<br />
+                Many engagements.<br />
                 One <span style={{ color: 'var(--aa-cyan)' }}>controls</span> standard.
               </h1>
             </div>
