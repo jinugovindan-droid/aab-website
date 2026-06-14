@@ -18,8 +18,8 @@ const HERO_SLIDES = [
     lead: 'Bookkeeping, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government organisations across the UAE — delivered with reconciliation discipline.',
     ctaPrimary:   { label: 'Book a consultation', page: 'contact' },
     ctaSecondary: { label: 'Meet the firm',       page: 'about' },
-    bgImage: 'assets/images/dubai-skyline.jpg',
-    bgAlt: 'Dubai skyline at dusk along Sheikh Zayed Road',
+    bgImage: 'assets/images/dubai-night-king.jpg',
+    bgAlt: 'Crystal chess king on polished marble, Dubai night skyline with Burj Khalifa behind',
   },
   {
     eyebrow: 'Phase 1 go-live · 1 January 2027',
