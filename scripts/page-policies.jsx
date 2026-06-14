@@ -98,7 +98,7 @@ function PrivacyPolicyPage({ onNav }) {
       <PolicyBody>
         <PolicySection n={1} title="Who we are" id="who">
           <P>The data controller is <strong>Authentic Accounting and Bookkeeping L.L.C</strong>, a UAE limited liability company registered in Dubai with offices at Office 406, Mai Tower, Al Nahda 1, Dubai, United Arab Emirates.</P>
-          <P>For any privacy-related question, contact us at <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a> or +971 4 396 0399.</P>
+          <P>For any privacy-related question, contact us at <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a> or <a href="tel:+97143960399" style={{ color: 'var(--aa-cyan-700)' }}>+971 4 396 0399</a>.</P>
         </PolicySection>
 
         <PolicySection n={2} title="Information we collect" id="collect">
@@ -188,7 +188,7 @@ function PrivacyPolicyPage({ onNav }) {
             <strong>Authentic Accounting and Bookkeeping L.L.C</strong><br/>
             Office 406, Mai Tower<br/>
             Al Nahda 1, Dubai, United Arab Emirates<br/>
-            <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a> &middot; +971 4 396 0399
+            <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a> &middot; <a href="tel:+97143960399" style={{ color: 'var(--aa-cyan-700)' }}>+971 4 396 0399</a>
           </P>
         </PolicySection>
 
@@ -262,7 +262,7 @@ function TermsPage({ onNav }) {
             <strong>Authentic Accounting and Bookkeeping L.L.C</strong><br/>
             Office 406, Mai Tower<br/>
             Al Nahda 1, Dubai, United Arab Emirates<br/>
-            <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a> &middot; +971 4 396 0399
+            <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a> &middot; <a href="tel:+97143960399" style={{ color: 'var(--aa-cyan-700)' }}>+971 4 396 0399</a>
           </P>
         </PolicySection>
 

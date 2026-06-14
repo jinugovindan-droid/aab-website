@@ -7,7 +7,7 @@ function ServicesPage({ onNav }) {
     { reg: 'Compliance', t: 'Bookkeeping', icon: 'book-open',
       d: 'Monthly ledger close on a custom controls engine. Proration, classification and validation framework.',
       bullets: ['Day-to-day bookkeeping', 'Trial balance close', 'Cash & bank reconciliation', 'Monthly management pack'] },
-    { reg: 'Compliance', t: 'VAT compliance', icon: 'file-check', route: 'service-vat',
+    { reg: 'Compliance', t: 'VAT compliance', icon: 'file-check',
       d: 'Registration, return preparation, review and filing with the FTA — with a defensible position memo per line item.',
       bullets: ['VAT registration', 'Return preparation', 'FTA filing & queries', 'Review-ready return file'] },
     { reg: 'Compliance', t: 'UAE Corporate Tax', icon: 'landmark',
@@ -113,8 +113,8 @@ function ServicesPage({ onNav }) {
             {filtered.map((s, i) => (
               <a
                 key={s.t}
-                href={pathForPage(s.route || 'services')}
-                onClick={(e) => { e.preventDefault(); if (s.route) onNav(s.route); }}
+                href={pathForPage('contact')}
+                onClick={(e) => { e.preventDefault(); onNav('contact'); }}
                 style={{
                   textDecoration: 'none', color: 'inherit',
                   padding: 36,
@@ -124,7 +124,7 @@ function ServicesPage({ onNav }) {
                   background: '#fff',
                   transition: 'background 150ms ease-out',
                   minHeight: 280,
-                  cursor: s.route ? 'pointer' : 'default',
+                  cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.background = 'var(--aa-surface-off)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = '#fff'}
@@ -152,7 +152,7 @@ function ServicesPage({ onNav }) {
                 <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   <span className="mono">{String(i + 1).padStart(2, '0')} / {filtered.length.toString().padStart(2, '0')}</span>
                   <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>
-                    {s.route ? 'View detail →' : 'Talk to us →'}
+                    Talk to us →
                   </span>
                 </div>
               </a>
