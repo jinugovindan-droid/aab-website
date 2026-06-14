@@ -99,10 +99,10 @@
   <script type="text/babel" src="scripts/tweaks-panel.jsx?v=20260523"></script>
   <script type="text/babel" src="scripts/chrome.jsx?v=20260615-unified"></script>
   <script type="text/babel" src="scripts/page-home.jsx?v=20260615-unified"></script>
-  <script type="text/babel" src="scripts/page-services.jsx?v=20260615-unified"></script>
+  <script type="text/babel" src="scripts/page-services.jsx?v=20260615-anchor"></script>
   <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260523"></script>
   <script src="scripts/contact-sheet.js?v=20260523"></script>
-  <script type="text/babel" src="scripts/page-other.jsx?v=20260615-scroll"></script>
+  <script type="text/babel" src="scripts/page-other.jsx?v=20260615-anchor"></script>
   <script type="text/babel" src="scripts/page-policies.jsx?v=20260615-tel"></script>
 
   <script type="text/babel">
@@ -187,8 +187,23 @@
         return () => cancelAnimationFrame(id);
       });
 
+      // On every page change: either scroll to a requested anchor (set by
+      // deep-link patterns like Services-card -> Contact wizard) or scroll
+      // to top. Done in a single instant operation after the next paint so
+      // the browser never shows an intermediate scroll position.
       useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        let target = null;
+        try {
+          target = sessionStorage.getItem('aa_scroll_target');
+          if (target) sessionStorage.removeItem('aa_scroll_target');
+        } catch (err) {}
+        requestAnimationFrame(() => {
+          if (target) {
+            const el = document.getElementById(target);
+            if (el) { el.scrollIntoView({ block: 'start' }); return; }
+          }
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        });
       }, [page]);
 
       const renderPage = () => {

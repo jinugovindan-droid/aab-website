@@ -131,7 +131,10 @@ function ServicesPage({ onNav }) {
                 href={pathForPage('contact')}
                 onClick={(e) => {
                   e.preventDefault();
-                  try { sessionStorage.setItem('aa_intent_service', s.t); } catch (err) {}
+                  try {
+                    sessionStorage.setItem('aa_intent_service', s.t);
+                    sessionStorage.setItem('aa_scroll_target', 'aa-contact-wizard');
+                  } catch (err) {}
                   onNav('contact');
                 }}
                 style={{

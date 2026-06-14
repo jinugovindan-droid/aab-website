@@ -652,19 +652,6 @@ function ContactPage({ onNav }) {
   });
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
-  // If we arrived with a pre-filled service (intent from a Services card),
-  // skip the contact hero and scroll the wizard into view. Defers past
-  // AppRoot's instant scroll-to-top so this lands second.
-  React.useEffect(() => {
-    if (!form.service) return;
-    const t = setTimeout(() => {
-      const wizard = document.getElementById('aa-contact-wizard');
-      if (wizard) wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 120);
-    return () => clearTimeout(t);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
