@@ -239,7 +239,7 @@ function TermsPage({ onNav }) {
         </PolicySection>
 
         <PolicySection n={6} title="Confidentiality of communications" id="confidential">
-          <P>Communications sent through the website&rsquo;s contact form or by email are not, of themselves, privileged or confidential beyond what applies under general law. You should not send highly sensitive information through the website without prior arrangement. The handling of personal information is governed by our <a href="#" onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-700)' }}>Privacy Policy</a>.</P>
+          <P>Communications sent through the website&rsquo;s contact form or by email are not, of themselves, privileged or confidential beyond what applies under general law. You should not send highly sensitive information through the website without prior arrangement. The handling of personal information is governed by our <a href={pathForPolicyPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-700)' }}>Privacy Policy</a>.</P>
         </PolicySection>
 
         <PolicySection n={7} title="Limitation of liability" id="liability">
