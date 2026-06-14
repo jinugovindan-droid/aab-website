@@ -314,7 +314,7 @@ function TrustStrip() {
 // ---------- Services ----------
 function HomeServices({ onNav }) {
   const compliance = [
-    { t: 'Bookkeeping', d: 'Monthly ledger close with documented proration, classification and validation steps.', icon: 'book-open' },
+    { t: 'Outsourced accounting', d: 'Day-to-day bookkeeping, monthly close, reconciliations and a management pack — full finance function on a documented controls engine.', icon: 'book-open' },
     { t: 'VAT compliance', d: 'Registration, return preparation, review and filing with the FTA.', icon: 'file-check', route: 'service-vat' },
     { t: 'UAE Corporate Tax', d: 'Registration, period computation, and return filing under the 9% regime.', icon: 'landmark' },
     { t: 'Financial statements', d: 'BS, P&L, Cash Flow and notes prepared to IFRS / IFRS for SMEs.', icon: 'file-spreadsheet' },

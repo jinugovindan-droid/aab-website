@@ -4,9 +4,9 @@ const { pathForPage } = window.AARoutes;
 
 function ServicesPage({ onNav }) {
   const allServices = [
-    { reg: 'Compliance', t: 'Bookkeeping', icon: 'book-open',
-      d: 'Monthly ledger close on a custom controls engine. Proration, classification and validation framework.',
-      bullets: ['Day-to-day bookkeeping', 'Trial balance close', 'Cash & bank reconciliation', 'Monthly management pack'] },
+    { reg: 'Compliance', t: 'Outsourced accounting', icon: 'book-open',
+      d: 'Day-to-day bookkeeping, monthly ledger close, reconciliations and management pack — a complete finance function delivered against a documented controls framework.',
+      bullets: ['Day-to-day bookkeeping', 'Monthly close & management pack', 'Reconciliations & validation', 'Custom controls engine'] },
     { reg: 'Compliance', t: 'VAT compliance', icon: 'file-check',
       d: 'Registration, return preparation, review and filing with the FTA — with a defensible position memo per line item.',
       bullets: ['VAT registration', 'Return preparation', 'FTA filing & queries', 'Review-ready return file'] },

@@ -174,7 +174,7 @@ function useScrollReveal() {
 function Footer({ onNav }) {
   const cols = [
     { title: 'Compliance', items: [
-      ['Bookkeeping', 'services'],
+      ['Outsourced accounting', 'services'],
       ['VAT compliance', 'service-vat'],
       ['UAE Corporate Tax', 'services'],
       ['Financial statements', 'services'],

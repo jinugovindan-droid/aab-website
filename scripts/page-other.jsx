@@ -615,7 +615,7 @@ function CareersPage({ onNav }) {
 // Update here and the wizard, services grid and footer columns stay in sync.
 const CONTACT_SERVICES = [
   // Compliance
-  'Bookkeeping',
+  'Outsourced accounting',
   'VAT compliance',
   'UAE Corporate Tax',
   'Financial statements',
