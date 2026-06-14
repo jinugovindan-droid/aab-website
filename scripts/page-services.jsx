@@ -47,8 +47,8 @@ function ServicesPage({ onNav }) {
         <div
           className="aa-hero-image__bg"
           role="img"
-          aria-label="Scattered chess pieces — strategic positioning"
-          style={{ backgroundImage: "url('assets/images/chess-scattered.jpg')" }}
+          aria-label="A single crystal chess rook standing in cool blue mist — the structural framework"
+          style={{ backgroundImage: "url('assets/images/chess-rook.jpg')" }}
         />
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 80, alignItems: 'end' }}>
