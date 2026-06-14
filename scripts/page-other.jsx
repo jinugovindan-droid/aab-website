@@ -652,6 +652,19 @@ function ContactPage({ onNav }) {
   });
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
+  // If we arrived with a pre-filled service (intent from a Services card),
+  // skip the contact hero and scroll the wizard into view. Defers past
+  // AppRoot's instant scroll-to-top so this lands second.
+  React.useEffect(() => {
+    if (!form.service) return;
+    const t = setTimeout(() => {
+      const wizard = document.getElementById('aa-contact-wizard');
+      if (wizard) wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+    return () => clearTimeout(t);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
@@ -735,7 +748,7 @@ function ContactPage({ onNav }) {
           </div>
 
           {/* Right: wizard */}
-          <div style={{ background: '#fff', border: '1px solid var(--aa-rule)' }}>
+          <div id="aa-contact-wizard" style={{ background: '#fff', border: '1px solid var(--aa-rule)', scrollMarginTop: 88 }}>
             {submitted ?
             <div style={{ padding: '64px 32px', textAlign: 'center' }}>
               <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 16 }}>Request received</div>
