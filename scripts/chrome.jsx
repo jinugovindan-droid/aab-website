@@ -183,6 +183,8 @@ function Footer({ onNav }) {
       ['Business valuations', 'services'],
       ['M&A support', 'services'],
       ['Financial due diligence', 'services'],
+      ['Forensic accounting', 'services'],
+      ['CFO services', 'services'],
       ['Financial modeling', 'services'],
     ]},
     { title: 'Firm', items: [

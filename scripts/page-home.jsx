@@ -323,8 +323,10 @@ function HomeServices({ onNav }) {
     { t: 'Business valuations', d: 'DCF, comparables and asset-based valuations for transactions and disputes.', icon: 'gauge' },
     { t: 'M&A support', d: 'Buy-side and sell-side assistance, deal structuring, and closing support.', icon: 'merge' },
     { t: 'Financial due diligence', d: 'Quality-of-earnings, working capital and debt-like item analyses.', icon: 'search' },
+    { t: 'Forensic accounting', d: 'Fraud investigation, dispute support and expert testimony for contested matters.', icon: 'fingerprint' },
     { t: 'Internal controls', d: 'Design, walkthroughs and remediation for regulated entities.', icon: 'shield' },
     { t: 'Financial modeling', d: 'Operating, transaction and board-pack models with full auditability.', icon: 'function-square' },
+    { t: 'CFO services', d: 'Interim and fractional CFO leadership — Board reporting, treasury and finance build-out.', icon: 'briefcase' },
     { t: 'Strategic advisory', d: 'Accounting policy, complex transactions and Board-level positions.', icon: 'compass' },
   ];
 
