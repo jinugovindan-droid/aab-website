@@ -48,8 +48,8 @@ const HERO_SLIDES = [
     lead: 'Registration, period computation, QFZP analysis where relevant, and FTA filing — with a position memo behind every contested item and a review-ready return file at the end of every period.',
     ctaPrimary:   { label: 'Browse services',         page: 'services' },
     ctaSecondary: { label: 'Request a CT scoping',    page: 'contact' },
-    bgImage: 'assets/images/chess-king-smoke.jpg',
-    bgAlt: 'A lone chess king standing in dramatic smoke and shadow',
+    bgImage: 'assets/images/chess-king-line.jpg',
+    bgAlt: 'A crystal chess king standing in front of a receding line of pawns — defended along the line',
   },
 ];
 
