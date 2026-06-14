@@ -101,8 +101,8 @@ function AboutPage({ onNav }) {
         <div
           className="aa-hero-image__bg"
           role="img"
-          aria-label="Two glass chess kings facing each other across a board"
-          style={{ backgroundImage: "url('assets/images/chess-two-kings.jpg')" }}
+          aria-label="A single crystal chess bishop standing in cool blue mist — a quiet portrait of the firm"
+          style={{ backgroundImage: "url('assets/images/chess-bishop.jpg')" }}
         />
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="eyebrow" style={{ marginBottom: 16, color: 'var(--aa-cyan-200)' }}>About the firm</div>
