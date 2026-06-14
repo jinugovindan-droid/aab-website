@@ -33,8 +33,8 @@ const HERO_SLIDES = [
     lead: 'The Ministry of Finance is rolling out a mandatory OpenPeppol-based, 5-corner e-invoicing system for all B2B and B2G transactions. First ASP-selection deadline lands 30 October 2026 — we help you map readiness, select an ASP, and go live with zero gaps.',
     ctaPrimary:   { label: 'Read the briefing',       page: 'e-invoicing' },
     ctaSecondary: { label: 'Book a readiness call',   page: 'contact' },
-    bgImage: 'assets/images/chess-knight.jpg',
-    bgAlt: 'A solitary knight facing a line of pieces — strategic preparedness',
+    bgImage: 'assets/images/chess-knight-mist.jpg',
+    bgAlt: 'A solitary crystal chess knight in cool blue mist — poised, strategic',
   },
   {
     eyebrow: 'UAE Corporate Tax · 9% regime',
