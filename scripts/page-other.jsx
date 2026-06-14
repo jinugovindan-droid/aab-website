@@ -101,8 +101,8 @@ function AboutPage({ onNav }) {
         <div
           className="aa-hero-image__bg"
           role="img"
-          aria-label="A single crystal chess bishop standing in cool blue mist — a quiet portrait of the firm"
-          style={{ backgroundImage: "url('assets/images/chess-bishop.jpg')" }}
+          aria-label="A row of distinct crystal chess pieces aligned on polished marble — many engagements, one framework"
+          style={{ backgroundImage: "url('assets/images/chess-row.jpg')" }}
         />
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="eyebrow" style={{ marginBottom: 16, color: 'var(--aa-cyan-200)' }}>About the firm</div>
@@ -112,7 +112,7 @@ function AboutPage({ onNav }) {
             textTransform: 'uppercase', letterSpacing: '0.005em',
             margin: 0, color: '#fff', lineHeight: 1.0, maxWidth: 1100, textWrap: 'balance'
           }}>
-            A small, deliberate firm —<br />built for institutional work.
+            Many hands. One framework.<br />Built on <span style={{ color: 'var(--aa-cyan)' }}>controls</span>.
           </h1>
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 64, marginTop: 48 }}>
             <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: 0 }}>
@@ -368,27 +368,35 @@ function InsightArticlePage({ onNav }) {
   return (
     <div>
       <article style={{ background: '#fff' }}>
-        <div className="container" style={{ maxWidth: 820, padding: '64px 32px 48px' }}>
-          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
-            <a href={pathForPage('insights')} onClick={(e) => {e.preventDefault();onNav('insights');}} style={{ color: 'var(--aa-steel-700)' }}>Insights</a>
-            <span>/</span>
-            <span>Corporate Tax</span>
+        <section className="aa-hero-image" style={{ position: 'relative', overflow: 'hidden', padding: '64px 0 48px' }}>
+          <div
+            className="aa-hero-image__bg"
+            role="img"
+            aria-label="A single crystal chess bishop standing in cool blue mist — the considered advisor"
+            style={{ backgroundImage: "url('assets/images/chess-bishop.jpg')" }}
+          />
+          <div className="container" style={{ maxWidth: 820, padding: '0 32px', position: 'relative', zIndex: 2 }}>
+            <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+              <a href={pathForPage('insights')} onClick={(e) => {e.preventDefault();onNav('insights');}} style={{ color: 'rgba(255,255,255,0.85)' }}>Insights</a>
+              <span>/</span>
+              <span>Corporate Tax</span>
+            </div>
+            <div className="eyebrow" style={{ marginBottom: 16, color: 'var(--aa-cyan-200)' }}>Corporate Tax · 12 Apr 2026 · 6 min read</div>
+            <h1 style={{
+              fontFamily: 'var(--aa-font-display)', fontWeight: 700,
+              fontSize: 'clamp(36px, 4.6vw, 56px)',
+              textTransform: 'uppercase', letterSpacing: '0.01em',
+              margin: 0, color: '#fff', lineHeight: 1.05, textWrap: 'balance'
+            }}>
+              Free zone qualifying income — three traps in the FTA&rsquo;s latest decision.
+            </h1>
+            <div style={{ marginTop: 28, display: 'flex', gap: 24, fontSize: 13, color: 'rgba(255,255,255,0.75)', borderTop: '1px solid rgba(255,255,255,0.2)', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '16px 0' }}>
+              <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Author</span> &middot; <strong style={{ color: '#fff' }}>CA Kiran Prasad S</strong></div>
+              <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Reviewed</span> &middot; Jinu Govindan</div>
+              <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Reference</span> &middot; <span className="mono">CT-2026-MEMO-018</span></div>
+            </div>
           </div>
-          <div className="eyebrow" style={{ marginBottom: 16 }}>Corporate Tax · 12 Apr 2026 · 6 min read</div>
-          <h1 style={{
-            fontFamily: 'var(--aa-font-display)', fontWeight: 700,
-            fontSize: 'clamp(36px, 4.6vw, 56px)',
-            textTransform: 'uppercase', letterSpacing: '0.01em',
-            margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.05, textWrap: 'balance'
-          }}>
-            Free zone qualifying income — three traps in the FTA’s latest decision.
-          </h1>
-          <div style={{ marginTop: 28, display: 'flex', gap: 24, fontSize: 13, color: 'var(--aa-steel-700)', borderTop: '1px solid var(--aa-rule)', borderBottom: '1px solid var(--aa-rule)', padding: '16px 0' }}>
-            <div><span className="muted">Author</span> · <strong style={{ color: 'var(--aa-charcoal)' }}>CA Kiran Prasad S</strong></div>
-            <div><span className="muted">Reviewed</span> · Jinu Govindan</div>
-            <div><span className="muted">Reference</span> · <span className="mono">CT-2026-MEMO-018</span></div>
-          </div>
-        </div>
+        </section>
 
         <div className="container" style={{ maxWidth: 820, padding: '32px', fontSize: 17, lineHeight: 1.75, color: 'var(--aa-charcoal-800)' }}>
           <p style={{ fontSize: 19, color: 'var(--aa-charcoal)', fontWeight: 500, lineHeight: 1.5 }}>
