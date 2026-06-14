@@ -102,11 +102,11 @@
   <script type="text/babel" src="scripts/page-services.jsx?v=20260615-anchor"></script>
   <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260523"></script>
   <script src="scripts/contact-sheet.js?v=20260523"></script>
-  <script type="text/babel" src="scripts/page-other.jsx?v=20260615-anchor"></script>
+  <script type="text/babel" src="scripts/page-other.jsx?v=20260615-skip1"></script>
   <script type="text/babel" src="scripts/page-policies.jsx?v=20260615-tel"></script>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useLayoutEffect } = React;
 
     const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
       "displayFont": "Oswald",
@@ -189,21 +189,22 @@
 
       // On every page change: either scroll to a requested anchor (set by
       // deep-link patterns like Services-card -> Contact wizard) or scroll
-      // to top. Done in a single instant operation after the next paint so
-      // the browser never shows an intermediate scroll position.
-      useEffect(() => {
+      // to top. useLayoutEffect runs synchronously after DOM commit but
+      // BEFORE the browser paints, so the user never sees the new page
+      // briefly at the old scroll position. behavior:'instant' overrides
+      // the page-wide `html { scroll-behavior: smooth }` rule so this is
+      // a single hard jump, not an animation.
+      useLayoutEffect(() => {
         let target = null;
         try {
           target = sessionStorage.getItem('aa_scroll_target');
           if (target) sessionStorage.removeItem('aa_scroll_target');
         } catch (err) {}
-        requestAnimationFrame(() => {
-          if (target) {
-            const el = document.getElementById(target);
-            if (el) { el.scrollIntoView({ block: 'start' }); return; }
-          }
-          window.scrollTo({ top: 0, behavior: 'instant' });
-        });
+        if (target) {
+          const el = document.getElementById(target);
+          if (el) { el.scrollIntoView({ block: 'start', behavior: 'instant' }); return; }
+        }
+        window.scrollTo({ top: 0, behavior: 'instant' });
       }, [page]);
 
       const renderPage = () => {

@@ -638,17 +638,21 @@ const CONTACT_SERVICES = [
 ];
 
 function ContactPage({ onNav }) {
-  const [step, setStep] = useStateP(1);
+  // Pull intent once at component construction so step and form agree.
+  const intent = (() => {
+    try {
+      const s = sessionStorage.getItem('aa_intent_service') || '';
+      if (s) sessionStorage.removeItem('aa_intent_service');
+      return s;
+    } catch (err) { return ''; }
+  })();
+  // If a Services-page card pre-filled the service, skip step 1 ("which
+  // service?") — the user already answered that. Land them on step 2.
+  const [step, setStep] = useStateP(intent ? 2 : 1);
   const [submitting, setSubmitting] = useStateP(false);
   const [submitted, setSubmitted] = useStateP(false);
-  // Initial service: read from sessionStorage if a Services-page card just deep-linked here.
-  const [form, setForm] = useStateP(() => {
-    let intent = '';
-    try {
-      intent = sessionStorage.getItem('aa_intent_service') || '';
-      if (intent) sessionStorage.removeItem('aa_intent_service');
-    } catch (err) {}
-    return { service: intent, entity: '', email: '', context: '', timeline: '6-weeks', segment: 'sme' };
+  const [form, setForm] = useStateP({
+    service: intent, entity: '', email: '', context: '', timeline: '6-weeks', segment: 'sme'
   });
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -809,6 +813,25 @@ function ContactPage({ onNav }) {
               }
               {step === 2 &&
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                  {form.service &&
+                  <div style={{
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16,
+                    padding: '10px 14px',
+                    background: 'var(--aa-cyan-050)', border: '1px solid var(--aa-cyan-100)',
+                    fontSize: 13, color: 'var(--aa-charcoal)',
+                  }}>
+                    <span>
+                      <span style={{ color: 'var(--aa-steel)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: 11, marginRight: 8 }}>Service</span>
+                      <strong>{form.service}</strong>
+                    </span>
+                    <button onClick={() => setStep(1)} style={{
+                      background: 'transparent', border: 0, padding: 0,
+                      color: 'var(--aa-cyan-700)', fontSize: 12, fontWeight: 600,
+                      letterSpacing: '0.04em', textTransform: 'uppercase',
+                      cursor: 'pointer', fontFamily: 'var(--aa-font-sans)',
+                    }}>Change</button>
+                  </div>
+                  }
                   <label className="field">
                     <div className="field__label">Engagement context</div>
                     <textarea className="field__textarea" rows={5} value={form.context} onChange={(e) => update('context', e.target.value)} placeholder="Describe the engagement, deliverable, jurisdiction and any specific concerns. The more specific, the faster our scoping note." />
