@@ -178,6 +178,9 @@ function Footer({ onNav }) {
       ['VAT compliance', 'service-vat'],
       ['UAE Corporate Tax', 'services'],
       ['Financial statements', 'services'],
+      ['Audit support', 'services'],
+      ['E-Invoicing support', 'services'],
+      ['Fixed asset tagging', 'services'],
     ]},
     { title: 'Advisory', items: [
       ['Business valuations', 'services'],
@@ -185,7 +188,9 @@ function Footer({ onNav }) {
       ['Financial due diligence', 'services'],
       ['Forensic accounting', 'services'],
       ['CFO services', 'services'],
+      ['Tax planning', 'services'],
       ['Financial modeling', 'services'],
+      ['Feasibility studies', 'services'],
     ]},
     { title: 'Firm', items: [
       ['About', 'about'],

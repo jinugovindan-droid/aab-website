@@ -16,6 +16,15 @@ function ServicesPage({ onNav }) {
     { reg: 'Compliance', t: 'Financial statements', icon: 'file-spreadsheet',
       d: 'Balance Sheet, P&L, Cash Flow and notes prepared to IFRS / IFRS for SMEs.',
       bullets: ['Statutory FS', 'Group consolidation', 'Audit preparation', 'Disclosure schedules'] },
+    { reg: 'Compliance', t: 'Audit support', icon: 'clipboard-check',
+      d: 'Pre-audit preparation, auditor liaison, sample selection and post-audit closeout for statutory and group audits.',
+      bullets: ['Audit preparation', 'Auditor liaison', 'Sample selection', 'Closeout schedules'] },
+    { reg: 'Compliance', t: 'E-Invoicing support', icon: 'send',
+      d: 'Readiness assessment, ASP selection, ERP field mapping and go-live testing for the UAE e-invoicing mandate.',
+      bullets: ['Readiness assessment', 'ASP selection', 'ERP field mapping', 'Go-live testing'] },
+    { reg: 'Compliance', t: 'Fixed asset tagging', icon: 'tag',
+      d: 'Physical asset verification, register reconstruction, depreciation policy review and impairment indicators.',
+      bullets: ['Asset verification', 'Register reconstruction', 'Depreciation policy', 'Impairment review'] },
     { reg: 'Advisory', t: 'Business valuations', icon: 'gauge',
       d: 'DCF, comparables and asset-based valuations for transactions, disputes and statutory purposes.',
       bullets: ['Equity & enterprise value', 'Purchase price allocation', 'Impairment testing', 'Litigation support'] },
@@ -37,6 +46,12 @@ function ServicesPage({ onNav }) {
     { reg: 'Advisory', t: 'CFO services', icon: 'briefcase',
       d: 'Interim and fractional CFO leadership — Board reporting, treasury, fundraising support and finance function build-out.',
       bullets: ['Interim CFO', 'Board reporting packs', 'Treasury & cash', 'Finance function build'] },
+    { reg: 'Advisory', t: 'Tax planning', icon: 'calculator',
+      d: 'Pre-transaction tax structuring, free-zone optimisation, transfer pricing alignment and CT position memos.',
+      bullets: ['Transaction structuring', 'Free-zone analysis', 'Transfer pricing', 'CT position memos'] },
+    { reg: 'Advisory', t: 'Feasibility studies', icon: 'bar-chart-3',
+      d: 'Project-level financial feasibility, sensitivity analysis, scenario modelling and pre-investment recommendations.',
+      bullets: ['Financial modelling', 'Sensitivity analysis', 'Scenario testing', 'Pre-investment memo'] },
     { reg: 'Advisory', t: 'Strategic advisory', icon: 'compass',
       d: 'Accounting policy selection, complex transactions and Board-level positions.',
       bullets: ['Accounting policy', 'Complex transactions', 'Board memos', 'Restructuring'] },
@@ -114,7 +129,11 @@ function ServicesPage({ onNav }) {
               <a
                 key={s.t}
                 href={pathForPage('contact')}
-                onClick={(e) => { e.preventDefault(); onNav('contact'); }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  try { sessionStorage.setItem('aa_intent_service', s.t); } catch (err) {}
+                  onNav('contact');
+                }}
                 style={{
                   textDecoration: 'none', color: 'inherit',
                   padding: 36,
@@ -152,7 +171,7 @@ function ServicesPage({ onNav }) {
                 <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   <span className="mono">{String(i + 1).padStart(2, '0')} / {filtered.length.toString().padStart(2, '0')}</span>
                   <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>
-                    Talk to us →
+                    Start a scope →
                   </span>
                 </div>
               </a>

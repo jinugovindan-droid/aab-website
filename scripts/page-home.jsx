@@ -318,6 +318,9 @@ function HomeServices({ onNav }) {
     { t: 'VAT compliance', d: 'Registration, return preparation, review and filing with the FTA.', icon: 'file-check', route: 'service-vat' },
     { t: 'UAE Corporate Tax', d: 'Registration, period computation, and return filing under the 9% regime.', icon: 'landmark' },
     { t: 'Financial statements', d: 'BS, P&L, Cash Flow and notes prepared to IFRS / IFRS for SMEs.', icon: 'file-spreadsheet' },
+    { t: 'Audit support', d: 'Pre-audit preparation, auditor liaison and post-audit closeout.', icon: 'clipboard-check' },
+    { t: 'E-Invoicing support', d: 'Readiness assessment, ASP selection and go-live support for the UAE e-invoicing mandate.', icon: 'send' },
+    { t: 'Fixed asset tagging', d: 'Physical asset verification, register reconstruction and depreciation review.', icon: 'tag' },
   ];
   const advisory = [
     { t: 'Business valuations', d: 'DCF, comparables and asset-based valuations for transactions and disputes.', icon: 'gauge' },
@@ -327,6 +330,8 @@ function HomeServices({ onNav }) {
     { t: 'Internal controls', d: 'Design, walkthroughs and remediation for regulated entities.', icon: 'shield' },
     { t: 'Financial modeling', d: 'Operating, transaction and board-pack models with full auditability.', icon: 'function-square' },
     { t: 'CFO services', d: 'Interim and fractional CFO leadership — Board reporting, treasury and finance build-out.', icon: 'briefcase' },
+    { t: 'Tax planning', d: 'Pre-transaction tax structuring, free-zone optimisation and transfer pricing alignment.', icon: 'calculator' },
+    { t: 'Feasibility studies', d: 'Project-level financial feasibility, sensitivity analysis and pre-investment recommendations.', icon: 'bar-chart-3' },
     { t: 'Strategic advisory', d: 'Accounting policy, complex transactions and Board-level positions.', icon: 'compass' },
   ];
 

@@ -611,12 +611,44 @@ function CareersPage({ onNav }) {
 }
 
 // ---------- Contact (multi-step wizard) ----------
+// Service catalog — canonical list shared with the Services page + footer.
+// Update here and the wizard, services grid and footer columns stay in sync.
+const CONTACT_SERVICES = [
+  // Compliance
+  'Bookkeeping',
+  'VAT compliance',
+  'UAE Corporate Tax',
+  'Financial statements',
+  'Audit support',
+  'E-Invoicing support',
+  'Fixed asset tagging',
+  // Advisory
+  'Business valuations',
+  'M&A support',
+  'Financial due diligence',
+  'Forensic accounting',
+  'Internal controls',
+  'Financial modeling',
+  'CFO services',
+  'Tax planning',
+  'Feasibility studies',
+  'Strategic advisory',
+  // Fallback
+  'Others',
+];
+
 function ContactPage({ onNav }) {
   const [step, setStep] = useStateP(1);
   const [submitting, setSubmitting] = useStateP(false);
   const [submitted, setSubmitted] = useStateP(false);
-  const [form, setForm] = useStateP({
-    service: '', entity: '', email: '', context: '', timeline: '6-weeks', segment: 'sme'
+  // Initial service: read from sessionStorage if a Services-page card just deep-linked here.
+  const [form, setForm] = useStateP(() => {
+    let intent = '';
+    try {
+      intent = sessionStorage.getItem('aa_intent_service') || '';
+      if (intent) sessionStorage.removeItem('aa_intent_service');
+    } catch (err) {}
+    return { service: intent, entity: '', email: '', context: '', timeline: '6-weeks', segment: 'sme' };
   });
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -750,7 +782,7 @@ function ContactPage({ onNav }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                   <div className="eyebrow eyebrow--charcoal">Which service line?</div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                    {['Bookkeeping', 'VAT compliance', 'Corporate Tax', 'Financial statements', 'Business valuation', 'M&A support', 'Due diligence', 'Forensic accounting', 'CFO services', 'Feasibility Studies', 'Financial modeling', 'Audit Support', 'E Invoicing Support', 'Fixed Asset Tagging', 'Tax Planning', 'Others'].map((s) =>
+                    {CONTACT_SERVICES.map((s) =>
                   <button key={s} onClick={() => update('service', s)} style={{
                     padding: '14px 16px', textAlign: 'left',
                     background: form.service === s ? 'var(--aa-charcoal)' : '#fff',
