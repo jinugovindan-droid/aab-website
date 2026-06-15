@@ -90,6 +90,7 @@ function IndustriesPage({ onNav }) {
 function AboutPage({ onNav }) {
   const team = [
   { name: 'Jinu Govindan', role: 'Founder Director', bio: 'M.Com · CMA. Management consultant, trainer and subject matter expert in Accounting, Financial Management, Taxation and Strategic Planning. 20 years in UAE across Trading, Construction, Manufacturing, Media, Holding Companies and Hospitality.' },
+  { name: 'Sabith Abdul Rahman', role: 'Director — CFO Services', bio: 'CMA · MBA (Finance). Senior finance leader with 28+ years in the UAE and GCC, including multiple Group CFO roles across Manufacturing, Construction, Facilities Management and Trading. Expert in financial strategy, FP&A, treasury and IFRS reporting — strong controls and value-creation focus.' },
   { name: 'Jinu Kurikesu', role: 'Audit Manager', bio: 'CMA. Finance professional with 8+ years heading Accounts, Finance and Corporate divisions. Expert in Construction, Manufacturing, Retail and Trading industries.' },
   { name: 'CA Kiran Prasad S', role: 'Accounts, Audit & Taxation Manager', bio: 'B.Com · ACA. 10+ years across accounting, auditing and taxation. 3 years Big 4 experience at KPMG in Audit (Wealth and Asset Management) — disciplined risk and controls focus.' },
   { name: 'Ratheesh Manoharan', role: 'Manager · IT Operations', bio: 'ITIL V3 Certified Professional. IT Service Delivery Management, Quality Assurance, Design and Implementations.' },
