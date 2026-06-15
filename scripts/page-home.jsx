@@ -1,6 +1,6 @@
 // Home page — hero, services, industries, approach, stats, insights, contact
 const { useState: useStateHome, useEffect: useEffectHome, useRef: useRefHome } = React;
-const { pathForPage } = window.AARoutes;
+const { pathForPage, pathForInsight, INSIGHTS } = window.AARoutes;
 
 // ---------- Hero (3-slide editorial slider) ----------
 // Slide content rotates every 8s. Stats + evidence line below stay fixed.
@@ -549,11 +549,7 @@ function NumbersBand() {
 
 // ---------- Insights preview ----------
 function HomeInsights({ onNav }) {
-  const items = [
-    { tag: 'Corporate Tax', date: '12 Apr 2026', title: 'Free zone qualifying income — three traps in the FTA\u2019s latest decision.', read: '6 min' },
-    { tag: 'Valuations',    date: '02 Apr 2026', title: 'Why DCF terminal values are mispriced for UAE family-office holdings.',   read: '9 min' },
-    { tag: 'Controls',      date: '21 Mar 2026', title: 'A control framework that survives ERP migrations: a practitioner\u2019s note.', read: '11 min' },
-  ];
+  const items = INSIGHTS.slice(0, 3);
   return (
     <section className="section">
       <div className="container">
@@ -575,11 +571,12 @@ function HomeInsights({ onNav }) {
           </button>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
-          {items.map((a, i) => (
+          {items.map((a) => (
             <a
-              key={i}
-              href={pathForPage('insight')}
-              onClick={(e) => { e.preventDefault(); onNav('insight'); }}
+              key={a.slug}
+              href={pathForInsight(a.slug)}
+              onClick={(e) => { e.preventDefault(); onNav('insight', a.slug); }}
+              aria-label={a.title + (a.published ? '' : ' (in preparation)')}
               style={{
                 display: 'flex', flexDirection: 'column', gap: 16,
                 textDecoration: 'none', color: 'inherit',
@@ -594,8 +591,8 @@ function HomeInsights({ onNav }) {
                 {a.title}
               </div>
               <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: 'var(--aa-steel)' }}>
-                <span>{a.read} read</span>
-                <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>Read note →</span>
+                <span>{a.published ? a.read + ' read' : 'In preparation'}</span>
+                <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>{a.published ? 'Read note →' : 'View →'}</span>
               </div>
             </a>
           ))}

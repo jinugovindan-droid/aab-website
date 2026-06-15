@@ -1,6 +1,6 @@
 // Industries, About, Insights list, Insight article, Careers, Contact pages
 const { useState: useStateP } = React;
-const { pathForPage } = window.AARoutes;
+const { pathForPage, pathForInsight, insightBySlug, INSIGHTS, DEFAULT_INSIGHT } = window.AARoutes;
 const { LucideHost } = window;
 
 // ---------- Industries ----------
@@ -235,21 +235,14 @@ function AboutPage({ onNav }) {
 
 // ---------- Insights list ----------
 function InsightsPage({ onNav }) {
-  const articles = [
-  { tag: 'Corporate Tax', date: '12 Apr 2026', read: '6 min', title: 'Free zone qualifying income — three traps in the FTA\u2019s latest decision.', author: 'CA Kiran Prasad S' },
-  { tag: 'Valuations', date: '02 Apr 2026', read: '9 min', title: 'Why DCF terminal values are mispriced for UAE family-office holdings.', author: 'Jinu Govindan' },
-  { tag: 'Controls', date: '21 Mar 2026', read: '11 min', title: 'A control framework that survives ERP migrations: a practitioner\u2019s note.', author: 'Jinu Kurikesu' },
-  { tag: 'VAT', date: '14 Mar 2026', read: '5 min', title: 'Designated zone reclassification — the trail you must keep.', author: 'CA Kiran Prasad S' },
-  { tag: 'M&A', date: '02 Mar 2026', read: '8 min', title: 'Working capital pegs in UAE deals: closing-mechanic patterns we keep seeing.', author: 'Jinu Govindan' },
-  { tag: 'Corporate Tax', date: '18 Feb 2026', read: '7 min', title: 'Transfer pricing thresholds and the documentation a Board should expect.', author: 'CA Kiran Prasad S' },
-  { tag: 'Controls', date: '05 Feb 2026', read: '6 min', title: 'Why every reconciliation should resolve to zero — and what to do when it does not.', author: 'Jinu Kurikesu' },
-  { tag: 'Valuations', date: '21 Jan 2026', read: '10 min', title: 'Cost-of-equity in the GCC: a practitioner\u2019s build-up.', author: 'Jinu Govindan' }];
+  const articles = INSIGHTS;
 
   const [filter, setFilter] = useStateP('All');
   const tags = ['All', 'Corporate Tax', 'VAT', 'Valuations', 'Controls', 'M&A'];
   const list = filter === 'All' ? articles : articles.filter((a) => a.tag === filter);
 
   const featured = articles[0];
+  const openInsight = (e, slug) => { e.preventDefault(); onNav('insight', slug); };
 
   return (
     <div>
@@ -273,7 +266,8 @@ function InsightsPage({ onNav }) {
       {/* Featured */}
       <section className="section">
         <div className="container">
-          <a href={pathForPage('insight')} onClick={(e) => {e.preventDefault();onNav('insight');}} style={{
+          <a href={pathForInsight(featured.slug)} onClick={(e) => openInsight(e, featured.slug)}
+            aria-label={'Featured note: ' + featured.title} style={{
             display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0,
             border: '1px solid var(--aa-rule)', textDecoration: 'none', color: 'inherit',
             background: '#fff'
@@ -289,7 +283,7 @@ function InsightsPage({ onNav }) {
                 <span className="pill" style={{ background: 'rgba(41,171,226,0.2)', color: 'var(--aa-cyan-200)', borderColor: 'transparent' }}>Featured</span>
               </div>
               {/* big number-style watermark */}
-              <div style={{
+              <div aria-hidden="true" style={{
                 position: 'absolute', right: -20, bottom: -40,
                 fontFamily: 'var(--aa-font-display)', fontWeight: 700,
                 fontSize: 280, color: 'rgba(41,171,226,0.08)', lineHeight: 0.85
@@ -307,12 +301,12 @@ function InsightsPage({ onNav }) {
             </div>
             <div style={{ padding: 56, display: 'flex', flexDirection: 'column', gap: 18, justifyContent: 'center' }}>
               <p style={{ fontSize: 17, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: 0 }}>
-                The FTA’s most recent decision on free-zone qualifying income is being read three different ways by tax teams in the UAE. We unpack the three traps we keep seeing in client positions — and what the consequence is at filing.
+                {featured.excerpt}
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
                 <span className="pill pill--charcoal">QFZP</span>
                 <span className="pill pill--charcoal">Substance</span>
-                <span className="pill pill--charcoal">Election</span>
+                <span className="pill pill--charcoal">De minimis</span>
               </div>
               <span style={{ marginTop: 16, color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14 }}>Read the full note →</span>
             </div>
@@ -337,8 +331,9 @@ function InsightsPage({ onNav }) {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 0, borderTop: '1px solid var(--aa-rule)', borderLeft: '1px solid var(--aa-rule)' }}>
-            {list.map((a, i) =>
-            <a key={i} href={pathForPage('insight')} onClick={(e) => {e.preventDefault();onNav('insight');}} style={{
+            {list.map((a) =>
+            <a key={a.slug} href={pathForInsight(a.slug)} onClick={(e) => openInsight(e, a.slug)}
+              aria-label={a.title + (a.published ? '' : ' (in preparation)')} style={{
               padding: 32, background: '#fff',
               borderRight: '1px solid var(--aa-rule)', borderBottom: '1px solid var(--aa-rule)',
               display: 'flex', flexDirection: 'column', gap: 14,
@@ -350,9 +345,11 @@ function InsightsPage({ onNav }) {
                   <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
                 </div>
                 <div style={{ fontSize: 22, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.25, textWrap: 'balance' }}>{a.title}</div>
-                <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--aa-steel)' }}>
+                <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: 'var(--aa-steel)' }}>
                   <span>{a.author}</span>
-                  <span>{a.read} read</span>
+                  {a.published
+                    ? <span>{a.read} read</span>
+                    : <span className="pill" style={{ fontSize: 10, background: 'var(--aa-surface-off)', color: 'var(--aa-steel-700)', borderColor: 'var(--aa-rule-strong)' }}>In preparation</span>}
                 </div>
               </a>
             )}
@@ -363,8 +360,56 @@ function InsightsPage({ onNav }) {
 
 }
 
+// ---------- Single article: written body for the published note ----------
+function FreeZoneArticleBody() {
+  return (
+    <div className="container" style={{ maxWidth: 820, padding: '32px', fontSize: 17, lineHeight: 1.75, color: 'var(--aa-charcoal-800)' }}>
+      <p style={{ fontSize: 19, color: 'var(--aa-charcoal)', fontWeight: 500, lineHeight: 1.5 }}>
+        The UAE free-zone tax rules — Cabinet Decision 100 of 2023 and Ministerial Decision 265 of 2023, since updated by Ministerial Decision 229 of 2025 — are being read three different ways by tax teams in the UAE. We unpack the three traps we keep seeing in client positions — and what the consequence is at filing.
+      </p>
+      <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>1. Substance is tested per activity; income is classified per transaction.</h3>
+      <p>Two different tests are routinely collapsed into one. Adequate substance is assessed at the level of the free-zone person for each qualifying activity: the core income-generating activities must actually be carried out in the zone, with adequate qualified staff, assets and operating expenditure — or outsourced to a related party in the zone under your supervision. Separately, each stream of income is classified as qualifying or non-qualifying, and that classification is effectively a per-transaction question.</p>
+      <p>This is the most common position error we have re-papered: clients treat both as a once-a-year statement. The substance file has to evidence real activity in the zone, and the income trail has to be tagged at source so qualifying and non-qualifying revenue can be told apart at filing.</p>
+
+      {/* Pull quote */}
+      <blockquote style={{
+        margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)',
+        paddingLeft: 24, fontFamily: 'var(--aa-font-display)',
+        fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)',
+        textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700
+      }}>
+        “Substance is tested per activity in the zone; income is classified per transaction. Neither survives as a year-end memo.”
+      </blockquote>
+
+      <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>2. There is no annual election to be a QFZP.</h3>
+      <p>A free-zone person is automatically a Qualifying Free Zone Person for a tax period whenever it meets the conditions — there is no yearly election to claim the 0% rate. The only election available is the option to opt out and be taxed under the standard 9% regime. What is sticky is failure: breach the conditions in a period and the person loses QFZP status from the start of that tax period and for the four subsequent tax periods. Boards should treat the conditions as binding for the life of the current commercial structure, not something re-chosen each return.</p>
+
+      <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>3. Non-qualifying revenue is capped — watch the de minimis.</h3>
+      <p>Qualifying status is not lost the moment a sliver of non-qualifying revenue appears: the de minimis rule allows non-qualifying revenue up to the lower of 5% of total revenue or AED 5 million. Above that ceiling, QFZP status falls away for the period. The excluded activities are enumerated in Ministerial Decision 265 of 2023, as updated by Ministerial Decision 229 of 2025. In our experience, activities that share a contract, a counterparty or an underlying asset with an excluded activity invite scrutiny — so map them against both the list and your de minimis headroom before signing.</p>
+
+      <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>What we recommend</div>
+        <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
+          <li>Tag every revenue line at source with a qualifying / non-qualifying flag.</li>
+          <li>Re-test the QFZP conditions every tax period, even when nothing has changed.</li>
+          <li>Map every excluded-activity-adjacent contract against the de minimis limit before signing.</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+const INSIGHT_BODIES = {
+  'free-zone-qualifying-income': FreeZoneArticleBody,
+};
+
 // ---------- Single article ----------
-function InsightArticlePage({ onNav }) {
+function InsightArticlePage({ onNav, slug }) {
+  const article = insightBySlug(slug) || DEFAULT_INSIGHT;
+  const Body = INSIGHT_BODIES[article.slug] || null;
+  const related = INSIGHTS.filter((a) => a.slug !== article.slug).slice(0, 3);
+  const openInsight = (e, s) => { e.preventDefault(); onNav('insight', s); };
+
   return (
     <div>
       <article style={{ background: '#fff' }}>
@@ -379,58 +424,46 @@ function InsightArticlePage({ onNav }) {
             <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
               <a href={pathForPage('insights')} onClick={(e) => {e.preventDefault();onNav('insights');}} style={{ color: 'rgba(255,255,255,0.85)' }}>Insights</a>
               <span>/</span>
-              <span>Corporate Tax</span>
+              <span>{article.tag}</span>
             </div>
-            <div className="eyebrow" style={{ marginBottom: 16, color: 'var(--aa-cyan-200)' }}>Corporate Tax · 12 Apr 2026 · 6 min read</div>
+            <div className="eyebrow" style={{ marginBottom: 16, color: 'var(--aa-cyan-200)' }}>{article.tag} · {article.date} · {article.read} read</div>
             <h1 style={{
               fontFamily: 'var(--aa-font-display)', fontWeight: 700,
               fontSize: 'clamp(36px, 4.6vw, 56px)',
               textTransform: 'uppercase', letterSpacing: '0.01em',
               margin: 0, color: '#fff', lineHeight: 1.05, textWrap: 'balance'
             }}>
-              Free zone qualifying income — three traps in the FTA&rsquo;s latest decision.
+              {article.title}
             </h1>
-            <div style={{ marginTop: 28, display: 'flex', gap: 24, fontSize: 13, color: 'rgba(255,255,255,0.75)', borderTop: '1px solid rgba(255,255,255,0.2)', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '16px 0' }}>
-              <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Author</span> &middot; <strong style={{ color: '#fff' }}>CA Kiran Prasad S</strong></div>
-              <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Reviewed</span> &middot; Jinu Govindan</div>
-              <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Reference</span> &middot; <span className="mono">CT-2026-MEMO-018</span></div>
+            <div style={{ marginTop: 28, display: 'flex', gap: 24, fontSize: 13, color: 'rgba(255,255,255,0.75)', borderTop: '1px solid rgba(255,255,255,0.2)', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '16px 0', flexWrap: 'wrap' }}>
+              <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Author</span> · <strong style={{ color: '#fff' }}>{article.author}</strong></div>
+              {article.reviewer && <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Reviewed</span> · {article.reviewer}</div>}
+              {article.reference && <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Reference</span> · <span className="mono">{article.reference}</span></div>}
             </div>
           </div>
         </section>
 
-        <div className="container" style={{ maxWidth: 820, padding: '32px', fontSize: 17, lineHeight: 1.75, color: 'var(--aa-charcoal-800)' }}>
-          <p style={{ fontSize: 19, color: 'var(--aa-charcoal)', fontWeight: 500, lineHeight: 1.5 }}>
-            The Federal Tax Authority’s most recent decision on free-zone qualifying income is being read three different ways by tax teams in the UAE. We unpack the three traps we keep seeing in client positions — and what the consequence is at filing.
-          </p>
-          <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>1. Substance is read transactionally, not entity-wide.</h3>
-          <p>The decision treats the substance test as a per-transaction question, not a once-a-year statement. A free-zone entity with qualifying activity in one revenue stream and disqualifying activity in another may find both streams tainted if the apportionment trail is not maintained at source.</p>
-          <p>This is the most common position error we have re-papered: clients book the substance assessment as an annual exercise and lose the per-transaction tagging that the FTA actually relies on.</p>
+        {Body
+          ? <Body/>
+          : (
+            <div className="container" style={{ maxWidth: 820, padding: '32px', fontSize: 17, lineHeight: 1.75, color: 'var(--aa-charcoal-800)' }}>
+              <p style={{ fontSize: 19, color: 'var(--aa-charcoal)', fontWeight: 500, lineHeight: 1.5 }}>
+                {article.excerpt}
+              </p>
+              <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 32 }}>
+                <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>This note is in preparation</div>
+                <p style={{ margin: 0, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
+                  We are finalising this note for publication. If the topic is live for you now, we are happy to discuss your specific facts — reach the partner and directors directly through the contact page.
+                </p>
+                <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={() => onNav('contact')}>
+                  Speak to the team
+                  <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
+                </button>
+              </div>
+            </div>
+          )}
 
-          {/* Pull quote */}
-          <blockquote style={{
-            margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)',
-            paddingLeft: 24, fontFamily: 'var(--aa-font-display)',
-            fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)',
-            textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700
-          }}>
-            “Substance is a transactional question. The trail must be at source, not in a year-end memo.”
-          </blockquote>
-
-          <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>2. The election is irrevocable in practice.</h3>
-          <p>Although the regime presents the election as an annual choice, the operational consequence — once intercompany pricing, profit-allocation memos and counterparty contracts have been reset — makes a reversal commercially expensive. Boards should treat the first election as binding for the period of the current commercial structure, not the period of the current return.</p>
-
-          <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>3. “Excluded” activities have a halo.</h3>
-          <p>The list of excluded activities reaches further than its plain-text reading. Activities that share a contract, a counterparty or an underlying asset with an excluded activity have, in our experience with the FTA, been treated as carrying the same disqualification.</p>
-
-          <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
-            <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>What we recommend</div>
-            <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
-              <li>Tag every revenue line at source with a qualifying / disqualifying flag.</li>
-              <li>Reconfirm the election in writing each year, even when it is unchanged.</li>
-              <li>Map every excluded-activity-adjacent contract before signing.</li>
-            </ul>
-          </div>
-
+        <div className="container" style={{ maxWidth: 820, padding: '0 32px 32px' }}>
           <div style={{ marginTop: 48, fontSize: 12, color: 'var(--aa-steel)', borderTop: '1px solid var(--aa-rule)', paddingTop: 16, lineHeight: 1.6 }}>
             This note is general guidance and does not constitute tax advice. For an opinion on your facts, contact the firm directly.
           </div>
@@ -442,12 +475,9 @@ function InsightArticlePage({ onNav }) {
         <div className="container">
           <div className="section-head"><div className="section-head__eyebrow">Related</div><h2>Continue reading.</h2></div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
-            {[
-            { tag: 'VAT', title: 'Designated zone reclassification — the trail you must keep.', date: '14 Mar 2026' },
-            { tag: 'Controls', title: 'Why every reconciliation should resolve to zero.', date: '05 Feb 2026' },
-            { tag: 'Corporate Tax', title: 'Transfer pricing thresholds and the documentation a Board should expect.', date: '18 Feb 2026' }].
-            map((a, i) =>
-            <a key={i} href={pathForPage('insight')} onClick={(e) => {e.preventDefault();onNav('insight');}} style={{
+            {related.map((a) =>
+            <a key={a.slug} href={pathForInsight(a.slug)} onClick={(e) => openInsight(e, a.slug)}
+              aria-label={a.title + (a.published ? '' : ' (in preparation)')} style={{
               borderTop: '2px solid var(--aa-charcoal)', paddingTop: 18,
               textDecoration: 'none', color: 'inherit',
               display: 'flex', flexDirection: 'column', gap: 12

@@ -128,7 +128,7 @@ function PrivacyPolicyPage({ onNav }) {
         <PolicySection n={4} title="Lawful basis" id="basis">
           <P>Where the UAE PDPL applies, we rely on the following lawful bases:</P>
           <PolicyList items={[
-            'Your consent (Article 4 PDPL) — when you submit the contact form or send your CV',
+            'Your consent (Articles 4–6 PDPL) — when you submit the contact form or send your CV',
             'Performance of an engagement, or pre-engagement steps you have requested',
             'Compliance with a legal obligation to which the firm is subject',
             'The legitimate interests of the firm in operating a secure, professional website — balanced against your rights',
