@@ -310,4 +310,74 @@ function LucideHost({ name, style = {} }) {
   );
 }
 
-Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, useScrollReveal, LucideHost });
+// Cookie consent banner — only shown when GA4 is configured (window.AA_GA_ID set),
+// since Vercel Web Analytics is cookieless and needs no consent. Default state is
+// "denied" (Consent Mode v2 in index.html); accepting upgrades analytics_storage.
+function CookieConsent({ onNav }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!window.AA_GA_ID) return; // no analytics cookies in play → no banner
+    let stored = null;
+    try { stored = localStorage.getItem('aa-analytics-consent'); } catch (e) {}
+    if (!stored) setVisible(true);
+  }, []);
+
+  if (!visible) return null;
+
+  const decide = (granted) => {
+    try { localStorage.setItem('aa-analytics-consent', granted ? 'granted' : 'denied'); } catch (e) {}
+    if (window.gtag) {
+      window.gtag('consent', 'update', { analytics_storage: granted ? 'granted' : 'denied' });
+      if (granted && window.AA_GA_ID) {
+        window.gtag('event', 'page_view', {
+          page_path: window.location.pathname,
+          page_location: window.location.href,
+          page_title: document.title,
+        });
+      }
+    }
+    setVisible(false);
+  };
+
+  return (
+    <div
+      role="dialog"
+      aria-live="polite"
+      aria-label="Cookie consent"
+      style={{
+        position: 'fixed', left: 16, bottom: 16, zIndex: 60,
+        maxWidth: 460, width: 'calc(100% - 32px)',
+        background: 'var(--aa-charcoal)', color: '#fff',
+        border: '1px solid rgba(255,255,255,0.12)',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.35)',
+        padding: 22,
+      }}
+    >
+      <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Cookies</div>
+      <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.82)' }}>
+        We use cookieless analytics to measure traffic. With your consent we also use
+        Google Analytics, which sets analytics cookies. You can change your choice any time.{' '}
+        <a
+          href={pathForPage('privacy')}
+          onClick={(e) => { e.preventDefault(); onNav('privacy'); }}
+          style={{ color: 'var(--aa-cyan-200)', textDecoration: 'underline' }}
+        >Privacy Policy</a>.
+      </p>
+      <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
+        <button className="btn btn--primary btn--sm" onClick={() => decide(true)}>Accept analytics</button>
+        <button
+          onClick={() => decide(false)}
+          style={{
+            padding: '8px 16px', fontSize: 12, letterSpacing: '0.06em', textTransform: 'uppercase',
+            fontWeight: 600, fontFamily: 'var(--aa-font-sans)', cursor: 'pointer',
+            background: 'transparent', color: 'rgba(255,255,255,0.85)',
+            border: '1px solid rgba(255,255,255,0.3)',
+          }}
+        >Decline</button>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, CookieConsent, useScrollReveal, LucideHost });

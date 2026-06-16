@@ -85,6 +85,45 @@
   }
   </script>
 
+  <!-- Analytics — Google Consent Mode v2 defaults (analytics denied until opt-in) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied'
+    });
+
+    // Google Analytics 4 — paste your Measurement ID (e.g. 'G-XXXXXXXXXX') to
+    // activate GA4 + the cookie-consent banner. Leave '' to keep GA4 off.
+    // Vercel Web Analytics (cookieless, below) runs regardless.
+    window.AA_GA_ID = 'G-GF3Z86ETK2';
+
+    (function () {
+      try {
+        if (localStorage.getItem('aa-analytics-consent') === 'granted') {
+          gtag('consent', 'update', { analytics_storage: 'granted' });
+        }
+      } catch (e) {}
+      if (window.AA_GA_ID) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.AA_GA_ID;
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        // Page views are sent manually on each SPA route change (see AppRoot).
+        gtag('config', window.AA_GA_ID, { anonymize_ip: true, send_page_view: false });
+      }
+    })();
+  </script>
+
+  <!-- Vercel Web Analytics (cookieless) -->
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
   <link rel="stylesheet" href="styles/tokens.css?v=20260524"/>
   <link rel="stylesheet" href="styles/site.css?v=20260612-images"/>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -97,13 +136,13 @@
 
   <script src="scripts/routes.js?v=20260615-insights"></script>
   <script type="text/babel" src="scripts/tweaks-panel.jsx?v=20260523"></script>
-  <script type="text/babel" src="scripts/chrome.jsx?v=20260615-outsource"></script>
+  <script type="text/babel" src="scripts/chrome.jsx?v=20260616-analytics"></script>
   <script type="text/babel" src="scripts/page-home.jsx?v=20260615-insights-outsource"></script>
   <script type="text/babel" src="scripts/page-services.jsx?v=20260615-outsource"></script>
   <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260523"></script>
   <script src="scripts/contact-sheet.js?v=20260523"></script>
   <script type="text/babel" src="scripts/page-other.jsx?v=20260615-johncy-role"></script>
-  <script type="text/babel" src="scripts/page-policies.jsx?v=20260615-insights-href"></script>
+  <script type="text/babel" src="scripts/page-policies.jsx?v=20260616-analytics"></script>
 
   <script type="text/babel">
     const { useState, useEffect, useLayoutEffect } = React;
@@ -172,6 +211,14 @@
 
       useEffect(() => {
         applyPageMeta(page, insightSlug);
+        // GA4 single-page-app page_view (GA config has send_page_view:false).
+        if (window.AA_GA_ID && window.gtag) {
+          window.gtag('event', 'page_view', {
+            page_path: window.location.pathname,
+            page_location: window.location.href,
+            page_title: document.title,
+          });
+        }
       }, [page, insightSlug]);
 
       useEffect(() => {
@@ -245,6 +292,7 @@
           <main>{renderPage()}</main>
           <Footer onNav={navigateTo}/>
           <WhatsAppFab/>
+          <CookieConsent onNav={navigateTo}/>
 
           <TweaksPanel title="Tweaks">
             <TweakSection title="Typography">

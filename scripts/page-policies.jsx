@@ -111,7 +111,7 @@ function PrivacyPolicyPage({ onNav }) {
             'A free-text description of the engagement, deliverable or query',
             'Any attachments you choose to send (CV, scoping note, etc.)',
           ]}/>
-          <P><strong>Technical information collected automatically</strong> — when you visit the site, our hosting provider and analytics systems may log standard request metadata: IP address, user-agent, referring URL, pages viewed, and timestamps. We do not place advertising cookies and we do not build behavioural profiles.</P>
+          <P><strong>Technical information collected automatically</strong> — when you visit the site, our hosting provider and analytics systems may log standard request metadata: IP address, user-agent, referring URL, pages viewed, and timestamps. We use privacy-focused, cookieless Vercel Web Analytics to measure aggregate traffic. Where enabled, we also use Google Analytics 4 (with IP anonymisation) for more detailed traffic analysis — it sets analytics cookies and is loaded only after you accept our cookie banner. We do not use advertising or cross-site tracking cookies.</P>
         </PolicySection>
 
         <PolicySection n={3} title="Why we use it (purpose)" id="purpose">
@@ -140,7 +140,7 @@ function PrivacyPolicyPage({ onNav }) {
           <P>We share information only with:</P>
           <PolicyList items={[
             'Members of the firm who need it to respond to your enquiry or deliver the engagement',
-            'Third-party processors that operate strictly on our instructions — currently our website hosting provider (Vercel Inc., USA), our email provider, and where engaged, a contact-form submission service',
+            'Third-party processors that operate strictly on our instructions — currently our website hosting and cookieless analytics provider (Vercel Inc., USA), our email provider, where you consent our analytics provider (Google LLC, USA, for Google Analytics 4), and where engaged, a contact-form submission service',
             'Government authorities, regulators or courts where disclosure is required by UAE law',
             'Professional advisors (legal, audit) bound by confidentiality',
           ]}/>
@@ -175,7 +175,9 @@ function PrivacyPolicyPage({ onNav }) {
         </PolicySection>
 
         <PolicySection n={9} title="Cookies" id="cookies">
-          <P>The website uses only the strictly necessary cookies and equivalent storage required for the site to function. It does not use advertising or cross-site tracking cookies.</P>
+          <P><strong>Strictly necessary</strong> — cookies and equivalent storage required for the site to function, and to remember your cookie choice. These are always on.</P>
+          <P><strong>Analytics</strong> — we measure aggregate traffic with Vercel Web Analytics, which is cookieless. Where Google Analytics 4 is enabled, it sets analytics cookies and is loaded only after you accept our cookie banner; until then, analytics storage is denied by default (Google Consent Mode). We do not use advertising or cross-site tracking cookies.</P>
+          <P>You can change or withdraw your analytics choice at any time by clearing this site&rsquo;s storage in your browser, which will show the cookie banner again on your next visit.</P>
         </PolicySection>
 
         <PolicySection n={10} title="Changes to this policy" id="changes">
