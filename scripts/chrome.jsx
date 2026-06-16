@@ -210,7 +210,8 @@ function Footer({ onNav }) {
           <div>
             <img
               src="assets/logos/authentic-accounting-full.png"
-              alt="Authentic Accounting"
+              alt="Authentic Accounting and Bookkeeping L.L.C"
+              loading="lazy"
               style={{ height: 56 }} />
 
             <div style={{ marginTop: 18, fontFamily: 'var(--aa-font-display)', fontSize: 18, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--aa-cyan)' }}>

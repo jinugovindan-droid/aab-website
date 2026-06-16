@@ -200,6 +200,97 @@
     if (el) el.setAttribute('content', content);
   }
 
+  // ---- Per-page structured data (JSON-LD) ----
+  const BREADCRUMB_LABELS = {
+    home: 'Home', services: 'Services', 'service-vat': 'VAT Compliance',
+    'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
+    insights: 'Insights', careers: 'Careers', contact: 'Contact',
+    privacy: 'Privacy Policy', terms: 'Terms of Use',
+  };
+
+  const MONTHS = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
+  function isoDate(d) {
+    const m = /^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/.exec(d || '');
+    if (!m) return undefined;
+    return m[3] + '-' + (MONTHS[m[2]] || '01') + '-' + m[1].padStart(2, '0');
+  }
+
+  const ORG = {
+    '@type': 'Organization',
+    name: 'Authentic Accounting and Bookkeeping L.L.C',
+    url: SITE_ORIGIN + '/',
+    logo: { '@type': 'ImageObject', url: SITE_ORIGIN + '/assets/logos/authentic-accounting-full.png' },
+  };
+
+  function breadcrumbChain(page, slug) {
+    const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
+    if (page === 'home') return items;
+    if (page === 'service-vat') {
+      items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
+      items.push({ name: BREADCRUMB_LABELS['service-vat'], url: fullUrlForPage('service-vat') });
+      return items;
+    }
+    if (page === 'insight') {
+      const a = insightBySlug(slug) || DEFAULT_INSIGHT;
+      items.push({ name: 'Insights', url: SITE_ORIGIN + PAGE_TO_PATH.insights });
+      items.push({ name: a.title.replace(/\.\s*$/, ''), url: SITE_ORIGIN + pathForInsight(a.slug) });
+      return items;
+    }
+    if (BREADCRUMB_LABELS[page]) items.push({ name: BREADCRUMB_LABELS[page], url: fullUrlForPage(page) });
+    return items;
+  }
+
+  function buildJsonLd(page, slug) {
+    const blocks = [];
+    const chain = breadcrumbChain(page, slug);
+    if (chain.length > 1) {
+      blocks.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: chain.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.url })),
+      });
+    }
+    if (page === 'insight') {
+      const a = insightBySlug(slug) || DEFAULT_INSIGHT;
+      const block = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: a.title.replace(/\.\s*$/, ''),
+        description: a.excerpt,
+        author: { '@type': 'Person', name: a.author },
+        publisher: ORG,
+        mainEntityOfPage: SITE_ORIGIN + pathForInsight(a.slug),
+      };
+      const iso = isoDate(a.date);
+      if (iso) { block.datePublished = iso; block.dateModified = iso; }
+      blocks.push(block);
+    }
+    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing') {
+      const meta = PAGE_SEO[page] || {};
+      blocks.push({
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: (meta.title || '').split('|')[0].split('—')[0].trim(),
+        description: meta.description,
+        serviceType: BREADCRUMB_LABELS[page] || 'Accounting services',
+        areaServed: { '@type': 'Country', name: 'United Arab Emirates' },
+        provider: ORG,
+      });
+    }
+    return blocks;
+  }
+
+  function applyStructuredData(page, slug) {
+    document.querySelectorAll('script[data-aa-jsonld]').forEach((el) => el.remove());
+    buildJsonLd(page, slug).forEach((obj) => {
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.setAttribute('data-aa-jsonld', '');
+      s.textContent = JSON.stringify(obj);
+      document.head.appendChild(s);
+    });
+  }
+
   function applyPageMeta(page, slug) {
     const id = VALID_PAGES.has(page) ? page : 'home';
     let meta, canonical;
@@ -229,6 +320,8 @@
     setMetaContent('meta[property="og:description"]', meta.description);
     setMetaContent('meta[name="twitter:title"]', meta.title);
     setMetaContent('meta[name="twitter:description"]', meta.description);
+
+    applyStructuredData(id, slug);
   }
 
   function redirectLegacyHash() {
