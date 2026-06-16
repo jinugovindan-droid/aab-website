@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aaccounting.me/sitemap.xml
+Sitemap: https://www.aaccounting.me/sitemap.xml

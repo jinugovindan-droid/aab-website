@@ -1,5 +1,5 @@
 (function () {
-  const SITE_ORIGIN = 'https://aaccounting.me';
+  const SITE_ORIGIN = 'https://www.aaccounting.me';
   const INSIGHTS_BASE = '/insights';
 
   const PAGE_TO_PATH = {
