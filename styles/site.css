@@ -433,21 +433,12 @@ body.no-scroll { overflow: hidden; }
   .aa-stack-sm { grid-template-columns: 1fr !important; gap: 24px !important; }
   .aa-hide-sm { display: none !important; }
 
-  /* Auto-stack inline-styled section grids that split into equal-ish columns.
-     React renders style props as the HTML style attribute, kebab-cased — so
-     these substring selectors catch grids like "1fr 1fr", "repeat(3, 1fr)" etc. */
-  main [style*="grid-template-columns: 1fr 1fr"],
-  main [style*="grid-template-columns: 1fr 1.2fr"],
-  main [style*="grid-template-columns: 1fr 1.4fr"],
-  main [style*="grid-template-columns: 1fr 1.6fr"],
-  main [style*="grid-template-columns: 1.2fr 1fr"],
-  main [style*="grid-template-columns: 1.25fr 1fr"],
-  main [style*="grid-template-columns: 1.4fr 1fr"],
-  main [style*="grid-template-columns: 1.5fr 1fr"],
-  main [style*="grid-template-columns: 1.6fr 1fr"],
-  main [style*="grid-template-columns: repeat(2, 1fr)"],
-  main [style*="grid-template-columns: repeat(3, 1fr)"],
-  main [style*="grid-template-columns: repeat(4, 1fr)"] {
+  /* Auto-stack EVERY inline-styled grid into a single column on phones.
+     React renders style props as the HTML style attribute, so this substring
+     selector catches every grid — equal columns (1fr 1fr, repeat(3, 1fr)) AND
+     asymmetric/custom ones (1fr auto, 80px 1.2fr 2fr 1fr, 48px 1.1fr 2fr 24px)
+     that previously stayed multi-column and overlapped. */
+  main [style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
     gap: 24px !important;
   }
