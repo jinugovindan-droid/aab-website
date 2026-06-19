@@ -448,8 +448,19 @@ body.no-scroll { overflow: hidden; }
   /* Prevent any horizontal page scroll on mobile */
   html, body { overflow-x: hidden; }
 
-  /* But preserve the wizard's 3-step header — keep it visually as steps */
-  /* (no override needed; design is fine stacked too) */
+  /* Wide data tables: scroll horizontally instead of being clipped off-screen.
+     (The page has overflow-x:hidden, so without this the right-hand columns are
+     silently cut off on phones.) */
+  main table.aa-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Comfortable touch targets: grow small inline buttons (insights filters,
+     contact-wizard options, etc.) to a ~42px tap height. */
+  main button { min-height: 42px; }
 }
 
 /* Tablet: 4-cols become 2-cols */
