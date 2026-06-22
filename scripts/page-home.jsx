@@ -523,22 +523,22 @@ function NumbersBand() {
             </h2>
           </div>
           <div className="muted" style={{ fontSize: 13, maxWidth: 320 }}>
-            Trailing-twelve-month figures, audited by our internal quality function. Updated quarterly.
+            Our UAE practice at a glance.
           </div>
         </div>
         <div className="statline">
           <div className="statline__inner" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
             <div className="statline__cell">
-              <div className="statline__num">1,247</div>
-              <div className="statline__lbl">Engagements TTM</div>
+              <div className="statline__num">1,200<small>+</small></div>
+              <div className="statline__lbl">Engagements a year</div>
             </div>
             <div className="statline__cell">
-              <div className="statline__num">98.4<small>%</small></div>
-              <div className="statline__lbl">Filings on first review</div>
+              <div className="statline__num">7</div>
+              <div className="statline__lbl">Emirates served</div>
             </div>
             <div className="statline__cell">
-              <div className="statline__num">AED 4.2<small>B</small></div>
-              <div className="statline__lbl">Assets under engagement</div>
+              <div className="statline__num">2017</div>
+              <div className="statline__lbl">Practising since</div>
             </div>
           </div>
         </div>
@@ -717,7 +717,6 @@ function HomePage({ onNav }) {
       <HomeApproach />
       <NumbersBand />
       <HomeInsights onNav={onNav} />
-      <HomeQuote />
       <HomeCTA onNav={onNav} />
     </div>
   );
