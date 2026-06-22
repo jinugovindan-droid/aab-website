@@ -385,6 +385,12 @@ function CookieConsent({ onNav }) {
 // day-count to the next milestone; whole bar links to the briefing; dismissible
 // for the session; pauses on hover; respects prefers-reduced-motion (via CSS).
 function EInvoiceMarquee({ onNav }) {
+  // Phased deadlines — UAE MoF Ministerial Decisions 243 & 244 of 2025.
+  const TIERS = [
+    { who: 'AED 50M+', asp: '30 Oct 2026', live: '1 Jan 2027', goISO: '2027-01-01T00:00:00' },
+    { who: 'Under AED 50M', asp: '31 Mar 2027', live: '1 Jul 2027', goISO: '2027-07-01T00:00:00' },
+    { who: 'Government', asp: '31 Mar 2027', live: '1 Oct 2027', goISO: '2027-10-01T00:00:00' },
+  ];
   const [visible, setVisible] = useState(false);
   const [dl, setDl] = useState(null); // nearest upcoming go-live: { n, who, date }
 
@@ -392,13 +398,9 @@ function EInvoiceMarquee({ onNav }) {
     try { if (sessionStorage.getItem('aa-einv-marquee') === 'closed') return; } catch (e) {}
     const now = new Date();
     const dleft = (iso) => Math.ceil((new Date(iso) - now) / 86400000);
-    // Phased go-live dates — UAE MoF Ministerial Decisions 243 & 244 of 2025.
-    const tiers = [
-      { n: dleft('2027-01-01T00:00:00'), who: 'Large firms (AED 50M+)', date: '1 Jan 2027' },
-      { n: dleft('2027-07-01T00:00:00'), who: 'Businesses under AED 50M', date: '1 Jul 2027' },
-      { n: dleft('2027-10-01T00:00:00'), who: 'Government entities', date: '1 Oct 2027' },
-    ];
-    setDl(tiers.find((t) => t.n > 0) || null); // nearest deadline still ahead
+    let next = null;
+    for (const t of TIERS) { const n = dleft(t.goISO); if (n > 0) { next = { n, who: t.who, date: t.live }; break; } }
+    setDl(next); // nearest go-live still ahead
     setVisible(true);
     document.body.classList.add('has-marquee');
     return () => document.body.classList.remove('has-marquee');
@@ -418,13 +420,17 @@ function EInvoiceMarquee({ onNav }) {
   const group = (key) => (
     <div className="aa-marquee__group" key={key} aria-hidden={key === 'b' ? 'true' : undefined}>
       <span className="aa-marquee__seg"><span className="aa-marquee__pill">⏳ Deadline</span></span>
-      <span className="aa-marquee__seg">UAE e-invoicing is phased by revenue</span>
+      <span className="aa-marquee__seg">UAE e-invoicing · phased by revenue</span>
       <span className="aa-marquee__dot">·</span>
       {dl
-        ? <span className="aa-marquee__seg">{dl.who} go live in <span className="aa-marquee__num">{dl.n.toLocaleString()}</span> days ({dl.date})</span>
+        ? <span className="aa-marquee__seg"><span>Next go-live: {dl.who} in <b className="aa-marquee__num">{dl.n.toLocaleString()}</b> days ({dl.date})</span></span>
         : <span className="aa-marquee__seg">Phase 1 is now live</span>}
-      <span className="aa-marquee__dot">·</span>
-      <span className="aa-marquee__seg">Tiers — AED 50M+: 1 Jan 2027 · under AED 50M: 1 Jul 2027 · Government: 1 Oct 2027</span>
+      {TIERS.map((t) => (
+        <React.Fragment key={t.who}>
+          <span className="aa-marquee__dot">·</span>
+          <span className="aa-marquee__seg"><span>{t.who} — appoint ASP by <b style={{ color: '#fff', fontWeight: 700 }}>{t.asp}</b>, go-live {t.live}</span></span>
+        </React.Fragment>
+      ))}
       <span className="aa-marquee__dot">·</span>
       <span className="aa-marquee__seg aa-marquee__cta">Which deadline is yours? Read the briefing →</span>
     </div>
