@@ -439,7 +439,7 @@ function InsightArticlePage({ onNav, slug }) {
             <div style={{ marginTop: 28, display: 'flex', gap: 24, fontSize: 13, color: 'rgba(255,255,255,0.75)', borderTop: '1px solid rgba(255,255,255,0.2)', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '16px 0', flexWrap: 'wrap' }}>
               <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Author</span> · <strong style={{ color: '#fff' }}>{article.author}</strong></div>
               {article.reviewer && <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Reviewed</span> · {article.reviewer}</div>}
-              {article.reference && <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Reference</span> · <span className="mono">{article.reference}</span></div>}
+              {article.reference && <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Sources</span> · {article.reference}</div>}
             </div>
           </div>
         </section>
