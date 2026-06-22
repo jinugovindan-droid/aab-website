@@ -22,7 +22,7 @@ const HERO_SLIDES = [
     bgAlt: 'Crystal chess king on polished marble, Dubai night skyline with Burj Khalifa behind',
   },
   {
-    eyebrow: 'Phase 1 go-live · 1 January 2027',
+    eyebrow: 'Phase 1 · AED 50M+ · go-live 1 January 2027',
     title: (
       <>
         UAE <span style={{ color: 'var(--aa-cyan)' }}>E-Invoicing</span><br />
@@ -30,7 +30,7 @@ const HERO_SLIDES = [
         Are you ready?
       </>
     ),
-    lead: 'The Ministry of Finance is rolling out a mandatory OpenPeppol-based, 5-corner e-invoicing system for all B2B and B2G transactions. First ASP-selection deadline lands 30 October 2026 — we help you map readiness, select an ASP, and go live with zero gaps.',
+    lead: 'The Ministry of Finance is rolling out a mandatory OpenPeppol-based, 5-corner e-invoicing system for all B2B and B2G transactions — phased by revenue. Large businesses (AED 50M+) go live 1 January 2027; smaller firms and Government follow through 2027. We help you map readiness, select an ASP, and go live with zero gaps.',
     ctaPrimary:   { label: 'Read the briefing',       page: 'e-invoicing' },
     ctaSecondary: { label: 'Book a readiness call',   page: 'contact' },
     bgImage: 'assets/images/chess-knight-mist.jpg',

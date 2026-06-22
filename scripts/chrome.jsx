@@ -386,18 +386,19 @@ function CookieConsent({ onNav }) {
 // for the session; pauses on hover; respects prefers-reduced-motion (via CSS).
 function EInvoiceMarquee({ onNav }) {
   const [visible, setVisible] = useState(false);
-  const [days, setDays] = useState(null);
-  const [label, setLabel] = useState('');
+  const [dl, setDl] = useState(null); // nearest upcoming go-live: { n, who, date }
 
   useEffect(() => {
     try { if (sessionStorage.getItem('aa-einv-marquee') === 'closed') return; } catch (e) {}
     const now = new Date();
     const dleft = (iso) => Math.ceil((new Date(iso) - now) / 86400000);
-    const asp = dleft('2026-10-30T00:00:00');   // ASP appointment deadline
-    const live = dleft('2027-01-01T00:00:00');  // Phase 1 go-live
-    if (asp > 0) { setDays(asp); setLabel('days to appoint your ASP'); }
-    else if (live > 0) { setDays(live); setLabel('days to Phase 1 go-live'); }
-    else { setDays(null); setLabel(''); }
+    // Phased go-live dates — UAE MoF Ministerial Decisions 243 & 244 of 2025.
+    const tiers = [
+      { n: dleft('2027-01-01T00:00:00'), who: 'Large firms (AED 50M+)', date: '1 Jan 2027' },
+      { n: dleft('2027-07-01T00:00:00'), who: 'Businesses under AED 50M', date: '1 Jul 2027' },
+      { n: dleft('2027-10-01T00:00:00'), who: 'Government entities', date: '1 Oct 2027' },
+    ];
+    setDl(tiers.find((t) => t.n > 0) || null); // nearest deadline still ahead
     setVisible(true);
     document.body.classList.add('has-marquee');
     return () => document.body.classList.remove('has-marquee');
@@ -417,23 +418,21 @@ function EInvoiceMarquee({ onNav }) {
   const group = (key) => (
     <div className="aa-marquee__group" key={key} aria-hidden={key === 'b' ? 'true' : undefined}>
       <span className="aa-marquee__seg"><span className="aa-marquee__pill">⏳ Deadline</span></span>
-      <span className="aa-marquee__seg">UAE e-invoicing is coming</span>
+      <span className="aa-marquee__seg">UAE e-invoicing is phased by revenue</span>
       <span className="aa-marquee__dot">·</span>
-      {days != null
-        ? <span className="aa-marquee__seg"><span className="aa-marquee__num">{days.toLocaleString()}</span>&nbsp;{label}</span>
+      {dl
+        ? <span className="aa-marquee__seg">{dl.who} go live in <span className="aa-marquee__num">{dl.n.toLocaleString()}</span> days ({dl.date})</span>
         : <span className="aa-marquee__seg">Phase 1 is now live</span>}
       <span className="aa-marquee__dot">·</span>
-      <span className="aa-marquee__seg">Phase 1 live 1 Jan 2027 · Peppol 5-corner</span>
+      <span className="aa-marquee__seg">Tiers — AED 50M+: 1 Jan 2027 · under AED 50M: 1 Jul 2027 · Government: 1 Oct 2027</span>
       <span className="aa-marquee__dot">·</span>
-      <span className="aa-marquee__seg">Is your finance system ready?</span>
-      <span className="aa-marquee__dot">·</span>
-      <span className="aa-marquee__seg aa-marquee__cta">Read the briefing →</span>
+      <span className="aa-marquee__seg aa-marquee__cta">Which deadline is yours? Read the briefing →</span>
     </div>
   );
 
   return (
     <div className="aa-marquee" role="link" tabIndex={0}
-      aria-label={'UAE e-invoicing: ' + (days != null ? days + ' ' + label + '. ' : '') + 'Read the briefing.'}
+      aria-label={'UAE e-invoicing deadlines, phased by revenue' + (dl ? '. ' + dl.who + ' go live in ' + dl.n + ' days, ' + dl.date : '') + '. Read the briefing.'}
       onClick={go} onKeyDown={onKey}>
       <div className="aa-marquee__track">{group('a')}{group('b')}</div>
       <button className="aa-marquee__close" aria-label="Dismiss e-invoicing notice" onClick={close}>×</button>
