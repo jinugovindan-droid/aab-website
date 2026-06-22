@@ -387,20 +387,22 @@ function CookieConsent({ onNav }) {
 function EInvoiceMarquee({ onNav }) {
   // Phased deadlines — UAE MoF Ministerial Decisions 243 & 244 of 2025.
   const TIERS = [
-    { who: 'AED 50M+', asp: '30 Oct 2026', live: '1 Jan 2027', goISO: '2027-01-01T00:00:00' },
-    { who: 'Under AED 50M', asp: '31 Mar 2027', live: '1 Jul 2027', goISO: '2027-07-01T00:00:00' },
-    { who: 'Government', asp: '31 Mar 2027', live: '1 Oct 2027', goISO: '2027-10-01T00:00:00' },
+    { who: 'AED 50M+', asp: '30 Oct 2026', aspISO: '2026-10-30T00:00:00', live: '1 Jan 2027', goISO: '2027-01-01T00:00:00' },
+    { who: 'Under AED 50M', asp: '31 Mar 2027', aspISO: '2027-03-31T00:00:00', live: '1 Jul 2027', goISO: '2027-07-01T00:00:00' },
+    { who: 'Government', asp: '31 Mar 2027', aspISO: '2027-03-31T00:00:00', live: '1 Oct 2027', goISO: '2027-10-01T00:00:00' },
   ];
   const [visible, setVisible] = useState(false);
+  const [rows, setRows] = useState([]);
   const [dl, setDl] = useState(null); // nearest upcoming go-live: { n, who, date }
 
   useEffect(() => {
     try { if (sessionStorage.getItem('aa-einv-marquee') === 'closed') return; } catch (e) {}
     const now = new Date();
     const dleft = (iso) => Math.ceil((new Date(iso) - now) / 86400000);
-    let next = null;
-    for (const t of TIERS) { const n = dleft(t.goISO); if (n > 0) { next = { n, who: t.who, date: t.live }; break; } }
-    setDl(next); // nearest go-live still ahead
+    const r = TIERS.map((t) => ({ who: t.who, asp: t.asp, aspDays: dleft(t.aspISO), live: t.live, liveDays: dleft(t.goISO) }));
+    setRows(r);
+    const next = r.find((x) => x.liveDays > 0);
+    setDl(next ? { n: next.liveDays, who: next.who, date: next.live } : null);
     setVisible(true);
     document.body.classList.add('has-marquee');
     return () => document.body.classList.remove('has-marquee');
@@ -416,6 +418,7 @@ function EInvoiceMarquee({ onNav }) {
     setVisible(false);
   };
   const onKey = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } };
+  const dcount = (n) => <b className="aa-marquee__num">{n > 0 ? '(' + n.toLocaleString() + ' days)' : '(now due)'}</b>;
 
   const group = (key) => (
     <div className="aa-marquee__group" key={key} aria-hidden={key === 'b' ? 'true' : undefined}>
@@ -425,10 +428,10 @@ function EInvoiceMarquee({ onNav }) {
       {dl
         ? <span className="aa-marquee__seg"><span>Next go-live: {dl.who} in <b className="aa-marquee__num">{dl.n.toLocaleString()}</b> days ({dl.date})</span></span>
         : <span className="aa-marquee__seg">Phase 1 is now live</span>}
-      {TIERS.map((t) => (
-        <React.Fragment key={t.who}>
+      {rows.map((r) => (
+        <React.Fragment key={r.who}>
           <span className="aa-marquee__dot">·</span>
-          <span className="aa-marquee__seg"><span>{t.who} — appoint ASP by <b style={{ color: '#fff', fontWeight: 700 }}>{t.asp}</b>, go-live {t.live}</span></span>
+          <span className="aa-marquee__seg"><span>{r.who} — appoint ASP by <b style={{ color: '#fff', fontWeight: 700 }}>{r.asp}</b> {dcount(r.aspDays)}, go-live {r.live} {dcount(r.liveDays)}</span></span>
         </React.Fragment>
       ))}
       <span className="aa-marquee__dot">·</span>

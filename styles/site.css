@@ -629,7 +629,7 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
 .aa-marquee:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: -2px; }
 /* !important overrides the site-wide "* { animation: none }" reduced-motion reset
    in tokens.css — the ticker is an intentional exception (dismiss × = WCAG hide). */
-.aa-marquee__track { display: flex; flex-wrap: nowrap; will-change: transform; animation: aa-marquee 48s linear infinite !important; }
+.aa-marquee__track { display: flex; flex-wrap: nowrap; will-change: transform; animation: aa-marquee 58s linear infinite !important; }
 .aa-marquee:hover .aa-marquee__track,
 .aa-marquee:focus-within .aa-marquee__track { animation-play-state: paused !important; }
 @keyframes aa-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }

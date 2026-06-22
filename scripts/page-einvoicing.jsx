@@ -3,26 +3,29 @@
 const { pathForPage } = window.AARoutes;
 
 function EInvoicingPage({ onNav }) {
+  const daysTo = (iso) => Math.ceil((new Date(iso + 'T00:00:00') - new Date()) / 86400000);
+  const dlabel = (iso) => { const n = daysTo(iso); return n > 0 ? n.toLocaleString() + ' days left' : 'now due'; };
+
   const phases = [
     {
       label: 'Phase 1 — Large Business',
       qual: 'Annual revenue ≥ AED 50,000,000',
-      asp: '30 Oct 2026',
-      ready: '1 Jan 2027',
+      asp: '30 Oct 2026', aspISO: '2026-10-30',
+      ready: '1 Jan 2027', readyISO: '2027-01-01',
       key: true,
     },
     {
       label: 'Phase 2 — Small / Medium Business',
       qual: 'Annual revenue < AED 50,000,000',
-      asp: '31 Mar 2027',
-      ready: '1 Jul 2027',
+      asp: '31 Mar 2027', aspISO: '2027-03-31',
+      ready: '1 Jul 2027', readyISO: '2027-07-01',
       key: false,
     },
     {
       label: 'Phase 3 — All Government Entities',
       qual: 'In scope',
-      asp: '31 Mar 2027',
-      ready: '1 Oct 2027',
+      asp: '31 Mar 2027', aspISO: '2027-03-31',
+      ready: '1 Oct 2027', readyISO: '2027-10-01',
       key: false,
     },
   ];
@@ -95,8 +98,8 @@ function EInvoicingPage({ onNav }) {
                   ['Exchange model', '5-corner'],
                   ['Scope', 'B2B + B2G'],
                   ['Issued via', 'Accredited ASP only'],
-                  ['First ASP deadline', '30 Oct 2026'],
-                  ['Phase 1 go-live', '1 Jan 2027'],
+                  ['First ASP deadline', '30 Oct 2026 · ' + dlabel('2026-10-30')],
+                  ['Phase 1 go-live', '1 Jan 2027 · ' + dlabel('2027-01-01')],
                 ].map(([k, v]) => (
                   <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
@@ -155,8 +158,14 @@ function EInvoicingPage({ onNav }) {
                     <span style={{ display: 'block', fontWeight: 600, color: 'var(--aa-charcoal)' }}>{p.label}</span>
                     <span style={{ display: 'block', color: 'var(--aa-steel-700)', fontSize: 13, marginTop: 4 }}>{p.qual}</span>
                   </td>
-                  <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>{p.asp}</td>
-                  <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>{p.ready}</td>
+                  <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>
+                    {p.asp}
+                    <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-700)', marginTop: 2 }}>{dlabel(p.aspISO)}</span>
+                  </td>
+                  <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>
+                    {p.ready}
+                    <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-700)', marginTop: 2 }}>{dlabel(p.readyISO)}</span>
+                  </td>
                 </tr>
               ))}
             </tbody>
