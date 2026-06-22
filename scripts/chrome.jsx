@@ -381,4 +381,64 @@ function CookieConsent({ onNav }) {
   );
 }
 
-Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, CookieConsent, useScrollReveal, LucideHost });
+// E-invoicing deadline ticker — sticky bottom marquee on every page. Live
+// day-count to the next milestone; whole bar links to the briefing; dismissible
+// for the session; pauses on hover; respects prefers-reduced-motion (via CSS).
+function EInvoiceMarquee({ onNav }) {
+  const [visible, setVisible] = useState(false);
+  const [days, setDays] = useState(null);
+  const [label, setLabel] = useState('');
+
+  useEffect(() => {
+    try { if (sessionStorage.getItem('aa-einv-marquee') === 'closed') return; } catch (e) {}
+    const now = new Date();
+    const dleft = (iso) => Math.ceil((new Date(iso) - now) / 86400000);
+    const asp = dleft('2026-10-30T00:00:00');   // ASP appointment deadline
+    const live = dleft('2027-01-01T00:00:00');  // Phase 1 go-live
+    if (asp > 0) { setDays(asp); setLabel('days to appoint your ASP'); }
+    else if (live > 0) { setDays(live); setLabel('days to Phase 1 go-live'); }
+    else { setDays(null); setLabel(''); }
+    setVisible(true);
+    document.body.classList.add('has-marquee');
+    return () => document.body.classList.remove('has-marquee');
+  }, []);
+
+  if (!visible) return null;
+
+  const go = () => onNav('e-invoicing');
+  const close = (e) => {
+    e.stopPropagation();
+    try { sessionStorage.setItem('aa-einv-marquee', 'closed'); } catch (e2) {}
+    document.body.classList.remove('has-marquee');
+    setVisible(false);
+  };
+  const onKey = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } };
+
+  const group = (key) => (
+    <div className="aa-marquee__group" key={key} aria-hidden={key === 'b' ? 'true' : undefined}>
+      <span className="aa-marquee__seg"><span className="aa-marquee__pill">⏳ Deadline</span></span>
+      <span className="aa-marquee__seg">UAE e-invoicing is coming</span>
+      <span className="aa-marquee__dot">·</span>
+      {days != null
+        ? <span className="aa-marquee__seg"><span className="aa-marquee__num">{days.toLocaleString()}</span>&nbsp;{label}</span>
+        : <span className="aa-marquee__seg">Phase 1 is now live</span>}
+      <span className="aa-marquee__dot">·</span>
+      <span className="aa-marquee__seg">Phase 1 live 1 Jan 2027 · Peppol 5-corner</span>
+      <span className="aa-marquee__dot">·</span>
+      <span className="aa-marquee__seg">Is your finance system ready?</span>
+      <span className="aa-marquee__dot">·</span>
+      <span className="aa-marquee__seg aa-marquee__cta">Read the briefing →</span>
+    </div>
+  );
+
+  return (
+    <div className="aa-marquee" role="link" tabIndex={0}
+      aria-label={'UAE e-invoicing: ' + (days != null ? days + ' ' + label + '. ' : '') + 'Read the briefing.'}
+      onClick={go} onKeyDown={onKey}>
+      <div className="aa-marquee__track">{group('a')}{group('b')}</div>
+      <button className="aa-marquee__close" aria-label="Dismiss e-invoicing notice" onClick={close}>×</button>
+    </div>
+  );
+}
+
+Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, CookieConsent, EInvoiceMarquee, useScrollReveal, LucideHost });

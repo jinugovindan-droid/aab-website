@@ -617,3 +617,47 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
   font-weight: 600;
   color: var(--aa-steel);
 }
+
+/* ---------- E-invoicing deadline ticker (sticky bottom marquee) ---------- */
+.aa-marquee {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  height: 46px; display: flex; align-items: center; overflow: hidden;
+  background: var(--aa-charcoal); color: #fff;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+}
+.aa-marquee:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: -2px; }
+.aa-marquee__track { display: flex; flex-wrap: nowrap; will-change: transform; animation: aa-marquee 36s linear infinite; }
+.aa-marquee:hover .aa-marquee__track,
+.aa-marquee:focus-within .aa-marquee__track { animation-play-state: paused; }
+@keyframes aa-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.aa-marquee__group { display: flex; align-items: center; gap: 36px; padding-right: 36px; padding-left: 36px; white-space: nowrap; }
+.aa-marquee__seg { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; letter-spacing: 0.02em; color: rgba(255,255,255,0.9); }
+.aa-marquee__pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--aa-charcoal); background: var(--aa-cyan); padding: 3px 9px; border-radius: 2px;
+}
+.aa-marquee__num { color: var(--aa-cyan); font-weight: 700; font-family: var(--aa-font-mono, ui-monospace, monospace); }
+.aa-marquee__cta { color: var(--aa-cyan); font-weight: 700; }
+.aa-marquee__dot { color: rgba(255,255,255,0.3); }
+.aa-marquee__close {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 52px; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(90deg, rgba(26,26,46,0), var(--aa-charcoal) 45%);
+  border: 0; color: rgba(255,255,255,0.7); font-size: 22px; line-height: 1; cursor: pointer;
+}
+.aa-marquee__close:hover { color: #fff; }
+
+/* Make room so the fixed bar never hides the footer or the floating controls */
+body.has-marquee { padding-bottom: 46px; }
+body.has-marquee .aa-wa-fab { bottom: 64px; }
+body.has-marquee div[aria-label="Cookie consent"] { bottom: 64px !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .aa-marquee__track { animation: none; }
+}
+@media (max-width: 720px) {
+  .aa-marquee__seg { font-size: 12px; }
+  .aa-marquee__group { gap: 28px; padding-right: 28px; padding-left: 28px; }
+}
