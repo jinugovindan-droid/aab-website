@@ -36,7 +36,7 @@ function TopNav({ active, onNav, sticky = true }) {
       <header className="topnav" style={{ position: sticky ? 'sticky' : 'static' }}>
         <div className="container topnav__inner">
           <a className="topnav__logo" href={pathForPage('home')} onClick={(e) => { e.preventDefault(); go('home'); }} aria-label="Authentic Accounting — Home">
-            <img src="assets/logos/aab-short-eng.png" alt="Authentic Accounting" />
+            <img src="assets/logos/aab-short-eng.png?v=2" alt="Authentic Accounting" />
           </a>
           <nav className="topnav__list" aria-label="Primary">
             {NAV_ITEMS.map((it) => (
