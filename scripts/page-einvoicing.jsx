@@ -6,6 +6,15 @@ function EInvoicingPage({ onNav }) {
   const daysTo = (iso) => Math.ceil((new Date(iso + 'T00:00:00') - new Date()) / 86400000);
   const dlabel = (iso) => { const n = daysTo(iso); return n > 0 ? n.toLocaleString() + ' days left' : 'now due'; };
 
+  // Pre-fill the contact wizard with E-Invoicing so it skips step 1 → lower friction.
+  const bookReadiness = () => {
+    try {
+      sessionStorage.setItem('aa_intent_service', 'E-Invoicing support');
+      sessionStorage.setItem('aa_scroll_target', 'aa-contact-wizard');
+    } catch (e) {}
+    onNav('contact');
+  };
+
   const phases = [
     {
       label: 'Phase 1 — Large Business',
@@ -80,7 +89,7 @@ function EInvoicingPage({ onNav }) {
                 phased deadlines below.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={bookReadiness}>
                   Book a readiness consultation
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -243,7 +252,7 @@ function EInvoicingPage({ onNav }) {
             We&rsquo;ll tell you exactly what your transition requires.
           </p>
           <div style={{ display: 'flex', gap: 12, marginTop: 32, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button className="btn btn--primary" onClick={() => onNav('contact')}>
+            <button className="btn btn--primary" onClick={bookReadiness}>
               Book a readiness consultation
               <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
             </button>

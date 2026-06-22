@@ -435,13 +435,13 @@ function EInvoiceMarquee({ onNav }) {
         </React.Fragment>
       ))}
       <span className="aa-marquee__dot">·</span>
-      <span className="aa-marquee__seg aa-marquee__cta">Which deadline is yours? Read the briefing →</span>
+      <span className="aa-marquee__seg aa-marquee__cta">Which deadline is yours? Check your deadline →</span>
     </div>
   );
 
   return (
     <div className="aa-marquee" role="link" tabIndex={0}
-      aria-label={'UAE e-invoicing deadlines, phased by revenue' + (dl ? '. ' + dl.who + ' go live in ' + dl.n + ' days, ' + dl.date : '') + '. Read the briefing.'}
+      aria-label={'UAE e-invoicing deadlines, phased by revenue' + (dl ? '. ' + dl.who + ' go live in ' + dl.n + ' days, ' + dl.date : '') + '. Check your deadline.'}
       onClick={go} onKeyDown={onKey}>
       <div className="aa-marquee__track">{group('a')}{group('b')}</div>
       <button className="aa-marquee__close" aria-label="Dismiss e-invoicing notice" onClick={close}>×</button>
