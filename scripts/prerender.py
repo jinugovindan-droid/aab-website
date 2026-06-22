@@ -83,8 +83,8 @@ PAGE_SEO = {
 INSIGHTS = [
     {"slug": "free-zone-qualifying-income", "tag": "Corporate Tax", "date": "12 Apr 2026",
      "title": "Free zone qualifying income — three traps in the UAE free-zone tax rules.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Cabinet Decision 100 of 2023 · Ministerial Decision 265 of 2023 (am. 229 of 2025)",
-     "excerpt": "The UAE’s free-zone tax rules — Cabinet Decision 100 of 2023 and Ministerial Decision 265 of 2023, since updated by Ministerial Decision 229 of 2025 — are being read three different ways by tax teams in the UAE. We unpack the three traps we keep seeing in client positions, and what the consequence is at filing.",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Cabinet Decision 100 of 2023 · Ministerial Decision 229 of 2025 (replacing MD 265 of 2023)",
+     "excerpt": "The UAE’s free-zone tax rules — Cabinet Decision 100 of 2023 and Ministerial Decision 229 of 2025 (which replaced MD 265 of 2023) — are being read three different ways by tax teams in the UAE. We unpack the three traps we keep seeing in client positions, and what the consequence is at filing.",
      "published": True},
     {"slug": "dcf-terminal-values-family-office", "tag": "Valuations", "date": "02 Apr 2026",
      "title": "Why DCF terminal values are mispriced for UAE family-office holdings.",

@@ -146,7 +146,7 @@ function AboutPage({ onNav }) {
               {[
               ['2017', 'Founded', 'Single-partner firm in Dubai. First retained client: a logistics SME.'],
               ['2018', 'VAT launch', 'UAE introduces 5% VAT. We file 70 first-quarter returns.'],
-              ['2024', 'CT readiness', 'UAE Corporate Tax kicks in. We complete 240 first-period registrations.'],
+              ['2024', 'CT readiness', 'UAE Corporate Tax registration and first-period filing get under way across our client base.'],
               ['2026', '1,200+', 'TTM engagements cross 1,200. Serving clients across all seven emirates of the UAE.']].
               map(([yr, t, d]) =>
               <div key={yr}>
@@ -366,7 +366,7 @@ function FreeZoneArticleBody() {
   return (
     <div className="container" style={{ maxWidth: 820, padding: '32px', fontSize: 17, lineHeight: 1.75, color: 'var(--aa-charcoal-800)' }}>
       <p style={{ fontSize: 19, color: 'var(--aa-charcoal)', fontWeight: 500, lineHeight: 1.5 }}>
-        The UAE free-zone tax rules — Cabinet Decision 100 of 2023 and Ministerial Decision 265 of 2023, since updated by Ministerial Decision 229 of 2025 — are being read three different ways by tax teams in the UAE. We unpack the three traps we keep seeing in client positions — and what the consequence is at filing.
+        The UAE free-zone tax rules — Cabinet Decision 100 of 2023 and Ministerial Decision 229 of 2025 (which replaced MD 265 of 2023) — are being read three different ways by tax teams in the UAE. We unpack the three traps we keep seeing in client positions — and what the consequence is at filing.
       </p>
       <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>1. Substance is tested per activity; income is classified per transaction.</h3>
       <p>Two different tests are routinely collapsed into one. Adequate substance is assessed at the level of the free-zone person for each qualifying activity: the core income-generating activities must actually be carried out in the zone, with adequate qualified staff, assets and operating expenditure — or outsourced to a related party in the zone under your supervision. Separately, each stream of income is classified as qualifying or non-qualifying, and that classification is effectively a per-transaction question.</p>
@@ -386,7 +386,7 @@ function FreeZoneArticleBody() {
       <p>A free-zone person is automatically a Qualifying Free Zone Person for a tax period whenever it meets the conditions — there is no yearly election to claim the 0% rate. The only election available is the option to opt out and be taxed under the standard 9% regime. What is sticky is failure: breach the conditions in a period and the person loses QFZP status from the start of that tax period and for the four subsequent tax periods. Boards should treat the conditions as binding for the life of the current commercial structure, not something re-chosen each return.</p>
 
       <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>3. Non-qualifying revenue is capped — watch the de minimis.</h3>
-      <p>Qualifying status is not lost the moment a sliver of non-qualifying revenue appears: the de minimis rule allows non-qualifying revenue up to the lower of 5% of total revenue or AED 5 million. Above that ceiling, QFZP status falls away for the period. The excluded activities are enumerated in Ministerial Decision 265 of 2023, as updated by Ministerial Decision 229 of 2025. In our experience, activities that share a contract, a counterparty or an underlying asset with an excluded activity invite scrutiny — so map them against both the list and your de minimis headroom before signing.</p>
+      <p>Qualifying status is not lost the moment a sliver of non-qualifying revenue appears: the de minimis rule allows non-qualifying revenue up to the lower of 5% of total revenue or AED 5 million. Above that ceiling, QFZP status falls away for the period. The excluded activities are now enumerated in Ministerial Decision 229 of 2025, which replaced Ministerial Decision 265 of 2023. In our experience, activities that share a contract, a counterparty or an underlying asset with an excluded activity invite scrutiny — so map them against both the list and your de minimis headroom before signing.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>What we recommend</div>

@@ -33,7 +33,7 @@ function EInvoicingPage({ onNav }) {
   const concepts = [
     ['OpenPeppol standard', 'Invoices are exchanged as structured data on the international OpenPeppol framework — not as PDFs or scans.', 'network'],
     ['5-corner model', 'Every invoice routes through accredited service providers and the Federal Tax Authority before it reaches your counterparty.', 'route'],
-    ['B2B and B2G scope', 'Mandatory for all business-to-business and business-to-government transactions across the UAE.', 'building-2'],
+    ['B2B and B2G scope', 'Mandatory for business-to-business and business-to-government transactions. Business-to-consumer (B2C) is currently optional / out of scope.', 'building-2'],
     ['Accredited Service Provider', 'Each entity must appoint an ASP to transmit compliant invoices. PDF and paper invoices will no longer be valid.', 'badge-check'],
   ];
 
@@ -75,8 +75,9 @@ function EInvoicingPage({ onNav }) {
                 <strong style={{ color: 'var(--aa-charcoal)' }}>B2G</strong> transactions, built on the international{' '}
                 <strong style={{ color: 'var(--aa-charcoal)' }}>OpenPeppol</strong> standard and a{' '}
                 <strong style={{ color: 'var(--aa-charcoal)' }}>5-corner</strong> exchange model that routes every invoice
-                through accredited service providers and the Federal Tax Authority. Authentic Accounting is fully prepared
-                to guide each client through readiness and compliance — well ahead of the phased deadlines below.
+                through accredited service providers and the Federal Tax Authority, under Ministerial Decisions 243 and 244
+                of 2025. Authentic Accounting guides each client through readiness and compliance — well ahead of the
+                phased deadlines below.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
                 <button className="btn btn--primary" onClick={() => onNav('contact')}>
@@ -177,6 +178,8 @@ function EInvoicingPage({ onNav }) {
             its Accredited Service Provider. <strong style={{ color: 'var(--aa-charcoal)' }}>System readiness</strong> —
             mandatory go-live; from this date, only structured invoices transmitted through an accredited ASP will be
             valid. PDF and paper invoices will not.
+            <br /><br />
+            <span style={{ color: 'var(--aa-steel-700)' }}>Legal basis: Ministerial Decisions 243 and 244 of 2025. This briefing is general guidance, not advice — confirm dates and scope against the latest UAE Ministry of Finance / FTA sources.</span>
           </p>
         </div>
       </section>
@@ -199,7 +202,7 @@ function EInvoicingPage({ onNav }) {
 
             <div>
               <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: 'var(--aa-charcoal-800)' }}>
-                Authentic Accounting is fully ready to support clients end-to-end on the UAE e-invoicing transition.
+                Authentic Accounting supports clients end-to-end on the UAE e-invoicing transition.
                 Our engagement covers:
               </p>
               <ul style={{
