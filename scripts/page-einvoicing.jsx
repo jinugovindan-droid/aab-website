@@ -80,8 +80,10 @@ function EInvoicingPage({ onNav }) {
     doc.text('www.aaccounting.me', W - M, y + 14, { align: 'right' });
     y += 84;
     doc.setTextColor.apply(doc, charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(21);
-    doc.text('UAE E-Invoicing Readiness Report', M, y); y += 22;
+    doc.text('UAE E-Invoicing Readiness Report', M, y); y += 18;
     const reportDate = (() => { try { return new Date().toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'long', year: 'numeric' }); } catch (e) { return new Date().toDateString(); } })();
+    doc.setFont('helvetica', 'italic'); doc.setFontSize(11.5); setC(cyan);
+    doc.text('The invoice that talks to the tax authority.', M, y); y += 18;
     doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, steel);
     doc.text('Prepared for ' + f.company + '  ·  ' + f.name, M, y); y += 15;
     doc.setFontSize(9.5);
@@ -113,70 +115,64 @@ function EInvoicingPage({ onNav }) {
      ['ASP status', lbl[f.asp] || '—'],
      ['ERP / accounting system', f.erp || '—']].forEach(([k, val]) => { ensure(15); setC(steel); doc.text(k + ':', M, y); setC(ink); doc.text(String(val), M + 184, y); y += 15; });
 
-    // ===== PAGE 2 — understanding e-invoicing =====
+    // ===== PAGE 2 — the essentials (catchy, one page) =====
     doc.addPage(); y = 60;
-    heading('Understanding UAE e-invoicing');
-    para('Under the UAE mandate, e-invoicing does not mean emailing a PDF. An e-invoice is a structured electronic file, exchanged machine-to-machine through accredited providers, that your accounting system and your counterparty’s system can both read and validate automatically. From your phase’s go-live date, PDF and paper invoices will no longer be valid for the covered transactions.');
     heading('What is changing');
-    bullet('From documents to data: invoices are issued as structured data built to a defined standard — not as PDFs, scans or paper.');
-    bullet('Issued through an ASP: every in-scope business must appoint an Accredited Service Provider to transmit its invoices.');
-    bullet('Reported to the FTA: the Federal Tax Authority receives the invoice data as part of the exchange.');
-    bullet('Scope: B2B and B2G are mandatory, B2C is currently optional, and free zone companies are included.');
-    heading('The 5-corner (OpenPeppol) model');
-    para('The UAE has adopted the international OpenPeppol framework in a 5-corner configuration. In plain terms: you (corner 1) send the invoice to your ASP (corner 2); your ASP transmits it over the Peppol network to your customer’s ASP (corner 3), who delivers it to your customer (corner 4); and the Federal Tax Authority (corner 5) receives the reporting data. The invoice never travels as an email attachment — it moves as validated data between accredited providers.');
-    heading('What is in scope');
-    para('The mandate covers business-to-business (B2B) and business-to-government (B2G) transactions, across the UAE including free zones, based on annual-revenue thresholds. Business-to-consumer (B2C) invoicing is currently optional. A single B2B or B2G invoice is enough to bring a business into scope, so confirm your transaction mix carefully.');
+    para('From your go-live date, a valid invoice is no longer a PDF or a print-out. It is a structured XML file (Peppol PINT AE), validated and exchanged between accredited providers and reported to the Federal Tax Authority in near-real time — and it must be issued within 14 days of the transaction.', { gap: 10 });
+    bullet('Paper, PDF and email attachments are NOT valid e-invoices — even when the VAT figures are correct.');
+    bullet('B2B and B2G are in scope, including free zones; B2C is out of scope for now. Assume you are in scope unless a specific exclusion applies.');
 
-    // ===== PAGE 3 — the phased timeline =====
-    doc.addPage(); y = 60;
-    heading('The phased timeline');
-    para('The rollout is phased by annual revenue. For every business, two dates matter: the deadline to appoint an Accredited Service Provider, and the go-live date from which structured e-invoicing becomes mandatory.', { gap: 12 });
+    heading('Know your deadline');
     const tblRows = [
       ['Phase 1 — Revenue >= AED 50M', '30 Oct 2026', '1 Jan 2027'],
       ['Phase 2 — Revenue < AED 50M', '31 Mar 2027', '1 Jul 2027'],
       ['Phase 3 — Government entities', '31 Mar 2027', '1 Oct 2027'],
     ];
     const clientIdx = f.isGov ? 2 : (TIER.who.indexOf('50M+') >= 0 ? 0 : 1);
-    const ca = M + 10, cb = M + colW * 0.54, cc = M + colW * 0.78, rh = 30;
-    doc.setFillColor(charcoal[0], charcoal[1], charcoal[2]); doc.rect(M, y, colW, 24, 'F');
+    const ca = M + 10, cb = M + colW * 0.54, cc = M + colW * 0.78, rh = 27;
+    doc.setFillColor(charcoal[0], charcoal[1], charcoal[2]); doc.rect(M, y, colW, 22, 'F');
     doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
-    doc.text('PHASE / WHO', ca, y + 16); doc.text('APPOINT ASP BY', cb, y + 16); doc.text('GO LIVE BY', cc, y + 16);
-    y += 24;
+    doc.text('PHASE / WHO', ca, y + 15); doc.text('APPOINT ASP BY', cb, y + 15); doc.text('GO LIVE BY', cc, y + 15);
+    y += 22;
     tblRows.forEach((r, i) => {
       if (i === clientIdx) { doc.setFillColor(225, 244, 251); doc.rect(M, y, colW, rh, 'F'); }
       doc.setDrawColor(225, 228, 232); doc.setLineWidth(0.5); doc.line(M, y + rh, M + colW, y + rh);
       setC(charcoal); doc.setFont('helvetica', i === clientIdx ? 'bold' : 'normal'); doc.setFontSize(10);
-      doc.text(r[0], ca, y + 19);
+      doc.text(r[0], ca, y + 18);
       doc.setFont('helvetica', 'normal'); setC(ink);
-      doc.text(r[1], cb, y + 19); doc.text(r[2], cc, y + 19);
+      doc.text(r[1], cb, y + 18); doc.text(r[2], cc, y + 18);
       y += rh;
     });
-    y += 18;
-    para('Your row is highlighted. The appoint-ASP date is the deadline to appoint your Accredited Service Provider; the go-live date is when only structured invoices transmitted through an accredited ASP will be valid — PDF and paper will not.', { gap: 12 });
-    heading('Where you fall');
-    para('Based on your inputs, you are in ' + TIER.who + '. You must appoint an ASP by ' + TIER.asp + ' (' + dlabel(TIER.aspISO) + ') and go live by ' + TIER.live + ' (' + dlabel(TIER.liveISO) + '). The appointment deadline is the one that bites: selecting, contracting, integrating and testing an ASP takes time, so treat it as the start of the work, not the finish line.');
+    y += 12;
+    para('Your row is highlighted. You are in ' + TIER.who + ' — appoint your ASP by ' + TIER.asp + ' (' + dlabel(TIER.aspISO) + ') and go live by ' + TIER.live + ' (' + dlabel(TIER.liveISO) + '). The appointment date is the one that bites: selecting, integrating and testing an ASP takes time.', { gap: 12 });
 
-    // ===== PAGE 4 — roadmap + CTA =====
-    doc.addPage(); y = 60;
-    heading('Your roadmap to readiness');
-    bullet('Confirm your in-scope transactions — B2B and B2G are mandatory; B2C is currently optional.');
-    bullet(f.asp === 'appointed' ? 'Validate your appointed ASP set-up, connectivity and accreditation.' : 'Select and appoint an Accredited Service Provider accredited by the Ministry of Finance.');
-    bullet('Clean your master data: TRNs, legal names, addresses and standardised item / tax codes — for your business and your customers.');
-    bullet('Map your ' + (f.erp ? f.erp : 'ERP / accounting') + ' fields to the required structured e-invoice format.');
-    bullet('Design for the awkward cases: credit notes, discounts, multi-currency, partial deliveries and advance payments.');
-    bullet('Run end-to-end testing — system to ASP, transmitted and acknowledged — well before your go-live date.');
-    y += 4;
-    heading('How Authentic Accounting helps');
-    para('We support clients end-to-end: scope assessment and impact analysis, ASP selection, ERP and accounting-system field mapping, and end-to-end compliance and go-live support — tailored to your transaction profile and your phase.', { gap: 14 });
-    ensure(96);
-    doc.setFillColor(offbg[0], offbg[1], offbg[2]); doc.rect(M, y, colW, 80, 'F');
+    // The cost of waiting — penalties callout
+    ensure(82);
+    doc.setFillColor(charcoal[0], charcoal[1], charcoal[2]); doc.rect(M, y, colW, 60, 'F');
+    setC(cyan); doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
+    doc.text('THE COST OF WAITING', M + 16, y + 17);
+    const pen = [['AED 5,000 / mo', 'No ASP appointed in time'], ['AED 100 / invoice', 'Late issuance'], ['AED 1,000 / day', 'Notification failures']];
+    const pcw = (colW - 32) / 3;
+    pen.forEach((pp, i) => { const px = M + 16 + i * pcw; doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.text(pp[0], px, y + 38); setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.text(pp[1], px, y + 50); });
+    y += 68;
+    setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
+    doc.text('Penalties under Cabinet Decision 106 of 2025.', M, y); y += 16;
+
+    heading('Your next moves');
+    bullet(f.asp === 'appointed' ? 'Validate your appointed ASP — set-up, connectivity and accreditation.' : 'Appoint an Accredited Service Provider from the MoF pre-approved list (39 approved as of Jun 2026).');
+    bullet('Clean your master data — TRNs, legal names and addresses vs FTA records — and map your ' + (f.erp ? f.erp : 'ERP / accounting') + ' fields to the e-invoice format.');
+    bullet('Run a pilot 60–90 days before your go-live date — and let us take you from scope assessment to go-live.');
+
+    // CTA box
+    ensure(80);
+    doc.setFillColor(offbg[0], offbg[1], offbg[2]); doc.rect(M, y, colW, 70, 'F');
     setC(charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(12);
-    doc.text('Get ahead of your deadline — talk to us', M + 16, y + 24);
+    doc.text('Get ahead of your deadline — talk to us', M + 16, y + 22);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(10); setC(ink);
-    doc.text('Phone / WhatsApp: +971 4 396 0399  ·  +971 56 548 4635', M + 16, y + 44);
-    doc.text('info@aaccounting.me   ·   www.aaccounting.me/e-invoicing', M + 16, y + 60); y += 96;
-    ensure(40); setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
-    doc.splitTextToSize('Legal basis: Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance). This report is general guidance, not advice — confirm dates, scope and the latest requirements against the official UAE Ministry of Finance / Federal Tax Authority sources. Day-counts are calculated as at the report date shown above.', colW).forEach((ln) => { ensure(11); doc.text(ln, M, y); y += 11; });
+    doc.text('Phone / WhatsApp: +971 4 396 0399  ·  +971 56 548 4635', M + 16, y + 40);
+    doc.text('info@aaccounting.me   ·   www.aaccounting.me/e-invoicing', M + 16, y + 56); y += 84;
+    ensure(34); setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
+    doc.splitTextToSize('Legal basis: MD 243 of 2025 (system) and MD 244 of 2025 (timeline, as amended by MD 66 of 2026), with MD 64 of 2025 / MD 56 of 2026 (ASP accreditation) and the UAE e-Invoicing Guidelines v1.1. General guidance, not advice — confirm against the latest UAE Ministry of Finance / FTA sources. Day-counts are as at the report date above.', colW).forEach((ln) => { ensure(10); doc.text(ln, M, y); y += 10; });
 
     // ---- page footers (page numbers + firm) ----
     const totalPages = doc.getNumberOfPages();
