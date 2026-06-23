@@ -410,7 +410,22 @@ function EInvoiceMarquee({ onNav }) {
 
   if (!visible) return null;
 
-  const go = () => onNav('e-invoicing');
+  const go = () => {
+    // Deep-link straight to the readiness form so the visitor lands ready to fill.
+    try { sessionStorage.setItem('aa_scroll_target', 'aa-einv-assessment'); } catch (e) {}
+    onNav('e-invoicing');
+    // The e-invoicing hero loads large background images, so the form's final
+    // position settles a few hundred ms after mount. Re-align to it a handful
+    // of times as layout stabilises (also covers the already-on-page case,
+    // where the route is unchanged and the App's scroll effect won't re-fire).
+    let tries = 0;
+    const tick = () => {
+      const el = document.getElementById('aa-einv-assessment');
+      if (el) el.scrollIntoView({ block: 'start', behavior: tries === 0 ? 'smooth' : 'auto' });
+      if (++tries < 7) setTimeout(tick, 160);
+    };
+    setTimeout(tick, 120);
+  };
   const close = (e) => {
     e.stopPropagation();
     try { sessionStorage.setItem('aa-einv-marquee', 'closed'); } catch (e2) {}
@@ -435,13 +450,13 @@ function EInvoiceMarquee({ onNav }) {
         </React.Fragment>
       ))}
       <span className="aa-marquee__dot">·</span>
-      <span className="aa-marquee__seg aa-marquee__cta">Which deadline is yours? Check your deadline →</span>
+      <span className="aa-marquee__seg aa-marquee__cta">Click here for your free e-invoicing guide with deadlines — fill the 2-minute form →</span>
     </div>
   );
 
   return (
     <div className="aa-marquee" role="link" tabIndex={0}
-      aria-label={'UAE e-invoicing deadlines, phased by revenue' + (dl ? '. ' + dl.who + ' go live in ' + dl.n + ' days, ' + dl.date : '') + '. Check your deadline.'}
+      aria-label={'UAE e-invoicing deadlines, phased by revenue' + (dl ? '. ' + dl.who + ' go live in ' + dl.n + ' days, ' + dl.date : '') + '. Click here for your free e-invoicing guide with deadlines and to fill the readiness form.'}
       onClick={go} onKeyDown={onKey}>
       <div className="aa-marquee__track">{group('a')}{group('b')}</div>
       <button className="aa-marquee__close" aria-label="Dismiss e-invoicing notice" onClick={close}>×</button>

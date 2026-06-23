@@ -70,8 +70,11 @@ function EInvoicingPage({ onNav }) {
     y += 84;
     doc.setTextColor.apply(doc, charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(21);
     doc.text('UAE E-Invoicing Readiness Report', M, y); y += 22;
+    const reportDate = (() => { try { return new Date().toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'long', year: 'numeric' }); } catch (e) { return new Date().toDateString(); } })();
     doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, steel);
-    doc.text('Prepared for ' + f.company + '  ·  ' + f.name, M, y); y += 24;
+    doc.text('Prepared for ' + f.company + '  ·  ' + f.name, M, y); y += 15;
+    doc.setFontSize(9.5);
+    doc.text('Report date: ' + reportDate, M, y); y += 24;
 
     doc.setFillColor.apply(doc, charcoal); doc.rect(M, y, colW, 92, 'F');
     doc.setTextColor.apply(doc, cyan); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
@@ -251,10 +254,10 @@ function EInvoicingPage({ onNav }) {
       </section>
 
       {/* ============== READINESS ASSESSMENT ============== */}
-      <section className="section section--off">
+      <section id="aa-einv-assessment" className="section section--off" style={{ scrollMarginTop: 96 }}>
         <div className="container">
           <div className="section-head">
-            <div className="section-head__eyebrow">Free · Instant PDF report</div>
+            <div className="section-head__eyebrow">Free · Instant PDF guide with your deadlines</div>
             <h2>Get your e-invoicing readiness report.</h2>
           </div>
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
