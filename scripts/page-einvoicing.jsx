@@ -1,6 +1,6 @@
 // UAE E-Invoicing client briefing page — adapted from the print flyer design.
 // Institutional register: square corners, hairline rules, tabular dates.
-const { pathForPage } = window.AARoutes;
+const { pathForPage, pathForInsight } = window.AARoutes;
 
 function EInvoicingPage({ onNav }) {
   const daysTo = (iso) => Math.ceil((new Date(iso + 'T00:00:00') - new Date()) / 86400000);
@@ -131,9 +131,11 @@ function EInvoicingPage({ onNav }) {
     if (!TIER) { setErr('Please enter your annual revenue (or tick “government entity”) so we can calculate your deadline.'); return; }
     setBusy(true);
     try {
-      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Revenue: ' + (f.isGov ? 'Government entity' : f.revenue), 'Tier: ' + TIER.who, 'In-house team: ' + (lbl[f.team] || '—'), 'Can implement in-house: ' + (lbl[f.impl] || '—'), 'ASP status: ' + (lbl[f.asp] || '—'), 'ERP: ' + (f.erp || '—')].join('\n');
+      let downloadDate = '';
+      try { downloadDate = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' (GST)'; } catch (e) { downloadDate = new Date().toISOString(); }
+      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Revenue: ' + (f.isGov ? 'Government entity' : f.revenue), 'Tier: ' + TIER.who, 'In-house team: ' + (lbl[f.team] || '—'), 'Can implement in-house: ' + (lbl[f.impl] || '—'), 'ASP status: ' + (lbl[f.asp] || '—'), 'ERP: ' + (f.erp || '—'), 'Downloaded: ' + downloadDate].join('\n');
       if (window.AAContactSheet && window.AAContactSheet.submitRaw) {
-        window.AAContactSheet.submitRaw({ type: 'E-Invoicing Readiness Assessment', company: f.company, name: f.name, email: f.email, phone: f.phone, revenue: f.isGov ? 'Government' : f.revenue, tier: TIER.who, inHouseTeam: lbl[f.team] || '', canImplement: lbl[f.impl] || '', aspStatus: lbl[f.asp] || '', erp: f.erp, summary });
+        window.AAContactSheet.submitRaw({ type: 'E-Invoicing Readiness Assessment', company: f.company, name: f.name, email: f.email, phone: f.phone, revenue: f.isGov ? 'Government' : f.revenue, tier: TIER.who, inHouseTeam: lbl[f.team] || '', canImplement: lbl[f.impl] || '', aspStatus: lbl[f.asp] || '', erp: f.erp, downloadDate, summary });
       }
       if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'e-invoicing', event_label: TIER.who });
     } catch (e) {}
@@ -426,6 +428,36 @@ function EInvoicingPage({ onNav }) {
                 to their business. In the meantime, clients are welcome to contact us directly at any time.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============== GUIDES ============== */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">Learn more · Plain-English guides</div>
+            <h2>Understand the mandate.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['uae-e-invoicing-explained', 'UAE e-invoicing explained', 'What structured e-invoicing is, the 5-corner model, and what is in scope.'],
+              ['uae-e-invoicing-deadlines-phases', 'Deadlines and phases', 'Who must comply and by when — the full timeline, tier by tier.'],
+              ['choosing-accredited-service-provider-asp', 'Choosing an ASP', 'What an Accredited Service Provider does, and the questions to ask before you sign.'],
+              ['prepare-erp-for-uae-e-invoicing', 'Getting your ERP ready', 'The master-data hygiene, field mapping and testing behind a smooth go-live.'],
+            ].map(([slug, title, desc], i) => (
+              <a key={slug} href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+                style={{
+                  padding: 28, textDecoration: 'none', color: 'inherit',
+                  borderRight: i % 2 === 0 ? '1px solid var(--aa-rule)' : 'none',
+                  borderBottom: i < 2 ? '1px solid var(--aa-rule)' : 'none',
+                  display: 'flex', flexDirection: 'column', gap: 8,
+                }}>
+                <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{title}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{desc}</div>
+                <span style={{ marginTop: 4, fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan-700)' }}>Read the guide →</span>
+              </a>
+            ))}
           </div>
         </div>
       </section>

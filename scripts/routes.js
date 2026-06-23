@@ -29,6 +29,38 @@
   // render an honest "in preparation" state so a card never shows the wrong note.
   const INSIGHTS = [
     {
+      slug: 'uae-e-invoicing-explained',
+      tag: 'E-Invoicing', date: '20 Jun 2026', read: '7 min',
+      title: 'UAE e-invoicing explained: a plain-English guide for businesses.',
+      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)',
+      excerpt: 'The UAE is moving to mandatory structured e-invoicing for B2B and B2G transactions. What that actually means, why it is happening, and how the OpenPeppol 5-corner model changes the way you issue an invoice.',
+      published: true,
+    },
+    {
+      slug: 'uae-e-invoicing-deadlines-phases',
+      tag: 'E-Invoicing', date: '18 Jun 2026', read: '5 min',
+      title: 'UAE e-invoicing deadlines and phases: who must comply, and by when.',
+      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)',
+      excerpt: 'The rollout is phased by annual revenue, with two dates that matter for each business — the deadline to appoint an Accredited Service Provider, and the mandatory go-live. Here is the full timeline, tier by tier.',
+      published: true,
+    },
+    {
+      slug: 'choosing-accredited-service-provider-asp',
+      tag: 'E-Invoicing', date: '16 Jun 2026', read: '6 min',
+      title: 'Choosing an Accredited Service Provider (ASP) for UAE e-invoicing.',
+      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)',
+      excerpt: 'Every in-scope business must appoint an Accredited Service Provider to transmit its e-invoices. What an ASP does in the 5-corner model, and the questions to ask before you sign.',
+      published: true,
+    },
+    {
+      slug: 'prepare-erp-for-uae-e-invoicing',
+      tag: 'E-Invoicing', date: '12 Jun 2026', read: '6 min',
+      title: 'Getting your ERP ready for UAE e-invoicing: a practical checklist.',
+      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)',
+      excerpt: 'E-invoicing is not just a tax change — it is a data change. The master-data hygiene, field mapping and testing that decide whether your go-live is smooth or painful.',
+      published: true,
+    },
+    {
       slug: 'free-zone-qualifying-income',
       tag: 'Corporate Tax', date: '12 Apr 2026', read: '6 min',
       title: 'Free zone qualifying income — three traps in the UAE free-zone tax rules.',

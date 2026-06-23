@@ -400,8 +400,224 @@ function FreeZoneArticleBody() {
   );
 }
 
+// ---------- E-invoicing guide cluster (general-information pages) ----------
+const ART = { maxWidth: 820, padding: '32px', fontSize: 17, lineHeight: 1.75, color: 'var(--aa-charcoal-800)' };
+const LEAD = { fontSize: 19, color: 'var(--aa-charcoal)', fontWeight: 500, lineHeight: 1.5 };
+const H3 = { fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' };
+
+// Shared call-to-action that routes readers into the readiness assessment tool.
+function EInvoiceCTA({ onNav }) {
+  return (
+    <div style={{ background: 'var(--aa-charcoal)', color: '#fff', padding: 28, marginTop: 40 }}>
+      <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant PDF report</div>
+      <div style={{ fontSize: 20, fontWeight: 600, lineHeight: 1.3, marginBottom: 8 }}>Find your exact e-invoicing deadline in two minutes.</div>
+      <p style={{ margin: '0 0 16px', fontSize: 14, color: 'rgba(255,255,255,0.78)', lineHeight: 1.6 }}>
+        Answer a few questions and download a personalised readiness report — your phase, your ASP and go-live dates with live day-counts, and your next steps.
+      </p>
+      <button className="btn btn--primary btn--sm" onClick={() => onNav('e-invoicing')}>
+        Get your readiness report
+        <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
+      </button>
+    </div>
+  );
+}
+
+// Cross-links to the other guides in the cluster.
+function EInvoiceGuideLinks({ onNav, current }) {
+  const links = [
+    ['uae-e-invoicing-explained', 'UAE e-invoicing explained: a plain-English guide'],
+    ['uae-e-invoicing-deadlines-phases', 'UAE e-invoicing deadlines and phases'],
+    ['choosing-accredited-service-provider-asp', 'Choosing an Accredited Service Provider (ASP)'],
+    ['prepare-erp-for-uae-e-invoicing', 'Getting your ERP ready for e-invoicing'],
+  ].filter(([s]) => s !== current);
+  return (
+    <div style={{ marginTop: 36, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+      <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>More in this series</div>
+      <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8 }}>
+        {links.map(([slug, label]) => (
+          <li key={slug}>
+            <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+              style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
+              {label} →
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function EInvoiceExplainedBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>
+        “E-invoicing” does not mean emailing a PDF. Under the UAE’s new mandate, an e-invoice is a structured data file — exchanged machine-to-machine through accredited providers — that your accounting system and your counterparty’s system can both read without anyone re-typing it. Here is what is changing, and why.
+      </p>
+
+      <h3 style={H3}>1. From documents to structured data</h3>
+      <p>Today most businesses issue an invoice as a PDF, a printout or a Word file — a document a human reads. A UAE e-invoice is instead a structured electronic file built to a defined data standard, so that software on both sides can validate, post and report it automatically. PDFs and paper will no longer be valid for in-scope transactions once your phase goes live.</p>
+
+      <h3 style={H3}>2. The OpenPeppol 5-corner model</h3>
+      <p>The UAE has adopted the international <strong>OpenPeppol</strong> framework in a “5-corner” configuration. In plain terms: you (corner 1) send the invoice to your Accredited Service Provider (corner 2); your provider transmits it over the Peppol network to your customer’s provider (corner 3), who delivers it to your customer (corner 4); and the Federal Tax Authority (corner 5) receives the reporting data. The invoice never travels as an email attachment — it moves as validated data between accredited providers.</p>
+
+      <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
+        “An e-invoice is not a prettier PDF. It is data your systems exchange and the FTA can see.”
+      </blockquote>
+
+      <h3 style={H3}>3. What is in scope</h3>
+      <p>The mandate covers <strong>business-to-business (B2B)</strong> and <strong>business-to-government (B2G)</strong> transactions. Business-to-consumer (B2C) invoicing is currently optional. The rules apply across the UAE — including free zone companies — based on annual revenue thresholds, under Ministerial Decisions 243 and 244 of 2025 issued by the Ministry of Finance.</p>
+
+      <h3 style={H3}>4. Why the UAE is doing this</h3>
+      <p>Structured e-invoicing gives the tax authority near-real-time visibility of transactions, reduces VAT leakage and fraud, and cuts the manual effort of matching invoices on both sides. For compliant businesses the upside is real: fewer disputes, faster reconciliation, and a clean audit trail that already lines up with what the FTA holds.</p>
+
+      <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>The short version</div>
+        <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
+          <li>An e-invoice is structured data, not a PDF.</li>
+          <li>It is exchanged through Accredited Service Providers on the Peppol network, with the FTA as a reporting corner.</li>
+          <li>B2B and B2G are mandatory; B2C is currently optional; free zones are included.</li>
+        </ul>
+      </div>
+
+      <EInvoiceCTA onNav={onNav} />
+      <EInvoiceGuideLinks onNav={onNav} current="uae-e-invoicing-explained" />
+    </div>
+  );
+}
+
+function EInvoiceDeadlinesBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>
+        The UAE e-invoicing mandate is being rolled out in phases by annual revenue. For every business there are two dates that matter: the deadline to <strong>appoint an Accredited Service Provider (ASP)</strong>, and the <strong>go-live</strong> date from which structured e-invoicing becomes mandatory.
+      </p>
+
+      <h3 style={H3}>The phased timeline</h3>
+      <div style={{ overflowX: 'auto', marginTop: 8 }}>
+        <table className="aa-table" style={{ width: '100%' }}>
+          <thead>
+            <tr>
+              <th scope="col">Phase · Who</th>
+              <th scope="col" className="aa-num" style={{ whiteSpace: 'nowrap' }}>Appoint ASP by</th>
+              <th scope="col" className="aa-num" style={{ whiteSpace: 'nowrap' }}>Go live by</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Phase 1</strong><br/>Businesses with revenue ≥ AED 50 million</td>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}>30 Oct 2026</td>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}>1 Jan 2027</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 2</strong><br/>Businesses with revenue &lt; AED 50 million</td>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}>31 Mar 2027</td>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}>1 Jul 2027</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 3</strong><br/>Government entities</td>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}>31 Mar 2027</td>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}>1 Oct 2027</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style={H3}>Why the ASP date matters more than it looks</h3>
+      <p>The go-live date is the headline, but the appointment deadline is the one that bites. Appointing an ASP is not a same-day formality — you need to select a provider, contract, connect it to your ERP or accounting system, map your invoice fields and test end-to-end. Treat the ASP deadline as the start of the real work, not the finish line.</p>
+
+      <h3 style={H3}>Which phase am I in?</h3>
+      <p>Your phase follows your annual revenue. If you are at or above AED 50 million you are in Phase 1, with the earliest deadlines. Below AED 50 million places you in Phase 2. Government entities follow Phase 3. Free zone companies are included and follow the same revenue-based thresholds.</p>
+
+      <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>What to do now</div>
+        <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
+          <li>Confirm which phase your revenue puts you in.</li>
+          <li>Work back from the ASP appointment deadline, not just go-live.</li>
+          <li>Build in time for ERP integration and end-to-end testing.</li>
+        </ul>
+      </div>
+
+      <EInvoiceCTA onNav={onNav} />
+      <EInvoiceGuideLinks onNav={onNav} current="uae-e-invoicing-deadlines-phases" />
+    </div>
+  );
+}
+
+function ChoosingASPBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>
+        Under the UAE mandate you cannot issue compliant e-invoices on your own — they must be transmitted through an <strong>Accredited Service Provider (ASP)</strong> accredited by the Ministry of Finance. Choosing the right one is the single most important decision in your readiness programme.
+      </p>
+
+      <h3 style={H3}>What an ASP actually does</h3>
+      <p>In the 5-corner model, your ASP is the corner that turns your invoice data into a compliant structured document, validates it, transmits it over the Peppol network to your counterparty’s ASP, and reports the required data to the Federal Tax Authority. It sits between your accounting system and the official network — so its reliability becomes your reliability.</p>
+
+      <h3 style={H3}>Questions to ask before you sign</h3>
+      <ul style={{ margin: '8px 0 0', paddingLeft: 20, lineHeight: 1.7 }}>
+        <li><strong>Accreditation.</strong> Is the provider formally accredited by the UAE Ministry of Finance? Ask to see it confirmed, not implied.</li>
+        <li><strong>Integration with your system.</strong> Does it have a tested connector for your ERP or accounting software (Tally, Zoho, SAP, Microsoft Dynamics, Oracle, QuickBooks, etc.), or will integration be custom work?</li>
+        <li><strong>Coverage.</strong> Can it handle your full transaction profile — credit notes, multi-currency, partial deliveries, high volumes?</li>
+        <li><strong>Support and SLAs.</strong> What happens when a transmission fails at month-end? What are the response times and uptime guarantees?</li>
+        <li><strong>Data handling.</strong> Where is your invoice data stored and processed, and how is it protected?</li>
+        <li><strong>Commercials.</strong> Is pricing per-document, per-user or flat — and how does it scale as your volume grows?</li>
+      </ul>
+
+      <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
+        “Your ASP becomes part of your control environment. Choose it like one.”
+      </blockquote>
+
+      <h3 style={H3}>Appoint early, test early</h3>
+      <p>Accreditation, contracting and integration take time, and ASPs will get busier as deadlines approach. Appointing early gives you room to run a proper test cycle before go-live — which is where most problems surface. We help clients shortlist ASPs against their transaction profile and validate the set-up independently.</p>
+
+      <EInvoiceCTA onNav={onNav} />
+      <EInvoiceGuideLinks onNav={onNav} current="choosing-accredited-service-provider-asp" />
+    </div>
+  );
+}
+
+function PrepareERPBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>
+        E-invoicing is often framed as a tax change, but the work is mostly a <strong>data</strong> change. The required structured format only validates if the fields behind your invoices are complete and clean. Here is the practical groundwork that decides whether your go-live is smooth or painful.
+      </p>
+
+      <h3 style={H3}>1. Fix your master data first</h3>
+      <p>Structured invoices are validated against required fields, so gaps that PDFs forgave will now fail. Before anything else, clean up the basics: your own and your customers’ Tax Registration Numbers (TRNs), legal names, addresses, and standardised item and tax codes. Duplicate or incomplete customer records are the most common cause of rejected invoices.</p>
+
+      <h3 style={H3}>2. Map your fields to the required format</h3>
+      <p>Every field the e-invoice standard requires has to come from somewhere in your ERP or accounting system. Map each one — invoice lines, tax categories, units, totals — to its source field, and identify the gaps where your system does not currently capture what the format expects. This mapping is the heart of the integration work with your ASP.</p>
+
+      <h3 style={H3}>3. Cover the awkward transactions</h3>
+      <p>Standard sales invoices are the easy case. Make sure your design also handles credit notes, discounts, multi-currency, partial deliveries, advance payments and any sector-specific documents you raise — these are where field mapping tends to break.</p>
+
+      <h3 style={H3}>4. Test end-to-end before go-live</h3>
+      <p>Run real-world invoices through the full path — your system to your ASP, transmitted and acknowledged — well before your mandatory date. Validate the exceptions, not just the happy path, and confirm how failures are surfaced and corrected. A test cycle that only proves the easy invoices is not a test cycle.</p>
+
+      <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>Readiness checklist</div>
+        <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
+          <li>TRNs, legal names and addresses verified for your business and your customers.</li>
+          <li>Item and tax codes standardised across the ledger.</li>
+          <li>Every required e-invoice field mapped to a source field.</li>
+          <li>Credit notes and edge-case transactions designed in.</li>
+          <li>End-to-end test cycle completed before go-live.</li>
+        </ul>
+      </div>
+
+      <EInvoiceCTA onNav={onNav} />
+      <EInvoiceGuideLinks onNav={onNav} current="prepare-erp-for-uae-e-invoicing" />
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
   'free-zone-qualifying-income': FreeZoneArticleBody,
+  'uae-e-invoicing-explained': EInvoiceExplainedBody,
+  'uae-e-invoicing-deadlines-phases': EInvoiceDeadlinesBody,
+  'choosing-accredited-service-provider-asp': ChoosingASPBody,
+  'prepare-erp-for-uae-e-invoicing': PrepareERPBody,
 };
 
 // ---------- Single article ----------
@@ -445,7 +661,7 @@ function InsightArticlePage({ onNav, slug }) {
         </section>
 
         {Body
-          ? <Body/>
+          ? <Body onNav={onNav}/>
           : (
             <div className="container" style={{ maxWidth: 820, padding: '32px', fontSize: 17, lineHeight: 1.75, color: 'var(--aa-charcoal-800)' }}>
               <p style={{ fontSize: 19, color: 'var(--aa-charcoal)', fontWeight: 500, lineHeight: 1.5 }}>
