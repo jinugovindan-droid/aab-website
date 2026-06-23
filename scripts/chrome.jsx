@@ -443,14 +443,20 @@ function EInvoiceMarquee({ onNav }) {
       {dl
         ? <span className="aa-marquee__seg"><span>Next go-live: {dl.who} in <b className="aa-marquee__num">{dl.n.toLocaleString()}</b> days ({dl.date})</span></span>
         : <span className="aa-marquee__seg">Phase 1 is now live</span>}
-      {rows.map((r) => (
+      {rows.map((r, i) => (
         <React.Fragment key={r.who}>
           <span className="aa-marquee__dot">·</span>
           <span className="aa-marquee__seg"><span>{r.who} — appoint ASP by <b style={{ color: '#fff', fontWeight: 700 }}>{r.asp}</b> {dcount(r.aspDays)}, go-live {r.live} {dcount(r.liveDays)}</span></span>
+          {i === 1 && (
+            <React.Fragment>
+              <span className="aa-marquee__dot">·</span>
+              <span className="aa-marquee__seg aa-marquee__cta">👉 Click here for your free e-invoicing report with deadlines →</span>
+            </React.Fragment>
+          )}
         </React.Fragment>
       ))}
       <span className="aa-marquee__dot">·</span>
-      <span className="aa-marquee__seg aa-marquee__cta">Click here for your free e-invoicing guide with deadlines — fill the 2-minute form →</span>
+      <span className="aa-marquee__seg aa-marquee__cta">👉 Click here for your free e-invoicing report — fill the 2-minute form →</span>
     </div>
   );
 
