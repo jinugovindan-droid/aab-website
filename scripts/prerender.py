@@ -141,6 +141,26 @@ ORG = {
     "logo": {"@type": "ImageObject", "url": SITE_ORIGIN + "/assets/logos/authentic-accounting-full.png"},
 }
 
+# Keep in sync with EINVOICE_FAQ in scripts/routes.js.
+EINVOICE_FAQ = [
+    {"q": "Is e-invoicing mandatory in the UAE?",
+     "a": "Yes. The UAE is introducing mandatory structured e-invoicing for business-to-business (B2B) and business-to-government (B2G) transactions, under Ministerial Decisions 243 and 244 of 2025. Business-to-consumer (B2C) invoicing is currently optional. The rollout is phased by annual revenue."},
+    {"q": "When is the UAE e-invoicing deadline for my business?",
+     "a": "It depends on your annual revenue. Businesses with revenue of AED 50 million or more must appoint an Accredited Service Provider (ASP) by 30 October 2026 and go live on 1 January 2027. Businesses under AED 50 million appoint by 31 March 2027 and go live on 1 July 2027. Government entities appoint by 31 March 2027 and go live on 1 October 2027."},
+    {"q": "What is an Accredited Service Provider (ASP)?",
+     "a": "An ASP is a provider accredited by the UAE Ministry of Finance to transmit your e-invoices through the official network. Every in-scope business must appoint one — invoices are issued and exchanged through your ASP."},
+    {"q": "What is the 5-corner (OpenPeppol) model?",
+     "a": "The UAE uses the OpenPeppol “5-corner” model: each invoice is exchanged as structured data between your ASP and your counterparty’s ASP, with the Federal Tax Authority as a reporting corner — replacing PDFs and paper."},
+    {"q": "Will PDF or paper invoices still be valid?",
+     "a": "No. From your phase’s go-live date, only structured invoices transmitted through an accredited ASP will be valid for the covered transactions. PDF and paper invoices will not."},
+    {"q": "Does a free zone company have to comply?",
+     "a": "Yes. The mandate applies to B2B and B2G transactions across the UAE, including free zone companies, based on the same revenue thresholds."},
+    {"q": "What is the legal basis for UAE e-invoicing?",
+     "a": "Ministerial Decisions 243 and 244 of 2025, issued by the UAE Ministry of Finance, set the scope, obligations, ASP accreditation and the phased timeline."},
+    {"q": "How do I get my business ready?",
+     "a": "Assess your transaction scope, appoint an Accredited Service Provider, map your ERP / accounting-system fields to the required e-invoice format, and run end-to-end testing before your go-live date."},
+]
+
 
 def iso_date(d):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d or "")
@@ -218,6 +238,16 @@ def build_jsonld(page, slug):
             "serviceType": BREADCRUMB_LABELS.get(page, "Accounting services"),
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
+        })
+    if page == "e-invoicing":
+        blocks.append({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {"@type": "Question", "name": f["q"],
+                 "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
+                for f in EINVOICE_FAQ
+            ],
         })
     return blocks
 

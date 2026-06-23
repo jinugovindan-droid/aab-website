@@ -15,6 +15,21 @@ function EInvoicingPage({ onNav }) {
     onNav('contact');
   };
 
+  // ----- Readiness checker -----
+  const [revenue, setRevenue] = React.useState('');
+  const [isGov, setIsGov] = React.useState(false);
+  const FAQ = (window.AARoutes && window.AARoutes.EINVOICE_FAQ) || [];
+  const TIER = (() => {
+    const n = parseFloat(String(revenue).replace(/[^0-9.]/g, ''));
+    if (isGov) return { who: 'Government entity · Phase 3', asp: '31 Mar 2027', aspISO: '2027-03-31', live: '1 Oct 2027', liveISO: '2027-10-01' };
+    if (!isNaN(n) && n > 0) {
+      return n >= 50000000
+        ? { who: 'Large business (AED 50M+) · Phase 1', asp: '30 Oct 2026', aspISO: '2026-10-30', live: '1 Jan 2027', liveISO: '2027-01-01' }
+        : { who: 'Business under AED 50M · Phase 2', asp: '31 Mar 2027', aspISO: '2027-03-31', live: '1 Jul 2027', liveISO: '2027-07-01' };
+    }
+    return null;
+  })();
+
   const phases = [
     {
       label: 'Phase 1 — Large Business',
@@ -118,6 +133,55 @@ function EInvoicingPage({ onNav }) {
                 ))}
               </dl>
             </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* ============== READINESS CHECKER ============== */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">Free tool · 60 seconds</div>
+            <h2>Check your e-invoicing deadline.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
+              <label htmlFor="aa-rev" style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>Your annual revenue (AED)</label>
+              <input id="aa-rev" type="text" inputMode="numeric" value={revenue} onChange={(e) => setRevenue(e.target.value)} placeholder="e.g. 75,000,000"
+                style={{ width: '100%', padding: '12px 14px', fontSize: 16, border: '1px solid var(--aa-rule-strong)', fontFamily: 'var(--aa-font-mono)', boxSizing: 'border-box' }} />
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 18, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer' }}>
+                <input type="checkbox" checked={isGov} onChange={(e) => setIsGov(e.target.checked)} style={{ width: 16, height: 16 }} />
+                We are a government entity
+              </label>
+              <p className="muted" style={{ fontSize: 12, marginTop: 16, lineHeight: 1.5 }}>Applies to B2B and B2G transactions, phased by revenue under Ministerial Decisions 243 &amp; 244 of 2025. Indicative — confirm against current MoF/FTA guidance.</p>
+            </div>
+            <div style={{ padding: 32, background: TIER ? 'var(--aa-charcoal)' : 'var(--aa-surface-off)', color: TIER ? '#fff' : 'inherit', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 220 }}>
+              {TIER ? (
+                <div>
+                  <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 14 }}>{TIER.who}</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+                    <div>
+                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Appoint your ASP by</div>
+                      <div style={{ fontSize: 22, fontWeight: 700, marginTop: 4 }}>{TIER.asp}</div>
+                      <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan)' }}>{dlabel(TIER.aspISO)}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Go live by</div>
+                      <div style={{ fontSize: 22, fontWeight: 700, marginTop: 4 }}>{TIER.live}</div>
+                      <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan)' }}>{dlabel(TIER.liveISO)}</div>
+                    </div>
+                  </div>
+                  <button className="btn btn--primary btn--sm" onClick={bookReadiness}>
+                    Get your readiness plan
+                    <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
+                  </button>
+                </div>
+              ) : (
+                <div className="muted" style={{ fontSize: 15, lineHeight: 1.6 }}>
+                  Enter your annual revenue (or tick &ldquo;government entity&rdquo;) to see your ASP-appointment deadline, your go-live date, and exactly how many days you have left.
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -231,6 +295,27 @@ function EInvoicingPage({ onNav }) {
                 to their business. In the meantime, clients are welcome to contact us directly at any time.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============== FAQ ============== */}
+      <section className="section">
+        <div className="container" style={{ maxWidth: 860 }}>
+          <div className="section-head">
+            <div className="section-head__eyebrow">FAQ</div>
+            <h2>UAE e-invoicing, answered.</h2>
+          </div>
+          <div style={{ borderTop: '1px solid var(--aa-rule)' }}>
+            {FAQ.map((f, i) => (
+              <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
+                <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
+                  <span>{f.q}</span>
+                  <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
+                </summary>
+                <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
+              </details>
+            ))}
           </div>
         </div>
       </section>
