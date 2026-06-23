@@ -15,20 +15,131 @@ function EInvoicingPage({ onNav }) {
     onNav('contact');
   };
 
-  // ----- Readiness checker -----
-  const [revenue, setRevenue] = React.useState('');
-  const [isGov, setIsGov] = React.useState(false);
+  // ----- Readiness assessment -----
   const FAQ = (window.AARoutes && window.AARoutes.EINVOICE_FAQ) || [];
-  const TIER = (() => {
+  const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', revenue: '', isGov: false, team: '', impl: '', asp: '', erp: '' });
+  const [err, setErr] = React.useState('');
+  const [busy, setBusy] = React.useState(false);
+  const [done, setDone] = React.useState(false);
+  const upd = (k) => (e) => { const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; setF((p) => ({ ...p, [k]: v })); };
+  const inS = { width: '100%', padding: '10px 12px', fontSize: 15, border: '1px solid var(--aa-rule-strong)', boxSizing: 'border-box', background: '#fff', fontFamily: 'var(--aa-font-sans)' };
+  const laS = { display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 6 };
+  const lbl = { yes: 'Yes', no: 'No', unsure: 'Not sure', appointed: 'Appointed', evaluating: 'Evaluating' };
+
+  const tierOf = (revenue, isGov) => {
     const n = parseFloat(String(revenue).replace(/[^0-9.]/g, ''));
     if (isGov) return { who: 'Government entity · Phase 3', asp: '31 Mar 2027', aspISO: '2027-03-31', live: '1 Oct 2027', liveISO: '2027-10-01' };
-    if (!isNaN(n) && n > 0) {
-      return n >= 50000000
-        ? { who: 'Large business (AED 50M+) · Phase 1', asp: '30 Oct 2026', aspISO: '2026-10-30', live: '1 Jan 2027', liveISO: '2027-01-01' }
-        : { who: 'Business under AED 50M · Phase 2', asp: '31 Mar 2027', aspISO: '2027-03-31', live: '1 Jul 2027', liveISO: '2027-07-01' };
-    }
+    if (!isNaN(n) && n > 0) return n >= 50000000
+      ? { who: 'Large business (AED 50M+) · Phase 1', asp: '30 Oct 2026', aspISO: '2026-10-30', live: '1 Jan 2027', liveISO: '2027-01-01' }
+      : { who: 'Business under AED 50M · Phase 2', asp: '31 Mar 2027', aspISO: '2027-03-31', live: '1 Jul 2027', liveISO: '2027-07-01' };
     return null;
-  })();
+  };
+  const TIER = tierOf(f.revenue, f.isGov);
+
+  const loadJsPDF = () => new Promise((res, rej) => {
+    if (window.jspdf && window.jspdf.jsPDF) return res();
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+    s.onload = res; s.onerror = rej; document.head.appendChild(s);
+  });
+  const logoDataUrl = (src) => new Promise((res) => {
+    const img = new Image(); img.crossOrigin = 'anonymous';
+    img.onload = () => { try { const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext('2d').drawImage(img, 0, 0); res({ url: c.toDataURL('image/png'), w: img.naturalWidth, h: img.naturalHeight }); } catch (e) { res(null); } };
+    img.onerror = () => res(null); img.src = src;
+  });
+  const verdict = () => {
+    const noAsp = f.asp !== 'appointed';
+    const needHelp = f.impl === 'no' || f.impl === 'unsure' || f.team === 'no';
+    if (noAsp && needHelp) return { title: 'Action needed — start now', body: 'You have not yet appointed an Accredited Service Provider, and indicated you may need support to implement. With your go-live approaching, we recommend a guided readiness engagement: scope assessment, ASP selection, ERP field-mapping and end-to-end testing before go-live.' };
+    if (noAsp) return { title: 'On track — ASP is the next step', body: 'You have in-house capacity, but appointing an Accredited Service Provider is the critical next step. We can shortlist ASPs suited to your transaction profile and validate readiness ahead of go-live.' };
+    return { title: 'Well positioned — validate before go-live', body: 'You have appointed an ASP and have in-house capability. We recommend an independent readiness health-check: confirm invoice fields, exception handling and your go-live cutover plan against the latest FTA guidance.' };
+  };
+
+  const generatePdf = async () => {
+    await loadJsPDF();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const W = doc.internal.pageSize.getWidth();
+    const M = 48; const colW = W - 2 * M;
+    const cyan = [41, 171, 226], charcoal = [26, 26, 46], steel = [110, 120, 135], ink = [55, 58, 70];
+    let y = 54;
+    try { const lg = await logoDataUrl('assets/logos/aab-short-eng.png?v=2'); if (lg) doc.addImage(lg.url, 'PNG', M, y - 6, 104, 104 * lg.h / lg.w); } catch (e) {}
+    doc.setTextColor.apply(doc, steel); doc.setFontSize(8.5);
+    doc.text('Authentic Accounting & Bookkeeping L.L.C · Dubai, UAE', W - M, y + 2, { align: 'right' });
+    doc.text('www.aaccounting.me', W - M, y + 14, { align: 'right' });
+    y += 84;
+    doc.setTextColor.apply(doc, charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(21);
+    doc.text('UAE E-Invoicing Readiness Report', M, y); y += 22;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, steel);
+    doc.text('Prepared for ' + f.company + '  ·  ' + f.name, M, y); y += 24;
+
+    doc.setFillColor.apply(doc, charcoal); doc.rect(M, y, colW, 92, 'F');
+    doc.setTextColor.apply(doc, cyan); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+    doc.text(TIER.who.toUpperCase(), M + 16, y + 22);
+    doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+    doc.text('APPOINT YOUR ASP BY', M + 16, y + 46); doc.text('GO LIVE BY', M + colW / 2 + 16, y + 46);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(15);
+    doc.text(TIER.asp, M + 16, y + 68); doc.text(TIER.live, M + colW / 2 + 16, y + 68);
+    doc.setTextColor.apply(doc, cyan); doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+    doc.text(dlabel(TIER.aspISO), M + 16, y + 82); doc.text(dlabel(TIER.liveISO), M + colW / 2 + 16, y + 82);
+    y += 116;
+
+    const v = verdict();
+    doc.setTextColor.apply(doc, charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(13);
+    doc.text(v.title, M, y); y += 17;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5); doc.setTextColor.apply(doc, ink);
+    doc.splitTextToSize(v.body, colW).forEach((ln) => { doc.text(ln, M, y); y += 15; }); y += 12;
+
+    doc.setTextColor.apply(doc, charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+    doc.text('Your inputs', M, y); y += 16;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor.apply(doc, ink);
+    [['Annual revenue', f.isGov ? 'Government entity' : (f.revenue ? 'AED ' + f.revenue : '—')],
+     ['Phase / tier', TIER.who],
+     ['In-house accounting team', lbl[f.team] || '—'],
+     ['Can implement in-house', lbl[f.impl] || '—'],
+     ['ASP status', lbl[f.asp] || '—'],
+     ['ERP / accounting system', f.erp || '—']].forEach(([k, val]) => { doc.text(k + ':', M, y); doc.text(String(val), M + 184, y); y += 15; }); y += 10;
+
+    doc.setTextColor.apply(doc, charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+    doc.text('Your next steps', M, y); y += 16;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5);
+    [ 'Confirm your in-scope transactions (B2B and B2G; B2C is currently optional).',
+      f.asp === 'appointed' ? 'Validate your appointed ASP set-up and connectivity.' : 'Appoint an Accredited Service Provider (ASP).',
+      'Map your ' + (f.erp ? f.erp : 'ERP / accounting') + ' fields to the required e-invoice format.',
+      'Run end-to-end testing before your go-live date.' ].forEach((st) => {
+      doc.setTextColor.apply(doc, cyan); doc.text('•', M, y);
+      doc.setTextColor.apply(doc, ink); doc.splitTextToSize(st, colW - 14).forEach((ln) => { doc.text(ln, M + 14, y); y += 15; });
+    }); y += 12;
+
+    doc.setFillColor(244, 245, 247); doc.rect(M, y, colW, 80, 'F');
+    doc.setTextColor.apply(doc, charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(12);
+    doc.text('Get ahead of your deadline — talk to us', M + 16, y + 24);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor.apply(doc, ink);
+    doc.text('Phone / WhatsApp: +971 4 396 0399  ·  +971 56 548 4635', M + 16, y + 44);
+    doc.text('info@aaccounting.me   ·   www.aaccounting.me/e-invoicing', M + 16, y + 60); y += 100;
+
+    doc.setTextColor.apply(doc, steel); doc.setFontSize(8);
+    doc.splitTextToSize('Legal basis: Ministerial Decisions 243 and 244 of 2025. This report is general guidance, not advice — confirm dates and scope against the latest UAE Ministry of Finance / FTA sources. Day-counts are calculated as at the date this report was generated.', colW).forEach((ln) => { doc.text(ln, M, y); y += 11; });
+
+    doc.save('UAE-E-Invoicing-Readiness-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf');
+  };
+
+  const handleGenerate = async () => {
+    setErr('');
+    if (!f.company.trim() || !f.name.trim() || !f.email.trim() || !f.phone.trim()) { setErr('Please complete company name, your name, email and phone.'); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.trim())) { setErr('Please enter a valid work email.'); return; }
+    if (!TIER) { setErr('Please enter your annual revenue (or tick “government entity”) so we can calculate your deadline.'); return; }
+    setBusy(true);
+    try {
+      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Revenue: ' + (f.isGov ? 'Government entity' : f.revenue), 'Tier: ' + TIER.who, 'In-house team: ' + (lbl[f.team] || '—'), 'Can implement in-house: ' + (lbl[f.impl] || '—'), 'ASP status: ' + (lbl[f.asp] || '—'), 'ERP: ' + (f.erp || '—')].join('\n');
+      if (window.AAContactSheet && window.AAContactSheet.submitRaw) {
+        window.AAContactSheet.submitRaw({ type: 'E-Invoicing Readiness Assessment', company: f.company, name: f.name, email: f.email, phone: f.phone, revenue: f.isGov ? 'Government' : f.revenue, tier: TIER.who, inHouseTeam: lbl[f.team] || '', canImplement: lbl[f.impl] || '', aspStatus: lbl[f.asp] || '', erp: f.erp, summary });
+      }
+      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'e-invoicing', event_label: TIER.who });
+    } catch (e) {}
+    try { await generatePdf(); } catch (e) { setErr('Sorry — the report could not be generated. Please try again or contact us.'); setBusy(false); return; }
+    setBusy(false); setDone(true);
+  };
 
   const phases = [
     {
@@ -137,48 +248,68 @@ function EInvoicingPage({ onNav }) {
         </div>
       </section>
 
-      {/* ============== READINESS CHECKER ============== */}
+      {/* ============== READINESS ASSESSMENT ============== */}
       <section className="section section--off">
         <div className="container">
           <div className="section-head">
-            <div className="section-head__eyebrow">Free tool · 60 seconds</div>
-            <h2>Check your e-invoicing deadline.</h2>
+            <div className="section-head__eyebrow">Free · Instant PDF report</div>
+            <h2>Get your e-invoicing readiness report.</h2>
           </div>
-          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
             <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
-              <label htmlFor="aa-rev" style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>Your annual revenue (AED)</label>
-              <input id="aa-rev" type="text" inputMode="numeric" value={revenue} onChange={(e) => setRevenue(e.target.value)} placeholder="e.g. 75,000,000"
-                style={{ width: '100%', padding: '12px 14px', fontSize: 16, border: '1px solid var(--aa-rule-strong)', fontFamily: 'var(--aa-font-mono)', boxSizing: 'border-box' }} />
-              <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 18, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer' }}>
-                <input type="checkbox" checked={isGov} onChange={(e) => setIsGov(e.target.checked)} style={{ width: 16, height: 16 }} />
-                We are a government entity
-              </label>
-              <p className="muted" style={{ fontSize: 12, marginTop: 16, lineHeight: 1.5 }}>Applies to B2B and B2G transactions, phased by revenue under Ministerial Decisions 243 &amp; 244 of 2025. Indicative — confirm against current MoF/FTA guidance.</p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div><label style={laS}>Company name *</label><input style={inS} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
+                <div><label style={laS}>Your name *</label><input style={inS} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+                <div><label style={laS}>Work email *</label><input type="email" style={inS} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
+                <div><label style={laS}>Phone / WhatsApp *</label><input style={inS} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
+              </div>
+              <div style={{ marginTop: 14 }}>
+                <label style={laS}>Approximate annual revenue (AED) *</label>
+                <input style={{ ...inS, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.revenue} onChange={upd('revenue')} placeholder="e.g. 75,000,000" disabled={f.isGov} />
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={f.isGov} onChange={upd('isGov')} style={{ width: 16, height: 16 }} /> We are a government entity
+                </label>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+                <div><label style={laS}>In-house accounting team?</label>
+                  <select style={inS} value={f.team} onChange={upd('team')}><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                <div><label style={laS}>Can your team implement it in-house?</label>
+                  <select style={inS} value={f.impl} onChange={upd('impl')}><option value="">Select…</option><option value="yes">Yes</option><option value="unsure">Not sure</option><option value="no">No — we’d want help</option></select></div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+                <div><label style={laS}>ASP identified / appointed?</label>
+                  <select style={inS} value={f.asp} onChange={upd('asp')}><option value="">Select…</option><option value="appointed">Appointed</option><option value="evaluating">Evaluating</option><option value="no">Not yet</option></select></div>
+                <div><label style={laS}>ERP / accounting software</label>
+                  <input style={inS} value={f.erp} onChange={upd('erp')} placeholder="e.g. Tally, Zoho, SAP" /></div>
+              </div>
             </div>
-            <div style={{ padding: 32, background: TIER ? 'var(--aa-charcoal)' : 'var(--aa-surface-off)', color: TIER ? '#fff' : 'inherit', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 220 }}>
-              {TIER ? (
+            <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
+              {done ? (
                 <div>
-                  <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 14 }}>{TIER.who}</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
-                    <div>
-                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Appoint your ASP by</div>
-                      <div style={{ fontSize: 22, fontWeight: 700, marginTop: 4 }}>{TIER.asp}</div>
-                      <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan)' }}>{dlabel(TIER.aspISO)}</div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Go live by</div>
-                      <div style={{ fontSize: 22, fontWeight: 700, marginTop: 4 }}>{TIER.live}</div>
-                      <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan)' }}>{dlabel(TIER.liveISO)}</div>
-                    </div>
-                  </div>
-                  <button className="btn btn--primary btn--sm" onClick={bookReadiness}>
-                    Get your readiness plan
-                    <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
-                  </button>
+                  <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
+                  <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Report downloading</h3>
+                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your personalised readiness report is downloading now. We’ve received your details and the team will be in touch — or reach us directly on WhatsApp.</p>
+                  <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={bookReadiness}>Book a readiness call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
                 </div>
               ) : (
-                <div className="muted" style={{ fontSize: 15, lineHeight: 1.6 }}>
-                  Enter your annual revenue (or tick &ldquo;government entity&rdquo;) to see your ASP-appointment deadline, your go-live date, and exactly how many days you have left.
+                <div>
+                  {TIER ? (
+                    <div style={{ marginBottom: 20 }}>
+                      <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>{TIER.who}</div>
+                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Appoint ASP by <strong style={{ color: '#fff' }}>{TIER.asp}</strong> <span style={{ color: 'var(--aa-cyan)' }}>({dlabel(TIER.aspISO)})</span></div>
+                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong> <span style={{ color: 'var(--aa-cyan)' }}>({dlabel(TIER.liveISO)})</span></div>
+                    </div>
+                  ) : (
+                    <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue to generate a personalised PDF report — your exact deadlines, a tailored verdict, and your next steps.</p>
+                  )}
+                  <button className="btn btn--primary" onClick={handleGenerate} disabled={busy}>
+                    {busy ? 'Generating…' : 'Generate my report'}
+                    <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
+                  </button>
+                  {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
+                  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Instant PDF download. We use your details only to prepare your report and follow up.</p>
                 </div>
               )}
             </div>

@@ -37,4 +37,19 @@ window.AAContactSheet = {
       body: JSON.stringify(payload),
     });
   },
+
+  // Post an arbitrary payload (e.g. the e-invoicing readiness assessment) to the
+  // same endpoint. The Apps Script writes a row to the sheet and emails the firm.
+  async submitRaw(payload) {
+    const url = window.AAContactSheet.SCRIPT_URL;
+    if (!url) {
+      throw new Error('Contact sheet URL is not configured.');
+    }
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    });
+  },
 };
