@@ -7,10 +7,10 @@ function ServicesPage({ onNav }) {
     { reg: 'Compliance', t: 'Outsourced accounting', icon: 'book-open',
       d: 'Day-to-day bookkeeping, monthly ledger close, reconciliations and management pack — a complete finance function delivered against a documented controls framework.',
       bullets: ['Day-to-day bookkeeping', 'Monthly close & management pack', 'Reconciliations & validation', 'Custom controls engine'] },
-    { reg: 'Compliance', t: 'VAT compliance', icon: 'file-check',
+    { reg: 'Compliance', t: 'VAT compliance', icon: 'file-check', page: 'service-vat',
       d: 'Registration, return preparation, review and filing with the FTA — with a defensible position memo per line item.',
       bullets: ['VAT registration', 'Return preparation', 'FTA filing & queries', 'Review-ready return file'] },
-    { reg: 'Compliance', t: 'UAE Corporate Tax', icon: 'landmark',
+    { reg: 'Compliance', t: 'UAE Corporate Tax', icon: 'landmark', page: 'service-corporate-tax',
       d: 'Registration, period computation and return filing under the 9% regime, with QFZP analysis where relevant.',
       bullets: ['CT registration', 'Period computation', 'QFZP / FTA filings', 'Position memos'] },
     { reg: 'Compliance', t: 'Financial statements', icon: 'file-spreadsheet',
@@ -128,9 +128,10 @@ function ServicesPage({ onNav }) {
             {filtered.map((s, i) => (
               <a
                 key={s.t}
-                href={pathForPage('contact')}
+                href={pathForPage(s.page || 'contact')}
                 onClick={(e) => {
                   e.preventDefault();
+                  if (s.page) { onNav(s.page); return; }
                   try {
                     sessionStorage.setItem('aa_intent_service', s.t);
                     sessionStorage.setItem('aa_scroll_target', 'aa-contact-wizard');
@@ -174,7 +175,7 @@ function ServicesPage({ onNav }) {
                 <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   <span className="mono">{String(i + 1).padStart(2, '0')} / {filtered.length.toString().padStart(2, '0')}</span>
                   <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>
-                    Start a scope →
+                    {s.page ? 'View details →' : 'Start a scope →'}
                   </span>
                 </div>
               </a>
@@ -385,6 +386,189 @@ function ServiceVATPage({ onNav }) {
   );
 }
 
+// Corporate Tax detail page
+function ServiceCorporateTaxPage({ onNav }) {
+  const CT_FAQ = (window.AARoutes && window.AARoutes.CORPTAX_FAQ) || [];
+  return (
+    <div>
+      {/* Crumbtrail + hero */}
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href={pathForPage('services')} onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <span>/</span>
+            <span>Compliance</span>
+            <span>/</span>
+            <span style={{ color: 'var(--aa-charcoal)' }}>Corporate Tax</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Compliance · 9% Federal Corporate Tax</div>
+              <h1 style={{
+                fontFamily: 'var(--aa-font-display)', fontWeight: 700,
+                fontSize: 'clamp(44px, 6vw, 72px)',
+                textTransform: 'uppercase', letterSpacing: '0.01em',
+                margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0,
+              }}>
+                UAE Corporate Tax.<br />
+                Registered, computed, filed.
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>
+                We handle UAE Corporate Tax end to end — registration on EmaraTax, taxable-income computation, free-zone (QFZP) analysis, Small Business Relief elections and return filing with the Federal Tax Authority — under Federal Decree-Law No. 47 of 2022, with a position memo behind every judgement call.
+              </p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                  Request a Corporate Tax scoping
+                  <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+                </button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
+                  <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
+                  WhatsApp us
+                </a>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {[
+                  ['Standard rate', '9% (above AED 375,000)'],
+                  ['0% rate band', 'First AED 375,000'],
+                  ['Free zone', '0% on qualifying income (QFZP)'],
+                  ['Small Business Relief', 'Revenue up to AED 3M · to 31 Dec 2026'],
+                  ['Return filing', 'Within 9 months of year-end'],
+                  ['Late-registration penalty', 'AED 10,000'],
+                ].map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* What it covers */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">What the engagement covers</div>
+            <h2>From registration to a filed return.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['landmark', 'Registration', 'EmaraTax registration and your Corporate Tax Registration Number, with the correct first tax period confirmed.'],
+              ['calculator', 'Computation', 'Accounting profit converted to taxable income — add-backs, exempt income, reliefs and interest limitation.'],
+              ['building-2', 'Free zone / QFZP', 'Qualifying income analysis, substance and de minimis testing for free zone persons seeking the 0% rate.'],
+              ['file-check', 'Filing & support', 'Return filed on EmaraTax within nine months, with FTA query handling and audit-ready workpapers.'],
+            ].map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">The tax period, end to end</div>
+            <h2>How we run your Corporate Tax.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['01', 'Register', 'EmaraTax registration, Tax Registration Number and the correct first tax period.'],
+              ['02', 'Scope & data', 'Trial balance, free-zone status and related-party (transfer pricing) transactions gathered.'],
+              ['03', 'Compute', 'Accounting profit to taxable income: add-backs, exempt income, Small Business Relief or QFZP, interest limitation.'],
+              ['04', 'Review', 'Manager review and Partner sign-off, with a position memo on every judgement area.'],
+              ['05', 'File & pay', 'Return filed on EmaraTax within nine months; workpapers archived for the record.'],
+            ].map((s, i) => (
+              <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Worked computation */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">A worked computation</div>
+            <h2>Accounting profit to tax payable.</h2>
+          </div>
+          <div style={{ background: '#fff', border: '1px solid var(--aa-rule)', maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '2px solid var(--aa-charcoal)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="eyebrow eyebrow--charcoal">CT computation · FY2025 · illustrative</div>
+              <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)' }}>9% regime</div>
+            </div>
+            <table className="aa-table">
+              <thead>
+                <tr>
+                  <th>Line</th>
+                  <th className="aa-num">Amount (AED)</th>
+                  <th>Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Accounting net profit', '1,200,000', '—'],
+                  ['Add: non-deductible expenses', '35,000', 'Fines, 50% entertainment'],
+                  ['Less: exempt dividend income', '(80,000)', 'Participation exemption'],
+                  ['Taxable income', '1,155,000', '—'],
+                  ['0% band — first AED 375,000', '0', 'Rate band'],
+                  ['9% on remaining AED 780,000', '70,200', '—'],
+                ].map((r) => (
+                  <tr key={r[0]}>
+                    <td>{r[0]}</td>
+                    <td className="aa-num">{r[1]}</td>
+                    <td style={{ fontSize: 12, color: 'var(--aa-steel)' }}>{r[2]}</td>
+                  </tr>
+                ))}
+                <tr className="aa-total">
+                  <td>Corporate Tax payable</td>
+                  <td className="aa-num">70,200</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style={{ padding: '12px 20px', borderTop: '1px solid var(--aa-rule)', fontSize: 11, color: 'var(--aa-steel)' }}>
+              Illustrative only. Your computation depends on your facts, elections and free-zone status.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ — shares CORPTAX_FAQ with the FAQPage schema */}
+      <section className="section">
+        <div className="container" style={{ maxWidth: 920 }}>
+          <div className="section-head">
+            <div className="section-head__eyebrow">FAQ</div>
+            <h2>UAE Corporate Tax, answered.</h2>
+          </div>
+          <FAQList items={CT_FAQ} />
+          <p style={{ marginTop: 28, fontSize: 13, color: 'var(--aa-steel)', lineHeight: 1.6 }}>
+            Legal basis: Federal Decree-Law No. 47 of 2022 and related Cabinet and Ministerial Decisions. General guidance, not tax advice — confirm against the latest UAE Ministry of Finance / Federal Tax Authority sources.
+          </p>
+          <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
+            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function FAQList({ items }) {
   const [open, setOpen] = useStateSvc(0);
   return (
@@ -414,4 +598,4 @@ function FAQList({ items }) {
   );
 }
 
-Object.assign(window, { ServicesPage, ServiceVATPage, FAQList });
+Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, FAQList });

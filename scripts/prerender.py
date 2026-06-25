@@ -27,6 +27,7 @@ PAGE_TO_PATH = {
     "home": "/",
     "services": "/services",
     "service-vat": "/services/vat",
+    "service-corporate-tax": "/services/corporate-tax",
     "e-invoicing": "/e-invoicing",
     "industries": "/industries",
     "about": "/about",
@@ -45,6 +46,10 @@ PAGE_SEO = {
     "service-vat": {
         "title": "VAT Compliance UAE — Registration, Filing & FTA Support | Authentic Accounting",
         "description": "End-to-end UAE VAT compliance: registration, return filing, FTA correspondence, voluntary disclosures and audit support for SMEs and enterprises.",
+    },
+    "service-corporate-tax": {
+        "title": "UAE Corporate Tax — Registration, Filing & 9% Compliance | Authentic Accounting",
+        "description": "End-to-end UAE Corporate Tax compliance under Federal Decree-Law 47 of 2022: registration, taxable-income computation, free-zone (QFZP) analysis, Small Business Relief and FTA return filing for SMEs, free zones and groups.",
     },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting",
@@ -146,6 +151,7 @@ INSIGHTS_BY_SLUG = {a["slug"]: a for a in INSIGHTS}
 
 BREADCRUMB_LABELS = {
     "home": "Home", "services": "Services", "service-vat": "VAT Compliance",
+    "service-corporate-tax": "Corporate Tax",
     "e-invoicing": "E-Invoicing", "industries": "Industries", "about": "About",
     "insights": "Insights", "careers": "Careers", "contact": "Contact",
     "privacy": "Privacy Policy", "terms": "Terms of Use",
@@ -181,6 +187,24 @@ EINVOICE_FAQ = [
      "a": "Assess your transaction scope, appoint an Accredited Service Provider, map your ERP / accounting-system fields to the required e-invoice format, and run end-to-end testing before your go-live date."},
 ]
 
+# Keep in sync with CORPTAX_FAQ in scripts/routes.js.
+CORPTAX_FAQ = [
+    {"q": "Who has to pay UAE Corporate Tax?",
+     "a": "UAE Corporate Tax applies to businesses and commercial activities for financial years starting on or after 1 June 2023, under Federal Decree-Law No. 47 of 2022. The rate is 0% on taxable income up to AED 375,000 and 9% on taxable income above AED 375,000."},
+    {"q": "Do I still need to register if my income is below AED 375,000?",
+     "a": "Yes. The AED 375,000 threshold is a 0% rate band, not an exemption. Every taxable person must register for Corporate Tax, obtain a Tax Registration Number and file an annual return — even when the tax due is zero."},
+    {"q": "What is Small Business Relief?",
+     "a": "Businesses with total revenue of AED 3 million or less in a tax period can elect Small Business Relief and be treated as having no taxable income. It is a transitional measure available for tax periods ending on or before 31 December 2026, and it must be actively elected with the FTA."},
+    {"q": "Do free zone companies pay Corporate Tax?",
+     "a": "A Qualifying Free Zone Person (QFZP) can benefit from a 0% rate on its qualifying income if it meets all conditions (adequate substance, qualifying activities and the de minimis limits) under Cabinet Decision 100 of 2023 and Ministerial Decision 229 of 2025. Non-qualifying income is taxed at 9%, and free zone businesses must still register and file."},
+    {"q": "When is my Corporate Tax return due?",
+     "a": "The return must be filed, and any tax paid, within nine months of the end of your tax period. For a 31 December year-end, the return is due by 30 September of the following year."},
+    {"q": "What is the penalty for registering late?",
+     "a": "Late Corporate Tax registration carries an administrative penalty of AED 10,000. The FTA has waived this penalty where a business files its first Corporate Tax return within seven months of the end of its first tax period."},
+    {"q": "What about large multinational groups?",
+     "a": "Multinational groups with consolidated global revenue of EUR 750 million or more are subject to a 15% Domestic Minimum Top-up Tax (DMTT) for financial years starting on or after 1 January 2025, in line with the OECD Pillar Two rules."},
+]
+
 
 def iso_date(d):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d or "")
@@ -209,6 +233,10 @@ def breadcrumb_chain(page, slug):
     if page == "service-vat":
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS["service-vat"], "url": full_url("service-vat")})
+        return items
+    if page == "service-corporate-tax":
+        items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
+        items.append({"name": BREADCRUMB_LABELS["service-corporate-tax"], "url": full_url("service-corporate-tax")})
         return items
     if page == "insight":
         a = INSIGHTS_BY_SLUG.get(slug, INSIGHTS[0])
@@ -248,7 +276,7 @@ def build_jsonld(page, slug):
             block["datePublished"] = iso
             block["dateModified"] = iso
         blocks.append(block)
-    if page in ("services", "service-vat", "e-invoicing"):
+    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax"):
         meta = PAGE_SEO[page]
         blocks.append({
             "@context": "https://schema.org",
@@ -259,14 +287,15 @@ def build_jsonld(page, slug):
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
         })
-    if page == "e-invoicing":
+    if page in ("e-invoicing", "service-corporate-tax"):
+        faq = CORPTAX_FAQ if page == "service-corporate-tax" else EINVOICE_FAQ
         blocks.append({
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
                 {"@type": "Question", "name": f["q"],
                  "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
-                for f in EINVOICE_FAQ
+                for f in faq
             ],
         })
     return blocks
@@ -344,7 +373,7 @@ def main():
     written = []
 
     # Static pages (home is the root index.html — already correct, skip)
-    for page in ("services", "service-vat", "e-invoicing", "industries", "about",
+    for page in ("services", "service-vat", "service-corporate-tax", "e-invoicing", "industries", "about",
                  "insights", "careers", "contact", "privacy", "terms"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)

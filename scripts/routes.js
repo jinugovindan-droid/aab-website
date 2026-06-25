@@ -6,6 +6,7 @@
     home: '/',
     services: '/services',
     'service-vat': '/services/vat',
+    'service-corporate-tax': '/services/corporate-tax',
     'e-invoicing': '/e-invoicing',
     industries: '/industries',
     about: '/about',
@@ -146,6 +147,10 @@
       title: 'VAT Compliance UAE — Registration, Filing & FTA Support | Authentic Accounting',
       description: 'End-to-end UAE VAT compliance: registration, return filing, FTA correspondence, voluntary disclosures and audit support for SMEs and enterprises.',
     },
+    'service-corporate-tax': {
+      title: 'UAE Corporate Tax — Registration, Filing & 9% Compliance | Authentic Accounting',
+      description: 'End-to-end UAE Corporate Tax compliance under Federal Decree-Law 47 of 2022: registration, taxable-income computation, free-zone (QFZP) analysis, Small Business Relief and FTA return filing for SMEs, free zones and groups.',
+    },
     'e-invoicing': {
       title: 'UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting',
       description: 'Prepare your UAE business for e-invoicing mandates. System readiness, Peppol integration guidance, process design and compliance advisory.',
@@ -235,6 +240,7 @@
   // ---- Per-page structured data (JSON-LD) ----
   const BREADCRUMB_LABELS = {
     home: 'Home', services: 'Services', 'service-vat': 'VAT Compliance',
+    'service-corporate-tax': 'Corporate Tax',
     'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
@@ -276,12 +282,37 @@
       a: 'Assess your transaction scope, appoint an Accredited Service Provider, map your ERP / accounting-system fields to the required e-invoice format, and run end-to-end testing before your go-live date.' },
   ];
 
+  // UAE Corporate Tax FAQ — single source for (a) the FAQPage JSON-LD and
+  // (b) the visible Q&A on the Corporate Tax service page (page-services.jsx).
+  // Keep in sync with the CORPTAX_FAQ mirror in scripts/prerender.py.
+  const CORPTAX_FAQ = [
+    { q: 'Who has to pay UAE Corporate Tax?',
+      a: 'UAE Corporate Tax applies to businesses and commercial activities for financial years starting on or after 1 June 2023, under Federal Decree-Law No. 47 of 2022. The rate is 0% on taxable income up to AED 375,000 and 9% on taxable income above AED 375,000.' },
+    { q: 'Do I still need to register if my income is below AED 375,000?',
+      a: 'Yes. The AED 375,000 threshold is a 0% rate band, not an exemption. Every taxable person must register for Corporate Tax, obtain a Tax Registration Number and file an annual return — even when the tax due is zero.' },
+    { q: 'What is Small Business Relief?',
+      a: 'Businesses with total revenue of AED 3 million or less in a tax period can elect Small Business Relief and be treated as having no taxable income. It is a transitional measure available for tax periods ending on or before 31 December 2026, and it must be actively elected with the FTA.' },
+    { q: 'Do free zone companies pay Corporate Tax?',
+      a: 'A Qualifying Free Zone Person (QFZP) can benefit from a 0% rate on its qualifying income if it meets all conditions (adequate substance, qualifying activities and the de minimis limits) under Cabinet Decision 100 of 2023 and Ministerial Decision 229 of 2025. Non-qualifying income is taxed at 9%, and free zone businesses must still register and file.' },
+    { q: 'When is my Corporate Tax return due?',
+      a: 'The return must be filed, and any tax paid, within nine months of the end of your tax period. For a 31 December year-end, the return is due by 30 September of the following year.' },
+    { q: 'What is the penalty for registering late?',
+      a: 'Late Corporate Tax registration carries an administrative penalty of AED 10,000. The FTA has waived this penalty where a business files its first Corporate Tax return within seven months of the end of its first tax period.' },
+    { q: 'What about large multinational groups?',
+      a: 'Multinational groups with consolidated global revenue of EUR 750 million or more are subject to a 15% Domestic Minimum Top-up Tax (DMTT) for financial years starting on or after 1 January 2025, in line with the OECD Pillar Two rules.' },
+  ];
+
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
     if (page === 'service-vat') {
       items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
       items.push({ name: BREADCRUMB_LABELS['service-vat'], url: fullUrlForPage('service-vat') });
+      return items;
+    }
+    if (page === 'service-corporate-tax') {
+      items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
+      items.push({ name: BREADCRUMB_LABELS['service-corporate-tax'], url: fullUrlForPage('service-corporate-tax') });
       return items;
     }
     if (page === 'insight') {
@@ -319,7 +350,7 @@
       if (iso) { block.datePublished = iso; block.dateModified = iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing') {
+    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax') {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',
@@ -331,11 +362,12 @@
         provider: ORG,
       });
     }
-    if (page === 'e-invoicing') {
+    if (page === 'e-invoicing' || page === 'service-corporate-tax') {
+      const faq = page === 'service-corporate-tax' ? CORPTAX_FAQ : EINVOICE_FAQ;
       blocks.push({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: EINVOICE_FAQ.map((f) => ({
+        mainEntity: faq.map((f) => ({
           '@type': 'Question', name: f.q,
           acceptedAnswer: { '@type': 'Answer', text: f.a },
         })),
@@ -404,6 +436,7 @@
     INSIGHTS,
     DEFAULT_INSIGHT,
     EINVOICE_FAQ,
+    CORPTAX_FAQ,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,

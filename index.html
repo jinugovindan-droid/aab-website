@@ -135,11 +135,11 @@
 <body>
   <div id="root"></div>
 
-  <script src="scripts/routes.js?v=20260623-einv"></script>
+  <script src="scripts/routes.js?v=20260626-ct"></script>
   <script type="text/babel" src="scripts/tweaks-panel.jsx?v=20260523"></script>
   <script type="text/babel" src="scripts/chrome.jsx?v=20260624-title"></script>
   <script type="text/babel" src="scripts/page-home.jsx?v=20260617-fixnow"></script>
-  <script type="text/babel" src="scripts/page-services.jsx?v=20260615-outsource"></script>
+  <script type="text/babel" src="scripts/page-services.jsx?v=20260626-ct"></script>
   <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260624-title"></script>
   <script src="scripts/contact-sheet.js?v=20260617-form"></script>
   <script type="text/babel" src="scripts/page-other.jsx?v=20260624-title"></script>
@@ -159,6 +159,7 @@
       home: '01 Home',
       services: '02 Services',
       'service-vat': '03 Service · VAT',
+      'service-corporate-tax': '03 Service · Corporate Tax',
       'e-invoicing': '04 E-Invoicing',
       industries: '05 Industries',
       about: '06 About',
@@ -271,6 +272,7 @@
           case 'home': return <HomePage onNav={navigateTo}/>;
           case 'services': return <ServicesPage onNav={navigateTo}/>;
           case 'service-vat': return <ServiceVATPage onNav={navigateTo}/>;
+          case 'service-corporate-tax': return <ServiceCorporateTaxPage onNav={navigateTo}/>;
           case 'e-invoicing': return <EInvoicingPage onNav={navigateTo}/>;
           case 'industries': return <IndustriesPage onNav={navigateTo}/>;
           case 'about': return <AboutPage onNav={navigateTo}/>;
@@ -284,7 +286,7 @@
         }
       };
 
-      const navActive = page === 'service-vat' ? 'services' : page === 'insight' ? 'insights' : page;
+      const navActive = (page === 'service-vat' || page === 'service-corporate-tax') ? 'services' : page === 'insight' ? 'insights' : page;
 
       return (
         <div data-screen-label={PAGE_LABELS[page] || page}>
