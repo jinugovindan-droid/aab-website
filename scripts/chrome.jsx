@@ -411,20 +411,11 @@ function EInvoiceMarquee({ onNav }) {
   if (!visible) return null;
 
   const go = () => {
-    // Deep-link straight to the readiness form so the visitor lands ready to fill.
-    try { sessionStorage.setItem('aa_scroll_target', 'aa-einv-assessment'); } catch (e) {}
-    onNav('e-invoicing');
-    // The e-invoicing hero loads large background images, so the form's final
-    // position settles a few hundred ms after mount. Re-align to it a handful
-    // of times as layout stabilises (also covers the already-on-page case,
-    // where the route is unchanged and the App's scroll effect won't re-fire).
-    let tries = 0;
-    const tick = () => {
-      const el = document.getElementById('aa-einv-assessment');
-      if (el) el.scrollIntoView({ block: 'start', behavior: tries === 0 ? 'smooth' : 'auto' });
-      if (++tries < 7) setTimeout(tick, 160);
-    };
-    setTimeout(tick, 120);
+    // Open the readiness form as a pop-up over the current page — no scrolling,
+    // works from anywhere. Falls back to the e-invoicing page if the modal
+    // listener isn't mounted for any reason.
+    try { window.dispatchEvent(new Event('aa:open-einvoice')); }
+    catch (e) { onNav('e-invoicing'); }
   };
   const close = (e) => {
     e.stopPropagation();

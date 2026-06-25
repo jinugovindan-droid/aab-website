@@ -2,9 +2,13 @@
 // Institutional register: square corners, hairline rules, tabular dates.
 const { pathForPage, pathForInsight } = window.AARoutes;
 
-function EInvoicingPage({ onNav }) {
+function EInvoicingPage({ onNav, formOnly, onClose }) {
   const daysTo = (iso) => Math.ceil((new Date(iso + 'T00:00:00') - new Date()) / 86400000);
   const dlabel = (iso) => { const n = daysTo(iso); return n > 0 ? n.toLocaleString() + ' days left' : 'now due'; };
+
+  // Inside the readiness modal, refresh Lucide icons as the form state changes
+  // (the app's global icon pass keys off page navigation, not modal-local state).
+  React.useEffect(() => { if (formOnly && window.lucide) window.lucide.createIcons(); });
 
   // Pre-fill the contact wizard with E-Invoicing so it skips step 1 → lower friction.
   const bookReadiness = () => {
@@ -12,6 +16,7 @@ function EInvoicingPage({ onNav }) {
       sessionStorage.setItem('aa_intent_service', 'E-Invoicing support');
       sessionStorage.setItem('aa_scroll_target', 'aa-contact-wizard');
     } catch (e) {}
+    if (onClose) onClose();
     onNav('contact');
   };
 
@@ -245,6 +250,81 @@ function EInvoicingPage({ onNav }) {
     'End-to-end compliance & go-live support',
   ];
 
+  // The lead form + live deadline preview + PDF generator. Shared between the
+  // on-page section and the global readiness modal (formOnly).
+  const formGrid = (
+    <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+      <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div><label style={laS}>Company name *</label><input style={inS} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
+          <div><label style={laS}>Your name *</label><input style={inS} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+          <div><label style={laS}>Work email *</label><input type="email" style={inS} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
+          <div><label style={laS}>Phone / WhatsApp *</label><input style={inS} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
+        </div>
+        <div style={{ marginTop: 14 }}>
+          <label style={laS}>Approximate annual revenue (AED) *</label>
+          <input style={{ ...inS, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.revenue} onChange={upd('revenue')} placeholder="e.g. 75,000,000" disabled={f.isGov} />
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer' }}>
+            <input type="checkbox" checked={f.isGov} onChange={upd('isGov')} style={{ width: 16, height: 16 }} /> We are a government entity
+          </label>
+        </div>
+        <div style={{ marginTop: 14 }}>
+          <label style={laS}>Do you issue B2B or B2G (business / government) invoices? *</label>
+          <select style={inS} value={f.b2b} onChange={upd('b2b')}>
+            <option value="">Select…</option>
+            <option value="b2bg">Yes — B2B and/or B2G</option>
+            <option value="mix">A mix of business and consumers</option>
+            <option value="b2c">Only B2C (consumers)</option>
+          </select>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+          <div><label style={laS}>In-house accounting team?</label>
+            <select style={inS} value={f.team} onChange={upd('team')}><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+          <div><label style={laS}>Can your team implement it in-house?</label>
+            <select style={inS} value={f.impl} onChange={upd('impl')}><option value="">Select…</option><option value="yes">Yes</option><option value="unsure">Not sure</option><option value="no">No — we’d want help</option></select></div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+          <div><label style={laS}>ASP identified / appointed?</label>
+            <select style={inS} value={f.asp} onChange={upd('asp')}><option value="">Select…</option><option value="appointed">Appointed</option><option value="evaluating">Evaluating</option><option value="no">Not yet</option></select></div>
+          <div><label style={laS}>ERP / accounting software</label>
+            <input style={inS} value={f.erp} onChange={upd('erp')} placeholder="e.g. Tally, Zoho, SAP" /></div>
+        </div>
+      </div>
+      <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
+        {done ? (
+          <div>
+            <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
+            <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Report downloading</h3>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your personalised readiness report is downloading now. We’ve received your details and the team will be in touch — or reach us directly on WhatsApp.</p>
+            <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={bookReadiness}>Book a readiness call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
+          </div>
+        ) : (
+          <div>
+            {TIER ? (
+              <div style={{ marginBottom: 20 }}>
+                <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>{TIER.who}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Appoint ASP by <strong style={{ color: '#fff' }}>{TIER.asp}</strong> <span style={{ color: 'var(--aa-cyan)' }}>({dlabel(TIER.aspISO)})</span></div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong> <span style={{ color: 'var(--aa-cyan)' }}>({dlabel(TIER.liveISO)})</span></div>
+              </div>
+            ) : (
+              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue to generate a personalised PDF report — your exact deadlines, a tailored verdict, and your next steps.</p>
+            )}
+            <button className="btn btn--primary" onClick={handleGenerate} disabled={busy}>
+              {busy ? 'Generating…' : 'Generate my report'}
+              <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
+            </button>
+            {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Instant PDF download. We use your details only to prepare your report and follow up.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  if (formOnly) return formGrid;
+
   return (
     <div>
       {/* ============== HERO ============== */}
@@ -321,74 +401,7 @@ function EInvoicingPage({ onNav }) {
             <div className="section-head__eyebrow">Free · Instant PDF guide with your deadlines</div>
             <h2>Get your e-invoicing readiness report.</h2>
           </div>
-          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
-            <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                <div><label style={laS}>Company name *</label><input style={inS} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
-                <div><label style={laS}>Your name *</label><input style={inS} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-                <div><label style={laS}>Work email *</label><input type="email" style={inS} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
-                <div><label style={laS}>Phone / WhatsApp *</label><input style={inS} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
-              </div>
-              <div style={{ marginTop: 14 }}>
-                <label style={laS}>Approximate annual revenue (AED) *</label>
-                <input style={{ ...inS, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.revenue} onChange={upd('revenue')} placeholder="e.g. 75,000,000" disabled={f.isGov} />
-                <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer' }}>
-                  <input type="checkbox" checked={f.isGov} onChange={upd('isGov')} style={{ width: 16, height: 16 }} /> We are a government entity
-                </label>
-              </div>
-              <div style={{ marginTop: 14 }}>
-                <label style={laS}>Do you issue B2B or B2G (business / government) invoices? *</label>
-                <select style={inS} value={f.b2b} onChange={upd('b2b')}>
-                  <option value="">Select…</option>
-                  <option value="b2bg">Yes — B2B and/or B2G</option>
-                  <option value="mix">A mix of business and consumers</option>
-                  <option value="b2c">Only B2C (consumers)</option>
-                </select>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-                <div><label style={laS}>In-house accounting team?</label>
-                  <select style={inS} value={f.team} onChange={upd('team')}><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select></div>
-                <div><label style={laS}>Can your team implement it in-house?</label>
-                  <select style={inS} value={f.impl} onChange={upd('impl')}><option value="">Select…</option><option value="yes">Yes</option><option value="unsure">Not sure</option><option value="no">No — we’d want help</option></select></div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-                <div><label style={laS}>ASP identified / appointed?</label>
-                  <select style={inS} value={f.asp} onChange={upd('asp')}><option value="">Select…</option><option value="appointed">Appointed</option><option value="evaluating">Evaluating</option><option value="no">Not yet</option></select></div>
-                <div><label style={laS}>ERP / accounting software</label>
-                  <input style={inS} value={f.erp} onChange={upd('erp')} placeholder="e.g. Tally, Zoho, SAP" /></div>
-              </div>
-            </div>
-            <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
-              {done ? (
-                <div>
-                  <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
-                  <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Report downloading</h3>
-                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your personalised readiness report is downloading now. We’ve received your details and the team will be in touch — or reach us directly on WhatsApp.</p>
-                  <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={bookReadiness}>Book a readiness call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
-                </div>
-              ) : (
-                <div>
-                  {TIER ? (
-                    <div style={{ marginBottom: 20 }}>
-                      <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>{TIER.who}</div>
-                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Appoint ASP by <strong style={{ color: '#fff' }}>{TIER.asp}</strong> <span style={{ color: 'var(--aa-cyan)' }}>({dlabel(TIER.aspISO)})</span></div>
-                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong> <span style={{ color: 'var(--aa-cyan)' }}>({dlabel(TIER.liveISO)})</span></div>
-                    </div>
-                  ) : (
-                    <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue to generate a personalised PDF report — your exact deadlines, a tailored verdict, and your next steps.</p>
-                  )}
-                  <button className="btn btn--primary" onClick={handleGenerate} disabled={busy}>
-                    {busy ? 'Generating…' : 'Generate my report'}
-                    <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
-                  </button>
-                  {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
-                  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Instant PDF download. We use your details only to prepare your report and follow up.</p>
-                </div>
-              )}
-            </div>
-          </div>
+          {formGrid}
         </div>
       </section>
 
@@ -588,4 +601,54 @@ function EInvoicingPage({ onNav }) {
   );
 }
 
-Object.assign(window, { EInvoicingPage });
+// Global pop-up readiness form. Mounted once in the app shell; opened from the
+// marquee (and anywhere) via window.dispatchEvent(new Event('aa:open-einvoice')).
+// Renders EInvoicingPage in formOnly mode so there is a single source of truth.
+function EInvoiceReadinessModal({ onNav }) {
+  const [open, setOpen] = React.useState(false);
+  const close = React.useCallback(() => setOpen(false), []);
+
+  React.useEffect(() => {
+    const openHandler = () => setOpen(true);
+    window.addEventListener('aa:open-einvoice', openHandler);
+    return () => window.removeEventListener('aa:open-einvoice', openHandler);
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    if (window.lucide) window.lucide.createIcons();
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, [open]);
+
+  if (!open) return null;
+
+  const viewFull = (e) => { e.preventDefault(); setOpen(false); onNav('e-invoicing'); };
+
+  return (
+    <div role="dialog" aria-modal="true" aria-label="E-invoicing readiness report" onClick={close}
+      style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(10,12,20,0.66)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', overflowY: 'auto', padding: '40px 16px' }}>
+      <div onClick={(e) => e.stopPropagation()}
+        style={{ background: '#fff', width: '100%', maxWidth: 760, position: 'relative', boxShadow: '0 24px 70px rgba(0,0,0,0.45)' }}>
+        <button onClick={close} aria-label="Close"
+          style={{ position: 'absolute', top: 8, right: 10, zIndex: 2, width: 38, height: 38, border: 0, background: 'transparent', fontSize: 26, lineHeight: 1, color: 'var(--aa-steel)', cursor: 'pointer' }}>×</button>
+        <div style={{ padding: '28px 28px 0' }}>
+          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant PDF report</div>
+          <h2 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(22px, 3vw, 30px)', margin: '0 0 6px', color: 'var(--aa-charcoal)', lineHeight: 1.05 }}>Get your e-invoicing readiness report.</h2>
+          <p style={{ margin: '0 0 18px', fontSize: 14, color: 'var(--aa-steel-700)', lineHeight: 1.5 }}>Answer a few quick questions — your exact deadlines, a tailored verdict and next steps, as an instant PDF.</p>
+        </div>
+        <div style={{ padding: '0 28px 24px' }}>
+          <EInvoicingPage formOnly onNav={onNav} onClose={close} />
+          <div style={{ marginTop: 16, textAlign: 'center' }}>
+            <a href={pathForPage('e-invoicing')} onClick={viewFull} style={{ fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan-700)', textDecoration: 'none' }}>Read the full e-invoicing briefing →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { EInvoicingPage, EInvoiceReadinessModal });
