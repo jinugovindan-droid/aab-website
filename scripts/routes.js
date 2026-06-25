@@ -7,6 +7,7 @@
     services: '/services',
     'service-vat': '/services/vat',
     'service-corporate-tax': '/services/corporate-tax',
+    'service-bookkeeping': '/services/bookkeeping',
     'e-invoicing': '/e-invoicing',
     industries: '/industries',
     about: '/about',
@@ -151,6 +152,10 @@
       title: 'UAE Corporate Tax — Registration, Filing & 9% Compliance | Authentic Accounting',
       description: 'End-to-end UAE Corporate Tax compliance under Federal Decree-Law 47 of 2022: registration, taxable-income computation, free-zone (QFZP) analysis, Small Business Relief and FTA return filing for SMEs, free zones and groups.',
     },
+    'service-bookkeeping': {
+      title: 'Outsourced Bookkeeping & Accounting Services Dubai, UAE | Authentic Accounting',
+      description: 'Outsourced bookkeeping and accounting in Dubai: day-to-day recording, bank and ledger reconciliations, monthly close and management accounts — VAT and Corporate Tax-ready, delivered against a documented controls framework.',
+    },
     'e-invoicing': {
       title: 'UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting',
       description: 'Prepare your UAE business for e-invoicing mandates. System readiness, Peppol integration guidance, process design and compliance advisory.',
@@ -240,7 +245,7 @@
   // ---- Per-page structured data (JSON-LD) ----
   const BREADCRUMB_LABELS = {
     home: 'Home', services: 'Services', 'service-vat': 'VAT Compliance',
-    'service-corporate-tax': 'Corporate Tax',
+    'service-corporate-tax': 'Corporate Tax', 'service-bookkeeping': 'Bookkeeping',
     'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
@@ -302,6 +307,23 @@
       a: 'Multinational groups with consolidated global revenue of EUR 750 million or more are subject to a 15% Domestic Minimum Top-up Tax (DMTT) for financial years starting on or after 1 January 2025, in line with the OECD Pillar Two rules.' },
   ];
 
+  // Bookkeeping FAQ — single source for the FAQPage JSON-LD and the visible
+  // Q&A on the bookkeeping service page. Keep in sync with prerender.py.
+  const BOOKKEEPING_FAQ = [
+    { q: 'What does outsourced bookkeeping include?',
+      a: 'A complete day-to-day finance function: recording sales, purchases and expenses, bank and ledger reconciliations, a disciplined monthly close, and a management accounts pack (profit & loss, balance sheet and cash flow). Your books stay current, accurate and audit-ready.' },
+    { q: 'Which accounting software do you work with?',
+      a: 'We work in your existing system — Tally, Zoho Books, QuickBooks, Xero, SAP, Microsoft Dynamics and others — or recommend and set up the right one if you are starting fresh.' },
+    { q: 'How does bookkeeping keep me VAT and Corporate Tax compliant?',
+      a: 'Accurate, reconciled books are the foundation of every correct VAT return and Corporate Tax computation. We tag transactions at source so your filings are straightforward and defensible, and your records meet the FTA’s retention requirements.' },
+    { q: 'Can you clear a backlog of unrecorded months?',
+      a: 'Yes. We run a catch-up scope to reconstruct and reconcile prior periods, bring your books fully up to date, and then move you onto a steady monthly cycle.' },
+    { q: 'How often will I receive reports?',
+      a: 'A management accounts pack each month is standard, with weekly or near-real-time reporting available for businesses that need a tighter view of cash and performance.' },
+    { q: 'Who owns the data and the books?',
+      a: 'You do. The records are maintained in your accounting system, you retain full access at all times, and everything is exportable on request.' },
+  ];
+
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
@@ -313,6 +335,11 @@
     if (page === 'service-corporate-tax') {
       items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
       items.push({ name: BREADCRUMB_LABELS['service-corporate-tax'], url: fullUrlForPage('service-corporate-tax') });
+      return items;
+    }
+    if (page === 'service-bookkeeping') {
+      items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
+      items.push({ name: BREADCRUMB_LABELS['service-bookkeeping'], url: fullUrlForPage('service-bookkeeping') });
       return items;
     }
     if (page === 'insight') {
@@ -350,7 +377,7 @@
       if (iso) { block.datePublished = iso; block.dateModified = iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax') {
+    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping') {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',
@@ -362,12 +389,12 @@
         provider: ORG,
       });
     }
-    if (page === 'e-invoicing' || page === 'service-corporate-tax') {
-      const faq = page === 'service-corporate-tax' ? CORPTAX_FAQ : EINVOICE_FAQ;
+    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ };
+    if (FAQ_BY_PAGE[page]) {
       blocks.push({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: faq.map((f) => ({
+        mainEntity: FAQ_BY_PAGE[page].map((f) => ({
           '@type': 'Question', name: f.q,
           acceptedAnswer: { '@type': 'Answer', text: f.a },
         })),
@@ -437,6 +464,7 @@
     DEFAULT_INSIGHT,
     EINVOICE_FAQ,
     CORPTAX_FAQ,
+    BOOKKEEPING_FAQ,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,

@@ -28,6 +28,7 @@ PAGE_TO_PATH = {
     "services": "/services",
     "service-vat": "/services/vat",
     "service-corporate-tax": "/services/corporate-tax",
+    "service-bookkeeping": "/services/bookkeeping",
     "e-invoicing": "/e-invoicing",
     "industries": "/industries",
     "about": "/about",
@@ -50,6 +51,10 @@ PAGE_SEO = {
     "service-corporate-tax": {
         "title": "UAE Corporate Tax — Registration, Filing & 9% Compliance | Authentic Accounting",
         "description": "End-to-end UAE Corporate Tax compliance under Federal Decree-Law 47 of 2022: registration, taxable-income computation, free-zone (QFZP) analysis, Small Business Relief and FTA return filing for SMEs, free zones and groups.",
+    },
+    "service-bookkeeping": {
+        "title": "Outsourced Bookkeeping & Accounting Services Dubai, UAE | Authentic Accounting",
+        "description": "Outsourced bookkeeping and accounting in Dubai: day-to-day recording, bank and ledger reconciliations, monthly close and management accounts — VAT and Corporate Tax-ready, delivered against a documented controls framework.",
     },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting",
@@ -151,7 +156,7 @@ INSIGHTS_BY_SLUG = {a["slug"]: a for a in INSIGHTS}
 
 BREADCRUMB_LABELS = {
     "home": "Home", "services": "Services", "service-vat": "VAT Compliance",
-    "service-corporate-tax": "Corporate Tax",
+    "service-corporate-tax": "Corporate Tax", "service-bookkeeping": "Bookkeeping",
     "e-invoicing": "E-Invoicing", "industries": "Industries", "about": "About",
     "insights": "Insights", "careers": "Careers", "contact": "Contact",
     "privacy": "Privacy Policy", "terms": "Terms of Use",
@@ -205,6 +210,22 @@ CORPTAX_FAQ = [
      "a": "Multinational groups with consolidated global revenue of EUR 750 million or more are subject to a 15% Domestic Minimum Top-up Tax (DMTT) for financial years starting on or after 1 January 2025, in line with the OECD Pillar Two rules."},
 ]
 
+# Keep in sync with BOOKKEEPING_FAQ in scripts/routes.js.
+BOOKKEEPING_FAQ = [
+    {"q": "What does outsourced bookkeeping include?",
+     "a": "A complete day-to-day finance function: recording sales, purchases and expenses, bank and ledger reconciliations, a disciplined monthly close, and a management accounts pack (profit & loss, balance sheet and cash flow). Your books stay current, accurate and audit-ready."},
+    {"q": "Which accounting software do you work with?",
+     "a": "We work in your existing system — Tally, Zoho Books, QuickBooks, Xero, SAP, Microsoft Dynamics and others — or recommend and set up the right one if you are starting fresh."},
+    {"q": "How does bookkeeping keep me VAT and Corporate Tax compliant?",
+     "a": "Accurate, reconciled books are the foundation of every correct VAT return and Corporate Tax computation. We tag transactions at source so your filings are straightforward and defensible, and your records meet the FTA’s retention requirements."},
+    {"q": "Can you clear a backlog of unrecorded months?",
+     "a": "Yes. We run a catch-up scope to reconstruct and reconcile prior periods, bring your books fully up to date, and then move you onto a steady monthly cycle."},
+    {"q": "How often will I receive reports?",
+     "a": "A management accounts pack each month is standard, with weekly or near-real-time reporting available for businesses that need a tighter view of cash and performance."},
+    {"q": "Who owns the data and the books?",
+     "a": "You do. The records are maintained in your accounting system, you retain full access at all times, and everything is exportable on request."},
+]
+
 
 def iso_date(d):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d or "")
@@ -237,6 +258,10 @@ def breadcrumb_chain(page, slug):
     if page == "service-corporate-tax":
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS["service-corporate-tax"], "url": full_url("service-corporate-tax")})
+        return items
+    if page == "service-bookkeeping":
+        items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
+        items.append({"name": BREADCRUMB_LABELS["service-bookkeeping"], "url": full_url("service-bookkeeping")})
         return items
     if page == "insight":
         a = INSIGHTS_BY_SLUG.get(slug, INSIGHTS[0])
@@ -276,7 +301,7 @@ def build_jsonld(page, slug):
             block["datePublished"] = iso
             block["dateModified"] = iso
         blocks.append(block)
-    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax"):
+    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping"):
         meta = PAGE_SEO[page]
         blocks.append({
             "@context": "https://schema.org",
@@ -287,15 +312,15 @@ def build_jsonld(page, slug):
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
         })
-    if page in ("e-invoicing", "service-corporate-tax"):
-        faq = CORPTAX_FAQ if page == "service-corporate-tax" else EINVOICE_FAQ
+    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ}
+    if page in faq_by_page:
         blocks.append({
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
                 {"@type": "Question", "name": f["q"],
                  "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
-                for f in faq
+                for f in faq_by_page[page]
             ],
         })
     return blocks
@@ -373,7 +398,7 @@ def main():
     written = []
 
     # Static pages (home is the root index.html — already correct, skip)
-    for page in ("services", "service-vat", "service-corporate-tax", "e-invoicing", "industries", "about",
+    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "e-invoicing", "industries", "about",
                  "insights", "careers", "contact", "privacy", "terms"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)

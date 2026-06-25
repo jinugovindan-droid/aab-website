@@ -4,7 +4,7 @@ const { pathForPage } = window.AARoutes;
 
 function ServicesPage({ onNav }) {
   const allServices = [
-    { reg: 'Compliance', t: 'Outsourced accounting', icon: 'book-open',
+    { reg: 'Compliance', t: 'Outsourced accounting', icon: 'book-open', page: 'service-bookkeeping',
       d: 'Day-to-day bookkeeping, monthly ledger close, reconciliations and management pack — a complete finance function delivered against a documented controls framework.',
       bullets: ['Day-to-day bookkeeping', 'Monthly close & management pack', 'Reconciliations & validation', 'Custom controls engine'] },
     { reg: 'Compliance', t: 'VAT compliance', icon: 'file-check', page: 'service-vat',
@@ -569,6 +569,187 @@ function ServiceCorporateTaxPage({ onNav }) {
   );
 }
 
+// Bookkeeping / outsourced accounting detail page
+function ServiceBookkeepingPage({ onNav }) {
+  const BK_FAQ = (window.AARoutes && window.AARoutes.BOOKKEEPING_FAQ) || [];
+  return (
+    <div>
+      {/* Crumbtrail + hero */}
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href={pathForPage('services')} onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <span>/</span>
+            <span>Compliance</span>
+            <span>/</span>
+            <span style={{ color: 'var(--aa-charcoal)' }}>Bookkeeping</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Compliance · Outsourced finance function</div>
+              <h1 style={{
+                fontFamily: 'var(--aa-font-display)', fontWeight: 700,
+                fontSize: 'clamp(44px, 6vw, 72px)',
+                textTransform: 'uppercase', letterSpacing: '0.01em',
+                margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0,
+              }}>
+                Outsourced bookkeeping.<br />
+                Books that hold up.
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>
+                We run your day-to-day bookkeeping end to end — recording, bank and ledger reconciliations, a disciplined monthly close and a management accounts pack — kept VAT and Corporate Tax-ready and delivered against a documented controls framework.
+              </p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                  Request a bookkeeping scoping
+                  <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+                </button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
+                  <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
+                  WhatsApp us
+                </a>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {[
+                  ['Scope', 'Full-charge bookkeeping'],
+                  ['Cadence', 'Monthly close'],
+                  ['Software', 'Tally · Zoho · QuickBooks · Xero · SAP'],
+                  ['Deliverable', 'Management accounts pack'],
+                  ['Compliance', 'VAT & Corporate Tax-ready'],
+                  ['Engagement', 'Retained (monthly)'],
+                ].map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* What it covers */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">What the engagement covers</div>
+            <h2>A complete finance function.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['book-open', 'Recording', 'Sales, purchases, expenses and bank transactions posted to your chart of accounts — accurately and on time.'],
+              ['scale', 'Reconciliations', 'Bank, cash, receivables, payables and intercompany reconciled and resolved to zero every period.'],
+              ['calendar-check', 'Monthly close', 'A disciplined close with accruals, prepayments and a documented checklist — no surprises at year-end.'],
+              ['bar-chart-3', 'Management reporting', 'A monthly pack — profit & loss, balance sheet and cash flow — so you can actually run the business.'],
+            ].map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">The month, end to end</div>
+            <h2>How we keep your books.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['01', 'Onboard', 'Chart of accounts, opening balances and software access set up — in your system or one we recommend.'],
+              ['02', 'Capture', 'Invoices, bills, expenses and bank feeds ingested digitally or via workpaper templates.'],
+              ['03', 'Record & classify', 'Every transaction posted and categorised against the chart of accounts, tagged for VAT and Corporate Tax.'],
+              ['04', 'Reconcile', 'Bank, cash, AR, AP and intercompany reconciled and resolved to zero.'],
+              ['05', 'Close & report', 'Monthly close, then your management pack and tax-ready data delivered.'],
+            ].map((s, i) => (
+              <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Sample management pack */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">What you receive each month</div>
+            <h2>Your management pack.</h2>
+          </div>
+          <div style={{ background: '#fff', border: '1px solid var(--aa-rule)', maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '2px solid var(--aa-charcoal)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="eyebrow eyebrow--charcoal">P&amp;L summary · month · illustrative</div>
+              <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)' }}>AED</div>
+            </div>
+            <table className="aa-table">
+              <thead>
+                <tr>
+                  <th>Line</th>
+                  <th className="aa-num">Amount (AED)</th>
+                  <th>Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Revenue', '2,480,000', '—'],
+                  ['Cost of sales', '(1,290,000)', '—'],
+                  ['Gross profit', '1,190,000', '48% margin'],
+                  ['Operating expenses', '(760,000)', '—'],
+                  ['EBITDA', '430,000', '—'],
+                  ['Depreciation & amortisation', '(60,000)', '—'],
+                ].map((r) => (
+                  <tr key={r[0]}>
+                    <td>{r[0]}</td>
+                    <td className="aa-num">{r[1]}</td>
+                    <td style={{ fontSize: 12, color: 'var(--aa-steel)' }}>{r[2]}</td>
+                  </tr>
+                ))}
+                <tr className="aa-total">
+                  <td>Net profit</td>
+                  <td className="aa-num">370,000</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style={{ padding: '12px 20px', borderTop: '1px solid var(--aa-rule)', fontSize: 11, color: 'var(--aa-steel)' }}>
+              Illustrative. Your pack also includes the balance sheet, cash flow and reconciliation summaries.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ — shares BOOKKEEPING_FAQ with the FAQPage schema */}
+      <section className="section">
+        <div className="container" style={{ maxWidth: 920 }}>
+          <div className="section-head">
+            <div className="section-head__eyebrow">FAQ</div>
+            <h2>Outsourced bookkeeping, answered.</h2>
+          </div>
+          <FAQList items={BK_FAQ} />
+          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function FAQList({ items }) {
   const [open, setOpen] = useStateSvc(0);
   return (
@@ -598,4 +779,4 @@ function FAQList({ items }) {
   );
 }
 
-Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, FAQList });
+Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, FAQList });
