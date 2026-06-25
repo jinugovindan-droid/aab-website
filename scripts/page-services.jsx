@@ -191,11 +191,14 @@ function ServicesPage({ onNav }) {
             <div className="section-head__eyebrow">Engagement models</div>
             <h2>Pick a shape that fits the work.</h2>
           </div>
+          <p style={{ margin: '-12px 0 28px', maxWidth: 720, fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.6 }}>
+            There is no one-size-fits-all rate card. Every engagement is scoped and priced around what you actually need — so you only pay for the work that fits your business.
+          </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {[
-              { t: 'Retained',   sub: 'Monthly · ongoing',     d: 'Continuous compliance and management reporting against a fixed monthly fee. Best for SMEs and groups with steady volume.', cta: 'Common for bookkeeping, VAT, CT' },
-              { t: 'Project',    sub: 'Fixed scope · fixed fee', d: 'A defined deliverable — a valuation, a model, a closeout pack. Scoping note in 24 hours.', cta: 'Common for valuations, DD, modeling' },
-              { t: 'Statement of work', sub: 'Time & materials · capped', d: 'Open-ended advisory with a cap. Periodic check-ins, monthly status. Used where the question is still being shaped.', cta: 'Common for controls, restructuring' },
+              { t: 'Retained',   sub: 'Monthly · ongoing',     d: 'Continuous compliance and management reporting on a retained monthly basis. Best for SMEs and groups with steady volume.', cta: 'Common for bookkeeping, VAT, CT' },
+              { t: 'Project',    sub: 'Fixed scope · defined deliverable', d: 'A defined deliverable — a valuation, a model, a closeout pack. Scoping note in 24 hours.', cta: 'Common for valuations, DD, modeling' },
+              { t: 'Statement of work', sub: 'Phased · scope-capped', d: 'Open-ended advisory with a defined scope cap. Periodic check-ins, monthly status. Used where the question is still being shaped.', cta: 'Common for controls, restructuring' },
             ].map(m => (
               <div key={m.t} style={{ background: '#fff', border: '1px solid var(--aa-rule)', padding: 28, display: 'flex', flexDirection: 'column', gap: 14 }}>
                 <div className="eyebrow eyebrow--charcoal">{m.t}</div>
@@ -262,7 +265,7 @@ function ServiceVATPage({ onNav }) {
                   ['Voluntary threshold',   'AED 187,500'],
                   ['Standard rate',         '5%'],
                   ['Filing cadence',        'Quarterly (most clients)'],
-                  ['Typical fee',           'From AED 2,500 / quarter'],
+                  ['Pricing',               'Customised to your scope'],
                   ['Engagement model',      'Retained or project'],
                 ].map(([k, v]) => (
                   <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
@@ -377,8 +380,8 @@ function ServiceVATPage({ onNav }) {
               a: 'Yes. We run a recovery scope: reconstruct source data, file outstanding returns, and propose a voluntary disclosure pathway where penalties may be mitigated.' },
             { q: 'How do you handle designated-zone vs. mainland classification?',
               a: 'Every transaction is tagged at source against the relevant designated-zone schedule. Reclassifications are documented in the position memo and revisited each quarter.' },
-            { q: 'What is the typical fee structure?',
-              a: 'Quarterly retainers start at AED 2,500 for SMEs with under 200 monthly transactions. Larger groups are quoted on a per-entity basis. Fees include the closeout pack and one round of FTA queries.' },
+            { q: 'How do you price a VAT engagement?',
+              a: 'There is no one-size-fits-all rate. We price every engagement around what you actually need — transaction volume, number of entities and the level of support — and give you a clear, tailored quote for that scope. Ask us for a quote.' },
           ]} />
         </div>
       </section>
@@ -437,6 +440,7 @@ function ServiceCorporateTaxPage({ onNav }) {
                   ['Small Business Relief', 'Revenue up to AED 3M · to 31 Dec 2026'],
                   ['Return filing', 'Within 9 months of year-end'],
                   ['Late-registration penalty', 'AED 10,000'],
+                  ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
                   <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
@@ -620,6 +624,7 @@ function ServiceBookkeepingPage({ onNav }) {
                   ['Deliverable', 'Management accounts pack'],
                   ['Compliance', 'VAT & Corporate Tax-ready'],
                   ['Engagement', 'Retained (monthly)'],
+                  ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
                   <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>

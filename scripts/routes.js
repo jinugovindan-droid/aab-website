@@ -319,9 +319,9 @@
     { q: 'Can you clear a backlog of unrecorded months?',
       a: 'Yes. We run a catch-up scope to reconstruct and reconcile prior periods, bring your books fully up to date, and then move you onto a steady monthly cycle.' },
     { q: 'How often will I receive reports?',
-      a: 'A management accounts pack each month is standard, with weekly or near-real-time reporting available for businesses that need a tighter view of cash and performance.' },
+      a: 'Reporting follows your engagement — from weekly through monthly, quarterly or yearly. We agree the cadence and the pack contents up front, and can move to a tighter cycle whenever you need a closer view of cash and performance.' },
     { q: 'Who owns the data and the books?',
-      a: 'You do. The records are maintained in your accounting system, you retain full access at all times, and everything is exportable on request.' },
+      a: 'You do. The records are maintained in your accounting system, and everything is exportable on request.' },
   ];
 
   function breadcrumbChain(page, slug) {
