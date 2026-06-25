@@ -618,12 +618,12 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
   color: var(--aa-steel);
 }
 
-/* ---------- E-invoicing deadline ticker (sticky bottom marquee) ---------- */
+/* ---------- E-invoicing deadline ticker (fixed top marquee) ---------- */
 .aa-marquee {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  position: fixed; left: 0; right: 0; top: 0; z-index: 45;
   height: 46px; display: flex; align-items: center; overflow: hidden;
   background: var(--aa-charcoal); color: #fff;
-  border-top: 1px solid rgba(255,255,255,0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
   cursor: pointer;
 }
 .aa-marquee:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: -2px; }
@@ -651,10 +651,9 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
 }
 .aa-marquee__close:hover { color: #fff; }
 
-/* Make room so the fixed bar never hides the footer or the floating controls */
-body.has-marquee { padding-bottom: 46px; }
-body.has-marquee .aa-wa-fab { bottom: 64px; }
-body.has-marquee div[aria-label="Cookie consent"] { bottom: 64px !important; }
+/* Make room at the top for the fixed bar; the sticky header sits just below it */
+body.has-marquee { padding-top: 46px; }
+body.has-marquee .topnav { top: 46px; }
 
 /* The ticker keeps scrolling even under prefers-reduced-motion: the dismiss (×)
    button is the WCAG 2.2.2 "hide" control, and hover/focus pauses it. */

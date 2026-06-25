@@ -315,7 +315,7 @@ function EInvoicingPage({ onNav }) {
       </section>
 
       {/* ============== READINESS ASSESSMENT ============== */}
-      <section id="aa-einv-assessment" className="section section--off" style={{ scrollMarginTop: 96 }}>
+      <section id="aa-einv-assessment" className="section section--off" style={{ scrollMarginTop: 128 }}>
         <div className="container">
           <div className="section-head">
             <div className="section-head__eyebrow">Free · Instant PDF guide with your deadlines</div>
