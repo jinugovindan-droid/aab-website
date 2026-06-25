@@ -409,13 +409,13 @@ const H3 = { fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, 
 function EInvoiceCTA({ onNav }) {
   return (
     <div style={{ background: 'var(--aa-charcoal)', color: '#fff', padding: 28, marginTop: 40 }}>
-      <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant PDF report</div>
+      <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
       <div style={{ fontSize: 20, fontWeight: 600, lineHeight: 1.3, marginBottom: 8 }}>Find your exact e-invoicing deadline in two minutes.</div>
       <p style={{ margin: '0 0 16px', fontSize: 14, color: 'rgba(255,255,255,0.78)', lineHeight: 1.6 }}>
-        Answer a few questions and download a personalised readiness report — your phase, your ASP and go-live dates with live day-counts, and your next steps.
+        Answer a few questions and download your personalised readiness status — your phase, your ASP and go-live dates with live day-counts, and your next steps.
       </p>
-      <button className="btn btn--primary btn--sm" onClick={() => onNav('e-invoicing')}>
-        Get your readiness report
+      <button className="btn btn--primary btn--sm" onClick={() => { try { window.dispatchEvent(new Event('aa:open-einvoice')); } catch (e) { onNav('e-invoicing'); } }}>
+        Get your readiness status
         <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
       </button>
     </div>

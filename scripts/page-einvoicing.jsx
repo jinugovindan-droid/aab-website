@@ -85,10 +85,10 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     doc.text('www.aaccounting.me', W - M, y + 14, { align: 'right' });
     y += 84;
     doc.setTextColor.apply(doc, charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(21);
-    doc.text('UAE E-Invoicing Readiness Report', M, y); y += 18;
+    doc.text('Your UAE E-Invoicing Readiness Status', M, y); y += 18;
     const reportDate = (() => { try { return new Date().toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'long', year: 'numeric' }); } catch (e) { return new Date().toDateString(); } })();
     doc.setFont('helvetica', 'italic'); doc.setFontSize(11.5); setC(cyan);
-    doc.text('The invoice that talks to the tax authority.', M, y); y += 18;
+    doc.text('and your relevant deadlines', M, y); y += 18;
     doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, steel);
     doc.text('Prepared for ' + f.company + '  ·  ' + f.name, M, y); y += 15;
     doc.setFontSize(9.5);
@@ -189,7 +189,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
       doc.text('Page ' + p + ' of ' + totalPages, W - M, PH - 28, { align: 'right' });
     }
 
-    doc.save('UAE-E-Invoicing-Readiness-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf');
+    doc.save('UAE-E-Invoicing-Readiness-Status-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf');
   };
 
   const handleGenerate = async () => {
@@ -296,8 +296,8 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
         {done ? (
           <div>
             <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
-            <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Report downloading</h3>
-            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your personalised readiness report is downloading now. We’ve received your details and the team will be in touch — or reach us directly on WhatsApp.</p>
+            <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Readiness status downloading</h3>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your personalised readiness status is downloading now. We’ve received your details and the team will be in touch — or reach us directly on WhatsApp.</p>
             <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={bookReadiness}>Book a readiness call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
           </div>
         ) : (
@@ -309,10 +309,10 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong> <span style={{ color: 'var(--aa-cyan)' }}>({dlabel(TIER.liveISO)})</span></div>
               </div>
             ) : (
-              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue to generate a personalised PDF report — your exact deadlines, a tailored verdict, and your next steps.</p>
+              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue to generate your personalised PDF — your exact deadlines, a tailored verdict, and your next steps.</p>
             )}
             <button className="btn btn--primary" onClick={handleGenerate} disabled={busy}>
-              {busy ? 'Generating…' : 'Generate my report'}
+              {busy ? 'Generating…' : 'Get my readiness status'}
               <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
             </button>
             {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
@@ -398,8 +398,8 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
       <section id="aa-einv-assessment" className="section section--off" style={{ scrollMarginTop: 128 }}>
         <div className="container">
           <div className="section-head">
-            <div className="section-head__eyebrow">Free · Instant PDF guide with your deadlines</div>
-            <h2>Get your e-invoicing readiness report.</h2>
+            <div className="section-head__eyebrow">Free · Instant personalised PDF with your deadlines</div>
+            <h2>Get your e-invoicing readiness status.</h2>
           </div>
           {formGrid}
         </div>
@@ -629,15 +629,15 @@ function EInvoiceReadinessModal({ onNav }) {
   const viewFull = (e) => { e.preventDefault(); setOpen(false); onNav('e-invoicing'); };
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="E-invoicing readiness report" onClick={close}
+    <div role="dialog" aria-modal="true" aria-label="E-invoicing readiness status" onClick={close}
       style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(10,12,20,0.66)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', overflowY: 'auto', padding: '40px 16px' }}>
       <div onClick={(e) => e.stopPropagation()}
         style={{ background: '#fff', width: '100%', maxWidth: 760, position: 'relative', boxShadow: '0 24px 70px rgba(0,0,0,0.45)' }}>
         <button onClick={close} aria-label="Close"
           style={{ position: 'absolute', top: 8, right: 10, zIndex: 2, width: 38, height: 38, border: 0, background: 'transparent', fontSize: 26, lineHeight: 1, color: 'var(--aa-steel)', cursor: 'pointer' }}>×</button>
         <div style={{ padding: '28px 28px 0' }}>
-          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant PDF report</div>
-          <h2 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(22px, 3vw, 30px)', margin: '0 0 6px', color: 'var(--aa-charcoal)', lineHeight: 1.05 }}>Get your e-invoicing readiness report.</h2>
+          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
+          <h2 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(22px, 3vw, 30px)', margin: '0 0 6px', color: 'var(--aa-charcoal)', lineHeight: 1.05 }}>Get your e-invoicing readiness status.</h2>
           <p style={{ margin: '0 0 18px', fontSize: 14, color: 'var(--aa-steel-700)', lineHeight: 1.5 }}>Answer a few quick questions — your exact deadlines, a tailored verdict and next steps, as an instant PDF.</p>
         </div>
         <div style={{ padding: '0 28px 24px' }}>

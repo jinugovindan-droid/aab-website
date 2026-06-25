@@ -441,19 +441,19 @@ function EInvoiceMarquee({ onNav }) {
           {i === 1 && (
             <React.Fragment>
               <span className="aa-marquee__dot">·</span>
-              <span className="aa-marquee__seg aa-marquee__cta">👉 Click here for your free e-invoicing report with deadlines →</span>
+              <span className="aa-marquee__seg aa-marquee__cta">👉 Check your free e-invoicing readiness status & deadlines →</span>
             </React.Fragment>
           )}
         </React.Fragment>
       ))}
       <span className="aa-marquee__dot">·</span>
-      <span className="aa-marquee__seg aa-marquee__cta">👉 Click here for your free e-invoicing report — fill the 2-minute form →</span>
+      <span className="aa-marquee__seg aa-marquee__cta">👉 Check your free e-invoicing readiness status — fill the 2-minute form →</span>
     </div>
   );
 
   return (
     <div className="aa-marquee" role="link" tabIndex={0}
-      aria-label={'UAE e-invoicing deadlines, phased by revenue' + (dl ? '. ' + dl.who + ' go live in ' + dl.n + ' days, ' + dl.date : '') + '. Click here for your free e-invoicing guide with deadlines and to fill the readiness form.'}
+      aria-label={'UAE e-invoicing deadlines, phased by revenue' + (dl ? '. ' + dl.who + ' go live in ' + dl.n + ' days, ' + dl.date : '') + '. Check your free e-invoicing readiness status and deadlines, and fill the form.'}
       onClick={go} onKeyDown={onKey}>
       <div className="aa-marquee__track">{group('a')}{group('b')}</div>
       <button className="aa-marquee__close" aria-label="Dismiss e-invoicing notice" onClick={close}>×</button>
