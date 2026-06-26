@@ -14,6 +14,12 @@
     'service-cfo': '/services/cfo-services',
     'service-financial-statements': '/services/financial-statements',
     'service-tax-planning': '/services/tax-planning',
+    'service-fixed-asset-tagging': '/services/fixed-asset-tagging',
+    'service-forensic-accounting': '/services/forensic-accounting',
+    'service-internal-controls': '/services/internal-controls',
+    'service-financial-modelling': '/services/financial-modelling',
+    'service-feasibility-studies': '/services/feasibility-studies',
+    'service-strategic-advisory': '/services/strategic-advisory',
     'e-invoicing': '/e-invoicing',
     industries: '/industries',
     about: '/about',
@@ -186,6 +192,30 @@
       title: 'Corporate Tax Planning & Structuring Dubai, UAE | Authentic Accounting',
       description: 'UAE Corporate Tax planning and structuring — group and transaction structuring, free-zone (QFZP) optimisation, transfer pricing alignment and Corporate Tax position memos. Compliant, FTA-defensible tax advisory.',
     },
+    'service-fixed-asset-tagging': {
+      title: 'Fixed Asset Tagging & Register Services Dubai, UAE | Authentic Accounting',
+      description: 'Physical fixed-asset verification and tagging, register reconstruction, depreciation policy review and impairment indicators across the UAE — a clean, auditable fixed-asset register.',
+    },
+    'service-forensic-accounting': {
+      title: 'Forensic Accounting & Fraud Investigation Dubai, UAE | Authentic Accounting',
+      description: 'Forensic accounting in the UAE — fraud investigation, dispute and litigation support, expert testimony and evidence reconstruction for contested financial matters.',
+    },
+    'service-internal-controls': {
+      title: 'Internal Controls Design & Review Dubai, UAE | Authentic Accounting',
+      description: 'Internal controls design, walkthroughs and remediation for UAE businesses, regulated entities and pre-IPO issuers — risk-and-control matrices, testing and management attestation.',
+    },
+    'service-financial-modelling': {
+      title: 'Financial Modelling Services Dubai, UAE | Authentic Accounting',
+      description: 'Auditable financial models for UAE businesses — operating, transaction, LBO and board-pack models, FAST-standard, with scenarios and sensitivity analysis.',
+    },
+    'service-feasibility-studies': {
+      title: 'Feasibility Study Services Dubai, UAE | Authentic Accounting',
+      description: 'Project feasibility studies in the UAE — financial modelling, sensitivity and scenario analysis and a clear pre-investment recommendation for new projects and ventures.',
+    },
+    'service-strategic-advisory': {
+      title: 'Strategic Financial Advisory Dubai, UAE | Authentic Accounting',
+      description: 'Board-level strategic financial advisory in the UAE — accounting policy selection, complex transactions, restructuring and Board-grade positions.',
+    },
     'e-invoicing': {
       title: 'UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting',
       description: 'Prepare your UAE business for e-invoicing mandates. System readiness, Peppol integration guidance, process design and compliance advisory.',
@@ -279,6 +309,9 @@
     'service-audit-support': 'Audit Support', 'service-valuations': 'Valuations',
     'service-transaction-advisory': 'Transaction Advisory', 'service-cfo': 'CFO Services',
     'service-financial-statements': 'Financial Statements', 'service-tax-planning': 'Tax Planning',
+    'service-fixed-asset-tagging': 'Fixed Asset Tagging', 'service-forensic-accounting': 'Forensic Accounting',
+    'service-internal-controls': 'Internal Controls', 'service-financial-modelling': 'Financial Modelling',
+    'service-feasibility-studies': 'Feasibility Studies', 'service-strategic-advisory': 'Strategic Advisory',
     'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
@@ -476,9 +509,76 @@
       a: 'There is no one-size-fits-all rate. We price every engagement around what you actually need — transaction volume, number of entities and the level of support — and give you a clear, tailored quote for that scope. Ask us for a quote.' },
   ];
 
+  // --- Specialist service FAQs (single source for FAQPage JSON-LD + page Q&A) ---
+  const FIXED_ASSET_FAQ = [
+    { q: 'What does fixed asset tagging involve?',
+      a: 'A physical verification of your assets, durable tagging (barcodes or asset labels), and reconciliation of what exists on the floor to your fixed-asset register — so the register reflects reality.' },
+    { q: 'Why does my register need reconstruction?',
+      a: 'Over time, registers drift: disposals are not removed, transfers are not recorded and additions are mislabelled. We rebuild a complete, accurate register that ties to the general ledger.' },
+    { q: 'Do you review depreciation and impairment?',
+      a: 'Yes. We review useful lives and depreciation policy for reasonableness and flag impairment indicators, so your carrying values are defensible at audit.' },
+    { q: 'Is the output audit-ready?',
+      a: 'Yes. You receive a reconciled register and supporting schedules that your auditor can rely on directly.' },
+  ];
+  const FORENSIC_FAQ = [
+    { q: 'What is forensic accounting?',
+      a: 'The use of accounting and investigative techniques to examine financial records for fraud, misappropriation or disputes — producing findings and evidence that can be relied on in negotiations or proceedings.' },
+    { q: 'When should I engage a forensic accountant?',
+      a: 'When you suspect fraud or misstatement, face a shareholder, contractual or matrimonial dispute, or need an independent expert to quantify a financial loss.' },
+    { q: 'Can you act as an expert witness?',
+      a: 'Yes. We provide expert reports and testimony, and reconstruct the evidence trail to a standard suitable for dispute resolution and the courts.' },
+    { q: 'Is the engagement confidential?',
+      a: 'Yes. Forensic work is handled discreetly and under strict confidentiality, with findings shared only with those you authorise.' },
+  ];
+  const CONTROLS_FAQ = [
+    { q: 'What are internal controls?',
+      a: 'The policies and procedures that keep your finances accurate and your assets safe — covering authorisation, segregation of duties, reconciliations and review. They reduce the risk of error and fraud.' },
+    { q: 'What does an internal controls engagement deliver?',
+      a: 'A risk-and-control matrix, walkthroughs and testing of key controls, a remediation plan for the gaps, and management attestation support.' },
+    { q: 'Do you support pre-IPO and regulated entities?',
+      a: 'Yes. We design and document control frameworks to the standard expected by regulators, auditors and investors ahead of a listing or licensing review.' },
+    { q: 'How is this different from an audit?',
+      a: 'An audit gives an opinion on your financial statements; an internal-controls engagement designs, tests and improves the controls that produce reliable numbers in the first place.' },
+  ];
+  const MODELLING_FAQ = [
+    { q: 'What kinds of models do you build?',
+      a: 'Operating and three-statement models, transaction and LBO models, refinancing models and board-pack scenario models — built to be transparent and auditable.' },
+    { q: 'Are the models auditable?',
+      a: 'Yes. We build to a consistent, FAST-style standard — clear inputs, no hard-coding in formulas, and a logical flow anyone can follow and stress-test.' },
+    { q: 'Can the model handle scenarios and sensitivities?',
+      a: 'Yes. Models include switchable scenarios and sensitivity tables on the drivers that matter, so you can see the range of outcomes, not just a single case.' },
+    { q: 'Can you refresh or fix an existing model?',
+      a: 'Yes. We review, repair and rebuild inherited models — fixing errors, adding structure and making them maintainable.' },
+  ];
+  const FEASIBILITY_FAQ = [
+    { q: 'What does a feasibility study include?',
+      a: 'A financial model of the project, market and cost assumptions, sensitivity and scenario analysis, key return metrics (NPV, IRR, payback) and a clear pre-investment recommendation.' },
+    { q: 'When do I need a feasibility study?',
+      a: 'Before committing capital to a new project, venture or expansion — and when a lender, investor or board requires an independent view of whether the numbers work.' },
+    { q: 'Will it tell me whether to proceed?',
+      a: 'Yes. We set out the returns, the risks and the break-evens, and give a clear, reasoned recommendation — go, no-go or proceed-with-conditions.' },
+    { q: 'Can it support a funding application?',
+      a: 'Yes. The study and model are prepared to a standard you can put in front of banks and investors.' },
+  ];
+  const STRATEGIC_FAQ = [
+    { q: 'What does strategic financial advisory cover?',
+      a: 'Board-level support on the questions that do not fit a standard engagement — accounting policy selection, complex or one-off transactions, restructuring, and documented positions for the Board.' },
+    { q: 'How is it delivered?',
+      a: 'As a focused advisory engagement, usually with periodic check-ins and a written position or recommendation you can take to the Board.' },
+    { q: 'Can you help with complex or unusual transactions?',
+      a: 'Yes. We work through the accounting, tax and reporting implications of complex transactions and set out a defensible treatment.' },
+    { q: 'Do you provide written Board positions?',
+      a: 'Yes. We document the recommendation and its basis so the Board has a clear, defensible record for its decision.' },
+  ];
+
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
+    if (page.indexOf('service-') === 0 && BREADCRUMB_LABELS[page]) {
+      items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
+      items.push({ name: BREADCRUMB_LABELS[page], url: fullUrlForPage(page) });
+      return items;
+    }
     if (page === 'service-vat') {
       items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
       items.push({ name: BREADCRUMB_LABELS['service-vat'], url: fullUrlForPage('service-vat') });
@@ -559,7 +659,7 @@
       if (iso) { block.datePublished = iso; block.dateModified = iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support' || page === 'service-valuations' || page === 'service-transaction-advisory' || page === 'service-cfo' || page === 'service-financial-statements' || page === 'service-tax-planning') {
+    if (page === 'services' || page === 'e-invoicing' || page.indexOf('service-') === 0) {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',
@@ -571,7 +671,7 @@
         provider: ORG,
       });
     }
-    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ };
+    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ };
     if (FAQ_BY_PAGE[page]) {
       blocks.push({
         '@context': 'https://schema.org',
@@ -654,6 +754,12 @@
     FS_FAQ,
     TAXPLAN_FAQ,
     VAT_FAQ,
+    FIXED_ASSET_FAQ,
+    FORENSIC_FAQ,
+    CONTROLS_FAQ,
+    MODELLING_FAQ,
+    FEASIBILITY_FAQ,
+    STRATEGIC_FAQ,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,

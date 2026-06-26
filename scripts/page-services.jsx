@@ -19,7 +19,7 @@ function ServicesPage({ onNav }) {
     { reg: 'Compliance', t: 'Audit support', icon: 'clipboard-check', page: 'service-audit-support',
       d: 'Pre-audit preparation, auditor liaison, sample selection and post-audit closeout for statutory and group audits.',
       bullets: ['Audit preparation', 'Auditor liaison', 'Sample selection', 'Closeout schedules'] },
-    { reg: 'Compliance', t: 'Fixed asset tagging', icon: 'tag',
+    { reg: 'Compliance', t: 'Fixed asset tagging', icon: 'tag', page: 'service-fixed-asset-tagging',
       d: 'Physical asset verification, register reconstruction, depreciation policy review and impairment indicators.',
       bullets: ['Asset verification', 'Register reconstruction', 'Depreciation policy', 'Impairment review'] },
     { reg: 'Advisory', t: 'Business valuations', icon: 'gauge', page: 'service-valuations',
@@ -31,13 +31,13 @@ function ServicesPage({ onNav }) {
     { reg: 'Advisory', t: 'Financial due diligence', icon: 'search', page: 'service-transaction-advisory',
       d: 'Quality-of-earnings, working capital and debt-like item analyses for investors and lenders.',
       bullets: ['Quality of earnings', 'Working capital', 'Net debt analysis', 'Red-flag report'] },
-    { reg: 'Advisory', t: 'Forensic accounting', icon: 'fingerprint',
+    { reg: 'Advisory', t: 'Forensic accounting', icon: 'fingerprint', page: 'service-forensic-accounting',
       d: 'Fraud investigation, dispute support, expert testimony and evidence reconstruction for contested matters.',
       bullets: ['Fraud investigation', 'Dispute support', 'Expert testimony', 'Evidence reconstruction'] },
-    { reg: 'Advisory', t: 'Internal controls', icon: 'shield',
+    { reg: 'Advisory', t: 'Internal controls', icon: 'shield', page: 'service-internal-controls',
       d: 'Design, walkthroughs and remediation for regulated entities and pre-IPO issuers.',
       bullets: ['Risk & control matrix', 'Walkthrough testing', 'Remediation plan', 'Management attestation'] },
-    { reg: 'Advisory', t: 'Financial modeling', icon: 'function-square',
+    { reg: 'Advisory', t: 'Financial modeling', icon: 'function-square', page: 'service-financial-modelling',
       d: 'Operating, transaction and board-pack models — fully auditable, FAST-standard formatted.',
       bullets: ['Operating models', 'LBO / acquisition', 'Refinancing models', 'Board scenarios'] },
     { reg: 'Advisory', t: 'CFO services', icon: 'briefcase', page: 'service-cfo',
@@ -46,10 +46,10 @@ function ServicesPage({ onNav }) {
     { reg: 'Advisory', t: 'Tax planning', icon: 'calculator', page: 'service-tax-planning',
       d: 'Pre-transaction tax structuring, free-zone optimisation, transfer pricing alignment and CT position memos.',
       bullets: ['Transaction structuring', 'Free-zone analysis', 'Transfer pricing', 'CT position memos'] },
-    { reg: 'Advisory', t: 'Feasibility studies', icon: 'bar-chart-3',
+    { reg: 'Advisory', t: 'Feasibility studies', icon: 'bar-chart-3', page: 'service-feasibility-studies',
       d: 'Project-level financial feasibility, sensitivity analysis, scenario modelling and pre-investment recommendations.',
       bullets: ['Financial modelling', 'Sensitivity analysis', 'Scenario testing', 'Pre-investment memo'] },
-    { reg: 'Advisory', t: 'Strategic advisory', icon: 'compass',
+    { reg: 'Advisory', t: 'Strategic advisory', icon: 'compass', page: 'service-strategic-advisory',
       d: 'Accounting policy selection, complex transactions and Board-level positions.',
       bullets: ['Accounting policy', 'Complex transactions', 'Board memos', 'Restructuring'] },
   ];
@@ -1416,6 +1416,160 @@ function ServiceTaxPlanningPage({ onNav }) {
   );
 }
 
+// Config-driven detail page for the specialist services (same template, no illustration).
+const SIMPLE_SERVICES = {
+  'service-fixed-asset-tagging': {
+    cat: 'Compliance', crumb: 'Fixed Asset Tagging', eyebrow: 'Compliance · Fixed assets',
+    h1a: 'Fixed asset tagging.', h1b: 'A register you can trust.', cta: 'Request asset tagging',
+    intro: 'Physical verification and durable tagging of your assets, register reconstruction, and a depreciation and impairment review — so your fixed-asset register matches reality and stands up at audit.',
+    faqKey: 'FIXED_ASSET_FAQ',
+    glance: [['Scope', 'Verification & tagging'], ['Method', 'Physical count & tag'], ['Output', 'Reconciled FA register'], ['Covers', 'Depreciation & impairment'], ['Ready for', 'Audit'], ['Engagement', 'Project'], ['Pricing', 'Customised to your scope']],
+    covers: [['scan-line', 'Physical verification', 'A floor-to-register count of every asset, with condition and location captured.'], ['tag', 'Tagging & barcoding', 'Durable asset tags or barcodes applied so each asset is uniquely identifiable.'], ['file-spreadsheet', 'Register reconstruction', 'A complete fixed-asset register rebuilt and tied to the general ledger.'], ['trending-down', 'Depreciation & impairment', 'Useful lives and depreciation policy reviewed, with impairment indicators flagged.']],
+    process: [['01', 'Plan', 'Agree scope, locations and the asset categories to cover.'], ['02', 'Count & tag', 'Physically verify and tag every asset on site.'], ['03', 'Reconcile', 'Match the count to the register and resolve differences.'], ['04', 'Policy review', 'Review depreciation policy and flag impairment indicators.'], ['05', 'Report', 'Deliver the reconciled register and supporting schedules.']],
+    related: [['service-audit-support', 'Audit support'], ['service-financial-statements', 'Financial statements'], ['service-bookkeeping', 'Bookkeeping']],
+  },
+  'service-forensic-accounting': {
+    cat: 'Advisory', crumb: 'Forensic Accounting', eyebrow: 'Advisory · Forensic & dispute',
+    h1a: 'Forensic accounting.', h1b: 'Evidence that stands up.', cta: 'Discuss an investigation',
+    intro: 'Fraud investigation, dispute and litigation support, expert testimony and evidence reconstruction — independent, discreet, and to a standard that holds up in negotiation and in court.',
+    faqKey: 'FORENSIC_FAQ',
+    glance: [['Focus', 'Fraud & disputes'], ['Acts as', 'Independent expert'], ['Deliverable', 'Findings & expert report'], ['Supports', 'Litigation & arbitration'], ['Handling', 'Strictly confidential'], ['Engagement', 'Project'], ['Pricing', 'Customised to your scope']],
+    covers: [['search', 'Fraud investigation', 'Tracing misappropriation and misstatement through the records to the source.'], ['gavel', 'Dispute & litigation support', 'Quantifying loss and supporting shareholder, contractual and matrimonial disputes.'], ['user-check', 'Expert testimony', 'Independent expert reports and testimony for proceedings.'], ['folder-search', 'Evidence reconstruction', 'Rebuilding the transaction trail where records are incomplete or contested.']],
+    process: [['01', 'Scope', 'Define the question, the period and the evidence perimeter.'], ['02', 'Secure data', 'Gather and preserve records and the digital evidence trail.'], ['03', 'Investigate', 'Analyse transactions, trace flows and quantify the impact.'], ['04', 'Report', 'An independent findings or expert report with the evidence.'], ['05', 'Support', 'Support negotiation, mediation or proceedings as needed.']],
+    related: [['service-audit-support', 'Audit support'], ['service-internal-controls', 'Internal controls'], ['service-transaction-advisory', 'Transaction advisory']],
+  },
+  'service-internal-controls': {
+    cat: 'Advisory', crumb: 'Internal Controls', eyebrow: 'Advisory · Risk & control',
+    h1a: 'Internal controls.', h1b: 'Designed, tested, trusted.', cta: 'Strengthen your controls',
+    intro: 'Design, walkthroughs and remediation of the controls that keep your numbers reliable and your assets safe — for growing businesses, regulated entities and pre-IPO issuers.',
+    faqKey: 'CONTROLS_FAQ',
+    glance: [['Scope', 'Design · test · remediate'], ['Deliverable', 'Risk & control matrix'], ['For', 'SMEs, regulated, pre-IPO'], ['Testing', 'Walkthroughs & samples'], ['Output', 'Remediation plan'], ['Engagement', 'Project or retained'], ['Pricing', 'Customised to your scope']],
+    covers: [['grid-3x3', 'Risk & control matrix', 'Mapping key risks to the controls that mitigate them, by process.'], ['footprints', 'Walkthrough testing', 'Walking each key control end to end and testing it on samples.'], ['wrench', 'Remediation', 'A prioritised plan to close gaps, with owners and timelines.'], ['badge-check', 'Management attestation', 'Support for management sign-off and the evidence behind it.']],
+    process: [['01', 'Scope', 'Identify the in-scope processes and key risks.'], ['02', 'Document', 'Build the risk-and-control matrix and process walkthroughs.'], ['03', 'Test', 'Test design and operating effectiveness on samples.'], ['04', 'Remediate', 'Agree and track a remediation plan for the gaps.'], ['05', 'Attest', 'Support management attestation and ongoing monitoring.']],
+    related: [['service-audit-support', 'Audit support'], ['service-cfo', 'CFO services'], ['service-forensic-accounting', 'Forensic accounting']],
+  },
+  'service-financial-modelling': {
+    cat: 'Advisory', crumb: 'Financial Modelling', eyebrow: 'Advisory · Modelling',
+    h1a: 'Financial modelling.', h1b: 'Auditable by design.', cta: 'Request a model',
+    intro: 'Operating, transaction and board-pack models built to a transparent, FAST-style standard — clear inputs, switchable scenarios and sensitivity analysis, so decisions rest on numbers you can trust.',
+    faqKey: 'MODELLING_FAQ',
+    glance: [['Models', 'Operating · transaction · board'], ['Standard', 'FAST-style, auditable'], ['Includes', 'Scenarios & sensitivities'], ['Deliverable', 'Model & assumptions'], ['Also', 'Review & repair'], ['Engagement', 'Project'], ['Pricing', 'Customised to your scope']],
+    covers: [['line-chart', 'Operating models', 'Three-statement operating models linking P&L, balance sheet and cash flow.'], ['git-merge', 'Transaction & LBO', 'Acquisition, LBO and investment models with returns analysis.'], ['refresh-cw', 'Refinancing models', 'Debt, covenant and refinancing scenarios.'], ['sliders-horizontal', 'Board scenarios', 'Switchable scenarios and sensitivity tables for the Board.']],
+    process: [['01', 'Scope', 'Agree the decision the model must support and its structure.'], ['02', 'Build', 'Build the model — clear inputs, logical flow, no hard-coding.'], ['03', 'Scenarios', 'Add scenarios and sensitivities on the key drivers.'], ['04', 'Stress-test', 'Check the logic and stress the assumptions.'], ['05', 'Hand over', 'Deliver the model with an assumptions log and a walkthrough.']],
+    related: [['service-valuations', 'Valuations'], ['service-feasibility-studies', 'Feasibility studies'], ['service-transaction-advisory', 'Transaction advisory']],
+  },
+  'service-feasibility-studies': {
+    cat: 'Advisory', crumb: 'Feasibility Studies', eyebrow: 'Advisory · Feasibility',
+    h1a: 'Feasibility studies.', h1b: 'Invest on evidence.', cta: 'Request a feasibility study',
+    intro: 'Project-level feasibility — a financial model, market and cost assumptions, sensitivity and scenario analysis, and a clear go / no-go recommendation before you commit capital.',
+    faqKey: 'FEASIBILITY_FAQ',
+    glance: [['Scope', 'Project feasibility'], ['Metrics', 'NPV · IRR · payback'], ['Includes', 'Sensitivity & scenarios'], ['Deliverable', 'Study & recommendation'], ['Supports', 'Funding applications'], ['Engagement', 'Project'], ['Pricing', 'Customised to your scope']],
+    covers: [['calculator', 'Financial modelling', 'A project model with revenue, cost and funding assumptions.'], ['sliders-horizontal', 'Sensitivity analysis', 'How the returns move as the key assumptions change.'], ['layers', 'Scenario testing', 'Base, upside and downside cases for the project.'], ['clipboard-check', 'Pre-investment memo', 'A clear recommendation: go, no-go or proceed-with-conditions.']],
+    process: [['01', 'Scope', 'Define the project, the questions and the success metrics.'], ['02', 'Assumptions', 'Build market, cost and funding assumptions with you.'], ['03', 'Model', 'Model the returns — NPV, IRR and payback.'], ['04', 'Test', 'Run sensitivities and scenarios on the drivers.'], ['05', 'Recommend', 'Deliver the study with a reasoned recommendation.']],
+    related: [['service-financial-modelling', 'Financial modelling'], ['service-valuations', 'Valuations'], ['service-cfo', 'CFO services']],
+  },
+  'service-strategic-advisory': {
+    cat: 'Advisory', crumb: 'Strategic Advisory', eyebrow: 'Advisory · Board-level',
+    h1a: 'Strategic advisory.', h1b: 'Board-grade positions.', cta: 'Talk to an advisor',
+    intro: 'Board-level support on the questions that do not fit a standard engagement — accounting policy, complex transactions, restructuring — set out as a documented, defensible position.',
+    faqKey: 'STRATEGIC_FAQ',
+    glance: [['Focus', 'Policy · transactions · restructuring'], ['Level', 'Board-grade'], ['Deliverable', 'Documented positions'], ['Basis', 'IFRS & UAE tax'], ['Cadence', 'Periodic check-ins'], ['Engagement', 'Advisory'], ['Pricing', 'Customised to your scope']],
+    covers: [['book-open', 'Accounting policy', 'Selecting and documenting the right accounting policies and elections.'], ['git-merge', 'Complex transactions', 'Working through the accounting, tax and reporting of one-off deals.'], ['shuffle', 'Restructuring', 'Group and capital restructuring, with the implications mapped.'], ['file-text', 'Board memos', 'Documented positions and recommendations for the Board.']],
+    process: [['01', 'Frame', 'Define the question and what the Board needs to decide.'], ['02', 'Analyse', 'Work through the accounting, tax and reporting implications.'], ['03', 'Options', 'Set out the options and the trade-offs.'], ['04', 'Position', 'Recommend a defensible position with its basis.'], ['05', 'Document', 'Deliver a Board-ready memo.']],
+    related: [['service-cfo', 'CFO services'], ['service-transaction-advisory', 'Transaction advisory'], ['service-corporate-tax', 'Corporate Tax']],
+  },
+};
+
+function ServiceSimplePage({ page, onNav }) {
+  const cfg = SIMPLE_SERVICES[page];
+  if (!cfg) return null;
+  const faq = (window.AARoutes && window.AARoutes[cfg.faqKey]) || [];
+  return (
+    <div>
+      {/* Crumbtrail + hero */}
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href={pathForPage('services')} onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <span>/</span><span>{cfg.cat}</span><span>/</span>
+            <span style={{ color: 'var(--aa-charcoal)' }}>{cfg.crumb}</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>{cfg.eyebrow}</div>
+              <h1 style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 'clamp(44px, 6vw, 72px)', textTransform: 'uppercase', letterSpacing: '0.01em', margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0 }}>
+                {cfg.h1a}<br />{cfg.h1b}
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>{cfg.intro}</p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={() => onNav('contact')}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener"><i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>WhatsApp us</a>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {cfg.glance.map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* What it covers */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head"><div className="section-head__eyebrow">What the engagement covers</div><h2>{cfg.crumb}, end to end.</h2></div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {cfg.covers.map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head"><div className="section-head__eyebrow">The engagement, end to end</div><h2>How we run it.</h2></div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {cfg.process.map((s, i) => (
+              <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section section--off">
+        <div className="container" style={{ maxWidth: 920 }}>
+          <div className="section-head"><div className="section-head__eyebrow">FAQ</div><h2>{cfg.crumb}, answered.</h2></div>
+          <FAQList items={faq} />
+          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            <span className="eyebrow eyebrow--steel">Related</span>
+            {cfg.related.map(([pg, label]) => (
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function FAQList({ items }) {
   const [open, setOpen] = useStateSvc(0);
   return (
@@ -1445,4 +1599,4 @@ function FAQList({ items }) {
   );
 }
 
-Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, ServiceTransactionAdvisoryPage, ServiceCFOPage, ServiceFinancialStatementsPage, ServiceTaxPlanningPage, FAQList });
+Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, ServiceTransactionAdvisoryPage, ServiceCFOPage, ServiceFinancialStatementsPage, ServiceTaxPlanningPage, ServiceSimplePage, FAQList });

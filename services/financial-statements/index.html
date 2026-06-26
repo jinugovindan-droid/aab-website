@@ -141,11 +141,11 @@
 <body>
   <div id="root"></div>
 
-  <script src="scripts/routes.js?v=20260626-vat2"></script>
+  <script src="scripts/routes.js?v=20260626-svc6"></script>
   <script type="text/babel" src="scripts/tweaks-panel.jsx?v=20260523"></script>
-  <script type="text/babel" src="scripts/chrome.jsx?v=20260626-tp"></script>
+  <script type="text/babel" src="scripts/chrome.jsx?v=20260626-svc6"></script>
   <script type="text/babel" src="scripts/page-home.jsx?v=20260617-fixnow"></script>
-  <script type="text/babel" src="scripts/page-services.jsx?v=20260626-vat2"></script>
+  <script type="text/babel" src="scripts/page-services.jsx?v=20260626-svc6"></script>
   <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260624-title"></script>
   <script src="scripts/contact-sheet.js?v=20260617-form"></script>
   <script type="text/babel" src="scripts/page-other.jsx?v=20260624-title"></script>
@@ -173,6 +173,12 @@
       'service-cfo': '03 Service · CFO',
       'service-financial-statements': '03 Service · Financial Statements',
       'service-tax-planning': '03 Service · Tax Planning',
+      'service-fixed-asset-tagging': '03 Service · Fixed Assets',
+      'service-forensic-accounting': '03 Service · Forensic',
+      'service-internal-controls': '03 Service · Internal Controls',
+      'service-financial-modelling': '03 Service · Modelling',
+      'service-feasibility-studies': '03 Service · Feasibility',
+      'service-strategic-advisory': '03 Service · Strategic',
       'e-invoicing': '04 E-Invoicing',
       industries: '05 Industries',
       about: '06 About',
@@ -293,6 +299,12 @@
           case 'service-cfo': return <ServiceCFOPage onNav={navigateTo}/>;
           case 'service-financial-statements': return <ServiceFinancialStatementsPage onNav={navigateTo}/>;
           case 'service-tax-planning': return <ServiceTaxPlanningPage onNav={navigateTo}/>;
+          case 'service-fixed-asset-tagging':
+          case 'service-forensic-accounting':
+          case 'service-internal-controls':
+          case 'service-financial-modelling':
+          case 'service-feasibility-studies':
+          case 'service-strategic-advisory': return <ServiceSimplePage page={page} onNav={navigateTo}/>;
           case 'e-invoicing': return <EInvoicingPage onNav={navigateTo}/>;
           case 'industries': return <IndustriesPage onNav={navigateTo}/>;
           case 'about': return <AboutPage onNav={navigateTo}/>;
@@ -306,7 +318,7 @@
         }
       };
 
-      const navActive = (page === 'service-vat' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support' || page === 'service-valuations' || page === 'service-transaction-advisory' || page === 'service-cfo' || page === 'service-financial-statements' || page === 'service-tax-planning') ? 'services' : page === 'insight' ? 'insights' : page;
+      const navActive = (typeof page === 'string' && page.indexOf('service-') === 0) ? 'services' : page === 'insight' ? 'insights' : page;
 
       return (
         <div data-screen-label={PAGE_LABELS[page] || page}>
