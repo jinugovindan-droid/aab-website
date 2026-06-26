@@ -2,6 +2,16 @@
 const { useState: useStateSvc } = React;
 const { pathForPage, pathForInsight } = window.AARoutes;
 
+// Navigate to the contact wizard with a service pre-selected. The wizard reads
+// `aa_intent_service`, skips step 1 and lands on step 2 with the service chosen.
+function goContact(service, onNav) {
+  try {
+    if (service) sessionStorage.setItem('aa_intent_service', service);
+    sessionStorage.setItem('aa_scroll_target', 'aa-contact-wizard');
+  } catch (err) {}
+  onNav('contact');
+}
+
 function ServicesPage({ onNav }) {
   const allServices = [
     { reg: 'Compliance', t: 'Outsourced accounting', icon: 'book-open', page: 'service-bookkeeping',
@@ -242,7 +252,7 @@ function ServiceVATPage({ onNav }) {
                 We register, prepare, review and file VAT returns with the Federal Tax Authority — with a position memo behind every contested line and a review-ready return file at the end of every quarter.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={() => goContact('VAT compliance', onNav)}>
                   Request a VAT scoping
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -378,7 +388,7 @@ function ServiceCorporateTaxPage({ onNav }) {
                 We handle UAE Corporate Tax end to end — registration on EmaraTax, taxable-income computation, free-zone (QFZP) analysis, Small Business Relief elections and return filing with the Federal Tax Authority — under Federal Decree-Law No. 47 of 2022, with a position memo behind every judgement call.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={() => goContact('UAE Corporate Tax', onNav)}>
                   Request a Corporate Tax scoping
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -513,7 +523,7 @@ function ServiceBookkeepingPage({ onNav }) {
                 We run your day-to-day bookkeeping end to end — recording, bank and ledger reconciliations, a disciplined monthly close and a management accounts pack — kept VAT and Corporate Tax-ready and delivered against a documented controls framework.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={() => goContact('Outsourced accounting', onNav)}>
                   Request a bookkeeping scoping
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -646,7 +656,7 @@ function ServiceAuditSupportPage({ onNav }) {
                 We get your books and schedules audit-ready, act as the single point of contact with your appointed auditor, and close out findings — so your statutory or group audit runs fast and clean. We are not your auditor; we make the audit easy.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={() => goContact('Audit support', onNav)}>
                   Request audit support
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -779,7 +789,7 @@ function ServiceValuationsPage({ onNav }) {
                 Independent valuations built on the income, market and asset approaches — for M&amp;A, shareholder disputes, financial reporting and statutory needs. Every number traces to a documented assumption, to International Valuation Standards.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={() => goContact('Business valuations', onNav)}>
                   Request a valuation
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -912,7 +922,7 @@ function ServiceTransactionAdvisoryPage({ onNav }) {
                 Buy-side and sell-side support across the deal — financial due diligence, quality of earnings, working-capital and net-debt analysis, structuring and closing mechanics — so you go into the transaction with the numbers proven, not assumed.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={() => goContact('M&A support', onNav)}>
                   Discuss a transaction
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -1045,7 +1055,7 @@ function ServiceCFOPage({ onNav }) {
                 Senior finance leadership on an interim, fractional or project basis — board reporting, budgeting and forecasting, cash and treasury, fundraising support and finance function build-out. The strategy and control of a CFO, without a full-time hire.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={() => goContact('CFO services', onNav)}>
                   Talk to a CFO
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -1178,7 +1188,7 @@ function ServiceFinancialStatementsPage({ onNav }) {
                 We prepare your year-end financial statements under IFRS or IFRS for SMEs — balance sheet, income statement, cash flow, changes in equity and the notes — consolidated where needed, and ready to drop straight into the audit and the Corporate Tax computation.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={() => goContact('Financial statements', onNav)}>
                   Request financial statements
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -1311,7 +1321,7 @@ function ServiceTaxPlanningPage({ onNav }) {
                 Compliant UAE Corporate Tax planning — group and transaction structuring, free-zone (QFZP) optimisation and transfer pricing alignment — with every position documented to its legal basis. Efficiency that holds up if the FTA looks.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                <button className="btn btn--primary" onClick={() => goContact('Tax planning', onNav)}>
                   Plan your tax position
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
@@ -1420,7 +1430,7 @@ function ServiceTaxPlanningPage({ onNav }) {
 const SIMPLE_SERVICES = {
   'service-fixed-asset-tagging': {
     cat: 'Compliance', crumb: 'Fixed Asset Tagging', eyebrow: 'Compliance · Fixed assets',
-    h1a: 'Fixed asset tagging.', h1b: 'A register you can trust.', cta: 'Request asset tagging',
+    h1a: 'Fixed asset tagging.', h1b: 'A register you can trust.', cta: 'Request asset tagging', intent: 'Fixed asset tagging',
     intro: 'Physical verification and durable tagging of your assets, register reconstruction, and a depreciation and impairment review — so your fixed-asset register matches reality and stands up at audit.',
     faqKey: 'FIXED_ASSET_FAQ',
     glance: [['Scope', 'Verification & tagging'], ['Method', 'Physical count & tag'], ['Output', 'Reconciled FA register'], ['Covers', 'Depreciation & impairment'], ['Ready for', 'Audit'], ['Engagement', 'Project'], ['Pricing', 'Customised to your scope']],
@@ -1430,7 +1440,7 @@ const SIMPLE_SERVICES = {
   },
   'service-forensic-accounting': {
     cat: 'Advisory', crumb: 'Forensic Accounting', eyebrow: 'Advisory · Forensic & dispute',
-    h1a: 'Forensic accounting.', h1b: 'Evidence that stands up.', cta: 'Discuss an investigation',
+    h1a: 'Forensic accounting.', h1b: 'Evidence that stands up.', cta: 'Discuss an investigation', intent: 'Forensic accounting',
     intro: 'Fraud investigation, dispute and litigation support, expert testimony and evidence reconstruction — independent, discreet, and to a standard that holds up in negotiation and in court.',
     faqKey: 'FORENSIC_FAQ',
     glance: [['Focus', 'Fraud & disputes'], ['Acts as', 'Independent expert'], ['Deliverable', 'Findings & expert report'], ['Supports', 'Litigation & arbitration'], ['Handling', 'Strictly confidential'], ['Engagement', 'Project'], ['Pricing', 'Customised to your scope']],
@@ -1440,7 +1450,7 @@ const SIMPLE_SERVICES = {
   },
   'service-internal-controls': {
     cat: 'Advisory', crumb: 'Internal Controls', eyebrow: 'Advisory · Risk & control',
-    h1a: 'Internal controls.', h1b: 'Designed, tested, trusted.', cta: 'Strengthen your controls',
+    h1a: 'Internal controls.', h1b: 'Designed, tested, trusted.', cta: 'Strengthen your controls', intent: 'Internal controls',
     intro: 'Design, walkthroughs and remediation of the controls that keep your numbers reliable and your assets safe — for growing businesses, regulated entities and pre-IPO issuers.',
     faqKey: 'CONTROLS_FAQ',
     glance: [['Scope', 'Design · test · remediate'], ['Deliverable', 'Risk & control matrix'], ['For', 'SMEs, regulated, pre-IPO'], ['Testing', 'Walkthroughs & samples'], ['Output', 'Remediation plan'], ['Engagement', 'Project or retained'], ['Pricing', 'Customised to your scope']],
@@ -1450,7 +1460,7 @@ const SIMPLE_SERVICES = {
   },
   'service-financial-modelling': {
     cat: 'Advisory', crumb: 'Financial Modelling', eyebrow: 'Advisory · Modelling',
-    h1a: 'Financial modelling.', h1b: 'Auditable by design.', cta: 'Request a model',
+    h1a: 'Financial modelling.', h1b: 'Auditable by design.', cta: 'Request a model', intent: 'Financial modeling',
     intro: 'Operating, transaction and board-pack models built to a transparent, FAST-style standard — clear inputs, switchable scenarios and sensitivity analysis, so decisions rest on numbers you can trust.',
     faqKey: 'MODELLING_FAQ',
     glance: [['Models', 'Operating · transaction · board'], ['Standard', 'FAST-style, auditable'], ['Includes', 'Scenarios & sensitivities'], ['Deliverable', 'Model & assumptions'], ['Also', 'Review & repair'], ['Engagement', 'Project'], ['Pricing', 'Customised to your scope']],
@@ -1460,7 +1470,7 @@ const SIMPLE_SERVICES = {
   },
   'service-feasibility-studies': {
     cat: 'Advisory', crumb: 'Feasibility Studies', eyebrow: 'Advisory · Feasibility',
-    h1a: 'Feasibility studies.', h1b: 'Invest on evidence.', cta: 'Request a feasibility study',
+    h1a: 'Feasibility studies.', h1b: 'Invest on evidence.', cta: 'Request a feasibility study', intent: 'Feasibility studies',
     intro: 'Project-level feasibility — a financial model, market and cost assumptions, sensitivity and scenario analysis, and a clear go / no-go recommendation before you commit capital.',
     faqKey: 'FEASIBILITY_FAQ',
     glance: [['Scope', 'Project feasibility'], ['Metrics', 'NPV · IRR · payback'], ['Includes', 'Sensitivity & scenarios'], ['Deliverable', 'Study & recommendation'], ['Supports', 'Funding applications'], ['Engagement', 'Project'], ['Pricing', 'Customised to your scope']],
@@ -1470,7 +1480,7 @@ const SIMPLE_SERVICES = {
   },
   'service-strategic-advisory': {
     cat: 'Advisory', crumb: 'Strategic Advisory', eyebrow: 'Advisory · Board-level',
-    h1a: 'Strategic advisory.', h1b: 'Board-grade positions.', cta: 'Talk to an advisor',
+    h1a: 'Strategic advisory.', h1b: 'Board-grade positions.', cta: 'Talk to an advisor', intent: 'Strategic advisory',
     intro: 'Board-level support on the questions that do not fit a standard engagement — accounting policy, complex transactions, restructuring — set out as a documented, defensible position.',
     faqKey: 'STRATEGIC_FAQ',
     glance: [['Focus', 'Policy · transactions · restructuring'], ['Level', 'Board-grade'], ['Deliverable', 'Documented positions'], ['Basis', 'IFRS & UAE tax'], ['Cadence', 'Periodic check-ins'], ['Engagement', 'Advisory'], ['Pricing', 'Customised to your scope']],
@@ -1502,7 +1512,7 @@ function ServiceSimplePage({ page, onNav }) {
               </h1>
               <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>{cfg.intro}</p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => onNav('contact')}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
+                <button className="btn btn--primary" onClick={() => goContact(cfg.intent, onNav)}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener"><i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>WhatsApp us</a>
               </div>
             </div>
