@@ -213,6 +213,7 @@ function ServicesPage({ onNav }) {
 
 // VAT detail page (exemplar)
 function ServiceVATPage({ onNav }) {
+  const VAT_FAQ = (window.AARoutes && window.AARoutes.VAT_FAQ) || [];
   return (
     <div>
       {/* Crumbtrail + hero */}
@@ -273,8 +274,32 @@ function ServiceVATPage({ onNav }) {
         </div>
       </section>
 
-      {/* Process */}
+      {/* What it covers */}
       <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">What the engagement covers</div>
+            <h2>End-to-end VAT compliance.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['file-check', 'Registration', 'VAT registration, deregistration and tax-group set-up, with the right effective dates.'],
+              ['calculator', 'Returns & filing', 'Transaction classification, return preparation and filing on the FTA EmaraTax portal.'],
+              ['shield', 'Position memos', 'A defensible memo behind every contested line, with FTA decision references.'],
+              ['messages-square', 'FTA correspondence', 'Queries, audits, voluntary disclosures and refund claims handled end to end.'],
+            ].map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="section">
         <div className="container">
           <div className="section-head">
             <div className="section-head__eyebrow">The quarter, end to end</div>
@@ -309,16 +334,13 @@ function ServiceVATPage({ onNav }) {
             <div className="section-head__eyebrow">FAQ</div>
             <h2>What clients ask first.</h2>
           </div>
-          <FAQList items={[
-            { q: 'When does my business need to register for VAT?',
-              a: 'You must register if your taxable turnover crossed AED 375,000 in the past 12 months, or you reasonably expect it to in the next 30 days. Voluntary registration is available from AED 187,500.' },
-            { q: 'Can you handle a backlog of unfiled returns?',
-              a: 'Yes. We run a recovery scope: reconstruct source data, file outstanding returns, and propose a voluntary disclosure pathway where penalties may be mitigated.' },
-            { q: 'How do you handle designated-zone vs. mainland classification?',
-              a: 'Every transaction is tagged at source against the relevant designated-zone schedule. Reclassifications are documented in the position memo and revisited each quarter.' },
-            { q: 'How do you price a VAT engagement?',
-              a: 'There is no one-size-fits-all rate. We price every engagement around what you actually need — transaction volume, number of entities and the level of support — and give you a clear, tailored quote for that scope. Ask us for a quote.' },
-          ]} />
+          <FAQList items={VAT_FAQ} />
+          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
+            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
+          </div>
         </div>
       </section>
     </div>

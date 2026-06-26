@@ -355,6 +355,22 @@ TAXPLAN_FAQ = [
      "a": "Yes. We set out each position in a memo with its legal basis, so your decisions are defensible if the FTA reviews them."},
 ]
 
+# Keep in sync with VAT_FAQ in scripts/routes.js.
+VAT_FAQ = [
+    {"q": "When does my business need to register for VAT?",
+     "a": "You must register if your taxable turnover crossed AED 375,000 in the past 12 months, or you reasonably expect it to in the next 30 days. Voluntary registration is available once you reach AED 187,500."},
+    {"q": "How often do I file VAT returns?",
+     "a": "Most businesses file quarterly; some are assigned monthly periods by the FTA. Returns are filed and any VAT paid through the FTA’s EmaraTax portal within 28 days of the end of each period."},
+    {"q": "Can you handle a backlog of unfiled returns?",
+     "a": "Yes. We run a recovery scope: reconstruct the source data, file the outstanding returns, and propose a voluntary disclosure pathway where penalties may be mitigated."},
+    {"q": "How do you handle designated-zone vs. mainland classification?",
+     "a": "Every transaction is tagged at source against the relevant designated-zone schedule, and any reclassification is documented in a position memo and revisited each period."},
+    {"q": "What about zero-rated and exempt supplies?",
+     "a": "Exports and certain services are zero-rated, while some supplies are exempt — and the distinction affects what input VAT you can recover. We classify each correctly so your recovery position is protected and defensible."},
+    {"q": "How do you price a VAT engagement?",
+     "a": "There is no one-size-fits-all rate. We price every engagement around what you actually need — transaction volume, number of entities and the level of support — and give you a clear, tailored quote for that scope. Ask us for a quote."},
+]
+
 
 def iso_date(d):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d or "")
@@ -465,7 +481,7 @@ def build_jsonld(page, slug):
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
         })
-    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ, "service-cfo": CFO_FAQ, "service-financial-statements": FS_FAQ, "service-tax-planning": TAXPLAN_FAQ}
+    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ, "service-cfo": CFO_FAQ, "service-financial-statements": FS_FAQ, "service-tax-planning": TAXPLAN_FAQ, "service-vat": VAT_FAQ}
     if page in faq_by_page:
         blocks.append({
             "@context": "https://schema.org",
