@@ -1,6 +1,6 @@
 // Services overview page + VAT service detail page
 const { useState: useStateSvc } = React;
-const { pathForPage } = window.AARoutes;
+const { pathForPage, pathForInsight } = window.AARoutes;
 
 function ServicesPage({ onNav }) {
   const allServices = [
@@ -22,7 +22,7 @@ function ServicesPage({ onNav }) {
     { reg: 'Compliance', t: 'Fixed asset tagging', icon: 'tag',
       d: 'Physical asset verification, register reconstruction, depreciation policy review and impairment indicators.',
       bullets: ['Asset verification', 'Register reconstruction', 'Depreciation policy', 'Impairment review'] },
-    { reg: 'Advisory', t: 'Business valuations', icon: 'gauge',
+    { reg: 'Advisory', t: 'Business valuations', icon: 'gauge', page: 'service-valuations',
       d: 'DCF, comparables and asset-based valuations for transactions, disputes and statutory purposes.',
       bullets: ['Equity & enterprise value', 'Purchase price allocation', 'Impairment testing', 'Litigation support'] },
     { reg: 'Advisory', t: 'M&A support', icon: 'merge',
@@ -726,6 +726,139 @@ function ServiceAuditSupportPage({ onNav }) {
   );
 }
 
+// Business valuations detail page (Advisory)
+function ServiceValuationsPage({ onNav }) {
+  const VL_FAQ = (window.AARoutes && window.AARoutes.VALUATIONS_FAQ) || [];
+  return (
+    <div>
+      {/* Crumbtrail + hero */}
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href={pathForPage('services')} onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <span>/</span>
+            <span>Advisory</span>
+            <span>/</span>
+            <span style={{ color: 'var(--aa-charcoal)' }}>Valuations</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Advisory · Independent business valuation</div>
+              <h1 style={{
+                fontFamily: 'var(--aa-font-display)', fontWeight: 700,
+                fontSize: 'clamp(44px, 6vw, 72px)',
+                textTransform: 'uppercase', letterSpacing: '0.01em',
+                margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0,
+              }}>
+                Business valuations.<br />
+                Defensible by method.
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>
+                Independent valuations built on the income, market and asset approaches — for M&amp;A, shareholder disputes, financial reporting and statutory needs. Every number traces to a documented assumption, to International Valuation Standards.
+              </p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                  Request a valuation
+                  <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+                </button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
+                  <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
+                  WhatsApp us
+                </a>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {[
+                  ['Approaches', 'Income · Market · Asset'],
+                  ['Methods', 'DCF · comparables · NAV'],
+                  ['Standards', 'IVS · IFRS 13 fair value'],
+                  ['Purposes', 'M&A · disputes · reporting'],
+                  ['Deliverable', 'Independent valuation report'],
+                  ['Engagement', 'Project (fixed scope)'],
+                  ['Pricing', 'Customised to your scope'],
+                ].map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* What it covers — the three approaches */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">How we value</div>
+            <h2>Three approaches, cross-checked.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['trending-up', 'Income approach', 'Discounted cash flow — forecast cash flows, a built-up cost of capital and a tested terminal value.'],
+              ['bar-chart-3', 'Market approach', 'Comparable companies and precedent transactions, with multiples adjusted for size, growth and risk.'],
+              ['layers', 'Asset approach', 'Net asset value — tangible and intangible assets revalued where the balance sheet drives value.'],
+              ['file-text', 'Report & support', 'An independent report with assumptions and sensitivities, and support for auditors, investors and courts.'],
+            ].map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">The engagement, end to end</div>
+            <h2>How we run a valuation.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['01', 'Scope & purpose', 'Define the purpose, the standard of value and the valuation date with you.'],
+              ['02', 'Information & analysis', 'Gather financials, forecasts and the cap table; analyse the business and its market.'],
+              ['03', 'Method selection', 'Select and weight the income, market and asset approaches for the case.'],
+              ['04', 'Model & cross-check', 'Build the model, reconcile the approaches and run sensitivity analysis.'],
+              ['05', 'Review & report', 'Partner review, then an independent valuation report you can put in front of third parties.'],
+            ].map((s, i) => (
+              <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ — shares VALUATIONS_FAQ with the FAQPage schema */}
+      <section className="section section--off">
+        <div className="container" style={{ maxWidth: 920 }}>
+          <div className="section-head">
+            <div className="section-head__eyebrow">FAQ</div>
+            <h2>Business valuation, answered.</h2>
+          </div>
+          <FAQList items={VL_FAQ} />
+          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForInsight('dcf-terminal-values-family-office')} onClick={(e) => { e.preventDefault(); onNav('insight', 'dcf-terminal-values-family-office'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Insight: DCF terminal values →</a>
+            <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function FAQList({ items }) {
   const [open, setOpen] = useStateSvc(0);
   return (
@@ -755,4 +888,4 @@ function FAQList({ items }) {
   );
 }
 
-Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, FAQList });
+Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, FAQList });

@@ -9,6 +9,7 @@
     'service-corporate-tax': '/services/corporate-tax',
     'service-bookkeeping': '/services/bookkeeping',
     'service-audit-support': '/services/audit-support',
+    'service-valuations': '/services/valuations',
     'e-invoicing': '/e-invoicing',
     industries: '/industries',
     about: '/about',
@@ -161,6 +162,10 @@
       title: 'Audit Support & Preparation Services Dubai, UAE | Authentic Accounting',
       description: 'Audit preparation and support in the UAE: audit-ready trial balance and lead schedules, reconciliations, auditor liaison and findings closeout for statutory and group audits under IFRS — so your external audit runs fast and clean.',
     },
+    'service-valuations': {
+      title: 'Business Valuation Services Dubai, UAE — DCF & Fair Value | Authentic Accounting',
+      description: 'Independent business valuations in the UAE — DCF, market-multiple and asset-based — for M&A, shareholder disputes, financial reporting (IFRS 13 fair value), fundraising and statutory purposes, to International Valuation Standards.',
+    },
     'e-invoicing': {
       title: 'UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting',
       description: 'Prepare your UAE business for e-invoicing mandates. System readiness, Peppol integration guidance, process design and compliance advisory.',
@@ -251,7 +256,7 @@
   const BREADCRUMB_LABELS = {
     home: 'Home', services: 'Services', 'service-vat': 'VAT Compliance',
     'service-corporate-tax': 'Corporate Tax', 'service-bookkeeping': 'Bookkeeping',
-    'service-audit-support': 'Audit Support',
+    'service-audit-support': 'Audit Support', 'service-valuations': 'Valuations',
     'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
@@ -347,6 +352,23 @@
       a: 'Yes. We prepare consolidation schedules, intercompany eliminations and group reporting packs, and coordinate across entities and auditors for a group audit.' },
   ];
 
+  // Business valuations FAQ — single source for the FAQPage JSON-LD and the
+  // visible Q&A on the valuations service page. Keep in sync with prerender.py.
+  const VALUATIONS_FAQ = [
+    { q: 'How do you value a business?',
+      a: 'We use the three recognised approaches — income (discounted cash flow), market (comparable companies and precedent transactions) and asset-based (net asset value) — and select and weight them based on the company, the industry and the purpose of the valuation.' },
+    { q: 'What can the valuation be used for?',
+      a: 'Mergers and acquisitions, share transfers and buy-outs, shareholder or partner disputes, financial reporting (purchase price allocation and impairment under IFRS), fundraising, employee share schemes, and statutory or regulatory requirements.' },
+    { q: 'Which valuation standards do you follow?',
+      a: 'We work to the International Valuation Standards (IVS), and to IFRS 13 fair value where the valuation is for financial reporting — so the result is independent and defensible to auditors, investors and courts.' },
+    { q: 'What information do you need from us?',
+      a: 'Typically three to five years of financial statements, current management accounts, forecasts or a business plan, the cap table, and key contracts. We confirm a tailored information request once we understand the purpose and valuation date.' },
+    { q: 'How long does a valuation take?',
+      a: 'Most engagements take around two to four weeks from receiving complete information, depending on the complexity of the business and the level of assurance required.' },
+    { q: 'Is the valuation independent and defensible?',
+      a: 'Yes. Every valuation is methodology-led, with documented assumptions, cross-checked approaches and sensitivity analysis, set out in a report suitable for third parties such as auditors, investors and courts.' },
+  ];
+
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
@@ -368,6 +390,11 @@
     if (page === 'service-audit-support') {
       items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
       items.push({ name: BREADCRUMB_LABELS['service-audit-support'], url: fullUrlForPage('service-audit-support') });
+      return items;
+    }
+    if (page === 'service-valuations') {
+      items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
+      items.push({ name: BREADCRUMB_LABELS['service-valuations'], url: fullUrlForPage('service-valuations') });
       return items;
     }
     if (page === 'insight') {
@@ -405,7 +432,7 @@
       if (iso) { block.datePublished = iso; block.dateModified = iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support') {
+    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support' || page === 'service-valuations') {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',
@@ -417,7 +444,7 @@
         provider: ORG,
       });
     }
-    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ };
+    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ };
     if (FAQ_BY_PAGE[page]) {
       blocks.push({
         '@context': 'https://schema.org',
@@ -494,6 +521,7 @@
     CORPTAX_FAQ,
     BOOKKEEPING_FAQ,
     AUDIT_FAQ,
+    VALUATIONS_FAQ,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,

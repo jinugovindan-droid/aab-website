@@ -30,6 +30,7 @@ PAGE_TO_PATH = {
     "service-corporate-tax": "/services/corporate-tax",
     "service-bookkeeping": "/services/bookkeeping",
     "service-audit-support": "/services/audit-support",
+    "service-valuations": "/services/valuations",
     "e-invoicing": "/e-invoicing",
     "industries": "/industries",
     "about": "/about",
@@ -60,6 +61,10 @@ PAGE_SEO = {
     "service-audit-support": {
         "title": "Audit Support & Preparation Services Dubai, UAE | Authentic Accounting",
         "description": "Audit preparation and support in the UAE: audit-ready trial balance and lead schedules, reconciliations, auditor liaison and findings closeout for statutory and group audits under IFRS — so your external audit runs fast and clean.",
+    },
+    "service-valuations": {
+        "title": "Business Valuation Services Dubai, UAE — DCF & Fair Value | Authentic Accounting",
+        "description": "Independent business valuations in the UAE — DCF, market-multiple and asset-based — for M&A, shareholder disputes, financial reporting (IFRS 13 fair value), fundraising and statutory purposes, to International Valuation Standards.",
     },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting",
@@ -162,7 +167,7 @@ INSIGHTS_BY_SLUG = {a["slug"]: a for a in INSIGHTS}
 BREADCRUMB_LABELS = {
     "home": "Home", "services": "Services", "service-vat": "VAT Compliance",
     "service-corporate-tax": "Corporate Tax", "service-bookkeeping": "Bookkeeping",
-    "service-audit-support": "Audit Support",
+    "service-audit-support": "Audit Support", "service-valuations": "Valuations",
     "e-invoicing": "E-Invoicing", "industries": "Industries", "about": "About",
     "insights": "Insights", "careers": "Careers", "contact": "Contact",
     "privacy": "Privacy Policy", "terms": "Terms of Use",
@@ -248,6 +253,22 @@ AUDIT_FAQ = [
      "a": "Yes. We prepare consolidation schedules, intercompany eliminations and group reporting packs, and coordinate across entities and auditors for a group audit."},
 ]
 
+# Keep in sync with VALUATIONS_FAQ in scripts/routes.js.
+VALUATIONS_FAQ = [
+    {"q": "How do you value a business?",
+     "a": "We use the three recognised approaches — income (discounted cash flow), market (comparable companies and precedent transactions) and asset-based (net asset value) — and select and weight them based on the company, the industry and the purpose of the valuation."},
+    {"q": "What can the valuation be used for?",
+     "a": "Mergers and acquisitions, share transfers and buy-outs, shareholder or partner disputes, financial reporting (purchase price allocation and impairment under IFRS), fundraising, employee share schemes, and statutory or regulatory requirements."},
+    {"q": "Which valuation standards do you follow?",
+     "a": "We work to the International Valuation Standards (IVS), and to IFRS 13 fair value where the valuation is for financial reporting — so the result is independent and defensible to auditors, investors and courts."},
+    {"q": "What information do you need from us?",
+     "a": "Typically three to five years of financial statements, current management accounts, forecasts or a business plan, the cap table, and key contracts. We confirm a tailored information request once we understand the purpose and valuation date."},
+    {"q": "How long does a valuation take?",
+     "a": "Most engagements take around two to four weeks from receiving complete information, depending on the complexity of the business and the level of assurance required."},
+    {"q": "Is the valuation independent and defensible?",
+     "a": "Yes. Every valuation is methodology-led, with documented assumptions, cross-checked approaches and sensitivity analysis, set out in a report suitable for third parties such as auditors, investors and courts."},
+]
+
 
 def iso_date(d):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d or "")
@@ -289,6 +310,10 @@ def breadcrumb_chain(page, slug):
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS["service-audit-support"], "url": full_url("service-audit-support")})
         return items
+    if page == "service-valuations":
+        items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
+        items.append({"name": BREADCRUMB_LABELS["service-valuations"], "url": full_url("service-valuations")})
+        return items
     if page == "insight":
         a = INSIGHTS_BY_SLUG.get(slug, INSIGHTS[0])
         items.append({"name": "Insights", "url": SITE_ORIGIN + PAGE_TO_PATH["insights"]})
@@ -327,7 +352,7 @@ def build_jsonld(page, slug):
             block["datePublished"] = iso
             block["dateModified"] = iso
         blocks.append(block)
-    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping", "service-audit-support"):
+    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations"):
         meta = PAGE_SEO[page]
         blocks.append({
             "@context": "https://schema.org",
@@ -338,7 +363,7 @@ def build_jsonld(page, slug):
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
         })
-    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ}
+    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ}
     if page in faq_by_page:
         blocks.append({
             "@context": "https://schema.org",
@@ -424,7 +449,7 @@ def main():
     written = []
 
     # Static pages (home is the root index.html — already correct, skip)
-    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "e-invoicing", "industries", "about",
+    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "e-invoicing", "industries", "about",
                  "insights", "careers", "contact", "privacy", "terms"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)
