@@ -32,6 +32,7 @@ PAGE_TO_PATH = {
     "service-audit-support": "/services/audit-support",
     "service-valuations": "/services/valuations",
     "service-transaction-advisory": "/services/transaction-advisory",
+    "service-cfo": "/services/cfo-services",
     "e-invoicing": "/e-invoicing",
     "industries": "/industries",
     "about": "/about",
@@ -70,6 +71,10 @@ PAGE_SEO = {
     "service-transaction-advisory": {
         "title": "M&A Support & Financial Due Diligence Dubai, UAE | Authentic Accounting",
         "description": "Buy-side and sell-side M&A support and financial due diligence in the UAE — quality of earnings, working capital and net debt analysis, deal structuring and closing mechanics. Independent, evidence-led transaction advisory.",
+    },
+    "service-cfo": {
+        "title": "Outsourced & Fractional CFO Services Dubai, UAE | Authentic Accounting",
+        "description": "Interim, fractional and outsourced CFO services in the UAE — board reporting, budgeting and forecasting, cash and treasury, fundraising support and finance function build-out. Senior finance leadership without a full-time hire.",
     },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting",
@@ -173,7 +178,7 @@ BREADCRUMB_LABELS = {
     "home": "Home", "services": "Services", "service-vat": "VAT Compliance",
     "service-corporate-tax": "Corporate Tax", "service-bookkeeping": "Bookkeeping",
     "service-audit-support": "Audit Support", "service-valuations": "Valuations",
-    "service-transaction-advisory": "Transaction Advisory",
+    "service-transaction-advisory": "Transaction Advisory", "service-cfo": "CFO Services",
     "e-invoicing": "E-Invoicing", "industries": "Industries", "about": "About",
     "insights": "Insights", "careers": "Careers", "contact": "Contact",
     "privacy": "Privacy Policy", "terms": "Terms of Use",
@@ -291,6 +296,22 @@ TRANSACTION_FAQ = [
      "a": "Most engagements run around two to four weeks depending on deal size and data availability, with expedited timelines possible for competitive processes."},
 ]
 
+# Keep in sync with CFO_FAQ in scripts/routes.js.
+CFO_FAQ = [
+    {"q": "What is a fractional or outsourced CFO?",
+     "a": "Senior finance leadership on a part-time, interim or project basis. You get CFO-level strategy, reporting, cash management and controls — without the cost of a full-time hire — scaled to what your business needs right now."},
+    {"q": "When do I need a CFO rather than an accountant?",
+     "a": "A bookkeeper or accountant keeps the records accurate; a CFO turns those numbers into decisions — forecasting, cash, fundraising, board reporting and controls. It is the right step when you are scaling, raising capital, or preparing for a transaction."},
+    {"q": "What does the engagement include?",
+     "a": "Board and management reporting, budgeting and rolling forecasts, cash flow and treasury, KPI dashboards, fundraising and investor support, and building out your finance team, systems and controls."},
+    {"q": "Interim, fractional or project — which model?",
+     "a": "Interim covers a full-time gap for a defined period; fractional is ongoing part-time leadership; project is a specific deliverable such as a fundraise, a budget cycle or a systems implementation. We scope the model to your stage."},
+    {"q": "Can you support fundraising and investors?",
+     "a": "Yes. We prepare investor reporting, the financial model and the data room, and get you diligence-ready — then support the process through to close."},
+    {"q": "How quickly can you start?",
+     "a": "Typically within a week or two of an initial scoping conversation, with a faster start where there is an urgent gap to cover."},
+]
+
 
 def iso_date(d):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d or "")
@@ -340,6 +361,10 @@ def breadcrumb_chain(page, slug):
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS["service-transaction-advisory"], "url": full_url("service-transaction-advisory")})
         return items
+    if page == "service-cfo":
+        items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
+        items.append({"name": BREADCRUMB_LABELS["service-cfo"], "url": full_url("service-cfo")})
+        return items
     if page == "insight":
         a = INSIGHTS_BY_SLUG.get(slug, INSIGHTS[0])
         items.append({"name": "Insights", "url": SITE_ORIGIN + PAGE_TO_PATH["insights"]})
@@ -378,7 +403,7 @@ def build_jsonld(page, slug):
             block["datePublished"] = iso
             block["dateModified"] = iso
         blocks.append(block)
-    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory"):
+    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo"):
         meta = PAGE_SEO[page]
         blocks.append({
             "@context": "https://schema.org",
@@ -389,7 +414,7 @@ def build_jsonld(page, slug):
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
         })
-    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ}
+    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ, "service-cfo": CFO_FAQ}
     if page in faq_by_page:
         blocks.append({
             "@context": "https://schema.org",
@@ -475,7 +500,7 @@ def main():
     written = []
 
     # Static pages (home is the root index.html — already correct, skip)
-    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "e-invoicing", "industries", "about",
+    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "e-invoicing", "industries", "about",
                  "insights", "careers", "contact", "privacy", "terms"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)

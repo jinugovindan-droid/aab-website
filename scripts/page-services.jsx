@@ -40,7 +40,7 @@ function ServicesPage({ onNav }) {
     { reg: 'Advisory', t: 'Financial modeling', icon: 'function-square',
       d: 'Operating, transaction and board-pack models — fully auditable, FAST-standard formatted.',
       bullets: ['Operating models', 'LBO / acquisition', 'Refinancing models', 'Board scenarios'] },
-    { reg: 'Advisory', t: 'CFO services', icon: 'briefcase',
+    { reg: 'Advisory', t: 'CFO services', icon: 'briefcase', page: 'service-cfo',
       d: 'Interim and fractional CFO leadership — Board reporting, treasury, fundraising support and finance function build-out.',
       bullets: ['Interim CFO', 'Board reporting packs', 'Treasury & cash', 'Finance function build'] },
     { reg: 'Advisory', t: 'Tax planning', icon: 'calculator',
@@ -992,6 +992,139 @@ function ServiceTransactionAdvisoryPage({ onNav }) {
   );
 }
 
+// CFO services detail page (Advisory)
+function ServiceCFOPage({ onNav }) {
+  const CF_FAQ = (window.AARoutes && window.AARoutes.CFO_FAQ) || [];
+  return (
+    <div>
+      {/* Crumbtrail + hero */}
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href={pathForPage('services')} onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <span>/</span>
+            <span>Advisory</span>
+            <span>/</span>
+            <span style={{ color: 'var(--aa-charcoal)' }}>CFO Services</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Advisory · Interim &amp; fractional CFO</div>
+              <h1 style={{
+                fontFamily: 'var(--aa-font-display)', fontWeight: 700,
+                fontSize: 'clamp(44px, 6vw, 72px)',
+                textTransform: 'uppercase', letterSpacing: '0.01em',
+                margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0,
+              }}>
+                CFO services.<br />
+                Leadership, not just numbers.
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>
+                Senior finance leadership on an interim, fractional or project basis — board reporting, budgeting and forecasting, cash and treasury, fundraising support and finance function build-out. The strategy and control of a CFO, without a full-time hire.
+              </p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                  Talk to a CFO
+                  <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+                </button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
+                  <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
+                  WhatsApp us
+                </a>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {[
+                  ['Model', 'Interim · fractional · project'],
+                  ['Focus', 'Reporting · cash · fundraising'],
+                  ['Cadence', 'Monthly board pack'],
+                  ['Deliverable', 'Board-grade MIS & forecast'],
+                  ['Builds', 'Finance function & controls'],
+                  ['Engagement', 'Retained or interim'],
+                  ['Pricing', 'Customised to your scope'],
+                ].map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* What it covers */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">What the engagement covers</div>
+            <h2>The finance leadership agenda.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['presentation', 'Board & MIS reporting', 'A monthly board pack, KPIs and the story behind the numbers — so the Board steers on insight, not lag.'],
+              ['line-chart', 'Budgeting & forecasting', 'Annual budget, a rolling forecast, scenarios and a clear view of cash runway.'],
+              ['wallet', 'Cash & treasury', 'Cash flow discipline, working capital, banking relationships and funding.'],
+              ['rocket', 'Fundraising & finance build', 'Investor reporting, model and data room — plus building the team, systems and controls to scale.'],
+            ].map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">The mandate, end to end</div>
+            <h2>How a CFO engagement runs.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['01', 'Diagnose', 'Review the finance function, reporting, cash position and the key risks.'],
+              ['02', 'Stand up reporting', 'A board pack, KPIs and a forecast you can actually steer the business with.'],
+              ['03', 'Cash & controls', 'Cash flow discipline, working-capital management and the core controls.'],
+              ['04', 'Build the function', 'People, systems and process to scale the finance function.'],
+              ['05', 'Strategic agenda', 'Fundraising, transactions and the priorities the Board cares about.'],
+            ].map((s, i) => (
+              <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ — shares CFO_FAQ with the FAQPage schema */}
+      <section className="section section--off">
+        <div className="container" style={{ maxWidth: 920 }}>
+          <div className="section-head">
+            <div className="section-head__eyebrow">FAQ</div>
+            <h2>CFO services, answered.</h2>
+          </div>
+          <FAQList items={CF_FAQ} />
+          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForPage('service-transaction-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-transaction-advisory'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transaction advisory →</a>
+            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
+            <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function FAQList({ items }) {
   const [open, setOpen] = useStateSvc(0);
   return (
@@ -1021,4 +1154,4 @@ function FAQList({ items }) {
   );
 }
 
-Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, ServiceTransactionAdvisoryPage, FAQList });
+Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, ServiceTransactionAdvisoryPage, ServiceCFOPage, FAQList });

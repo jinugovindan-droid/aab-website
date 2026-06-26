@@ -11,6 +11,7 @@
     'service-audit-support': '/services/audit-support',
     'service-valuations': '/services/valuations',
     'service-transaction-advisory': '/services/transaction-advisory',
+    'service-cfo': '/services/cfo-services',
     'e-invoicing': '/e-invoicing',
     industries: '/industries',
     about: '/about',
@@ -171,6 +172,10 @@
       title: 'M&A Support & Financial Due Diligence Dubai, UAE | Authentic Accounting',
       description: 'Buy-side and sell-side M&A support and financial due diligence in the UAE — quality of earnings, working capital and net debt analysis, deal structuring and closing mechanics. Independent, evidence-led transaction advisory.',
     },
+    'service-cfo': {
+      title: 'Outsourced & Fractional CFO Services Dubai, UAE | Authentic Accounting',
+      description: 'Interim, fractional and outsourced CFO services in the UAE — board reporting, budgeting and forecasting, cash and treasury, fundraising support and finance function build-out. Senior finance leadership without a full-time hire.',
+    },
     'e-invoicing': {
       title: 'UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting',
       description: 'Prepare your UAE business for e-invoicing mandates. System readiness, Peppol integration guidance, process design and compliance advisory.',
@@ -262,7 +267,7 @@
     home: 'Home', services: 'Services', 'service-vat': 'VAT Compliance',
     'service-corporate-tax': 'Corporate Tax', 'service-bookkeeping': 'Bookkeeping',
     'service-audit-support': 'Audit Support', 'service-valuations': 'Valuations',
-    'service-transaction-advisory': 'Transaction Advisory',
+    'service-transaction-advisory': 'Transaction Advisory', 'service-cfo': 'CFO Services',
     'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
@@ -392,6 +397,23 @@
       a: 'Most engagements run around two to four weeks depending on deal size and data availability, with expedited timelines possible for competitive processes.' },
   ];
 
+  // CFO services FAQ — single source for the FAQPage JSON-LD and the visible
+  // Q&A on the CFO services page. Keep in sync with prerender.py.
+  const CFO_FAQ = [
+    { q: 'What is a fractional or outsourced CFO?',
+      a: 'Senior finance leadership on a part-time, interim or project basis. You get CFO-level strategy, reporting, cash management and controls — without the cost of a full-time hire — scaled to what your business needs right now.' },
+    { q: 'When do I need a CFO rather than an accountant?',
+      a: 'A bookkeeper or accountant keeps the records accurate; a CFO turns those numbers into decisions — forecasting, cash, fundraising, board reporting and controls. It is the right step when you are scaling, raising capital, or preparing for a transaction.' },
+    { q: 'What does the engagement include?',
+      a: 'Board and management reporting, budgeting and rolling forecasts, cash flow and treasury, KPI dashboards, fundraising and investor support, and building out your finance team, systems and controls.' },
+    { q: 'Interim, fractional or project — which model?',
+      a: 'Interim covers a full-time gap for a defined period; fractional is ongoing part-time leadership; project is a specific deliverable such as a fundraise, a budget cycle or a systems implementation. We scope the model to your stage.' },
+    { q: 'Can you support fundraising and investors?',
+      a: 'Yes. We prepare investor reporting, the financial model and the data room, and get you diligence-ready — then support the process through to close.' },
+    { q: 'How quickly can you start?',
+      a: 'Typically within a week or two of an initial scoping conversation, with a faster start where there is an urgent gap to cover.' },
+  ];
+
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
@@ -423,6 +445,11 @@
     if (page === 'service-transaction-advisory') {
       items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
       items.push({ name: BREADCRUMB_LABELS['service-transaction-advisory'], url: fullUrlForPage('service-transaction-advisory') });
+      return items;
+    }
+    if (page === 'service-cfo') {
+      items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
+      items.push({ name: BREADCRUMB_LABELS['service-cfo'], url: fullUrlForPage('service-cfo') });
       return items;
     }
     if (page === 'insight') {
@@ -460,7 +487,7 @@
       if (iso) { block.datePublished = iso; block.dateModified = iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support' || page === 'service-valuations' || page === 'service-transaction-advisory') {
+    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support' || page === 'service-valuations' || page === 'service-transaction-advisory' || page === 'service-cfo') {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',
@@ -472,7 +499,7 @@
         provider: ORG,
       });
     }
-    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ };
+    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ };
     if (FAQ_BY_PAGE[page]) {
       blocks.push({
         '@context': 'https://schema.org',
@@ -551,6 +578,7 @@
     AUDIT_FAQ,
     VALUATIONS_FAQ,
     TRANSACTION_FAQ,
+    CFO_FAQ,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,
