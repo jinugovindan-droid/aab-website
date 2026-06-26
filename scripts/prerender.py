@@ -29,6 +29,7 @@ PAGE_TO_PATH = {
     "service-vat": "/services/vat",
     "service-corporate-tax": "/services/corporate-tax",
     "service-bookkeeping": "/services/bookkeeping",
+    "service-audit-support": "/services/audit-support",
     "e-invoicing": "/e-invoicing",
     "industries": "/industries",
     "about": "/about",
@@ -55,6 +56,10 @@ PAGE_SEO = {
     "service-bookkeeping": {
         "title": "Outsourced Bookkeeping & Accounting Services Dubai, UAE | Authentic Accounting",
         "description": "Outsourced bookkeeping and accounting in Dubai: day-to-day recording, bank and ledger reconciliations, monthly close and management accounts — VAT and Corporate Tax-ready, delivered against a documented controls framework.",
+    },
+    "service-audit-support": {
+        "title": "Audit Support & Preparation Services Dubai, UAE | Authentic Accounting",
+        "description": "Audit preparation and support in the UAE: audit-ready trial balance and lead schedules, reconciliations, auditor liaison and findings closeout for statutory and group audits under IFRS — so your external audit runs fast and clean.",
     },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting",
@@ -157,6 +162,7 @@ INSIGHTS_BY_SLUG = {a["slug"]: a for a in INSIGHTS}
 BREADCRUMB_LABELS = {
     "home": "Home", "services": "Services", "service-vat": "VAT Compliance",
     "service-corporate-tax": "Corporate Tax", "service-bookkeeping": "Bookkeeping",
+    "service-audit-support": "Audit Support",
     "e-invoicing": "E-Invoicing", "industries": "Industries", "about": "About",
     "insights": "Insights", "careers": "Careers", "contact": "Contact",
     "privacy": "Privacy Policy", "terms": "Terms of Use",
@@ -226,6 +232,22 @@ BOOKKEEPING_FAQ = [
      "a": "You do. The records are maintained in your accounting system, and everything is exportable on request."},
 ]
 
+# Keep in sync with AUDIT_FAQ in scripts/routes.js.
+AUDIT_FAQ = [
+    {"q": "Do you perform the audit?",
+     "a": "No. We are not your statutory auditor. We prepare your books, schedules and supporting evidence, act as the single point of contact with your appointed audit firm, and close out findings — so the external audit runs quickly and cleanly. You appoint the licensed auditor, and we can recommend suitable firms."},
+    {"q": "Does my UAE company need an audit?",
+     "a": "Most UAE mainland companies are required to prepare audited financial statements, and many free zones require audited accounts for licence renewal. Even where it is not mandatory, lenders, investors and group reporting usually require an audit."},
+    {"q": "What do you prepare for the audit?",
+     "a": "An audit-ready file: a tied-out trial balance, lead schedules for each material balance, reconciliations, and the supporting documents and explanations that answer the auditor’s prepared-by-client (PBC) list."},
+    {"q": "Which reporting standards do you work to?",
+     "a": "IFRS and IFRS for SMEs — the financial reporting frameworks used across the UAE — including the disclosures and notes your auditor will expect."},
+    {"q": "Can you help if our books are behind?",
+     "a": "Yes. We run a catch-up and clean-up before the audit — reconstructing and reconciling prior periods — so you go into fieldwork with complete, defensible records."},
+    {"q": "Do you handle group and consolidated audits?",
+     "a": "Yes. We prepare consolidation schedules, intercompany eliminations and group reporting packs, and coordinate across entities and auditors for a group audit."},
+]
+
 
 def iso_date(d):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d or "")
@@ -262,6 +284,10 @@ def breadcrumb_chain(page, slug):
     if page == "service-bookkeeping":
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS["service-bookkeeping"], "url": full_url("service-bookkeeping")})
+        return items
+    if page == "service-audit-support":
+        items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
+        items.append({"name": BREADCRUMB_LABELS["service-audit-support"], "url": full_url("service-audit-support")})
         return items
     if page == "insight":
         a = INSIGHTS_BY_SLUG.get(slug, INSIGHTS[0])
@@ -301,7 +327,7 @@ def build_jsonld(page, slug):
             block["datePublished"] = iso
             block["dateModified"] = iso
         blocks.append(block)
-    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping"):
+    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping", "service-audit-support"):
         meta = PAGE_SEO[page]
         blocks.append({
             "@context": "https://schema.org",
@@ -312,7 +338,7 @@ def build_jsonld(page, slug):
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
         })
-    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ}
+    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ}
     if page in faq_by_page:
         blocks.append({
             "@context": "https://schema.org",
@@ -398,7 +424,7 @@ def main():
     written = []
 
     # Static pages (home is the root index.html — already correct, skip)
-    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "e-invoicing", "industries", "about",
+    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "e-invoicing", "industries", "about",
                  "insights", "careers", "contact", "privacy", "terms"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)

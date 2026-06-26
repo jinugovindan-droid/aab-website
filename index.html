@@ -135,11 +135,11 @@
 <body>
   <div id="root"></div>
 
-  <script src="scripts/routes.js?v=20260626-price"></script>
+  <script src="scripts/routes.js?v=20260626-audit"></script>
   <script type="text/babel" src="scripts/tweaks-panel.jsx?v=20260523"></script>
   <script type="text/babel" src="scripts/chrome.jsx?v=20260624-title"></script>
   <script type="text/babel" src="scripts/page-home.jsx?v=20260617-fixnow"></script>
-  <script type="text/babel" src="scripts/page-services.jsx?v=20260626-noillus"></script>
+  <script type="text/babel" src="scripts/page-services.jsx?v=20260626-audit"></script>
   <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260624-title"></script>
   <script src="scripts/contact-sheet.js?v=20260617-form"></script>
   <script type="text/babel" src="scripts/page-other.jsx?v=20260624-title"></script>
@@ -161,6 +161,7 @@
       'service-vat': '03 Service · VAT',
       'service-corporate-tax': '03 Service · Corporate Tax',
       'service-bookkeeping': '03 Service · Bookkeeping',
+      'service-audit-support': '03 Service · Audit Support',
       'e-invoicing': '04 E-Invoicing',
       industries: '05 Industries',
       about: '06 About',
@@ -275,6 +276,7 @@
           case 'service-vat': return <ServiceVATPage onNav={navigateTo}/>;
           case 'service-corporate-tax': return <ServiceCorporateTaxPage onNav={navigateTo}/>;
           case 'service-bookkeeping': return <ServiceBookkeepingPage onNav={navigateTo}/>;
+          case 'service-audit-support': return <ServiceAuditSupportPage onNav={navigateTo}/>;
           case 'e-invoicing': return <EInvoicingPage onNav={navigateTo}/>;
           case 'industries': return <IndustriesPage onNav={navigateTo}/>;
           case 'about': return <AboutPage onNav={navigateTo}/>;
@@ -288,7 +290,7 @@
         }
       };
 
-      const navActive = (page === 'service-vat' || page === 'service-corporate-tax' || page === 'service-bookkeeping') ? 'services' : page === 'insight' ? 'insights' : page;
+      const navActive = (page === 'service-vat' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support') ? 'services' : page === 'insight' ? 'insights' : page;
 
       return (
         <div data-screen-label={PAGE_LABELS[page] || page}>

@@ -8,6 +8,7 @@
     'service-vat': '/services/vat',
     'service-corporate-tax': '/services/corporate-tax',
     'service-bookkeeping': '/services/bookkeeping',
+    'service-audit-support': '/services/audit-support',
     'e-invoicing': '/e-invoicing',
     industries: '/industries',
     about: '/about',
@@ -156,6 +157,10 @@
       title: 'Outsourced Bookkeeping & Accounting Services Dubai, UAE | Authentic Accounting',
       description: 'Outsourced bookkeeping and accounting in Dubai: day-to-day recording, bank and ledger reconciliations, monthly close and management accounts — VAT and Corporate Tax-ready, delivered against a documented controls framework.',
     },
+    'service-audit-support': {
+      title: 'Audit Support & Preparation Services Dubai, UAE | Authentic Accounting',
+      description: 'Audit preparation and support in the UAE: audit-ready trial balance and lead schedules, reconciliations, auditor liaison and findings closeout for statutory and group audits under IFRS — so your external audit runs fast and clean.',
+    },
     'e-invoicing': {
       title: 'UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting',
       description: 'Prepare your UAE business for e-invoicing mandates. System readiness, Peppol integration guidance, process design and compliance advisory.',
@@ -246,6 +251,7 @@
   const BREADCRUMB_LABELS = {
     home: 'Home', services: 'Services', 'service-vat': 'VAT Compliance',
     'service-corporate-tax': 'Corporate Tax', 'service-bookkeeping': 'Bookkeeping',
+    'service-audit-support': 'Audit Support',
     'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
@@ -324,6 +330,23 @@
       a: 'You do. The records are maintained in your accounting system, and everything is exportable on request.' },
   ];
 
+  // Audit support FAQ — single source for the FAQPage JSON-LD and the visible
+  // Q&A on the audit support service page. Keep in sync with prerender.py.
+  const AUDIT_FAQ = [
+    { q: 'Do you perform the audit?',
+      a: 'No. We are not your statutory auditor. We prepare your books, schedules and supporting evidence, act as the single point of contact with your appointed audit firm, and close out findings — so the external audit runs quickly and cleanly. You appoint the licensed auditor, and we can recommend suitable firms.' },
+    { q: 'Does my UAE company need an audit?',
+      a: 'Most UAE mainland companies are required to prepare audited financial statements, and many free zones require audited accounts for licence renewal. Even where it is not mandatory, lenders, investors and group reporting usually require an audit.' },
+    { q: 'What do you prepare for the audit?',
+      a: 'An audit-ready file: a tied-out trial balance, lead schedules for each material balance, reconciliations, and the supporting documents and explanations that answer the auditor’s prepared-by-client (PBC) list.' },
+    { q: 'Which reporting standards do you work to?',
+      a: 'IFRS and IFRS for SMEs — the financial reporting frameworks used across the UAE — including the disclosures and notes your auditor will expect.' },
+    { q: 'Can you help if our books are behind?',
+      a: 'Yes. We run a catch-up and clean-up before the audit — reconstructing and reconciling prior periods — so you go into fieldwork with complete, defensible records.' },
+    { q: 'Do you handle group and consolidated audits?',
+      a: 'Yes. We prepare consolidation schedules, intercompany eliminations and group reporting packs, and coordinate across entities and auditors for a group audit.' },
+  ];
+
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
@@ -340,6 +363,11 @@
     if (page === 'service-bookkeeping') {
       items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
       items.push({ name: BREADCRUMB_LABELS['service-bookkeeping'], url: fullUrlForPage('service-bookkeeping') });
+      return items;
+    }
+    if (page === 'service-audit-support') {
+      items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
+      items.push({ name: BREADCRUMB_LABELS['service-audit-support'], url: fullUrlForPage('service-audit-support') });
       return items;
     }
     if (page === 'insight') {
@@ -377,7 +405,7 @@
       if (iso) { block.datePublished = iso; block.dateModified = iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping') {
+    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support') {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',
@@ -389,7 +417,7 @@
         provider: ORG,
       });
     }
-    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ };
+    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ };
     if (FAQ_BY_PAGE[page]) {
       blocks.push({
         '@context': 'https://schema.org',
@@ -465,6 +493,7 @@
     EINVOICE_FAQ,
     CORPTAX_FAQ,
     BOOKKEEPING_FAQ,
+    AUDIT_FAQ,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,

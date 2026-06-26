@@ -16,7 +16,7 @@ function ServicesPage({ onNav }) {
     { reg: 'Compliance', t: 'Financial statements', icon: 'file-spreadsheet',
       d: 'Balance Sheet, P&L, Cash Flow and notes prepared to IFRS / IFRS for SMEs.',
       bullets: ['Statutory FS', 'Group consolidation', 'Audit preparation', 'Disclosure schedules'] },
-    { reg: 'Compliance', t: 'Audit support', icon: 'clipboard-check',
+    { reg: 'Compliance', t: 'Audit support', icon: 'clipboard-check', page: 'service-audit-support',
       d: 'Pre-audit preparation, auditor liaison, sample selection and post-audit closeout for statutory and group audits.',
       bullets: ['Audit preparation', 'Auditor liaison', 'Sample selection', 'Closeout schedules'] },
     { reg: 'Compliance', t: 'E-Invoicing support', icon: 'send',
@@ -596,6 +596,139 @@ function ServiceBookkeepingPage({ onNav }) {
   );
 }
 
+// Audit support / preparation detail page (we support the audit; we are not the auditor)
+function ServiceAuditSupportPage({ onNav }) {
+  const AU_FAQ = (window.AARoutes && window.AARoutes.AUDIT_FAQ) || [];
+  return (
+    <div>
+      {/* Crumbtrail + hero */}
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href={pathForPage('services')} onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <span>/</span>
+            <span>Compliance</span>
+            <span>/</span>
+            <span style={{ color: 'var(--aa-charcoal)' }}>Audit Support</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Compliance · Audit preparation &amp; liaison</div>
+              <h1 style={{
+                fontFamily: 'var(--aa-font-display)', fontWeight: 700,
+                fontSize: 'clamp(44px, 6vw, 72px)',
+                textTransform: 'uppercase', letterSpacing: '0.01em',
+                margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0,
+              }}>
+                Audit support.<br />
+                Ready before fieldwork.
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>
+                We get your books and schedules audit-ready, act as the single point of contact with your appointed auditor, and close out findings — so your statutory or group audit runs fast and clean. We are not your auditor; we make the audit easy.
+              </p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                  Request audit support
+                  <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+                </button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
+                  <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
+                  WhatsApp us
+                </a>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {[
+                  ['Scope', 'Audit preparation & support'],
+                  ['Covers', 'Statutory & group audits'],
+                  ['Standards', 'IFRS / IFRS for SMEs'],
+                  ['Deliverable', 'Audit-ready file & schedules'],
+                  ['Liaison', 'Single point with your auditor'],
+                  ['Engagement', 'Project or retained'],
+                  ['Pricing', 'Customised to your scope'],
+                ].map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* What it covers */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">What the engagement covers</div>
+            <h2>A clean, fast external audit.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['clipboard-check', 'Audit preparation', 'A tied-out trial balance, lead schedules for every material balance, and reconciliations the auditor can rely on.'],
+              ['folder-check', 'Evidence & PBC', 'We assemble the supporting documents and answers to the auditor’s prepared-by-client (PBC) request list.'],
+              ['users', 'Auditor liaison', 'A single point of contact that manages queries and sample requests and keeps fieldwork moving.'],
+              ['check-check', 'Findings & closeout', 'Audit adjustments posted, financial statements finalised, and findings tracked to resolution.'],
+            ].map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">The audit, end to end</div>
+            <h2>How we run audit support.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['01', 'Plan', 'Scope, timeline and the PBC list aligned with your appointed auditor before fieldwork.'],
+              ['02', 'Prepare', 'Lead schedules, reconciliations and supporting documentation assembled into an audit-ready file.'],
+              ['03', 'Liaise', 'We field auditor queries and sample requests as your single point of contact.'],
+              ['04', 'Resolve', 'Work through findings and propose and post audit adjustments.'],
+              ['05', 'Finalise', 'Sign-off-ready financial statements and a clean closeout file, archived for the record.'],
+            ].map((s, i) => (
+              <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ — shares AUDIT_FAQ with the FAQPage schema */}
+      <section className="section section--off">
+        <div className="container" style={{ maxWidth: 920 }}>
+          <div className="section-head">
+            <div className="section-head__eyebrow">FAQ</div>
+            <h2>Audit support, answered.</h2>
+          </div>
+          <FAQList items={AU_FAQ} />
+          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function FAQList({ items }) {
   const [open, setOpen] = useStateSvc(0);
   return (
@@ -625,4 +758,4 @@ function FAQList({ items }) {
   );
 }
 
-Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, FAQList });
+Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, FAQList });
