@@ -25,10 +25,10 @@ function ServicesPage({ onNav }) {
     { reg: 'Advisory', t: 'Business valuations', icon: 'gauge', page: 'service-valuations',
       d: 'DCF, comparables and asset-based valuations for transactions, disputes and statutory purposes.',
       bullets: ['Equity & enterprise value', 'Purchase price allocation', 'Impairment testing', 'Litigation support'] },
-    { reg: 'Advisory', t: 'M&A support', icon: 'merge',
+    { reg: 'Advisory', t: 'M&A support', icon: 'merge', page: 'service-transaction-advisory',
       d: 'Buy-side and sell-side assistance, deal structuring and closing support.',
       bullets: ['Information memorandum', 'Buy-side diligence', 'Closing accounts', 'Completion mechanics'] },
-    { reg: 'Advisory', t: 'Financial due diligence', icon: 'search',
+    { reg: 'Advisory', t: 'Financial due diligence', icon: 'search', page: 'service-transaction-advisory',
       d: 'Quality-of-earnings, working capital and debt-like item analyses for investors and lenders.',
       bullets: ['Quality of earnings', 'Working capital', 'Net debt analysis', 'Red-flag report'] },
     { reg: 'Advisory', t: 'Forensic accounting', icon: 'fingerprint',
@@ -859,6 +859,139 @@ function ServiceValuationsPage({ onNav }) {
   );
 }
 
+// Transaction advisory detail page — M&A support + financial due diligence (Advisory)
+function ServiceTransactionAdvisoryPage({ onNav }) {
+  const TX_FAQ = (window.AARoutes && window.AARoutes.TRANSACTION_FAQ) || [];
+  return (
+    <div>
+      {/* Crumbtrail + hero */}
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href={pathForPage('services')} onClick={(e) => { e.preventDefault(); onNav('services'); }} style={{ color: 'var(--aa-steel-700)' }}>Services</a>
+            <span>/</span>
+            <span>Advisory</span>
+            <span>/</span>
+            <span style={{ color: 'var(--aa-charcoal)' }}>Transaction Advisory</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Advisory · M&amp;A support &amp; due diligence</div>
+              <h1 style={{
+                fontFamily: 'var(--aa-font-display)', fontWeight: 700,
+                fontSize: 'clamp(44px, 6vw, 72px)',
+                textTransform: 'uppercase', letterSpacing: '0.01em',
+                margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0,
+              }}>
+                Transaction advisory.<br />
+                Diligence before you sign.
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>
+                Buy-side and sell-side support across the deal — financial due diligence, quality of earnings, working-capital and net-debt analysis, structuring and closing mechanics — so you go into the transaction with the numbers proven, not assumed.
+              </p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={() => onNav('contact')}>
+                  Discuss a transaction
+                  <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+                </button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
+                  <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
+                  WhatsApp us
+                </a>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {[
+                  ['Scope', 'M&A support & due diligence'],
+                  ['Side', 'Buy-side & sell-side'],
+                  ['DD focus', 'QoE · working capital · net debt'],
+                  ['Deliverable', 'Diligence / red-flag report'],
+                  ['Mechanics', 'SPA inputs · closing accounts'],
+                  ['Engagement', 'Project (fixed scope)'],
+                  ['Pricing', 'Customised to your scope'],
+                ].map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* What it covers */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">What the engagement covers</div>
+            <h2>The numbers behind the deal.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['search', 'Financial due diligence', 'Quality of earnings, revenue and margin analysis, normalised EBITDA and the key risks that move price.'],
+              ['scale', 'Working capital & net debt', 'Peg setting, debt-like items and the bridge from enterprise value to equity value.'],
+              ['git-merge', 'Deal structuring', 'Tax-aware structuring, financial inputs to the SPA and completion mechanics.'],
+              ['briefcase', 'Sell-side readiness', 'Vendor due diligence, the information memorandum and data-room support for a clean process.'],
+            ].map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">The deal, end to end</div>
+            <h2>How we run transaction advisory.</h2>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['01', 'Scope', 'Define the deal, the questions and the diligence perimeter with you.'],
+              ['02', 'Analyse', 'Quality of earnings, working capital, net debt, forecasts, key contracts and risks.'],
+              ['03', 'Structure', 'Deal structure, SPA financial mechanics and the enterprise-to-equity bridge.'],
+              ['04', 'Report', 'A findings / red-flag report focused on the issues that move price or risk.'],
+              ['05', 'Close', 'Completion accounts, closing mechanics and post-close adjustments.'],
+            ].map((s, i) => (
+              <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
+                <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ — shares TRANSACTION_FAQ with the FAQPage schema */}
+      <section className="section section--off">
+        <div className="container" style={{ maxWidth: 920 }}>
+          <div className="section-head">
+            <div className="section-head__eyebrow">FAQ</div>
+            <h2>M&amp;A and due diligence, answered.</h2>
+          </div>
+          <FAQList items={TX_FAQ} />
+          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForInsight('working-capital-pegs-uae-deals')} onClick={(e) => { e.preventDefault(); onNav('insight', 'working-capital-pegs-uae-deals'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Insight: Working-capital pegs →</a>
+            <a href={pathForPage('service-valuations')} onClick={(e) => { e.preventDefault(); onNav('service-valuations'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Valuations →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function FAQList({ items }) {
   const [open, setOpen] = useStateSvc(0);
   return (
@@ -888,4 +1021,4 @@ function FAQList({ items }) {
   );
 }
 
-Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, FAQList });
+Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, ServiceTransactionAdvisoryPage, FAQList });
