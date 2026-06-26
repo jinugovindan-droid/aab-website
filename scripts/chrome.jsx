@@ -174,12 +174,12 @@ function useScrollReveal() {
 function Footer({ onNav }) {
   const cols = [
     { title: 'Compliance', items: [
-      ['Outsourced accounting', 'services'],
+      ['Outsourced accounting', 'service-bookkeeping'],
       ['VAT compliance', 'service-vat'],
-      ['UAE Corporate Tax', 'services'],
+      ['UAE Corporate Tax', 'service-corporate-tax'],
       ['Financial statements', 'services'],
-      ['Audit support', 'services'],
-      ['E-Invoicing support', 'services'],
+      ['Audit support', 'service-audit-support'],
+      ['E-Invoicing', 'e-invoicing'],
       ['Fixed asset tagging', 'services'],
     ]},
     { title: 'Advisory', items: [
