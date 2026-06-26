@@ -12,6 +12,7 @@
     'service-valuations': '/services/valuations',
     'service-transaction-advisory': '/services/transaction-advisory',
     'service-cfo': '/services/cfo-services',
+    'service-financial-statements': '/services/financial-statements',
     'e-invoicing': '/e-invoicing',
     industries: '/industries',
     about: '/about',
@@ -176,6 +177,10 @@
       title: 'Outsourced & Fractional CFO Services Dubai, UAE | Authentic Accounting',
       description: 'Interim, fractional and outsourced CFO services in the UAE — board reporting, budgeting and forecasting, cash and treasury, fundraising support and finance function build-out. Senior finance leadership without a full-time hire.',
     },
+    'service-financial-statements': {
+      title: 'IFRS Financial Statements Preparation Dubai, UAE | Authentic Accounting',
+      description: 'Preparation of IFRS and IFRS for SMEs financial statements in the UAE — balance sheet, income statement, cash flow and notes, group consolidation and disclosures — audit- and Corporate Tax-ready.',
+    },
     'e-invoicing': {
       title: 'UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting',
       description: 'Prepare your UAE business for e-invoicing mandates. System readiness, Peppol integration guidance, process design and compliance advisory.',
@@ -268,6 +273,7 @@
     'service-corporate-tax': 'Corporate Tax', 'service-bookkeeping': 'Bookkeeping',
     'service-audit-support': 'Audit Support', 'service-valuations': 'Valuations',
     'service-transaction-advisory': 'Transaction Advisory', 'service-cfo': 'CFO Services',
+    'service-financial-statements': 'Financial Statements',
     'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
@@ -414,6 +420,23 @@
       a: 'Typically within a week or two of an initial scoping conversation, with a faster start where there is an urgent gap to cover.' },
   ];
 
+  // Financial statements FAQ — single source for the FAQPage JSON-LD and the
+  // visible Q&A on the financial statements page. Keep in sync with prerender.py.
+  const FS_FAQ = [
+    { q: 'What financial statements do you prepare?',
+      a: 'A complete set under IFRS or IFRS for SMEs: the statement of financial position (balance sheet), the income statement (profit & loss), the statement of cash flows, the statement of changes in equity, and the accompanying notes and disclosures.' },
+    { q: 'IFRS or IFRS for SMEs — which applies to me?',
+      a: 'It depends on your size, ownership and reporting needs. Most UAE SMEs report under IFRS for SMEs, while larger or public-interest entities use full IFRS. We confirm the right framework and apply it consistently.' },
+    { q: 'Are the financial statements audit-ready?',
+      a: 'Yes. They are prepared with lead schedules, reconciliations and the disclosures auditors expect, so they go straight into the audit with minimal rework.' },
+    { q: 'Do you handle group consolidation?',
+      a: 'Yes. We prepare consolidated financial statements with intercompany eliminations, minority interests and group accounting policies applied across entities.' },
+    { q: 'Do the financial statements support Corporate Tax?',
+      a: 'Yes. Your financial statements are the starting point for the Corporate Tax computation, so we prepare them on a basis consistent with your Corporate Tax position.' },
+    { q: 'How long does preparation take?',
+      a: 'Typically one to three weeks once the trial balance is finalised, depending on the complexity of the business and whether a consolidation is involved.' },
+  ];
+
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
@@ -452,6 +475,11 @@
       items.push({ name: BREADCRUMB_LABELS['service-cfo'], url: fullUrlForPage('service-cfo') });
       return items;
     }
+    if (page === 'service-financial-statements') {
+      items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
+      items.push({ name: BREADCRUMB_LABELS['service-financial-statements'], url: fullUrlForPage('service-financial-statements') });
+      return items;
+    }
     if (page === 'insight') {
       const a = insightBySlug(slug) || DEFAULT_INSIGHT;
       items.push({ name: 'Insights', url: SITE_ORIGIN + PAGE_TO_PATH.insights });
@@ -487,7 +515,7 @@
       if (iso) { block.datePublished = iso; block.dateModified = iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support' || page === 'service-valuations' || page === 'service-transaction-advisory' || page === 'service-cfo') {
+    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support' || page === 'service-valuations' || page === 'service-transaction-advisory' || page === 'service-cfo' || page === 'service-financial-statements') {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',
@@ -499,7 +527,7 @@
         provider: ORG,
       });
     }
-    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ };
+    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ };
     if (FAQ_BY_PAGE[page]) {
       blocks.push({
         '@context': 'https://schema.org',
@@ -579,6 +607,7 @@
     VALUATIONS_FAQ,
     TRANSACTION_FAQ,
     CFO_FAQ,
+    FS_FAQ,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,

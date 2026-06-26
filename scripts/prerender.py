@@ -33,6 +33,7 @@ PAGE_TO_PATH = {
     "service-valuations": "/services/valuations",
     "service-transaction-advisory": "/services/transaction-advisory",
     "service-cfo": "/services/cfo-services",
+    "service-financial-statements": "/services/financial-statements",
     "e-invoicing": "/e-invoicing",
     "industries": "/industries",
     "about": "/about",
@@ -75,6 +76,10 @@ PAGE_SEO = {
     "service-cfo": {
         "title": "Outsourced & Fractional CFO Services Dubai, UAE | Authentic Accounting",
         "description": "Interim, fractional and outsourced CFO services in the UAE — board reporting, budgeting and forecasting, cash and treasury, fundraising support and finance function build-out. Senior finance leadership without a full-time hire.",
+    },
+    "service-financial-statements": {
+        "title": "IFRS Financial Statements Preparation Dubai, UAE | Authentic Accounting",
+        "description": "Preparation of IFRS and IFRS for SMEs financial statements in the UAE — balance sheet, income statement, cash flow and notes, group consolidation and disclosures — audit- and Corporate Tax-ready.",
     },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting",
@@ -179,6 +184,7 @@ BREADCRUMB_LABELS = {
     "service-corporate-tax": "Corporate Tax", "service-bookkeeping": "Bookkeeping",
     "service-audit-support": "Audit Support", "service-valuations": "Valuations",
     "service-transaction-advisory": "Transaction Advisory", "service-cfo": "CFO Services",
+    "service-financial-statements": "Financial Statements",
     "e-invoicing": "E-Invoicing", "industries": "Industries", "about": "About",
     "insights": "Insights", "careers": "Careers", "contact": "Contact",
     "privacy": "Privacy Policy", "terms": "Terms of Use",
@@ -312,6 +318,22 @@ CFO_FAQ = [
      "a": "Typically within a week or two of an initial scoping conversation, with a faster start where there is an urgent gap to cover."},
 ]
 
+# Keep in sync with FS_FAQ in scripts/routes.js.
+FS_FAQ = [
+    {"q": "What financial statements do you prepare?",
+     "a": "A complete set under IFRS or IFRS for SMEs: the statement of financial position (balance sheet), the income statement (profit & loss), the statement of cash flows, the statement of changes in equity, and the accompanying notes and disclosures."},
+    {"q": "IFRS or IFRS for SMEs — which applies to me?",
+     "a": "It depends on your size, ownership and reporting needs. Most UAE SMEs report under IFRS for SMEs, while larger or public-interest entities use full IFRS. We confirm the right framework and apply it consistently."},
+    {"q": "Are the financial statements audit-ready?",
+     "a": "Yes. They are prepared with lead schedules, reconciliations and the disclosures auditors expect, so they go straight into the audit with minimal rework."},
+    {"q": "Do you handle group consolidation?",
+     "a": "Yes. We prepare consolidated financial statements with intercompany eliminations, minority interests and group accounting policies applied across entities."},
+    {"q": "Do the financial statements support Corporate Tax?",
+     "a": "Yes. Your financial statements are the starting point for the Corporate Tax computation, so we prepare them on a basis consistent with your Corporate Tax position."},
+    {"q": "How long does preparation take?",
+     "a": "Typically one to three weeks once the trial balance is finalised, depending on the complexity of the business and whether a consolidation is involved."},
+]
+
 
 def iso_date(d):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d or "")
@@ -365,6 +387,10 @@ def breadcrumb_chain(page, slug):
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS["service-cfo"], "url": full_url("service-cfo")})
         return items
+    if page == "service-financial-statements":
+        items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
+        items.append({"name": BREADCRUMB_LABELS["service-financial-statements"], "url": full_url("service-financial-statements")})
+        return items
     if page == "insight":
         a = INSIGHTS_BY_SLUG.get(slug, INSIGHTS[0])
         items.append({"name": "Insights", "url": SITE_ORIGIN + PAGE_TO_PATH["insights"]})
@@ -403,7 +429,7 @@ def build_jsonld(page, slug):
             block["datePublished"] = iso
             block["dateModified"] = iso
         blocks.append(block)
-    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo"):
+    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "service-financial-statements"):
         meta = PAGE_SEO[page]
         blocks.append({
             "@context": "https://schema.org",
@@ -414,7 +440,7 @@ def build_jsonld(page, slug):
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
         })
-    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ, "service-cfo": CFO_FAQ}
+    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ, "service-cfo": CFO_FAQ, "service-financial-statements": FS_FAQ}
     if page in faq_by_page:
         blocks.append({
             "@context": "https://schema.org",
@@ -500,7 +526,7 @@ def main():
     written = []
 
     # Static pages (home is the root index.html — already correct, skip)
-    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "e-invoicing", "industries", "about",
+    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "service-financial-statements", "e-invoicing", "industries", "about",
                  "insights", "careers", "contact", "privacy", "terms"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)
