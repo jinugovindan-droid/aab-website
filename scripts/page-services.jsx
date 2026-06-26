@@ -248,13 +248,10 @@ function ServiceVATPage({ onNav }) {
                   Request a VAT scoping
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
-                <button
-                  className="btn btn--ghost"
-                  onClick={() => alert('Sample VAT201 return file — download mocked in this preview.')}
-                >
-                  Sample return file
-                  <i data-lucide="download" style={{ width: 14, height: 14 }}></i>
-                </button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
+                  <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
+                  WhatsApp us
+                </a>
               </div>
             </div>
             <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
@@ -304,64 +301,6 @@ function ServiceVATPage({ onNav }) {
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Sample return */}
-      <section className="section">
-        <div className="container">
-          <div className="section-head">
-            <div className="section-head__eyebrow">Sample return file</div>
-            <h2>What you receive at filing.</h2>
-          </div>
-          <div style={{ background: '#fff', border: '1px solid var(--aa-rule)', maxWidth: 1000, margin: '0 auto' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '2px solid var(--aa-charcoal)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div className="eyebrow eyebrow--charcoal">VAT201 · Q2 FY2026 · AUTHENTIC HOLDINGS FZ-LLC</div>
-              <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)' }}>TRN 100123456700003</div>
-            </div>
-            <table className="aa-table">
-              <thead>
-                <tr>
-                  <th>Box</th>
-                  <th>Description</th>
-                  <th className="aa-num">Amount (AED)</th>
-                  <th className="aa-num">VAT (AED)</th>
-                  <th>Memo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ['1a', 'Standard-rated supplies — Dubai',         842210,  42110, '—'],
-                  ['1b', 'Standard-rated supplies — other emirates', 318044,  15902, '—'],
-                  ['2',  'Tax refunds for tourists',                       0,      0, '—'],
-                  ['3',  'Reverse charge — services',                  64200,   3210, 'Cited M-217'],
-                  ['4',  'Zero-rated supplies — exports',             204800,      0, 'Cited M-184'],
-                  ['5',  'Exempt supplies',                            12480,      0, '—'],
-                  ['9',  'Standard-rated expenses',                  421050,  21052, '—'],
-                  ['10', 'Reverse charge — recoverable',              64200,   3210, '—'],
-                ].map((r) => (
-                  <tr key={r[0]}>
-                    <td className="mono" style={{ fontSize: 12 }}>{r[0]}</td>
-                    <td>{r[1]}</td>
-                    <td className="aa-num">{r[2].toLocaleString()}</td>
-                    <td className="aa-num">{r[3].toLocaleString()}</td>
-                    <td style={{ fontSize: 12, color: 'var(--aa-steel)' }}>{r[4]}</td>
-                  </tr>
-                ))}
-                <tr className="aa-total">
-                  <td>—</td>
-                  <td>Net VAT payable</td>
-                  <td className="aa-num">—</td>
-                  <td className="aa-num">36,970</td>
-                  <td>—</td>
-                </tr>
-              </tbody>
-            </table>
-            <div style={{ padding: '12px 20px', borderTop: '1px solid var(--aa-rule)', fontSize: 11, color: 'var(--aa-steel)', display: 'flex', justifyContent: 'space-between' }}>
-              <span>Reviewed by · Partner / 28 Apr 2026</span>
-              <span className="mono">file-ref vat-2026-q2-0112</span>
-            </div>
           </div>
         </div>
       </section>
@@ -502,55 +441,6 @@ function ServiceCorporateTaxPage({ onNav }) {
         </div>
       </section>
 
-      {/* Worked computation */}
-      <section className="section section--off">
-        <div className="container">
-          <div className="section-head">
-            <div className="section-head__eyebrow">A worked computation</div>
-            <h2>Accounting profit to tax payable.</h2>
-          </div>
-          <div style={{ background: '#fff', border: '1px solid var(--aa-rule)', maxWidth: 900, margin: '0 auto' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '2px solid var(--aa-charcoal)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div className="eyebrow eyebrow--charcoal">CT computation · FY2025 · illustrative</div>
-              <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)' }}>9% regime</div>
-            </div>
-            <table className="aa-table">
-              <thead>
-                <tr>
-                  <th>Line</th>
-                  <th className="aa-num">Amount (AED)</th>
-                  <th>Note</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ['Accounting net profit', '1,200,000', '—'],
-                  ['Add: non-deductible expenses', '35,000', 'Fines, 50% entertainment'],
-                  ['Less: exempt dividend income', '(80,000)', 'Participation exemption'],
-                  ['Taxable income', '1,155,000', '—'],
-                  ['0% band — first AED 375,000', '0', 'Rate band'],
-                  ['9% on remaining AED 780,000', '70,200', '—'],
-                ].map((r) => (
-                  <tr key={r[0]}>
-                    <td>{r[0]}</td>
-                    <td className="aa-num">{r[1]}</td>
-                    <td style={{ fontSize: 12, color: 'var(--aa-steel)' }}>{r[2]}</td>
-                  </tr>
-                ))}
-                <tr className="aa-total">
-                  <td>Corporate Tax payable</td>
-                  <td className="aa-num">70,200</td>
-                  <td>—</td>
-                </tr>
-              </tbody>
-            </table>
-            <div style={{ padding: '12px 20px', borderTop: '1px solid var(--aa-rule)', fontSize: 11, color: 'var(--aa-steel)' }}>
-              Illustrative only. Your computation depends on your facts, elections and free-zone status.
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ — shares CORPTAX_FAQ with the FAQPage schema */}
       <section className="section">
         <div className="container" style={{ maxWidth: 920 }}>
@@ -682,55 +572,6 @@ function ServiceBookkeepingPage({ onNav }) {
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Sample management pack */}
-      <section className="section section--off">
-        <div className="container">
-          <div className="section-head">
-            <div className="section-head__eyebrow">What you receive each month</div>
-            <h2>Your management pack.</h2>
-          </div>
-          <div style={{ background: '#fff', border: '1px solid var(--aa-rule)', maxWidth: 900, margin: '0 auto' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '2px solid var(--aa-charcoal)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div className="eyebrow eyebrow--charcoal">P&amp;L summary · month · illustrative</div>
-              <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)' }}>AED</div>
-            </div>
-            <table className="aa-table">
-              <thead>
-                <tr>
-                  <th>Line</th>
-                  <th className="aa-num">Amount (AED)</th>
-                  <th>Note</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ['Revenue', '2,480,000', '—'],
-                  ['Cost of sales', '(1,290,000)', '—'],
-                  ['Gross profit', '1,190,000', '48% margin'],
-                  ['Operating expenses', '(760,000)', '—'],
-                  ['EBITDA', '430,000', '—'],
-                  ['Depreciation & amortisation', '(60,000)', '—'],
-                ].map((r) => (
-                  <tr key={r[0]}>
-                    <td>{r[0]}</td>
-                    <td className="aa-num">{r[1]}</td>
-                    <td style={{ fontSize: 12, color: 'var(--aa-steel)' }}>{r[2]}</td>
-                  </tr>
-                ))}
-                <tr className="aa-total">
-                  <td>Net profit</td>
-                  <td className="aa-num">370,000</td>
-                  <td>—</td>
-                </tr>
-              </tbody>
-            </table>
-            <div style={{ padding: '12px 20px', borderTop: '1px solid var(--aa-rule)', fontSize: 11, color: 'var(--aa-steel)' }}>
-              Illustrative. Your pack also includes the balance sheet, cash flow and reconciliation summaries.
-            </div>
           </div>
         </div>
       </section>
