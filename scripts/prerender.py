@@ -34,6 +34,7 @@ PAGE_TO_PATH = {
     "service-transaction-advisory": "/services/transaction-advisory",
     "service-cfo": "/services/cfo-services",
     "service-financial-statements": "/services/financial-statements",
+    "service-tax-planning": "/services/tax-planning",
     "e-invoicing": "/e-invoicing",
     "industries": "/industries",
     "about": "/about",
@@ -80,6 +81,10 @@ PAGE_SEO = {
     "service-financial-statements": {
         "title": "IFRS Financial Statements Preparation Dubai, UAE | Authentic Accounting",
         "description": "Preparation of IFRS and IFRS for SMEs financial statements in the UAE — balance sheet, income statement, cash flow and notes, group consolidation and disclosures — audit- and Corporate Tax-ready.",
+    },
+    "service-tax-planning": {
+        "title": "Corporate Tax Planning & Structuring Dubai, UAE | Authentic Accounting",
+        "description": "UAE Corporate Tax planning and structuring — group and transaction structuring, free-zone (QFZP) optimisation, transfer pricing alignment and Corporate Tax position memos. Compliant, FTA-defensible tax advisory.",
     },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting",
@@ -184,7 +189,7 @@ BREADCRUMB_LABELS = {
     "service-corporate-tax": "Corporate Tax", "service-bookkeeping": "Bookkeeping",
     "service-audit-support": "Audit Support", "service-valuations": "Valuations",
     "service-transaction-advisory": "Transaction Advisory", "service-cfo": "CFO Services",
-    "service-financial-statements": "Financial Statements",
+    "service-financial-statements": "Financial Statements", "service-tax-planning": "Tax Planning",
     "e-invoicing": "E-Invoicing", "industries": "Industries", "about": "About",
     "insights": "Insights", "careers": "Careers", "contact": "Contact",
     "privacy": "Privacy Policy", "terms": "Terms of Use",
@@ -334,6 +339,22 @@ FS_FAQ = [
      "a": "Typically one to three weeks once the trial balance is finalised, depending on the complexity of the business and whether a consolidation is involved."},
 ]
 
+# Keep in sync with TAXPLAN_FAQ in scripts/routes.js.
+TAXPLAN_FAQ = [
+    {"q": "What is tax planning, and how is it different from avoidance?",
+     "a": "Tax planning is arranging your affairs to manage tax efficiently within the law. We focus on compliant, FTA-defensible positions backed by the legislation — not aggressive schemes that create risk. The aim is certainty, not exposure."},
+    {"q": "What does UAE Corporate Tax planning cover?",
+     "a": "Group and holding structure, mainland versus free-zone positioning, free-zone (QFZP) qualifying income, transfer pricing alignment, transaction and deal structuring, and documented Corporate Tax positions."},
+    {"q": "Can a free zone company keep the 0% Corporate Tax rate?",
+     "a": "With the right structure and genuine substance, a Qualifying Free Zone Person can retain 0% on its qualifying income. We test the conditions and the de minimis limits and document the position so it holds up on review."},
+    {"q": "What is transfer pricing, and do I need documentation?",
+     "a": "Transactions between related parties must be priced at arm’s length. Depending on the thresholds, you may need a transfer pricing disclosure and a master and local file. We align your pricing policy and prepare the documentation."},
+    {"q": "When should I plan?",
+     "a": "Before transactions and before year-end. Structuring is far more effective — and defensible — when it is set up in advance rather than reconstructed after the fact."},
+    {"q": "Do you provide documented positions?",
+     "a": "Yes. We set out each position in a memo with its legal basis, so your decisions are defensible if the FTA reviews them."},
+]
+
 
 def iso_date(d):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$", d or "")
@@ -391,6 +412,10 @@ def breadcrumb_chain(page, slug):
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS["service-financial-statements"], "url": full_url("service-financial-statements")})
         return items
+    if page == "service-tax-planning":
+        items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
+        items.append({"name": BREADCRUMB_LABELS["service-tax-planning"], "url": full_url("service-tax-planning")})
+        return items
     if page == "insight":
         a = INSIGHTS_BY_SLUG.get(slug, INSIGHTS[0])
         items.append({"name": "Insights", "url": SITE_ORIGIN + PAGE_TO_PATH["insights"]})
@@ -429,7 +454,7 @@ def build_jsonld(page, slug):
             block["datePublished"] = iso
             block["dateModified"] = iso
         blocks.append(block)
-    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "service-financial-statements"):
+    if page in ("services", "service-vat", "e-invoicing", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "service-financial-statements", "service-tax-planning"):
         meta = PAGE_SEO[page]
         blocks.append({
             "@context": "https://schema.org",
@@ -440,7 +465,7 @@ def build_jsonld(page, slug):
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
         })
-    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ, "service-cfo": CFO_FAQ, "service-financial-statements": FS_FAQ}
+    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ, "service-cfo": CFO_FAQ, "service-financial-statements": FS_FAQ, "service-tax-planning": TAXPLAN_FAQ}
     if page in faq_by_page:
         blocks.append({
             "@context": "https://schema.org",
@@ -526,7 +551,7 @@ def main():
     written = []
 
     # Static pages (home is the root index.html — already correct, skip)
-    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "service-financial-statements", "e-invoicing", "industries", "about",
+    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "service-financial-statements", "service-tax-planning", "e-invoicing", "industries", "about",
                  "insights", "careers", "contact", "privacy", "terms"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)

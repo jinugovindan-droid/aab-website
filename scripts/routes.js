@@ -13,6 +13,7 @@
     'service-transaction-advisory': '/services/transaction-advisory',
     'service-cfo': '/services/cfo-services',
     'service-financial-statements': '/services/financial-statements',
+    'service-tax-planning': '/services/tax-planning',
     'e-invoicing': '/e-invoicing',
     industries: '/industries',
     about: '/about',
@@ -181,6 +182,10 @@
       title: 'IFRS Financial Statements Preparation Dubai, UAE | Authentic Accounting',
       description: 'Preparation of IFRS and IFRS for SMEs financial statements in the UAE — balance sheet, income statement, cash flow and notes, group consolidation and disclosures — audit- and Corporate Tax-ready.',
     },
+    'service-tax-planning': {
+      title: 'Corporate Tax Planning & Structuring Dubai, UAE | Authentic Accounting',
+      description: 'UAE Corporate Tax planning and structuring — group and transaction structuring, free-zone (QFZP) optimisation, transfer pricing alignment and Corporate Tax position memos. Compliant, FTA-defensible tax advisory.',
+    },
     'e-invoicing': {
       title: 'UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting',
       description: 'Prepare your UAE business for e-invoicing mandates. System readiness, Peppol integration guidance, process design and compliance advisory.',
@@ -273,7 +278,7 @@
     'service-corporate-tax': 'Corporate Tax', 'service-bookkeeping': 'Bookkeeping',
     'service-audit-support': 'Audit Support', 'service-valuations': 'Valuations',
     'service-transaction-advisory': 'Transaction Advisory', 'service-cfo': 'CFO Services',
-    'service-financial-statements': 'Financial Statements',
+    'service-financial-statements': 'Financial Statements', 'service-tax-planning': 'Tax Planning',
     'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
@@ -437,6 +442,23 @@
       a: 'Typically one to three weeks once the trial balance is finalised, depending on the complexity of the business and whether a consolidation is involved.' },
   ];
 
+  // Tax planning FAQ — single source for the FAQPage JSON-LD and the visible
+  // Q&A on the tax planning page. Keep in sync with prerender.py.
+  const TAXPLAN_FAQ = [
+    { q: 'What is tax planning, and how is it different from avoidance?',
+      a: 'Tax planning is arranging your affairs to manage tax efficiently within the law. We focus on compliant, FTA-defensible positions backed by the legislation — not aggressive schemes that create risk. The aim is certainty, not exposure.' },
+    { q: 'What does UAE Corporate Tax planning cover?',
+      a: 'Group and holding structure, mainland versus free-zone positioning, free-zone (QFZP) qualifying income, transfer pricing alignment, transaction and deal structuring, and documented Corporate Tax positions.' },
+    { q: 'Can a free zone company keep the 0% Corporate Tax rate?',
+      a: 'With the right structure and genuine substance, a Qualifying Free Zone Person can retain 0% on its qualifying income. We test the conditions and the de minimis limits and document the position so it holds up on review.' },
+    { q: 'What is transfer pricing, and do I need documentation?',
+      a: 'Transactions between related parties must be priced at arm’s length. Depending on the thresholds, you may need a transfer pricing disclosure and a master and local file. We align your pricing policy and prepare the documentation.' },
+    { q: 'When should I plan?',
+      a: 'Before transactions and before year-end. Structuring is far more effective — and defensible — when it is set up in advance rather than reconstructed after the fact.' },
+    { q: 'Do you provide documented positions?',
+      a: 'Yes. We set out each position in a memo with its legal basis, so your decisions are defensible if the FTA reviews them.' },
+  ];
+
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
@@ -480,6 +502,11 @@
       items.push({ name: BREADCRUMB_LABELS['service-financial-statements'], url: fullUrlForPage('service-financial-statements') });
       return items;
     }
+    if (page === 'service-tax-planning') {
+      items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
+      items.push({ name: BREADCRUMB_LABELS['service-tax-planning'], url: fullUrlForPage('service-tax-planning') });
+      return items;
+    }
     if (page === 'insight') {
       const a = insightBySlug(slug) || DEFAULT_INSIGHT;
       items.push({ name: 'Insights', url: SITE_ORIGIN + PAGE_TO_PATH.insights });
@@ -515,7 +542,7 @@
       if (iso) { block.datePublished = iso; block.dateModified = iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support' || page === 'service-valuations' || page === 'service-transaction-advisory' || page === 'service-cfo' || page === 'service-financial-statements') {
+    if (page === 'services' || page === 'service-vat' || page === 'e-invoicing' || page === 'service-corporate-tax' || page === 'service-bookkeeping' || page === 'service-audit-support' || page === 'service-valuations' || page === 'service-transaction-advisory' || page === 'service-cfo' || page === 'service-financial-statements' || page === 'service-tax-planning') {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',
@@ -527,7 +554,7 @@
         provider: ORG,
       });
     }
-    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ };
+    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ };
     if (FAQ_BY_PAGE[page]) {
       blocks.push({
         '@context': 'https://schema.org',
@@ -608,6 +635,7 @@
     TRANSACTION_FAQ,
     CFO_FAQ,
     FS_FAQ,
+    TAXPLAN_FAQ,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,

@@ -188,7 +188,7 @@ function Footer({ onNav }) {
       ['Financial due diligence', 'service-transaction-advisory'],
       ['Forensic accounting', 'services'],
       ['CFO services', 'service-cfo'],
-      ['Tax planning', 'services'],
+      ['Tax planning', 'service-tax-planning'],
       ['Financial modeling', 'services'],
       ['Feasibility studies', 'services'],
     ]},
