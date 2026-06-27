@@ -140,11 +140,13 @@ function PrivacyPolicyPage({ onNav }) {
           <P>We share information only with:</P>
           <PolicyList items={[
             'Members of the firm who need it to respond to your enquiry or deliver the engagement',
-            'Third-party processors that operate strictly on our instructions — currently our website hosting and cookieless analytics provider (Vercel Inc., USA), our email provider, where you consent our analytics provider (Google LLC, USA, for Google Analytics 4), and where engaged, a contact-form submission service',
+            'Google LLC (United States) — when you submit the contact form or the e-invoicing readiness form, the details you provide are transmitted to and stored in Google Sheets and sent to us by email through Google Workspace / Google Apps Script, which we use to receive and manage enquiries',
+            'Vercel Inc. (United States) — our website hosting and cookieless web-analytics provider',
+            'Google LLC (United States) — Google Analytics 4, only where you accept analytics cookies',
             'Government authorities, regulators or courts where disclosure is required by UAE law',
             'Professional advisors (legal, audit) bound by confidentiality',
           ]}/>
-          <P>Where processors are located outside the UAE, we rely on contractual safeguards and limit transfers to what is necessary.</P>
+          <P>These processors act strictly on our instructions and do not use your information for their own purposes. Several of them (including Google and Vercel) are located in the United States, so submitting the forms involves a transfer of your personal data outside the UAE. Where personal information is transferred outside the UAE, we rely on appropriate contractual safeguards and limit each transfer to what is necessary.</P>
         </PolicySection>
 
         <PolicySection n={6} title="How long we keep it" id="retention">

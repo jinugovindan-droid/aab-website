@@ -33,12 +33,15 @@ window.AAContactSheet = {
       consentAt: new Date().toISOString(),
     };
 
-    await fetch(url, {
+    // Default (cors) mode + text/plain keeps this a simple request (no preflight);
+    // the Apps Script web app returns a readable CORS response, so we can detect
+    // failures instead of silently assuming success.
+    const res = await fetch(url, {
       method: 'POST',
-      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
     });
+    if (!res.ok) throw new Error('Submission failed (' + res.status + ')');
   },
 
   // Post an arbitrary payload (e.g. the e-invoicing readiness assessment) to the
@@ -48,11 +51,14 @@ window.AAContactSheet = {
     if (!url) {
       throw new Error('Contact sheet URL is not configured.');
     }
-    await fetch(url, {
+    // Default (cors) mode + text/plain keeps this a simple request (no preflight);
+    // the Apps Script web app returns a readable CORS response, so we can detect
+    // failures instead of silently assuming success.
+    const res = await fetch(url, {
       method: 'POST',
-      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
     });
+    if (!res.ok) throw new Error('Submission failed (' + res.status + ')');
   },
 };
