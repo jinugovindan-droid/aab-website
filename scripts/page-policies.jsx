@@ -123,6 +123,7 @@ function PrivacyPolicyPage({ onNav }) {
             'To keep the website secure, prevent abuse, and improve content',
             'To meet our legal, regulatory and professional obligations as a UAE accounting firm',
           ]}/>
+          <P><strong>Automated processing of CVs.</strong> CVs sent to our talent network are parsed and indexed automatically into a skills profile (qualifications, sectors, jurisdictions, software and languages) so we can match candidates to current and upcoming roles. This automated indexing supports — but does not replace — human judgement: a partner reviews your CV before anyone contacts you, and no hiring decision is made solely by automated means. You can ask us to stop processing your CV, or remove it, at any time by emailing <a href="mailto:careers@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>careers@aaccounting.me</a>.</P>
         </PolicySection>
 
         <PolicySection n={4} title="Lawful basis" id="basis">

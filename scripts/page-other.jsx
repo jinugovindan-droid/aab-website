@@ -794,6 +794,10 @@ function CareersPage({ onNav }) {
               }}>
                 PDFs, DOCX or a link to your portfolio site &mdash; all welcome. A short note on what you&rsquo;re looking for helps, but isn&rsquo;t required.
               </div>
+
+              <p style={{ marginTop: 14, fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.55 }}>
+                By sending your CV you consent to Authentic Accounting storing and processing it &mdash; including automated indexing to match you to roles, always with a partner&rsquo;s review before any contact &mdash; as described in our <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>Privacy Policy</a>. We keep it for 18&nbsp;months; withdraw any time.
+              </p>
             </div>
 
             <div style={{
