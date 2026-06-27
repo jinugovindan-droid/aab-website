@@ -22,7 +22,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
 
   // ----- Readiness assessment -----
   const FAQ = (window.AARoutes && window.AARoutes.EINVOICE_FAQ) || [];
-  const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', revenue: '', isGov: false, b2b: '', team: '', impl: '', asp: '', erp: '' });
+  const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', revenue: '', isGov: false, b2b: '', team: '', impl: '', asp: '', erp: '', consent: false });
   const [err, setErr] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [done, setDone] = React.useState(false);
@@ -156,15 +156,15 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     doc.setFillColor(charcoal[0], charcoal[1], charcoal[2]); doc.rect(M, y, colW, 60, 'F');
     setC(cyan); doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
     doc.text('THE COST OF WAITING', M + 16, y + 17);
-    const pen = [['AED 5,000 / mo', 'No ASP appointed in time'], ['AED 100 / invoice', 'Late issuance'], ['AED 1,000 / day', 'Notification failures']];
+    const pen = [['AED 5,000 / mo', 'No ASP appointed in time'], ['AED 100 / invoice', 'Late issuance · cap 5k/mo'], ['AED 1,000 / day', 'Notification failures']];
     const pcw = (colW - 32) / 3;
     pen.forEach((pp, i) => { const px = M + 16 + i * pcw; doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.text(pp[0], px, y + 38); setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.text(pp[1], px, y + 50); });
     y += 68;
     setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
-    doc.text('Penalties under Cabinet Decision 106 of 2025.', M, y); y += 16;
+    doc.text('Penalties under Cabinet Decision 106 of 2025 — applied from your go-live date.', M, y); y += 16;
 
     heading('Your next moves');
-    bullet(f.asp === 'appointed' ? 'Validate your appointed ASP — set-up, connectivity and accreditation.' : 'Appoint an Accredited Service Provider from the MoF pre-approved list (39 approved as of Jun 2026).');
+    bullet(f.asp === 'appointed' ? 'Validate your appointed ASP — set-up, connectivity and accreditation.' : 'Appoint a Service Provider from the current MoF pre-approved list (see mof.gov.ae for the latest list).');
     bullet('Clean your master data — TRNs, legal names and addresses vs FTA records — and map your ' + (f.erp ? f.erp : 'ERP / accounting') + ' fields to the e-invoice format.');
     bullet('Run a pilot 60–90 days before your go-live date — and let us take you from scope assessment to go-live.');
 
@@ -198,13 +198,14 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.trim())) { setErr('Please enter a valid work email.'); return; }
     if (!TIER) { setErr('Please enter your annual revenue (or tick “government entity”) so we can calculate your deadline.'); return; }
     if (!f.b2b) { setErr('Please tell us whether you issue B2B / B2G invoices — it decides whether the mandate applies to you.'); return; }
+    if (!f.consent) { setErr('Please confirm you agree to our Privacy Policy so we can prepare your report.'); return; }
     setBusy(true);
     try {
       let downloadDate = '';
       try { downloadDate = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' (GST)'; } catch (e) { downloadDate = new Date().toISOString(); }
       const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Revenue: ' + (f.isGov ? 'Government entity' : f.revenue), 'Tier: ' + TIER.who, 'B2B/B2G scope: ' + (b2bLbl[f.b2b] || '—'), 'In-house team: ' + (lbl[f.team] || '—'), 'Can implement in-house: ' + (lbl[f.impl] || '—'), 'ASP status: ' + (lbl[f.asp] || '—'), 'ERP: ' + (f.erp || '—'), 'Downloaded: ' + downloadDate].join('\n');
       if (window.AAContactSheet && window.AAContactSheet.submitRaw) {
-        window.AAContactSheet.submitRaw({ type: 'E-Invoicing Readiness Assessment', company: f.company, name: f.name, email: f.email, phone: f.phone, revenue: f.isGov ? 'Government' : f.revenue, tier: TIER.who, b2bScope: b2bLbl[f.b2b] || '', inHouseTeam: lbl[f.team] || '', canImplement: lbl[f.impl] || '', aspStatus: lbl[f.asp] || '', erp: f.erp, downloadDate, summary });
+        window.AAContactSheet.submitRaw({ type: 'E-Invoicing Readiness Assessment', company: f.company, name: f.name, email: f.email, phone: f.phone, revenue: f.isGov ? 'Government' : f.revenue, tier: TIER.who, b2bScope: b2bLbl[f.b2b] || '', inHouseTeam: lbl[f.team] || '', canImplement: lbl[f.impl] || '', aspStatus: lbl[f.asp] || '', erp: f.erp, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
       }
       if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'e-invoicing', event_label: TIER.who });
     } catch (e) {}
@@ -311,12 +312,16 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
             ) : (
               <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue to generate your personalised PDF — your exact deadlines, a tailored verdict, and your next steps.</p>
             )}
+            <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5, cursor: 'pointer', marginBottom: 14 }}>
+              <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />
+              <span>I agree to Authentic Accounting using my details to prepare this report and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); if (onClose) onClose(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
+            </label>
             <button className="btn btn--primary" onClick={handleGenerate} disabled={busy}>
               {busy ? 'Generating…' : 'Get my readiness status'}
               <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
             </button>
             {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Instant PDF download. We use your details only to prepare your report and follow up.</p>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Instant PDF download.</p>
           </div>
         )}
       </div>

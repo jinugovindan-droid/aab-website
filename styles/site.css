@@ -11,6 +11,39 @@ body {
 img { max-width: 100%; display: block; }
 button { font-family: var(--aa-font-sans); }
 
+/* ---------- Accessibility: skip link + global keyboard focus ---------- */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -56px;
+  z-index: 2000;
+  background: var(--aa-charcoal);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 140ms ease-out;
+}
+.skip-link:focus {
+  top: 8px;
+  outline: 2px solid var(--aa-cyan-200);
+  outline-offset: 2px;
+}
+/* Visible focus ring for keyboard users on every interactive element that
+   doesn't already define its own :focus-visible style. */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--aa-cyan-700);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+main:focus { outline: none; }
+
 /* ---------- Buttons ---------- */
 .btn {
   font-family: var(--aa-font-sans);
@@ -27,9 +60,9 @@ button { font-family: var(--aa-font-sans); }
   transition: background 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
   border-radius: 0;
 }
-.btn--primary { background: var(--aa-cyan); color: #fff; }
-.btn--primary:hover { background: var(--aa-cyan-600); }
-.btn--primary:active { background: var(--aa-cyan-700); }
+.btn--primary { background: var(--aa-cyan-700); color: #fff; }
+.btn--primary:hover { background: var(--aa-cyan-800); }
+.btn--primary:active { background: var(--aa-cyan-800); }
 
 .btn--ghost {
   background: transparent;
@@ -65,7 +98,7 @@ button { font-family: var(--aa-font-sans); }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--aa-cyan);
+  color: var(--aa-cyan-700);
   margin-bottom: 16px;
   display: flex;
   align-items: center;
@@ -149,7 +182,7 @@ button { font-family: var(--aa-font-sans); }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--aa-cyan);
+  color: var(--aa-cyan-700);
 }
 .eyebrow--steel { color: var(--aa-steel); }
 .eyebrow--charcoal { color: var(--aa-charcoal); }
@@ -202,8 +235,8 @@ button { font-family: var(--aa-font-sans); }
 }
 .field__input:focus, .field__textarea:focus, .field__select:focus {
   outline: none;
-  border-color: var(--aa-cyan);
-  box-shadow: 0 0 0 3px var(--aa-cyan-050);
+  border-color: var(--aa-cyan-700);
+  box-shadow: 0 0 0 3px var(--aa-cyan-100);
 }
 .field__textarea { resize: vertical; min-height: 100px; }
 

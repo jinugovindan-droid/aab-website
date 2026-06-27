@@ -166,12 +166,14 @@ function PrivacyPolicyPage({ onNav }) {
             'Withdraw consent you previously gave, at any time',
             'Object to or restrict certain processing',
             'Request the transfer of your personal information to another controller, where technically feasible',
+            'Lodge a complaint with the UAE Data Office if you believe your personal information has been mishandled',
           ]}/>
-          <P>To exercise any of these rights, email <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a>. We will respond within a reasonable period and, where applicable, within the timelines set out by the UAE Data Office.</P>
+          <P>To exercise any of these rights, email <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a>. We aim to respond within 30 days and, where applicable, within the timelines set out by the UAE Data Office.</P>
         </PolicySection>
 
         <PolicySection n={8} title="Security" id="security">
           <P>We apply reasonable administrative, technical and physical safeguards to protect the personal information we hold, including access controls, encryption in transit, and review of third-party processors. No method of transmission over the internet is fully secure; we ask that you do not send highly sensitive information by email without prior arrangement.</P>
+          <P>If a personal-data breach occurs that is likely to affect your rights, we will assess it without undue delay and, where required by the UAE PDPL and its Executive Regulations, notify the UAE Data Office and any affected individuals.</P>
         </PolicySection>
 
         <PolicySection n={9} title="Cookies" id="cookies">

@@ -899,7 +899,8 @@ function ContactPage({ onNav }) {
   const [submitting, setSubmitting] = useStateP(false);
   const [submitted, setSubmitted] = useStateP(false);
   const [form, setForm] = useStateP({
-    service: intent, entity: '', email: '', context: '', timeline: '6-weeks', segment: 'sme'
+    service: intent, entity: '', email: '', context: '', timeline: '6-weeks', segment: 'sme',
+    consent: false, marketing: false
   });
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -1107,8 +1108,16 @@ function ContactPage({ onNav }) {
                     <div className="field__label">Email</div>
                     <input className="field__input" type="email" value={form.email} onChange={(e) => update('email', e.target.value)} placeholder="name@entity.ae" />
                   </label>
+                  <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55, cursor: 'pointer' }}>
+                    <input type="checkbox" checked={form.consent} onChange={(e) => update('consent', e.target.checked)} style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0 }} />
+                    <span>I agree to Authentic Accounting processing my details to respond to my enquiry, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>Privacy Policy</a>. <span style={{ color: 'var(--aa-negative)' }}>*</span></span>
+                  </label>
+                  <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55, cursor: 'pointer' }}>
+                    <input type="checkbox" checked={form.marketing} onChange={(e) => update('marketing', e.target.checked)} style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0 }} />
+                    <span>Optional: send me occasional UAE tax &amp; compliance updates. Unsubscribe any time.</span>
+                  </label>
                   <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 16, fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.6 }}>
-                    By submitting, you accept our engagement scoping protocol. We will respond within two business days.
+                    We will respond within two business days.
                   </div>
                 </div>
               }
@@ -1146,10 +1155,10 @@ function ContactPage({ onNav }) {
               <button
                 className="btn btn--primary btn--sm"
                 onClick={handleSubmit}
-                disabled={submitting || !form.entity.trim() || !form.email.trim()}
+                disabled={submitting || !form.entity.trim() || !form.email.trim() || !form.consent}
                 style={{
-                  opacity: submitting || !form.entity.trim() || !form.email.trim() ? 0.45 : 1,
-                  cursor: submitting || !form.entity.trim() || !form.email.trim() ? 'not-allowed' : 'pointer'
+                  opacity: submitting || !form.entity.trim() || !form.email.trim() || !form.consent ? 0.45 : 1,
+                  cursor: submitting || !form.entity.trim() || !form.email.trim() || !form.consent ? 'not-allowed' : 'pointer'
                 }}>
                 
                   {submitting ? 'Sending…' : 'Send scoping request'}

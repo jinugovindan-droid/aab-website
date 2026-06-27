@@ -19,7 +19,8 @@
   /* Brand primaries */
   --aa-cyan:            #29ABE2;  /* Primary accent, wordmark, links, key data */
   --aa-cyan-600:        #1F8BBA;  /* Hover / pressed on cyan */
-  --aa-cyan-700:        #176E93;  /* Deep cyan, emphasis on light */
+  --aa-cyan-700:        #176E93;  /* Deep cyan, emphasis/text on light (AA: 5.69:1) */
+  --aa-cyan-800:        #125A79;  /* Darkest cyan, button hover/active on light */
   --aa-cyan-200:        #9BD8F0;  /* Decorative tints only (charts, highlights) */
   --aa-cyan-100:        #D6EEF9;  /* Soft cyan wash */
   --aa-cyan-050:        #ECF7FC;  /* Faintest cyan wash, table header bg */

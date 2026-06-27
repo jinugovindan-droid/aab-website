@@ -16,6 +16,7 @@ IMPORTANT: the PAGE_SEO / INSIGHTS / PAGE_TO_PATH data below must stay in sync
 with scripts/routes.js (single source of truth at runtime).
 """
 
+import datetime
 import json
 import os
 import re
@@ -659,6 +660,45 @@ def write(route_path, html):
     return os.path.relpath(out_file, ROOT).replace("\\", "/")
 
 
+def write_sitemap():
+    """Generate sitemap.xml from PAGE_TO_PATH + published insights so it can
+    never drift from the routes we actually prerender."""
+    today = datetime.date.today().isoformat()
+
+    def priority(page):
+        if page == "home":
+            return "1.0"
+        if page.startswith("service-") or page in ("services", "e-invoicing"):
+            return "0.8"
+        return "0.5"
+
+    def changefreq(page):
+        return "weekly" if page == "home" else "monthly"
+
+    rows = []
+    for page, path in PAGE_TO_PATH.items():
+        loc = SITE_ORIGIN + path
+        rows.append((loc, priority(page), changefreq(page)))
+    for a in INSIGHTS:
+        if a["published"]:
+            rows.append((SITE_ORIGIN + "/insights/" + a["slug"], "0.6", "monthly"))
+
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for loc, prio, freq in rows:
+        lines += ["  <url>",
+                  "    <loc>%s</loc>" % loc,
+                  "    <lastmod>%s</lastmod>" % today,
+                  "    <changefreq>%s</changefreq>" % freq,
+                  "    <priority>%s</priority>" % prio,
+                  "  </url>"]
+    lines.append("</urlset>")
+
+    with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
+        f.write("\n".join(lines) + "\n")
+    return len(rows)
+
+
 def main():
     with open(os.path.join(ROOT, "index.html"), encoding="utf-8") as f:
         template = f.read()
@@ -682,9 +722,11 @@ def main():
         html = render(template, title, a["excerpt"], canonical, build_jsonld("insight", a["slug"]), robots=robots)
         written.append(write(path, html))
 
+    n_urls = write_sitemap()
     print("Prerendered %d routes:" % len(written))
     for w in written:
         print("  " + w)
+    print("Wrote sitemap.xml with %d URLs" % n_urls)
 
 
 if __name__ == "__main__":
