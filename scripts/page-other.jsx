@@ -899,7 +899,7 @@ function ContactPage({ onNav }) {
   const [submitting, setSubmitting] = useStateP(false);
   const [submitted, setSubmitted] = useStateP(false);
   const [form, setForm] = useStateP({
-    service: intent, entity: '', email: '', context: '', timeline: '6-weeks', segment: 'sme',
+    service: intent, entity: '', email: '', phone: '', context: '', timeline: '6-weeks', segment: 'sme',
     consent: false, marketing: false
   });
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
@@ -1033,9 +1033,9 @@ function ContactPage({ onNav }) {
               {step === 1 &&
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                   <div className="eyebrow eyebrow--charcoal">Which service line?</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div role="group" aria-label="Which service line?" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                     {CONTACT_SERVICES.map((s) =>
-                  <button key={s} onClick={() => update('service', s)} style={{
+                  <button key={s} onClick={() => update('service', s)} aria-pressed={form.service === s} style={{
                     padding: '14px 16px', textAlign: 'left',
                     background: form.service === s ? 'var(--aa-charcoal)' : '#fff',
                     color: form.service === s ? '#fff' : 'var(--aa-charcoal)',
@@ -1046,9 +1046,9 @@ function ContactPage({ onNav }) {
                   </div>
 
                   <div className="eyebrow eyebrow--charcoal" style={{ marginTop: 8 }}>Client segment</div>
-                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <div role="group" aria-label="Client segment" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     {[['gov', 'Government'], ['ent', 'Enterprise'], ['sme', 'SME / family'], ['fin', 'Financial services']].map(([id, lbl]) =>
-                  <button key={id} onClick={() => update('segment', id)} style={{
+                  <button key={id} onClick={() => update('segment', id)} aria-pressed={form.segment === id} style={{
                     padding: '10px 16px', fontSize: 13,
                     background: form.segment === id ? 'var(--aa-cyan)' : '#fff',
                     color: form.segment === id ? '#fff' : 'var(--aa-charcoal)',
@@ -1085,9 +1085,9 @@ function ContactPage({ onNav }) {
                     <textarea className="field__textarea" rows={5} value={form.context} onChange={(e) => update('context', e.target.value)} placeholder="Describe the engagement, deliverable, jurisdiction and any specific concerns. The more specific, the faster our scoping note." />
                   </label>
                   <div className="eyebrow eyebrow--charcoal">Target timeline</div>
-                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <div role="group" aria-label="Target timeline" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     {[['urgent', 'Within 2 weeks'], ['6-weeks', '6 weeks'], ['quarter', 'This quarter'], ['flex', 'Flexible']].map(([id, lbl]) =>
-                  <button key={id} onClick={() => update('timeline', id)} style={{
+                  <button key={id} onClick={() => update('timeline', id)} aria-pressed={form.timeline === id} style={{
                     padding: '10px 16px', fontSize: 13,
                     background: form.timeline === id ? 'var(--aa-charcoal)' : '#fff',
                     color: form.timeline === id ? '#fff' : 'var(--aa-charcoal)',
@@ -1107,6 +1107,10 @@ function ContactPage({ onNav }) {
                   <label className="field">
                     <div className="field__label">Email</div>
                     <input className="field__input" type="email" value={form.email} onChange={(e) => update('email', e.target.value)} placeholder="name@entity.ae" />
+                  </label>
+                  <label className="field">
+                    <div className="field__label">Phone / WhatsApp <span style={{ color: 'var(--aa-steel)', fontWeight: 400 }}>(optional)</span></div>
+                    <input className="field__input" type="tel" value={form.phone} onChange={(e) => update('phone', e.target.value)} placeholder="+971 …" />
                   </label>
                   <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55, cursor: 'pointer' }}>
                     <input type="checkbox" checked={form.consent} onChange={(e) => update('consent', e.target.checked)} style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0 }} />

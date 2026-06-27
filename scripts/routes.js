@@ -739,6 +739,7 @@
 
   window.AARoutes = {
     SITE_ORIGIN,
+    TAX_RULES_ASOF: 'June 2026',
     PAGE_TO_PATH,
     VALID_PAGES,
     PAGE_SEO,

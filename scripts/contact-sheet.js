@@ -28,6 +28,7 @@ window.AAContactSheet = {
       timeline: window.AAContactSheet.TIMELINE_LABELS[form.timeline] || form.timeline,
       entity: form.entity,
       email: form.email,
+      phone: form.phone || '',
       consent: form.consent ? 'Yes' : 'No',
       marketingOptIn: form.marketing ? 'Yes' : 'No',
       consentAt: new Date().toISOString(),

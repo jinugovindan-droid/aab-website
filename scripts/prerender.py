@@ -700,10 +700,10 @@ def inject_root(html, body):
     # body. The end is anchored to the comment that follows #root in the template
     # so the match is unambiguous even though `body` itself contains </div> tags,
     # which keeps this idempotent across re-runs.
-    new = re.sub(r'<div id="root">.*?</div>(\s*<!-- Tweak defaults)',
-                 lambda m: '<div id="root">' + body + '</div>' + m.group(1),
-                 html, count=1, flags=re.S)
-    if new == html:
+    new, n = re.subn(r'<div id="root">.*?</div>(\s*<!-- Tweak defaults)',
+                     lambda m: '<div id="root">' + body + '</div>' + m.group(1),
+                     html, count=1, flags=re.S)
+    if n == 0:
         raise RuntimeError("inject_root: #root anchor not found — template structure changed")
     return new
 

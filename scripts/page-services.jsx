@@ -344,7 +344,7 @@ function ServiceVATPage({ onNav }) {
             <div className="section-head__eyebrow">FAQ</div>
             <h2>What clients ask first.</h2>
           </div>
-          <FAQList items={VAT_FAQ} />
+          <FAQList items={VAT_FAQ} asOf />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
@@ -477,7 +477,7 @@ function ServiceCorporateTaxPage({ onNav }) {
             <div className="section-head__eyebrow">FAQ</div>
             <h2>UAE Corporate Tax, answered.</h2>
           </div>
-          <FAQList items={CT_FAQ} />
+          <FAQList items={CT_FAQ} asOf />
           <p style={{ marginTop: 28, fontSize: 13, color: 'var(--aa-steel)', lineHeight: 1.6 }}>
             Legal basis: Federal Decree-Law No. 47 of 2022 and related Cabinet and Ministerial Decisions. General guidance, not tax advice — confirm against the latest UAE Ministry of Finance / Federal Tax Authority sources.
           </p>
@@ -1410,7 +1410,7 @@ function ServiceTaxPlanningPage({ onNav }) {
             <div className="section-head__eyebrow">FAQ</div>
             <h2>Tax planning, answered.</h2>
           </div>
-          <FAQList items={TP_FAQ} />
+          <FAQList items={TP_FAQ} asOf />
           <p style={{ marginTop: 28, fontSize: 13, color: 'var(--aa-steel)', lineHeight: 1.6 }}>
             General guidance, not tax advice — positions depend on your facts. Confirm against the latest UAE Ministry of Finance / Federal Tax Authority sources.
           </p>
@@ -1580,9 +1580,15 @@ function ServiceSimplePage({ page, onNav }) {
   );
 }
 
-function FAQList({ items }) {
+function FAQList({ items, asOf }) {
   const [open, setOpen] = useStateSvc(0);
   return (
+    <div>
+    {asOf &&
+      <p style={{ fontSize: 13, color: 'var(--aa-steel)', margin: '0 0 18px', fontStyle: 'italic' }}>
+        Tax rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || ''} — general guidance only; confirm against the latest UAE FTA / Ministry of Finance sources.
+      </p>
+    }
     <div style={{ borderTop: '2px solid var(--aa-charcoal)' }}>
       {items.map((it, i) => (
         <div key={i} style={{ borderBottom: '1px solid var(--aa-rule)' }}>
@@ -1605,6 +1611,7 @@ function FAQList({ items }) {
           )}
         </div>
       ))}
+    </div>
     </div>
   );
 }
