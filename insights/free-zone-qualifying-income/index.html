@@ -129,10 +129,10 @@
 
   <link rel="stylesheet" href="styles/tokens.css?v=20260627-a11y"/>
   <link rel="stylesheet" href="styles/site.css?v=20260627-a11y"/>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <!-- Self-hosted React (no third-party render-blocking dependency); icons via lucide. -->
+  <script defer src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="assets/vendor/react-18.3.1.min.js"></script>
+  <script defer src="assets/vendor/react-dom-18.3.1.min.js"></script>
 
   <script type="application/ld+json" data-aa-jsonld>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.aaccounting.me/"},{"@type":"ListItem","position":2,"name":"Insights","item":"https://www.aaccounting.me/insights"},{"@type":"ListItem","position":3,"name":"Free zone qualifying income — three traps in the UAE free-zone tax rules","item":"https://www.aaccounting.me/insights/free-zone-qualifying-income"}]}</script>
   <script type="application/ld+json" data-aa-jsonld>{"@context":"https://schema.org","@type":"Article","headline":"Free zone qualifying income — three traps in the UAE free-zone tax rules","description":"The UAE’s free-zone tax rules — Cabinet Decision 100 of 2023 and Ministerial Decision 229 of 2025 (which replaced MD 265 of 2023) — are being read three different ways by tax teams in the UAE. We unpack the three traps we keep seeing in client positions, and what the consequence is at filing.","author":{"@type":"Person","name":"CA Kiran Prasad S"},"publisher":{"@type":"Organization","name":"Authentic Accounting and Bookkeeping L.L.C","url":"https://www.aaccounting.me/","logo":{"@type":"ImageObject","url":"https://www.aaccounting.me/assets/logos/authentic-accounting-full.png"}},"mainEntityOfPage":"https://www.aaccounting.me/insights/free-zone-qualifying-income","datePublished":"2026-04-12","dateModified":"2026-04-12"}</script>
@@ -140,241 +140,17 @@
 <body>
   <div id="root"></div>
 
-  <script src="scripts/routes.js?v=20260626-svc6"></script>
-  <script type="text/babel" src="scripts/tweaks-panel.jsx?v=20260523"></script>
-  <script type="text/babel" src="scripts/chrome.jsx?v=20260626-svc6"></script>
-  <script type="text/babel" src="scripts/page-home.jsx?v=20260617-fixnow"></script>
-  <script type="text/babel" src="scripts/page-services.jsx?v=20260626-cta"></script>
-  <script type="text/babel" src="scripts/page-einvoicing.jsx?v=20260627-consent"></script>
-  <script src="scripts/contact-sheet.js?v=20260627-cors"></script>
-  <script type="text/babel" src="scripts/page-other.jsx?v=20260627-consent"></script>
-  <script type="text/babel" src="scripts/page-policies.jsx?v=20260627-pdpl2"></script>
-
-  <script type="text/babel">
-    const { useState, useEffect, useLayoutEffect } = React;
-
-    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  <!-- Tweak defaults — the design host rewrites the block between the markers. -->
+  <script>
+    window.AA_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
       "displayFont": "Oswald",
       "accentIntensity": "default",
       "density": "comfortable",
       "showSubBar": true
     }/*EDITMODE-END*/;
-
-    const PAGE_LABELS = {
-      home: '01 Home',
-      services: '02 Services',
-      'service-vat': '03 Service · VAT',
-      'service-corporate-tax': '03 Service · Corporate Tax',
-      'service-bookkeeping': '03 Service · Bookkeeping',
-      'service-audit-support': '03 Service · Audit Support',
-      'service-valuations': '03 Service · Valuations',
-      'service-transaction-advisory': '03 Service · Transaction Advisory',
-      'service-cfo': '03 Service · CFO',
-      'service-financial-statements': '03 Service · Financial Statements',
-      'service-tax-planning': '03 Service · Tax Planning',
-      'service-fixed-asset-tagging': '03 Service · Fixed Assets',
-      'service-forensic-accounting': '03 Service · Forensic',
-      'service-internal-controls': '03 Service · Internal Controls',
-      'service-financial-modelling': '03 Service · Modelling',
-      'service-feasibility-studies': '03 Service · Feasibility',
-      'service-strategic-advisory': '03 Service · Strategic',
-      'e-invoicing': '04 E-Invoicing',
-      industries: '05 Industries',
-      about: '06 About',
-      insights: '07 Insights',
-      insight: '08 Insight Article',
-      careers: '09 Careers',
-      contact: '10 Contact',
-      privacy: '11 Privacy',
-      terms: '12 Terms',
-    };
-
-    const { pageFromPath, pathForPage, pathForInsight, insightSlugFromPath, applyPageMeta, redirectLegacyHash, VALID_PAGES } = window.AARoutes;
-
-    redirectLegacyHash();
-
-    function pageFromLocation() {
-      return pageFromPath(window.location.pathname);
-    }
-
-    function slugFromLocation() {
-      return insightSlugFromPath(window.location.pathname);
-    }
-
-    function AppRoot() {
-      const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
-      const [page, setPageState] = useState(pageFromLocation);
-      const [insightSlug, setInsightSlug] = useState(slugFromLocation);
-      useScrollReveal();
-
-      const navigateTo = (next, nextSlug) => {
-        const id = VALID_PAGES.has(next) ? next : 'home';
-        const slug = id === 'insight' ? (nextSlug || null) : null;
-        setPageState(id);
-        setInsightSlug(slug);
-        const nextPath = id === 'insight' ? pathForInsight(slug) : pathForPage(id);
-        const nextUrl = nextPath + window.location.search;
-        const currentUrl = window.location.pathname + window.location.search;
-        if (currentUrl !== nextUrl) {
-          history.pushState(null, '', nextUrl);
-        }
-      };
-
-      useEffect(() => {
-        const syncFromUrl = () => {
-          setPageState(pageFromLocation());
-          setInsightSlug(slugFromLocation());
-        };
-        window.addEventListener('popstate', syncFromUrl);
-        return () => window.removeEventListener('popstate', syncFromUrl);
-      }, []);
-
-      useEffect(() => {
-        applyPageMeta(page, insightSlug);
-        // GA4 single-page-app page_view (GA config has send_page_view:false).
-        if (window.AA_GA_ID && window.gtag) {
-          window.gtag('event', 'page_view', {
-            page_path: window.location.pathname,
-            page_location: window.location.href,
-            page_title: document.title,
-          });
-        }
-      }, [page, insightSlug]);
-
-      useEffect(() => {
-        document.documentElement.style.setProperty('--aa-font-display',
-          tweaks.displayFont === 'Archivo Black'
-            ? "'Archivo Black','Archivo','Antique Olive',sans-serif"
-            : "'Oswald','Archivo','Antique Olive',sans-serif");
-
-        const accent = tweaks.accentIntensity === 'bold' ? '#0E8FC9'
-                     : tweaks.accentIntensity === 'soft' ? '#5BBEE9'
-                     : '#29ABE2';
-        document.documentElement.style.setProperty('--aa-cyan', accent);
-
-        document.body.setAttribute('data-density', tweaks.density);
-      }, [tweaks]);
-
-      // Lucide must run after any render that adds [data-lucide] nodes
-      // (page change, FAQ open, wizard step, filter change). rAF debounces to one
-      // pass per paint so we don't pay 50× during a single state update.
-      useEffect(() => {
-        const id = requestAnimationFrame(() => {
-          if (window.lucide) window.lucide.createIcons();
-        });
-        return () => cancelAnimationFrame(id);
-      });
-
-      // On every page change: either scroll to a requested anchor (set by
-      // deep-link patterns like Services-card -> Contact wizard) or scroll
-      // to top. useLayoutEffect runs synchronously after DOM commit but
-      // BEFORE the browser paints, so the user never sees the new page
-      // briefly at the old scroll position. behavior:'instant' overrides
-      // the page-wide `html { scroll-behavior: smooth }` rule so this is
-      // a single hard jump, not an animation.
-      useLayoutEffect(() => {
-        let target = null;
-        try {
-          target = sessionStorage.getItem('aa_scroll_target');
-          if (target) sessionStorage.removeItem('aa_scroll_target');
-        } catch (err) {}
-        if (target) {
-          const el = document.getElementById(target);
-          if (el) { el.scrollIntoView({ block: 'start', behavior: 'instant' }); return; }
-        }
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }, [page, insightSlug]);
-
-      const renderPage = () => {
-        switch (page) {
-          case 'home': return <HomePage onNav={navigateTo}/>;
-          case 'services': return <ServicesPage onNav={navigateTo}/>;
-          case 'service-vat': return <ServiceVATPage onNav={navigateTo}/>;
-          case 'service-corporate-tax': return <ServiceCorporateTaxPage onNav={navigateTo}/>;
-          case 'service-bookkeeping': return <ServiceBookkeepingPage onNav={navigateTo}/>;
-          case 'service-audit-support': return <ServiceAuditSupportPage onNav={navigateTo}/>;
-          case 'service-valuations': return <ServiceValuationsPage onNav={navigateTo}/>;
-          case 'service-transaction-advisory': return <ServiceTransactionAdvisoryPage onNav={navigateTo}/>;
-          case 'service-cfo': return <ServiceCFOPage onNav={navigateTo}/>;
-          case 'service-financial-statements': return <ServiceFinancialStatementsPage onNav={navigateTo}/>;
-          case 'service-tax-planning': return <ServiceTaxPlanningPage onNav={navigateTo}/>;
-          case 'service-fixed-asset-tagging':
-          case 'service-forensic-accounting':
-          case 'service-internal-controls':
-          case 'service-financial-modelling':
-          case 'service-feasibility-studies':
-          case 'service-strategic-advisory': return <ServiceSimplePage page={page} onNav={navigateTo}/>;
-          case 'e-invoicing': return <EInvoicingPage onNav={navigateTo}/>;
-          case 'industries': return <IndustriesPage onNav={navigateTo}/>;
-          case 'about': return <AboutPage onNav={navigateTo}/>;
-          case 'insights': return <InsightsPage onNav={navigateTo}/>;
-          case 'insight': return <InsightArticlePage onNav={navigateTo} slug={insightSlug}/>;
-          case 'careers': return <CareersPage onNav={navigateTo}/>;
-          case 'contact': return <ContactPage onNav={navigateTo}/>;
-          case 'privacy': return <PrivacyPolicyPage onNav={navigateTo}/>;
-          case 'terms': return <TermsPage onNav={navigateTo}/>;
-          default: return <HomePage onNav={navigateTo}/>;
-        }
-      };
-
-      const navActive = (typeof page === 'string' && page.indexOf('service-') === 0) ? 'services' : page === 'insight' ? 'insights' : page;
-
-      return (
-        <div data-screen-label={PAGE_LABELS[page] || page}>
-          <a className="skip-link" href="#main-content">Skip to content</a>
-          {tweaks.showSubBar && <SubBar/>}
-          <TopNav active={navActive} onNav={navigateTo}/>
-          <main id="main-content" tabIndex={-1}>{renderPage()}</main>
-          <Footer onNav={navigateTo}/>
-          <WhatsAppFab/>
-          <EInvoiceMarquee onNav={navigateTo}/>
-          <EInvoiceReadinessModal onNav={navigateTo}/>
-          <CookieConsent onNav={navigateTo}/>
-
-          <TweaksPanel title="Tweaks">
-            <TweakSection title="Typography">
-              <TweakRadio
-                label="Display font"
-                value={tweaks.displayFont}
-                options={[{value:'Oswald',label:'Oswald'},{value:'Archivo Black',label:'Archivo Black'}]}
-                onChange={v => setTweak('displayFont', v)}
-              />
-            </TweakSection>
-            <TweakSection title="Accent">
-              <TweakRadio
-                label="Cyan intensity"
-                value={tweaks.accentIntensity}
-                options={[{value:'soft',label:'Soft'},{value:'default',label:'Default'},{value:'bold',label:'Bold'}]}
-                onChange={v => setTweak('accentIntensity', v)}
-              />
-            </TweakSection>
-            <TweakSection title="Layout">
-              <TweakRadio
-                label="Density"
-                value={tweaks.density}
-                options={[{value:'comfortable',label:'Comfortable'},{value:'compact',label:'Compact'}]}
-                onChange={v => setTweak('density', v)}
-              />
-              <TweakToggle
-                label="Show regulator sub-bar"
-                value={tweaks.showSubBar}
-                onChange={v => setTweak('showSubBar', v)}
-              />
-            </TweakSection>
-            <TweakSection title="Quick navigation">
-              <TweakSelect
-                label="Jump to page"
-                value={page}
-                options={Object.entries(PAGE_LABELS).map(([v,l])=>({value:v,label:l}))}
-                onChange={v => navigateTo(v)}
-              />
-            </TweakSection>
-          </TweaksPanel>
-        </div>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<AppRoot/>);
   </script>
+
+  <!-- Precompiled bundle: routes + components + app shell. Rebuild with: npm run bundle -->
+  <script defer src="dist/app.min.js?v=20260627-bundle"></script>
 </body>
 </html>

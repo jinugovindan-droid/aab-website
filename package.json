@@ -2,6 +2,12 @@
   "name": "aab-website",
   "private": true,
   "scripts": {
-    "dev": "python3 -u scripts/dev-server.py"
+    "dev": "python3 -u scripts/dev-server.py",
+    "bundle": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }
