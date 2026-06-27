@@ -542,6 +542,18 @@ def breadcrumb_chain(page, slug):
     return items
 
 
+FAQ_BY_PAGE = {
+    "e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ,
+    "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ,
+    "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ,
+    "service-cfo": CFO_FAQ, "service-financial-statements": FS_FAQ,
+    "service-tax-planning": TAXPLAN_FAQ, "service-vat": VAT_FAQ,
+    "service-fixed-asset-tagging": FIXED_ASSET_FAQ, "service-forensic-accounting": FORENSIC_FAQ,
+    "service-internal-controls": CONTROLS_FAQ, "service-financial-modelling": MODELLING_FAQ,
+    "service-feasibility-studies": FEASIBILITY_FAQ, "service-strategic-advisory": STRATEGIC_FAQ,
+}
+
+
 def build_jsonld(page, slug):
     blocks = []
     chain = breadcrumb_chain(page, slug)
@@ -581,15 +593,14 @@ def build_jsonld(page, slug):
             "areaServed": {"@type": "Country", "name": "United Arab Emirates"},
             "provider": ORG,
         })
-    faq_by_page = {"e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ, "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ, "service-valuations": VALUATIONS_FAQ, "service-transaction-advisory": TRANSACTION_FAQ, "service-cfo": CFO_FAQ, "service-financial-statements": FS_FAQ, "service-tax-planning": TAXPLAN_FAQ, "service-vat": VAT_FAQ, "service-fixed-asset-tagging": FIXED_ASSET_FAQ, "service-forensic-accounting": FORENSIC_FAQ, "service-internal-controls": CONTROLS_FAQ, "service-financial-modelling": MODELLING_FAQ, "service-feasibility-studies": FEASIBILITY_FAQ, "service-strategic-advisory": STRATEGIC_FAQ}
-    if page in faq_by_page:
+    if page in FAQ_BY_PAGE:
         blocks.append({
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
                 {"@type": "Question", "name": f["q"],
                  "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
-                for f in faq_by_page[page]
+                for f in FAQ_BY_PAGE[page]
             ],
         })
     return blocks
@@ -622,7 +633,82 @@ def set_robots(html, value):
                   lambda m: m.group(1) + esc(value, attr=True) + m.group(3), html, count=1, flags=re.S)
 
 
-def render(template, title, description, canonical, jsonld, robots=None):
+# Home isn't in PAGE_SEO (it's the root template); give it a crawlable heading/intro.
+HOME_SEO = {
+    "h1": "UAE Compliance & Advisory Accounting — Authentic Accounting",
+    "intro": "Authentic Accounting and Bookkeeping L.L.C is a Dubai-based chartered accounting and advisory firm serving SMEs, enterprises and Government across all seven emirates — bookkeeping, VAT, UAE Corporate Tax, IFRS financial statements, valuations, M&A support and due diligence, delivered with reconciliation discipline.",
+}
+
+# Pages to expose as crawlable internal links on every page (the crawl graph).
+NAV_PAGES = [
+    "services", "service-bookkeeping", "service-vat", "service-corporate-tax",
+    "service-financial-statements", "service-audit-support", "e-invoicing",
+    "service-valuations", "service-transaction-advisory", "service-cfo",
+    "service-tax-planning", "service-internal-controls", "service-forensic-accounting",
+    "service-financial-modelling", "service-feasibility-studies", "service-fixed-asset-tagging",
+    "service-strategic-advisory", "industries", "about", "insights", "careers", "contact",
+]
+
+
+def lead_heading(page, slug):
+    if page == "insight":
+        return strip_period(INSIGHTS_BY_SLUG.get(slug, INSIGHTS[0])["title"])
+    if page == "home":
+        return HOME_SEO["h1"]
+    if page in PAGE_SEO:
+        return re.split(r"\s+[|]\s+", PAGE_SEO[page]["title"])[0].strip()
+    return BREADCRUMB_LABELS.get(page, "Authentic Accounting")
+
+
+def intro_text(page, slug):
+    if page == "insight":
+        return INSIGHTS_BY_SLUG.get(slug, INSIGHTS[0])["excerpt"]
+    if page == "home":
+        return HOME_SEO["intro"]
+    if page in PAGE_SEO:
+        return PAGE_SEO[page]["description"]
+    return ""
+
+
+def seo_body(page, slug=None):
+    """Crawlable static content injected into #root (React's createRoot replaces it
+    on mount, so users get the SPA; crawlers and no-JS clients get real content)."""
+    parts = ['<div class="container" style="padding:48px 0">']
+    parts.append("<h1>%s</h1>" % esc(lead_heading(page, slug)))
+    intro = intro_text(page, slug)
+    if intro:
+        parts.append("<p>%s</p>" % esc(intro))
+    # FAQ as real headings + paragraphs (the council's explicit ask).
+    if page in FAQ_BY_PAGE:
+        parts.append("<section><h2>Frequently asked questions</h2>")
+        for f in FAQ_BY_PAGE[page]:
+            parts.append("<h3>%s</h3><p>%s</p>" % (esc(f["q"]), esc(f["a"])))
+        parts.append("</section>")
+    # Internal-link graph — present on every page so crawlers can traverse the site.
+    parts.append('<nav aria-label="Site sections"><h2>Explore</h2><ul>')
+    for p in NAV_PAGES:
+        parts.append('<li><a href="%s">%s</a></li>' % (esc(PAGE_TO_PATH[p], attr=True), esc(BREADCRUMB_LABELS.get(p, p))))
+    for a in INSIGHTS:
+        if a["published"]:
+            parts.append('<li><a href="%s">%s</a></li>' % (esc(SITE_ORIGIN + "/insights/" + a["slug"], attr=True), esc(strip_period(a["title"]))))
+    parts.append("</ul></nav></div>")
+    return "".join(parts)
+
+
+def inject_root(html, body):
+    # Replace the entire contents of <div id="root">…</div> with the prerendered
+    # body. The end is anchored to the comment that follows #root in the template
+    # so the match is unambiguous even though `body` itself contains </div> tags,
+    # which keeps this idempotent across re-runs.
+    new = re.sub(r'<div id="root">.*?</div>(\s*<!-- Tweak defaults)',
+                 lambda m: '<div id="root">' + body + '</div>' + m.group(1),
+                 html, count=1, flags=re.S)
+    if new == html:
+        raise RuntimeError("inject_root: #root anchor not found — template structure changed")
+    return new
+
+
+def render(template, title, description, canonical, jsonld, robots=None, body=None):
     html = template
     html = html.replace("<head>", '<head>\n  <base href="/">', 1)
     html = set_title(html, title)
@@ -647,6 +733,8 @@ def render(template, title, description, canonical, jsonld, robots=None):
         "<!doctype html>\n<!-- Prerendered by scripts/prerender.py — do not edit by hand; re-run the script. -->",
         1,
     )
+    if body is not None:
+        html = inject_root(html, body)
     return html
 
 
@@ -710,7 +798,7 @@ def main():
                  "insights", "careers", "contact", "privacy", "terms"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)
-        html = render(template, meta["title"], meta["description"], canonical, build_jsonld(page, None))
+        html = render(template, meta["title"], meta["description"], canonical, build_jsonld(page, None), body=seo_body(page))
         written.append(write(PAGE_TO_PATH[page], html))
 
     # Insight articles
@@ -719,8 +807,15 @@ def main():
         title = strip_period(a["title"]) + " | Authentic Accounting Insights"
         canonical = SITE_ORIGIN + path
         robots = None if a["published"] else "noindex, follow"
-        html = render(template, title, a["excerpt"], canonical, build_jsonld("insight", a["slug"]), robots=robots)
+        html = render(template, title, a["excerpt"], canonical, build_jsonld("insight", a["slug"]), robots=robots, body=seo_body("insight", a["slug"]))
         written.append(write(path, html))
+
+    # Home (the root index.html is the template): only refresh its #root crawlable
+    # body in place, leaving the head/markers pristine so it stays a clean template.
+    home_html = inject_root(template, seo_body("home"))
+    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(home_html)
+    written.append("index.html (home)")
 
     n_urls = write_sitemap()
     print("Prerendered %d routes:" % len(written))
