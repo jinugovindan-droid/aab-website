@@ -28,6 +28,12 @@ const PAGE_LABELS = {
   'service-strategic-advisory': '03 Service · Strategic',
   'e-invoicing': '04 E-Invoicing',
   industries: '05 Industries',
+  'industry-real-estate': '05 Industry · Real Estate',
+  'industry-construction': '05 Industry · Construction',
+  'industry-trading': '05 Industry · Trading',
+  'industry-hospitality': '05 Industry · Hospitality',
+  'industry-ecommerce': '05 Industry · E-commerce',
+  'industry-manufacturing': '05 Industry · Manufacturing',
   about: '06 About',
   insights: '07 Insights',
   insight: '08 Insight Article',
@@ -154,6 +160,12 @@ function AppRoot() {
       case 'service-strategic-advisory': return <ServiceSimplePage page={page} onNav={navigateTo}/>;
       case 'e-invoicing': return <EInvoicingPage onNav={navigateTo}/>;
       case 'industries': return <IndustriesPage onNav={navigateTo}/>;
+      case 'industry-real-estate':
+      case 'industry-construction':
+      case 'industry-trading':
+      case 'industry-hospitality':
+      case 'industry-ecommerce':
+      case 'industry-manufacturing': return <IndustrySimplePage page={page} onNav={navigateTo}/>;
       case 'about': return <AboutPage onNav={navigateTo}/>;
       case 'insights': return <InsightsPage onNav={navigateTo}/>;
       case 'insight': return <InsightArticlePage onNav={navigateTo} slug={insightSlug}/>;
@@ -165,7 +177,9 @@ function AppRoot() {
     }
   };
 
-  const navActive = (typeof page === 'string' && page.indexOf('service-') === 0) ? 'services' : page === 'insight' ? 'insights' : page;
+  const navActive = (typeof page === 'string' && page.indexOf('service-') === 0) ? 'services'
+                  : (typeof page === 'string' && page.indexOf('industry-') === 0) ? 'industries'
+                  : page === 'insight' ? 'insights' : page;
 
   return (
     <div data-screen-label={PAGE_LABELS[page] || page}>

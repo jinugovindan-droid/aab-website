@@ -22,6 +22,12 @@
     'service-strategic-advisory': '/services/strategic-advisory',
     'e-invoicing': '/e-invoicing',
     industries: '/industries',
+    'industry-real-estate': '/industries/real-estate',
+    'industry-construction': '/industries/construction',
+    'industry-trading': '/industries/trading',
+    'industry-hospitality': '/industries/hospitality',
+    'industry-ecommerce': '/industries/ecommerce',
+    'industry-manufacturing': '/industries/manufacturing',
     about: '/about',
     insights: '/insights',
     careers: '/careers',
@@ -304,6 +310,30 @@
       title: 'Industries We Serve — UAE Accounting & Advisory | Authentic Accounting',
       description: 'Sector-specific accounting and advisory for trading, manufacturing, hospitality, healthcare, real estate, technology and Government entities across the UAE.',
     },
+    'industry-real-estate': {
+      title: 'Real Estate Accounting Dubai, UAE — Developers & Property | Authentic Accounting',
+      description: 'Accounting, VAT, Corporate Tax and audit support for UAE real estate developers, property and owners associations — IFRS 15 revenue recognition, service-charge and escrow accounting, lease accounting and developer valuations.',
+    },
+    'industry-construction': {
+      title: 'Construction & Contracting Accounting Dubai, UAE | Authentic Accounting',
+      description: 'Accounting and advisory for UAE construction and contracting companies — IFRS 15 over-time revenue, work-in-progress and cost-to-complete, retention, variation orders, project costing and audit-ready statements.',
+    },
+    'industry-trading': {
+      title: 'Trading & Distribution Accounting Dubai, UAE | Authentic Accounting',
+      description: 'Accounting, VAT and Corporate Tax for UAE trading and distribution companies — inventory valuation and COGS, import/export VAT and reverse charge, designated-zone treatment and margin analysis.',
+    },
+    'industry-hospitality': {
+      title: 'Hospitality, F&B & Restaurant Accounting Dubai, UAE | Authentic Accounting',
+      description: 'Accounting for UAE hospitality, F&B and restaurant businesses — multi-outlet consolidation, daily POS sales reconciliation, service and municipality fees, food-cost control and VAT compliance.',
+    },
+    'industry-ecommerce': {
+      title: 'E-commerce & Retail Accounting Dubai, UAE | Authentic Accounting',
+      description: 'Accounting and VAT for UAE e-commerce and retail businesses — marketplace and payment-gateway reconciliation, multi-channel revenue, cross-border and import VAT, inventory and returns.',
+    },
+    'industry-manufacturing': {
+      title: 'Manufacturing Accounting Dubai, UAE — Cost & Inventory | Authentic Accounting',
+      description: 'Accounting and advisory for UAE manufacturers — cost accounting and overhead allocation, raw-material/WIP/finished-goods inventory valuation, fixed-asset accounting, and VAT and Corporate Tax compliance.',
+    },
     about: {
       title: 'About Us — Authentic Accounting | UAE Accounting & Advisory Firm Since 2017',
       description: 'Learn about Authentic Accounting and Bookkeeping L.L.C — a Dubai-based firm delivering reconciliation discipline, regulatory compliance and Board-grade advisory since 2017.',
@@ -393,6 +423,9 @@
     'service-internal-controls': 'Internal Controls', 'service-financial-modelling': 'Financial Modelling',
     'service-feasibility-studies': 'Feasibility Studies', 'service-strategic-advisory': 'Strategic Advisory',
     'e-invoicing': 'E-Invoicing', industries: 'Industries', about: 'About',
+    'industry-real-estate': 'Real Estate', 'industry-construction': 'Construction & Contracting',
+    'industry-trading': 'Trading & Distribution', 'industry-hospitality': 'Hospitality & F&B',
+    'industry-ecommerce': 'E-commerce & Retail', 'industry-manufacturing': 'Manufacturing',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
   };
@@ -659,6 +692,11 @@
       items.push({ name: BREADCRUMB_LABELS[page], url: fullUrlForPage(page) });
       return items;
     }
+    if (page.indexOf('industry-') === 0 && BREADCRUMB_LABELS[page]) {
+      items.push({ name: 'Industries', url: SITE_ORIGIN + PAGE_TO_PATH.industries });
+      items.push({ name: BREADCRUMB_LABELS[page], url: fullUrlForPage(page) });
+      return items;
+    }
     if (page === 'service-vat') {
       items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
       items.push({ name: BREADCRUMB_LABELS['service-vat'], url: fullUrlForPage('service-vat') });
@@ -739,7 +777,7 @@
       if (iso) { block.datePublished = iso; block.dateModified = iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'e-invoicing' || page.indexOf('service-') === 0) {
+    if (page === 'services' || page === 'e-invoicing' || page.indexOf('service-') === 0 || page.indexOf('industry-') === 0) {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',

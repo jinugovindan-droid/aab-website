@@ -82,6 +82,30 @@ function IndustriesPage({ onNav }) {
           )}
         </div>
       </section>
+
+      {/* Industry landing pages */}
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head"><div className="section-head__eyebrow">Industries we serve</div><h2>Accounting, shaped to your sector.</h2></div>
+          <div className="aa-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['industry-real-estate', 'Real estate & property', 'Developers, property and owners associations — IFRS 15, service charges and escrow.'],
+              ['industry-construction', 'Construction & contracting', 'Over-time revenue, work-in-progress, retention and project costing.'],
+              ['industry-trading', 'Trading & distribution', 'Inventory and COGS, import/export VAT and margin you can see.'],
+              ['industry-hospitality', 'Hospitality, F&B & restaurants', 'Multi-outlet consolidation, daily reconciliation and food-cost control.'],
+              ['industry-ecommerce', 'E-commerce & retail', 'Gateway and marketplace reconciliation and multi-channel VAT.'],
+              ['industry-manufacturing', 'Manufacturing', 'Cost accounting, inventory valuation and fixed-asset discipline.'],
+            ].map(([pg, t, d], i) => (
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }}
+                style={{ textDecoration: 'none', color: 'inherit', padding: 28, borderRight: (i % 3 !== 2) ? '1px solid var(--aa-rule)' : 'none', borderTop: i >= 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+                <div style={{ marginTop: 'auto', paddingTop: 10, color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 13 }}>Explore →</div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>);
 
 }
@@ -1691,4 +1715,149 @@ function ContactPage({ onNav }) {
 
 }
 
-Object.assign(window, { IndustriesPage, AboutPage, InsightsPage, InsightArticlePage, CareersPage, ContactPage });
+// ---------- Industry landing pages (config-driven) ----------
+const INDUSTRIES = {
+  'industry-real-estate': {
+    crumb: 'Real Estate', eyebrow: 'Industry · Real estate & property',
+    h1a: 'Real estate accounting.', h1b: 'Built for UAE property.', intent: 'Outsourced accounting', cta: 'Talk to us about real estate',
+    intro: 'Accounting, tax and audit support for UAE developers, property companies and owners associations — from off-plan revenue recognition to service-charge and escrow accounting.',
+    glance: [['Sector', 'Real estate & property'], ['Revenue', 'IFRS 15'], ['Leases', 'IFRS 16'], ['VAT', 'Residential vs commercial'], ['Also', 'Developer valuations'], ['Engagement', 'Retained or project'], ['Pricing', 'Customised to your scope']],
+    covers: [['book-open', 'Bookkeeping & service charges', 'Day-to-day accounting plus service-charge ledgers and owners-association reporting.'], ['file-check', 'VAT on property', 'Correct treatment across residential, commercial and mixed-use supplies.'], ['landmark', 'Corporate Tax & free zone', 'Taxable-income computation, rental income and free-zone analysis for property holdings.'], ['building-2', 'Statements & valuations', 'Audit-ready IFRS statements and independent developer-side valuations.']],
+    considerations: [['trending-up', 'IFRS 15 revenue recognition', 'Off-plan sales recognised over time vs at handover — the single biggest judgement on a developer’s books.'], ['key-round', 'IFRS 16 leases', 'Lessor and lessee accounting for leases, with the right-of-use and lease-liability mechanics.'], ['wallet', 'Service-charge & escrow', 'Service-charge accounting and RERA escrow discipline kept separate and auditable.'], ['percent', 'VAT treatment', 'First supply of new residential zero-rated, subsequent residential exempt, commercial at 5%.']],
+    related: [['service-bookkeeping', 'Outsourced bookkeeping'], ['service-vat', 'VAT compliance'], ['service-financial-statements', 'Financial statements'], ['service-valuations', 'Business valuations']],
+  },
+  'industry-construction': {
+    crumb: 'Construction & Contracting', eyebrow: 'Industry · Construction & contracting',
+    h1a: 'Construction accounting.', h1b: 'Costed to completion.', intent: 'Outsourced accounting', cta: 'Talk to us about construction',
+    intro: 'Accounting and advisory for UAE contractors and sub-contractors — over-time revenue, work-in-progress, retention and project costing that hold up at audit.',
+    glance: [['Sector', 'Construction & contracting'], ['Revenue', 'IFRS 15 (over time)'], ['Tracks', 'WIP & cost-to-complete'], ['Watch', 'Retention & variations'], ['Output', 'Project costing'], ['Engagement', 'Retained or project'], ['Pricing', 'Customised to your scope']],
+    covers: [['hard-hat', 'Project bookkeeping & costing', 'Per-project cost ledgers, committed-cost tracking and contract margins.'], ['trending-up', 'Revenue & WIP', 'Over-time revenue and work-in-progress under IFRS 15, computed and evidenced.'], ['file-check', 'VAT on construction', 'VAT on contracts, milestones and sub-contractor chains, correctly handled.'], ['clipboard-check', 'Audit support & CFO', 'Audit-ready files and CFO-level oversight of cash and project profitability.']],
+    considerations: [['trending-up', 'IFRS 15 over time', 'Revenue recognised over time on a cost-to-cost (input) basis, re-estimated each period.'], ['layers', 'WIP & cost-to-complete', 'Disciplined estimates of cost-to-complete — where most contractor profit is won or lost.'], ['hand-coins', 'Retention', 'Retention receivable and payable tracked and aged separately from trade balances.'], ['file-warning', 'Variations & claims', 'Variation orders, claims and onerous-contract provisions assessed and documented.']],
+    related: [['service-bookkeeping', 'Outsourced bookkeeping'], ['service-audit-support', 'Audit support'], ['service-financial-statements', 'Financial statements'], ['service-cfo', 'CFO services']],
+  },
+  'industry-trading': {
+    crumb: 'Trading & Distribution', eyebrow: 'Industry · Trading & distribution',
+    h1a: 'Trading accounting.', h1b: 'Margin you can see.', intent: 'Outsourced accounting', cta: 'Talk to us about trading',
+    intro: 'Accounting, VAT and Corporate Tax for UAE trading and distribution businesses — inventory, COGS, import/export VAT and the margin analysis that runs the business.',
+    glance: [['Sector', 'Trading & distribution'], ['Inventory', 'IAS 2'], ['VAT', 'Imports & reverse charge'], ['Zones', 'Designated-zone rules'], ['Output', 'Margin analysis'], ['Engagement', 'Retained'], ['Pricing', 'Customised to your scope']],
+    covers: [['boxes', 'Bookkeeping & inventory', 'Perpetual inventory, COGS and landed-cost capture across SKUs and warehouses.'], ['file-check', 'VAT on imports & exports', 'Import VAT, reverse charge, exports and designated-zone treatment, handled correctly.'], ['landmark', 'Corporate Tax', 'Taxable-income computation and free-zone analysis for trading entities.'], ['scan-line', 'Stock & asset controls', 'Stock-count discipline and a fixed-asset register that ties to the ledger.']],
+    considerations: [['boxes', 'Inventory & COGS', 'Valuation under IAS 2 (FIFO or weighted average) and accurate cost of goods sold.'], ['ship', 'Import VAT & reverse charge', 'Self-accounting for import VAT and the reverse-charge mechanism on cross-border buys.'], ['map-pin', 'Designated zones', 'When goods in a designated zone stay outside scope — and when they become taxable.'], ['percent', 'Landed cost & margin', 'Duty, freight and handling loaded into cost so reported margin is real.']],
+    related: [['service-bookkeeping', 'Outsourced bookkeeping'], ['service-vat', 'VAT compliance'], ['service-corporate-tax', 'Corporate Tax'], ['service-fixed-asset-tagging', 'Fixed asset tagging']],
+  },
+  'industry-hospitality': {
+    crumb: 'Hospitality & F&B', eyebrow: 'Industry · Hospitality, F&B & restaurants',
+    h1a: 'Hospitality accounting.', h1b: 'Outlet by outlet.', intent: 'Outsourced accounting', cta: 'Talk to us about hospitality',
+    intro: 'Accounting for UAE hotels, restaurants and F&B groups — multi-outlet consolidation, daily sales reconciliation, food-cost control and the fees unique to the sector.',
+    glance: [['Sector', 'Hospitality & F&B'], ['Scope', 'Multi-outlet'], ['Daily', 'POS reconciliation'], ['Watch', 'Service & municipality fees'], ['Control', 'Food cost'], ['Engagement', 'Retained'], ['Pricing', 'Customised to your scope']],
+    covers: [['utensils', 'Multi-outlet bookkeeping', 'Per-outlet ledgers consolidated into one group view you can compare.'], ['file-check', 'VAT on F&B', 'VAT across dine-in, delivery and aggregators, correctly accounted.'], ['line-chart', 'Management accounts', 'Prime-cost and outlet-level reporting that drives daily decisions.'], ['briefcase', 'CFO & statements', 'CFO oversight and audit-ready financial statements for the group.']],
+    considerations: [['receipt', 'Daily sales reconciliation', 'POS, cash, card and aggregator settlements reconciled to the books every day.'], ['layers', 'Multi-outlet consolidation', 'Consistent charts and inter-outlet eliminations across the estate.'], ['percent', 'Service & municipality fees', 'Service charge, municipality and tourism fees identified and accounted separately.'], ['utensils-crossed', 'Food & beverage cost', 'Recipe costing, wastage and prime-cost discipline to protect margin.']],
+    related: [['service-bookkeeping', 'Outsourced bookkeeping'], ['service-vat', 'VAT compliance'], ['service-financial-statements', 'Financial statements'], ['service-cfo', 'CFO services']],
+  },
+  'industry-ecommerce': {
+    crumb: 'E-commerce & Retail', eyebrow: 'Industry · E-commerce & retail',
+    h1a: 'E-commerce accounting.', h1b: 'Every channel reconciled.', intent: 'Outsourced accounting', cta: 'Talk to us about e-commerce',
+    intro: 'Accounting and VAT for UAE online and retail businesses — marketplace and payment-gateway reconciliation, multi-channel revenue and cross-border VAT.',
+    glance: [['Sector', 'E-commerce & retail'], ['Reconcile', 'Gateways & marketplaces'], ['Revenue', 'Multi-channel'], ['VAT', 'Place of supply'], ['Watch', 'Returns & chargebacks'], ['Engagement', 'Retained'], ['Pricing', 'Customised to your scope']],
+    covers: [['credit-card', 'Bookkeeping & reconciliation', 'Gateway payouts, fees and holdbacks reconciled to orders and to the bank.'], ['file-check', 'VAT for e-commerce', 'Place-of-supply, cross-border and import VAT across your channels.'], ['landmark', 'Corporate Tax', 'Taxable-income computation for online and omni-channel models.'], ['line-chart', 'Modelling & unit economics', 'Contribution and unit-economics models that show what actually makes money.']],
+    considerations: [['credit-card', 'Gateway & marketplace reconciliation', 'Stripe, PayTabs, Amazon, Noon and others — fees, payouts and holdbacks tied out.'], ['layers', 'Multi-channel revenue', 'Revenue recognised consistently across website, marketplace and retail.'], ['globe', 'VAT place of supply', 'Domestic, cross-border and imported-goods VAT applied to the right transactions.'], ['undo-2', 'Returns & chargebacks', 'Returns, refunds and chargebacks reflected so revenue and stock stay true.']],
+    related: [['service-bookkeeping', 'Outsourced bookkeeping'], ['service-vat', 'VAT compliance'], ['service-corporate-tax', 'Corporate Tax'], ['service-financial-modelling', 'Financial modelling']],
+  },
+  'industry-manufacturing': {
+    crumb: 'Manufacturing', eyebrow: 'Industry · Manufacturing',
+    h1a: 'Manufacturing accounting.', h1b: 'Cost to the unit.', intent: 'Outsourced accounting', cta: 'Talk to us about manufacturing',
+    intro: 'Accounting and advisory for UAE manufacturers — cost accounting, inventory valuation across raw materials, WIP and finished goods, and fixed-asset discipline.',
+    glance: [['Sector', 'Manufacturing'], ['Costing', 'Standard / absorption'], ['Inventory', 'Raw · WIP · finished'], ['Assets', 'Plant & machinery'], ['Output', 'Unit cost'], ['Engagement', 'Retained'], ['Pricing', 'Customised to your scope']],
+    covers: [['factory', 'Bookkeeping & cost accounting', 'Job and process costing with overhead allocation you can defend.'], ['boxes', 'Inventory & fixed assets', 'Raw, WIP and finished-goods valuation plus a clean fixed-asset register.'], ['file-check', 'VAT & Corporate Tax', 'Full VAT and Corporate Tax compliance for manufacturing entities.'], ['briefcase', 'Statements & CFO', 'Audit-ready statements and CFO oversight of cost and capacity.']],
+    considerations: [['calculator', 'Cost accounting', 'Standard or absorption costing with overhead allocation across cost centres.'], ['boxes', 'Inventory valuation', 'Raw materials, work-in-progress and finished goods valued under IAS 2.'], ['cog', 'Fixed assets & capacity', 'Plant and machinery, depreciation policy and capacity/overhead recovery.'], ['percent', 'VAT & Corporate Tax', 'Input recovery, taxable income and free-zone analysis for manufacturers.']],
+    related: [['service-bookkeeping', 'Outsourced bookkeeping'], ['service-fixed-asset-tagging', 'Fixed asset tagging'], ['service-financial-statements', 'Financial statements'], ['service-cfo', 'CFO services']],
+  },
+};
+
+function IndustrySimplePage({ page, onNav }) {
+  const cfg = INDUSTRIES[page];
+  if (!cfg) return null;
+  const book = () => {
+    try {
+      if (cfg.intent) sessionStorage.setItem('aa_intent_service', cfg.intent);
+      sessionStorage.setItem('aa_scroll_target', 'aa-contact-wizard');
+    } catch (e) {}
+    onNav('contact');
+  };
+  return (
+    <div>
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href={pathForPage('industries')} onClick={(e) => { e.preventDefault(); onNav('industries'); }} style={{ color: 'var(--aa-steel-700)' }}>Industries</a>
+            <span>/</span><span style={{ color: 'var(--aa-charcoal)' }}>{cfg.crumb}</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>{cfg.eyebrow}</div>
+              <h1 style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 'clamp(44px, 6vw, 72px)', textTransform: 'uppercase', letterSpacing: '0.01em', margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0 }}>
+                {cfg.h1a}<br />{cfg.h1b}
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>{cfg.intro}</p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={book}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener"><i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>WhatsApp us</a>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {cfg.glance.map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head"><div className="section-head__eyebrow">How we help</div><h2>What we do for {cfg.crumb.toLowerCase()}.</h2></div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {cfg.covers.map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="section-head"><div className="section-head__eyebrow">Sector considerations</div><h2>What makes {cfg.crumb.toLowerCase()} different.</h2></div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {cfg.considerations.map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+            <span className="eyebrow eyebrow--steel">Related services</span>
+            {cfg.related.map(([pg, label]) => (
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+            ))}
+          </div>
+          <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 24, fontStyle: 'italic', maxWidth: 720 }}>
+            General guidance for {cfg.crumb.toLowerCase()} businesses in the UAE; confirm tax and accounting specifics for your facts against the latest FTA / Ministry of Finance sources, or talk to us.
+          </p>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+Object.assign(window, { IndustriesPage, IndustrySimplePage, AboutPage, InsightsPage, InsightArticlePage, CareersPage, ContactPage });

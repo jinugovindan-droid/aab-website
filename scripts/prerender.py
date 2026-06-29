@@ -44,6 +44,12 @@ PAGE_TO_PATH = {
     "service-strategic-advisory": "/services/strategic-advisory",
     "e-invoicing": "/e-invoicing",
     "industries": "/industries",
+    "industry-real-estate": "/industries/real-estate",
+    "industry-construction": "/industries/construction",
+    "industry-trading": "/industries/trading",
+    "industry-hospitality": "/industries/hospitality",
+    "industry-ecommerce": "/industries/ecommerce",
+    "industry-manufacturing": "/industries/manufacturing",
     "about": "/about",
     "insights": "/insights",
     "careers": "/careers",
@@ -124,6 +130,30 @@ PAGE_SEO = {
     "industries": {
         "title": "Industries We Serve — UAE Accounting & Advisory | Authentic Accounting",
         "description": "Sector-specific accounting and advisory for trading, manufacturing, hospitality, healthcare, real estate, technology and Government entities across the UAE.",
+    },
+    "industry-real-estate": {
+        "title": "Real Estate Accounting Dubai, UAE — Developers & Property | Authentic Accounting",
+        "description": "Accounting, VAT, Corporate Tax and audit support for UAE real estate developers, property and owners associations — IFRS 15 revenue recognition, service-charge and escrow accounting, lease accounting and developer valuations.",
+    },
+    "industry-construction": {
+        "title": "Construction & Contracting Accounting Dubai, UAE | Authentic Accounting",
+        "description": "Accounting and advisory for UAE construction and contracting companies — IFRS 15 over-time revenue, work-in-progress and cost-to-complete, retention, variation orders, project costing and audit-ready statements.",
+    },
+    "industry-trading": {
+        "title": "Trading & Distribution Accounting Dubai, UAE | Authentic Accounting",
+        "description": "Accounting, VAT and Corporate Tax for UAE trading and distribution companies — inventory valuation and COGS, import/export VAT and reverse charge, designated-zone treatment and margin analysis.",
+    },
+    "industry-hospitality": {
+        "title": "Hospitality, F&B & Restaurant Accounting Dubai, UAE | Authentic Accounting",
+        "description": "Accounting for UAE hospitality, F&B and restaurant businesses — multi-outlet consolidation, daily POS sales reconciliation, service and municipality fees, food-cost control and VAT compliance.",
+    },
+    "industry-ecommerce": {
+        "title": "E-commerce & Retail Accounting Dubai, UAE | Authentic Accounting",
+        "description": "Accounting and VAT for UAE e-commerce and retail businesses — marketplace and payment-gateway reconciliation, multi-channel revenue, cross-border and import VAT, inventory and returns.",
+    },
+    "industry-manufacturing": {
+        "title": "Manufacturing Accounting Dubai, UAE — Cost & Inventory | Authentic Accounting",
+        "description": "Accounting and advisory for UAE manufacturers — cost accounting and overhead allocation, raw-material/WIP/finished-goods inventory valuation, fixed-asset accounting, and VAT and Corporate Tax compliance.",
     },
     "about": {
         "title": "About Us — Authentic Accounting | UAE Accounting & Advisory Firm Since 2017",
@@ -275,6 +305,9 @@ BREADCRUMB_LABELS = {
     "service-internal-controls": "Internal Controls", "service-financial-modelling": "Financial Modelling",
     "service-feasibility-studies": "Feasibility Studies", "service-strategic-advisory": "Strategic Advisory",
     "e-invoicing": "E-Invoicing", "industries": "Industries", "about": "About",
+    "industry-real-estate": "Real Estate", "industry-construction": "Construction & Contracting",
+    "industry-trading": "Trading & Distribution", "industry-hospitality": "Hospitality & F&B",
+    "industry-ecommerce": "E-commerce & Retail", "industry-manufacturing": "Manufacturing",
     "insights": "Insights", "careers": "Careers", "contact": "Contact",
     "privacy": "Privacy Policy", "terms": "Terms of Use",
 }
@@ -546,6 +579,10 @@ def breadcrumb_chain(page, slug):
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS[page], "url": full_url(page)})
         return items
+    if page.startswith("industry-") and page in BREADCRUMB_LABELS:
+        items.append({"name": "Industries", "url": SITE_ORIGIN + PAGE_TO_PATH["industries"]})
+        items.append({"name": BREADCRUMB_LABELS[page], "url": full_url(page)})
+        return items
     if page == "service-vat":
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS["service-vat"], "url": full_url("service-vat")})
@@ -632,7 +669,7 @@ def build_jsonld(page, slug):
             block["datePublished"] = iso
             block["dateModified"] = iso
         blocks.append(block)
-    if page == "services" or page == "e-invoicing" or page.startswith("service-"):
+    if page == "services" or page == "e-invoicing" or page.startswith("service-") or page.startswith("industry-"):
         meta = PAGE_SEO[page]
         blocks.append({
             "@context": "https://schema.org",
@@ -696,7 +733,10 @@ NAV_PAGES = [
     "service-valuations", "service-transaction-advisory", "service-cfo",
     "service-tax-planning", "service-internal-controls", "service-forensic-accounting",
     "service-financial-modelling", "service-feasibility-studies", "service-fixed-asset-tagging",
-    "service-strategic-advisory", "industries", "about", "insights", "careers", "contact",
+    "service-strategic-advisory", "industries",
+    "industry-real-estate", "industry-construction", "industry-trading",
+    "industry-hospitality", "industry-ecommerce", "industry-manufacturing",
+    "about", "insights", "careers", "contact",
 ]
 
 
@@ -844,7 +884,8 @@ def main():
     written = []
 
     # Static pages (home is the root index.html — already correct, skip)
-    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "service-financial-statements", "service-tax-planning", "service-fixed-asset-tagging", "service-forensic-accounting", "service-internal-controls", "service-financial-modelling", "service-feasibility-studies", "service-strategic-advisory", "e-invoicing", "industries", "about",
+    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "service-financial-statements", "service-tax-planning", "service-fixed-asset-tagging", "service-forensic-accounting", "service-internal-controls", "service-financial-modelling", "service-feasibility-studies", "service-strategic-advisory", "e-invoicing", "industries",
+                 "industry-real-estate", "industry-construction", "industry-trading", "industry-hospitality", "industry-ecommerce", "industry-manufacturing", "about",
                  "insights", "careers", "contact", "privacy", "terms"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)
