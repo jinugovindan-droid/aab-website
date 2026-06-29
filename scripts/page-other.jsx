@@ -236,10 +236,10 @@ function AboutPage({ onNav }) {
 
 // ---------- Insights list ----------
 function InsightsPage({ onNav }) {
-  const articles = INSIGHTS;
+  const articles = INSIGHTS.filter((a) => a.published);
 
   const [filter, setFilter] = useStateP('All');
-  const tags = ['All', 'Corporate Tax', 'VAT', 'Valuations', 'Controls', 'M&A'];
+  const tags = ['All', 'Corporate Tax', 'VAT', 'E-Invoicing', 'Bookkeeping', 'Advisory'];
   const list = filter === 'All' ? articles : articles.filter((a) => a.tag === filter);
 
   const featured = articles[0];
@@ -656,7 +656,7 @@ function CorporateTaxGuideBody({ onNav }) {
       </div>
 
       <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>
-        Tax rules current as at June 2026. This is general guidance, not a substitute for a formal engagement — confirm your position against the latest UAE Ministry of Finance / Federal Tax Authority sources, or talk to us.
+        Tax rules current as at February 2025. This is general guidance, not a substitute for a formal engagement — confirm your position against the latest UAE Ministry of Finance / Federal Tax Authority sources, or talk to us.
       </p>
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
@@ -709,7 +709,7 @@ function VATGuideBody({ onNav }) {
       </div>
 
       <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>
-        Tax rules current as at June 2026. This is general guidance, not a substitute for a formal engagement — confirm your position against the latest UAE Federal Tax Authority sources, or talk to us.
+        Tax rules current as at March 2023. This is general guidance, not a substitute for a formal engagement — confirm your position against the latest UAE Federal Tax Authority sources, or talk to us.
       </p>
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
@@ -762,7 +762,7 @@ function BookkeepingGuideBody({ onNav }) {
       </div>
 
       <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>
-        General guidance, current as at June 2026 — confirm any tax record-keeping specifics against the latest UAE FTA / Ministry of Finance sources, or talk to us.
+        General guidance, current as at September 2023 — confirm any tax record-keeping specifics against the latest UAE FTA / Ministry of Finance sources, or talk to us.
       </p>
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
@@ -777,10 +777,149 @@ function BookkeepingGuideBody({ onNav }) {
   );
 }
 
+// Shared helpers for the shorter historical posts.
+const artLink = (onNav, page, label) => (
+  <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+    style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+);
+const artInsightLink = (onNav, slug, label) => (
+  <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+    style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+);
+const artNote = (text) => (
+  <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>{text}</p>
+);
+
+function CorporateTaxComingBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>The UAE has confirmed it will introduce a federal Corporate Tax for financial years starting on or after 1&nbsp;June&nbsp;2023. For a country built on a no-tax reputation, this is a structural shift — and the businesses that prepare early will have the easiest first filing.</p>
+      <h3 style={H3}>What has been announced</h3>
+      <p>The headline rate is <strong>9%</strong> on taxable profits, with a <strong>0% band on the first AED&nbsp;375,000</strong> to protect small businesses and start-ups. Free-zone businesses that meet the qualifying conditions are expected to keep a preferential rate on qualifying income. Detailed rules will follow in the law and its decisions — but the direction is set.</p>
+      <h3 style={H3}>What to do now, before it arrives</h3>
+      <p>Three things are worth starting today: get your <strong>bookkeeping clean and current</strong> so you can compute taxable income when the time comes; review your <strong>group and free-zone structure</strong> while there is time to adjust; and map your <strong>related-party transactions</strong>, because transfer-pricing discipline will matter. None of this is wasted effort — it is good housekeeping regardless.</p>
+      {artNote('Written in 2022 as the Corporate Tax regime was announced; rules have since been finalised. See our current UAE Corporate Tax guide for the position as enacted.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artInsightLink(onNav, 'uae-corporate-tax-guide-sme', 'UAE Corporate Tax: a complete guide →')}</li>
+          <li>{artLink(onNav, 'service-corporate-tax', 'UAE Corporate Tax compliance →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function ManagementAccountsBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>Statutory accounts tell you where you have been. Management accounts should help you decide where to go next — yet most owner-managers we meet only see numbers once a year, far too late to act on them.</p>
+      <h3 style={H3}>What belongs in a monthly pack</h3>
+      <p>A useful monthly pack is short and decision-oriented: a <strong>P&amp;L against budget</strong> with variances explained in plain language; a <strong>cash position and short forecast</strong>; <strong>receivables and payables ageing</strong> so nothing slips; and two or three <strong>KPIs</strong> that actually move your business. If a number does not change a decision, it does not need to be in the pack.</p>
+      <h3 style={H3}>Cadence beats precision</h3>
+      <p>A pack that lands by the tenth of the month, every month, is worth more than a perfect one that arrives in week four. Close quickly, reconcile properly, and review it as a team — the habit is where the value is.</p>
+      {artNote('General guidance for UAE owner-managers; tailor the pack to your sector and stage.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-bookkeeping', 'Outsourced bookkeeping & management accounts →')}</li>
+          <li>{artLink(onNav, 'service-cfo', 'CFO services →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function CashFlowBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>When revenue slows suddenly — as it has for many UAE businesses this year — the question stops being &ldquo;are we profitable?&rdquo; and becomes &ldquo;do we have cash next week?&rdquo;. Profit is an opinion; cash is a fact.</p>
+      <h3 style={H3}>Build a 13-week cash forecast</h3>
+      <p>The single most useful tool in a downturn is a rolling <strong>13-week cash flow</strong>: every expected receipt and payment, week by week, updated every week. It turns vague anxiety into a clear view of the tightest week ahead — and buys you time to act before it arrives.</p>
+      <h3 style={H3}>Then protect the runway</h3>
+      <p>With the forecast in hand: chase receivables actively, talk to suppliers early about terms, separate essential from deferrable spend, and keep your bank informed rather than surprised. Decisions made six weeks early are choices; the same decisions made in the tight week are emergencies.</p>
+      {artNote('Written during the 2020 slowdown; the cash discipline holds in any downturn.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-cfo', 'CFO services — cash & treasury →')}</li>
+          <li>{artLink(onNav, 'service-bookkeeping', 'Outsourced bookkeeping →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function ESRBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>The UAE has introduced Economic Substance Regulations (ESR), bringing notification and reporting duties for companies that carry on certain &ldquo;relevant activities&rdquo;. Many businesses are in scope without realising it.</p>
+      <h3 style={H3}>Are you carrying on a relevant activity?</h3>
+      <p>The relevant activities include banking, insurance, investment-fund management, lease-finance, headquarters, shipping, holding-company, intellectual-property and distribution-and-service-centre business. If any of these describes part of what your entity does, you likely have ESR obligations — even as a holding company.</p>
+      <h3 style={H3}>What being in scope means</h3>
+      <p>In-scope entities must file an annual <strong>notification</strong>, and those earning income from the activity must meet an <strong>economic substance test</strong> and file an <strong>ESR report</strong>, demonstrating adequate activity, people and expenditure in the UAE. Missing the filings carries penalties, so the first step is simply to assess scope deliberately rather than assume you are out.</p>
+      {artNote('Written in 2019 as ESR was introduced; confirm current filing requirements and deadlines before relying on this.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-corporate-tax', 'Corporate Tax & compliance →')}</li>
+          <li>{artLink(onNav, 'service-financial-statements', 'Financial statements →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function VATPrimerBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>From 1&nbsp;January&nbsp;2018 the UAE introduced Value Added Tax at a standard rate of <strong>5%</strong>. For most businesses it is the first time tax has touched day-to-day operations — here is the first-principles version.</p>
+      <h3 style={H3}>Who registers</h3>
+      <p>Registration is mandatory once your taxable supplies cross <strong>AED&nbsp;375,000</strong> over twelve months, and voluntary from <strong>AED&nbsp;187,500</strong>. Once registered you charge 5% VAT on your taxable sales (output VAT) and can recover the VAT you pay on business costs (input VAT), paying the FTA the difference.</p>
+      <h3 style={H3}>Get the records right from day one</h3>
+      <p>VAT lives or dies on documentation: issue compliant tax invoices, keep them, and record every transaction so your periodic return is a report, not a reconstruction. Businesses that set up clean books now will find every future return — and every future tax — far easier.</p>
+      {artNote('A primer from 2018, the year VAT launched. For the current detail — EmaraTax filing, recovery and the zero-rated vs exempt distinction — see our full UAE VAT guide.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artInsightLink(onNav, 'uae-vat-guide-dubai', 'VAT in the UAE: the full guide →')}</li>
+          <li>{artLink(onNav, 'service-vat', 'VAT compliance →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function BookkeepingFoundationBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>This is our first note as a new firm, and it is the principle everything else rests on: clean, reconciled books are not overhead. They are the foundation on which every financing, audit, valuation and — increasingly — tax position is built.</p>
+      <h3 style={H3}>Why it matters more than it seems</h3>
+      <p>When the books are right, every other question gets easier: a bank funds you faster, an auditor signs off cleaner, an investor trusts the numbers, and you make decisions on fact rather than feel. When they are wrong, every one of those becomes a scramble — usually at the worst possible moment.</p>
+      <h3 style={H3}>The discipline we run on</h3>
+      <p>Record promptly, <strong>reconcile to zero</strong>, close monthly, and have a second person review before numbers leave the building. It is unglamorous and it is the whole game. It is the standard we are founding this firm on, and the one we will hold to.</p>
+      {artNote('Our founding note, December 2017. The discipline has not changed — only the regulations built on top of it.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-bookkeeping', 'Outsourced bookkeeping & accounting →')}</li>
+          <li>{artInsightLink(onNav, 'outsourced-bookkeeping-dubai', 'Outsourced bookkeeping in Dubai →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
   'uae-vat-guide-dubai': VATGuideBody,
   'outsourced-bookkeeping-dubai': BookkeepingGuideBody,
   'uae-corporate-tax-guide-sme': CorporateTaxGuideBody,
+  'uae-corporate-tax-is-coming': CorporateTaxComingBody,
+  'management-accounts-that-drive-decisions': ManagementAccountsBody,
+  'protecting-cash-flow-downturn': CashFlowBody,
+  'economic-substance-regulations-uae': ESRBody,
+  'uae-vat-5-percent-primer': VATPrimerBody,
+  'bookkeeping-foundation': BookkeepingFoundationBody,
   'free-zone-qualifying-income': FreeZoneArticleBody,
   'uae-e-invoicing-explained': EInvoiceExplainedBody,
   'uae-e-invoicing-deadlines-phases': EInvoiceDeadlinesBody,
@@ -792,7 +931,7 @@ const INSIGHT_BODIES = {
 function InsightArticlePage({ onNav, slug }) {
   const article = insightBySlug(slug) || DEFAULT_INSIGHT;
   const Body = INSIGHT_BODIES[article.slug] || null;
-  const related = INSIGHTS.filter((a) => a.slug !== article.slug).slice(0, 3);
+  const related = INSIGHTS.filter((a) => a.published && a.slug !== article.slug).slice(0, 3);
   const openInsight = (e, s) => { e.preventDefault(); onNav('insight', s); };
 
   return (
