@@ -476,7 +476,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
             mandatory go-live; from this date, only structured invoices transmitted through an accredited ASP will be
             valid. PDF and paper invoices will not.
             <br /><br />
-            <span style={{ color: 'var(--aa-steel-700)' }}>Legal basis: Ministerial Decisions 243 and 244 of 2025. This briefing is general guidance, not advice — confirm dates and scope against the latest UAE Ministry of Finance / FTA sources.</span>
+            <span style={{ color: 'var(--aa-steel-700)' }}>Legal basis: MD 243 of 2025 (system) and MD 244 of 2025 (timeline, as amended by MD 66 of 2026). This briefing is general guidance, not advice — confirm dates and scope against the latest UAE Ministry of Finance / FTA sources.</span>
           </p>
         </div>
       </section>

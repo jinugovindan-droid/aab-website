@@ -133,7 +133,7 @@ PAGE_SEO = {
     },
     "industry-real-estate": {
         "title": "Real Estate Accounting Dubai, UAE — Developers & Property | Authentic Accounting",
-        "description": "Accounting, VAT, Corporate Tax and audit support for UAE real estate developers, property and owners associations — IFRS 15 revenue recognition, service-charge and escrow accounting, lease accounting and developer valuations.",
+        "description": "Accounting, VAT, Corporate Tax and audit support for UAE real estate developers, property and jointly-owned-property management companies — IFRS 15 revenue recognition, service-charge and escrow accounting, lease accounting and developer valuations.",
     },
     "industry-construction": {
         "title": "Construction & Contracting Accounting Dubai, UAE | Authentic Accounting",
@@ -337,7 +337,7 @@ EINVOICE_FAQ = [
     {"q": "Does a free zone company have to comply?",
      "a": "Yes. The mandate applies to B2B and B2G transactions across the UAE, including free zone companies, based on the same revenue thresholds."},
     {"q": "What is the legal basis for UAE e-invoicing?",
-     "a": "Ministerial Decisions 243 and 244 of 2025, issued by the UAE Ministry of Finance, set the scope, obligations, ASP accreditation and the phased timeline."},
+     "a": "Ministerial Decisions 243 and 244 of 2025, issued by the UAE Ministry of Finance, set the scope, obligations, ASP accreditation and the phased timeline — with the timeline subsequently amended by Ministerial Decision 66 of 2026."},
     {"q": "How do I get my business ready?",
      "a": "Assess your transaction scope, appoint an Accredited Service Provider, map your ERP / accounting-system fields to the required e-invoice format, and run end-to-end testing before your go-live date."},
 ]
@@ -357,7 +357,7 @@ CORPTAX_FAQ = [
     {"q": "What is the penalty for registering late?",
      "a": "Late Corporate Tax registration carries an administrative penalty of AED 10,000. The FTA has waived this penalty where a business files its first Corporate Tax return within seven months of the end of its first tax period."},
     {"q": "What about large multinational groups?",
-     "a": "Multinational groups with consolidated global revenue of EUR 750 million or more are subject to a 15% Domestic Minimum Top-up Tax (DMTT) for financial years starting on or after 1 January 2025, in line with the OECD Pillar Two rules."},
+     "a": "Multinational groups with consolidated global revenue of EUR 750 million or more in at least two of the four preceding financial years are subject to a 15% Domestic Minimum Top-up Tax (DMTT) for financial years starting on or after 1 January 2025, in line with the OECD Pillar Two rules."},
 ]
 
 # Keep in sync with BOOKKEEPING_FAQ in scripts/routes.js.

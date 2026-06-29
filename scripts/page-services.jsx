@@ -1231,7 +1231,7 @@ function ServiceFinancialStatementsPage({ onNav }) {
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
             {[
               ['file-spreadsheet', 'Statutory statements', 'The full IFRS set — financial position, income, cash flow and changes in equity.'],
-              ['layers', 'Group consolidation', 'Consolidated statements with intercompany eliminations and minority interests.'],
+              ['layers', 'Group consolidation', 'Consolidated statements with intercompany eliminations and non-controlling interests (NCI).'],
               ['list', 'Notes & disclosures', 'Accounting policies, related parties and the disclosures auditors and regulators expect.'],
               ['check-check', 'Audit & tax ready', 'Lead schedules and a basis consistent with your audit and Corporate Tax computation.'],
             ].map(([ic, t, d], i) => (

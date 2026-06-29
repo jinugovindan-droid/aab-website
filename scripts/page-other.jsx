@@ -89,7 +89,7 @@ function IndustriesPage({ onNav }) {
           <div className="section-head"><div className="section-head__eyebrow">Industries we serve</div><h2>Accounting, shaped to your sector.</h2></div>
           <div className="aa-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
             {[
-              ['industry-real-estate', 'Real estate & property', 'Developers, property and owners associations — IFRS 15, service charges and escrow.'],
+              ['industry-real-estate', 'Real estate & property', 'Developers, property and jointly-owned-property managers — IFRS 15, service charges and escrow.'],
               ['industry-construction', 'Construction & contracting', 'Over-time revenue, work-in-progress, retention and project costing.'],
               ['industry-trading', 'Trading & distribution', 'Inventory and COGS, import/export VAT and margin you can see.'],
               ['industry-hospitality', 'Hospitality, F&B & restaurants', 'Multi-outlet consolidation, daily reconciliation and food-cost control.'],
@@ -673,7 +673,7 @@ function CorporateTaxGuideBody({ onNav }) {
       <p>A Qualifying Free Zone Person can access a 0% rate on its <em>qualifying</em> income, while non-qualifying income is taxed at 9%. The conditions — adequate substance in the zone, qualifying activities, the de&nbsp;minimis limit on non-qualifying revenue, and audited financials — are strict, and breaching them costs you the status for that period plus four more. We unpack the three traps we see most often in {link('service-tax-planning', 'tax planning')} engagements and in our companion guide on free-zone qualifying income.</p>
 
       <h3 style={H3}>Large multinationals — the 15% top-up tax</h3>
-      <p>Separately, multinational groups with consolidated annual revenue of <strong>EUR&nbsp;750&nbsp;million or more</strong> fall within the UAE&rsquo;s <strong>Domestic Minimum Top-up Tax (DMTT)</strong> — a 15% effective-rate floor aligned with the OECD&rsquo;s Pillar Two rules — for financial years starting on or after 1&nbsp;January&nbsp;2025 (Cabinet Decision No.&nbsp;142 of 2024). This does not affect SMEs, but groups near the threshold should model it early.</p>
+      <p>Separately, multinational groups with consolidated revenue of <strong>EUR&nbsp;750&nbsp;million or more in at least two of the four preceding financial years</strong> fall within the UAE&rsquo;s <strong>Domestic Minimum Top-up Tax (DMTT)</strong> — a 15% effective-rate floor aligned with the OECD&rsquo;s Pillar Two rules — for financial years starting on or after 1&nbsp;January&nbsp;2025 (Cabinet Decision No.&nbsp;142 of 2024). This does not affect SMEs, but groups near the threshold should model it early.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>Your next steps</div>
@@ -1003,7 +1003,7 @@ function WorkingCapitalPegBody({ onNav }) {
 function TransferPricingBody({ onNav }) {
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>UAE Corporate Tax brought transfer pricing into everyday compliance. Transactions between related parties and connected persons must now be priced at <strong>arm&rsquo;s length</strong> — and the Board needs to know what documentation that obligation creates.</p>
+      <p style={LEAD}>UAE Corporate Tax brought transfer pricing into everyday compliance. Transactions between <strong>related parties</strong> must now be priced at <strong>arm&rsquo;s length</strong> (Article 34), and payments to <strong>connected persons</strong> — owners, directors and their relatives — are deductible only up to their <strong>market value</strong> (Article 36). The Board needs to know what documentation those rules create.</p>
       <h3 style={H3}>The arm&rsquo;s-length principle, applied</h3>
       <p>Related-party transactions — management fees, intra-group loans, shared services, IP charges — must be priced as they would be between independent parties, supported by a recognised transfer-pricing method. Mispricing is not just an adjustment risk; it can shift taxable income between entities and draw FTA scrutiny.</p>
       <h3 style={H3}>What documentation is expected</h3>
@@ -1720,9 +1720,9 @@ const INDUSTRIES = {
   'industry-real-estate': {
     crumb: 'Real Estate', eyebrow: 'Industry · Real estate & property',
     h1a: 'Real estate accounting.', h1b: 'Built for UAE property.', intent: 'Outsourced accounting', cta: 'Talk to us about real estate',
-    intro: 'Accounting, tax and audit support for UAE developers, property companies and owners associations — from off-plan revenue recognition to service-charge and escrow accounting.',
+    intro: 'Accounting, tax and audit support for UAE developers, property companies and jointly-owned-property management companies — from off-plan revenue recognition to service-charge and escrow accounting.',
     glance: [['Sector', 'Real estate & property'], ['Revenue', 'IFRS 15'], ['Leases', 'IFRS 16'], ['VAT', 'Residential vs commercial'], ['Also', 'Developer valuations'], ['Engagement', 'Retained or project'], ['Pricing', 'Customised to your scope']],
-    covers: [['book-open', 'Bookkeeping & service charges', 'Day-to-day accounting plus service-charge ledgers and owners-association reporting.'], ['file-check', 'VAT on property', 'Correct treatment across residential, commercial and mixed-use supplies.'], ['landmark', 'Corporate Tax & free zone', 'Taxable-income computation, rental income and free-zone analysis for property holdings.'], ['building-2', 'Statements & valuations', 'Audit-ready IFRS statements and independent developer-side valuations.']],
+    covers: [['book-open', 'Bookkeeping & service charges', 'Day-to-day accounting plus service-charge ledgers and Owners’-Committee / management-company reporting.'], ['file-check', 'VAT on property', 'Correct treatment across residential, commercial and mixed-use supplies.'], ['landmark', 'Corporate Tax & free zone', 'Taxable-income computation, rental income and free-zone analysis for property holdings.'], ['building-2', 'Statements & valuations', 'Audit-ready IFRS statements and independent developer-side valuations.']],
     considerations: [['trending-up', 'IFRS 15 revenue recognition', 'Off-plan sales recognised over time vs at handover — the single biggest judgement on a developer’s books.'], ['key-round', 'IFRS 16 leases', 'Lessor and lessee accounting for leases, with the right-of-use and lease-liability mechanics.'], ['wallet', 'Service-charge & escrow', 'Service-charge accounting and RERA escrow discipline kept separate and auditable.'], ['percent', 'VAT treatment', 'First supply of new residential zero-rated, subsequent residential exempt, commercial at 5%.']],
     related: [['service-bookkeeping', 'Outsourced bookkeeping'], ['service-vat', 'VAT compliance'], ['service-financial-statements', 'Financial statements'], ['service-valuations', 'Business valuations']],
   },
