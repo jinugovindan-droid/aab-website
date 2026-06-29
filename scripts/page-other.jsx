@@ -235,11 +235,17 @@ function AboutPage({ onNav }) {
 }
 
 // ---------- Insights list ----------
+const INSIGHT_MONTHS = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+function insightTime(d) {
+  const p = String(d || '').split(' ');
+  return new Date(parseInt(p[2], 10) || 2017, INSIGHT_MONTHS[p[1]] || 0, parseInt(p[0], 10) || 1).getTime();
+}
+
 function InsightsPage({ onNav }) {
-  const articles = INSIGHTS.filter((a) => a.published);
+  const articles = INSIGHTS.filter((a) => a.published).slice().sort((a, b) => insightTime(b.date) - insightTime(a.date));
 
   const [filter, setFilter] = useStateP('All');
-  const tags = ['All', 'Corporate Tax', 'VAT', 'E-Invoicing', 'Bookkeeping', 'Advisory'];
+  const tags = ['All', 'Corporate Tax', 'VAT', 'E-Invoicing', 'Bookkeeping', 'Advisory', 'Valuations', 'M&A', 'Controls'];
   const list = filter === 'All' ? articles : articles.filter((a) => a.tag === filter);
 
   const featured = articles[0];
@@ -910,10 +916,157 @@ function BookkeepingFoundationBody({ onNav }) {
   );
 }
 
+function CostOfEquityBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>Drop a US cost-of-equity into a GCC valuation and you will misprice the asset. The capital-asset-pricing inputs that travel from a textbook do not reflect where the business actually earns and bears risk. We build it up, component by component.</p>
+      <h3 style={H3}>Start from the right risk-free rate</h3>
+      <p>The risk-free rate should match the currency of the cash flows. For AED- or USD-pegged cash flows we anchor on a long US Treasury yield, then layer a <strong>country risk premium</strong> for the specific GCC market — not a blanket &ldquo;emerging markets&rdquo; figure. The peg matters: a dirham cash flow does not carry the same currency risk as a free-floating emerging-market currency.</p>
+      <h3 style={H3}>Then the premia that actually apply</h3>
+      <p>On top sit the <strong>equity risk premium</strong>, a <strong>size premium</strong> for smaller private companies, and a <strong>company-specific premium</strong> for concentration — single-customer, single-asset or key-person risk, which is common in family-owned GCC businesses. Each should be argued, not borrowed. A build-up you can defend line by line is worth more than a precise-looking number you cannot.</p>
+      {artNote('General valuation guidance for UAE/GCC practitioners; calibrate every input to the specific asset and date.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-valuations', 'Business valuations →')}</li>
+          <li>{artInsightLink(onNav, 'dcf-terminal-values-family-office', 'Why DCF terminal values are mispriced →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function DCFTerminalBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>In most discounted-cash-flow valuations, well over half the value sits in the terminal value — the period beyond the explicit forecast. So it is striking how often it is the least-examined number on the page, especially in UAE family-office holdings.</p>
+      <h3 style={H3}>The growth assumption that quietly inflates value</h3>
+      <p>A perpetual growth rate that exceeds long-run nominal GDP is a value machine that runs forever — and it is the single most common drift we re-test. Terminal growth should be modest, defensible, and consistent with the economics of the business at maturity, not an extrapolation of a good forecast year.</p>
+      <h3 style={H3}>Make reinvestment consistent with growth</h3>
+      <p>Growth is not free. If the terminal value assumes continued growth, it must also assume the reinvestment (capex and working capital) needed to fund it — otherwise the model creates cash from nothing. We check the implied return on capital in perpetuity, and prefer cross-checking the terminal value against an exit-multiple sanity test before relying on it.</p>
+      {artNote('General valuation guidance; terminal-value assumptions must be set per asset and reviewed at each valuation date.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-valuations', 'Business valuations →')}</li>
+          <li>{artLink(onNav, 'service-financial-modelling', 'Financial modelling →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function WorkingCapitalPegBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>Two parties can agree a headline price and still fight over millions at completion. The battleground is almost always the <strong>working-capital peg</strong> — the closing mechanic that adjusts price for the working capital actually delivered on the day.</p>
+      <h3 style={H3}>The peg is a normalised target, not a snapshot</h3>
+      <p>The target (or &ldquo;peg&rdquo;) should be a <strong>normalised</strong> level of working capital — typically an average across a representative period that strips out one-offs and reflects the seasonality of the business. Set it off a single month-end and you bake in whatever distortion happened to sit on the balance sheet that day.</p>
+      <h3 style={H3}>Define the line items before you sign</h3>
+      <p>Most disputes are definitional: what counts as debt versus working capital, how accruals and provisions are treated, the cut-off, and the true-up timetable. In a cash-free, debt-free deal these definitions decide who keeps the cash. Agree them — in writing, with worked examples — in the SPA, not in a post-completion argument.</p>
+      {artNote('General transaction guidance; closing mechanics should be drafted with deal counsel for the specific transaction.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-transaction-advisory', 'M&A support & due diligence →')}</li>
+          <li>{artLink(onNav, 'service-valuations', 'Business valuations →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function TransferPricingBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>UAE Corporate Tax brought transfer pricing into everyday compliance. Transactions between related parties and connected persons must now be priced at <strong>arm&rsquo;s length</strong> — and the Board needs to know what documentation that obligation creates.</p>
+      <h3 style={H3}>The arm&rsquo;s-length principle, applied</h3>
+      <p>Related-party transactions — management fees, intra-group loans, shared services, IP charges — must be priced as they would be between independent parties, supported by a recognised transfer-pricing method. Mispricing is not just an adjustment risk; it can shift taxable income between entities and draw FTA scrutiny.</p>
+      <h3 style={H3}>What documentation is expected</h3>
+      <p>Depending on group size and revenue, obligations escalate from a transfer-pricing <strong>disclosure form</strong> filed with the return, up to a full <strong>master file and local file</strong> for larger groups, with thresholds set by the FTA. A Board should expect, at minimum: a related-party transaction register, a documented pricing policy, and benchmarking support proportionate to the group&rsquo;s size — confirm the exact thresholds that apply to you.</p>
+      {artNote('General guidance on UAE Corporate Tax transfer pricing; confirm current thresholds and filing requirements against the latest FTA guidance.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-tax-planning', 'Corporate Tax planning & structuring →')}</li>
+          <li>{artInsightLink(onNav, 'uae-corporate-tax-guide-sme', 'UAE Corporate Tax: the full guide →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function ReconciliationBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>A reconciliation that &ldquo;closes to a tolerance&rdquo; is not reconciled — it is unreconciled by an amount someone decided to ignore. We hold the line at zero, and it is one of the most useful disciplines a finance function can adopt.</p>
+      <h3 style={H3}>Why tolerances hide real problems</h3>
+      <p>Small unexplained differences are not noise; they are usually a timing error, a duplicate, a missed entry or a control gap in miniature. Wave them through as &ldquo;within tolerance&rdquo; and you train the team to stop looking — and the small differences accumulate into a restatement waiting to happen.</p>
+      <h3 style={H3}>How to clear a residual properly</h3>
+      <p>When a reconciliation will not close, the discipline is to <strong>identify each component</strong> of the difference, not to plug it: list the reconciling items, age them, assign an owner, and resolve them to source. A residual that genuinely cannot be explained is escalated, not absorbed. Zero is not pedantry — it is the only number that proves you understand the account.</p>
+      {artNote('A controls discipline we apply across engagements; adapt the escalation path to your organisation.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-internal-controls', 'Internal controls →')}</li>
+          <li>{artLink(onNav, 'service-bookkeeping', 'Outsourced bookkeeping →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function ControlFrameworkBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>Most control breaks we are called in to fix trace back to one event: an ERP migration. The new system goes live, and controls that were implicit in the old one quietly do not come across. A note on what has to survive the cutover.</p>
+      <h3 style={H3}>Controls do not migrate themselves</h3>
+      <p>Segregation of duties, approval limits, three-way matching, posting restrictions — these live in configuration and roles, not in the data you migrate. If they are not deliberately re-designed and re-tested in the new system, the migration silently loosens them. We map every key control to its new-system equivalent <em>before</em> go-live, not after the first bad month-end.</p>
+      <h3 style={H3}>Protect data integrity at the boundary</h3>
+      <p>The cutover itself is the highest-risk window: opening balances, master data and in-flight transactions all move at once. Reconcile the conversion to the legacy system, lock down access during the transition, and keep an auditable trail of what moved and how. Get the boundary right and the new controls hold; get it wrong and you spend a year chasing differences.</p>
+      {artNote('A practitioner&rsquo;s note on control continuity through system change; scope the control set to your environment.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-internal-controls', 'Internal controls →')}</li>
+          <li>{artLink(onNav, 'service-audit-support', 'Audit support →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function DesignatedZoneBody({ onNav }) {
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>VAT designated zones can feel like they sit outside VAT — until a movement of goods quietly turns into a taxable supply and the trail to prove otherwise is thin. The position is defensible; the documentation is what makes it so.</p>
+      <h3 style={H3}>When &ldquo;outside scope&rdquo; becomes taxable</h3>
+      <p>Goods within a designated zone can be treated as outside the scope of UAE VAT for certain supplies — but that treatment depends on the goods staying within the zone framework and being used for a qualifying purpose. Consume them, or move them into the mainland, and the supply can be reclassified as taxable. The treatment follows the <em>movement and use</em> of the goods, not the address on the invoice.</p>
+      <h3 style={H3}>Keep the trail that proves the position</h3>
+      <p>What protects you is evidence: entry and exit records, customs and transport documentation, and a clear link between each movement and its VAT treatment. If you cannot show where the goods went and why the treatment applied, expect the FTA to default to taxable. Build the trail as the goods move, not when the query lands.</p>
+      {artNote('General VAT guidance on designated zones; confirm the current rules and your specific facts with the latest FTA guidance.')}
+      <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{artLink(onNav, 'service-vat', 'VAT compliance →')}</li>
+          <li>{artInsightLink(onNav, 'uae-vat-guide-dubai', 'VAT in the UAE: the full guide →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
   'uae-vat-guide-dubai': VATGuideBody,
   'outsourced-bookkeeping-dubai': BookkeepingGuideBody,
   'uae-corporate-tax-guide-sme': CorporateTaxGuideBody,
+  'cost-of-equity-gcc-buildup': CostOfEquityBody,
+  'dcf-terminal-values-family-office': DCFTerminalBody,
+  'working-capital-pegs-uae-deals': WorkingCapitalPegBody,
+  'transfer-pricing-thresholds-board': TransferPricingBody,
+  'reconciliation-resolve-to-zero': ReconciliationBody,
+  'control-framework-erp-migrations': ControlFrameworkBody,
+  'designated-zone-reclassification': DesignatedZoneBody,
   'uae-corporate-tax-is-coming': CorporateTaxComingBody,
   'management-accounts-that-drive-decisions': ManagementAccountsBody,
   'protecting-cash-flow-downturn': CashFlowBody,
