@@ -150,7 +150,7 @@
   const PAGE_SEO = {
     home: {
       title: 'Authentic Accounting — UAE Compliance & Advisory · Bookkeeping, VAT, Corporate Tax, Valuations',
-      description: 'UAE-based chartered accounting firm serving SMEs, enterprises and Government across all 7 emirates. Bookkeeping, VAT, Corporate Tax filing, financial statements (IFRS), valuations, M&A support and due diligence — delivered with reconciliation discipline since 2017.',
+      description: 'UAE-based accounting and advisory firm serving SMEs, enterprises and Government across all 7 emirates. Bookkeeping, VAT, Corporate Tax filing, financial statements (IFRS), valuations, M&A support and due diligence — delivered with reconciliation discipline since 2017.',
     },
     services: {
       title: 'Services — Bookkeeping, VAT, Corporate Tax & Advisory | Authentic Accounting',
@@ -225,7 +225,7 @@
       description: 'Sector-specific accounting and advisory for trading, manufacturing, hospitality, healthcare, real estate, technology and Government entities across the UAE.',
     },
     about: {
-      title: 'About Us — Authentic Accounting | UAE Chartered Accountants Since 2017',
+      title: 'About Us — Authentic Accounting | UAE Accounting & Advisory Firm Since 2017',
       description: 'Learn about Authentic Accounting and Bookkeeping L.L.C — a Dubai-based firm delivering reconciliation discipline, regulatory compliance and Board-grade advisory since 2017.',
     },
     insights: {

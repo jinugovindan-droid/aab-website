@@ -126,7 +126,7 @@ PAGE_SEO = {
         "description": "Sector-specific accounting and advisory for trading, manufacturing, hospitality, healthcare, real estate, technology and Government entities across the UAE.",
     },
     "about": {
-        "title": "About Us — Authentic Accounting | UAE Chartered Accountants Since 2017",
+        "title": "About Us — Authentic Accounting | UAE Accounting & Advisory Firm Since 2017",
         "description": "Learn about Authentic Accounting and Bookkeeping L.L.C — a Dubai-based firm delivering reconciliation discipline, regulatory compliance and Board-grade advisory since 2017.",
     },
     "insights": {
@@ -636,7 +636,7 @@ def set_robots(html, value):
 # Home isn't in PAGE_SEO (it's the root template); give it a crawlable heading/intro.
 HOME_SEO = {
     "h1": "UAE Compliance & Advisory Accounting — Authentic Accounting",
-    "intro": "Authentic Accounting and Bookkeeping L.L.C is a Dubai-based chartered accounting and advisory firm serving SMEs, enterprises and Government across all seven emirates — bookkeeping, VAT, UAE Corporate Tax, IFRS financial statements, valuations, M&A support and due diligence, delivered with reconciliation discipline.",
+    "intro": "Authentic Accounting and Bookkeeping L.L.C is a Dubai-based accounting and advisory firm serving SMEs, enterprises and Government across all seven emirates — bookkeeping, VAT, UAE Corporate Tax, IFRS financial statements, valuations, M&A support and due diligence, delivered with reconciliation discipline.",
 }
 
 # Pages to expose as crawlable internal links on every page (the crawl graph).
