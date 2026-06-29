@@ -671,7 +671,115 @@ function CorporateTaxGuideBody({ onNav }) {
   );
 }
 
+function VATGuideBody({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>
+        VAT has applied in the UAE since 1&nbsp;January&nbsp;2018, under Federal Decree-Law No.&nbsp;8 of 2017. The standard rate is <strong>5%</strong>, and most businesses that buy and sell in the UAE are caught by it. Here is what registration, filing and recovery actually involve.
+      </p>
+
+      <h3 style={H3}>When you must register — AED 375,000 and AED 187,500</h3>
+      <p>Registration is <strong>mandatory</strong> once your taxable supplies and imports exceed <strong>AED&nbsp;375,000</strong> over the previous 12 months, or you expect to cross it in the next 30 days. You may register <strong>voluntarily</strong> from <strong>AED&nbsp;187,500</strong> of supplies or taxable expenses — often worth it for start-ups that want to recover input VAT on set-up costs. Missing the mandatory deadline carries an <strong>AED&nbsp;10,000 late-registration penalty</strong>.</p>
+
+      <h3 style={H3}>Filing — EmaraTax and the 28-day rule</h3>
+      <p>VAT returns are filed online through the FTA&rsquo;s <strong>EmaraTax</strong> portal. Most businesses file quarterly; larger ones are assigned monthly periods. Whatever your cycle, the return must be filed and the net VAT paid <strong>by the 28th day of the month following the end of the tax period</strong>. You charge output VAT on your sales, recover input VAT on valid business expenses, and pay (or reclaim) the difference.</p>
+
+      <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
+        &ldquo;Zero-rated and exempt look the same on a customer&rsquo;s invoice. They are opposites on your VAT return.&rdquo;
+      </blockquote>
+
+      <h3 style={H3}>Zero-rated vs exempt — the costliest confusion</h3>
+      <p>This is where we re-paper the most positions. <strong>Zero-rated</strong> supplies are taxable at 0% — and crucially you can still <em>recover the input VAT</em> attributable to them. Examples include exports outside the GCC, international transport, and certain healthcare and education. <strong>Exempt</strong> supplies carry no VAT but <em>block input-VAT recovery</em> — examples include certain financial services, bare land, local passenger transport and residential leases. Misclassifying one as the other either overstates your reclaim or silently loses recoverable VAT.</p>
+
+      <h3 style={H3}>Imports, designated zones and corrections</h3>
+      <p>VAT on imported goods and services is generally accounted for under the <strong>reverse-charge mechanism</strong> — you self-account for it on your return rather than paying it at the border. Designated zones have their own treatment for goods. And if you find an error in a filed return, you correct it through a <strong>voluntary disclosure</strong> rather than quietly adjusting the next return. See our {link('service-vat', 'VAT compliance')} service for how we register, prepare, review and file.</p>
+
+      <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>Get VAT right</div>
+        <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
+          <li>Track your rolling 12-month supplies against the AED 375,000 line.</li>
+          <li>Diarise the 28th-of-the-month filing date for every period.</li>
+          <li>Classify every revenue stream as standard / zero-rated / exempt at source.</li>
+          <li>Keep valid tax invoices for every input-VAT claim.</li>
+        </ul>
+      </div>
+
+      <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>
+        Tax rules current as at June 2026. This is general guidance, not a substitute for a formal engagement — confirm your position against the latest UAE Federal Tax Authority sources, or talk to us.
+      </p>
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{link('service-vat', 'UAE VAT compliance →')}</li>
+          <li>{link('service-corporate-tax', 'UAE Corporate Tax compliance →')}</li>
+          <li><a href={pathForInsight('uae-corporate-tax-guide-sme')} onClick={(e) => { e.preventDefault(); onNav('insight', 'uae-corporate-tax-guide-sme'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>UAE Corporate Tax: a complete guide →</a></li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function BookkeepingGuideBody({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>
+        For years, bookkeeping in the UAE was optional housekeeping. Since VAT (2018) and Corporate Tax (2023), it is a <strong>legal requirement</strong> — your returns are only as defensible as the records behind them. Here is what good outsourced bookkeeping in Dubai actually looks like.
+      </p>
+
+      <h3 style={H3}>It is no longer optional — and the records must last</h3>
+      <p>Both regimes require you to keep proper books and supporting documents. VAT records must generally be retained for <strong>five years</strong> (longer for real estate), and Corporate Tax records for <strong>seven years</strong> after the end of the tax period. Reconstructing a year of transactions the week before a deadline is how penalties and overpaid tax happen.</p>
+
+      <h3 style={H3}>What proper bookkeeping covers</h3>
+      <p>Day-to-day recording of every transaction; <strong>bank and ledger reconciliations</strong> so the books tie to reality; a disciplined <strong>monthly close</strong> rather than a year-end scramble; management accounts you can actually run the business on; and records structured to be <strong>VAT- and Corporate-Tax-ready</strong> from the start. We deliver all of this against a documented controls framework — see {link('service-bookkeeping', 'outsourced accounting')}.</p>
+
+      <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
+        &ldquo;Your VAT and Corporate Tax returns are only as defensible as the books behind them.&rdquo;
+      </blockquote>
+
+      <h3 style={H3}>Cloud accounting — Tally, Zoho, QuickBooks, Xero</h3>
+      <p>Modern bookkeeping runs on cloud platforms — Tally, Zoho Books, QuickBooks and Xero are all common in the UAE. The right choice depends on your transaction volume, VAT complexity and reporting needs; what matters more is that it is set up correctly, reconciled monthly, and mapped cleanly to your VAT and Corporate Tax positions.</p>
+
+      <h3 style={H3}>Outsource or hire in-house?</h3>
+      <p>A full-time bookkeeper is a fixed cost with single-person key-man risk and no built-in review. Outsourcing gives you a reviewed close, continuity, and senior oversight for a fraction of a salaried hire — and it scales with you. For most SMEs and growing groups, outsourced bookkeeping with a clear monthly cadence is the better economics. Our pricing is customised to your scope — there is no one-size-fits-all rate.</p>
+
+      <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>What to insist on</div>
+        <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
+          <li>A monthly close with bank reconciliations, not a year-end catch-up.</li>
+          <li>Records kept VAT- and Corporate-Tax-ready, retained 5–7 years.</li>
+          <li>A second-person review on the numbers before they leave the building.</li>
+          <li>Management accounts you can actually make decisions from.</li>
+        </ul>
+      </div>
+
+      <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>
+        General guidance, current as at June 2026 — confirm any tax record-keeping specifics against the latest UAE FTA / Ministry of Finance sources, or talk to us.
+      </p>
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{link('service-bookkeeping', 'Outsourced bookkeeping & accounting →')}</li>
+          <li>{link('service-financial-statements', 'IFRS financial statements →')}</li>
+          <li>{link('service-vat', 'VAT compliance →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
+  'uae-vat-guide-dubai': VATGuideBody,
+  'outsourced-bookkeeping-dubai': BookkeepingGuideBody,
   'uae-corporate-tax-guide-sme': CorporateTaxGuideBody,
   'free-zone-qualifying-income': FreeZoneArticleBody,
   'uae-e-invoicing-explained': EInvoiceExplainedBody,

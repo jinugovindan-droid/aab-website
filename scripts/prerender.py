@@ -152,6 +152,16 @@ PAGE_SEO = {
 }
 
 INSIGHTS = [
+    {"slug": "uae-vat-guide-dubai", "tag": "VAT", "date": "30 Jun 2026",
+     "title": "VAT in the UAE: registration, filing and recovery — a Dubai business guide.",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Federal Decree-Law No. 8 of 2017 on VAT (as amended)",
+     "excerpt": "The 5% standard rate, the AED 375,000 mandatory and AED 187,500 voluntary registration thresholds, EmaraTax filing and the 28-day deadline, input-VAT recovery, and the zero-rated vs exempt distinction — what every UAE business needs to get right.",
+     "published": True},
+    {"slug": "outsourced-bookkeeping-dubai", "tag": "Bookkeeping", "date": "30 Jun 2026",
+     "title": "Outsourced bookkeeping in Dubai: what good looks like in a VAT and Corporate Tax world.",
+     "author": "Jinu Govindan", "reviewer": "Sabith Abdul Rahman", "reference": "UAE VAT (FDL 8 of 2017) & Corporate Tax (FDL 47 of 2022) record-keeping requirements",
+     "excerpt": "Since VAT and Corporate Tax arrived, clean books are a legal requirement, not a nicety. What proper outsourced bookkeeping covers, the record-retention rules (five years for VAT, seven for Corporate Tax), and when to outsource versus hire in-house.",
+     "published": True},
     {"slug": "uae-corporate-tax-guide-sme", "tag": "Corporate Tax", "date": "29 Jun 2026",
      "title": "UAE Corporate Tax: a complete guide for SMEs and free-zone businesses.",
      "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Federal Decree-Law No. 47 of 2022 (UAE Corporate Tax)",
