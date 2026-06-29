@@ -151,6 +151,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://www.aaccounting.me/insights/ifrs-financial-statements-uae</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.aaccounting.me/insights/prepare-erp-for-uae-e-invoicing</loc>
     <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>

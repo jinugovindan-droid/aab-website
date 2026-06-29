@@ -245,7 +245,7 @@ function InsightsPage({ onNav }) {
   const articles = INSIGHTS.filter((a) => a.published).slice().sort((a, b) => insightTime(b.date) - insightTime(a.date));
 
   const [filter, setFilter] = useStateP('All');
-  const tags = ['All', 'Corporate Tax', 'VAT', 'E-Invoicing', 'Bookkeeping', 'Advisory', 'Valuations', 'M&A', 'Controls'];
+  const tags = ['All', 'Corporate Tax', 'VAT', 'E-Invoicing', 'Bookkeeping', 'Financial Reporting', 'Advisory', 'Valuations', 'M&A', 'Controls'];
   const list = filter === 'All' ? articles : articles.filter((a) => a.tag === filter);
 
   const featured = articles[0];
@@ -1056,7 +1056,56 @@ function DesignatedZoneBody({ onNav }) {
   );
 }
 
+function IFRSStatementsBody({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>Since Corporate Tax arrived, &ldquo;the accounts&rdquo; are no longer a private internal document — they are the basis of your tax return, your free-zone licence renewal, and your bank&rsquo;s credit decision. Knowing which standard applies, and what a complete set looks like, matters more than it used to.</p>
+
+      <h3 style={H3}>Which accounting standard applies to you</h3>
+      <p>Under Ministerial Decision No.&nbsp;114 of 2023, UAE Corporate Tax sets the accounting standards: <strong>IFRS</strong> is the default; <strong>IFRS for SMEs</strong> may be used where revenue does not exceed <strong>AED&nbsp;50&nbsp;million</strong>; and a <strong>cash basis</strong> of accounting is permitted where revenue does not exceed <strong>AED&nbsp;3&nbsp;million</strong>. Choosing the right basis early avoids restating later.</p>
+
+      <h3 style={H3}>Who actually needs prepared (and audited) statements</h3>
+      <p>Most businesses need a proper set of financial statements to compute taxable income for the FTA. Many <strong>free zones require audited financial statements</strong> each year for licence renewal. And banks, investors and counterparties will ask for them before they lend, invest or transact. Audited or not, statements that are prepared properly the first time save a scramble at every one of those moments.</p>
+
+      <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
+        &ldquo;Your financial statements are now the basis of your tax return, your licence renewal and your bank&rsquo;s decision — all at once.&rdquo;
+      </blockquote>
+
+      <h3 style={H3}>What a complete set contains</h3>
+      <p>A full set under IFRS is more than a profit figure: a <strong>statement of financial position</strong> (balance sheet), a <strong>statement of profit or loss and other comprehensive income</strong>, a <strong>statement of changes in equity</strong>, a <strong>statement of cash flows</strong>, and the <strong>notes</strong> — accounting policies and the disclosures that make the numbers intelligible. Groups also need <strong>consolidation</strong>. The notes are where most preparation effort goes, and where most weak sets fall short.</p>
+
+      <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>Get your statements right</div>
+        <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
+          <li>Confirm your basis — IFRS, IFRS for SMEs, or cash basis — against the revenue thresholds.</li>
+          <li>Keep the books reconciled monthly so year-end preparation is assembly, not reconstruction.</li>
+          <li>Check your free-zone licence for an annual audited-accounts requirement.</li>
+          <li>Prepare the notes and disclosures, not just the primary statements.</li>
+        </ul>
+      </div>
+
+      <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>
+        Tax and reporting rules current as at April 2026. General guidance, not a substitute for a formal engagement — confirm your position against the latest UAE Ministry of Finance / Federal Tax Authority sources, or talk to us.
+      </p>
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{link('service-financial-statements', 'IFRS financial statements preparation →')}</li>
+          <li>{link('service-audit-support', 'Audit support →')}</li>
+          <li>{link('service-bookkeeping', 'Outsourced bookkeeping →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
+  'ifrs-financial-statements-uae': IFRSStatementsBody,
   'uae-vat-guide-dubai': VATGuideBody,
   'outsourced-bookkeeping-dubai': BookkeepingGuideBody,
   'uae-corporate-tax-guide-sme': CorporateTaxGuideBody,

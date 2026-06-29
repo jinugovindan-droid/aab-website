@@ -43,6 +43,14 @@
   // render an honest "in preparation" state so a card never shows the wrong note.
   const INSIGHTS = [
     {
+      slug: 'ifrs-financial-statements-uae',
+      tag: 'Financial Reporting', date: '15 Apr 2026', read: '7 min',
+      title: 'IFRS financial statements in the UAE: who needs them, and what a full set contains.',
+      author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan', reference: 'Ministerial Decision No. 114 of 2023 (accounting standards for UAE Corporate Tax)',
+      excerpt: 'Who must prepare IFRS financial statements in the UAE, the accounting standards Corporate Tax requires (IFRS, IFRS for SMEs up to AED 50M, cash basis up to AED 3M), what a complete set contains, and why audit-ready statements matter for free zones, banks and the FTA.',
+      published: true,
+    },
+    {
       slug: 'prepare-erp-for-uae-e-invoicing',
       tag: 'E-Invoicing', date: '10 Mar 2026', read: '6 min',
       title: 'Getting your ERP ready for UAE e-invoicing: a practical checklist.',
