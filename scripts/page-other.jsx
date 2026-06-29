@@ -612,7 +612,67 @@ function PrepareERPBody({ onNav }) {
   );
 }
 
+function CorporateTaxGuideBody({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>
+        UAE Corporate Tax has applied since financial years beginning on or after 1&nbsp;June&nbsp;2023, under Federal Decree-Law No.&nbsp;47 of 2022. Nearly every business in the UAE — mainland or free zone, profitable or not — now has registration and filing obligations. Here is what actually applies, in plain English.
+      </p>
+
+      <h3 style={H3}>Who has to pay — and the 0% / 9% bands</h3>
+      <p>Corporate Tax applies to businesses and commercial activities across the UAE. The headline rates are simple: <strong>0% on taxable income up to AED&nbsp;375,000</strong>, and <strong>9% on taxable income above AED&nbsp;375,000</strong>. The crucial point most owners miss: the AED&nbsp;375,000 threshold is a <em>rate band, not an exemption</em>. Being below it does not take you out of the system — you must still register, keep records, and file a return; you simply pay 0% on that first slice.</p>
+
+      <h3 style={H3}>Registration — and the AED 10,000 penalty</h3>
+      <p>Every taxable person must register for Corporate Tax with the Federal Tax Authority and obtain a Corporate Tax registration number, within the FTA&rsquo;s deadlines. Missing your registration deadline carries an <strong>AED&nbsp;10,000 late-registration penalty</strong>. There is relief: the FTA has waived that penalty where the business files its first Corporate Tax return (or annual declaration) <strong>within seven months of the end of its first tax period</strong>, rather than the usual nine. If you have not registered yet, this is the first thing to fix.</p>
+
+      <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
+        &ldquo;Below AED 375,000 is a 0% rate, not an exemption. You still register, and you still file.&rdquo;
+      </blockquote>
+
+      <h3 style={H3}>Filing and payment — the nine-month rule</h3>
+      <p>Corporate Tax is self-assessed and filed once per tax period. The return must be filed, and any tax paid, <strong>within nine months of the end of the tax period</strong>. For a business whose tax period is the 2024 calendar year, that means a deadline of 30&nbsp;September&nbsp;2025. There are no provisional or advance payments — one return, one payment, nine months after year-end. See our {link('service-corporate-tax', 'Corporate Tax compliance')} service for how we scope and file it.</p>
+
+      <h3 style={H3}>Small Business Relief — and its 31 December 2026 sunset</h3>
+      <p>If your revenue is <strong>AED&nbsp;3&nbsp;million or less</strong>, you can elect for <strong>Small Business Relief</strong>: you are treated as having no taxable income for the period (you still register and file, but you do not compute or pay Corporate Tax). Two things to watch. First, it is an <em>election</em> — you have to claim it on the return. Second, it is <strong>transitional: it is available only for tax periods ending on or before 31&nbsp;December&nbsp;2026</strong>. Plan now for the first post-relief period, because the step-up to normal computation is not automatic.</p>
+
+      <h3 style={H3}>Free-zone businesses — the QFZP 0%</h3>
+      <p>A Qualifying Free Zone Person can access a 0% rate on its <em>qualifying</em> income, while non-qualifying income is taxed at 9%. The conditions — adequate substance in the zone, qualifying activities, the de&nbsp;minimis limit on non-qualifying revenue, and audited financials — are strict, and breaching them costs you the status for that period plus four more. We unpack the three traps we see most often in {link('service-tax-planning', 'tax planning')} engagements and in our companion guide on free-zone qualifying income.</p>
+
+      <h3 style={H3}>Large multinationals — the 15% top-up tax</h3>
+      <p>Separately, multinational groups with consolidated annual revenue of <strong>EUR&nbsp;750&nbsp;million or more</strong> fall within the UAE&rsquo;s <strong>Domestic Minimum Top-up Tax (DMTT)</strong> — a 15% effective-rate floor aligned with the OECD&rsquo;s Pillar Two rules — for financial years starting on or after 1&nbsp;January&nbsp;2025 (Cabinet Decision No.&nbsp;142 of 2024). This does not affect SMEs, but groups near the threshold should model it early.</p>
+
+      <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>Your next steps</div>
+        <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
+          <li>Confirm you are registered and hold a Corporate Tax registration number.</li>
+          <li>Mark your filing date — nine months after your tax-period end — in the calendar now.</li>
+          <li>If revenue is ≤ AED 3M, decide on Small Business Relief and plan for its 2026 sunset.</li>
+          <li>Free-zone? Re-test your QFZP conditions every period, not once a year.</li>
+        </ul>
+      </div>
+
+      <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>
+        Tax rules current as at June 2026. This is general guidance, not a substitute for a formal engagement — confirm your position against the latest UAE Ministry of Finance / Federal Tax Authority sources, or talk to us.
+      </p>
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{link('service-corporate-tax', 'UAE Corporate Tax compliance →')}</li>
+          <li>{link('service-tax-planning', 'Corporate Tax planning & structuring →')}</li>
+          <li><a href={pathForInsight('free-zone-qualifying-income')} onClick={(e) => { e.preventDefault(); onNav('insight', 'free-zone-qualifying-income'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>Free zone qualifying income — three traps →</a></li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
+  'uae-corporate-tax-guide-sme': CorporateTaxGuideBody,
   'free-zone-qualifying-income': FreeZoneArticleBody,
   'uae-e-invoicing-explained': EInvoiceExplainedBody,
   'uae-e-invoicing-deadlines-phases': EInvoiceDeadlinesBody,

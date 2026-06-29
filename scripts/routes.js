@@ -43,6 +43,14 @@
   // render an honest "in preparation" state so a card never shows the wrong note.
   const INSIGHTS = [
     {
+      slug: 'uae-corporate-tax-guide-sme',
+      tag: 'Corporate Tax', date: '29 Jun 2026', read: '8 min',
+      title: 'UAE Corporate Tax: a complete guide for SMEs and free-zone businesses.',
+      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Federal Decree-Law No. 47 of 2022 (UAE Corporate Tax)',
+      excerpt: 'Who pays UAE Corporate Tax, the 0% and 9% bands, registration and the AED 10,000 late-registration penalty, the nine-month filing deadline, Small Business Relief and its 31 December 2026 sunset, free-zone QFZP status, and the 15% domestic minimum top-up tax — in plain English for UAE businesses.',
+      published: true,
+    },
+    {
       slug: 'uae-e-invoicing-explained',
       tag: 'E-Invoicing', date: '20 Jun 2026', read: '7 min',
       title: 'UAE e-invoicing explained: a plain-English guide for businesses.',
