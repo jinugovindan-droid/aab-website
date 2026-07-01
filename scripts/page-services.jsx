@@ -377,7 +377,7 @@ function VatDeadlineCard({ onNav }) {
         <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Next VAT filing deadline</div>
         <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 700, lineHeight: 1.05 }}>{next.dueLabel}</div>
         <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.72)', marginTop: 10, lineHeight: 1.5, maxWidth: 560 }}>
-          {next.period}. Returns are due the 28th of the month after your tax period ends (shifted for UAE weekends). <strong style={{ color: '#fff' }}>Your assigned tax period is on your VAT certificate.</strong>
+          {next.period}. Returns are due the 28th of the month after your tax period ends (shifted for UAE weekends and public holidays). <strong style={{ color: '#fff' }}>Your assigned tax period is on your VAT certificate.</strong>
         </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
