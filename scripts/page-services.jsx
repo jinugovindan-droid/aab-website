@@ -12,6 +12,118 @@ function goContact(service, onNav) {
   onNav('contact');
 }
 
+// ---------------------------------------------------------------------------
+// Shared lead-tool helpers (Corporate Tax estimator + VAT checker).
+// A branded, auto-paginating PDF and the jsPDF/logo loaders — the same pattern
+// used by the E-Invoicing readiness tool, generalised so both tax tools reuse it.
+// ---------------------------------------------------------------------------
+const AA_MONEY = (n) => {
+  const v = Math.round(Number(n) || 0);
+  return 'AED ' + v.toLocaleString('en-US');
+};
+const aaParseNum = (s) => { const n = parseFloat(String(s).replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; };
+const aaLoadJsPDF = () => new Promise((res, rej) => {
+  if (window.jspdf && window.jspdf.jsPDF) return res();
+  const s = document.createElement('script');
+  s.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+  s.onload = res; s.onerror = rej; document.head.appendChild(s);
+});
+const aaLogoDataUrl = (src) => new Promise((res) => {
+  const img = new Image(); img.crossOrigin = 'anonymous';
+  img.onload = () => { try { const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext('2d').drawImage(img, 0, 0); res({ url: c.toDataURL('image/png'), w: img.naturalWidth, h: img.naturalHeight }); } catch (e) { res(null); } };
+  img.onerror = () => res(null); img.src = src;
+});
+const aaReportDate = () => { try { return new Date().toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'long', year: 'numeric' }); } catch (e) { return new Date().toDateString(); } };
+
+// cfg: { title, subtitle, forWho, stats:[{label,big,sub}], verdictTitle, verdictBody,
+//        inputs:[[k,v]], nextTitle, nextMoves:[str], ctaLines:[str], legal, fileName }
+async function aaBuildBrandedPdf(cfg) {
+  await aaLoadJsPDF();
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+  const W = doc.internal.pageSize.getWidth();
+  const PH = doc.internal.pageSize.getHeight();
+  const M = 48; const colW = W - 2 * M;
+  const cyan = [41, 171, 226], charcoal = [26, 26, 46], steel = [110, 120, 135], ink = [55, 58, 70], offbg = [244, 245, 247];
+  const setC = (rgb) => doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+  let y = 54;
+  const ensure = (need) => { if (y + need > PH - 70) { doc.addPage(); y = 60; } };
+  const heading = (t) => { ensure(44); setC(charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.text(t, M, y); y += 9; doc.setDrawColor(cyan[0], cyan[1], cyan[2]); doc.setLineWidth(1.4); doc.line(M, y, M + 40, y); y += 16; };
+  const para = (t, o) => { o = o || {}; doc.setFont('helvetica', o.bold ? 'bold' : 'normal'); doc.setFontSize(o.size || 10.5); setC(o.color || ink); doc.splitTextToSize(t, colW).forEach((ln) => { ensure(15); doc.text(ln, M, y); y += 15; }); y += (o.gap == null ? 8 : o.gap); };
+  const bullet = (t) => { doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5); const lines = doc.splitTextToSize(t, colW - 16); ensure(lines.length * 14 + 2); setC(cyan); doc.text('•', M, y); setC(ink); lines.forEach((ln) => { doc.text(ln, M + 16, y); y += 14; }); y += 4; };
+
+  // Header: logo + firm identity
+  try { const lg = await aaLogoDataUrl('assets/logos/aab-short-eng.png?v=2'); if (lg) doc.addImage(lg.url, 'PNG', M, y - 6, 104, 104 * lg.h / lg.w); } catch (e) {}
+  doc.setTextColor.apply(doc, steel); doc.setFontSize(8.5);
+  doc.text('Authentic Accounting & Bookkeeping L.L.C · Dubai, UAE', W - M, y + 2, { align: 'right' });
+  doc.text('www.aaccounting.me', W - M, y + 14, { align: 'right' });
+  y += 84;
+
+  doc.setTextColor.apply(doc, charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(21);
+  doc.splitTextToSize(cfg.title, colW).forEach((ln) => { doc.text(ln, M, y); y += 22; });
+  if (cfg.subtitle) { doc.setFont('helvetica', 'italic'); doc.setFontSize(11.5); setC(cyan); doc.text(cfg.subtitle, M, y); y += 18; }
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, steel);
+  if (cfg.forWho) { doc.text(cfg.forWho, M, y); y += 15; }
+  doc.setFontSize(9.5); doc.text('Report date: ' + aaReportDate(), M, y); y += 24;
+
+  // Dark hero stat band (1 or 2 headline figures)
+  const stats = cfg.stats || [];
+  if (stats.length) {
+    const bandH = 92;
+    doc.setFillColor.apply(doc, charcoal); doc.rect(M, y, colW, bandH, 'F');
+    const cw = colW / stats.length;
+    stats.forEach((st, i) => {
+      const x = M + 16 + i * cw;
+      setC(cyan); doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.text(String(st.label).toUpperCase(), x, y + 24);
+      doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.text(String(st.big), x, y + 54);
+      if (st.sub) { setC(cyan); doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.text(String(st.sub), x, y + 74); }
+    });
+    y += bandH + 24;
+  }
+
+  if (cfg.verdictTitle) { ensure(60); setC(charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.splitTextToSize(cfg.verdictTitle, colW).forEach((ln) => { doc.text(ln, M, y); y += 17; }); }
+  if (cfg.verdictBody) para(cfg.verdictBody, { gap: 12 });
+
+  if (cfg.inputs && cfg.inputs.length) {
+    heading('Your inputs');
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+    cfg.inputs.forEach(([k, v]) => { ensure(15); setC(steel); doc.text(k + ':', M, y); setC(ink); doc.text(String(v), M + 200, y); y += 15; });
+    y += 8;
+  }
+
+  if (cfg.nextMoves && cfg.nextMoves.length) {
+    heading(cfg.nextTitle || 'Your next moves');
+    cfg.nextMoves.forEach((m) => bullet(m));
+  }
+
+  // CTA box
+  const ctaLines = cfg.ctaLines || ['Phone / WhatsApp: +971 4 396 0399  ·  +971 56 548 4635', 'info@aaccounting.me   ·   www.aaccounting.me'];
+  ensure(80);
+  doc.setFillColor.apply(doc, offbg); doc.rect(M, y, colW, 34 + ctaLines.length * 16, 'F');
+  setC(charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(12);
+  doc.text('Talk to us — book a scoping call', M + 16, y + 22);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(10); setC(ink);
+  let cy = y + 40; ctaLines.forEach((ln) => { doc.text(ln, M + 16, cy); cy += 16; });
+  y += 34 + ctaLines.length * 16 + 14;
+
+  if (cfg.legal) { ensure(34); setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.splitTextToSize(cfg.legal, colW).forEach((ln) => { ensure(10); doc.text(ln, M, y); y += 10; }); }
+
+  // Footers
+  const totalPages = doc.getNumberOfPages();
+  for (let p = 1; p <= totalPages; p++) {
+    doc.setPage(p);
+    doc.setDrawColor(225, 228, 232); doc.setLineWidth(0.5); doc.line(M, PH - 40, W - M, PH - 40);
+    setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    doc.text('Authentic Accounting & Bookkeeping L.L.C', M, PH - 28);
+    doc.text('Page ' + p + ' of ' + totalPages, W - M, PH - 28, { align: 'right' });
+  }
+  doc.save(cfg.fileName || 'Authentic-Accounting-Report.pdf');
+}
+
+// Shared input styles for the lead tools.
+const AA_TOOL_INPUT = { width: '100%', padding: '10px 12px', fontSize: 15, border: '1px solid var(--aa-rule-strong)', boxSizing: 'border-box', background: '#fff', fontFamily: 'var(--aa-font-sans)' };
+const AA_TOOL_LABEL = { display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 6 };
+
 function ServicesPage({ onNav }) {
   const allServices = [
     { reg: 'Compliance', t: 'Outsourced accounting', icon: 'book-open', page: 'service-bookkeeping',
@@ -222,6 +334,133 @@ function ServicesPage({ onNav }) {
 }
 
 // VAT detail page (exemplar)
+// ---- VAT registration / threshold checker (lead tool) ----------------------
+function VatChecker({ onNav }) {
+  const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', t12: '', fwd: '', consent: false });
+  const [err, setErr] = React.useState('');
+  const [busy, setBusy] = React.useState(false);
+  const [done, setDone] = React.useState(false);
+  const upd = (k) => (e) => { const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; setF((p) => ({ ...p, [k]: v })); };
+  React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+
+  const MAND = 375000, VOL = 187500;
+  const t12 = aaParseNum(f.t12);
+  const fwd = aaParseNum(f.fwd);
+  const isMandatory = t12 >= MAND || fwd >= MAND;
+  const isVoluntary = !isMandatory && t12 >= VOL;
+  const status = isMandatory ? 'Mandatory' : isVoluntary ? 'Voluntary' : 'Not yet required';
+  const statusColor = isMandatory ? 'var(--aa-cyan)' : isVoluntary ? '#ffd27a' : 'rgba(255,255,255,0.85)';
+  const showResult = f.t12.trim() !== '' || f.fwd.trim() !== '';
+
+  const verdict = () => {
+    if (isMandatory) return { t: 'Mandatory VAT registration', b: 'Your taxable turnover has exceeded — or is expected to exceed — the AED 375,000 mandatory threshold. UAE law requires you to apply to register for VAT within 30 days of exceeding it; late registration carries an AED 10,000 penalty. Once registered you charge 5% VAT and file returns (usually quarterly) within 28 days of each period-end.' };
+    if (isVoluntary) return { t: 'Voluntary VAT registration available', b: 'Your taxable turnover (or expenses) is above the AED 187,500 voluntary threshold but below the AED 375,000 mandatory one. You may register voluntarily — useful if your customers are VAT-registered or you want to recover input VAT — but it is not yet compulsory.' };
+    return { t: 'Below the VAT thresholds', b: 'On the figures entered, you are below the AED 187,500 voluntary threshold, so VAT registration is not required or available yet. Keep a rolling 12-month view of taxable turnover — you must register within 30 days of crossing AED 375,000, or when you expect to within the next 30 days.' };
+  };
+
+  const handle = async () => {
+    setErr('');
+    if (!f.company.trim() || !f.name.trim() || !f.email.trim() || !f.phone.trim()) { setErr('Please complete company name, your name, email and phone.'); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.trim())) { setErr('Please enter a valid work email.'); return; }
+    if (f.t12.trim() === '' && f.fwd.trim() === '') { setErr('Please enter your taxable turnover so we can check your registration status.'); return; }
+    if (!f.consent) { setErr('Please confirm you agree to our Privacy Policy so we can prepare your result.'); return; }
+    setBusy(true);
+    const v = verdict();
+    try {
+      let downloadDate = '';
+      try { downloadDate = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' (GST)'; } catch (e) { downloadDate = new Date().toISOString(); }
+      const inputs = [
+        ['Taxable turnover (past 12 months)', t12 ? AA_MONEY(t12) : '—'],
+        ['Expected turnover (next 30 days)', fwd ? AA_MONEY(fwd) : '—'],
+        ['Mandatory threshold', AA_MONEY(MAND)],
+        ['Voluntary threshold', AA_MONEY(VOL)],
+        ['Registration status', status],
+      ];
+      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Turnover 12m: ' + (t12 ? AA_MONEY(t12) : '—'), 'Forward 30d: ' + (fwd ? AA_MONEY(fwd) : '—'), 'Status: ' + status, 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
+      if (window.AAContactSheet && window.AAContactSheet.submitRaw) {
+        window.AAContactSheet.submitRaw({ type: 'VAT Registration Check', company: f.company, name: f.name, email: f.email, phone: f.phone, turnover12m: t12 ? AA_MONEY(t12) : '', forward30d: fwd ? AA_MONEY(fwd) : '', status, verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
+      }
+      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'vat', event_label: status });
+      await aaBuildBrandedPdf({
+        title: 'Your UAE VAT Registration Check',
+        subtitle: '5% VAT · registration thresholds',
+        forWho: 'Prepared for ' + f.company + '  ·  ' + f.name,
+        stats: [
+          { label: 'Registration status', big: status, sub: isMandatory ? 'Apply within 30 days' : isVoluntary ? 'Optional' : 'Monitor turnover' },
+          { label: 'VAT return', big: 'Quarterly', sub: 'due 28 days after period-end' },
+        ],
+        verdictTitle: v.t, verdictBody: v.b,
+        inputs,
+        nextMoves: [
+          isMandatory ? 'Apply for VAT registration on EmaraTax now — within 30 days of exceeding AED 375,000 — to avoid the AED 10,000 penalty.' : isVoluntary ? 'Decide whether voluntary registration helps you (input-VAT recovery, B2B credibility) before you cross the mandatory threshold.' : 'Track a rolling 12-month taxable turnover and register within 30 days of expecting to cross AED 375,000.',
+          'Classify your supplies correctly — standard-rated, zero-rated, exempt and out-of-scope — and flag designated-zone vs mainland.',
+          'Set up VAT-ready bookkeeping so each quarterly return files on EmaraTax within 28 days, with workpapers kept for five years.',
+        ],
+        legal: 'Indicative check only — not tax advice. Registration also depends on taxable expenses and specific supply rules under Federal Decree-Law No. 8 of 2017 on VAT (as amended). Confirm against the latest UAE Federal Tax Authority sources.',
+        fileName: 'UAE-VAT-Registration-Check-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf',
+      });
+    } catch (e) { setErr('Sorry — the result could not be generated. Please try again or contact us.'); setBusy(false); return; }
+    setBusy(false); setDone(true);
+  };
+
+  const v = verdict();
+  return (
+    <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+      <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div><label style={AA_TOOL_LABEL}>Company name *</label><input style={AA_TOOL_INPUT} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
+          <div><label style={AA_TOOL_LABEL}>Your name *</label><input style={AA_TOOL_INPUT} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+          <div><label style={AA_TOOL_LABEL}>Work email *</label><input type="email" style={AA_TOOL_INPUT} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
+          <div><label style={AA_TOOL_LABEL}>Phone / WhatsApp *</label><input style={AA_TOOL_INPUT} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
+        </div>
+        <div style={{ marginTop: 14 }}>
+          <label style={AA_TOOL_LABEL}>Taxable turnover — past 12 months (AED) *</label>
+          <input style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.t12} onChange={upd('t12')} placeholder="e.g. 420,000" />
+        </div>
+        <div style={{ marginTop: 14 }}>
+          <label style={AA_TOOL_LABEL}>Expected taxable turnover — next 30 days (AED)</label>
+          <input style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.fwd} onChange={upd('fwd')} placeholder="optional" />
+          <p style={{ fontSize: 12, color: 'var(--aa-steel)', marginTop: 8, lineHeight: 1.5 }}>Registration becomes mandatory once turnover exceeds AED 375,000, or when you expect it to within 30 days.</p>
+        </div>
+      </div>
+      <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
+        {done ? (
+          <div>
+            <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
+            <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Result downloading</h3>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your VAT registration check is downloading now. We&rsquo;ve received your details — the team will be in touch, or reach us on WhatsApp.</p>
+            <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={() => goContact('VAT compliance', onNav)}>Book a VAT scoping <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
+          </div>
+        ) : (
+          <div>
+            {showResult ? (
+              <div style={{ marginBottom: 20 }}>
+                <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Registration status</div>
+                <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 30, fontWeight: 700, lineHeight: 1.05, color: statusColor }}>{status}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 10 }}>{v.t}</div>
+              </div>
+            ) : (
+              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Enter your taxable turnover to see whether VAT registration is mandatory, voluntary or not yet required — then download a personalised PDF with your next steps.</p>
+            )}
+            <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5, cursor: 'pointer', marginBottom: 14 }}>
+              <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />
+              <span>I agree to Authentic Accounting using my details to prepare this result and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
+            </label>
+            <button className="btn btn--primary" onClick={handle} disabled={busy}>
+              {busy ? 'Generating…' : 'Check my VAT status (PDF)'}
+              <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
+            </button>
+            {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Indicative check · instant PDF · not tax advice.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ServiceVATPage({ onNav }) {
   const VAT_FAQ = (window.AARoutes && window.AARoutes.VAT_FAQ) || [];
   return (
@@ -284,8 +523,19 @@ function ServiceVATPage({ onNav }) {
         </div>
       </section>
 
+      {/* VAT registration checker (lead tool) */}
+      <section id="aa-vat-checker" className="section section--off" style={{ scrollMarginTop: 128 }}>
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">Free · Instant registration check</div>
+            <h2>Do you need to register for VAT?</h2>
+          </div>
+          <VatChecker onNav={onNav} />
+        </div>
+      </section>
+
       {/* What it covers */}
-      <section className="section section--off">
+      <section className="section">
         <div className="container">
           <div className="section-head">
             <div className="section-head__eyebrow">What the engagement covers</div>
@@ -309,7 +559,7 @@ function ServiceVATPage({ onNav }) {
       </section>
 
       {/* Process */}
-      <section className="section">
+      <section className="section section--off">
         <div className="container">
           <div className="section-head">
             <div className="section-head__eyebrow">The quarter, end to end</div>
@@ -338,7 +588,7 @@ function ServiceVATPage({ onNav }) {
       </section>
 
       {/* FAQ */}
-      <section className="section section--off">
+      <section className="section">
         <div className="container" style={{ maxWidth: 920 }}>
           <div className="section-head">
             <div className="section-head__eyebrow">FAQ</div>
@@ -353,6 +603,144 @@ function ServiceVATPage({ onNav }) {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+// ---- Corporate Tax liability estimator (lead tool) --------------------------
+function CorpTaxEstimator({ onNav }) {
+  const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', profit: '', revenue: '', freezone: false, yearEnd: '12', consent: false });
+  const [err, setErr] = React.useState('');
+  const [busy, setBusy] = React.useState(false);
+  const [done, setDone] = React.useState(false);
+  const upd = (k) => (e) => { const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; setF((p) => ({ ...p, [k]: v })); };
+  React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+
+  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const profit = aaParseNum(f.profit);
+  const revenue = aaParseNum(f.revenue);
+  const THRESH = 375000;
+  const sbrEligible = revenue > 0 && revenue <= 3000000;           // Small Business Relief: revenue ≤ AED 3M
+  const taxable = Math.max(0, profit);                              // simplified: taxable income ≈ accounting profit
+  const ctBeforeRelief = Math.max(0, taxable - THRESH) * 0.09;     // 0% on first 375k, 9% above
+  const ct = sbrEligible ? 0 : ctBeforeRelief;
+  const effRate = taxable > 0 ? (ct / taxable) * 100 : 0;
+  const yeIdx = parseInt(f.yearEnd, 10) - 1;
+  const filingDue = MONTHS[(yeIdx + 9) % 12] + ((yeIdx + 9) >= 12 ? ' (following year)' : '');
+  const hasInput = f.profit.trim() !== '' && profit >= 0 && f.profit.trim() !== '';
+  const showResult = f.profit.trim() !== '';
+
+  const verdict = () => {
+    if (f.freezone) return { t: 'Free zone — a QFZP analysis is essential', b: 'As a free zone person you may qualify for the 0% rate on qualifying income — but only if you meet the substance, de minimis and qualifying-activity tests. Non-qualifying income is taxed at 9%. The figure below assumes taxable (mainland-equivalent) income; your actual position depends on a Qualifying Free Zone Person assessment, which we can run for you.' };
+    if (sbrEligible) return { t: 'Likely AED 0 — Small Business Relief', b: 'Your revenue is at or below AED 3,000,000, so you can elect Small Business Relief and be treated as having no taxable income for the period (available for tax periods ending on or before 31 December 2026). You still must register and file — the relief is claimed on the return.' };
+    if (ct === 0) return { t: 'Within the 0% band', b: 'Your taxable income is at or below the AED 375,000 threshold, so the estimated Corporate Tax is nil at the 0% band. You must still register with the FTA and file a return for the period.' };
+    return { t: 'Estimated liability: ' + AA_MONEY(ct), b: 'Based on an accounting profit of ' + AA_MONEY(profit) + ', the first AED 375,000 is taxed at 0% and the balance at 9% — an effective rate of about ' + effRate.toFixed(1) + '%. This is an indicative estimate: your actual taxable income reflects add-backs, exempt income, reliefs and interest-limitation rules.' };
+  };
+
+  const handle = async () => {
+    setErr('');
+    if (!f.company.trim() || !f.name.trim() || !f.email.trim() || !f.phone.trim()) { setErr('Please complete company name, your name, email and phone.'); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.trim())) { setErr('Please enter a valid work email.'); return; }
+    if (f.profit.trim() === '') { setErr('Please enter your accounting net profit so we can estimate your liability.'); return; }
+    if (!f.consent) { setErr('Please confirm you agree to our Privacy Policy so we can prepare your estimate.'); return; }
+    setBusy(true);
+    const v = verdict();
+    try {
+      let downloadDate = '';
+      try { downloadDate = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' (GST)'; } catch (e) { downloadDate = new Date().toISOString(); }
+      const inputs = [
+        ['Accounting net profit', AA_MONEY(profit)],
+        ['Annual revenue', revenue ? AA_MONEY(revenue) : '—'],
+        ['Free zone person', f.freezone ? 'Yes' : 'No'],
+        ['Financial year-end', MONTHS[yeIdx]],
+        ['Small Business Relief', sbrEligible ? 'Likely eligible (revenue ≤ AED 3M)' : 'Not eligible on revenue'],
+      ];
+      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Profit: ' + AA_MONEY(profit), 'Revenue: ' + (revenue ? AA_MONEY(revenue) : '—'), 'Free zone: ' + (f.freezone ? 'Yes' : 'No'), 'Year-end: ' + MONTHS[yeIdx], 'Estimated CT: ' + AA_MONEY(ct), 'Effective rate: ' + effRate.toFixed(1) + '%', 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
+      if (window.AAContactSheet && window.AAContactSheet.submitRaw) {
+        window.AAContactSheet.submitRaw({ type: 'Corporate Tax Estimate', company: f.company, name: f.name, email: f.email, phone: f.phone, profit: AA_MONEY(profit), revenue: revenue ? AA_MONEY(revenue) : '', freezone: f.freezone ? 'Yes' : 'No', yearEnd: MONTHS[yeIdx], estimatedCT: AA_MONEY(ct), effectiveRate: effRate.toFixed(1) + '%', verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
+      }
+      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'corporate-tax', event_label: v.t });
+      await aaBuildBrandedPdf({
+        title: 'Your UAE Corporate Tax Estimate',
+        subtitle: '9% Federal Corporate Tax · indicative figures',
+        forWho: 'Prepared for ' + f.company + '  ·  ' + f.name,
+        stats: [
+          { label: 'Estimated CT liability', big: AA_MONEY(ct), sub: effRate.toFixed(1) + '% effective rate' },
+          { label: 'Return filing due', big: filingDue, sub: '9 months after year-end' },
+        ],
+        verdictTitle: v.t, verdictBody: v.b,
+        inputs,
+        nextMoves: [
+          'Register for Corporate Tax on EmaraTax and confirm your first tax period (late registration carries an AED 10,000 penalty).',
+          sbrEligible ? 'Elect Small Business Relief on your return while revenue stays at or below AED 3M (available for periods ending on or before 31 Dec 2026).' : 'Prepare a taxable-income computation — add-backs, exempt income, reliefs and interest limitation — from your financial statements.',
+          f.freezone ? 'Commission a Qualifying Free Zone Person (QFZP) assessment before relying on the 0% rate.' : 'File your return on EmaraTax within nine months of your year-end and keep audit-ready workpapers.',
+        ],
+        legal: 'Indicative estimate only — not tax advice. Taxable income is simplified here as accounting profit; your actual position reflects add-backs, exempt income, reliefs, transfer pricing and interest-limitation rules under Federal Decree-Law No. 47 of 2022 and related decisions. Confirm against the latest UAE Ministry of Finance / Federal Tax Authority sources.',
+        fileName: 'UAE-Corporate-Tax-Estimate-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf',
+      });
+    } catch (e) { setErr('Sorry — the estimate could not be generated. Please try again or contact us.'); setBusy(false); return; }
+    setBusy(false); setDone(true);
+  };
+
+  const v = verdict();
+  return (
+    <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+      <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div><label style={AA_TOOL_LABEL}>Company name *</label><input style={AA_TOOL_INPUT} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
+          <div><label style={AA_TOOL_LABEL}>Your name *</label><input style={AA_TOOL_INPUT} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+          <div><label style={AA_TOOL_LABEL}>Work email *</label><input type="email" style={AA_TOOL_INPUT} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
+          <div><label style={AA_TOOL_LABEL}>Phone / WhatsApp *</label><input style={AA_TOOL_INPUT} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+          <div><label style={AA_TOOL_LABEL}>Accounting net profit (AED) *</label><input style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.profit} onChange={upd('profit')} placeholder="e.g. 900,000" /></div>
+          <div><label style={AA_TOOL_LABEL}>Annual revenue (AED)</label><input style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.revenue} onChange={upd('revenue')} placeholder="e.g. 2,500,000" /></div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14, alignItems: 'end' }}>
+          <div><label style={AA_TOOL_LABEL}>Financial year-end</label>
+            <select style={AA_TOOL_INPUT} value={f.yearEnd} onChange={upd('yearEnd')}>
+              {MONTHS.map((m, i) => <option key={m} value={String(i + 1)}>{m}</option>)}
+            </select></div>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer', paddingBottom: 10 }}>
+            <input type="checkbox" checked={f.freezone} onChange={upd('freezone')} style={{ width: 16, height: 16 }} /> Free zone company
+          </label>
+        </div>
+      </div>
+      <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
+        {done ? (
+          <div>
+            <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
+            <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Estimate downloading</h3>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your Corporate Tax estimate is downloading now. We&rsquo;ve received your details — the team will be in touch, or reach us on WhatsApp.</p>
+            <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={() => goContact('UAE Corporate Tax', onNav)}>Book a scoping call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
+          </div>
+        ) : (
+          <div>
+            {showResult ? (
+              <div style={{ marginBottom: 20 }}>
+                <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Estimated CT liability</div>
+                <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>{AA_MONEY(ct)}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>{v.t}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 6 }}>Return filing due <strong style={{ color: '#fff' }}>{filingDue}</strong> <span style={{ color: 'var(--aa-cyan)' }}>· 9 months after year-end</span></div>
+              </div>
+            ) : (
+              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Enter your accounting net profit to see an indicative 9% Corporate Tax estimate — then download a personalised PDF with your deadlines and next steps.</p>
+            )}
+            <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5, cursor: 'pointer', marginBottom: 14 }}>
+              <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />
+              <span>I agree to Authentic Accounting using my details to prepare this estimate and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
+            </label>
+            <button className="btn btn--primary" onClick={handle} disabled={busy}>
+              {busy ? 'Generating…' : 'Get my estimate (PDF)'}
+              <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
+            </button>
+            {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Indicative estimate · instant PDF · not tax advice.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -421,8 +809,19 @@ function ServiceCorporateTaxPage({ onNav }) {
         </div>
       </section>
 
+      {/* Corporate Tax estimator (lead tool) */}
+      <section id="aa-ct-estimator" className="section section--off" style={{ scrollMarginTop: 128 }}>
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__eyebrow">Free · Instant estimate with your filing deadline</div>
+            <h2>Estimate your Corporate Tax.</h2>
+          </div>
+          <CorpTaxEstimator onNav={onNav} />
+        </div>
+      </section>
+
       {/* What it covers */}
-      <section className="section section--off">
+      <section className="section">
         <div className="container">
           <div className="section-head">
             <div className="section-head__eyebrow">What the engagement covers</div>
@@ -446,7 +845,7 @@ function ServiceCorporateTaxPage({ onNav }) {
       </section>
 
       {/* Process */}
-      <section className="section">
+      <section className="section section--off">
         <div className="container">
           <div className="section-head">
             <div className="section-head__eyebrow">The tax period, end to end</div>

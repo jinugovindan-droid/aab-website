@@ -177,7 +177,9 @@ function AppRoot() {
     }
   };
 
-  const navActive = (typeof page === 'string' && page.indexOf('service-') === 0) ? 'services'
+  const navActive = page === 'service-corporate-tax' ? 'service-corporate-tax'
+                  : page === 'service-vat' ? 'service-vat'
+                  : (typeof page === 'string' && page.indexOf('service-') === 0) ? 'services'
                   : (typeof page === 'string' && page.indexOf('industry-') === 0) ? 'industries'
                   : page === 'insight' ? 'insights' : page;
 

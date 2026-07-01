@@ -132,12 +132,12 @@ main:focus { outline: none; }
   height: 72px;
 }
 .topnav__inner {
-  display: flex; align-items: center; gap: 48px;
+  display: flex; align-items: center; gap: 32px;
   height: 100%;
 }
 .topnav__logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .topnav__logo img { height: 52px; width: auto; }
-.topnav__list { display: flex; gap: 28px; flex: 1; align-items: center; }
+.topnav__list { display: flex; gap: 18px; flex: 1; align-items: center; }
 .topnav__link {
   font-size: 14px; font-weight: 500;
   color: var(--aa-steel-700);
@@ -423,6 +423,13 @@ body.no-scroll { overflow: hidden; }
 .aa-wa-fab { animation-name: aa-wa-pulse; }
 
 /* ---------- Responsive breakpoints ---------- */
+
+/* Laptop down — collapse the primary nav to the drawer so the (now 10-item)
+   horizontal list never crowds the logo/CTA on narrower desktops. */
+@media (max-width: 1200px) {
+  .topnav__list { display: none; }
+  .topnav__burger { display: inline-flex; }
+}
 
 /* Tablet down */
 @media (max-width: 960px) {

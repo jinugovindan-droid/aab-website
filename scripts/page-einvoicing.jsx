@@ -481,6 +481,37 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
         </div>
       </section>
 
+      {/* ============== OFFICIAL RESOURCE · MoF ASP LIST ============== */}
+      <section className="section">
+        <div className="container">
+          <a
+            href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/"
+            target="_blank" rel="noopener noreferrer"
+            className="aa-stack-sm"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24,
+              padding: '28px 32px', border: '1px solid var(--aa-rule)', background: 'var(--aa-surface-off)',
+              textDecoration: 'none', color: 'inherit', flexWrap: 'wrap',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+              <i data-lucide="badge-check" style={{ width: 30, height: 30, color: 'var(--aa-cyan)', flexShrink: 0 }}></i>
+              <div>
+                <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 6 }}>Official resource · UAE Ministry of Finance</div>
+                <div style={{ fontSize: 19, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.3 }}>Pre-Approved E-Invoicing Service Providers</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', marginTop: 4, lineHeight: 1.5, maxWidth: 620 }}>
+                  The Ministry of Finance&rsquo;s current list of Accredited Service Providers (ASPs) you can appoint — updated as new providers are approved.
+                </div>
+              </div>
+            </div>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, fontWeight: 600, color: 'var(--aa-cyan-700)', whiteSpace: 'nowrap' }}>
+              View the MoF list
+              <i data-lucide="external-link" style={{ width: 16, height: 16 }}></i>
+            </span>
+          </a>
+        </div>
+      </section>
+
       {/* ============== OUR COMMITMENT ============== */}
       <section className="section section--off">
         <div className="container">

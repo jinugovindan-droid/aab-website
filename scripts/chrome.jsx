@@ -5,6 +5,8 @@ const { pathForPage } = window.AARoutes;
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
   { id: 'services', label: 'Services' },
+  { id: 'service-corporate-tax', label: 'Corporate Tax' },
+  { id: 'service-vat', label: 'VAT' },
   { id: 'e-invoicing', label: 'E-Invoicing' },
   { id: 'industries', label: 'Industries' },
   { id: 'about', label: 'About' },
