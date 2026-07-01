@@ -334,6 +334,65 @@ function ServicesPage({ onNav }) {
 }
 
 // VAT detail page (exemplar)
+// ---- VAT return deadline countdown (data-driven, owner-verified table) ------
+// Reads window.AARoutes.VAT_DEADLINES (28th-of-month, weekend-shifted, verified).
+// "Today" is anchored to UAE time so the monthly reset/day-count is correct
+// regardless of the visitor's timezone. Targets the next upcoming deadline, so it
+// resets to the current month on the 1st and rolls forward once the date passes.
+function VatDeadlineCard({ onNav }) {
+  const list = (window.AARoutes && window.AARoutes.VAT_DEADLINES) || [];
+  let todayISO;
+  try { todayISO = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' }); }
+  catch (e) { todayISO = new Date().toISOString().slice(0, 10); }
+  const next = list.find((d) => d.due >= todayISO);
+
+  const shell = (children) => (
+    <div className="aa-stack-sm" style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap',
+      background: 'var(--aa-charcoal)', color: '#fff', padding: '28px 32px', borderTop: '3px solid var(--aa-cyan)',
+    }}>{children}</div>
+  );
+
+  if (!next) {
+    // Table exhausted — graceful fallback until the annual refresh lands.
+    return shell(
+      <React.Fragment>
+        <div style={{ minWidth: 240 }}>
+          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>VAT filing deadline</div>
+          <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, lineHeight: 1.05 }}>The 28th of the month</div>
+          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 10, lineHeight: 1.5, maxWidth: 540 }}>VAT returns and payment are due the 28th of the month after your tax period ends (moved to the next working day for UAE weekends/holidays). Talk to us to confirm your exact deadline.</div>
+        </div>
+        <button className="btn btn--primary" onClick={() => goContact('VAT compliance', onNav)}>Book a VAT scoping <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
+      </React.Fragment>
+    );
+  }
+
+  const dayMs = 86400000;
+  const daysLeft = Math.round((Date.parse(next.due + 'T00:00:00Z') - Date.parse(todayISO + 'T00:00:00Z')) / dayMs);
+  const big = daysLeft <= 0 ? 'Today' : daysLeft.toLocaleString();
+  const cap = daysLeft <= 0 ? 'return due' : (daysLeft === 1 ? 'day left' : 'days left');
+  return shell(
+    <React.Fragment>
+      <div style={{ minWidth: 240 }}>
+        <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Next VAT filing deadline</div>
+        <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 700, lineHeight: 1.05 }}>{next.dueLabel}</div>
+        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.72)', marginTop: 10, lineHeight: 1.5, maxWidth: 560 }}>
+          {next.period}. Returns are due the 28th of the month after your tax period ends (shifted for UAE weekends). <strong style={{ color: '#fff' }}>Your assigned tax period is on your VAT certificate.</strong>
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{big}</div>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
+        </div>
+        <button className="btn btn--primary" onClick={() => goContact('VAT compliance', onNav)}>
+          Book a VAT scoping <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+        </button>
+      </div>
+    </React.Fragment>
+  );
+}
+
 // ---- VAT registration / threshold checker (lead tool) ----------------------
 function VatChecker({ onNav }) {
   const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', t12: '', fwd: '', consent: false });
@@ -523,10 +582,11 @@ function ServiceVATPage({ onNav }) {
         </div>
       </section>
 
-      {/* VAT registration checker (lead tool) */}
+      {/* VAT deadline countdown + registration checker (lead tool) */}
       <section id="aa-vat-checker" className="section section--off" style={{ scrollMarginTop: 128 }}>
         <div className="container">
-          <div className="section-head">
+          <VatDeadlineCard onNav={onNav} />
+          <div className="section-head" style={{ marginTop: 56 }}>
             <div className="section-head__eyebrow">Free · Instant registration check</div>
             <h2>Do you need to register for VAT?</h2>
           </div>

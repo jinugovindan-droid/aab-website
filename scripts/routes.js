@@ -855,9 +855,32 @@
     return true;
   }
 
+  // VAT return/payment deadlines — the 28th of the month after each tax period,
+  // shifted to the next working day when it falls on the UAE weekend (Sat/Sun).
+  // Owner-verified 12-month table (Jul 2026 → Jul 2027); weekend shifts applied,
+  // no known public-holiday collisions (Eid dates estimated — reconfirm nearer
+  // the time). Regenerate/re-verify annually (see the June reminder). `due` drives
+  // the live countdown; `dueLabel`/`period` are the verified display strings.
+  const VAT_DEADLINES = [
+    { due: '2026-07-28', dueLabel: 'Tuesday, 28 July 2026',      period: 'Quarter ended 30 Jun 2026 (Apr–Jun)' },
+    { due: '2026-08-28', dueLabel: 'Friday, 28 August 2026',     period: 'Quarter ended 31 Jul 2026 (May–Jul)' },
+    { due: '2026-09-28', dueLabel: 'Monday, 28 September 2026',   period: 'Quarter ended 31 Aug 2026 (Jun–Aug)' },
+    { due: '2026-10-28', dueLabel: 'Wednesday, 28 October 2026', period: 'Quarter ended 30 Sep 2026 (Jul–Sep)' },
+    { due: '2026-11-30', dueLabel: 'Monday, 30 November 2026',   period: 'Quarter ended 31 Oct 2026 (Aug–Oct)', shifted: true },
+    { due: '2026-12-28', dueLabel: 'Monday, 28 December 2026',   period: 'Quarter ended 30 Nov 2026 (Sep–Nov)' },
+    { due: '2027-01-28', dueLabel: 'Thursday, 28 January 2027',  period: 'Quarter ended 31 Dec 2026 (Oct–Dec)' },
+    { due: '2027-03-01', dueLabel: 'Monday, 1 March 2027',       period: 'Quarter ended 31 Jan 2027 (Nov–Jan)', shifted: true },
+    { due: '2027-03-29', dueLabel: 'Monday, 29 March 2027',      period: 'Quarter ended 28 Feb 2027 (Dec–Feb)', shifted: true },
+    { due: '2027-04-28', dueLabel: 'Wednesday, 28 April 2027',   period: 'Quarter ended 31 Mar 2027 (Jan–Mar)' },
+    { due: '2027-05-28', dueLabel: 'Friday, 28 May 2027',        period: 'Quarter ended 30 Apr 2027 (Feb–Apr)' },
+    { due: '2027-06-28', dueLabel: 'Monday, 28 June 2027',       period: 'Quarter ended 31 May 2027 (Mar–May)' },
+    { due: '2027-07-28', dueLabel: 'Wednesday, 28 July 2027',    period: 'Quarter ended 30 Jun 2027 (Apr–Jun)' },
+  ];
+
   window.AARoutes = {
     SITE_ORIGIN,
     TAX_RULES_ASOF: 'June 2026',
+    VAT_DEADLINES,
     PAGE_TO_PATH,
     VALID_PAGES,
     PAGE_SEO,
