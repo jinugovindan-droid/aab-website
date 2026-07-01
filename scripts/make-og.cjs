@@ -12,17 +12,15 @@ const path = require('path');
   // Brand accent bar along the bottom (cyan #29ABE2)
   card.composite(new Jimp(W, 14, 0x29abe2ff), 0, H - 14);
 
-  // Clean English logo, kept modest so the card breathes (not cramped)
+  // Clean English logo, centred. No tagline text — WhatsApp/social already show
+  // the title + description beside the thumbnail, and small text just smudges when
+  // the 1200x630 card is scaled down to a thumbnail.
   const logo = await Jimp.read(path.join('assets', 'logos', 'aab-short-eng.png'));
-  logo.scaleToFit(500, 280);
-  card.composite(logo, Math.round((W - logo.bitmap.width) / 2), Math.round(150 + (280 - logo.bitmap.height) / 2));
-
-  // Tagline
-  const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
-  card.print(
-    font, 0, 500,
-    { text: 'UAE Compliance & Advisory  -  Reconciliation discipline since 2017', alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER },
-    W
+  logo.scaleToFit(600, 380);
+  card.composite(
+    logo,
+    Math.round((W - logo.bitmap.width) / 2),
+    Math.round(((H - 14) - logo.bitmap.height) / 2) // vertically centred above the accent bar
   );
 
   fs.mkdirSync('assets/og', { recursive: true });
