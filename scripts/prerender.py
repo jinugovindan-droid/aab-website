@@ -319,7 +319,7 @@ ORG = {
     "@type": "Organization",
     "name": "Authentic Accounting and Bookkeeping L.L.C",
     "url": SITE_ORIGIN + "/",
-    "logo": {"@type": "ImageObject", "url": SITE_ORIGIN + "/assets/logos/authentic-accounting-full.png"},
+    "logo": {"@type": "ImageObject", "url": SITE_ORIGIN + "/assets/logos/aab-short-eng.png"},
 }
 
 # Keep in sync with EINVOICE_FAQ in scripts/routes.js.
