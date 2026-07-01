@@ -607,6 +607,46 @@ function ServiceVATPage({ onNav }) {
   );
 }
 
+// ---- Corporate Tax return deadline countdown (auto-rolling, zero-maintenance)
+// CT return + payment are due within 9 months of year-end → 30 Sep for a 31 Dec
+// (calendar) financial year. Computed live from today's date; rolls to next year
+// automatically once the date passes, so it never goes stale.
+function CorpTaxDeadlineCard({ onNav }) {
+  const now = new Date();
+  const y = now.getFullYear();
+  const endOfDue = new Date(y, 8, 30, 23, 59, 59, 999);              // 30 Sep this year (month index 8)
+  const target = now > endOfDue ? new Date(y + 1, 8, 30) : new Date(y, 8, 30);
+  const sod = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const daysLeft = Math.round((sod(target) - sod(now)) / 86400000);
+  const fy = target.getFullYear() - 1;                              // FY ended 31 Dec of the prior year
+  const dateLabel = '30 September ' + target.getFullYear();
+  const big = daysLeft <= 0 ? 'Today' : daysLeft.toLocaleString();
+  const cap = daysLeft <= 0 ? 'return due' : (daysLeft === 1 ? 'day left' : 'days left');
+  return (
+    <div className="aa-stack-sm" style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap',
+      background: 'var(--aa-charcoal)', color: '#fff', padding: '28px 32px', borderTop: '3px solid var(--aa-cyan)',
+    }}>
+      <div style={{ minWidth: 240 }}>
+        <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Next Corporate Tax return deadline</div>
+        <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(26px, 3.6vw, 40px)', fontWeight: 700, lineHeight: 1 }}>{dateLabel}</div>
+        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 10, lineHeight: 1.5, maxWidth: 540 }}>
+          For a 31 December financial year-end (FY{fy}) — the return <strong style={{ color: '#fff' }}>and payment</strong> fall due within 9 months. A different year-end? Use the estimator below for your exact date.
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{big}</div>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
+        </div>
+        <button className="btn btn--primary" onClick={() => goContact('UAE Corporate Tax', onNav)}>
+          Book a scoping call <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ---- Corporate Tax liability estimator (lead tool) --------------------------
 function CorpTaxEstimator({ onNav }) {
   const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', profit: '', revenue: '', freezone: false, yearEnd: '12', consent: false });
@@ -809,10 +849,11 @@ function ServiceCorporateTaxPage({ onNav }) {
         </div>
       </section>
 
-      {/* Corporate Tax estimator (lead tool) */}
+      {/* Corporate Tax deadline countdown + estimator (lead tool) */}
       <section id="aa-ct-estimator" className="section section--off" style={{ scrollMarginTop: 128 }}>
         <div className="container">
-          <div className="section-head">
+          <CorpTaxDeadlineCard onNav={onNav} />
+          <div className="section-head" style={{ marginTop: 56 }}>
             <div className="section-head__eyebrow">Free · Instant estimate with your filing deadline</div>
             <h2>Estimate your Corporate Tax.</h2>
           </div>
