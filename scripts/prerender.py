@@ -723,7 +723,7 @@ def set_robots(html, value):
 # Home isn't in PAGE_SEO (it's the root template); give it a crawlable heading/intro.
 HOME_SEO = {
     "h1": "UAE Compliance & Advisory Accounting — Authentic Accounting",
-    "intro": "Authentic Accounting and Bookkeeping L.L.C is a Dubai-based accounting and advisory firm serving SMEs, enterprises and Government across all seven emirates — bookkeeping, VAT, UAE Corporate Tax, IFRS financial statements, valuations, M&A support and due diligence, delivered with reconciliation discipline.",
+    "intro": "Authentic Accounting and Bookkeeping L.L.C is a Dubai-based accounting and advisory firm serving SMEs, enterprises and Government across all seven emirates — accounting, VAT, UAE Corporate Tax, e-invoicing, IFRS financial statements, valuations and due diligence, delivered with reconciliation discipline.",
 }
 
 # Pages to expose as crawlable internal links on every page (the crawl graph).
