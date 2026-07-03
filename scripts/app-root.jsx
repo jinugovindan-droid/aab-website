@@ -193,6 +193,7 @@ function AppRoot() {
       <WhatsAppFab/>
       <EInvoiceMarquee onNav={navigateTo}/>
       <EInvoiceReadinessModal onNav={navigateTo}/>
+      <SiteSearchModal onNav={navigateTo}/>
       <CookieConsent onNav={navigateTo}/>
 
       <TweaksPanel title="Tweaks">

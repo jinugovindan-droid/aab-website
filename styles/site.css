@@ -151,7 +151,22 @@ main:focus { outline: none; }
 }
 .topnav__link:hover { color: var(--aa-charcoal); }
 .topnav__link.is-active { color: var(--aa-charcoal); border-bottom-color: var(--aa-cyan); }
-.topnav__right { display: flex; gap: 16px; align-items: center; }
+.topnav__right { display: flex; gap: 10px; align-items: center; }
+.topnav__search {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border: 0; background: transparent;
+  color: var(--aa-steel-700); cursor: pointer; border-radius: 6px;
+  transition: color 150ms ease-out, background 150ms ease-out;
+}
+.topnav__search:hover { color: var(--aa-charcoal); background: var(--aa-surface-off); }
+.topnav__drawer-search {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 13px 16px; margin-bottom: 10px;
+  border: 1px solid var(--aa-rule); background: var(--aa-surface-off);
+  color: var(--aa-steel-700); font-size: 15px; font-family: var(--aa-font-sans);
+  cursor: pointer; text-align: left;
+}
+.topnav__drawer-search:hover { color: var(--aa-charcoal); }
 .topnav__client {
   font-size: 13px; color: var(--aa-steel-700); text-decoration: none;
   display: inline-flex; align-items: center; gap: 6px;

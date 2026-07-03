@@ -52,6 +52,11 @@ function TopNav({ active, onNav, sticky = true }) {
             ))}
           </nav>
           <div className="topnav__right">
+            <button className="topnav__search" aria-label="Search the site" onClick={() => window.dispatchEvent(new Event('aa:open-search'))}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </button>
             <button className="btn btn--primary btn--sm" onClick={() => go('contact')}>
               Book a consultation
             </button>
@@ -87,6 +92,15 @@ function TopNav({ active, onNav, sticky = true }) {
               <line x1="6" y1="6" x2="18" y2="18" />
               <line x1="6" y1="18" x2="18" y2="6" />
             </svg>
+          </button>
+
+          <button
+            className="topnav__drawer-search"
+            onClick={() => { setOpen(false); window.dispatchEvent(new Event('aa:open-search')); }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <span>Search the site…</span>
           </button>
 
           {NAV_ITEMS.map((it, i) => (
@@ -463,4 +477,111 @@ function EInvoiceMarquee({ onNav }) {
   );
 }
 
-Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, CookieConsent, EInvoiceMarquee, useScrollReveal, LucideHost });
+// ---- Site search -----------------------------------------------------------
+// Curated destination index + all published Insights. Client-side, no backend.
+const SEARCH_PAGES = [
+  ['home', 'Home', 'uae accounting advisory compliance dubai'],
+  ['services', 'Services', 'all services overview'],
+  ['service-corporate-tax', 'Corporate Tax', '9% corporate tax registration filing estimator emaratax small business relief qfzp free zone'],
+  ['service-vat', 'VAT Compliance', 'vat registration return filing fta threshold checker 375000 187500 deadline'],
+  ['e-invoicing', 'E-Invoicing', 'peppol pint ae asp accredited service provider readiness mandate phase 1 2027'],
+  ['service-bookkeeping', 'Bookkeeping', 'outsourced accounting monthly close reconciliation'],
+  ['service-financial-statements', 'Financial Statements', 'ifrs annual accounts'],
+  ['service-audit-support', 'Audit Support', 'external audit ready workpapers'],
+  ['service-valuations', 'Valuations', 'business valuation dcf equity purchase price'],
+  ['service-transaction-advisory', 'Transaction Advisory', 'm&a mergers acquisitions due diligence deals'],
+  ['service-cfo', 'CFO Services', 'virtual outsourced cfo'],
+  ['service-tax-planning', 'Tax Planning', 'structuring advisory'],
+  ['industries', 'Industries', 'sectors we serve'],
+  ['industry-real-estate', 'Real Estate', 'property developers rera jointly owned'],
+  ['industry-construction', 'Construction', 'contracting'],
+  ['industry-trading', 'Trading & Distribution', 'inventory import export designated zone'],
+  ['industry-hospitality', 'Hospitality & F&B', 'restaurants hotels pos'],
+  ['industry-ecommerce', 'E-commerce & Retail', 'online marketplace'],
+  ['industry-manufacturing', 'Manufacturing', 'cost accounting'],
+  ['about', 'About', 'our firm since 2017 team'],
+  ['insights', 'Insights', 'articles guides blog'],
+  ['careers', 'Careers', 'jobs vacancies apply cv'],
+  ['contact', 'Contact', 'book consultation reach us office'],
+];
+
+function SiteSearchModal({ onNav }) {
+  const [open, setOpen] = useState(false);
+  const [q, setQ] = useState('');
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    const openH = () => { setQ(''); setOpen(true); };
+    window.addEventListener('aa:open-search', openH);
+    return () => window.removeEventListener('aa:open-search', openH);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
+    const t = setTimeout(() => { if (inputRef.current) inputRef.current.focus(); }, 30);
+    if (window.lucide) window.lucide.createIcons();
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev; clearTimeout(t); };
+  }, [open]);
+
+  const results = React.useMemo(() => {
+    const term = q.trim().toLowerCase();
+    if (!term) return [];
+    const R = window.AARoutes || {};
+    const items = [];
+    SEARCH_PAGES.forEach(([page, label, kw]) => items.push({ type: 'Page', label, sub: '', page, hay: (label + ' ' + kw).toLowerCase() }));
+    (R.INSIGHTS || []).forEach((a) => {
+      if (a.published === false) return;
+      items.push({ type: 'Guide', label: a.title, sub: (a.tag ? a.tag + ' · ' : '') + (a.date || ''), slug: a.slug, hay: ((a.title || '') + ' ' + (a.excerpt || '') + ' ' + (a.tag || '')).toLowerCase() });
+    });
+    const toks = term.split(/\s+/).filter(Boolean);
+    return items.map((it) => {
+      const all = toks.every((t) => it.hay.indexOf(t) !== -1);
+      if (!all) return { it, s: 0 };
+      let s = 0;
+      if (it.label.toLowerCase().indexOf(term) !== -1) s += 10;
+      toks.forEach((t) => { if (it.hay.indexOf(t) !== -1) s += 1; });
+      return { it, s };
+    }).filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, 10).map((x) => x.it);
+  }, [q]);
+
+  if (!open) return null;
+
+  const goTo = (it) => { setOpen(false); if (it.type === 'Guide') onNav('insight', it.slug); else onNav(it.page); };
+  const onKeyDown = (e) => { if (e.key === 'Enter' && results[0]) goTo(results[0]); };
+
+  return (
+    <div role="dialog" aria-modal="true" aria-label="Search the site" onClick={() => setOpen(false)}
+      style={{ position: 'fixed', inset: 0, zIndex: 210, background: 'rgba(10,12,20,0.6)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', overflowY: 'auto', padding: '72px 16px' }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ background: '#fff', width: '100%', maxWidth: 620, boxShadow: '0 24px 70px rgba(0,0,0,0.4)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '15px 18px', borderBottom: '1px solid var(--aa-rule)' }}>
+          <i data-lucide="search" style={{ width: 20, height: 20, color: 'var(--aa-steel)', flexShrink: 0 }}></i>
+          <input ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKeyDown}
+            placeholder="Search services, taxes, guides…" aria-label="Search the site"
+            style={{ flex: 1, minWidth: 0, border: 0, outline: 'none', fontSize: 17, fontFamily: 'var(--aa-font-sans)', color: 'var(--aa-charcoal)', background: 'transparent' }} />
+          <button onClick={() => setOpen(false)} aria-label="Close search" style={{ border: 0, background: 'transparent', fontSize: 24, lineHeight: 1, color: 'var(--aa-steel)', cursor: 'pointer', flexShrink: 0 }}>×</button>
+        </div>
+        <div style={{ maxHeight: '56vh', overflowY: 'auto' }}>
+          {q.trim() === '' ? (
+            <div style={{ padding: '20px 18px', fontSize: 14, color: 'var(--aa-steel)', lineHeight: 1.6 }}>Try “corporate tax”, “VAT registration”, “e-invoicing”, “valuation”, “bookkeeping”…</div>
+          ) : results.length === 0 ? (
+            <div style={{ padding: '20px 18px', fontSize: 14, color: 'var(--aa-steel)' }}>No matches for “{q}”. Try a different term.</div>
+          ) : results.map((it, i) => (
+            <button key={i} onClick={() => goTo(it)}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, width: '100%', textAlign: 'left', border: 0, borderBottom: '1px solid var(--aa-rule)', background: '#fff', padding: '13px 18px', cursor: 'pointer' }}>
+              <span style={{ minWidth: 0 }}>
+                <span style={{ display: 'block', fontSize: 15, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{it.label}</span>
+                {it.sub ? <span style={{ display: 'block', fontSize: 12, color: 'var(--aa-steel)', marginTop: 2 }}>{it.sub}</span> : null}
+              </span>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--aa-cyan-700)', flexShrink: 0 }}>{it.type}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, CookieConsent, EInvoiceMarquee, useScrollReveal, LucideHost, SiteSearchModal });

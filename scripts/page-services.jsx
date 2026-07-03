@@ -571,7 +571,7 @@ function ServiceVATPage({ onNav }) {
                   ['Pricing',               'Customised to your scope'],
                   ['Engagement model',      'Retained or project'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600 }}>{v}</dd>
                   </div>
@@ -893,12 +893,12 @@ function ServiceCorporateTaxPage({ onNav }) {
                   ['Standard rate', '9% (above AED 375,000)'],
                   ['0% rate band', 'First AED 375,000'],
                   ['Free zone', '0% on qualifying income (QFZP)'],
-                  ['Small Business Relief', 'Revenue up to AED 3M · to 31 Dec 2026'],
+                  ['Small Business Relief', 'Revenue up to AED 3M · to 31 Dec 2026'],
                   ['Return filing', 'Within 9 months of year-end'],
                   ['Late-registration penalty', 'AED 10,000'],
                   ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
@@ -1045,7 +1045,7 @@ function ServiceBookkeepingPage({ onNav }) {
                   ['Engagement', 'Retained (monthly)'],
                   ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
@@ -1178,7 +1178,7 @@ function ServiceAuditSupportPage({ onNav }) {
                   ['Engagement', 'Project or retained'],
                   ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
@@ -1311,7 +1311,7 @@ function ServiceValuationsPage({ onNav }) {
                   ['Engagement', 'Project (fixed scope)'],
                   ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
@@ -1444,7 +1444,7 @@ function ServiceTransactionAdvisoryPage({ onNav }) {
                   ['Engagement', 'Project (fixed scope)'],
                   ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
@@ -1577,7 +1577,7 @@ function ServiceCFOPage({ onNav }) {
                   ['Engagement', 'Retained or interim'],
                   ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
@@ -1710,7 +1710,7 @@ function ServiceFinancialStatementsPage({ onNav }) {
                   ['Engagement', 'Project or annual'],
                   ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
@@ -1843,7 +1843,7 @@ function ServiceTaxPlanningPage({ onNav }) {
                   ['Engagement', 'Project or advisory'],
                   ['Pricing', 'Customised to your scope'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
@@ -2020,7 +2020,7 @@ function ServiceSimplePage({ page, onNav }) {
               <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
               <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
                 {cfg.glance.map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>

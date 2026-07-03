@@ -388,7 +388,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                   ['First ASP deadline', '30 Oct 2026 · ' + dlabel('2026-10-30')],
                   ['Phase 1 go-live', '1 Jan 2027 · ' + dlabel('2027-01-01')],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
