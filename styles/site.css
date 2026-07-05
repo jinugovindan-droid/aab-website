@@ -439,9 +439,16 @@ body.no-scroll { overflow: hidden; }
 
 /* ---------- Responsive breakpoints ---------- */
 
-/* Laptop down — collapse the primary nav to the drawer so the (now 10-item)
-   horizontal list never crowds the logo/CTA on narrower desktops. */
-@media (max-width: 1200px) {
+/* Mid-width desktops/laptops (incl. zoomed browsers) — keep the 10-item nav
+   VISIBLE by tightening spacing/typography instead of hiding it. Only collapse
+   to the burger below 1040px, where it genuinely cannot fit. */
+@media (max-width: 1280px) {
+  .topnav__inner { gap: 20px; }
+  .topnav__list { gap: 12px; }
+  .topnav__link { font-size: 13px; }
+  .topnav__right .btn--sm { padding: 9px 12px; font-size: 12px; }
+}
+@media (max-width: 1040px) {
   .topnav__list { display: none; }
   .topnav__burger { display: inline-flex; }
 }
