@@ -2,12 +2,31 @@
 const { useState, useEffect, useRef } = React;
 const { pathForPage } = window.AARoutes;
 
+// Flat list — used by the mobile drawer (it has vertical room for all ten).
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
   { id: 'services', label: 'Services' },
   { id: 'service-corporate-tax', label: 'Corporate Tax' },
   { id: 'service-vat', label: 'VAT' },
   { id: 'e-invoicing', label: 'E-Invoicing' },
+  { id: 'industries', label: 'Industries' },
+  { id: 'about', label: 'About' },
+  { id: 'insights', label: 'Insights' },
+  { id: 'careers', label: 'Careers' },
+  { id: 'contact', label: 'Contact' },
+];
+
+// Desktop bar — 8 items so it survives browser zoom / smaller laptops.
+// The three tax flagships group under a "Tax" dropdown.
+const TAX_CHILDREN = [
+  { id: 'service-corporate-tax', label: 'Corporate Tax' },
+  { id: 'service-vat', label: 'VAT Compliance' },
+  { id: 'e-invoicing', label: 'E-Invoicing' },
+];
+const DESKTOP_NAV = [
+  { id: 'home', label: 'Home' },
+  { id: 'services', label: 'Services' },
+  { id: 'tax', label: 'Tax', children: TAX_CHILDREN },
   { id: 'industries', label: 'Industries' },
   { id: 'about', label: 'About' },
   { id: 'insights', label: 'Insights' },
@@ -41,7 +60,28 @@ function TopNav({ active, onNav, sticky = true }) {
             <img src="assets/logos/aab-short-eng.png?v=2" alt="Authentic Accounting" />
           </a>
           <nav className="topnav__list" aria-label="Primary">
-            {NAV_ITEMS.map((it) => (
+            {DESKTOP_NAV.map((it) => it.children ? (
+              <div key={it.id} className="topnav__item">
+                <button
+                  className={`topnav__link topnav__link--menu${it.children.some((c) => c.id === active) ? ' is-active' : ''}`}
+                  aria-haspopup="true"
+                  onClick={() => go(it.children[0].id)}>
+                  {it.label}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div className="topnav__dropdown">
+                  {it.children.map((c) => (
+                    <a
+                      key={c.id}
+                      href={pathForPage(c.id)}
+                      className={`topnav__dropdown-link${active === c.id ? ' is-active' : ''}`}
+                      onClick={(e) => { e.preventDefault(); go(c.id); }}>
+                      {c.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : (
               <a
                 key={it.id}
                 href={pathForPage(it.id)}
