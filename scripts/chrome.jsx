@@ -168,23 +168,35 @@ function WhatsAppFab() {
   );
 }
 
-// Apply intersection-observer reveals to every <section> after each render
-function useScrollReveal() {
+// Reveal every <section> as it scrolls into view. Keyed to navigation only, so
+// unrelated re-renders don't tear the observer down mid-scroll (that bug left
+// below-the-fold sections stuck at opacity:0). Also reveals whatever is already
+// on screen immediately, and has a fallback so content is never left hidden.
+function useScrollReveal(navKey) {
   useEffect(() => {
-    if (typeof IntersectionObserver === 'undefined') return;
-    const els = document.querySelectorAll('main section, main .statline');
+    const els = Array.prototype.slice.call(document.querySelectorAll('main section, main .statline'));
+    const show = (el) => el.classList.add('is-visible');
     els.forEach((el) => el.classList.add('reveal'));
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('is-visible');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  });
+
+    // Anything already in the viewport shows right away (don't wait for a scroll tick).
+    const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    els.forEach((el) => { if (el.getBoundingClientRect().top < vh * 0.92) show(el); });
+
+    let io = null;
+    if (typeof IntersectionObserver !== 'undefined') {
+      io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      els.forEach((el) => { if (!el.classList.contains('is-visible')) io.observe(el); });
+    } else {
+      els.forEach(show);
+    }
+
+    // Safety net: never leave a section invisible if the observer misfires.
+    const fallback = setTimeout(() => els.forEach(show), 1800);
+
+    return () => { if (io) io.disconnect(); clearTimeout(fallback); };
+  }, [navKey]);
 }
 
 function Footer({ onNav }) {

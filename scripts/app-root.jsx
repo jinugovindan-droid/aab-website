@@ -59,7 +59,7 @@ function AppRoot() {
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [page, setPageState] = useState(pageFromLocation);
   const [insightSlug, setInsightSlug] = useState(slugFromLocation);
-  useScrollReveal();
+  useScrollReveal(page === 'insight' ? 'insight:' + (insightSlug || '') : page);
 
   const navigateTo = (next, nextSlug) => {
     const id = VALID_PAGES.has(next) ? next : 'home';
