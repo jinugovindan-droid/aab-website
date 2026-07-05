@@ -493,10 +493,8 @@ body.no-scroll { overflow: hidden; }
   .topnav__list { gap: 11px; }
   .topnav__link { font-size: 12.5px; }
 }
-@media (max-width: 760px) {
-  .topnav__list { display: none; }
-  .topnav__burger { display: inline-flex; }
-}
+/* Below 800px the bar WRAPS (rules live after the tablet block, which sets a
+   fixed height that must be overridden) — links are never hidden on desktop. */
 
 /* Tablet down */
 @media (max-width: 960px) {
@@ -515,6 +513,25 @@ body.no-scroll { overflow: hidden; }
 
   .aa-wa-fab { right: 16px; bottom: 16px; }
   .aa-wa-fab__label { display: none; }
+}
+
+/* Wrap zone (601–800px — e.g. 175–200% browser zoom on scaled displays):
+   the nav links WRAP onto their own centred line under the logo instead of
+   hiding. Navigation stays visible at EVERY desktop zoom level. */
+@media (max-width: 800px) {
+  .topnav { height: auto; }
+  .topnav__inner { flex-wrap: wrap; row-gap: 2px; padding-top: 10px; padding-bottom: 10px; }
+  .topnav__list { order: 3; flex-basis: 100%; flex-wrap: wrap; justify-content: center; gap: 4px 14px; }
+  .topnav__link { font-size: 12.5px; }
+  .topnav__dropdown { left: 0; transform: none; } /* keep the Tax menu on-screen when wrapped */
+}
+
+/* True phones: burger + drawer (every page listed individually) */
+@media (max-width: 600px) {
+  .topnav { height: 64px; }
+  .topnav__inner { flex-wrap: nowrap; padding-top: 0; padding-bottom: 0; }
+  .topnav__list { display: none; }
+  .topnav__burger { display: inline-flex; }
 }
 
 /* Phone */

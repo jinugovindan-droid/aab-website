@@ -16,17 +16,19 @@ const NAV_ITEMS = [
   { id: 'contact', label: 'Contact' },
 ];
 
-// Desktop bar — 8 items so it survives browser zoom / smaller laptops.
-// The three tax flagships group under a "Tax" dropdown.
+// Desktop bar — Corporate Tax + VAT group under "Tax"; E-Invoicing stays
+// top-level (owner's call: it is the flagship campaign). On narrow/zoomed
+// viewports the bar WRAPS to a second line rather than hiding (see site.css);
+// the burger only appears at true phone widths.
 const TAX_CHILDREN = [
   { id: 'service-corporate-tax', label: 'Corporate Tax' },
   { id: 'service-vat', label: 'VAT Compliance' },
-  { id: 'e-invoicing', label: 'E-Invoicing' },
 ];
 const DESKTOP_NAV = [
   { id: 'home', label: 'Home' },
   { id: 'services', label: 'Services' },
   { id: 'tax', label: 'Tax', children: TAX_CHILDREN },
+  { id: 'e-invoicing', label: 'E-Invoicing' },
   { id: 'industries', label: 'Industries' },
   { id: 'about', label: 'About' },
   { id: 'insights', label: 'Insights' },
