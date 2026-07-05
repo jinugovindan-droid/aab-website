@@ -65,11 +65,11 @@ PAGE_SEO = {
     },
     "service-vat": {
         "title": "VAT Compliance UAE — Registration, Filing & FTA Support | Authentic Accounting",
-        "description": "End-to-end UAE VAT compliance: registration, return filing, FTA correspondence, voluntary disclosures and audit support for SMEs and enterprises.",
+        "description": "End-to-end UAE VAT compliance: registration, return filing, FTA correspondence, voluntary disclosures and audit support — with a free VAT registration checker and live filing-deadline countdown.",
     },
     "service-corporate-tax": {
         "title": "UAE Corporate Tax — Registration, Filing & 9% Compliance | Authentic Accounting",
-        "description": "End-to-end UAE Corporate Tax compliance under Federal Decree-Law 47 of 2022: registration, taxable-income computation, free-zone (QFZP) analysis, Small Business Relief and FTA return filing for SMEs, free zones and groups.",
+        "description": "End-to-end UAE Corporate Tax compliance under Federal Decree-Law 47 of 2022: registration, computation, QFZP analysis, Small Business Relief and FTA filing — with a free Corporate Tax calculator (estimator) and return-deadline countdown.",
     },
     "service-bookkeeping": {
         "title": "Outsourced Bookkeeping & Accounting Services Dubai, UAE | Authentic Accounting",
@@ -337,7 +337,7 @@ EINVOICE_FAQ = [
     {"q": "Does a free zone company have to comply?",
      "a": "Yes. The mandate applies to B2B and B2G transactions across the UAE, including free zone companies, based on the same revenue thresholds."},
     {"q": "What is the legal basis for UAE e-invoicing?",
-     "a": "Ministerial Decisions 243 and 244 of 2025, issued by the UAE Ministry of Finance, set the scope, obligations, ASP accreditation and the phased timeline — with the timeline subsequently amended by Ministerial Decision 66 of 2026."},
+     "a": "Ministerial Decision 243 of 2025 establishes the system and MD 244 of 2025 sets the phased timeline (as amended by MD 66 of 2026); ASP accreditation is governed by MD 64 of 2025, as amended by MD 56 of 2026 — all issued by the UAE Ministry of Finance."},
     {"q": "How do I get my business ready?",
      "a": "Assess your transaction scope, appoint an Accredited Service Provider, map your ERP / accounting-system fields to the required e-invoice format, and run end-to-end testing before your go-live date."},
 ]
@@ -349,7 +349,7 @@ CORPTAX_FAQ = [
     {"q": "Do I still need to register if my income is below AED 375,000?",
      "a": "Yes. The AED 375,000 threshold is a 0% rate band, not an exemption. Every taxable person must register for Corporate Tax, obtain a Tax Registration Number and file an annual return — even when the tax due is zero."},
     {"q": "What is Small Business Relief?",
-     "a": "Businesses with total revenue of AED 3 million or less in a tax period can elect Small Business Relief and be treated as having no taxable income. It is a transitional measure available for tax periods ending on or before 31 December 2026, and it must be actively elected with the FTA."},
+     "a": "Businesses with revenue of AED 3 million or less in the relevant tax period AND all previous tax periods can elect Small Business Relief and be treated as having no taxable income. It is a transitional measure for tax periods ending on or before 31 December 2026, is not available to Qualifying Free Zone Persons or members of large multinational groups, and must be actively elected with the FTA."},
     {"q": "Do free zone companies pay Corporate Tax?",
      "a": "A Qualifying Free Zone Person (QFZP) can benefit from a 0% rate on its qualifying income if it meets all conditions (adequate substance, qualifying activities and the de minimis limits) under Cabinet Decision 100 of 2023 and Ministerial Decision 229 of 2025. Non-qualifying income is taxed at 9%, and free zone businesses must still register and file."},
     {"q": "When is my Corporate Tax return due?",
@@ -475,7 +475,7 @@ TAXPLAN_FAQ = [
 # Keep in sync with VAT_FAQ in scripts/routes.js.
 VAT_FAQ = [
     {"q": "When does my business need to register for VAT?",
-     "a": "You must register if your taxable turnover crossed AED 375,000 in the past 12 months, or you reasonably expect it to in the next 30 days. Voluntary registration is available once you reach AED 187,500."},
+     "a": "You must register if your taxable turnover crossed AED 375,000 in the past 12 months, or you reasonably expect it to in the next 30 days. Voluntary registration is available once taxable turnover or expenses exceed AED 187,500."},
     {"q": "How often do I file VAT returns?",
      "a": "Most businesses file quarterly; some are assigned monthly periods by the FTA. Returns are filed and any VAT paid through the FTA’s EmaraTax portal within 28 days of the end of each period."},
     {"q": "Can you handle a backlog of unfiled returns?",
@@ -668,6 +668,7 @@ def build_jsonld(page, slug):
         if iso:
             block["datePublished"] = iso
             block["dateModified"] = iso
+        block["image"] = ORG["logo"]  # Article rich results want an image; brand logo as fallback
         blocks.append(block)
     if page == "services" or page == "e-invoicing" or page.startswith("service-") or page.startswith("industry-"):
         meta = PAGE_SEO[page]
@@ -801,6 +802,9 @@ def inject_root(html, body):
 def render(template, title, description, canonical, jsonld, robots=None, body=None):
     html = template
     html = html.replace("<head>", '<head>\n  <base href="/">', 1)
+    # The home hero image preload must NOT ship on every route (209KB wasted
+    # per page) — strip the marked line for all prerendered (non-home) pages.
+    html = re.sub(r"[ \t]*<link rel=\"preload\"[^>]*data-aa-home-lcp[^>]*/>\n?", "", html)
     html = set_title(html, title)
     html = set_meta(html, "name", "description", description)
     html = set_canonical(html, canonical)
@@ -856,17 +860,19 @@ def write_sitemap():
     rows = []
     for page, path in PAGE_TO_PATH.items():
         loc = SITE_ORIGIN + path
-        rows.append((loc, priority(page), changefreq(page)))
+        rows.append((loc, priority(page), changefreq(page), today))
     for a in INSIGHTS:
         if a["published"]:
-            rows.append((SITE_ORIGIN + "/insights/" + a["slug"], "0.6", "monthly"))
+            # Articles carry their real publish date, not the prerender date —
+            # a uniform, ever-changing lastmod teaches crawlers to distrust it.
+            rows.append((SITE_ORIGIN + "/insights/" + a["slug"], "0.6", "monthly", iso_date(a["date"]) or today))
 
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for loc, prio, freq in rows:
+    for loc, prio, freq, lastmod in rows:
         lines += ["  <url>",
                   "    <loc>%s</loc>" % loc,
-                  "    <lastmod>%s</lastmod>" % today,
+                  "    <lastmod>%s</lastmod>" % lastmod,
                   "    <changefreq>%s</changefreq>" % freq,
                   "    <priority>%s</priority>" % prio,
                   "  </url>"]
@@ -899,6 +905,15 @@ def main():
         canonical = SITE_ORIGIN + path
         robots = None if a["published"] else "noindex, follow"
         html = render(template, title, a["excerpt"], canonical, build_jsonld("insight", a["slug"]), robots=robots, body=seo_body("insight", a["slug"]))
+        # Articles get article OG semantics (og:type + published_time) for social/rich results.
+        html = html.replace('<meta property="og:type" content="website"/>', '<meta property="og:type" content="article"/>', 1)
+        iso = iso_date(a["date"])
+        if iso:
+            html = html.replace(
+                '<meta property="og:type" content="article"/>',
+                '<meta property="og:type" content="article"/>\n  <meta property="article:published_time" content="%s"/>' % iso,
+                1,
+            )
         written.append(write(path, html))
 
     # Home (the root index.html is the template): only refresh its #root crawlable

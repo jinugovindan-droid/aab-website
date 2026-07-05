@@ -24,9 +24,16 @@ const AA_MONEY = (n) => {
 const aaParseNum = (s) => { const n = parseFloat(String(s).replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; };
 const aaLoadJsPDF = () => new Promise((res, rej) => {
   if (window.jspdf && window.jspdf.jsPDF) return res();
+  // Self-hosted first (corporate networks often block CDNs); unpkg as fallback.
   const s = document.createElement('script');
-  s.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
-  s.onload = res; s.onerror = rej; document.head.appendChild(s);
+  s.src = 'assets/vendor/jspdf-2.5.1.umd.min.js';
+  s.onload = res;
+  s.onerror = () => {
+    const cdn = document.createElement('script');
+    cdn.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+    cdn.onload = res; cdn.onerror = rej; document.head.appendChild(cdn);
+  };
+  document.head.appendChild(s);
 });
 const aaLogoDataUrl = (src) => new Promise((res) => {
   const img = new Image(); img.crossOrigin = 'anonymous';
@@ -34,6 +41,31 @@ const aaLogoDataUrl = (src) => new Promise((res) => {
   img.onerror = () => res(null); img.src = src;
 });
 const aaReportDate = () => { try { return new Date().toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'long', year: 'numeric' }); } catch (e) { return new Date().toDateString(); } };
+
+// Submit a lead and REPORT THE TRUTH: resolves true only when the sheet
+// confirmed receipt (bounded at 6s so a slow Apps Script can't hang the UI).
+// Callers vary their done-state copy on this — never claim "we received your
+// details" for a submission that may have been lost.
+const aaSubmitLead = async (payload) => {
+  if (!(window.AAContactSheet && window.AAContactSheet.submitRaw)) return false;
+  try {
+    await Promise.race([
+      window.AAContactSheet.submitRaw(payload),
+      new Promise((resolve, reject) => setTimeout(() => reject(new Error('lead-timeout')), 6000)),
+    ]);
+    return true;
+  } catch (e) { return false; }
+};
+
+// "Today" anchored to the UAE, shared by the deadline cards so day-counts
+// agree for overseas visitors (previously CT used the visitor's local clock).
+const aaDubaiToday = () => {
+  try {
+    const iso = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' });
+    const [y, m, d] = iso.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  } catch (e) { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+};
 
 // cfg: { title, subtitle, forWho, stats:[{label,big,sub}], verdictTitle, verdictBody,
 //        inputs:[[k,v]], nextTitle, nextMoves:[str], ctaLines:[str], legal, fileName }
@@ -395,18 +427,22 @@ function VatDeadlineCard({ onNav }) {
 
 // ---- VAT registration / threshold checker (lead tool) ----------------------
 function VatChecker({ onNav }) {
+  const uid = React.useId();
   const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', t12: '', fwd: '', consent: false });
   const [err, setErr] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [done, setDone] = React.useState(false);
+  const [sentOk, setSentOk] = React.useState(true);
   const upd = (k) => (e) => { const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; setF((p) => ({ ...p, [k]: v })); };
   React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
   const MAND = 375000, VOL = 187500;
   const t12 = aaParseNum(f.t12);
   const fwd = aaParseNum(f.fwd);
-  const isMandatory = t12 >= MAND || fwd >= MAND;
-  const isVoluntary = !isMandatory && t12 >= VOL;
+  // FDL 8/2017: registration obligations attach when the threshold is EXCEEDED
+  // (strictly greater), matching the helper copy — not >=.
+  const isMandatory = t12 > MAND || fwd > MAND;
+  const isVoluntary = !isMandatory && t12 > VOL;
   const status = isMandatory ? 'Mandatory' : isVoluntary ? 'Voluntary' : 'Not yet required';
   const statusColor = isMandatory ? 'var(--aa-cyan)' : isVoluntary ? '#ffd27a' : 'rgba(255,255,255,0.85)';
   const showResult = f.t12.trim() !== '' || f.fwd.trim() !== '';
@@ -436,9 +472,8 @@ function VatChecker({ onNav }) {
         ['Registration status', status],
       ];
       const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Turnover 12m: ' + (t12 ? AA_MONEY(t12) : '—'), 'Forward 30d: ' + (fwd ? AA_MONEY(fwd) : '—'), 'Status: ' + status, 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
-      if (window.AAContactSheet && window.AAContactSheet.submitRaw) {
-        window.AAContactSheet.submitRaw({ type: 'VAT Registration Check', company: f.company, name: f.name, email: f.email, phone: f.phone, turnover12m: t12 ? AA_MONEY(t12) : '', forward30d: fwd ? AA_MONEY(fwd) : '', status, verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
-      }
+      const sent = await aaSubmitLead({ type: 'VAT Registration Check', company: f.company, name: f.name, email: f.email, phone: f.phone, turnover12m: t12 ? AA_MONEY(t12) : '', forward30d: fwd ? AA_MONEY(fwd) : '', status, verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
+      setSentOk(sent);
       if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'vat', event_label: status });
       await aaBuildBrandedPdf({
         title: 'Your UAE VAT Registration Check',
@@ -446,7 +481,7 @@ function VatChecker({ onNav }) {
         forWho: 'Prepared for ' + f.company + '  ·  ' + f.name,
         stats: [
           { label: 'Registration status', big: status, sub: isMandatory ? 'Apply within 30 days' : isVoluntary ? 'Optional' : 'Monitor turnover' },
-          { label: 'VAT return', big: 'Quarterly', sub: 'due 28 days after period-end' },
+          { label: 'VAT return', big: 'Usually quarterly', sub: 'due 28 days after period-end' },
         ],
         verdictTitle: v.t, verdictBody: v.b,
         inputs,
@@ -467,20 +502,20 @@ function VatChecker({ onNav }) {
     <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
       <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <div><label style={AA_TOOL_LABEL}>Company name *</label><input style={AA_TOOL_INPUT} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
-          <div><label style={AA_TOOL_LABEL}>Your name *</label><input style={AA_TOOL_INPUT} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
+          <div><label htmlFor={uid + '-company'} style={AA_TOOL_LABEL}>Company name *</label><input id={uid + '-company'} autoComplete="organization" style={AA_TOOL_INPUT} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
+          <div><label htmlFor={uid + '-name'} style={AA_TOOL_LABEL}>Your name *</label><input id={uid + '-name'} autoComplete="name" style={AA_TOOL_INPUT} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-          <div><label style={AA_TOOL_LABEL}>Work email *</label><input type="email" style={AA_TOOL_INPUT} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
-          <div><label style={AA_TOOL_LABEL}>Phone / WhatsApp *</label><input style={AA_TOOL_INPUT} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
+          <div><label htmlFor={uid + '-email'} style={AA_TOOL_LABEL}>Work email *</label><input id={uid + '-email'} type="email" autoComplete="email" style={AA_TOOL_INPUT} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
+          <div><label htmlFor={uid + '-phone'} style={AA_TOOL_LABEL}>Phone / WhatsApp *</label><input id={uid + '-phone'} type="tel" autoComplete="tel" style={AA_TOOL_INPUT} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
         </div>
         <div style={{ marginTop: 14 }}>
-          <label style={AA_TOOL_LABEL}>Taxable turnover — past 12 months (AED) *</label>
-          <input style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.t12} onChange={upd('t12')} placeholder="e.g. 420,000" />
+          <label htmlFor={uid + '-t12'} style={AA_TOOL_LABEL}>Taxable turnover — past 12 months (AED) *</label>
+          <input id={uid + '-t12'} style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.t12} onChange={upd('t12')} placeholder="e.g. 420,000" />
         </div>
         <div style={{ marginTop: 14 }}>
-          <label style={AA_TOOL_LABEL}>Expected taxable turnover — next 30 days (AED)</label>
-          <input style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.fwd} onChange={upd('fwd')} placeholder="optional" />
+          <label htmlFor={uid + '-fwd'} style={AA_TOOL_LABEL}>Expected taxable turnover — next 30 days (AED)</label>
+          <input id={uid + '-fwd'} style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.fwd} onChange={upd('fwd')} placeholder="optional" />
           <p style={{ fontSize: 12, color: 'var(--aa-steel)', marginTop: 8, lineHeight: 1.5 }}>Registration becomes mandatory once turnover exceeds AED 375,000, or when you expect it to within 30 days.</p>
         </div>
       </div>
@@ -489,7 +524,7 @@ function VatChecker({ onNav }) {
           <div>
             <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
             <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Result downloading</h3>
-            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your VAT registration check is downloading now. We&rsquo;ve received your details — the team will be in touch, or reach us on WhatsApp.</p>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>{sentOk ? 'Your VAT registration check is downloading now. We’ve received your details — the team will be in touch, or reach us on WhatsApp.' : 'Your VAT registration check is downloading now. We could not confirm your details reached us — please WhatsApp us on +971 56 548 4635 so we can follow up.'}</p>
             <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={() => goContact('VAT compliance', onNav)}>Book a VAT scoping <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
           </div>
         ) : (
@@ -511,7 +546,7 @@ function VatChecker({ onNav }) {
               {busy ? 'Generating…' : 'Check my VAT status (PDF)'}
               <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
             </button>
-            {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
+            {err ? <p role="alert" style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Indicative check · instant PDF · not tax advice.</p>
           </div>
         )}
@@ -571,9 +606,9 @@ function ServiceVATPage({ onNav }) {
                   ['Pricing',               'Customised to your scope'],
                   ['Engagement model',      'Retained or project'],
                 ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
-                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600 }}>{v}</dd>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
                 ))}
               </dl>
@@ -672,12 +707,11 @@ function ServiceVATPage({ onNav }) {
 // (calendar) financial year. Computed live from today's date; rolls to next year
 // automatically once the date passes, so it never goes stale.
 function CorpTaxDeadlineCard({ onNav }) {
-  const now = new Date();
+  const now = aaDubaiToday();                                        // UAE-anchored, matches the VAT card
   const y = now.getFullYear();
   const endOfDue = new Date(y, 8, 30, 23, 59, 59, 999);              // 30 Sep this year (month index 8)
   const target = now > endOfDue ? new Date(y + 1, 8, 30) : new Date(y, 8, 30);
-  const sod = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  const daysLeft = Math.round((sod(target) - sod(now)) / 86400000);
+  const daysLeft = Math.round((target - now) / 86400000);
   const fy = target.getFullYear() - 1;                              // FY ended 31 Dec of the prior year
   const dateLabel = '30 September ' + target.getFullYear();
   const big = daysLeft <= 0 ? 'Today' : daysLeft.toLocaleString();
@@ -709,10 +743,12 @@ function CorpTaxDeadlineCard({ onNav }) {
 
 // ---- Corporate Tax liability estimator (lead tool) --------------------------
 function CorpTaxEstimator({ onNav }) {
+  const uid = React.useId();
   const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', profit: '', revenue: '', freezone: false, yearEnd: '12', consent: false });
   const [err, setErr] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [done, setDone] = React.useState(false);
+  const [sentOk, setSentOk] = React.useState(true);
   const upd = (k) => (e) => { const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; setF((p) => ({ ...p, [k]: v })); };
   React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
@@ -721,9 +757,13 @@ function CorpTaxEstimator({ onNav }) {
   const revenue = aaParseNum(f.revenue);
   const THRESH = 375000;
   const sbrEligible = revenue > 0 && revenue <= 3000000;           // Small Business Relief: revenue ≤ AED 3M
+  // SBR is NOT available to Qualifying Free Zone Persons (MD 73/2023), so a
+  // free-zone company never gets the automatic AED 0 — the estimate stays at
+  // the mainland-equivalent figure the free-zone caption describes.
+  const sbrApplied = sbrEligible && !f.freezone;
   const taxable = Math.max(0, profit);                              // simplified: taxable income ≈ accounting profit
   const ctBeforeRelief = Math.max(0, taxable - THRESH) * 0.09;     // 0% on first 375k, 9% above
-  const ct = sbrEligible ? 0 : ctBeforeRelief;
+  const ct = sbrApplied ? 0 : ctBeforeRelief;
   const effRate = taxable > 0 ? (ct / taxable) * 100 : 0;
   const yeIdx = parseInt(f.yearEnd, 10) - 1;
   const filingDue = MONTHS[(yeIdx + 9) % 12] + ((yeIdx + 9) >= 12 ? ' (following year)' : '');
@@ -731,8 +771,8 @@ function CorpTaxEstimator({ onNav }) {
   const showResult = f.profit.trim() !== '';
 
   const verdict = () => {
-    if (f.freezone) return { t: 'Free zone — a QFZP analysis is essential', b: 'As a free zone person you may qualify for the 0% rate on qualifying income — but only if you meet the substance, de minimis and qualifying-activity tests. Non-qualifying income is taxed at 9%. The figure below assumes taxable (mainland-equivalent) income; your actual position depends on a Qualifying Free Zone Person assessment, which we can run for you.' };
-    if (sbrEligible) return { t: 'Likely AED 0 — Small Business Relief', b: 'Your revenue is at or below AED 3,000,000, so you can elect Small Business Relief and be treated as having no taxable income for the period (available for tax periods ending on or before 31 December 2026). You still must register and file — the relief is claimed on the return.' };
+    if (f.freezone) return { t: 'Free zone — a QFZP analysis is essential', b: 'As a free zone person you may qualify for the 0% rate on qualifying income — but only if you meet the substance, de minimis and qualifying-activity tests. Non-qualifying income is taxed at 9%, and Small Business Relief is not available to Qualifying Free Zone Persons. The figure shown assumes taxable (mainland-equivalent) income; your actual position depends on a QFZP assessment, which we can run for you.' };
+    if (sbrApplied) return { t: 'Likely AED 0 — Small Business Relief', b: 'Your revenue is at or below AED 3,000,000, so you may be able to elect Small Business Relief and be treated as having no taxable income for the period. Conditions apply: revenue must be AED 3M or below in this and all previous tax periods (from June 2023), the relief ends for periods ending after 31 December 2026, and it is not available to Qualifying Free Zone Persons or members of large multinational groups. You still must register and file — the relief is claimed on the return.' };
     if (ct === 0) return { t: 'Within the 0% band', b: 'Your taxable income is at or below the AED 375,000 threshold, so the estimated Corporate Tax is nil at the 0% band. You must still register with the FTA and file a return for the period.' };
     return { t: 'Estimated liability: ' + AA_MONEY(ct), b: 'Based on an accounting profit of ' + AA_MONEY(profit) + ', the first AED 375,000 is taxed at 0% and the balance at 9% — an effective rate of about ' + effRate.toFixed(1) + '%. This is an indicative estimate: your actual taxable income reflects add-backs, exempt income, reliefs and interest-limitation rules.' };
   };
@@ -753,12 +793,11 @@ function CorpTaxEstimator({ onNav }) {
         ['Annual revenue', revenue ? AA_MONEY(revenue) : '—'],
         ['Free zone person', f.freezone ? 'Yes' : 'No'],
         ['Financial year-end', MONTHS[yeIdx]],
-        ['Small Business Relief', sbrEligible ? 'Likely eligible (revenue ≤ AED 3M)' : 'Not eligible on revenue'],
+        ['Small Business Relief', sbrApplied ? 'Likely eligible — verify prior-period revenue too' : (f.freezone && sbrEligible ? 'Not applied — QFZPs are excluded' : 'Not eligible on revenue')],
       ];
       const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Profit: ' + AA_MONEY(profit), 'Revenue: ' + (revenue ? AA_MONEY(revenue) : '—'), 'Free zone: ' + (f.freezone ? 'Yes' : 'No'), 'Year-end: ' + MONTHS[yeIdx], 'Estimated CT: ' + AA_MONEY(ct), 'Effective rate: ' + effRate.toFixed(1) + '%', 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
-      if (window.AAContactSheet && window.AAContactSheet.submitRaw) {
-        window.AAContactSheet.submitRaw({ type: 'Corporate Tax Estimate', company: f.company, name: f.name, email: f.email, phone: f.phone, profit: AA_MONEY(profit), revenue: revenue ? AA_MONEY(revenue) : '', freezone: f.freezone ? 'Yes' : 'No', yearEnd: MONTHS[yeIdx], estimatedCT: AA_MONEY(ct), effectiveRate: effRate.toFixed(1) + '%', verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
-      }
+      const sent = await aaSubmitLead({ type: 'Corporate Tax Estimate', company: f.company, name: f.name, email: f.email, phone: f.phone, profit: AA_MONEY(profit), revenue: revenue ? AA_MONEY(revenue) : '', freezone: f.freezone ? 'Yes' : 'No', yearEnd: MONTHS[yeIdx], estimatedCT: AA_MONEY(ct), effectiveRate: effRate.toFixed(1) + '%', verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
+      setSentOk(sent);
       if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'corporate-tax', event_label: v.t });
       await aaBuildBrandedPdf({
         title: 'Your UAE Corporate Tax Estimate',
@@ -772,7 +811,7 @@ function CorpTaxEstimator({ onNav }) {
         inputs,
         nextMoves: [
           'Register for Corporate Tax on EmaraTax and confirm your first tax period (late registration carries an AED 10,000 penalty).',
-          sbrEligible ? 'Elect Small Business Relief on your return while revenue stays at or below AED 3M (available for periods ending on or before 31 Dec 2026).' : 'Prepare a taxable-income computation — add-backs, exempt income, reliefs and interest limitation — from your financial statements.',
+          sbrApplied ? 'Check Small Business Relief eligibility — revenue must be AED 3M or below in this and all previous tax periods, and the relief ends for periods ending after 31 Dec 2026 — then elect it on your return.' : 'Prepare a taxable-income computation — add-backs, exempt income, reliefs and interest limitation — from your financial statements.',
           f.freezone ? 'Commission a Qualifying Free Zone Person (QFZP) assessment before relying on the 0% rate.' : 'File your return on EmaraTax within nine months of your year-end and keep audit-ready workpapers.',
         ],
         legal: 'Indicative estimate only — not tax advice. Taxable income is simplified here as accounting profit; your actual position reflects add-backs, exempt income, reliefs, transfer pricing and interest-limitation rules under Federal Decree-Law No. 47 of 2022 and related decisions. Confirm against the latest UAE Ministry of Finance / Federal Tax Authority sources.',
@@ -787,20 +826,20 @@ function CorpTaxEstimator({ onNav }) {
     <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
       <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <div><label style={AA_TOOL_LABEL}>Company name *</label><input style={AA_TOOL_INPUT} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
-          <div><label style={AA_TOOL_LABEL}>Your name *</label><input style={AA_TOOL_INPUT} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
+          <div><label htmlFor={uid + '-company'} style={AA_TOOL_LABEL}>Company name *</label><input id={uid + '-company'} autoComplete="organization" style={AA_TOOL_INPUT} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
+          <div><label htmlFor={uid + '-name'} style={AA_TOOL_LABEL}>Your name *</label><input id={uid + '-name'} autoComplete="name" style={AA_TOOL_INPUT} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-          <div><label style={AA_TOOL_LABEL}>Work email *</label><input type="email" style={AA_TOOL_INPUT} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
-          <div><label style={AA_TOOL_LABEL}>Phone / WhatsApp *</label><input style={AA_TOOL_INPUT} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
+          <div><label htmlFor={uid + '-email'} style={AA_TOOL_LABEL}>Work email *</label><input id={uid + '-email'} type="email" autoComplete="email" style={AA_TOOL_INPUT} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
+          <div><label htmlFor={uid + '-phone'} style={AA_TOOL_LABEL}>Phone / WhatsApp *</label><input id={uid + '-phone'} type="tel" autoComplete="tel" style={AA_TOOL_INPUT} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-          <div><label style={AA_TOOL_LABEL}>Accounting net profit (AED) *</label><input style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.profit} onChange={upd('profit')} placeholder="e.g. 900,000" /></div>
-          <div><label style={AA_TOOL_LABEL}>Annual revenue (AED)</label><input style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.revenue} onChange={upd('revenue')} placeholder="e.g. 2,500,000" /></div>
+          <div><label htmlFor={uid + '-profit'} style={AA_TOOL_LABEL}>Accounting net profit (AED) *</label><input id={uid + '-profit'} style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.profit} onChange={upd('profit')} placeholder="e.g. 900,000" /></div>
+          <div><label htmlFor={uid + '-revenue'} style={AA_TOOL_LABEL}>Annual revenue (AED)</label><input id={uid + '-revenue'} style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.revenue} onChange={upd('revenue')} placeholder="e.g. 2,500,000" /></div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14, alignItems: 'end' }}>
-          <div><label style={AA_TOOL_LABEL}>Financial year-end</label>
-            <select style={AA_TOOL_INPUT} value={f.yearEnd} onChange={upd('yearEnd')}>
+          <div><label htmlFor={uid + '-yearend'} style={AA_TOOL_LABEL}>Financial year-end</label>
+            <select id={uid + '-yearend'} style={AA_TOOL_INPUT} value={f.yearEnd} onChange={upd('yearEnd')}>
               {MONTHS.map((m, i) => <option key={m} value={String(i + 1)}>{m}</option>)}
             </select></div>
           <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer', paddingBottom: 10 }}>
@@ -813,7 +852,7 @@ function CorpTaxEstimator({ onNav }) {
           <div>
             <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
             <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Estimate downloading</h3>
-            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your Corporate Tax estimate is downloading now. We&rsquo;ve received your details — the team will be in touch, or reach us on WhatsApp.</p>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>{sentOk ? 'Your Corporate Tax estimate is downloading now. We’ve received your details — the team will be in touch, or reach us on WhatsApp.' : 'Your Corporate Tax estimate is downloading now. We could not confirm your details reached us — please WhatsApp us on +971 56 548 4635 so we can follow up.'}</p>
             <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={() => goContact('UAE Corporate Tax', onNav)}>Book a scoping call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
           </div>
         ) : (
@@ -836,7 +875,7 @@ function CorpTaxEstimator({ onNav }) {
               {busy ? 'Generating…' : 'Get my estimate (PDF)'}
               <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
             </button>
-            {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
+            {err ? <p role="alert" style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Indicative estimate · instant PDF · not tax advice.</p>
           </div>
         )}
@@ -2082,6 +2121,7 @@ function ServiceSimplePage({ page, onNav }) {
 
 function FAQList({ items, asOf }) {
   const [open, setOpen] = useStateSvc(0);
+  const uid = React.useId();
   return (
     <div>
     {asOf &&
@@ -2094,6 +2134,8 @@ function FAQList({ items, asOf }) {
         <div key={i} style={{ borderBottom: '1px solid var(--aa-rule)' }}>
           <button
             onClick={() => setOpen(open === i ? -1 : i)}
+            aria-expanded={open === i}
+            aria-controls={uid + '-faq-' + i}
             style={{
               width: '100%', textAlign: 'left',
               padding: '24px 0', background: 'transparent', border: 0, cursor: 'pointer',
@@ -2102,10 +2144,10 @@ function FAQList({ items, asOf }) {
             }}
           >
             <span style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{it.q}</span>
-            <i data-lucide={open === i ? 'minus' : 'plus'} style={{ width: 18, height: 18, color: 'var(--aa-cyan)', flexShrink: 0 }}></i>
+            <i data-lucide={open === i ? 'minus' : 'plus'} style={{ width: 18, height: 18, color: 'var(--aa-cyan)', flexShrink: 0 }} aria-hidden="true"></i>
           </button>
           {open === i && (
-            <div style={{ paddingBottom: 24, fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 720 }}>
+            <div id={uid + '-faq-' + i} style={{ paddingBottom: 24, fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 720 }}>
               {it.a}
             </div>
           )}

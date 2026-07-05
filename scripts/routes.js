@@ -244,11 +244,11 @@
     },
     'service-vat': {
       title: 'VAT Compliance UAE — Registration, Filing & FTA Support | Authentic Accounting',
-      description: 'End-to-end UAE VAT compliance: registration, return filing, FTA correspondence, voluntary disclosures and audit support for SMEs and enterprises.',
+      description: 'End-to-end UAE VAT compliance: registration, return filing, FTA correspondence, voluntary disclosures and audit support — with a free VAT registration checker and live filing-deadline countdown.',
     },
     'service-corporate-tax': {
       title: 'UAE Corporate Tax — Registration, Filing & 9% Compliance | Authentic Accounting',
-      description: 'End-to-end UAE Corporate Tax compliance under Federal Decree-Law 47 of 2022: registration, taxable-income computation, free-zone (QFZP) analysis, Small Business Relief and FTA return filing for SMEs, free zones and groups.',
+      description: 'End-to-end UAE Corporate Tax compliance under Federal Decree-Law 47 of 2022: registration, computation, QFZP analysis, Small Business Relief and FTA filing — with a free Corporate Tax calculator (estimator) and return-deadline countdown.',
     },
     'service-bookkeeping': {
       title: 'Outsourced Bookkeeping & Accounting Services Dubai, UAE | Authentic Accounting',
@@ -461,7 +461,7 @@
     { q: 'Does a free zone company have to comply?',
       a: 'Yes. The mandate applies to B2B and B2G transactions across the UAE, including free zone companies, based on the same revenue thresholds.' },
     { q: 'What is the legal basis for UAE e-invoicing?',
-      a: 'Ministerial Decisions 243 and 244 of 2025, issued by the UAE Ministry of Finance, set the scope, obligations, ASP accreditation and the phased timeline — with the timeline subsequently amended by Ministerial Decision 66 of 2026.' },
+      a: 'Ministerial Decision 243 of 2025 establishes the system and MD 244 of 2025 sets the phased timeline (as amended by MD 66 of 2026); ASP accreditation is governed by MD 64 of 2025, as amended by MD 56 of 2026 — all issued by the UAE Ministry of Finance.' },
     { q: 'How do I get my business ready?',
       a: 'Assess your transaction scope, appoint an Accredited Service Provider, map your ERP / accounting-system fields to the required e-invoice format, and run end-to-end testing before your go-live date.' },
   ];
@@ -475,7 +475,7 @@
     { q: 'Do I still need to register if my income is below AED 375,000?',
       a: 'Yes. The AED 375,000 threshold is a 0% rate band, not an exemption. Every taxable person must register for Corporate Tax, obtain a Tax Registration Number and file an annual return — even when the tax due is zero.' },
     { q: 'What is Small Business Relief?',
-      a: 'Businesses with total revenue of AED 3 million or less in a tax period can elect Small Business Relief and be treated as having no taxable income. It is a transitional measure available for tax periods ending on or before 31 December 2026, and it must be actively elected with the FTA.' },
+      a: 'Businesses with revenue of AED 3 million or less in the relevant tax period AND all previous tax periods can elect Small Business Relief and be treated as having no taxable income. It is a transitional measure for tax periods ending on or before 31 December 2026, is not available to Qualifying Free Zone Persons or members of large multinational groups, and must be actively elected with the FTA.' },
     { q: 'Do free zone companies pay Corporate Tax?',
       a: 'A Qualifying Free Zone Person (QFZP) can benefit from a 0% rate on its qualifying income if it meets all conditions (adequate substance, qualifying activities and the de minimis limits) under Cabinet Decision 100 of 2023 and Ministerial Decision 229 of 2025. Non-qualifying income is taxed at 9%, and free zone businesses must still register and file.' },
     { q: 'When is my Corporate Tax return due?',
@@ -609,7 +609,7 @@
   // VAT service page. Keep in sync with prerender.py.
   const VAT_FAQ = [
     { q: 'When does my business need to register for VAT?',
-      a: 'You must register if your taxable turnover crossed AED 375,000 in the past 12 months, or you reasonably expect it to in the next 30 days. Voluntary registration is available once you reach AED 187,500.' },
+      a: 'You must register if your taxable turnover crossed AED 375,000 in the past 12 months, or you reasonably expect it to in the next 30 days. Voluntary registration is available once taxable turnover or expenses exceed AED 187,500.' },
     { q: 'How often do I file VAT returns?',
       a: 'Most businesses file quarterly; some are assigned monthly periods by the FTA. Returns are filed and any VAT paid through the FTA’s EmaraTax portal within 28 days of the end of each period.' },
     { q: 'Can you handle a backlog of unfiled returns?',

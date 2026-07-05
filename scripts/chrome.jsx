@@ -36,6 +36,55 @@ const DESKTOP_NAV = [
   { id: 'contact', label: 'Contact' },
 ];
 
+// Nav dropdown ("Tax"). Hover-open stays a CSS enhancement for mouse users;
+// click/tap and keyboard TOGGLE the menu (state + aria-expanded) so touch
+// devices above the burger breakpoint can actually reach every child —
+// previously a tap navigated straight to the first child and the menu itself
+// was unreachable without hover. Escape and outside-click close it.
+function NavDropdown({ item, active, go }) {
+  const [open, setDdOpen] = useState(false);
+  const rootRef = useRef(null);
+  const btnRef = useRef(null);
+  const menuId = 'aa-navmenu-' + item.id;
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') { setDdOpen(false); if (btnRef.current) btnRef.current.focus(); }
+    };
+    const onPointer = (e) => { if (rootRef.current && !rootRef.current.contains(e.target)) setDdOpen(false); };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onPointer);
+    return () => { document.removeEventListener('keydown', onKey); document.removeEventListener('pointerdown', onPointer); };
+  }, [open]);
+
+  return (
+    <div ref={rootRef} className={`topnav__item${open ? ' is-open' : ''}`}>
+      <button
+        ref={btnRef}
+        className={`topnav__link topnav__link--menu${item.children.some((c) => c.id === active) ? ' is-active' : ''}`}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls={menuId}
+        onClick={() => setDdOpen((v) => !v)}>
+        {item.label}
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div className="topnav__dropdown" id={menuId}>
+        {item.children.map((c) => (
+          <a
+            key={c.id}
+            href={pathForPage(c.id)}
+            className={`topnav__dropdown-link${active === c.id ? ' is-active' : ''}`}
+            onClick={(e) => { e.preventDefault(); setDdOpen(false); go(c.id); }}>
+            {c.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function TopNav({ active, onNav, sticky = true }) {
   const [open, setOpen] = useState(false);
 
@@ -63,26 +112,7 @@ function TopNav({ active, onNav, sticky = true }) {
           </a>
           <nav className="topnav__list" aria-label="Primary">
             {DESKTOP_NAV.map((it) => it.children ? (
-              <div key={it.id} className="topnav__item">
-                <button
-                  className={`topnav__link topnav__link--menu${it.children.some((c) => c.id === active) ? ' is-active' : ''}`}
-                  aria-haspopup="true"
-                  onClick={() => go(it.children[0].id)}>
-                  {it.label}
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div className="topnav__dropdown">
-                  {it.children.map((c) => (
-                    <a
-                      key={c.id}
-                      href={pathForPage(c.id)}
-                      className={`topnav__dropdown-link${active === c.id ? ' is-active' : ''}`}
-                      onClick={(e) => { e.preventDefault(); go(c.id); }}>
-                      {c.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
+              <NavDropdown key={it.id} item={it} active={active} go={go} />
             ) : (
               <a
                 key={it.id}
@@ -284,7 +314,7 @@ function Footer({ onNav }) {
               loading="lazy"
               style={{ height: 56 }} />
 
-            <div style={{ marginTop: 18, fontFamily: 'var(--aa-font-display)', fontSize: 18, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--aa-cyan)' }}>
+            <div style={{ marginTop: 18, fontFamily: 'var(--aa-font-display)', fontSize: 18, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--aa-cyan-700)' }}>
               Responsibly Your Accountant.
             </div>
             <div style={{ marginTop: 18, fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.7 }}>
@@ -417,7 +447,7 @@ function CookieConsent({ onNav }) {
       aria-live="polite"
       aria-label="Cookie consent"
       style={{
-        position: 'fixed', left: 16, bottom: 16, zIndex: 60,
+        position: 'fixed', left: 16, bottom: 16, zIndex: 80, /* above the WhatsApp FAB (70) so its text is never occluded on narrow phones */
         maxWidth: 460, width: 'calc(100% - 32px)',
         background: 'var(--aa-charcoal)', color: '#fff',
         border: '1px solid rgba(255,255,255,0.12)',
@@ -466,7 +496,12 @@ function EInvoiceMarquee({ onNav }) {
   const [dl, setDl] = useState(null); // nearest upcoming go-live: { n, who, date }
 
   useEffect(() => {
-    try { if (sessionStorage.getItem('aa-einv-marquee') === 'closed') return; } catch (e) {}
+    try {
+      if (sessionStorage.getItem('aa-einv-marquee') === 'closed') {
+        document.documentElement.classList.remove('aa-has-marquee'); // pre-paint reservation no longer needed
+        return;
+      }
+    } catch (e) {}
     const now = new Date();
     const dleft = (iso) => Math.ceil((new Date(iso) - now) / 86400000);
     const r = TIERS.map((t) => ({ who: t.who, asp: t.asp, aspDays: dleft(t.aspISO), live: t.live, liveDays: dleft(t.goISO) }));
@@ -491,6 +526,7 @@ function EInvoiceMarquee({ onNav }) {
     e.stopPropagation();
     try { sessionStorage.setItem('aa-einv-marquee', 'closed'); } catch (e2) {}
     document.body.classList.remove('has-marquee');
+    document.documentElement.classList.remove('aa-has-marquee');
     setVisible(false);
   };
   const onKey = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } };
@@ -538,7 +574,7 @@ const SEARCH_PAGES = [
   ['services', 'Services', 'all services overview'],
   ['service-corporate-tax', 'Corporate Tax', '9% corporate tax registration filing estimator emaratax small business relief qfzp free zone'],
   ['service-vat', 'VAT Compliance', 'vat registration return filing fta threshold checker 375000 187500 deadline'],
-  ['e-invoicing', 'E-Invoicing', 'peppol pint ae asp accredited service provider readiness mandate phase 1 2027'],
+  ['e-invoicing', 'E-Invoicing', 'einvoicing e invoicing e-invoice einvoice invoice invoices electronic peppol pint ae asp accredited service provider readiness mandate phase 1 2027'],
   ['service-bookkeeping', 'Bookkeeping', 'outsourced accounting monthly close reconciliation'],
   ['service-financial-statements', 'Financial Statements', 'ifrs annual accounts'],
   ['service-audit-support', 'Audit Support', 'external audit ready workpapers'],
@@ -546,6 +582,12 @@ const SEARCH_PAGES = [
   ['service-transaction-advisory', 'Transaction Advisory', 'm&a mergers acquisitions due diligence deals'],
   ['service-cfo', 'CFO Services', 'virtual outsourced cfo'],
   ['service-tax-planning', 'Tax Planning', 'structuring advisory'],
+  ['service-forensic-accounting', 'Forensic Accounting', 'fraud investigation disputes quantification'],
+  ['service-internal-controls', 'Internal Controls', 'sops control framework segregation of duties'],
+  ['service-financial-modelling', 'Financial Modelling', 'forecasts budgets three-statement model'],
+  ['service-feasibility-studies', 'Feasibility Studies', 'project viability market study business case'],
+  ['service-fixed-asset-tagging', 'Fixed Asset Tagging', 'far register verification barcode'],
+  ['service-strategic-advisory', 'Strategic Advisory', 'growth strategy board advisory'],
   ['industries', 'Industries', 'sectors we serve'],
   ['industry-real-estate', 'Real Estate', 'property developers rera jointly owned'],
   ['industry-construction', 'Construction', 'contracting'],
@@ -572,12 +614,18 @@ function SiteSearchModal({ onNav }) {
 
   useEffect(() => {
     if (!open) return;
+    const opener = document.activeElement; // restore focus here on close (a11y)
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
     document.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
     const t = setTimeout(() => { if (inputRef.current) inputRef.current.focus(); }, 30);
     if (window.lucide) window.lucide.createIcons();
-    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev; clearTimeout(t); };
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+      clearTimeout(t);
+      if (opener && opener.focus) { try { opener.focus(); } catch (e) {} }
+    };
   }, [open]);
 
   const results = React.useMemo(() => {

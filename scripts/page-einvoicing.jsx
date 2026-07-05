@@ -3,7 +3,13 @@
 const { pathForPage, pathForInsight } = window.AARoutes;
 
 function EInvoicingPage({ onNav, formOnly, onClose }) {
-  const daysTo = (iso) => Math.ceil((new Date(iso + 'T00:00:00') - new Date()) / 86400000);
+  // "Today" anchored to the UAE so day-counts match the other deadline cards
+  // for overseas visitors.
+  const dubaiToday = () => {
+    try { const [y, m, d] = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' }).split('-').map(Number); return new Date(y, m - 1, d); }
+    catch (e) { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+  };
+  const daysTo = (iso) => Math.ceil((new Date(iso + 'T00:00:00') - dubaiToday()) / 86400000);
   const dlabel = (iso) => { const n = daysTo(iso); return n > 0 ? n.toLocaleString() + ' days left' : 'now due'; };
 
   // Inside the readiness modal, refresh Lucide icons as the form state changes
@@ -22,10 +28,12 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
 
   // ----- Readiness assessment -----
   const FAQ = (window.AARoutes && window.AARoutes.EINVOICE_FAQ) || [];
+  const uid = React.useId();
   const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', revenue: '', isGov: false, b2b: '', team: '', impl: '', asp: '', erp: '', consent: false });
   const [err, setErr] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [done, setDone] = React.useState(false);
+  const [sentOk, setSentOk] = React.useState(true);
   const upd = (k) => (e) => { const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; setF((p) => ({ ...p, [k]: v })); };
   const inS = { width: '100%', padding: '10px 12px', fontSize: 15, border: '1px solid var(--aa-rule-strong)', boxSizing: 'border-box', background: '#fff', fontFamily: 'var(--aa-font-sans)' };
   const laS = { display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 6 };
@@ -46,9 +54,16 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
 
   const loadJsPDF = () => new Promise((res, rej) => {
     if (window.jspdf && window.jspdf.jsPDF) return res();
+    // Self-hosted first (corporate networks often block CDNs); unpkg as fallback.
     const s = document.createElement('script');
-    s.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
-    s.onload = res; s.onerror = rej; document.head.appendChild(s);
+    s.src = 'assets/vendor/jspdf-2.5.1.umd.min.js';
+    s.onload = res;
+    s.onerror = () => {
+      const cdn = document.createElement('script');
+      cdn.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+      cdn.onload = res; cdn.onerror = rej; document.head.appendChild(cdn);
+    };
+    document.head.appendChild(s);
   });
   const logoDataUrl = (src) => new Promise((res) => {
     const img = new Image(); img.crossOrigin = 'anonymous';
@@ -204,9 +219,19 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
       let downloadDate = '';
       try { downloadDate = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' (GST)'; } catch (e) { downloadDate = new Date().toISOString(); }
       const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Revenue: ' + (f.isGov ? 'Government entity' : f.revenue), 'Tier: ' + TIER.who, 'B2B/B2G scope: ' + (b2bLbl[f.b2b] || '—'), 'In-house team: ' + (lbl[f.team] || '—'), 'Can implement in-house: ' + (lbl[f.impl] || '—'), 'ASP status: ' + (lbl[f.asp] || '—'), 'ERP: ' + (f.erp || '—'), 'Downloaded: ' + downloadDate].join('\n');
+      // Awaited + bounded (6s): the done-state copy must tell the truth about
+      // whether the details actually reached us.
+      let sent = false;
       if (window.AAContactSheet && window.AAContactSheet.submitRaw) {
-        window.AAContactSheet.submitRaw({ type: 'E-Invoicing Readiness Assessment', company: f.company, name: f.name, email: f.email, phone: f.phone, revenue: f.isGov ? 'Government' : f.revenue, tier: TIER.who, b2bScope: b2bLbl[f.b2b] || '', inHouseTeam: lbl[f.team] || '', canImplement: lbl[f.impl] || '', aspStatus: lbl[f.asp] || '', erp: f.erp, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
+        try {
+          await Promise.race([
+            window.AAContactSheet.submitRaw({ type: 'E-Invoicing Readiness Assessment', company: f.company, name: f.name, email: f.email, phone: f.phone, revenue: f.isGov ? 'Government' : f.revenue, tier: TIER.who, b2bScope: b2bLbl[f.b2b] || '', inHouseTeam: lbl[f.team] || '', canImplement: lbl[f.impl] || '', aspStatus: lbl[f.asp] || '', erp: f.erp, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() }),
+            new Promise((resolve, reject) => setTimeout(() => reject(new Error('lead-timeout')), 6000)),
+          ]);
+          sent = true;
+        } catch (e) { sent = false; }
       }
+      setSentOk(sent);
       if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'e-invoicing', event_label: TIER.who });
     } catch (e) {}
     try { await generatePdf(); } catch (e) { setErr('Sorry — the report could not be generated. Please try again or contact us.'); setBusy(false); return; }
@@ -239,7 +264,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
 
   const concepts = [
     ['OpenPeppol standard', 'Invoices are exchanged as structured data on the international OpenPeppol framework — not as PDFs or scans.', 'network'],
-    ['5-corner model', 'Every invoice routes through accredited service providers and the Federal Tax Authority before it reaches your counterparty.', 'route'],
+    ['5-corner model', 'Invoices are exchanged between the two parties’ accredited service providers over Peppol, with tax data reported to the FTA in near-real time.', 'route'],
     ['B2B and B2G scope', 'Mandatory for business-to-business and business-to-government transactions. Business-to-consumer (B2C) is currently optional / out of scope.', 'building-2'],
     ['Accredited Service Provider', 'Each entity must appoint an ASP to transmit compliant invoices. PDF and paper invoices will no longer be valid.', 'badge-check'],
   ];
@@ -257,23 +282,23 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
       <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <div><label style={laS}>Company name *</label><input style={inS} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
-          <div><label style={laS}>Your name *</label><input style={inS} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
+          <div><label htmlFor={uid + '-company'} style={laS}>Company name *</label><input id={uid + '-company'} autoComplete="organization" style={inS} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
+          <div><label htmlFor={uid + '-name'} style={laS}>Your name *</label><input id={uid + '-name'} autoComplete="name" style={inS} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-          <div><label style={laS}>Work email *</label><input type="email" style={inS} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
-          <div><label style={laS}>Phone / WhatsApp *</label><input style={inS} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
+          <div><label htmlFor={uid + '-email'} style={laS}>Work email *</label><input id={uid + '-email'} type="email" autoComplete="email" style={inS} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
+          <div><label htmlFor={uid + '-phone'} style={laS}>Phone / WhatsApp *</label><input id={uid + '-phone'} type="tel" autoComplete="tel" style={inS} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
         </div>
         <div style={{ marginTop: 14 }}>
-          <label style={laS}>Approximate annual revenue (AED) *</label>
-          <input style={{ ...inS, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.revenue} onChange={upd('revenue')} placeholder="e.g. 75,000,000" disabled={f.isGov} />
+          <label htmlFor={uid + '-revenue'} style={laS}>Approximate annual revenue (AED) *</label>
+          <input id={uid + '-revenue'} style={{ ...inS, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.revenue} onChange={upd('revenue')} placeholder="e.g. 75,000,000" disabled={f.isGov} />
           <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer' }}>
             <input type="checkbox" checked={f.isGov} onChange={upd('isGov')} style={{ width: 16, height: 16 }} /> We are a government entity
           </label>
         </div>
         <div style={{ marginTop: 14 }}>
-          <label style={laS}>Do you issue B2B or B2G (business / government) invoices? *</label>
-          <select style={inS} value={f.b2b} onChange={upd('b2b')}>
+          <label htmlFor={uid + '-b2b'} style={laS}>Do you issue B2B or B2G (business / government) invoices? *</label>
+          <select id={uid + '-b2b'} style={inS} value={f.b2b} onChange={upd('b2b')}>
             <option value="">Select…</option>
             <option value="b2bg">Yes — B2B and/or B2G</option>
             <option value="mix">A mix of business and consumers</option>
@@ -281,16 +306,16 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
           </select>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-          <div><label style={laS}>In-house accounting team?</label>
-            <select style={inS} value={f.team} onChange={upd('team')}><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select></div>
-          <div><label style={laS}>Can your team implement it in-house?</label>
-            <select style={inS} value={f.impl} onChange={upd('impl')}><option value="">Select…</option><option value="yes">Yes</option><option value="unsure">Not sure</option><option value="no">No — we’d want help</option></select></div>
+          <div><label htmlFor={uid + '-team'} style={laS}>In-house accounting team?</label>
+            <select id={uid + '-team'} style={inS} value={f.team} onChange={upd('team')}><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+          <div><label htmlFor={uid + '-impl'} style={laS}>Can your team implement it in-house?</label>
+            <select id={uid + '-impl'} style={inS} value={f.impl} onChange={upd('impl')}><option value="">Select…</option><option value="yes">Yes</option><option value="unsure">Not sure</option><option value="no">No — we’d want help</option></select></div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-          <div><label style={laS}>ASP identified / appointed?</label>
-            <select style={inS} value={f.asp} onChange={upd('asp')}><option value="">Select…</option><option value="appointed">Appointed</option><option value="evaluating">Evaluating</option><option value="no">Not yet</option></select></div>
-          <div><label style={laS}>ERP / accounting software</label>
-            <input style={inS} value={f.erp} onChange={upd('erp')} placeholder="e.g. Tally, Zoho, SAP" /></div>
+          <div><label htmlFor={uid + '-asp'} style={laS}>ASP identified / appointed?</label>
+            <select id={uid + '-asp'} style={inS} value={f.asp} onChange={upd('asp')}><option value="">Select…</option><option value="appointed">Appointed</option><option value="evaluating">Evaluating</option><option value="no">Not yet</option></select></div>
+          <div><label htmlFor={uid + '-erp'} style={laS}>ERP / accounting software</label>
+            <input id={uid + '-erp'} style={inS} value={f.erp} onChange={upd('erp')} placeholder="e.g. Tally, Zoho, SAP" /></div>
         </div>
       </div>
       <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
@@ -298,7 +323,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
           <div>
             <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
             <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Readiness status downloading</h3>
-            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>Your personalised readiness status is downloading now. We’ve received your details and the team will be in touch — or reach us directly on WhatsApp.</p>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>{sentOk ? 'Your personalised readiness status is downloading now. We’ve received your details and the team will be in touch — or reach us directly on WhatsApp.' : 'Your personalised readiness status is downloading now. We could not confirm your details reached us — please WhatsApp us on +971 56 548 4635 so we can follow up.'}</p>
             <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={bookReadiness}>Book a readiness call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
           </div>
         ) : (
@@ -320,8 +345,8 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
               {busy ? 'Generating…' : 'Get my readiness status'}
               <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
             </button>
-            {err ? <p style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Instant PDF download.</p>
+            {err ? <p role="alert" style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, marginTop: 14, lineHeight: 1.5 }}>Instant PDF download · indicative guidance, not tax advice.</p>
           </div>
         )}
       </div>
@@ -345,7 +370,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
 
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: 16 }}>Client briefing · UAE Ministry of Finance</div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>Client briefing · UAE Ministry of Finance e-invoicing mandate</div>
               <h1 style={{
                 fontFamily: 'var(--aa-font-display)', fontWeight: 700,
                 fontSize: 'clamp(40px, 5.6vw, 68px)',
@@ -353,17 +378,17 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.02, textWrap: 'balance',
               }}>
                 UAE E-Invoicing is coming.<br />
-                <span style={{ color: 'var(--aa-cyan)' }}>We have you covered.</span>
+                <span style={{ color: 'var(--aa-cyan-700)' }}>We have you covered.</span>
               </h1>
               <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-charcoal-800)', lineHeight: 1.6, maxWidth: 640 }}>
                 The <strong style={{ color: 'var(--aa-charcoal)' }}>UAE Ministry of Finance</strong> is rolling out a
-                mandatory structured e-invoicing system for all <strong style={{ color: 'var(--aa-charcoal)' }}>B2B</strong> and{' '}
-                <strong style={{ color: 'var(--aa-charcoal)' }}>B2G</strong> transactions, built on the international{' '}
+                mandatory structured e-invoicing system for <strong style={{ color: 'var(--aa-charcoal)' }}>B2B</strong> and{' '}
+                <strong style={{ color: 'var(--aa-charcoal)' }}>B2G</strong> transactions (limited exclusions apply), built on the international{' '}
                 <strong style={{ color: 'var(--aa-charcoal)' }}>OpenPeppol</strong> standard and a{' '}
-                <strong style={{ color: 'var(--aa-charcoal)' }}>5-corner</strong> exchange model that routes every invoice
-                through accredited service providers and the Federal Tax Authority, under Ministerial Decisions 243 and 244
-                of 2025. Authentic Accounting guides each client through readiness and compliance — well ahead of the
-                phased deadlines below.
+                <strong style={{ color: 'var(--aa-charcoal)' }}>5-corner</strong> model: invoices are exchanged between the two
+                parties&rsquo; accredited service providers, with tax data reported to the Federal Tax Authority in near-real
+                time — under Ministerial Decisions 243 and 244 of 2025. Authentic Accounting guides each client through
+                readiness and compliance — well ahead of the phased deadlines below.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
                 <button className="btn btn--primary" onClick={bookReadiness}>
@@ -470,7 +495,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
           </table>
 
           <p style={{ marginTop: 20, fontSize: 13, lineHeight: 1.55, color: 'var(--aa-steel)', maxWidth: 860 }}>
-            <span style={{ color: 'var(--aa-cyan)', fontWeight: 600, marginRight: 4 }}>†</span>
+            <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, marginRight: 4 }}>†</span>
             <strong style={{ color: 'var(--aa-charcoal)' }}>ASP selection</strong> — deadline for each business to appoint
             its Accredited Service Provider. <strong style={{ color: 'var(--aa-charcoal)' }}>System readiness</strong> —
             mandatory go-live; from this date, only structured invoices transmitted through an accredited ASP will be
@@ -596,12 +621,13 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
               <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                 <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                   <span>{f.q}</span>
-                  <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
+                  <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
                 </summary>
                 <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
               </details>
             ))}
           </div>
+          <p style={{ marginTop: 16, fontSize: 12.5, color: 'var(--aa-steel)' }}>Rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || 'June 2026'} — general guidance, not tax advice.</p>
         </div>
       </section>
 
@@ -672,7 +698,7 @@ function EInvoiceReadinessModal({ onNav }) {
         <button onClick={close} aria-label="Close"
           style={{ position: 'absolute', top: 8, right: 10, zIndex: 2, width: 38, height: 38, border: 0, background: 'transparent', fontSize: 26, lineHeight: 1, color: 'var(--aa-steel)', cursor: 'pointer' }}>×</button>
         <div style={{ padding: '28px 28px 0' }}>
-          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
+          <div className="eyebrow" style={{ color: 'var(--aa-cyan-700)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
           <h2 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(22px, 3vw, 30px)', margin: '0 0 6px', color: 'var(--aa-charcoal)', lineHeight: 1.05 }}>Get your e-invoicing readiness status.</h2>
           <p style={{ margin: '0 0 18px', fontSize: 14, color: 'var(--aa-steel-700)', lineHeight: 1.5 }}>Answer a few quick questions — your exact deadlines, a tailored verdict and next steps, as an instant PDF.</p>
         </div>

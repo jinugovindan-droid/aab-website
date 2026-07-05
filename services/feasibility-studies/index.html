@@ -41,6 +41,9 @@
   <link rel="icon" type="image/png" href="assets/logos/favicon.png?v=2"/>
   <link rel="apple-touch-icon" href="assets/logos/apple-touch-icon.png?v=2"/>
 
+  <!-- LCP: the first hero slide's background image, discoverable before the JS
+       bundle runs (home only — prerender strips this line from other routes). -->
+
   <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -128,10 +131,21 @@
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
 
-  <link rel="stylesheet" href="styles/tokens.css?v=20260627-a11y"/>
-  <link rel="stylesheet" href="styles/site.css?v=20260706-navwrap"/>
-  <!-- Self-hosted React (no third-party render-blocking dependency); icons via lucide. -->
-  <script defer src="https://unpkg.com/lucide@1.21.0"></script>
+  <!-- Reserve the 46px deadline-marquee strip BEFORE first paint (the React
+       mount otherwise adds it late and shifts the whole page down). Runs
+       synchronously; matches the session flag the marquee's close button sets. -->
+  <script>
+    (function () {
+      try { if (sessionStorage.getItem('aa-einv-marquee') !== 'closed') document.documentElement.classList.add('aa-has-marquee'); }
+      catch (e) { document.documentElement.classList.add('aa-has-marquee'); }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&amp;family=Archivo:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap"/>
+  <link rel="stylesheet" href="styles/tokens.css?v=20260706-qcfixes"/>
+  <link rel="stylesheet" href="styles/site.css?v=20260706-qcfixes"/>
+  <!-- Self-hosted React + lucide (no third-party single point of failure). -->
+  <script defer src="assets/vendor/lucide-1.21.0.min.js"></script>
   <script defer src="assets/vendor/react-18.3.1.min.js"></script>
   <script defer src="assets/vendor/react-dom-18.3.1.min.js"></script>
 
@@ -153,6 +167,6 @@
   </script>
 
   <!-- Precompiled bundle: routes + components + app shell. Rebuild with: npm run bundle -->
-  <script defer src="dist/app.min.js?v=20260706-navwrap"></script>
+  <script defer src="dist/app.min.js?v=20260706-qcfixes"></script>
 </body>
 </html>

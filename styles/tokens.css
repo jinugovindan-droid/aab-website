@@ -8,8 +8,8 @@
    not redistributable. See README.md → Typography.
    ============================================================ */
 
-/* --- Google Font imports (substitutes) --- */
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Archivo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+/* --- Google Fonts are loaded via a <link> in index.html (parallel fetch);
+       an @import here would serialize the font CSS behind this file. --- */
 
 :root {
   /* ==========================================================

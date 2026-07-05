@@ -163,6 +163,7 @@ main:focus { outline: none; }
 }
 .topnav__link--menu svg { transition: transform 150ms ease-out; }
 .topnav__item:hover .topnav__link--menu svg,
+.topnav__item.is-open .topnav__link--menu svg,
 .topnav__item:focus-within .topnav__link--menu svg { transform: rotate(180deg); }
 .topnav__dropdown {
   position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
@@ -174,6 +175,7 @@ main:focus { outline: none; }
   z-index: 80;
 }
 .topnav__item:hover .topnav__dropdown,
+.topnav__item.is-open .topnav__dropdown,
 .topnav__item:focus-within .topnav__dropdown { opacity: 1; visibility: visible; translate: 0 0; }
 .topnav__dropdown-link {
   display: block; padding: 10px 18px;
@@ -322,6 +324,7 @@ main:focus { outline: none; }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+  will-change: auto; /* release the compositor promotion once revealed */
 }
 
 /* Smooth scroll for in-page nav */
@@ -352,9 +355,13 @@ html { scroll-behavior: smooth; }
   z-index: 60;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 200ms ease-out;
+  /* visibility (not just opacity) removes the closed drawer from the keyboard
+     tab order and the accessibility tree — it holds 16 focusable elements that
+     must not be reachable on every page. Delay keeps the close fade visible. */
+  visibility: hidden;
+  transition: opacity 200ms ease-out, visibility 0s linear 200ms;
 }
-.topnav__drawer.is-open { opacity: 1; pointer-events: auto; }
+.topnav__drawer.is-open { opacity: 1; pointer-events: auto; visibility: visible; transition: opacity 200ms ease-out; }
 
 .topnav__drawer-panel {
   position: absolute;
@@ -488,6 +495,12 @@ body.no-scroll { overflow: hidden; }
   .topnav__link { font-size: 13px; }
   .topnav__right .btn--sm { padding: 9px 12px; font-size: 12px; }
 }
+@media (max-width: 940px) {
+  /* 881-940px: the CTA is still visible, so squeeze gaps — the 9-link row's
+     min-content otherwise overflows the container by a few px around 900px. */
+  .topnav__inner { gap: 14px; }
+  .topnav__list { gap: 9px; }
+}
 @media (max-width: 880px) {
   .topnav__right .btn { display: none; } /* CTA lives in the hero, drawer & FAB */
   .topnav__list { gap: 11px; }
@@ -559,13 +572,18 @@ body.no-scroll { overflow: hidden; }
      selector catches every grid — equal columns (1fr 1fr, repeat(3, 1fr)) AND
      asymmetric/custom ones (1fr auto, 80px 1.2fr 2fr 1fr, 48px 1.1fr 2fr 24px)
      that previously stayed multi-column and overlapped. */
-  main [style*="grid-template-columns"] {
+  main [style*="grid-template-columns"],
+  [role="dialog"] [style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
     gap: 24px !important;
   }
   /* When grids stack, children inherit min-width:auto which can push past parent.
      Force min-width:0 on children of any stacked grid so they shrink to fit. */
-  main [style*="grid-template-columns"] > * { min-width: 0; }
+  main [style*="grid-template-columns"] > *,
+  [role="dialog"] [style*="grid-template-columns"] > * { min-width: 0; }
+  /* The statline strip uses 1px hairline gaps over a rule-grey background —
+     the generic 24px stacking gap turns those hairlines into thick grey bands. */
+  main .statline__inner { gap: 1px !important; }
   /* Prevent any horizontal page scroll on mobile */
   html, body { overflow-x: hidden; }
 
@@ -580,14 +598,20 @@ body.no-scroll { overflow: hidden; }
   }
 
   /* Comfortable touch targets: grow small inline buttons (insights filters,
-     contact-wizard options, etc.) to a ~42px tap height. */
-  main button { min-height: 42px; }
+     contact-wizard options, etc.) to a ~42px tap height — but NOT the hero
+     carousel dots, which are deliberate 4px hairline indicators. */
+  main button:not(.aa-hero__dot),
+  [role="dialog"] button { min-height: 42px; }
 }
 
-/* Tablet: 4-cols become 2-cols */
+/* Tablet: 4-cols become 2-cols; 5-col process strips become 3-cols
+   (at 721-960px five columns squeeze to ~86px of unreadable text). */
 @media (min-width: 721px) and (max-width: 960px) {
   main [style*="grid-template-columns: repeat(4, 1fr)"] {
     grid-template-columns: repeat(2, 1fr) !important;
+  }
+  main [style*="grid-template-columns: repeat(5, 1fr)"] {
+    grid-template-columns: repeat(3, 1fr) !important;
   }
 }
 
@@ -729,7 +753,7 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
   text-transform: uppercase;
   color: var(--aa-charcoal);
 }
-.statline__num small { color: var(--aa-cyan); margin-left: 2px; }
+.statline__num small { color: var(--aa-cyan-700); margin-left: 2px; } /* AA on white */
 .statline__lbl {
   margin-top: 12px;
   font-size: 12px;
@@ -773,8 +797,11 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
 .aa-marquee__close:hover { color: #fff; }
 
 /* Make room at the top for the fixed bar; the sticky header sits just below it */
-body.has-marquee { padding-top: 46px; }
-body.has-marquee .topnav { top: 46px; }
+/* The strip's space is reserved pre-paint by an inline <head> script that sets
+   .aa-has-marquee on <html> (no layout shift when React mounts the marquee);
+   the legacy body.has-marquee hooks are kept for the React lifecycle. */
+html.aa-has-marquee body, body.has-marquee { padding-top: 46px; }
+html.aa-has-marquee .topnav, body.has-marquee .topnav { top: 46px; }
 
 /* The ticker keeps scrolling even under prefers-reduced-motion: the dismiss (×)
    button is the WCAG 2.2.2 "hide" control, and hover/focus pauses it. */

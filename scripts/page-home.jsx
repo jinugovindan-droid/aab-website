@@ -30,7 +30,7 @@ const HERO_SLIDES = [
         Are you ready?
       </>
     ),
-    lead: 'The Ministry of Finance is rolling out a mandatory OpenPeppol-based, 5-corner e-invoicing system for all B2B and B2G transactions — phased by revenue. Large businesses (AED 50M+) go live 1 January 2027; smaller firms and Government follow through 2027. We help you map readiness, select an ASP, and go live on schedule.',
+    lead: 'The Ministry of Finance is rolling out a mandatory OpenPeppol-based, 5-corner e-invoicing system for B2B and B2G transactions (limited exclusions apply) — phased by revenue. Large businesses (AED 50M+) go live 1 January 2027; smaller firms and Government follow through 2027. We help you map readiness, select an ASP, and go live on schedule.',
     ctaPrimary:   { label: 'Read the briefing',       page: 'e-invoicing' },
     ctaSecondary: { label: 'Book a readiness call',   page: 'contact' },
     bgImage: 'assets/images/chess-knight-mist.jpg',
@@ -71,6 +71,15 @@ function HomeHero({ onNav }) {
     }, 8000);
     return () => clearInterval(id);
   }, [paused, slideCount]);
+
+  // Prewarm the other slides' images once the page is idle, so the 8s
+  // crossfade doesn't fetch a 100KB+ JPEG mid-animation.
+  useEffectHome(() => {
+    const warm = () => HERO_SLIDES.forEach((s, i) => { if (i !== 0 && s.bgImage) { const im = new Image(); im.src = s.bgImage; } });
+    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
+    const id = idle(warm);
+    return () => { (window.cancelIdleCallback || clearTimeout)(id); };
+  }, []);
 
   const goPrev = () => setSlideIndex((i) => (i - 1 + slideCount) % slideCount);
   const goNext = () => setSlideIndex((i) => (i + 1) % slideCount);
@@ -584,7 +593,7 @@ function HomeInsights({ onNav }) {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                <span style={{ color: 'var(--aa-cyan)' }}>{a.tag}</span>
+                <span style={{ color: 'var(--aa-cyan-700)' }}>{a.tag}</span>
                 <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
               </div>
               <div style={{ fontSize: 22, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.25, textWrap: 'balance' }}>

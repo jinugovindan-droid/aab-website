@@ -45,7 +45,7 @@ function IndustriesPage({ onNav }) {
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0
               }}>
                 Sector-shaped,<br />but never<br />
-                <span style={{ color: 'var(--aa-cyan)' }}>sector-bound</span>.
+                <span style={{ color: 'var(--aa-cyan-700)' }}>sector-bound</span>.
               </h1>
             </div>
             <p className="muted" style={{ fontSize: 17, lineHeight: 1.6, maxWidth: 460, margin: 0 }}>
@@ -350,7 +350,7 @@ function InsightsPage({ onNav }) {
         <div className="container">
           <div style={{ display: 'flex', gap: 8, marginBottom: 32, flexWrap: 'wrap' }}>
             {tags.map((t) =>
-            <button key={t} onClick={() => setFilter(t)} style={{
+            <button key={t} onClick={() => setFilter(t)} aria-pressed={filter === t} style={{
               padding: '8px 14px', fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase',
               fontWeight: 600, fontFamily: 'var(--aa-font-sans)',
               background: filter === t ? 'var(--aa-charcoal)' : '#fff',
@@ -372,7 +372,7 @@ function InsightsPage({ onNav }) {
               minHeight: 220
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                  <span style={{ color: 'var(--aa-cyan)' }}>{a.tag}</span>
+                  <span style={{ color: 'var(--aa-cyan-700)' }}>{a.tag}</span>
                   <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
                 </div>
                 <div style={{ fontSize: 22, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.25, textWrap: 'balance' }}>{a.title}</div>
@@ -1233,7 +1233,7 @@ function InsightArticlePage({ onNav, slug }) {
               display: 'flex', flexDirection: 'column', gap: 12
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                  <span style={{ color: 'var(--aa-cyan)' }}>{a.tag}</span>
+                  <span style={{ color: 'var(--aa-cyan-700)' }}>{a.tag}</span>
                   <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
                 </div>
                 <div style={{ fontSize: 19, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.3 }}>{a.title}</div>
@@ -1263,7 +1263,7 @@ function CareersPage({ onNav }) {
                 textTransform: 'uppercase', letterSpacing: '0.01em',
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0
               }}>
-                We hire every quarter. For <span style={{ color: 'var(--aa-cyan)' }}>ourselves</span> — and for our clients.
+                We hire every quarter. For <span style={{ color: 'var(--aa-cyan-700)' }}>ourselves</span> — and for our clients.
               </h1>
             </div>
             <p className="muted" style={{ fontSize: 16, lineHeight: 1.6, margin: 0 }}>
@@ -1435,6 +1435,7 @@ function ContactPage({ onNav }) {
   const [step, setStep] = useStateP(intent ? 2 : 1);
   const [submitting, setSubmitting] = useStateP(false);
   const [submitted, setSubmitted] = useStateP(false);
+  const [sendError, setSendError] = useStateP('');
   const [form, setForm] = useStateP({
     service: intent, entity: '', email: '', phone: '', context: '', timeline: '6-weeks', segment: 'sme',
     consent: false, marketing: false
@@ -1442,12 +1443,19 @@ function ContactPage({ onNav }) {
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
   const handleSubmit = async () => {
+    setSendError('');
+    // The success screen promises a reply to this address — validate it like
+    // the lead tools do instead of accepting anything non-empty.
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email.trim())) {
+      setSendError('That email address doesn’t look right — please check it so we can reply to you.');
+      return;
+    }
     setSubmitting(true);
     try {
       await window.AAContactSheet.submit(form);
       setSubmitted(true);
     } catch (err) {
-      alert('Could not send your request. Please email info@aaccounting.me directly.');
+      setSendError('Could not send your request. Please try again, or email info@aaccounting.me / WhatsApp +971 56 548 4635 directly.');
     } finally {
       setSubmitting(false);
     }
@@ -1524,7 +1532,7 @@ function ContactPage({ onNav }) {
           </div>
 
           {/* Right: wizard */}
-          <div id="aa-contact-wizard" style={{ background: '#fff', border: '1px solid var(--aa-rule)', scrollMarginTop: 88 }}>
+          <div id="aa-contact-wizard" style={{ background: '#fff', border: '1px solid var(--aa-rule)', scrollMarginTop: 128 }}>
             {submitted ?
             <div style={{ padding: '64px 32px', textAlign: 'center' }}>
               <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 16 }}>Request received</div>
@@ -1638,12 +1646,12 @@ function ContactPage({ onNav }) {
               {step === 3 &&
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   <label className="field">
-                    <div className="field__label">Legal entity name</div>
+                    <div className="field__label">Legal entity name <span style={{ color: 'var(--aa-negative)' }}>*</span></div>
                     <input className="field__input" value={form.entity} onChange={(e) => update('entity', e.target.value)} placeholder="e.g. Authentic Holdings FZ-LLC" />
                   </label>
                   <label className="field">
-                    <div className="field__label">Email</div>
-                    <input className="field__input" type="email" value={form.email} onChange={(e) => update('email', e.target.value)} placeholder="name@entity.ae" />
+                    <div className="field__label">Email <span style={{ color: 'var(--aa-negative)' }}>*</span></div>
+                    <input className="field__input" type="email" autoComplete="email" value={form.email} onChange={(e) => update('email', e.target.value)} placeholder="name@entity.ae" />
                   </label>
                   <label className="field">
                     <div className="field__label">Phone / WhatsApp <span style={{ color: 'var(--aa-steel)', fontWeight: 400 }}>(optional)</span></div>
@@ -1660,6 +1668,9 @@ function ContactPage({ onNav }) {
                   <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 16, fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.6 }}>
                     We will respond within two business days.
                   </div>
+                  {sendError ? <p role="alert" style={{ margin: 0, fontSize: 13, color: 'var(--aa-negative)', lineHeight: 1.5 }}>{sendError}</p> : null}
+                  {(!form.entity.trim() || !form.email.trim() || !form.consent) ?
+                    <p style={{ margin: 0, fontSize: 12, color: 'var(--aa-steel)', lineHeight: 1.5 }}>To send: fill the fields marked <span style={{ color: 'var(--aa-negative)' }}>*</span> and tick the consent box.</p> : null}
                 </div>
               }
             </div>
@@ -1807,7 +1818,7 @@ function IndustrySimplePage({ page, onNav }) {
               <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
               <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
                 {cfg.glance.map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '6px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
