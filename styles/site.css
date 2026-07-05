@@ -303,11 +303,18 @@ main:focus { outline: none; }
   0%, 100% { box-shadow: 0 6px 20px rgba(41,171,226,0.35), 0 0 0 0 rgba(41,171,226,0.5); }
   50%      { box-shadow: 0 6px 24px rgba(41,171,226,0.45), 0 0 0 10px rgba(41,171,226,0); }
 }
+@keyframes aa-reveal-failsafe {
+  to { opacity: 1; transform: none; }
+}
 .fade-in { animation: aa-fade-up 250ms ease-out both; }
 
 /* Scroll-reveal — applied to elements once they enter viewport */
 .reveal {
   opacity: 0;
+  /* Pure-CSS failsafe: even if the reveal script never runs (stale cache,
+     JS error, blocked observer), every section forces itself visible after
+     1.6s. Content can NEVER be left permanently hidden. */
+  animation: aa-reveal-failsafe 0.6s ease-out 1.6s forwards;
   transform: translateY(16px);
   transition: opacity 600ms ease-out, transform 600ms ease-out;
   will-change: opacity, transform;
@@ -470,15 +477,23 @@ body.no-scroll { overflow: hidden; }
 
 /* ---------- Responsive breakpoints ---------- */
 
-/* Zoomed browsers / smaller laptops — the 8-item bar fits down to ~980px;
-   tighten slightly below 1120px, and only collapse to the burger under 980px. */
+/* Progressive nav degradation — the menu LINKS are the last thing to go.
+   Zoomed browsers on scaled displays can drop the effective viewport far below
+   the nominal screen width (e.g. full-HD @ 150% scaling + 150% zoom ≈ 853px),
+   so each tier sheds chrome instead of hiding the navigation:
+   ≤1120px tighten · ≤880px drop the CTA button · ≤760px burger. */
 @media (max-width: 1120px) {
   .topnav__inner { gap: 20px; }
   .topnav__list { gap: 13px; }
   .topnav__link { font-size: 13px; }
   .topnav__right .btn--sm { padding: 9px 12px; font-size: 12px; }
 }
-@media (max-width: 980px) {
+@media (max-width: 880px) {
+  .topnav__right .btn { display: none; } /* CTA lives in the hero, drawer & FAB */
+  .topnav__list { gap: 11px; }
+  .topnav__link { font-size: 12.5px; }
+}
+@media (max-width: 760px) {
   .topnav__list { display: none; }
   .topnav__burger { display: inline-flex; }
 }
@@ -490,9 +505,6 @@ body.no-scroll { overflow: hidden; }
 
   .topnav { height: 64px; }
   .topnav__logo img { height: 44px; }
-  .topnav__list { display: none; }
-  .topnav__right .btn { display: none; }
-  .topnav__burger { display: inline-flex; }
 
   .subbar { display: none; }
 
