@@ -108,7 +108,14 @@ function TopNav({ active, onNav, sticky = true }) {
       <header className="topnav" style={{ position: sticky ? 'sticky' : 'static' }}>
         <div className="container topnav__inner">
           <a className="topnav__logo" href={pathForPage('home')} onClick={(e) => { e.preventDefault(); go('home'); }} aria-label="Authentic Accounting — Home">
-            <img src="assets/logos/aab-short-eng.png?v=2" alt="Authentic Accounting" />
+            {/* Load animation: the classic A mark morphs into the A-inside-football.
+                Layer order: football logo (fades in) / classic wordmark (static, identical
+                in both logos) / classic A mark (shrinks into the ball and fades out). */}
+            <span className="logo-anim">
+              <img className="logo-anim__ball" src="assets/logos/aab-short-eng.png?v=3" alt="Authentic Accounting" />
+              <img className="logo-anim__wordmark" src="assets/logos/aab-short-eng-classic.png" alt="" aria-hidden="true" />
+              <img className="logo-anim__classic" src="assets/logos/aab-short-eng-classic.png" alt="" aria-hidden="true" />
+            </span>
           </a>
           <nav className="topnav__list" aria-label="Primary">
             {DESKTOP_NAV.map((it) => it.children ? (
