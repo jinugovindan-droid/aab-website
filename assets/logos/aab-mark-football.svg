@@ -1,57 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 230" width="260" height="230">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="220" height="220">
   <defs>
     <radialGradient id="ballGrad" cx="38%" cy="30%" r="80%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="55%" stop-color="#f0fafe"/>
-      <stop offset="100%" stop-color="#bfe6f8"/>
+      <stop offset="60%" stop-color="#f7fcfe"/>
+      <stop offset="100%" stop-color="#d8eefa"/>
     </radialGradient>
-    <linearGradient id="pentaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#29ABE2"/>
-      <stop offset="100%" stop-color="#0a5ea8"/>
-    </linearGradient>
-    <linearGradient id="ribbonGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#58595B"/>
-      <stop offset="45%" stop-color="#D2D3D5"/>
-      <stop offset="100%" stop-color="#29ABE2"/>
-    </linearGradient>
-    <linearGradient id="ribbonGradBack" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#9ad9f5"/>
-      <stop offset="100%" stop-color="#29ABE2"/>
-    </linearGradient>
-    <clipPath id="ballClip"><circle cx="130" cy="112" r="84.5"/></clipPath>
+    <clipPath id="ballClip"><circle cx="110" cy="110" r="102.5"/></clipPath>
   </defs>
 
-  <!-- swoosh ring, back half (behind the ball) -->
-  <g transform="translate(130,112) rotate(-20)">
-    <clipPath id="ringBack"><rect x="-160" y="-80" width="320" height="80"/></clipPath>
-    <path clip-path="url(#ringBack)" fill="url(#ribbonGradBack)" fill-rule="evenodd" opacity="0.9"
-      d="M -122 0 A 122 42 0 1 1 122 0 A 122 42 0 1 1 -122 0 Z
-         M -103 0 A 103 25 0 1 0 103 0 A 103 25 0 1 0 -103 0 Z"/>
-  </g>
-
-  <!-- ball -->
-  <circle cx="130" cy="112" r="86" fill="url(#ballGrad)" stroke="#8fcfec" stroke-width="2"/>
+  <circle cx="110" cy="110" r="104" fill="url(#ballGrad)" stroke="#7ec7e8" stroke-width="3"/>
   <g clip-path="url(#ballClip)">
-    <polygon points="130.00,81.00 159.48,102.42 148.22,137.08 111.78,137.08 100.52,102.42" fill="url(#pentaGrad)"/>
-    <polygon points="130.00,58.00 103.37,38.65 113.54,7.35 146.46,7.35 156.63,38.65" fill="url(#pentaGrad)"/>
-    <polygon points="181.36,95.31 191.53,64.01 224.44,64.01 234.62,95.31 207.99,114.66" fill="url(#pentaGrad)"/>
-    <polygon points="161.74,155.69 194.66,155.69 204.83,186.99 178.20,206.34 151.57,186.99" fill="url(#pentaGrad)"/>
-    <polygon points="98.26,155.69 108.43,186.99 81.80,206.34 55.17,186.99 65.34,155.69" fill="url(#pentaGrad)"/>
-    <polygon points="78.64,95.31 52.01,114.66 25.38,95.31 35.56,64.01 68.47,64.01" fill="url(#pentaGrad)"/>
-    <line x1="130.00" y1="81.00" x2="130.00" y2="58.00" stroke="#7bbcd9" stroke-width="2.5"/>
-    <line x1="159.48" y1="102.42" x2="181.36" y2="95.31" stroke="#7bbcd9" stroke-width="2.5"/>
-    <line x1="148.22" y1="137.08" x2="161.74" y2="155.69" stroke="#7bbcd9" stroke-width="2.5"/>
-    <line x1="111.78" y1="137.08" x2="98.26" y2="155.69" stroke="#7bbcd9" stroke-width="2.5"/>
-    <line x1="100.52" y1="102.42" x2="78.64" y2="95.31" stroke="#7bbcd9" stroke-width="2.5"/>
-    <!-- gloss highlight -->
-    <ellipse cx="102" cy="59" rx="52" ry="30" fill="#ffffff" opacity="0.35"/>
-  </g>
-
-  <!-- swoosh ring, front half (in front of the ball) -->
-  <g transform="translate(130,112) rotate(-20)">
-    <clipPath id="ringFront"><rect x="-160" y="0" width="320" height="80"/></clipPath>
-    <path clip-path="url(#ringFront)" fill="url(#ribbonGrad)" fill-rule="evenodd"
-      d="M -122 0 A 122 42 0 1 1 122 0 A 122 42 0 1 1 -122 0 Z
-         M -103 0 A 103 25 0 1 0 103 0 A 103 25 0 1 0 -103 0 Z"/>
+    <polygon points="110.00,72.51 145.65,98.42 132.04,140.33 87.96,140.33 74.35,98.42" fill="#e3f2fb"/>
+    <polygon points="110.00,44.70 77.80,21.30 90.10,-16.56 129.90,-16.56 142.20,21.30" fill="#e3f2fb"/>
+    <polygon points="172.11,89.82 184.41,51.96 224.21,51.96 236.51,89.82 204.31,113.22" fill="#e3f2fb"/>
+    <polygon points="148.38,162.83 188.19,162.83 200.49,200.69 168.29,224.08 136.08,200.69" fill="#e3f2fb"/>
+    <polygon points="71.62,162.83 83.92,200.69 51.71,224.08 19.51,200.69 31.81,162.83" fill="#e3f2fb"/>
+    <polygon points="47.89,89.82 15.69,113.22 -16.51,89.82 -4.21,51.96 35.59,51.96" fill="#e3f2fb"/>
+    <line x1="110.00" y1="72.51" x2="110.00" y2="44.70" stroke="#bfe0f2" stroke-width="2.5"/>
+    <line x1="145.65" y1="98.42" x2="172.11" y2="89.82" stroke="#bfe0f2" stroke-width="2.5"/>
+    <line x1="132.04" y1="140.33" x2="148.38" y2="162.83" stroke="#bfe0f2" stroke-width="2.5"/>
+    <line x1="87.96" y1="140.33" x2="71.62" y2="162.83" stroke="#bfe0f2" stroke-width="2.5"/>
+    <line x1="74.35" y1="98.42" x2="47.89" y2="89.82" stroke="#bfe0f2" stroke-width="2.5"/>
+    <polygon points="110.00,44.70 77.80,21.30 90.10,-16.56 129.90,-16.56 142.20,21.30" fill="none" stroke="#bfe0f2" stroke-width="2"/>
+    <polygon points="172.11,89.82 184.41,51.96 224.21,51.96 236.51,89.82 204.31,113.22" fill="none" stroke="#bfe0f2" stroke-width="2"/>
+    <polygon points="148.38,162.83 188.19,162.83 200.49,200.69 168.29,224.08 136.08,200.69" fill="none" stroke="#bfe0f2" stroke-width="2"/>
+    <polygon points="71.62,162.83 83.92,200.69 51.71,224.08 19.51,200.69 31.81,162.83" fill="none" stroke="#bfe0f2" stroke-width="2"/>
+    <polygon points="47.89,89.82 15.69,113.22 -16.51,89.82 -4.21,51.96 35.59,51.96" fill="none" stroke="#bfe0f2" stroke-width="2"/>
+    <polygon points="110.00,72.51 145.65,98.42 132.04,140.33 87.96,140.33 74.35,98.42" fill="none" stroke="#bfe0f2" stroke-width="2"/>
+    <ellipse cx="78" cy="52" rx="56" ry="32" fill="#ffffff" opacity="0.5"/>
   </g>
 </svg>
