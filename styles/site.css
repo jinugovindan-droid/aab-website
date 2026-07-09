@@ -143,12 +143,12 @@ main:focus { outline: none; }
 .logo-anim__wordmark,
 .logo-anim__classic { position: absolute; top: 0; left: 0; }
 .logo-anim__wordmark { -webkit-clip-path: inset(77% 0 0 0); clip-path: inset(77% 0 0 0); }
-.logo-anim__ball { animation: logo-ball-in 0.9s ease-out 0.45s backwards; }
+.logo-anim__ball { animation: logo-ball-in 1.8s ease-out 0.7s backwards; }
 .logo-anim__classic {
   -webkit-clip-path: inset(0 0 23% 0);
   clip-path: inset(0 0 23% 0);
   transform-origin: 50% 37%;
-  animation: logo-classic-out 1.1s ease-in-out 0.45s forwards;
+  animation: logo-classic-out 2.2s ease-in-out 0.7s forwards;
 }
 @keyframes logo-ball-in { from { opacity: 0; } }
 @keyframes logo-classic-out { to { opacity: 0; transform: scale(0.78); } }

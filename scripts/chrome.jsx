@@ -20,6 +20,12 @@ const NAV_ITEMS = [
 // top-level (owner's call: it is the flagship campaign). On narrow/zoomed
 // viewports the bar WRAPS to a second line rather than hiding (see site.css);
 // the burger only appears at true phone widths.
+// Football (World Cup) edition of the logo runs until 20 Jul 2026 UAE time,
+// then the site chrome reverts to the classic logo automatically — no deploy
+// needed (static assets like the favicon are reverted by a scheduled job).
+const FOOTBALL_LOGO_UNTIL = Date.parse('2026-07-20T00:00:00+04:00');
+const FOOTBALL_LOGO_ACTIVE = Date.now() < FOOTBALL_LOGO_UNTIL;
+
 const TAX_CHILDREN = [
   { id: 'service-corporate-tax', label: 'Corporate Tax' },
   { id: 'service-vat', label: 'VAT Compliance' },
@@ -87,6 +93,27 @@ function NavDropdown({ item, active, go }) {
 
 function TopNav({ active, onNav, sticky = true }) {
   const [open, setOpen] = useState(false);
+  // Bumping the key remounts the logo stack, which replays the CSS load
+  // animation — used to replay the morph on hover. Native mouseenter (not the
+  // React synthetic one): remounting the stack under a stationary pointer makes
+  // Chrome re-dispatch mouseover, which React would turn into another enter and
+  // restart the animation forever. The cooldown lets a run finish first.
+  const [logoPlay, setLogoPlay] = useState(0);
+  const logoRef = useRef(null);
+  const logoLastPlay = useRef(Date.now());
+  useEffect(() => {
+    const el = logoRef.current;
+    if (!el) return;
+    const onEnter = () => {
+      const now = Date.now();
+      if (now - logoLastPlay.current > 3200) {
+        logoLastPlay.current = now;
+        setLogoPlay((p) => p + 1);
+      }
+    };
+    el.addEventListener('mouseenter', onEnter);
+    return () => el.removeEventListener('mouseenter', onEnter);
+  }, []);
 
   // Lock body scroll & close on Escape when drawer is open
   useEffect(() => {
@@ -107,15 +134,20 @@ function TopNav({ active, onNav, sticky = true }) {
     <>
       <header className="topnav" style={{ position: sticky ? 'sticky' : 'static' }}>
         <div className="container topnav__inner">
-          <a className="topnav__logo" href={pathForPage('home')} onClick={(e) => { e.preventDefault(); go('home'); }} aria-label="Authentic Accounting — Home">
+          <a className="topnav__logo" ref={logoRef} href={pathForPage('home')} onClick={(e) => { e.preventDefault(); go('home'); }} aria-label="Authentic Accounting — Home">
             {/* Load animation: the classic A mark morphs into the A-inside-football.
                 Layer order: football logo (fades in) / classic wordmark (static, identical
-                in both logos) / classic A mark (shrinks into the ball and fades out). */}
-            <span className="logo-anim">
-              <img className="logo-anim__ball" src="assets/logos/aab-short-eng.png?v=3" alt="Authentic Accounting" />
-              <img className="logo-anim__wordmark" src="assets/logos/aab-short-eng-classic.png" alt="" aria-hidden="true" />
-              <img className="logo-anim__classic" src="assets/logos/aab-short-eng-classic.png" alt="" aria-hidden="true" />
-            </span>
+                in both logos) / classic A mark (shrinks into the ball and fades out).
+                Hovering remounts the stack (key bump) so the morph replays. */}
+            {FOOTBALL_LOGO_ACTIVE ? (
+              <span className="logo-anim" key={logoPlay}>
+                <img className="logo-anim__ball" src="assets/logos/aab-short-eng.png?v=3" alt="Authentic Accounting" />
+                <img className="logo-anim__wordmark" src="assets/logos/aab-short-eng-classic.png" alt="" aria-hidden="true" />
+                <img className="logo-anim__classic" src="assets/logos/aab-short-eng-classic.png" alt="" aria-hidden="true" />
+              </span>
+            ) : (
+              <img src="assets/logos/aab-short-eng-classic.png" alt="Authentic Accounting" />
+            )}
           </a>
           <nav className="topnav__list" aria-label="Primary">
             {DESKTOP_NAV.map((it) => it.children ? (
@@ -316,7 +348,7 @@ function Footer({ onNav }) {
           style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: 48, paddingBottom: 48 }}>
           <div>
             <img
-              src="assets/logos/authentic-accounting-full.png"
+              src={FOOTBALL_LOGO_ACTIVE ? 'assets/logos/authentic-accounting-full.png' : 'assets/logos/authentic-accounting-full-classic.png'}
               alt="Authentic Accounting and Bookkeeping L.L.C"
               loading="lazy"
               style={{ height: 56 }} />
