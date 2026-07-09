@@ -85,7 +85,7 @@ async function aaBuildBrandedPdf(cfg) {
   const bullet = (t) => { doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5); const lines = doc.splitTextToSize(t, colW - 16); ensure(lines.length * 14 + 2); setC(cyan); doc.text('•', M, y); setC(ink); lines.forEach((ln) => { doc.text(ln, M + 16, y); y += 14; }); y += 4; };
 
   // Header: logo + firm identity
-  try { const lg = await aaLogoDataUrl('assets/logos/aab-short-eng.png?v=2'); if (lg) doc.addImage(lg.url, 'PNG', M, y - 6, 104, 104 * lg.h / lg.w); } catch (e) {}
+  try { const lg = await aaLogoDataUrl('assets/logos/aab-short-eng.png?v=3'); if (lg) doc.addImage(lg.url, 'PNG', M, y - 6, 104, 104 * lg.h / lg.w); } catch (e) {}
   doc.setTextColor.apply(doc, steel); doc.setFontSize(8.5);
   doc.text('Authentic Accounting & Bookkeeping L.L.C · Dubai, UAE', W - M, y + 2, { align: 'right' });
   doc.text('www.aaccounting.me', W - M, y + 14, { align: 'right' });

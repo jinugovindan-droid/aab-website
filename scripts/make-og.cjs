@@ -29,9 +29,9 @@ const path = require('path');
   const b = fs.statSync('assets/og/og-card.jpg').size;
   console.log('wrote assets/og/og-card.jpg (' + W + 'x' + H + ', ' + (b / 1024).toFixed(1) + ' KB, opaque JPEG)');
 
-  // ---- Favicons: isolate the MARK (top ~73% of the logo, drop the wordmark) and square it ----
-  const src = await Jimp.read(path.join('assets', 'logos', 'aab-short-eng.png'));
-  const mark = src.clone().crop(0, 0, src.bitmap.width, Math.round(src.bitmap.height * 0.73));
+  // ---- Favicons: built from the dedicated high-contrast mark (darker ball rim so the
+  // logo stays legible at 16px; the header logo's light rim washes out in a tab bar) ----
+  const mark = await Jimp.read(path.join('assets', 'logos', 'favicon-mark.png'));
   mark.autocrop({ tolerance: 0.01, cropOnlyFrames: false }); // trim transparent border to a tight mark
   const side = Math.max(mark.bitmap.width, mark.bitmap.height);
   const pad = Math.round(side * 0.14);
