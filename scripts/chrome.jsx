@@ -101,18 +101,35 @@ function TopNav({ active, onNav, sticky = true }) {
   const [logoPlay, setLogoPlay] = useState(0);
   const logoRef = useRef(null);
   const logoLastPlay = useRef(Date.now());
+  const logoReplay = (force) => {
+    const now = Date.now();
+    if (force || now - logoLastPlay.current > 3200) {
+      logoLastPlay.current = now;
+      setLogoPlay((p) => p + 1);
+    }
+  };
   useEffect(() => {
     const el = logoRef.current;
     if (!el) return;
-    const onEnter = () => {
-      const now = Date.now();
-      if (now - logoLastPlay.current > 3200) {
-        logoLastPlay.current = now;
-        setLogoPlay((p) => p + 1);
+    const onEnter = () => logoReplay(false);
+    el.addEventListener('mouseenter', onEnter);
+    // CSS animations keep running in hidden tabs, so a page opened in the
+    // background lands on the final frame — restart when the tab first becomes
+    // visible. Same for back/forward-cache restores, which resume, not reload.
+    const onVis = () => {
+      if (document.visibilityState === 'visible') {
+        document.removeEventListener('visibilitychange', onVis);
+        logoReplay(true);
       }
     };
-    el.addEventListener('mouseenter', onEnter);
-    return () => el.removeEventListener('mouseenter', onEnter);
+    if (document.visibilityState === 'hidden') document.addEventListener('visibilitychange', onVis);
+    const onShow = (e) => { if (e.persisted) logoReplay(true); };
+    window.addEventListener('pageshow', onShow);
+    return () => {
+      el.removeEventListener('mouseenter', onEnter);
+      document.removeEventListener('visibilitychange', onVis);
+      window.removeEventListener('pageshow', onShow);
+    };
   }, []);
 
   // Lock body scroll & close on Escape when drawer is open
@@ -134,7 +151,7 @@ function TopNav({ active, onNav, sticky = true }) {
     <>
       <header className="topnav" style={{ position: sticky ? 'sticky' : 'static' }}>
         <div className="container topnav__inner">
-          <a className="topnav__logo" ref={logoRef} href={pathForPage('home')} onClick={(e) => { e.preventDefault(); go('home'); }} aria-label="Authentic Accounting — Home">
+          <a className="topnav__logo" ref={logoRef} href={pathForPage('home')} onClick={(e) => { e.preventDefault(); go('home'); logoReplay(false); }} aria-label="Authentic Accounting — Home">
             {/* Load animation: the classic A mark morphs into the A-inside-football.
                 Layer order: football logo (fades in) / classic wordmark (static, identical
                 in both logos) / classic A mark (shrinks into the ball and fades out).
