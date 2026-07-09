@@ -142,9 +142,10 @@ main:focus { outline: none; }
 .logo-anim { position: relative; display: block; }
 .logo-anim__wordmark,
 .logo-anim__classic { position: absolute; top: 0; left: 0; }
-.logo-anim__wordmark { clip-path: inset(77% 0 0 0); }
+.logo-anim__wordmark { -webkit-clip-path: inset(77% 0 0 0); clip-path: inset(77% 0 0 0); }
 .logo-anim__ball { animation: logo-ball-in 0.9s ease-out 0.45s backwards; }
 .logo-anim__classic {
+  -webkit-clip-path: inset(0 0 23% 0);
   clip-path: inset(0 0 23% 0);
   transform-origin: 50% 37%;
   animation: logo-classic-out 1.1s ease-in-out 0.45s forwards;
