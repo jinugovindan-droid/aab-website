@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 230" width="260" height="230">
+  <defs>
+    <radialGradient id="ballGrad" cx="38%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#f0fafe"/>
+      <stop offset="100%" stop-color="#bfe6f8"/>
+    </radialGradient>
+    <linearGradient id="pentaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#29ABE2"/>
+      <stop offset="100%" stop-color="#0a5ea8"/>
+    </linearGradient>
+    <linearGradient id="ribbonGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#58595B"/>
+      <stop offset="45%" stop-color="#D2D3D5"/>
+      <stop offset="100%" stop-color="#29ABE2"/>
+    </linearGradient>
+    <linearGradient id="ribbonGradBack" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9ad9f5"/>
+      <stop offset="100%" stop-color="#29ABE2"/>
+    </linearGradient>
+    <clipPath id="ballClip"><circle cx="130" cy="112" r="84.5"/></clipPath>
+  </defs>
+
+  <!-- swoosh ring, back half (behind the ball) -->
+  <g transform="translate(130,112) rotate(-20)">
+    <clipPath id="ringBack"><rect x="-160" y="-80" width="320" height="80"/></clipPath>
+    <path clip-path="url(#ringBack)" fill="url(#ribbonGradBack)" fill-rule="evenodd" opacity="0.9"
+      d="M -122 0 A 122 42 0 1 1 122 0 A 122 42 0 1 1 -122 0 Z
+         M -103 0 A 103 25 0 1 0 103 0 A 103 25 0 1 0 -103 0 Z"/>
+  </g>
+
+  <!-- ball -->
+  <circle cx="130" cy="112" r="86" fill="url(#ballGrad)" stroke="#8fcfec" stroke-width="2"/>
+  <g clip-path="url(#ballClip)">
+    <polygon points="130.00,81.00 159.48,102.42 148.22,137.08 111.78,137.08 100.52,102.42" fill="url(#pentaGrad)"/>
+    <polygon points="130.00,58.00 103.37,38.65 113.54,7.35 146.46,7.35 156.63,38.65" fill="url(#pentaGrad)"/>
+    <polygon points="181.36,95.31 191.53,64.01 224.44,64.01 234.62,95.31 207.99,114.66" fill="url(#pentaGrad)"/>
+    <polygon points="161.74,155.69 194.66,155.69 204.83,186.99 178.20,206.34 151.57,186.99" fill="url(#pentaGrad)"/>
+    <polygon points="98.26,155.69 108.43,186.99 81.80,206.34 55.17,186.99 65.34,155.69" fill="url(#pentaGrad)"/>
+    <polygon points="78.64,95.31 52.01,114.66 25.38,95.31 35.56,64.01 68.47,64.01" fill="url(#pentaGrad)"/>
+    <line x1="130.00" y1="81.00" x2="130.00" y2="58.00" stroke="#7bbcd9" stroke-width="2.5"/>
+    <line x1="159.48" y1="102.42" x2="181.36" y2="95.31" stroke="#7bbcd9" stroke-width="2.5"/>
+    <line x1="148.22" y1="137.08" x2="161.74" y2="155.69" stroke="#7bbcd9" stroke-width="2.5"/>
+    <line x1="111.78" y1="137.08" x2="98.26" y2="155.69" stroke="#7bbcd9" stroke-width="2.5"/>
+    <line x1="100.52" y1="102.42" x2="78.64" y2="95.31" stroke="#7bbcd9" stroke-width="2.5"/>
+    <!-- gloss highlight -->
+    <ellipse cx="102" cy="59" rx="52" ry="30" fill="#ffffff" opacity="0.35"/>
+  </g>
+
+  <!-- swoosh ring, front half (in front of the ball) -->
+  <g transform="translate(130,112) rotate(-20)">
+    <clipPath id="ringFront"><rect x="-160" y="0" width="320" height="80"/></clipPath>
+    <path clip-path="url(#ringFront)" fill="url(#ribbonGrad)" fill-rule="evenodd"
+      d="M -122 0 A 122 42 0 1 1 122 0 A 122 42 0 1 1 -122 0 Z
+         M -103 0 A 103 25 0 1 0 103 0 A 103 25 0 1 0 -103 0 Z"/>
+  </g>
+</svg>
