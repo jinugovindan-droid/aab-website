@@ -152,9 +152,15 @@ main:focus { outline: none; }
 }
 @keyframes logo-ball-in { from { opacity: 0; } }
 @keyframes logo-classic-out { to { opacity: 0; transform: scale(0.78); } }
+@keyframes logo-classic-fade { to { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
-  .logo-anim__ball { animation: none; }
-  .logo-anim__classic, .logo-anim__wordmark { display: none; }
+  /* tokens.css kills all animation under reduced motion with `* { animation:
+     none !important }`. Opacity-only fades carry no vestibular motion, so the
+     logo keeps a gentle crossfade: !important on a class selector outranks the
+     universal kill. The scale is dropped (logo-classic-fade animates opacity
+     only), so nothing moves. */
+  .logo-anim__ball { animation: logo-ball-in 1.8s ease-out 0.7s backwards !important; }
+  .logo-anim__classic { animation: logo-classic-fade 2.2s ease-in-out 0.7s forwards !important; }
 }
 .topnav__list { display: flex; gap: 18px; flex: 1; align-items: center; }
 .topnav__link {
