@@ -60,8 +60,8 @@ PAGE_TO_PATH = {
 
 PAGE_SEO = {
     "services": {
-        "title": "Services — Bookkeeping, VAT, Corporate Tax & Advisory | Authentic Accounting",
-        "description": "Compliance and advisory services for UAE businesses: bookkeeping, VAT, Corporate Tax, IFRS financial statements, valuations, M&A support and due diligence.",
+        "title": "Services — Accounting, VAT, Corporate Tax & Advisory | Authentic Accounting",
+        "description": "Compliance and advisory services for UAE businesses: accounting, VAT, Corporate Tax, IFRS financial statements, valuations, M&A support and due diligence.",
     },
     "service-vat": {
         "title": "VAT Compliance UAE — Registration, Filing & FTA Support | Authentic Accounting",
@@ -169,7 +169,7 @@ PAGE_SEO = {
     },
     "contact": {
         "title": "Contact Us — Book a Consultation | Authentic Accounting Dubai",
-        "description": "Contact Authentic Accounting in Dubai. Book a consultation for bookkeeping, VAT, Corporate Tax, valuations or advisory support across the UAE.",
+        "description": "Contact Authentic Accounting in Dubai. Book a consultation for accounting, VAT, Corporate Tax, valuations or advisory support across the UAE.",
     },
     "privacy": {
         "title": "Privacy Policy | Authentic Accounting Dubai",

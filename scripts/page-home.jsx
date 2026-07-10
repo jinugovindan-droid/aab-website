@@ -7,15 +7,14 @@ const { pathForPage, pathForInsight, INSIGHTS } = window.AARoutes;
 // Auto-advance pauses on hover/focus; disabled entirely under prefers-reduced-motion.
 const HERO_SLIDES = [
   {
-    eyebrow: 'UAE · Compliance & Advisory · Since 2017',
+    eyebrow: 'Advisory · Controls · Compliance',
     title: (
       <>
-        Compliance<br />
-        and advisory,<br />
-        built on <span style={{ color: 'var(--aa-cyan)' }}>controls</span>.
+        Advisory<br />
+        Engineered<span style={{ color: 'var(--aa-cyan)' }}>.</span>
       </>
     ),
-    lead: 'Bookkeeping, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government organisations across the UAE — delivered with reconciliation discipline.',
+    lead: 'Accounting, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government organisations across the UAE — delivered with reconciliation discipline.',
     ctaPrimary:   { label: 'Book a consultation', page: 'contact' },
     ctaSecondary: { label: 'Meet the firm',       page: 'about' },
     bgImage: 'assets/images/dubai-night-king.jpg',

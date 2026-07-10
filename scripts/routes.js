@@ -235,12 +235,12 @@
 
   const PAGE_SEO = {
     home: {
-      title: 'Authentic Accounting — UAE Compliance & Advisory · Bookkeeping, VAT, Corporate Tax, Valuations',
-      description: 'UAE-based accounting and advisory firm serving SMEs, enterprises and Government across all 7 emirates. Bookkeeping, VAT, Corporate Tax filing, financial statements (IFRS), valuations, M&A support and due diligence — delivered with reconciliation discipline since 2017.',
+      title: 'Authentic Accounting — UAE Compliance & Advisory · Accounting, VAT, Corporate Tax, E-Invoicing',
+      description: 'UAE-based accounting and advisory firm serving SMEs, enterprises and Government across all 7 emirates. Accounting, VAT, UAE Corporate Tax, E-Invoicing, financial statements (IFRS), valuations and due diligence — delivered with reconciliation discipline since 2017.',
     },
     services: {
-      title: 'Services — Bookkeeping, VAT, Corporate Tax & Advisory | Authentic Accounting',
-      description: 'Compliance and advisory services for UAE businesses: bookkeeping, VAT, Corporate Tax, IFRS financial statements, valuations, M&A support and due diligence.',
+      title: 'Services — Accounting, VAT, Corporate Tax & Advisory | Authentic Accounting',
+      description: 'Compliance and advisory services for UAE businesses: accounting, VAT, Corporate Tax, IFRS financial statements, valuations, M&A support and due diligence.',
     },
     'service-vat': {
       title: 'VAT Compliance UAE — Registration, Filing & FTA Support | Authentic Accounting',
@@ -348,7 +348,7 @@
     },
     contact: {
       title: 'Contact Us — Book a Consultation | Authentic Accounting Dubai',
-      description: 'Contact Authentic Accounting in Dubai. Book a consultation for bookkeeping, VAT, Corporate Tax, valuations or advisory support across the UAE.',
+      description: 'Contact Authentic Accounting in Dubai. Book a consultation for accounting, VAT, Corporate Tax, valuations or advisory support across the UAE.',
     },
     privacy: {
       title: 'Privacy Policy | Authentic Accounting Dubai',
