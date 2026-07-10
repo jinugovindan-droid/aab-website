@@ -610,6 +610,12 @@ function EInvoiceMarquee({ onNav }) {
       ))}
       <span className="aa-marquee__dot">·</span>
       <span className="aa-marquee__seg aa-marquee__cta">👉 Check your free e-invoicing readiness status — fill the 2-minute form →</span>
+      {FOOTBALL_LOGO_ACTIVE && (
+        <React.Fragment>
+          <span className="aa-marquee__dot">·</span>
+          <span className="aa-marquee__seg">⚽ Everyone&rsquo;s chasing goals this month — may your team&rsquo;s go in, and your business goals too. And remember: extra time is for football, not FTA deadlines. Good luck to every team!</span>
+        </React.Fragment>
+      )}
     </div>
   );
 
