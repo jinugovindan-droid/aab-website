@@ -1,8 +1,9 @@
 {
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/contacts", "destination": "/contact", "permanent": true },
+    { "source": "/vat-services-in-dubai", "destination": "/services/vat", "permanent": true },
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/index.php", "destination": "/", "permanent": true }
   ]
 }
