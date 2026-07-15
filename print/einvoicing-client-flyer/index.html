@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Authentic Accounting — UAE E-Invoicing Client Briefing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<style>
+  /* ----------------------------------------------------------
+     Authentic Accounting design tokens (inlined for portability)
+     ---------------------------------------------------------- */
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --aa-cyan:            #29ABE2;
+    --aa-cyan-600:        #1F8BBA;
+    --aa-cyan-700:        #176E93;
+    --aa-cyan-200:        #9BD8F0;
+    --aa-cyan-100:        #D6EEF9;
+    --aa-cyan-050:        #ECF7FC;
+
+    --aa-steel:           #6D6E71;
+    --aa-steel-700:       #525358;
+    --aa-steel-300:       #A7A8AB;
+    --aa-steel-200:       #C7C8CA;
+    --aa-steel-100:       #E4E5E7;
+
+    --aa-charcoal:        #1A1A2E;
+    --aa-charcoal-800:    #242438;
+    --aa-charcoal-600:    #3A3A4F;
+
+    --aa-surface:         #FFFFFF;
+    --aa-rule:            #E4E5E7;
+
+    --aa-font-display:    'Oswald', 'Archivo', 'Antique Olive', 'Helvetica Neue Condensed', sans-serif;
+    --aa-font-sans:       'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+    --aa-w-regular: 400;
+    --aa-w-semibold: 600;
+    --aa-w-display: 700;
+
+    --aa-ls-wordmark: 0.04em;
+    --aa-ls-eyebrow:  0.14em;
+  }
+
+  /* ----------------------------------------------------------
+     A4 portrait flyer — 210mm × 297mm, 20mm document margins
+     Institutional register, statutory typographic discipline
+     ---------------------------------------------------------- */
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html, body {
+    background: #54565a;            /* neutral grey gallery surround on screen */
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Screen-only gallery framing */
+  .gallery {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 28px 16px 56px;
+  }
+
+  /* The page itself */
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: var(--aa-surface);
+    color: var(--aa-charcoal);
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 18px 56px rgba(0,0,0,0.28);
+    font-family: var(--aa-font-sans);
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============================================================
+     HEADER BAND
+     ============================================================ */
+  .hdr {
+    padding: 8mm 20mm 4mm;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 12mm;
+  }
+  .hdr__logo {
+    display: block;
+    width: 46mm;
+    height: auto;
+  }
+  .hdr__logo-link {
+    display: inline-block;
+    line-height: 0;
+  }
+  .hdr__meta {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 2mm;
+    align-self: center;
+  }
+  .hdr__tagline {
+    font-family: var(--aa-font-display);
+    font-weight: var(--aa-w-display);
+    font-size: 11pt;
+    letter-spacing: var(--aa-ls-wordmark);
+    text-transform: uppercase;
+    color: var(--aa-charcoal);
+  }
+  .hdr__tagline em {
+    color: var(--aa-cyan);
+    font-style: normal;
+  }
+  .hdr__site {
+    font-size: 9.5pt;
+    color: var(--aa-steel);
+    letter-spacing: 0.02em;
+  }
+  .hdr__site a {
+    color: var(--aa-steel);
+    text-decoration: none;
+    border-bottom: 1px solid var(--aa-rule);
+    padding-bottom: 1px;
+  }
+  .hdr__site a:hover { color: var(--aa-cyan-700); border-bottom-color: var(--aa-cyan); }
+
+  .hdr-rule {
+    margin: 0 20mm;
+    height: 2px;
+    background: var(--aa-cyan);
+  }
+
+  /* ============================================================
+     BODY
+     ============================================================ */
+  .body {
+    flex: 1;
+    padding: 3.5mm 20mm 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2.8mm;
+  }
+
+  .eyebrow {
+    font-family: var(--aa-font-sans);
+    font-weight: var(--aa-w-semibold);
+    font-size: 9pt;
+    letter-spacing: var(--aa-ls-eyebrow);
+    text-transform: uppercase;
+    color: var(--aa-cyan);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--aa-rule);
+  }
+  .eyebrow--charcoal { color: var(--aa-charcoal); }
+
+  .ref {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 8.5pt;
+    letter-spacing: var(--aa-ls-eyebrow);
+    text-transform: uppercase;
+    color: var(--aa-steel);
+    font-weight: var(--aa-w-semibold);
+  }
+  .ref .ref__code { color: var(--aa-charcoal); }
+
+  /* Headline */
+  .headline {
+    font-family: var(--aa-font-display);
+    font-weight: var(--aa-w-display);
+    font-size: 27pt;
+    line-height: 1.08;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    color: var(--aa-charcoal);
+    margin: 0;
+  }
+  .headline em {
+    font-style: normal;
+    color: var(--aa-cyan);
+  }
+
+  /* Lead paragraph */
+  .lead {
+    font-size: 10.5pt;
+    line-height: 1.5;
+    color: var(--aa-charcoal-800);
+    margin: 0;
+    max-width: 170mm;
+    text-wrap: pretty;
+  }
+  .lead strong {
+    color: var(--aa-charcoal);
+    font-weight: var(--aa-w-semibold);
+  }
+
+  /* ============================================================
+     KEY DATES TABLE
+     ============================================================ */
+  .dates {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .dates thead th {
+    background: var(--aa-cyan);
+    color: #fff;
+    text-align: left;
+    font-family: var(--aa-font-sans);
+    font-weight: var(--aa-w-semibold);
+    font-size: 9pt;
+    letter-spacing: var(--aa-ls-eyebrow);
+    text-transform: uppercase;
+    padding: 2.8mm 5mm;
+    border: 0;
+  }
+  .dates thead th.dates__date {
+    text-align: right;
+    width: 36mm;
+    white-space: nowrap;
+  }
+  .dates tbody td {
+    padding: 2.8mm 5mm;
+    border-bottom: 1px solid var(--aa-rule);
+    color: var(--aa-charcoal);
+    vertical-align: top;
+    line-height: 1.35;
+  }
+  .dates tbody tr:last-child td {
+    border-bottom: 2px solid var(--aa-charcoal);
+  }
+  .dates td.dates__milestone {
+    padding-right: 8mm;
+  }
+  .dates td.dates__milestone .qual {
+    display: block;
+    color: var(--aa-steel-700);
+    font-size: 9pt;
+    margin-top: 1mm;
+    font-weight: var(--aa-w-regular);
+  }
+  .dates td.dates__milestone .label {
+    font-weight: var(--aa-w-semibold);
+    color: var(--aa-charcoal);
+  }
+  .dates td.dates__date {
+    text-align: right;
+    font-weight: var(--aa-w-semibold);
+    color: var(--aa-charcoal);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .dates tr.is-key td {
+    background: var(--aa-cyan-050);
+  }
+
+  .footnote {
+    font-size: 8.5pt;
+    line-height: 1.45;
+    color: var(--aa-steel);
+    margin: 0;
+    padding-left: 0;
+    text-wrap: pretty;
+  }
+  .footnote .dagger {
+    color: var(--aa-cyan);
+    font-weight: var(--aa-w-semibold);
+    margin-right: 2px;
+  }
+  .footnote .fn-key {
+    color: var(--aa-charcoal);
+    font-weight: var(--aa-w-semibold);
+  }
+
+  /* ============================================================
+     COMMITMENT BLOCK
+     ============================================================ */
+  .commit {
+    border-top: 2px solid var(--aa-charcoal);
+    padding-top: 3.5mm;
+    margin-top: 0.5mm;
+    display: grid;
+    grid-template-columns: 50mm 1fr;
+    grid-template-rows: auto auto;
+    gap: 0 10mm;
+    align-items: start;
+  }
+  .commit__body{grid-row:1 / span 2}
+  .commit__title {
+    font-family: var(--aa-font-display);
+    font-weight: var(--aa-w-display);
+    font-size: 15pt;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--aa-charcoal);
+    margin: 0;
+  }
+  .commit__title em {
+    font-style: normal;
+    color: var(--aa-cyan);
+    display: block;
+  }
+  .commit__title .small {
+    display: block;
+    margin-top: 2mm;
+    font-family: var(--aa-font-sans);
+    font-weight: var(--aa-w-semibold);
+    font-size: 8.5pt;
+    letter-spacing: var(--aa-ls-eyebrow);
+    color: var(--aa-steel);
+    text-transform: uppercase;
+  }
+  .commit__body p {
+    margin: 0 0 2mm;
+    font-size: 9.5pt;
+    line-height: 1.5;
+    color: var(--aa-charcoal-800);
+  }
+  .commit__body p:last-child { margin-bottom: 0; }
+
+  .commit__scope {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1mm 6mm;
+    margin: 2mm 0;
+    padding: 2mm 0;
+    border-top: 1px solid var(--aa-rule);
+    border-bottom: 1px solid var(--aa-rule);
+    list-style: none;
+  }
+  .commit__scope li {
+    list-style: none;
+    font-size: 9.5pt;
+    color: var(--aa-charcoal);
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    line-height: 1.35;
+  }
+  .commit__scope li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--aa-cyan);
+    flex-shrink: 0;
+    transform: translateY(-1px);
+  }
+
+  /* QR invite — bottom-left corner */
+  .commit__qr{margin-top:4mm;display:inline-flex;flex-direction:column;gap:1.8mm;text-decoration:none}
+  .commit__qr .qr-box{width:22mm;height:22mm;line-height:0}
+  .commit__qr .qr-box svg{width:100%;height:100%}
+  .commit__qr .qr-cap{font-size:7pt;letter-spacing:var(--aa-ls-eyebrow);text-transform:uppercase;font-weight:var(--aa-w-semibold);color:var(--aa-steel);line-height:1.4}
+  .commit__qr .qr-cap em{font-style:normal;color:var(--aa-cyan-700);display:block}
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .ftr {
+    margin-top: auto;
+    background: var(--aa-charcoal);
+    color: #fff;
+    padding: 9mm 20mm;
+    min-height: 21mm;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8mm;
+  }
+  .ftr__brand {
+    font-family: var(--aa-font-display);
+    font-weight: var(--aa-w-display);
+    text-transform: uppercase;
+    letter-spacing: var(--aa-ls-wordmark);
+    font-size: 12pt;
+    color: var(--aa-cyan);
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 150ms ease-out;
+  }
+  .ftr__brand:hover { color: #fff; }
+  .ftr__contact {
+    font-size: 8.25pt;
+    line-height: 1.4;
+    color: #fff;
+  }
+  .ftr__contact a {
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+    padding-bottom: 1px;
+    transition: border-color 150ms ease-out, color 150ms ease-out;
+  }
+  .ftr__contact a:hover {
+    color: var(--aa-cyan);
+    border-bottom-color: var(--aa-cyan);
+  }
+  .ftr__row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .ftr__row > span { white-space: nowrap; }
+  .ftr__row .sep {
+    color: var(--aa-cyan);
+    opacity: 0.5;
+  }
+  .ftr__row .ico {
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: -2px;
+    margin-right: 5px;
+    color: var(--aa-cyan);
+  }
+  .ftr__row .ico--wa {
+    width: 14px;
+    height: 14px;
+  }
+  .ftr__row a {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Print / PDF */
+  @media print {
+    html, body { background: #fff; }
+    .gallery { padding: 0; }
+    .page { box-shadow: none; }
+
+    /* PDF link annotations: anchors need a simple inline-block rect
+       and a clearly-visible affordance. We use real text-decoration
+       (not a CSS border) because some PDF engines only mark <a>
+       elements whose visible text has text-decoration:underline. */
+    a, a:link, a:visited {
+      color: inherit;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .ftr__contact a {
+      display: inline-block !important;
+      vertical-align: baseline !important;
+      border-bottom: 0 !important;
+      text-decoration: underline !important;
+      text-decoration-color: rgba(255,255,255,0.55) !important;
+      text-decoration-thickness: 1px !important;
+      text-underline-offset: 2px !important;
+      color: #fff !important;
+    }
+    .ftr__brand,
+    .hdr__site a,
+    .hdr__logo-link {
+      display: inline-block !important;
+      vertical-align: baseline !important;
+    }
+    .ftr__row .ico {
+      vertical-align: -2px !important;
+      display: inline-block !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="gallery">
+  <article class="page" data-screen-label="01 E-Invoicing Flyer">
+
+    <!-- ============== HEADER ============== -->
+    <header class="hdr">
+      <a class="hdr__logo-link" href="https://www.aaccounting.me" target="_blank" rel="noopener" aria-label="Visit www.aaccounting.me">
+        <img class="hdr__logo"
+             src="assets/logos/aa-logo.png"
+             alt="Authentic Accounting — www.aaccounting.me" />
+      </a>
+      <div class="hdr__meta">
+        <div class="hdr__tagline">Advisory, <em>Engineered.</em></div>
+        <div class="hdr__site"><a href="https://www.aaccounting.me" target="_blank" rel="noopener">www.aaccounting.me</a></div>
+      </div>
+    </header>
+    <div class="hdr-rule"></div>
+
+    <!-- ============== BODY ============== -->
+    <div class="body">
+
+      <div class="ref">
+        <span>Client Briefing</span>
+        <span class="ref__code">UAE · Ministry of Finance · E-Invoicing Mandate</span>
+      </div>
+
+      <h1 class="headline">
+        UAE E-Invoicing Is Coming &mdash;<br />
+        <em>We Have You Covered.</em>
+      </h1>
+
+      <p class="lead">
+        The <strong>UAE Ministry of Finance</strong> is rolling out a mandatory structured e-invoicing
+        system for all <strong>B2B</strong> and <strong>B2G</strong> transactions, built on the
+        international <strong>OpenPeppol</strong> standard and a <strong>5-corner</strong> exchange
+        model that routes every invoice through accredited service providers and the Federal Tax
+        Authority. Authentic Accounting is fully prepared to guide each client through readiness
+        and compliance — well ahead of the phased deadlines below.
+      </p>
+
+      <!-- ============== IMPLEMENTATION TIMELINES ============== -->
+      <div>
+        <div class="eyebrow eyebrow--charcoal">Implementation Timelines &nbsp;·&nbsp; Phased Rollout</div>
+      </div>
+
+      <table class="dates" aria-label="UAE E-Invoicing — Implementation Timelines">
+        <thead>
+          <tr>
+            <th scope="col">Phase · Business Category</th>
+            <th scope="col" class="dates__date">ASP Selection</th>
+            <th scope="col" class="dates__date">System Readiness</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="is-key">
+            <td class="dates__milestone">
+              <span class="label">Phase 1 — Large Business</span>
+              <span class="qual">Annual revenue ≥ AED 50,000,000</span>
+            </td>
+            <td class="dates__date">30 Oct 2026</td>
+            <td class="dates__date">1 Jan 2027</td>
+          </tr>
+          <tr>
+            <td class="dates__milestone">
+              <span class="label">Phase 2 — Small / Medium Business</span>
+              <span class="qual">Annual revenue &lt; AED 50,000,000</span>
+            </td>
+            <td class="dates__date">31 Mar 2027</td>
+            <td class="dates__date">1 Jul 2027</td>
+          </tr>
+          <tr>
+            <td class="dates__milestone">
+              <span class="label">Phase 3 — Government Entities</span>
+              <span class="qual">In scope</span>
+            </td>
+            <td class="dates__date">31 Mar 2027</td>
+            <td class="dates__date">1 Oct 2027</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="footnote">
+        <span class="dagger">†</span>
+        <strong class="fn-key">ASP Selection</strong> — deadline for each business to appoint its
+        Accredited Service Provider. <strong class="fn-key">System Readiness</strong> — mandatory
+        go-live; from this date, only structured invoices transmitted through an ASP
+        will be valid. PDF and paper invoices will not.
+      </p>
+
+      <!-- ============== COMMITMENT ============== -->
+      <section class="commit">
+        <h2 class="commit__title">
+          Our<br />Commitment
+          <span class="small">To Every Client</span>
+        </h2>
+        <a class="commit__qr" href="https://www.aaccounting.me/go/einv-flyer-wa" target="_blank" rel="noopener" aria-label="Scan or click to open aaccounting.me/e-invoicing" style="grid-row:2">
+          <span class="qr-box" id="qr-invite"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 116 116"  preserveAspectRatio="xMinYMin meet"><rect width="100%" height="100%" fill="white" cx="0" cy="0"/><path d="M0,0l4,0 0,4 -4,0 0,-4z M4,0l4,0 0,4 -4,0 0,-4z M8,0l4,0 0,4 -4,0 0,-4z M12,0l4,0 0,4 -4,0 0,-4z M16,0l4,0 0,4 -4,0 0,-4z M20,0l4,0 0,4 -4,0 0,-4z M24,0l4,0 0,4 -4,0 0,-4z M32,0l4,0 0,4 -4,0 0,-4z M36,0l4,0 0,4 -4,0 0,-4z M40,0l4,0 0,4 -4,0 0,-4z M52,0l4,0 0,4 -4,0 0,-4z M64,0l4,0 0,4 -4,0 0,-4z M72,0l4,0 0,4 -4,0 0,-4z M76,0l4,0 0,4 -4,0 0,-4z M80,0l4,0 0,4 -4,0 0,-4z M88,0l4,0 0,4 -4,0 0,-4z M92,0l4,0 0,4 -4,0 0,-4z M96,0l4,0 0,4 -4,0 0,-4z M100,0l4,0 0,4 -4,0 0,-4z M104,0l4,0 0,4 -4,0 0,-4z M108,0l4,0 0,4 -4,0 0,-4z M112,0l4,0 0,4 -4,0 0,-4z M0,4l4,0 0,4 -4,0 0,-4z M24,4l4,0 0,4 -4,0 0,-4z M32,4l4,0 0,4 -4,0 0,-4z M40,4l4,0 0,4 -4,0 0,-4z M48,4l4,0 0,4 -4,0 0,-4z M72,4l4,0 0,4 -4,0 0,-4z M80,4l4,0 0,4 -4,0 0,-4z M88,4l4,0 0,4 -4,0 0,-4z M112,4l4,0 0,4 -4,0 0,-4z M0,8l4,0 0,4 -4,0 0,-4z M8,8l4,0 0,4 -4,0 0,-4z M12,8l4,0 0,4 -4,0 0,-4z M16,8l4,0 0,4 -4,0 0,-4z M24,8l4,0 0,4 -4,0 0,-4z M36,8l4,0 0,4 -4,0 0,-4z M44,8l4,0 0,4 -4,0 0,-4z M52,8l4,0 0,4 -4,0 0,-4z M60,8l4,0 0,4 -4,0 0,-4z M72,8l4,0 0,4 -4,0 0,-4z M80,8l4,0 0,4 -4,0 0,-4z M88,8l4,0 0,4 -4,0 0,-4z M96,8l4,0 0,4 -4,0 0,-4z M100,8l4,0 0,4 -4,0 0,-4z M104,8l4,0 0,4 -4,0 0,-4z M112,8l4,0 0,4 -4,0 0,-4z M0,12l4,0 0,4 -4,0 0,-4z M8,12l4,0 0,4 -4,0 0,-4z M12,12l4,0 0,4 -4,0 0,-4z M16,12l4,0 0,4 -4,0 0,-4z M24,12l4,0 0,4 -4,0 0,-4z M32,12l4,0 0,4 -4,0 0,-4z M48,12l4,0 0,4 -4,0 0,-4z M52,12l4,0 0,4 -4,0 0,-4z M56,12l4,0 0,4 -4,0 0,-4z M60,12l4,0 0,4 -4,0 0,-4z M68,12l4,0 0,4 -4,0 0,-4z M72,12l4,0 0,4 -4,0 0,-4z M76,12l4,0 0,4 -4,0 0,-4z M88,12l4,0 0,4 -4,0 0,-4z M96,12l4,0 0,4 -4,0 0,-4z M100,12l4,0 0,4 -4,0 0,-4z M104,12l4,0 0,4 -4,0 0,-4z M112,12l4,0 0,4 -4,0 0,-4z M0,16l4,0 0,4 -4,0 0,-4z M8,16l4,0 0,4 -4,0 0,-4z M12,16l4,0 0,4 -4,0 0,-4z M16,16l4,0 0,4 -4,0 0,-4z M24,16l4,0 0,4 -4,0 0,-4z M36,16l4,0 0,4 -4,0 0,-4z M52,16l4,0 0,4 -4,0 0,-4z M60,16l4,0 0,4 -4,0 0,-4z M64,16l4,0 0,4 -4,0 0,-4z M76,16l4,0 0,4 -4,0 0,-4z M88,16l4,0 0,4 -4,0 0,-4z M96,16l4,0 0,4 -4,0 0,-4z M100,16l4,0 0,4 -4,0 0,-4z M104,16l4,0 0,4 -4,0 0,-4z M112,16l4,0 0,4 -4,0 0,-4z M0,20l4,0 0,4 -4,0 0,-4z M24,20l4,0 0,4 -4,0 0,-4z M36,20l4,0 0,4 -4,0 0,-4z M40,20l4,0 0,4 -4,0 0,-4z M52,20l4,0 0,4 -4,0 0,-4z M68,20l4,0 0,4 -4,0 0,-4z M72,20l4,0 0,4 -4,0 0,-4z M76,20l4,0 0,4 -4,0 0,-4z M80,20l4,0 0,4 -4,0 0,-4z M88,20l4,0 0,4 -4,0 0,-4z M112,20l4,0 0,4 -4,0 0,-4z M0,24l4,0 0,4 -4,0 0,-4z M4,24l4,0 0,4 -4,0 0,-4z M8,24l4,0 0,4 -4,0 0,-4z M12,24l4,0 0,4 -4,0 0,-4z M16,24l4,0 0,4 -4,0 0,-4z M20,24l4,0 0,4 -4,0 0,-4z M24,24l4,0 0,4 -4,0 0,-4z M32,24l4,0 0,4 -4,0 0,-4z M40,24l4,0 0,4 -4,0 0,-4z M48,24l4,0 0,4 -4,0 0,-4z M56,24l4,0 0,4 -4,0 0,-4z M64,24l4,0 0,4 -4,0 0,-4z M72,24l4,0 0,4 -4,0 0,-4z M80,24l4,0 0,4 -4,0 0,-4z M88,24l4,0 0,4 -4,0 0,-4z M92,24l4,0 0,4 -4,0 0,-4z M96,24l4,0 0,4 -4,0 0,-4z M100,24l4,0 0,4 -4,0 0,-4z M104,24l4,0 0,4 -4,0 0,-4z M108,24l4,0 0,4 -4,0 0,-4z M112,24l4,0 0,4 -4,0 0,-4z M32,28l4,0 0,4 -4,0 0,-4z M40,28l4,0 0,4 -4,0 0,-4z M48,28l4,0 0,4 -4,0 0,-4z M64,28l4,0 0,4 -4,0 0,-4z M68,28l4,0 0,4 -4,0 0,-4z M80,28l4,0 0,4 -4,0 0,-4z M0,32l4,0 0,4 -4,0 0,-4z M8,32l4,0 0,4 -4,0 0,-4z M12,32l4,0 0,4 -4,0 0,-4z M20,32l4,0 0,4 -4,0 0,-4z M24,32l4,0 0,4 -4,0 0,-4z M28,32l4,0 0,4 -4,0 0,-4z M40,32l4,0 0,4 -4,0 0,-4z M44,32l4,0 0,4 -4,0 0,-4z M48,32l4,0 0,4 -4,0 0,-4z M56,32l4,0 0,4 -4,0 0,-4z M60,32l4,0 0,4 -4,0 0,-4z M64,32l4,0 0,4 -4,0 0,-4z M68,32l4,0 0,4 -4,0 0,-4z M72,32l4,0 0,4 -4,0 0,-4z M88,32l4,0 0,4 -4,0 0,-4z M100,32l4,0 0,4 -4,0 0,-4z M108,32l4,0 0,4 -4,0 0,-4z M112,32l4,0 0,4 -4,0 0,-4z M8,36l4,0 0,4 -4,0 0,-4z M12,36l4,0 0,4 -4,0 0,-4z M16,36l4,0 0,4 -4,0 0,-4z M20,36l4,0 0,4 -4,0 0,-4z M28,36l4,0 0,4 -4,0 0,-4z M32,36l4,0 0,4 -4,0 0,-4z M40,36l4,0 0,4 -4,0 0,-4z M68,36l4,0 0,4 -4,0 0,-4z M72,36l4,0 0,4 -4,0 0,-4z M76,36l4,0 0,4 -4,0 0,-4z M80,36l4,0 0,4 -4,0 0,-4z M84,36l4,0 0,4 -4,0 0,-4z M88,36l4,0 0,4 -4,0 0,-4z M92,36l4,0 0,4 -4,0 0,-4z M96,36l4,0 0,4 -4,0 0,-4z M112,36l4,0 0,4 -4,0 0,-4z M4,40l4,0 0,4 -4,0 0,-4z M20,40l4,0 0,4 -4,0 0,-4z M24,40l4,0 0,4 -4,0 0,-4z M28,40l4,0 0,4 -4,0 0,-4z M36,40l4,0 0,4 -4,0 0,-4z M68,40l4,0 0,4 -4,0 0,-4z M72,40l4,0 0,4 -4,0 0,-4z M80,40l4,0 0,4 -4,0 0,-4z M92,40l4,0 0,4 -4,0 0,-4z M96,40l4,0 0,4 -4,0 0,-4z M104,40l4,0 0,4 -4,0 0,-4z M108,40l4,0 0,4 -4,0 0,-4z M4,44l4,0 0,4 -4,0 0,-4z M8,44l4,0 0,4 -4,0 0,-4z M20,44l4,0 0,4 -4,0 0,-4z M28,44l4,0 0,4 -4,0 0,-4z M32,44l4,0 0,4 -4,0 0,-4z M52,44l4,0 0,4 -4,0 0,-4z M56,44l4,0 0,4 -4,0 0,-4z M60,44l4,0 0,4 -4,0 0,-4z M72,44l4,0 0,4 -4,0 0,-4z M76,44l4,0 0,4 -4,0 0,-4z M80,44l4,0 0,4 -4,0 0,-4z M84,44l4,0 0,4 -4,0 0,-4z M88,44l4,0 0,4 -4,0 0,-4z M92,44l4,0 0,4 -4,0 0,-4z M96,44l4,0 0,4 -4,0 0,-4z M112,44l4,0 0,4 -4,0 0,-4z M0,48l4,0 0,4 -4,0 0,-4z M4,48l4,0 0,4 -4,0 0,-4z M20,48l4,0 0,4 -4,0 0,-4z M24,48l4,0 0,4 -4,0 0,-4z M28,48l4,0 0,4 -4,0 0,-4z M36,48l4,0 0,4 -4,0 0,-4z M40,48l4,0 0,4 -4,0 0,-4z M44,48l4,0 0,4 -4,0 0,-4z M48,48l4,0 0,4 -4,0 0,-4z M52,48l4,0 0,4 -4,0 0,-4z M56,48l4,0 0,4 -4,0 0,-4z M60,48l4,0 0,4 -4,0 0,-4z M64,48l4,0 0,4 -4,0 0,-4z M68,48l4,0 0,4 -4,0 0,-4z M80,48l4,0 0,4 -4,0 0,-4z M100,48l4,0 0,4 -4,0 0,-4z M104,48l4,0 0,4 -4,0 0,-4z M0,52l4,0 0,4 -4,0 0,-4z M4,52l4,0 0,4 -4,0 0,-4z M20,52l4,0 0,4 -4,0 0,-4z M28,52l4,0 0,4 -4,0 0,-4z M36,52l4,0 0,4 -4,0 0,-4z M40,52l4,0 0,4 -4,0 0,-4z M60,52l4,0 0,4 -4,0 0,-4z M64,52l4,0 0,4 -4,0 0,-4z M68,52l4,0 0,4 -4,0 0,-4z M76,52l4,0 0,4 -4,0 0,-4z M88,52l4,0 0,4 -4,0 0,-4z M92,52l4,0 0,4 -4,0 0,-4z M104,52l4,0 0,4 -4,0 0,-4z M108,52l4,0 0,4 -4,0 0,-4z M112,52l4,0 0,4 -4,0 0,-4z M8,56l4,0 0,4 -4,0 0,-4z M12,56l4,0 0,4 -4,0 0,-4z M24,56l4,0 0,4 -4,0 0,-4z M28,56l4,0 0,4 -4,0 0,-4z M32,56l4,0 0,4 -4,0 0,-4z M48,56l4,0 0,4 -4,0 0,-4z M64,56l4,0 0,4 -4,0 0,-4z M72,56l4,0 0,4 -4,0 0,-4z M76,56l4,0 0,4 -4,0 0,-4z M88,56l4,0 0,4 -4,0 0,-4z M92,56l4,0 0,4 -4,0 0,-4z M96,56l4,0 0,4 -4,0 0,-4z M104,56l4,0 0,4 -4,0 0,-4z M108,56l4,0 0,4 -4,0 0,-4z M112,56l4,0 0,4 -4,0 0,-4z M0,60l4,0 0,4 -4,0 0,-4z M8,60l4,0 0,4 -4,0 0,-4z M12,60l4,0 0,4 -4,0 0,-4z M20,60l4,0 0,4 -4,0 0,-4z M32,60l4,0 0,4 -4,0 0,-4z M36,60l4,0 0,4 -4,0 0,-4z M40,60l4,0 0,4 -4,0 0,-4z M44,60l4,0 0,4 -4,0 0,-4z M64,60l4,0 0,4 -4,0 0,-4z M76,60l4,0 0,4 -4,0 0,-4z M80,60l4,0 0,4 -4,0 0,-4z M92,60l4,0 0,4 -4,0 0,-4z M96,60l4,0 0,4 -4,0 0,-4z M108,60l4,0 0,4 -4,0 0,-4z M0,64l4,0 0,4 -4,0 0,-4z M4,64l4,0 0,4 -4,0 0,-4z M8,64l4,0 0,4 -4,0 0,-4z M16,64l4,0 0,4 -4,0 0,-4z M20,64l4,0 0,4 -4,0 0,-4z M24,64l4,0 0,4 -4,0 0,-4z M36,64l4,0 0,4 -4,0 0,-4z M48,64l4,0 0,4 -4,0 0,-4z M56,64l4,0 0,4 -4,0 0,-4z M60,64l4,0 0,4 -4,0 0,-4z M76,64l4,0 0,4 -4,0 0,-4z M80,64l4,0 0,4 -4,0 0,-4z M84,64l4,0 0,4 -4,0 0,-4z M96,64l4,0 0,4 -4,0 0,-4z M100,64l4,0 0,4 -4,0 0,-4z M108,64l4,0 0,4 -4,0 0,-4z M4,68l4,0 0,4 -4,0 0,-4z M36,68l4,0 0,4 -4,0 0,-4z M40,68l4,0 0,4 -4,0 0,-4z M60,68l4,0 0,4 -4,0 0,-4z M68,68l4,0 0,4 -4,0 0,-4z M80,68l4,0 0,4 -4,0 0,-4z M92,68l4,0 0,4 -4,0 0,-4z M100,68l4,0 0,4 -4,0 0,-4z M104,68l4,0 0,4 -4,0 0,-4z M108,68l4,0 0,4 -4,0 0,-4z M0,72l4,0 0,4 -4,0 0,-4z M8,72l4,0 0,4 -4,0 0,-4z M12,72l4,0 0,4 -4,0 0,-4z M16,72l4,0 0,4 -4,0 0,-4z M20,72l4,0 0,4 -4,0 0,-4z M24,72l4,0 0,4 -4,0 0,-4z M28,72l4,0 0,4 -4,0 0,-4z M48,72l4,0 0,4 -4,0 0,-4z M52,72l4,0 0,4 -4,0 0,-4z M56,72l4,0 0,4 -4,0 0,-4z M60,72l4,0 0,4 -4,0 0,-4z M64,72l4,0 0,4 -4,0 0,-4z M68,72l4,0 0,4 -4,0 0,-4z M80,72l4,0 0,4 -4,0 0,-4z M84,72l4,0 0,4 -4,0 0,-4z M92,72l4,0 0,4 -4,0 0,-4z M104,72l4,0 0,4 -4,0 0,-4z M16,76l4,0 0,4 -4,0 0,-4z M28,76l4,0 0,4 -4,0 0,-4z M32,76l4,0 0,4 -4,0 0,-4z M36,76l4,0 0,4 -4,0 0,-4z M40,76l4,0 0,4 -4,0 0,-4z M52,76l4,0 0,4 -4,0 0,-4z M56,76l4,0 0,4 -4,0 0,-4z M68,76l4,0 0,4 -4,0 0,-4z M72,76l4,0 0,4 -4,0 0,-4z M84,76l4,0 0,4 -4,0 0,-4z M88,76l4,0 0,4 -4,0 0,-4z M104,76l4,0 0,4 -4,0 0,-4z M4,80l4,0 0,4 -4,0 0,-4z M12,80l4,0 0,4 -4,0 0,-4z M20,80l4,0 0,4 -4,0 0,-4z M24,80l4,0 0,4 -4,0 0,-4z M36,80l4,0 0,4 -4,0 0,-4z M52,80l4,0 0,4 -4,0 0,-4z M56,80l4,0 0,4 -4,0 0,-4z M60,80l4,0 0,4 -4,0 0,-4z M64,80l4,0 0,4 -4,0 0,-4z M68,80l4,0 0,4 -4,0 0,-4z M72,80l4,0 0,4 -4,0 0,-4z M76,80l4,0 0,4 -4,0 0,-4z M80,80l4,0 0,4 -4,0 0,-4z M84,80l4,0 0,4 -4,0 0,-4z M88,80l4,0 0,4 -4,0 0,-4z M92,80l4,0 0,4 -4,0 0,-4z M96,80l4,0 0,4 -4,0 0,-4z M100,80l4,0 0,4 -4,0 0,-4z M104,80l4,0 0,4 -4,0 0,-4z M32,84l4,0 0,4 -4,0 0,-4z M36,84l4,0 0,4 -4,0 0,-4z M40,84l4,0 0,4 -4,0 0,-4z M48,84l4,0 0,4 -4,0 0,-4z M64,84l4,0 0,4 -4,0 0,-4z M72,84l4,0 0,4 -4,0 0,-4z M76,84l4,0 0,4 -4,0 0,-4z M80,84l4,0 0,4 -4,0 0,-4z M96,84l4,0 0,4 -4,0 0,-4z M100,84l4,0 0,4 -4,0 0,-4z M104,84l4,0 0,4 -4,0 0,-4z M108,84l4,0 0,4 -4,0 0,-4z M112,84l4,0 0,4 -4,0 0,-4z M0,88l4,0 0,4 -4,0 0,-4z M4,88l4,0 0,4 -4,0 0,-4z M8,88l4,0 0,4 -4,0 0,-4z M12,88l4,0 0,4 -4,0 0,-4z M16,88l4,0 0,4 -4,0 0,-4z M20,88l4,0 0,4 -4,0 0,-4z M24,88l4,0 0,4 -4,0 0,-4z M32,88l4,0 0,4 -4,0 0,-4z M36,88l4,0 0,4 -4,0 0,-4z M48,88l4,0 0,4 -4,0 0,-4z M56,88l4,0 0,4 -4,0 0,-4z M64,88l4,0 0,4 -4,0 0,-4z M72,88l4,0 0,4 -4,0 0,-4z M76,88l4,0 0,4 -4,0 0,-4z M80,88l4,0 0,4 -4,0 0,-4z M88,88l4,0 0,4 -4,0 0,-4z M96,88l4,0 0,4 -4,0 0,-4z M100,88l4,0 0,4 -4,0 0,-4z M108,88l4,0 0,4 -4,0 0,-4z M0,92l4,0 0,4 -4,0 0,-4z M24,92l4,0 0,4 -4,0 0,-4z M32,92l4,0 0,4 -4,0 0,-4z M40,92l4,0 0,4 -4,0 0,-4z M44,92l4,0 0,4 -4,0 0,-4z M48,92l4,0 0,4 -4,0 0,-4z M52,92l4,0 0,4 -4,0 0,-4z M56,92l4,0 0,4 -4,0 0,-4z M72,92l4,0 0,4 -4,0 0,-4z M80,92l4,0 0,4 -4,0 0,-4z M96,92l4,0 0,4 -4,0 0,-4z M100,92l4,0 0,4 -4,0 0,-4z M112,92l4,0 0,4 -4,0 0,-4z M0,96l4,0 0,4 -4,0 0,-4z M8,96l4,0 0,4 -4,0 0,-4z M12,96l4,0 0,4 -4,0 0,-4z M16,96l4,0 0,4 -4,0 0,-4z M24,96l4,0 0,4 -4,0 0,-4z M40,96l4,0 0,4 -4,0 0,-4z M44,96l4,0 0,4 -4,0 0,-4z M48,96l4,0 0,4 -4,0 0,-4z M60,96l4,0 0,4 -4,0 0,-4z M68,96l4,0 0,4 -4,0 0,-4z M80,96l4,0 0,4 -4,0 0,-4z M84,96l4,0 0,4 -4,0 0,-4z M88,96l4,0 0,4 -4,0 0,-4z M92,96l4,0 0,4 -4,0 0,-4z M96,96l4,0 0,4 -4,0 0,-4z M104,96l4,0 0,4 -4,0 0,-4z M108,96l4,0 0,4 -4,0 0,-4z M112,96l4,0 0,4 -4,0 0,-4z M0,100l4,0 0,4 -4,0 0,-4z M8,100l4,0 0,4 -4,0 0,-4z M12,100l4,0 0,4 -4,0 0,-4z M16,100l4,0 0,4 -4,0 0,-4z M24,100l4,0 0,4 -4,0 0,-4z M32,100l4,0 0,4 -4,0 0,-4z M44,100l4,0 0,4 -4,0 0,-4z M60,100l4,0 0,4 -4,0 0,-4z M64,100l4,0 0,4 -4,0 0,-4z M76,100l4,0 0,4 -4,0 0,-4z M84,100l4,0 0,4 -4,0 0,-4z M96,100l4,0 0,4 -4,0 0,-4z M100,100l4,0 0,4 -4,0 0,-4z M112,100l4,0 0,4 -4,0 0,-4z M0,104l4,0 0,4 -4,0 0,-4z M8,104l4,0 0,4 -4,0 0,-4z M12,104l4,0 0,4 -4,0 0,-4z M16,104l4,0 0,4 -4,0 0,-4z M24,104l4,0 0,4 -4,0 0,-4z M32,104l4,0 0,4 -4,0 0,-4z M40,104l4,0 0,4 -4,0 0,-4z M44,104l4,0 0,4 -4,0 0,-4z M48,104l4,0 0,4 -4,0 0,-4z M52,104l4,0 0,4 -4,0 0,-4z M56,104l4,0 0,4 -4,0 0,-4z M68,104l4,0 0,4 -4,0 0,-4z M72,104l4,0 0,4 -4,0 0,-4z M80,104l4,0 0,4 -4,0 0,-4z M92,104l4,0 0,4 -4,0 0,-4z M104,104l4,0 0,4 -4,0 0,-4z M112,104l4,0 0,4 -4,0 0,-4z M0,108l4,0 0,4 -4,0 0,-4z M24,108l4,0 0,4 -4,0 0,-4z M44,108l4,0 0,4 -4,0 0,-4z M52,108l4,0 0,4 -4,0 0,-4z M56,108l4,0 0,4 -4,0 0,-4z M64,108l4,0 0,4 -4,0 0,-4z M80,108l4,0 0,4 -4,0 0,-4z M84,108l4,0 0,4 -4,0 0,-4z M92,108l4,0 0,4 -4,0 0,-4z M100,108l4,0 0,4 -4,0 0,-4z M108,108l4,0 0,4 -4,0 0,-4z M0,112l4,0 0,4 -4,0 0,-4z M4,112l4,0 0,4 -4,0 0,-4z M8,112l4,0 0,4 -4,0 0,-4z M12,112l4,0 0,4 -4,0 0,-4z M16,112l4,0 0,4 -4,0 0,-4z M20,112l4,0 0,4 -4,0 0,-4z M24,112l4,0 0,4 -4,0 0,-4z M32,112l4,0 0,4 -4,0 0,-4z M48,112l4,0 0,4 -4,0 0,-4z M52,112l4,0 0,4 -4,0 0,-4z M56,112l4,0 0,4 -4,0 0,-4z M60,112l4,0 0,4 -4,0 0,-4z M76,112l4,0 0,4 -4,0 0,-4z M80,112l4,0 0,4 -4,0 0,-4z M84,112l4,0 0,4 -4,0 0,-4z M88,112l4,0 0,4 -4,0 0,-4z M100,112l4,0 0,4 -4,0 0,-4z M108,112l4,0 0,4 -4,0 0,-4z " stroke="transparent" fill="black"/></svg></span>
+          <span class="qr-cap">Scan to learn more &amp; download your customised e&#8209;invoicing report<em>aaccounting.me/e-invoicing</em></span>
+        </a>
+        <div class="commit__body">
+          <p>
+            Authentic Accounting is fully ready to support clients end-to-end on the
+            UAE e-invoicing transition. Our engagement covers:
+          </p>
+          <ul class="commit__scope">
+            <li>Scope assessment &amp; impact analysis</li>
+            <li>Accredited Service Provider (ASP) selection</li>
+            <li>ERP &amp; accounting-system field mapping</li>
+            <li>End-to-end compliance &amp; go-live support</li>
+          </ul>
+          <p>
+            We will be reaching out to you in due course with the specific further course
+            of action tailored to your business. In the meantime, you are welcome to
+            contact us directly at any time.
+          </p>
+        </div>
+      </section>
+
+    </div><!-- /.body -->
+
+    <!-- ============== FOOTER ============== -->
+    <footer class="ftr">
+      <a class="ftr__brand" href="https://www.aaccounting.me" target="_blank" rel="noopener">
+        Authentic Accounting
+      </a>
+      <div class="ftr__contact">
+        <div class="ftr__row">
+          <span><a href="https://wa.me/971565484635" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+            <svg class="ico ico--wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>+971 56 548 4635
+          </a></span>
+          <span class="sep">·</span>
+          <span><a href="mailto:johncy@aaccounting.me" aria-label="Email johncy@aaccounting.me">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>johncy@aaccounting.me
+          </a></span>
+          <span class="sep">·</span>
+          <span><a href="https://www.aaccounting.me" target="_blank" rel="noopener" aria-label="Visit www.aaccounting.me">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13.5 13.5 0 0 1 0 18M12 3a13.5 13.5 0 0 0 0 18"/></svg>www.aaccounting.me
+          </a></span>
+        </div>
+      </div>
+    </footer>
+
+  </article>
+</div>
+
+</body>
+</html>
