@@ -1454,6 +1454,9 @@ function ContactPage({ onNav }) {
     try {
       await window.AAContactSheet.submit(form);
       setSubmitted(true);
+      // The wizard is the PRIMARY lead path — report it like the lead tools do,
+      // so GA4 key events measure every conversion source.
+      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'contact-wizard', event_label: form.service || 'unspecified' });
     } catch (err) {
       setSendError('Could not send your request. Please try again, or email info@aaccounting.me / WhatsApp +971 56 548 4635 directly.');
     } finally {
