@@ -367,7 +367,28 @@ html { scroll-behavior: smooth; }
   .aa-hero__slide { animation: aa-fade-in 600ms ease-out both !important; transform: none !important; }
 }
 
-/* ---------- Hamburger menu (mobile) ---------- */
+/* ---------- About: engagement growth strip ---------- */
+/* One series, bottom-anchored columns on a shared baseline; the flex columns
+   in the bars row and the labels row match, so labels sit under their bars. */
+.aa-growth { margin: 4px 0 48px; }
+.aa-growth__bars {
+  display: flex; align-items: flex-end; gap: 8px;
+  border-bottom: 1px solid var(--aa-rule-strong);
+}
+.aa-growth__col { flex: 1; display: flex; justify-content: center; }
+.aa-growth__bar {
+  width: 22px;
+  background: var(--aa-cyan-700);
+  border-radius: 3px 3px 0 0;
+}
+.aa-growth__labels { display: flex; gap: 8px; margin-top: 8px; }
+.aa-growth__lab { flex: 1; text-align: center; }
+@media (max-width: 560px) {
+  .aa-growth__bar { width: 12px; }
+  .aa-growth__val { display: none; } /* values stay in the milestone cards */
+}
+.aa-traj-grid { display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 24px; row-gap: 40px; }
+@media (max-width: 900px) { .aa-traj-grid { grid-template-columns: repeat(2, 1fr); } }
 .topnav__burger {
   display: none;
   background: transparent;

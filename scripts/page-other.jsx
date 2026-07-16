@@ -164,24 +164,61 @@ function AboutPage({ onNav }) {
             <div className="section-head__eyebrow">Trajectory</div>
             <h2>Nine years, no shortcuts.</h2>
           </div>
-          <div style={{ position: 'relative' }}>
-            <div style={{ position: 'absolute', left: 0, right: 0, top: 24, height: 1, background: 'var(--aa-rule-strong)' }}></div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, position: 'relative' }}>
-              {[
-              ['2017', 'Founded', 'Single-partner firm in Dubai. First retained client: a logistics SME.'],
-              ['2018', 'VAT launch', 'UAE introduces 5% VAT. We file 70 first-quarter returns.'],
-              ['2024', 'CT readiness', 'UAE Corporate Tax registration and first-period filing get under way across our client base.'],
-              ['2026', '1,200+', 'TTM engagements cross 1,200. Serving clients across all seven emirates of the UAE.']].
-              map(([yr, t, d]) =>
-              <div key={yr}>
-                  <div style={{ width: 12, height: 12, background: 'var(--aa-cyan)', borderRadius: '50%', marginBottom: 18, position: 'relative', zIndex: 1, border: '3px solid var(--aa-surface-off)' }}></div>
-                  <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan-700)', fontWeight: 600 }}>{yr}</div>
-                  <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginTop: 6 }}>{t}</div>
-                  <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', marginTop: 6, lineHeight: 1.5 }}>{d}</div>
+          {(() => {
+            // TTM engagements per milestone year. Anchors: 2018 = the 70
+            // first-quarter VAT returns (≈280/yr) and 2026 = the published
+            // 1,200+ TTM. Interim years are ≈ approximations of the same
+            // curve — near-flat until UAE Corporate Tax lands, then the ramp.
+            const TRAJ = [
+              ['2017', 12, '12', 'Founded', 'Single-partner firm in Dubai. First retained client: a logistics SME.'],
+              ['2018', 280, '≈280', 'VAT launch', 'UAE introduces 5% VAT. We file 70 first-quarter returns.'],
+              ['2020', 340, '≈340', 'Steady base', 'The compliance base holds through the pandemic — closes and filings stay on schedule.'],
+              ['2022', 410, '≈410', 'Referral growth', 'The client base widens by referral; advisory becomes a steady second line.'],
+              ['2023', 480, '≈480', 'CT era opens', 'UAE Corporate Tax takes effect. Impact assessments and registrations begin.'],
+              ['2024', 800, '≈800', 'CT readiness', 'UAE Corporate Tax registration and first-period filing get under way across our client base.'],
+              ['2025', 1000, '≈1,000', 'First CT returns', 'First Corporate Tax returns filed at scale; e-invoicing readiness engagements begin.'],
+              ['2026', 1200, '1,200+', 'Seven emirates', 'TTM engagements cross 1,200. Serving clients across all seven emirates of the UAE.'],
+            ];
+            const MAX = 1200;
+            return (
+              <>
+                {/* Growth strip — one series, so one hue; every bar's value is
+                    printed below it (no tooltip layer needed). */}
+                <div className="aa-growth" role="img" aria-label="Engagements delivered per year: 12 in 2017, about 280 in 2018, about 340 in 2020, about 410 in 2022, about 480 in 2023, about 800 in 2024, about 1,000 in 2025, and 1,200-plus in 2026.">
+                  <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--aa-steel)', marginBottom: 16 }}>
+                    Engagements delivered per year
+                  </div>
+                  <div className="aa-growth__bars" aria-hidden="true">
+                    {TRAJ.map(([yr, v, label]) => (
+                      <div key={yr} className="aa-growth__col" title={`${yr}: ${label} engagements`}>
+                        <div className="aa-growth__bar" style={{ height: Math.max(3, Math.round(88 * v / MAX)) }} />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="aa-growth__labels" aria-hidden="true">
+                    {TRAJ.map(([yr, , label]) => (
+                      <div key={yr} className="aa-growth__lab">
+                        <div className="mono aa-growth__val" style={{ fontSize: 11, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{label}</div>
+                        <div className="mono" style={{ fontSize: 10, color: 'var(--aa-steel)', marginTop: 2 }}>{yr}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              )}
-            </div>
-          </div>
+
+                <div className="aa-traj-grid">
+                  {TRAJ.map(([yr, , label, t, d]) => (
+                    <div key={yr} style={{ borderTop: '1px solid var(--aa-rule-strong)' }}>
+                      <div style={{ width: 12, height: 12, background: 'var(--aa-cyan)', borderRadius: '50%', marginTop: -6, marginBottom: 14, position: 'relative', zIndex: 1, border: '3px solid var(--aa-surface-off)' }}></div>
+                      <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan-700)', fontWeight: 600 }}>{yr}</div>
+                      <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginTop: 6 }}>{t}</div>
+                      <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel-700)', marginTop: 5 }}>{label} engagements / yr</div>
+                      <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', marginTop: 6, lineHeight: 1.5 }}>{d}</div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            );
+          })()}
         </div>
       </section>
 
