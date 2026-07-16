@@ -67,12 +67,12 @@ function HomeHero({ onNav }) {
     if (reduce) return;
     const id = setInterval(() => {
       setSlideIndex((i) => (i + 1) % slideCount);
-    }, 8000);
+    }, 5000);
     return () => clearInterval(id);
   }, [paused, slideCount]);
 
-  // Prewarm the other slides' images once the page is idle, so the 8s
-  // crossfade doesn't fetch a 100KB+ JPEG mid-animation.
+  // Prewarm the other slides' images once the page is idle, so the 5s
+  // rotation doesn't fetch a 100KB+ JPEG mid-animation.
   useEffectHome(() => {
     const warm = () => HERO_SLIDES.forEach((s, i) => { if (i !== 0 && s.bgImage) { const im = new Image(); im.src = s.bgImage; } });
     const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
