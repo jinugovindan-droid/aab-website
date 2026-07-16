@@ -157,6 +157,9 @@ const AA_TOOL_INPUT = { width: '100%', padding: '10px 12px', fontSize: 15, borde
 const AA_TOOL_LABEL = { display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 6 };
 
 function ServicesPage({ onNav }) {
+  // Card titles must stay in lockstep with CONTACT_SERVICES (page-other.jsx)
+  // and the footer columns (chrome.jsx): the contact wizard's buttons and the
+  // card→wizard prefill both match on the exact title string.
   const allServices = [
     { reg: 'Compliance', t: 'Outsourced accounting', icon: 'book-open', page: 'service-bookkeeping',
       d: 'Day-to-day bookkeeping, monthly ledger close, reconciliations and management pack — a complete finance function delivered against a documented controls framework.',
@@ -167,6 +170,9 @@ function ServicesPage({ onNav }) {
     { reg: 'Compliance', t: 'UAE Corporate Tax', icon: 'landmark', page: 'service-corporate-tax',
       d: 'Registration, period computation and return filing under the 9% regime, with QFZP analysis where relevant.',
       bullets: ['CT registration', 'Period computation', 'QFZP / FTA filings', 'Position memos'] },
+    { reg: 'Compliance', t: 'E-Invoicing support', icon: 'file-output', page: 'e-invoicing',
+      d: 'Readiness for the UAE e-invoicing mandate — phase mapping by revenue, ASP selection and ERP data preparation ahead of the 2027 go-live dates.',
+      bullets: ['Readiness assessment', 'ASP selection', 'ERP field mapping', 'Phased go-live plan'] },
     { reg: 'Compliance', t: 'Financial statements', icon: 'file-spreadsheet', page: 'service-financial-statements',
       d: 'Balance Sheet, P&L, Cash Flow and notes prepared to IFRS / IFRS for SMEs.',
       bullets: ['Statutory FS', 'Group consolidation', 'Audit preparation', 'Disclosure schedules'] },

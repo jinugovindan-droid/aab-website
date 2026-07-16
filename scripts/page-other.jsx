@@ -1432,16 +1432,18 @@ function CareersPage({ onNav }) {
 }
 
 // ---------- Contact (multi-step wizard) ----------
-// Service catalog — canonical list shared with the Services page + footer.
-// Update here and the wizard, services grid and footer columns stay in sync.
+// Service catalog — one name per service line, in the SAME names and order as
+// the Services page cards (page-services.jsx allServices) and the footer
+// columns (chrome.jsx). The wizard buttons and the card→wizard prefill match
+// on the exact title string, so edits must land in all three places.
 const CONTACT_SERVICES = [
   // Compliance
   'Outsourced accounting',
   'VAT compliance',
   'UAE Corporate Tax',
+  'E-Invoicing support',
   'Financial statements',
   'Audit support',
-  'E-Invoicing support',
   'Fixed asset tagging',
   // Advisory
   'Business valuations',
