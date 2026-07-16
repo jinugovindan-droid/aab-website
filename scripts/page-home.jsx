@@ -3,8 +3,11 @@ const { useState: useStateHome, useEffect: useEffectHome, useRef: useRefHome } =
 const { pathForPage, pathForInsight, INSIGHTS } = window.AARoutes;
 
 // ---------- Hero (3-slide editorial slider) ----------
-// Slide content rotates every 8s. Stats + evidence line below stay fixed.
-// Auto-advance pauses on hover/focus; disabled entirely under prefers-reduced-motion.
+// Slide content rotates every 5s. Stats + evidence line below stay fixed.
+// Auto-advance pauses on hover/focus/touch. Under prefers-reduced-motion the
+// rotation continues but tokens.css strips the crossfade (instant cut, no
+// motion) — same policy as the marquee: WCAG 2.2.2 is met by the pause
+// controls (hover/focus, arrows, dots), not by freezing the content.
 const HERO_SLIDES = [
   {
     eyebrow: 'Advisory · Controls · Compliance',
@@ -57,19 +60,21 @@ function HomeHero({ onNav }) {
   const [paused, setPaused] = useStateHome(false);
   const slideCount = HERO_SLIDES.length;
 
-  // Auto-advance every 8s. Pauses on hover/focus. Skipped entirely if the
-  // visitor prefers reduced motion (design system rule: nothing should wiggle).
+  // Auto-advance every 5s. Pauses on hover/focus/touch. Reduced-motion
+  // visitors keep the rotation — tokens.css already removes the crossfade
+  // for them, so slides cut instantly and nothing animates.
   useEffectHome(() => {
     if (paused) return;
-    const reduce = typeof window !== 'undefined'
-      && window.matchMedia
-      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
     const id = setInterval(() => {
       setSlideIndex((i) => (i + 1) % slideCount);
     }, 5000);
     return () => clearInterval(id);
   }, [paused, slideCount]);
+
+  // iOS fires a synthetic mouseenter after a tap that would otherwise pause
+  // the rotation forever (mouseleave never comes on touch). Track touches and
+  // ignore the ghost hover that lands within 800ms of one.
+  const lastTouchAt = useRefHome(0);
 
   // Prewarm the other slides' images once the page is idle, so the 5s
   // rotation doesn't fetch a 100KB+ JPEG mid-animation.
@@ -102,8 +107,11 @@ function HomeHero({ onNav }) {
         position: 'relative',
         overflow: 'hidden',
       }}
-      onMouseEnter={() => setPaused(true)}
+      onMouseEnter={() => { if (Date.now() - lastTouchAt.current < 800) return; setPaused(true); }}
       onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => { lastTouchAt.current = Date.now(); setPaused(true); }}
+      onTouchEnd={() => { lastTouchAt.current = Date.now(); setPaused(false); }}
+      onTouchCancel={() => { lastTouchAt.current = Date.now(); setPaused(false); }}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
