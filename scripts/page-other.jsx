@@ -1437,10 +1437,14 @@ function ContactPage({ onNav }) {
   const [submitted, setSubmitted] = useStateP(false);
   const [sendError, setSendError] = useStateP('');
   const [form, setForm] = useStateP({
-    service: intent, entity: '', email: '', phone: '', context: '', timeline: '6-weeks', segment: 'sme',
+    services: intent ? [intent] : [], entity: '', email: '', phone: '', context: '', timeline: '6-weeks', segment: 'sme',
     consent: false, marketing: false
   });
   const update = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+  const toggleService = (s) => setForm((f) => ({
+    ...f,
+    services: f.services.includes(s) ? f.services.filter((x) => x !== s) : [...f.services, s],
+  }));
 
   const handleSubmit = async () => {
     setSendError('');
@@ -1456,7 +1460,7 @@ function ContactPage({ onNav }) {
       setSubmitted(true);
       // The wizard is the PRIMARY lead path — report it like the lead tools do,
       // so GA4 key events measure every conversion source.
-      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'contact-wizard', event_label: form.service || 'unspecified' });
+      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'contact-wizard', event_label: form.services.join(', ') || 'unspecified' });
     } catch (err) {
       setSendError('Could not send your request. Please try again, or email info@aaccounting.me / WhatsApp +971 56 548 4635 directly.');
     } finally {
@@ -1547,7 +1551,7 @@ function ContactPage({ onNav }) {
                 Scoping note within two business days.
               </h2>
               <p style={{ fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.65, maxWidth: 420, margin: '0 auto 28px' }}>
-                We received your request for <strong style={{ color: 'var(--aa-charcoal)' }}>{form.service}</strong>.
+                We received your request for <strong style={{ color: 'var(--aa-charcoal)' }}>{form.services.join(', ')}</strong>.
                 A member of the team will reply to <strong style={{ color: 'var(--aa-charcoal)' }}>{form.email}</strong>.
               </p>
               <button className="btn btn--ghost btn--sm" onClick={() => onNav('home')}>Back to home</button>
@@ -1580,17 +1584,27 @@ function ContactPage({ onNav }) {
             <div style={{ padding: 32, minHeight: 380 }}>
               {step === 1 &&
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                  <div className="eyebrow eyebrow--charcoal">Which service line?</div>
-                  <div role="group" aria-label="Which service line?" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                    {CONTACT_SERVICES.map((s) =>
-                  <button key={s} onClick={() => update('service', s)} aria-pressed={form.service === s} style={{
+                  <div>
+                    <div className="eyebrow eyebrow--charcoal">Which service lines?</div>
+                    <div style={{ marginTop: 6, fontSize: 13, color: 'var(--aa-steel)' }}>Select all that apply.</div>
+                  </div>
+                  <div role="group" aria-label="Which service lines? Select all that apply." style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    {CONTACT_SERVICES.map((s) => {
+                      const on = form.services.includes(s);
+                      return (
+                  <button key={s} onClick={() => toggleService(s)} aria-pressed={on} style={{
                     padding: '14px 16px', textAlign: 'left',
-                    background: form.service === s ? 'var(--aa-charcoal)' : '#fff',
-                    color: form.service === s ? '#fff' : 'var(--aa-charcoal)',
-                    border: '1px solid ' + (form.service === s ? 'var(--aa-charcoal)' : 'var(--aa-rule-strong)'),
-                    cursor: 'pointer', fontFamily: 'var(--aa-font-sans)', fontSize: 14, fontWeight: 500
-                  }}>{s}</button>
-                  )}
+                    background: on ? 'var(--aa-charcoal)' : '#fff',
+                    color: on ? '#fff' : 'var(--aa-charcoal)',
+                    border: '1px solid ' + (on ? 'var(--aa-charcoal)' : 'var(--aa-rule-strong)'),
+                    cursor: 'pointer', fontFamily: 'var(--aa-font-sans)', fontSize: 14, fontWeight: 500,
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8
+                  }}>
+                    <span>{s}</span>
+                    {on && <span aria-hidden="true" style={{ color: 'var(--aa-cyan)', fontWeight: 700 }}>✓</span>}
+                  </button>
+                      );
+                    })}
                   </div>
 
                   <div className="eyebrow eyebrow--charcoal" style={{ marginTop: 8 }}>Client segment</div>
@@ -1609,7 +1623,7 @@ function ContactPage({ onNav }) {
               }
               {step === 2 &&
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                  {form.service &&
+                  {form.services.length > 0 &&
                   <div style={{
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16,
                     padding: '10px 14px',
@@ -1617,8 +1631,8 @@ function ContactPage({ onNav }) {
                     fontSize: 13, color: 'var(--aa-charcoal)',
                   }}>
                     <span>
-                      <span style={{ color: 'var(--aa-steel)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: 11, marginRight: 8 }}>Service</span>
-                      <strong>{form.service}</strong>
+                      <span style={{ color: 'var(--aa-steel)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: 11, marginRight: 8 }}>{form.services.length > 1 ? 'Services' : 'Service'}</span>
+                      <strong>{form.services.join(', ')}</strong>
                     </span>
                     <button onClick={() => setStep(1)} style={{
                       background: 'transparent', border: 0, padding: 0,
@@ -1697,10 +1711,10 @@ function ContactPage({ onNav }) {
               <button
                 className="btn btn--primary btn--sm"
                 onClick={() => setStep(step + 1)}
-                disabled={step === 1 && !form.service || step === 2 && !form.context.trim()}
+                disabled={step === 1 && !form.services.length || step === 2 && !form.context.trim()}
                 style={{
-                  opacity: step === 1 && !form.service || step === 2 && !form.context.trim() ? 0.45 : 1,
-                  cursor: step === 1 && !form.service || step === 2 && !form.context.trim() ? 'not-allowed' : 'pointer'
+                  opacity: step === 1 && !form.services.length || step === 2 && !form.context.trim() ? 0.45 : 1,
+                  cursor: step === 1 && !form.services.length || step === 2 && !form.context.trim() ? 'not-allowed' : 'pointer'
                 }}>
                 
                   Continue

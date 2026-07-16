@@ -22,7 +22,9 @@ window.AAContactSheet = {
     }
 
     const payload = {
-      service: form.service,
+      // The wizard collects an array (multi-select); the sheet + notification
+      // email keep a single "service" column, so join here.
+      service: Array.isArray(form.services) ? form.services.join(', ') : (form.service || ''),
       segment: window.AAContactSheet.SEGMENT_LABELS[form.segment] || form.segment,
       context: form.context,
       timeline: window.AAContactSheet.TIMELINE_LABELS[form.timeline] || form.timeline,
