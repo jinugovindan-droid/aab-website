@@ -113,12 +113,13 @@ function HomeHero({ onNav }) {
         position: 'relative',
         overflow: 'hidden',
       }}
-      onMouseEnter={() => { if (Date.now() - lastTouchAt.current < 800) return; setPaused(true); }}
-      onMouseLeave={() => setPaused(false)}
       onTouchStart={() => { lastTouchAt.current = Date.now(); setPaused(true); }}
       onTouchEnd={() => { lastTouchAt.current = Date.now(); setPaused(false); }}
       onTouchCancel={() => { lastTouchAt.current = Date.now(); setPaused(false); }}
-      onFocusCapture={() => setPaused(true)}
+      // Pause for KEYBOARD focus only (:focus-visible). A mouse click also
+      // focuses the pressed control, and pausing for that froze the carousel
+      // until the visitor happened to click elsewhere on the page.
+      onFocusCapture={(e) => { try { if (e.target.matches(':focus-visible')) setPaused(true); } catch (err) { setPaused(true); } }}
       onBlurCapture={() => setPaused(false)}
     >
       {/* Slide background — two layers. The outgoing image sits static
@@ -177,6 +178,13 @@ function HomeHero({ onNav }) {
           aria-roledescription="slide"
           aria-label={`Slide ${slideIndex + 1} of ${slideCount}`}
           onKeyDown={onKeyDown}
+          // Hover-pause lives on the slide COPY (headline, lead, CTAs), not the
+          // full-bleed section: a cursor parked on the photo edges of a
+          // viewport-filling hero used to freeze the rotation indefinitely.
+          // The lastTouchAt check ignores the ghost mouseenter iOS fires after
+          // a tap, which would otherwise pause forever (no mouseleave on touch).
+          onMouseEnter={() => { if (Date.now() - lastTouchAt.current < 800) return; setPaused(true); }}
+          onMouseLeave={() => setPaused(false)}
           style={{ maxWidth: 980, margin: '0 auto', outline: 'none' }}
         >
           <div className="eyebrow" style={{
