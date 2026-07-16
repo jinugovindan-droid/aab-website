@@ -357,8 +357,14 @@ html { scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .fade-in, .reveal { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+  .fade-in:not(.aa-hero__slide), .reveal { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
   .aa-wa-fab { animation: none !important; }
+  /* Hero slides keep an opacity-ONLY dissolve (no translation, no scale —
+     nothing moves, content simply fades) — the same vestibular-safe
+     exception the animated logo uses: class-level !important outranks the
+     universal animation kill in tokens.css. */
+  .aa-hero__bg { animation: aa-fade-in 900ms ease-in-out both !important; }
+  .aa-hero__slide { animation: aa-fade-in 600ms ease-out both !important; transform: none !important; }
 }
 
 /* ---------- Hamburger menu (mobile) ---------- */
@@ -670,16 +676,20 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
 .aa-hero__slide:focus-visible { box-shadow: 0 0 0 2px var(--aa-cyan); border-radius: 2px; }
 
 /* Full-bleed slide background image with a charcoal overlay so the
-   centered text stays readable. Crossfades on slide change via key change. */
-.aa-hero__bg {
+   centered text stays readable. Two layers: .aa-hero__bg-under holds the
+   outgoing image static while the keyed .aa-hero__bg fades in over it —
+   a true image-to-image crossfade with no flash of the section behind. */
+.aa-hero__bg,
+.aa-hero__bg-under {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
   z-index: 0;
-  animation: aa-fade-in 600ms ease-out both;
 }
-.aa-hero__bg::after {
+.aa-hero__bg { animation: aa-fade-in 900ms ease-in-out both; }
+.aa-hero__bg::after,
+.aa-hero__bg-under::after {
   content: '';
   position: absolute;
   inset: 0;

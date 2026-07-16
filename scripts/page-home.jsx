@@ -56,17 +56,22 @@ const HERO_SLIDES = [
 ];
 
 function HomeHero({ onNav }) {
-  const [slideIndex, setSlideIndex] = useStateHome(0);
+  // cur drives the visible slide; prev keeps the outgoing slide's background
+  // mounted underneath so the incoming one crossfades over it (no flash of
+  // the bare section between images).
+  const [slides, setSlides] = useStateHome({ cur: 0, prev: 0 });
+  const slideIndex = slides.cur;
   const [paused, setPaused] = useStateHome(false);
   const slideCount = HERO_SLIDES.length;
 
   // Auto-advance every 5s. Pauses on hover/focus/touch. Reduced-motion
-  // visitors keep the rotation — tokens.css already removes the crossfade
-  // for them, so slides cut instantly and nothing animates.
+  // visitors keep the rotation with an opacity-only crossfade (site.css
+  // punches it through the global animation kill — no translation, no
+  // scale, so nothing "moves"; the image and copy simply dissolve).
   useEffectHome(() => {
     if (paused) return;
     const id = setInterval(() => {
-      setSlideIndex((i) => (i + 1) % slideCount);
+      setSlides((s) => ({ cur: (s.cur + 1) % slideCount, prev: s.cur }));
     }, 5000);
     return () => clearInterval(id);
   }, [paused, slideCount]);
@@ -85,8 +90,9 @@ function HomeHero({ onNav }) {
     return () => { (window.cancelIdleCallback || clearTimeout)(id); };
   }, []);
 
-  const goPrev = () => setSlideIndex((i) => (i - 1 + slideCount) % slideCount);
-  const goNext = () => setSlideIndex((i) => (i + 1) % slideCount);
+  const goPrev = () => setSlides((s) => ({ cur: (s.cur - 1 + slideCount) % slideCount, prev: s.cur }));
+  const goNext = () => setSlides((s) => ({ cur: (s.cur + 1) % slideCount, prev: s.cur }));
+  const goTo   = (i) => setSlides((s) => (i === s.cur ? s : { cur: i, prev: s.cur }));
 
   // Keyboard nav while the hero is focused
   const onKeyDown = (e) => {
@@ -115,7 +121,16 @@ function HomeHero({ onNav }) {
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
-      {/* Slide background image — full-bleed, crossfades on slide change. */}
+      {/* Slide background — two layers. The outgoing image sits static
+          underneath (no animation) while the keyed incoming layer fades in
+          over it: a true crossfade, image to image, nothing shows through. */}
+      {hasBg && slides.prev !== slideIndex && HERO_SLIDES[slides.prev].bgImage && (
+        <div
+          className="aa-hero__bg-under"
+          aria-hidden="true"
+          style={{ backgroundImage: `url('${HERO_SLIDES[slides.prev].bgImage}')` }}
+        />
+      )}
       {hasBg && (
         <div
           key={`bg-${slideIndex}`}
@@ -221,7 +236,7 @@ function HomeHero({ onNav }) {
               aria-label={`Go to slide ${i + 1}`}
               aria-selected={i === slideIndex}
               className={`aa-hero__dot${i === slideIndex ? ' is-active' : ''}`}
-              onClick={() => setSlideIndex(i)}
+              onClick={() => goTo(i)}
             />
           ))}
         </div>
