@@ -533,7 +533,7 @@ function FiveCornerDiagram() {
         <svg
           viewBox="0 0 720 408"
           role="img"
-          aria-label="Diagram of the OpenPeppol 5-corner model. Corner 1, the supplier, sends the invoice to corner 2, its Accredited Service Provider, which validates it and transmits it across the Peppol network to corner 3, the buyer's Accredited Service Provider, which delivers it to corner 4, the buyer. Both providers report tax data to corner 5, the Federal Tax Authority."
+          aria-label="Diagram of the OpenPeppol 5-corner model. Corner 1, the supplier, sends the invoice to corner 2, its Accredited Service Provider, which validates it and transmits it across the Peppol network to corner 3, the buyer's Accredited Service Provider, which delivers it to corner 4, the buyer. The buyer's acceptance or rejection travels back to the supplier along the same path as an invoice response. Both providers report tax data to corner 5, the Federal Tax Authority."
           style={{ display: 'block', width: '100%', minWidth: 560, height: 'auto' }}
         >
           <defs>
@@ -542,6 +542,9 @@ function FiveCornerDiagram() {
             </marker>
             <marker id="aa5c-arrow-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#176E93" />
+            </marker>
+            <marker id="aa5c-arrow-resp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#29ABE2" />
             </marker>
           </defs>
 
@@ -555,7 +558,7 @@ function FiveCornerDiagram() {
           <rect x="500" y="24" width="160" height="76" {...box} />
           <Badge x={500} y={24} n="4" />
           <text x="524" y="52" style={title}>Buyer</text>
-          <text x="524" y="72" style={cap}><tspan x="524">Receives structured data —</tspan><tspan x="524" dy="14">posts without re-typing</tspan></text>
+          <text x="524" y="72" style={cap}><tspan x="524">Receives the invoice —</tspan><tspan x="524" dy="14">accepts, confirms &amp; posts</tspan></text>
 
           {/* Corner 2 — Sender ASP */}
           <rect x="60" y="158" width="160" height="84" {...box} />
@@ -586,16 +589,25 @@ function FiveCornerDiagram() {
           <line x1="424" y1="200" x2="494" y2="200" stroke="#1A1A2E" strokeWidth="1.6" markerEnd="url(#aa5c-arrow)" />
           <line x1="580" y1="158" x2="580" y2="106" stroke="#1A1A2E" strokeWidth="1.6" markerEnd="url(#aa5c-arrow)" />
 
+          {/* Buyer response (dotted) — acceptance / rejection returns to the
+              supplier along the same corners: 4 down to 3, across under the
+              network, then up from 2 to 1. */}
+          <line x1="616" y1="100" x2="616" y2="152" stroke="#29ABE2" strokeWidth="1.4" strokeDasharray="2 4" markerEnd="url(#aa5c-arrow-resp)" />
+          <line x1="500" y1="228" x2="226" y2="228" stroke="#29ABE2" strokeWidth="1.4" strokeDasharray="2 4" markerEnd="url(#aa5c-arrow-resp)" />
+          <line x1="104" y1="158" x2="104" y2="106" stroke="#29ABE2" strokeWidth="1.4" strokeDasharray="2 4" markerEnd="url(#aa5c-arrow-resp)" />
+
           {/* Tax-data reporting (dashed) — endpoints stop at the FTA box edges
               so the arrowheads stay visible (badge 5 sits on the top-left corner). */}
           <line x1="180" y1="242" x2="274" y2="326" stroke="#176E93" strokeWidth="1.4" strokeDasharray="5 4" markerEnd="url(#aa5c-arrow-cyan)" />
           <line x1="540" y1="242" x2="446" y2="326" stroke="#176E93" strokeWidth="1.4" strokeDasharray="5 4" markerEnd="url(#aa5c-arrow-cyan)" />
 
           {/* Legend */}
-          <line x1="200" y1="398" x2="228" y2="398" stroke="#1A1A2E" strokeWidth="1.6" />
-          <text x="236" y="402" style={cap}>Invoice flow</text>
-          <line x1="330" y1="398" x2="358" y2="398" stroke="#176E93" strokeWidth="1.4" strokeDasharray="5 4" />
-          <text x="366" y="402" style={cap}>Tax-data reporting</text>
+          <line x1="60" y1="398" x2="88" y2="398" stroke="#1A1A2E" strokeWidth="1.6" />
+          <text x="96" y="402" style={cap}>Invoice flow</text>
+          <line x1="192" y1="398" x2="220" y2="398" stroke="#176E93" strokeWidth="1.4" strokeDasharray="5 4" />
+          <text x="228" y="402" style={cap}>Tax-data reporting</text>
+          <line x1="352" y1="398" x2="380" y2="398" stroke="#29ABE2" strokeWidth="1.4" strokeDasharray="2 4" />
+          <text x="388" y="402" style={cap}>Buyer response — accepts / rejects</text>
         </svg>
       </div>
       <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>
@@ -616,7 +628,7 @@ function EInvoiceExplainedBody({ onNav }) {
       <p>Today most businesses issue an invoice as a PDF, a printout or a Word file — a document a human reads. A UAE e-invoice is instead a structured electronic file built to a defined data standard, so that software on both sides can validate, post and report it automatically. PDFs and paper will no longer be valid for in-scope transactions once your phase goes live.</p>
 
       <h3 style={H3}>2. The OpenPeppol 5-corner model</h3>
-      <p>The UAE has adopted the international <strong>OpenPeppol</strong> framework in a “5-corner” configuration. In plain terms: you (corner 1) send the invoice to your Accredited Service Provider (corner 2); your provider transmits it over the Peppol network to your customer’s provider (corner 3), who delivers it to your customer (corner 4); and the Federal Tax Authority (corner 5) receives the reporting data. The invoice never travels as an email attachment — it moves as validated data between accredited providers.</p>
+      <p>The UAE has adopted the international <strong>OpenPeppol</strong> framework in a “5-corner” configuration. In plain terms: you (corner 1) send the invoice to your Accredited Service Provider (corner 2); your provider transmits it over the Peppol network to your customer’s provider (corner 3), who delivers it to your customer (corner 4); and the Federal Tax Authority (corner 5) receives the reporting data. The path is two-way: the buyer’s acceptance — or rejection — travels back to you through the same providers as an <strong>invoice response</strong>, so you know your invoice was received and accepted, not just sent. The invoice never travels as an email attachment — it moves as validated data between accredited providers.</p>
 
       <FiveCornerDiagram />
 
