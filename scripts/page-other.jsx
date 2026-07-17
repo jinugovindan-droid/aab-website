@@ -514,6 +514,97 @@ function EInvoiceGuideLinks({ onNav, current }) {
   );
 }
 
+// The OpenPeppol 5-corner model as a figure. Colors are the token hexes
+// (SVG attributes can't read CSS custom properties). Wrapped in an
+// overflow-x scroller so phones get a legible diagram instead of a shrunken one.
+function FiveCornerDiagram() {
+  const box = { fill: '#fff', stroke: '#C7C8CA', strokeWidth: 1 };
+  const title = { fontSize: 15, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'inherit' };
+  const cap = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
+  const Badge = ({ x, y, n, dark }) => (
+    <g>
+      <circle cx={x} cy={y} r={13} fill={dark ? '#29ABE2' : '#176E93'} />
+      <text x={x} y={y + 4.5} textAnchor="middle" style={{ fontSize: 13, fontWeight: 700, fill: '#fff', fontFamily: 'inherit' }}>{n}</text>
+    </g>
+  );
+  return (
+    <figure style={{ margin: '36px 0 40px' }}>
+      <div style={{ overflowX: 'auto' }}>
+        <svg
+          viewBox="0 0 720 408"
+          role="img"
+          aria-label="Diagram of the OpenPeppol 5-corner model. Corner 1, the supplier, sends the invoice to corner 2, its Accredited Service Provider, which validates it and transmits it across the Peppol network to corner 3, the buyer's Accredited Service Provider, which delivers it to corner 4, the buyer. Both providers report tax data to corner 5, the Federal Tax Authority."
+          style={{ display: 'block', width: '100%', minWidth: 560, height: 'auto' }}
+        >
+          <defs>
+            <marker id="aa5c-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#1A1A2E" />
+            </marker>
+            <marker id="aa5c-arrow-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#176E93" />
+            </marker>
+          </defs>
+
+          {/* Corner 1 — Supplier */}
+          <rect x="60" y="24" width="160" height="76" {...box} />
+          <Badge x={60} y={24} n="1" />
+          <text x="84" y="52" style={title}>Supplier</text>
+          <text x="84" y="72" style={cap}><tspan x="84">Issues the invoice</tspan><tspan x="84" dy="14">from the ERP / POS</tspan></text>
+
+          {/* Corner 4 — Buyer */}
+          <rect x="500" y="24" width="160" height="76" {...box} />
+          <Badge x={500} y={24} n="4" />
+          <text x="524" y="52" style={title}>Buyer</text>
+          <text x="524" y="72" style={cap}><tspan x="524">Receives structured data —</tspan><tspan x="524" dy="14">posts without re-typing</tspan></text>
+
+          {/* Corner 2 — Sender ASP */}
+          <rect x="60" y="158" width="160" height="84" {...box} />
+          <Badge x={60} y={158} n="2" />
+          <text x="84" y="186" style={title}>Sender ASP</text>
+          <text x="84" y="206" style={cap}><tspan x="84">Validates &amp; converts to</tspan><tspan x="84" dy="14">PINT AE XML</tspan></text>
+
+          {/* Corner 3 — Receiver ASP */}
+          <rect x="500" y="158" width="160" height="84" {...box} />
+          <Badge x={500} y={158} n="3" />
+          <text x="524" y="186" style={title}>Receiver ASP</text>
+          <text x="524" y="206" style={cap}><tspan x="524">Checks &amp; delivers</tspan><tspan x="524" dy="14">to the buyer</tspan></text>
+
+          {/* Peppol network bus */}
+          <rect x="296" y="180" width="128" height="40" rx="20" fill="#E9F6FC" stroke="#29ABE2" strokeWidth="1" />
+          <text x="360" y="197" textAnchor="middle" style={{ fontSize: 10, fontWeight: 700, fill: '#176E93', letterSpacing: '0.1em', fontFamily: 'inherit' }}>PEPPOL</text>
+          <text x="360" y="210" textAnchor="middle" style={{ fontSize: 10, fontWeight: 700, fill: '#176E93', letterSpacing: '0.1em', fontFamily: 'inherit' }}>NETWORK</text>
+
+          {/* Corner 5 — FTA */}
+          <rect x="280" y="308" width="160" height="72" fill="#1A1A2E" />
+          <Badge x={280} y={308} n="5" dark />
+          <text x="304" y="336" style={{ ...title, fill: '#fff' }}>FTA</text>
+          <text x="304" y="356" style={{ ...cap, fill: '#9BD9F2' }}><tspan x="304">Receives tax data</tspan><tspan x="304" dy="14">from both providers</tspan></text>
+
+          {/* Invoice flow (solid) */}
+          <line x1="140" y1="100" x2="140" y2="152" stroke="#1A1A2E" strokeWidth="1.6" markerEnd="url(#aa5c-arrow)" />
+          <line x1="220" y1="200" x2="290" y2="200" stroke="#1A1A2E" strokeWidth="1.6" markerEnd="url(#aa5c-arrow)" />
+          <line x1="424" y1="200" x2="494" y2="200" stroke="#1A1A2E" strokeWidth="1.6" markerEnd="url(#aa5c-arrow)" />
+          <line x1="580" y1="158" x2="580" y2="106" stroke="#1A1A2E" strokeWidth="1.6" markerEnd="url(#aa5c-arrow)" />
+
+          {/* Tax-data reporting (dashed) — endpoints stop at the FTA box edges
+              so the arrowheads stay visible (badge 5 sits on the top-left corner). */}
+          <line x1="180" y1="242" x2="274" y2="326" stroke="#176E93" strokeWidth="1.4" strokeDasharray="5 4" markerEnd="url(#aa5c-arrow-cyan)" />
+          <line x1="540" y1="242" x2="446" y2="326" stroke="#176E93" strokeWidth="1.4" strokeDasharray="5 4" markerEnd="url(#aa5c-arrow-cyan)" />
+
+          {/* Legend */}
+          <line x1="200" y1="398" x2="228" y2="398" stroke="#1A1A2E" strokeWidth="1.6" />
+          <text x="236" y="402" style={cap}>Invoice flow</text>
+          <line x1="330" y1="398" x2="358" y2="398" stroke="#176E93" strokeWidth="1.4" strokeDasharray="5 4" />
+          <text x="366" y="402" style={cap}>Tax-data reporting</text>
+        </svg>
+      </div>
+      <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>
+        THE OPENPEPPOL 5-CORNER MODEL, AS ADOPTED BY THE UAE
+      </figcaption>
+    </figure>
+  );
+}
+
 function EInvoiceExplainedBody({ onNav }) {
   return (
     <div className="container" style={ART}>
@@ -526,6 +617,8 @@ function EInvoiceExplainedBody({ onNav }) {
 
       <h3 style={H3}>2. The OpenPeppol 5-corner model</h3>
       <p>The UAE has adopted the international <strong>OpenPeppol</strong> framework in a “5-corner” configuration. In plain terms: you (corner 1) send the invoice to your Accredited Service Provider (corner 2); your provider transmits it over the Peppol network to your customer’s provider (corner 3), who delivers it to your customer (corner 4); and the Federal Tax Authority (corner 5) receives the reporting data. The invoice never travels as an email attachment — it moves as validated data between accredited providers.</p>
+
+      <FiveCornerDiagram />
 
       <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
         “An e-invoice is not a prettier PDF. It is data your systems exchange and the FTA can see.”
