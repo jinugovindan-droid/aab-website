@@ -657,6 +657,86 @@ function EInvoiceExplainedBody({ onNav }) {
   );
 }
 
+// The phased deadlines as a literal road: a snake path from TODAY (bottom
+// left) to the fully-phased flag (top right), with each ASP-appointment and
+// go-live date as a stop. Token hexes, since SVG attributes can't read CSS
+// custom properties; scroll wrapper keeps phones legible.
+function DeadlinesRoadmap() {
+  const date = { fontSize: 13, fontWeight: 700, fill: '#176E93', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' };
+  const cap = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
+  const ROAD = 'M 40 396 L 620 396 Q 690 396 690 327 Q 690 258 620 258 L 120 258 Q 50 258 50 189 Q 50 120 120 120 L 648 120';
+  const Stop = ({ x, y }) => (
+    <g>
+      <circle cx={x} cy={y} r={9} fill="#fff" stroke="#176E93" strokeWidth="2.5" />
+      <circle cx={x} cy={y} r={3.5} fill="#29ABE2" />
+    </g>
+  );
+  return (
+    <figure style={{ margin: '36px 0 40px' }}>
+      <div style={{ overflowX: 'auto' }}>
+        <svg
+          viewBox="0 0 720 480"
+          role="img"
+          aria-label="Roadmap of the UAE e-invoicing deadlines drawn as a road. The road starts today with a readiness check and ASP shortlist. Stop 1: 30 October 2026, Phase 1 businesses with revenue of 50 million dirhams or more must appoint their Accredited Service Provider. Stop 2: 1 January 2027, Phase 1 goes live for large businesses. Stop 3: 31 March 2027, Phase 2 businesses under 50 million and Phase 3 government entities must appoint their ASP. Stop 4: 1 July 2027, Phase 2 goes live for all businesses. Stop 5: 1 October 2027, Phase 3 goes live for government entities, and the UAE is fully phased onto e-invoicing."
+          style={{ display: 'block', width: '100%', minWidth: 560, height: 'auto' }}
+        >
+          {/* Road + centre line */}
+          <path d={ROAD} fill="none" stroke="#1A1A2E" strokeWidth="36" strokeLinecap="round" strokeLinejoin="round" />
+          <path d={ROAD} fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="12 10" opacity="0.85" />
+
+          {/* Direction chevrons (bottom runs left-to-right, middle right-to-left, top left-to-right) */}
+          <polyline points="446,389 453,396 446,403" fill="none" stroke="#fff" strokeWidth="2" opacity="0.9" />
+          <polyline points="414,251 407,258 414,265" fill="none" stroke="#fff" strokeWidth="2" opacity="0.9" />
+          <polyline points="466,113 473,120 466,127" fill="none" stroke="#fff" strokeWidth="2" opacity="0.9" />
+
+          {/* TODAY — start of the road */}
+          <circle cx="60" cy="396" r="9" fill="#29ABE2" />
+          <circle cx="60" cy="396" r="3.5" fill="#fff" />
+          <text x="24" y="432" style={{ ...date, fill: '#1A1A2E' }}>TODAY</text>
+          <text x="24" y="448" style={cap}><tspan x="24">Readiness check &amp;</tspan><tspan x="24" dy="14">ASP shortlist</tspan></text>
+
+          {/* 30 Oct 2026 — Phase 1 appoint ASP */}
+          <Stop x={300} y={396} />
+          <text x="300" y="432" textAnchor="middle" style={date}>30 OCT 2026</text>
+          <text x="300" y="448" textAnchor="middle" style={cap}><tspan x="300">Phase 1 · AED 50M+</tspan><tspan x="300" dy="14">appoint your ASP</tspan></text>
+
+          {/* 1 Jan 2027 — Phase 1 go-live */}
+          <Stop x={560} y={396} />
+          <text x="560" y="432" textAnchor="middle" style={date}>1 JAN 2027</text>
+          <text x="560" y="448" textAnchor="middle" style={cap}><tspan x="560">Phase 1 go-live —</tspan><tspan x="560" dy="14">large businesses</tspan></text>
+
+          {/* 31 Mar 2027 — Phases 2 & 3 appoint ASP */}
+          <Stop x={560} y={258} />
+          <text x="560" y="204" textAnchor="middle" style={date}>31 MAR 2027</text>
+          <text x="560" y="220" textAnchor="middle" style={cap}><tspan x="560">Phases 2 &amp; 3 · appoint ASP</tspan><tspan x="560" dy="14">(under AED 50M + Government)</tspan></text>
+
+          {/* 1 Jul 2027 — Phase 2 go-live */}
+          <Stop x={240} y={258} />
+          <text x="240" y="204" textAnchor="middle" style={date}>1 JUL 2027</text>
+          <text x="240" y="220" textAnchor="middle" style={cap}><tspan x="240">Phase 2 go-live —</tspan><tspan x="240" dy="14">all businesses</tspan></text>
+
+          {/* 1 Oct 2027 — Phase 3 go-live */}
+          <Stop x={300} y={120} />
+          <text x="300" y="66" textAnchor="middle" style={date}>1 OCT 2027</text>
+          <text x="300" y="82" textAnchor="middle" style={cap}><tspan x="300">Phase 3 go-live —</tspan><tspan x="300" dy="14">Government entities</tspan></text>
+
+          {/* Finish — checkered flag */}
+          <line x1="640" y1="120" x2="640" y2="86" stroke="#1A1A2E" strokeWidth="2.5" />
+          {[0, 1, 2, 3].map((c) => [0, 1].map((r) => (
+            <rect key={`${c}-${r}`} x={640 + c * 8} y={86 + r * 8} width="8" height="8"
+              fill={(c + r) % 2 === 0 ? '#1A1A2E' : '#fff'} stroke="#1A1A2E" strokeWidth="0.5" />
+          )))}
+          <text x="640" y="158" textAnchor="middle" style={{ ...date, fill: '#1A1A2E' }}>FULLY PHASED</text>
+          <text x="640" y="174" textAnchor="middle" style={cap}>UAE fully on e-invoicing</text>
+        </svg>
+      </div>
+      <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>
+        THE ROAD TO UAE E-INVOICING — APPOINT-ASP AND GO-LIVE DEADLINES BY PHASE
+      </figcaption>
+    </figure>
+  );
+}
+
 function EInvoiceDeadlinesBody({ onNav }) {
   return (
     <div className="container" style={ART}>
@@ -693,6 +773,8 @@ function EInvoiceDeadlinesBody({ onNav }) {
           </tbody>
         </table>
       </div>
+
+      <DeadlinesRoadmap />
 
       <h3 style={H3}>Why the ASP date matters more than it looks</h3>
       <p>The go-live date is the headline, but the appointment deadline is the one that bites. Appointing an ASP is not a same-day formality — you need to select a provider, contract, connect it to your ERP or accounting system, map your invoice fields and test end-to-end. Treat the ASP deadline as the start of the real work, not the finish line.</p>
