@@ -807,9 +807,19 @@ function ChoosingASPBody({ onNav }) {
       <h3 style={H3}>What an ASP actually does</h3>
       <p>In the 5-corner model, your ASP is the corner that turns your invoice data into a compliant structured document, validates it, transmits it over the Peppol network to your counterparty’s ASP, and reports the required data to the Federal Tax Authority. It sits between your accounting system and the official network — so its reliability becomes your reliability.</p>
 
+      <h3 style={H3}>“Pre-approved” is not “accredited”</h3>
+      <p>Ministerial Decision No. 64 of 2025 defines two distinct stages, and providers routinely blur them in their marketing. <strong>Pre-approval (Article 15)</strong> means the Ministry of Finance has reviewed the provider’s eligibility — Peppol credentials, baseline technical compliance, signed undertakings — and listed it while it completes the journey. A pre-approved provider can sign clients, onboard them and run pilots. <strong>Accreditation (Article 16)</strong> is granted only after full technical and operational testing against the UAE framework, and only an accredited provider may transmit legally valid e-invoices in production once your phase goes live.</p>
+
+      <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, margin: '28px 0 8px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>Why your contract should care</div>
+        <p style={{ margin: 0, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.65 }}>
+          At the time of writing (July 2026), every provider on the Ministry’s published list — around 41 of them — is <strong>pre-approved, not yet fully accredited</strong>. Appointing from that list now is exactly what the deadlines anticipate, but make the engagement <strong>accreditation-contingent</strong>: full Article-16 accreditation comfortably before your go-live as a contractual milestone, with exit and migration rights — at no penalty to you — if it is missed. A provider that stalls at the technical stage must be their problem, not yours on go-live morning. Check the current list and each provider’s status at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>mof.gov.ae</a> at signing — and again before go-live.
+        </p>
+      </div>
+
       <h3 style={H3}>Questions to ask before you sign</h3>
       <ul style={{ margin: '8px 0 0', paddingLeft: 20, lineHeight: 1.7 }}>
-        <li><strong>Accreditation.</strong> Is the provider formally accredited by the UAE Ministry of Finance? Ask to see it confirmed, not implied.</li>
+        <li><strong>Accreditation status.</strong> Where exactly is the provider on the Ministry of Finance path — pre-approved (Article 15) or fully accredited (Article 16)? Ask to see it confirmed, not implied, and have your contract reflect the answer.</li>
         <li><strong>Integration with your system.</strong> Does it have a tested connector for your ERP or accounting software (Tally, Zoho, SAP, Microsoft Dynamics, Oracle, QuickBooks, etc.), or will integration be custom work?</li>
         <li><strong>Coverage.</strong> Can it handle your full transaction profile — credit notes, multi-currency, partial deliveries, high volumes?</li>
         <li><strong>Support and SLAs.</strong> What happens when a transmission fails at month-end? What are the response times and uptime guarantees?</li>
