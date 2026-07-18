@@ -820,6 +820,60 @@ function ChoosingASPBody({ onNav }) {
         </p>
       </div>
 
+      <h3 style={H3}>The pre-approved list, for reference</h3>
+      <p>For convenience, here is the Ministry’s pre-approved list as at its <strong>17 July 2026</strong> update — 42 providers, alphabetical, names as published by the MoF. Every one of them is pre-approved under Article 15 with final Article-16 accreditation still pending. The Ministry updates the list periodically, so treat this as a snapshot: confirm a provider’s current status on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
+      <div style={{ border: '1px solid var(--aa-rule)', background: '#fff', padding: '20px 24px', margin: '20px 0 8px' }}>
+        <ol style={{ margin: 0, paddingLeft: 22, columns: '2 240px', columnGap: 40, fontSize: 13.5, color: 'var(--aa-charcoal)', lineHeight: 1.9 }}>
+          {[
+            'Advintek Consulting Services LLC',
+            'Azentio Software Orion (Middle East) FZ-LLC',
+            'BDO Digital Solutions FZ-LLC',
+            'Casim L.L.C-FZ',
+            'Comarch Middle East FZ LLC',
+            'Complyance Electronics L.L.C',
+            'Covoro AI – FZCO',
+            'Cygnet Digital IT Solutions L.L.C',
+            'Dariba Technologies LLC',
+            'Defmacro Software DMCC (ClearTax)',
+            'Deloitte & Touche - M E',
+            'DP World Digital GCC FZE',
+            'EDICOM Middle East Services',
+            'EY Consulting LLC',
+            'Flick Network L.L.C',
+            'Fynamics Techno Solutions – FZCO',
+            'Hamt Information Technology L.L.C (EVATRA)',
+            'Infinite IT Solutions FZCO',
+            'Information Dynamics LLC',
+            'InvoiceNow biz - F.Z.C',
+            'InvoiceQ For Information Technology Limited',
+            'KGRN Chartered Accountants',
+            'Marmin AI Software Design LLC',
+            'Microvista Technologies LLC',
+            'Moore JFC Consulting LLC',
+            'New Age Software Limited',
+            'Orchida Soft Computer Systems LLC',
+            'Oxinus Holding Limited',
+            'Pagero Gulf FZ-LLC',
+            'SAP Middle East & North Africa LLC',
+            'Skill Quotient Technologies',
+            'Spendconsole FZ LLC',
+            'SunTec (Xelerate) Business Solutions DMCC',
+            'Suntech Business Solutions DMCC',
+            'Tally Software Solutions FZCO',
+            'TAXILLA FINOPS 360 – FZCO',
+            'Taxlabs.ai',
+            'Tax Star L.L.C-FZ',
+            'Techventures Information Technology Services',
+            'TronStride FZC',
+            'Unified SSK Information Technology L.L.C',
+            'VATit Consultant Gulf Ltd',
+          ].map((n) => <li key={n}>{n}</li>)}
+        </ol>
+      </div>
+      <p style={{ fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.6, margin: '10px 0 0' }}>
+        Source: UAE Ministry of Finance, Pre-Approved eInvoicing Service Providers (last updated 17 July 2026). Listing here is a reference, not an endorsement or recommendation of any provider — suitability depends on your systems, volumes and transaction profile.
+      </p>
+
       <h3 style={H3}>Questions to ask before you sign</h3>
       <ul style={{ margin: '8px 0 0', paddingLeft: 20, lineHeight: 1.7 }}>
         <li><strong>Accreditation status.</strong> Where exactly is the provider on the Ministry of Finance path — pre-approved (Article 15) or fully accredited (Article 16)? Ask to see it confirmed, not implied, and have your contract reflect the answer.</li>

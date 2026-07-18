@@ -69,7 +69,7 @@
       tag: 'E-Invoicing', date: '22 Jan 2026', read: '6 min',
       title: 'Choosing an Accredited Service Provider (ASP) for UAE e-invoicing.',
       author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)',
-      excerpt: 'Every in-scope business must appoint an Accredited Service Provider to transmit its e-invoices. What an ASP does in the 5-corner model, and the questions to ask before you sign.',
+      excerpt: 'Every in-scope business must appoint an Accredited Service Provider to transmit its e-invoices. What an ASP does, pre-approved vs accredited status, the full MoF pre-approved list (42 providers, July 2026), and the questions to ask before you sign.',
       published: true,
     },
     {
