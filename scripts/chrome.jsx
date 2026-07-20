@@ -560,7 +560,14 @@ function EInvoiceMarquee({ onNav }) {
         return;
       }
     } catch (e) {}
-    const now = new Date();
+    // Anchor "today" to the UAE so the marquee's day-counts match the flagship
+    // deadline cards for overseas visitors (previously used the viewer's clock).
+    const now = (() => {
+      try {
+        const p = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' }).split('-').map(Number);
+        return new Date(p[0], p[1] - 1, p[2]);
+      } catch (e) { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+    })();
     const dleft = (iso) => Math.ceil((new Date(iso) - now) / 86400000);
     const r = TIERS.map((t) => ({ who: t.who, asp: t.asp, aspDays: dleft(t.aspISO), live: t.live, liveDays: dleft(t.goISO) }));
     setRows(r);

@@ -637,7 +637,7 @@ function EInvoiceExplainedBody({ onNav }) {
       </blockquote>
 
       <h3 style={H3}>3. What is in scope</h3>
-      <p>The mandate covers <strong>business-to-business (B2B)</strong> and <strong>business-to-government (B2G)</strong> transactions. Business-to-consumer (B2C) invoicing is currently optional. The rules apply across the UAE — including free zone companies — based on annual revenue thresholds, under Ministerial Decisions 243 and 244 of 2025 issued by the Ministry of Finance.</p>
+      <p>The mandate covers <strong>business-to-business (B2B)</strong> and <strong>business-to-government (B2G)</strong> transactions — and it applies to both sides of each transaction: the supplier that issues, and the customer that receives (so a business that only sells to consumers is still in scope for the B2B invoices it receives from suppliers). Business-to-consumer (B2C) invoicing is currently optional. A short list of transactions is excluded — chiefly VAT-exempt or zero-rated financial services, international airline passenger and (transitionally) air-cargo transport, and government transactions in a sovereign capacity — so businesses in those sectors should take specific advice. The rules apply across the UAE — including free zone companies — based on annual revenue thresholds, under Ministerial Decisions 243 and 244 of 2025 (as amended in 2026) issued by the Ministry of Finance.</p>
 
       <h3 style={H3}>4. Why the UAE is doing this</h3>
       <p>Structured e-invoicing gives the tax authority near-real-time visibility of transactions, reduces VAT leakage and fraud, and cuts the manual effort of matching invoices on both sides. For compliant businesses the upside is real: fewer disputes, faster reconciliation, and a clean audit trail that already lines up with what the FTA holds.</p>
@@ -677,7 +677,7 @@ function DeadlinesRoadmap() {
         <svg
           viewBox="0 0 720 480"
           role="img"
-          aria-label="Roadmap of the UAE e-invoicing deadlines drawn as a road. The road starts today with a readiness check and ASP shortlist. Stop 1: 30 October 2026, Phase 1 businesses with revenue of 50 million dirhams or more must appoint their Accredited Service Provider. Stop 2: 1 January 2027, Phase 1 goes live for large businesses. Stop 3: 31 March 2027, Phase 2 businesses under 50 million and Phase 3 government entities must appoint their ASP. Stop 4: 1 July 2027, Phase 2 goes live for all businesses. Stop 5: 1 October 2027, Phase 3 goes live for government entities, and the UAE is fully phased onto e-invoicing."
+          aria-label="Roadmap of the UAE e-invoicing deadlines drawn as a road. The road starts today with a readiness check and ASP shortlist. Stop 1: 30 October 2026, Phase 1 businesses with revenue of 50 million dirhams or more must appoint their Accredited Service Provider. Stop 2: 1 January 2027, Phase 1 goes live for large businesses. Stop 3: 31 March 2027, Phase 2 businesses under 50 million and Phase 3 government entities must appoint their ASP. Stop 4: 1 July 2027, Phase 2 goes live for businesses under 50 million dirhams. Stop 5: 1 October 2027, Phase 3 goes live for government entities, and all mandate phases are live."
           style={{ display: 'block', width: '100%', minWidth: 560, height: 'auto' }}
         >
           {/* Road + centre line */}
@@ -713,7 +713,7 @@ function DeadlinesRoadmap() {
           {/* 1 Jul 2027 — Phase 2 go-live */}
           <Stop x={240} y={258} />
           <text x="240" y="308" textAnchor="middle" style={date}>1 JUL 2027</text>
-          <text x="240" y="324" textAnchor="middle" style={cap}><tspan x="240">Phase 2 go-live —</tspan><tspan x="240" dy="14">all businesses</tspan></text>
+          <text x="240" y="324" textAnchor="middle" style={cap}><tspan x="240">Phase 2 go-live —</tspan><tspan x="240" dy="14">under AED 50M</tspan></text>
 
           {/* 1 Oct 2027 — Phase 3 go-live */}
           <Stop x={300} y={396} />
@@ -727,7 +727,7 @@ function DeadlinesRoadmap() {
               fill={(c + r) % 2 === 0 ? '#1A1A2E' : '#fff'} stroke="#1A1A2E" strokeWidth="0.5" />
           )))}
           <text x="640" y="440" textAnchor="middle" style={{ ...date, fill: '#1A1A2E' }}>FULLY PHASED</text>
-          <text x="640" y="456" textAnchor="middle" style={cap}>UAE fully on e-invoicing</text>
+          <text x="640" y="456" textAnchor="middle" style={cap}>All mandate phases live</text>
         </svg>
       </div>
       <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>
@@ -808,20 +808,20 @@ function ChoosingASPBody({ onNav }) {
       <p>In the 5-corner model, your ASP is the corner that turns your invoice data into a compliant structured document, validates it, transmits it over the Peppol network to your counterparty’s ASP, and reports the required data to the Federal Tax Authority. It sits between your accounting system and the official network — so its reliability becomes your reliability.</p>
 
       <h3 style={H3}>“Pre-approved” is not “accredited”</h3>
-      <p>Ministerial Decision No. 64 of 2025 defines two distinct stages, and providers routinely blur them in their marketing. <strong>Pre-approval (Article 15)</strong> means the Ministry of Finance has reviewed the provider’s eligibility — Peppol credentials, baseline technical compliance, signed undertakings — and listed it while it completes the journey. A pre-approved provider can sign clients, onboard them and run pilots. <strong>Accreditation (Article 16)</strong> is granted only after full technical and operational testing against the UAE framework, and only an accredited provider may transmit legally valid e-invoices in production once your phase goes live.</p>
+      <p>Ministerial Decision No. 64 of 2025 defines two distinct stages, and providers routinely blur them in their marketing. <strong>Pre-approval (Article 15)</strong> means the Ministry of Finance has vetted the provider — Peppol credentials, technical conformance testing, trial runs on the FTA platform, signed undertakings — and listed it while it completes accreditation. Under Article 4, a pre-approved provider may already operate — sign clients, onboard them and provide e-invoicing services — but <em>only on condition</em> that it obtains full accreditation within the timeline the Ministry sets; if it does not, it must stop. <strong>Accreditation (Article 16)</strong> is that full grant, made only after complete technical and operational testing. The practical point for you: your go-live must not depend on a provider still stuck at pre-approval.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, margin: '28px 0 8px' }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>Why your contract should care</div>
         <p style={{ margin: 0, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.65 }}>
-          At the time of writing (July 2026), the Ministry’s published register — 42 providers at its mid-July update — remains a <strong>pre-approval (Article 15) list</strong>. The first providers began publicly announcing their FTA accreditation in early July 2026, but no official public register of accredited providers has been published yet — so a provider’s Article-16 status still has to be verified individually. Appointing from that list now is exactly what the deadlines anticipate, but make the engagement <strong>accreditation-contingent</strong>: full Article-16 accreditation comfortably before your go-live as a contractual milestone, with exit and migration rights — at no penalty to you — if it is missed. A provider that stalls at the technical stage must be their problem, not yours on go-live morning.
+          At the time of writing (July 2026), the Ministry’s published register — 42 providers at its mid-July update — remains a <strong>pre-approval (Article 15) list</strong>. Individual providers have begun announcing full accreditation (Advintek and Comarch did so in early July 2026), but the Ministry has not yet published an official register of accredited providers — and some earlier &ldquo;accredited&rdquo; marketing in fact referred to pre-approval — so a provider’s Article-16 status still has to be verified individually. Appointing from that list now is exactly what the deadlines anticipate, but make the engagement <strong>accreditation-contingent</strong>: full Article-16 accreditation comfortably before your go-live as a contractual milestone, with exit and migration rights — at no penalty to you — if it is missed. A provider that stalls at the technical stage must be their problem, not yours on go-live morning. Have a lawyer review the engagement terms before you sign.
         </p>
         <p style={{ margin: '14px 0 0', fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.65 }}>
-          <strong>Where to check, in practice:</strong> the public register is the MoF’s pre-approved list at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>mof.gov.ae</a>. Separately, registered businesses can already see the FTA’s operational list inside <strong>EmaraTax</strong> (e-Invoicing → onboarding) — the interface you will actually select and link your provider through. When we checked on <strong>18 July 2026</strong>, that list showed <strong>38 entries under the FTA’s “Accredited Service Providers” heading</strong> — four fewer than the MoF’s pre-approved 42 — while the portal still described provider onboarding as in progress. In practice, <strong>EmaraTax is the closest thing to an accredited list available today</strong>; the MoF page remains the public pre-approval register, and the two do not fully match. Ask your shortlisted provider for its FTA accreditation confirmation, check both places at signing, and re-check before go-live.
+          <strong>Where to check, in practice:</strong> the public register is the MoF’s pre-approved list at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>mof.gov.ae</a>. Separately, registered businesses can already see the FTA’s operational list inside <strong>EmaraTax</strong> (e-Invoicing → onboarding) — the interface you will actually select and link your provider through. When we checked on <strong>18 July 2026</strong>, that list showed <strong>38 entries</strong> (one of them an FTA test row) under the FTA’s “Accredited Service Providers” heading, against the MoF’s 42 pre-approved names — while the portal still described provider onboarding as in progress. In practice, <strong>EmaraTax is the closest thing to an accredited list available today</strong>, but it is an operational onboarding view, not the official register; the MoF page remains the public pre-approval register, and the two do not fully match. Ask your shortlisted provider for written confirmation of its Article-16 accreditation, check both places at signing, and re-check before go-live.
         </p>
       </div>
 
       <h3 style={H3}>The pre-approved list, for reference</h3>
-      <p>For convenience, here is the Ministry’s pre-approved list as at its <strong>17 July 2026</strong> update — 42 providers, alphabetical, names as published by the MoF. All are listed by the Ministry as pre-approved under Article 15; a number have since announced their FTA accreditation, so verify each provider’s current status individually. The Ministry updates the list periodically, so treat this as a snapshot: confirm a provider’s current status on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
+      <p>For convenience, here is the Ministry’s pre-approved list as at its <strong>17 July 2026</strong> update — 42 providers, alphabetical, names as published by the MoF. All are listed by the Ministry as pre-approved under Article 15; some have since announced full (Article 16) accreditation, so verify each provider’s current status individually. The Ministry updates the list periodically, so treat this as a snapshot: confirm a provider’s current status on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
       <div style={{ border: '1px solid var(--aa-rule)', background: '#fff', padding: '20px 24px', margin: '20px 0 8px' }}>
         <ol style={{ margin: 0, paddingLeft: 22, columns: '2 240px', columnGap: 40, fontSize: 13.5, color: 'var(--aa-charcoal)', lineHeight: 1.9 }}>
           {[
@@ -1480,6 +1480,7 @@ function InsightArticlePage({ onNav, slug }) {
               <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Author</span> · <strong style={{ color: '#fff' }}>{article.author}</strong></div>
               {article.reviewer && <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Reviewed</span> · {article.reviewer}</div>}
               {article.reference && <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Sources</span> · {article.reference}</div>}
+              {article.updated && <div><span style={{ color: 'rgba(255,255,255,0.55)' }}>Updated</span> · {article.updated}</div>}
             </div>
           </div>
         </section>
@@ -1506,7 +1507,7 @@ function InsightArticlePage({ onNav, slug }) {
 
         <div className="container" style={{ maxWidth: 820, padding: '0 32px 32px' }}>
           <div style={{ marginTop: 48, fontSize: 12, color: 'var(--aa-steel)', borderTop: '1px solid var(--aa-rule)', paddingTop: 16, lineHeight: 1.6 }}>
-            This note is general guidance and does not constitute tax advice. For an opinion on your facts, contact the firm directly.
+            This note is general guidance and does not constitute tax or legal advice. For an opinion on your facts, contact the firm directly.
           </div>
         </div>
       </article>

@@ -71,7 +71,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     img.onerror = () => res(null); img.src = src;
   });
   const verdict = () => {
-    if (!inScope) return { title: 'B2C issuing is optional — but receiving still applies', body: 'Based on your answer, you issue only business-to-consumer (B2C) invoices, which are currently outside the mandatory issuing obligation. This does not take you out of the system: if you buy from UAE businesses, those purchases are B2B transactions, so from your phase date you must still appoint an Accredited Service Provider to receive and process the e-invoices your suppliers send you. A single B2B or B2G sales invoice would also bring your own issuing into scope. Plan to be ready on your phase timeline below.' };
+    if (!inScope) return { title: 'B2C issuing is optional — but receiving still applies', body: 'Based on your answer, you issue only business-to-consumer (B2C) invoices, which are currently outside the mandatory issuing obligation. This does not take you out of the system: if you buy from UAE businesses, those purchases are B2B transactions, so ahead of your phase go-live you must have appointed an Accredited Service Provider and be able to receive and process the e-invoices your suppliers send you. A single B2B or B2G sales invoice would also bring your own issuing into scope. Plan to be ready on your phase timeline below.' };
     const noAsp = f.asp !== 'appointed';
     const needHelp = f.impl === 'no' || f.impl === 'unsure' || f.team === 'no';
     if (noAsp && needHelp) return { title: 'Action needed — start now', body: 'You issue B2B/B2G invoices and are in scope, you have not yet appointed an Accredited Service Provider, and you indicated you may need support to implement. With your go-live approaching, we recommend a guided readiness engagement: scope assessment, ASP selection, ERP field-mapping and end-to-end testing before go-live.' };
@@ -138,7 +138,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     // ===== PAGE 2 — the essentials (catchy, one page) =====
     doc.addPage(); y = 60;
     heading('What is changing');
-    para('From your go-live date, a valid invoice is no longer a PDF or a print-out. It is a structured XML file (Peppol PINT AE), validated and exchanged between accredited providers and reported to the Federal Tax Authority in near-real time — and it must be issued within 14 days of the transaction.', { gap: 10 });
+    para('From your go-live date, a valid invoice is no longer a PDF or a print-out. It is a structured XML file (Peppol PINT AE), validated and exchanged between accredited providers and reported to the Federal Tax Authority in near-real time — and it must be issued and transmitted within 14 days, counted from the date of supply (an advance payment can start the clock earlier).', { gap: 10 });
     bullet('Paper, PDF and email attachments are NOT valid e-invoices — even when the VAT figures are correct.');
     bullet('B2B and B2G are in scope, including free zones; B2C is out of scope for now. Assume you are in scope unless a specific exclusion applies.');
 
@@ -255,7 +255,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     },
     {
       label: 'Phase 3 — All Government Entities',
-      qual: 'In scope',
+      qual: 'Commercial transactions',
       asp: '31 Mar 2027', aspISO: '2027-03-31',
       ready: '1 Oct 2027', readyISO: '2027-10-01',
       key: false,
@@ -409,7 +409,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                   ['Standard', 'OpenPeppol'],
                   ['Exchange model', '5-corner'],
                   ['Scope', 'B2B + B2G'],
-                  ['Issued via', 'Accredited ASP only'],
+                  ['Issued via', 'Your appointed ASP'],
                   ['First ASP deadline', '30 Oct 2026 · ' + dlabel('2026-10-30')],
                   ['Phase 1 go-live', '1 Jan 2027 · ' + dlabel('2027-01-01')],
                 ].map(([k, v]) => (
@@ -440,7 +440,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
         <div className="container">
           <div className="section-head">
             <div className="section-head__eyebrow">What is changing</div>
-            <h2>Structured invoices, transmitted and cleared.</h2>
+            <h2>Structured invoices, transmitted and validated.</h2>
           </div>
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
             {concepts.map(([t, d, ic], i) => (
@@ -499,7 +499,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
             <strong style={{ color: 'var(--aa-charcoal)' }}>ASP selection</strong> — deadline for each business to appoint
             its Accredited Service Provider. <strong style={{ color: 'var(--aa-charcoal)' }}>System readiness</strong> —
             mandatory go-live; from this date, only structured invoices transmitted through an accredited ASP will be
-            valid. PDF and paper invoices will not.
+            valid for in-scope transactions. PDF and paper invoices will not.
             <br /><br />
             <span style={{ color: 'var(--aa-steel-700)' }}>Legal basis: MD 243 of 2025 (system) and MD 244 of 2025 (timeline, as amended by MD 66 of 2026). This briefing is general guidance, not advice — confirm dates and scope against the latest UAE Ministry of Finance / FTA sources.</span>
           </p>
@@ -525,7 +525,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 6 }}>Official resource · UAE Ministry of Finance</div>
                 <div style={{ fontSize: 19, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.3 }}>Pre-Approved E-Invoicing Service Providers</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', marginTop: 4, lineHeight: 1.5, maxWidth: 620 }}>
-                  The Ministry of Finance&rsquo;s current list of Accredited Service Providers (ASPs) you can appoint — updated as new providers are approved.
+                  The Ministry of Finance&rsquo;s register of pre-approved (Article&nbsp;15) service providers you can appoint today. Full Article-16 accreditation is granted separately, so verify each provider&rsquo;s current status before you appoint.
                 </div>
               </div>
             </div>
