@@ -141,6 +141,24 @@
     })();
   </script>
 
+  <!-- First-paint loader: inlined so it renders before external CSS/JS and
+       covers the prerendered SEO body until React mounts. Dismissed by
+       app-root.jsx via window.__aaHideLoader after the app's first paint. -->
+  <style id="aa-loader-css">
+    #aa-loader{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;background:#fff;opacity:1;transition:opacity .5s ease}
+    #aa-loader.aa-loader--done{opacity:0;pointer-events:none}
+    .aa-loader__inner{display:flex;flex-direction:column;align-items:center;gap:26px;transform:translateY(-3%)}
+    .aa-loader__logo{width:210px;max-width:58vw;height:auto;display:block;animation:aaLoaderLogoIn .7s cubic-bezier(.2,.7,.2,1) both}
+    .aa-loader__bar{position:relative;width:184px;max-width:52vw;height:3px;border-radius:3px;background:rgba(41,171,226,.16);overflow:hidden}
+    .aa-loader__bar>span{position:absolute;top:0;height:100%;border-radius:3px;background:#29ABE2;animation:aaLoaderBar 1.15s ease-in-out infinite}
+    @keyframes aaLoaderLogoIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+    @keyframes aaLoaderBar{0%{left:-42%;width:42%}50%{width:60%}100%{left:100%;width:42%}}
+    @media (prefers-reduced-motion:reduce){
+      .aa-loader__logo{animation:none}
+      .aa-loader__bar>span{animation:none;left:0;width:100%;opacity:.5}
+    }
+  </style>
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&amp;family=Archivo:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap"/>
   <link rel="stylesheet" href="styles/tokens.css?v=20260709-logoanim4"/>
   <link rel="stylesheet" href="styles/site.css?v=20260717-trajectory"/>
@@ -154,6 +172,35 @@
   <script type="application/ld+json" data-aa-jsonld>{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What financial statements do you prepare?","acceptedAnswer":{"@type":"Answer","text":"A complete set under IFRS or IFRS for SMEs: the statement of financial position (balance sheet), the income statement (profit & loss), the statement of cash flows, the statement of changes in equity, and the accompanying notes and disclosures."}},{"@type":"Question","name":"IFRS or IFRS for SMEs — which applies to me?","acceptedAnswer":{"@type":"Answer","text":"It depends on your size, ownership and reporting needs. Most UAE SMEs report under IFRS for SMEs, while larger or public-interest entities use full IFRS. We confirm the right framework and apply it consistently."}},{"@type":"Question","name":"Are the financial statements audit-ready?","acceptedAnswer":{"@type":"Answer","text":"Yes. They are prepared with lead schedules, reconciliations and the disclosures auditors expect, so they go straight into the audit with minimal rework."}},{"@type":"Question","name":"Do you handle group consolidation?","acceptedAnswer":{"@type":"Answer","text":"Yes. We prepare consolidated financial statements with intercompany eliminations, minority interests and group accounting policies applied across entities."}},{"@type":"Question","name":"Do the financial statements support Corporate Tax?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your financial statements are the starting point for the Corporate Tax computation, so we prepare them on a basis consistent with your Corporate Tax position."}},{"@type":"Question","name":"How long does preparation take?","acceptedAnswer":{"@type":"Answer","text":"Typically one to three weeks once the trial balance is finalised, depending on the complexity of the business and whether a consolidation is involved."}}]}</script>
 </head>
 <body>
+  <!-- First-paint loader (sibling BEFORE #root so prerender's inject_root, which
+       only rewrites #root's contents, never touches it). -->
+  <div id="aa-loader" role="presentation" aria-hidden="true">
+    <div class="aa-loader__inner">
+      <img class="aa-loader__logo" src="assets/logos/aab-short-eng-classic.png" width="210" height="117" alt=""/>
+      <div class="aa-loader__bar"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var MIN_SHOWN = 300, start = Date.now(), hidden = false;
+      function drop() { var el = document.getElementById('aa-loader'); if (el && el.parentNode) el.parentNode.removeChild(el); }
+      function hide() {
+        if (hidden) return; hidden = true;
+        var el = document.getElementById('aa-loader'); if (!el) return;
+        setTimeout(function () {
+          el.classList.add('aa-loader--done');
+          var done = false, fin = function () { if (!done) { done = true; drop(); } };
+          el.addEventListener('transitionend', fin, { once: true });
+          setTimeout(fin, 700);
+        }, Math.max(0, MIN_SHOWN - (Date.now() - start)));
+      }
+      window.__aaHideLoader = hide;
+      // Safety nets so the loader can never trap the visitor if the app fails to signal.
+      window.addEventListener('load', function () { setTimeout(hide, 1500); });
+      setTimeout(hide, 8000);
+    })();
+  </script>
+
   <div id="root"><div class="container" style="padding:48px 0"><h1>IFRS Financial Statements Preparation Dubai, UAE</h1><p>Preparation of IFRS and IFRS for SMEs financial statements in the UAE — balance sheet, income statement, cash flow and notes, group consolidation and disclosures — audit- and Corporate Tax-ready.</p><section><h2>Frequently asked questions</h2><h3>What financial statements do you prepare?</h3><p>A complete set under IFRS or IFRS for SMEs: the statement of financial position (balance sheet), the income statement (profit &amp; loss), the statement of cash flows, the statement of changes in equity, and the accompanying notes and disclosures.</p><h3>IFRS or IFRS for SMEs — which applies to me?</h3><p>It depends on your size, ownership and reporting needs. Most UAE SMEs report under IFRS for SMEs, while larger or public-interest entities use full IFRS. We confirm the right framework and apply it consistently.</p><h3>Are the financial statements audit-ready?</h3><p>Yes. They are prepared with lead schedules, reconciliations and the disclosures auditors expect, so they go straight into the audit with minimal rework.</p><h3>Do you handle group consolidation?</h3><p>Yes. We prepare consolidated financial statements with intercompany eliminations, minority interests and group accounting policies applied across entities.</p><h3>Do the financial statements support Corporate Tax?</h3><p>Yes. Your financial statements are the starting point for the Corporate Tax computation, so we prepare them on a basis consistent with your Corporate Tax position.</p><h3>How long does preparation take?</h3><p>Typically one to three weeks once the trial balance is finalised, depending on the complexity of the business and whether a consolidation is involved.</p></section><nav aria-label="Site sections"><h2>Explore</h2><ul><li><a href="/services">Services</a></li><li><a href="/services/bookkeeping">Bookkeeping</a></li><li><a href="/services/vat">VAT Compliance</a></li><li><a href="/services/corporate-tax">Corporate Tax</a></li><li><a href="/services/financial-statements">Financial Statements</a></li><li><a href="/services/audit-support">Audit Support</a></li><li><a href="/e-invoicing">E-Invoicing</a></li><li><a href="/services/valuations">Valuations</a></li><li><a href="/services/transaction-advisory">Transaction Advisory</a></li><li><a href="/services/cfo-services">CFO Services</a></li><li><a href="/services/tax-planning">Tax Planning</a></li><li><a href="/services/internal-controls">Internal Controls</a></li><li><a href="/services/forensic-accounting">Forensic Accounting</a></li><li><a href="/services/financial-modelling">Financial Modelling</a></li><li><a href="/services/feasibility-studies">Feasibility Studies</a></li><li><a href="/services/fixed-asset-tagging">Fixed Asset Tagging</a></li><li><a href="/services/strategic-advisory">Strategic Advisory</a></li><li><a href="/industries">Industries</a></li><li><a href="/industries/real-estate">Real Estate</a></li><li><a href="/industries/construction">Construction &amp; Contracting</a></li><li><a href="/industries/trading">Trading &amp; Distribution</a></li><li><a href="/industries/hospitality">Hospitality &amp; F&amp;B</a></li><li><a href="/industries/ecommerce">E-commerce &amp; Retail</a></li><li><a href="/industries/manufacturing">Manufacturing</a></li><li><a href="/about">About</a></li><li><a href="/insights">Insights</a></li><li><a href="/careers">Careers</a></li><li><a href="/contact">Contact</a></li><li><a href="https://www.aaccounting.me/insights/ifrs-financial-statements-uae">IFRS financial statements in the UAE: who needs them, and what a full set contains</a></li><li><a href="https://www.aaccounting.me/insights/prepare-erp-for-uae-e-invoicing">Getting your ERP ready for UAE e-invoicing: a practical checklist</a></li><li><a href="https://www.aaccounting.me/insights/choosing-accredited-service-provider-asp">Choosing an Accredited Service Provider (ASP) for UAE e-invoicing</a></li><li><a href="https://www.aaccounting.me/insights/uae-e-invoicing-deadlines-phases">UAE e-invoicing deadlines and phases: who must comply, and by when</a></li><li><a href="https://www.aaccounting.me/insights/uae-e-invoicing-explained">UAE e-invoicing explained: a plain-English guide for businesses</a></li><li><a href="https://www.aaccounting.me/insights/free-zone-qualifying-income">Free zone qualifying income — three traps in the UAE free-zone tax rules</a></li><li><a href="https://www.aaccounting.me/insights/uae-corporate-tax-guide-sme">UAE Corporate Tax: a complete guide for SMEs and free-zone businesses</a></li><li><a href="https://www.aaccounting.me/insights/outsourced-bookkeeping-dubai">Outsourced bookkeeping in Dubai: what good looks like in a VAT and Corporate Tax world</a></li><li><a href="https://www.aaccounting.me/insights/uae-vat-guide-dubai">VAT in the UAE: registration, filing and recovery — a Dubai business guide</a></li><li><a href="https://www.aaccounting.me/insights/uae-corporate-tax-is-coming">UAE Corporate Tax is coming: what businesses should start doing now</a></li><li><a href="https://www.aaccounting.me/insights/management-accounts-that-drive-decisions">Management accounts that actually drive decisions</a></li><li><a href="https://www.aaccounting.me/insights/protecting-cash-flow-downturn">Protecting cash flow when revenue stalls</a></li><li><a href="https://www.aaccounting.me/insights/economic-substance-regulations-uae">Economic Substance Regulations: do they apply to your UAE company?</a></li><li><a href="https://www.aaccounting.me/insights/uae-vat-5-percent-primer">VAT has arrived: a 5% primer for UAE businesses</a></li><li><a href="https://www.aaccounting.me/insights/bookkeeping-foundation">Why disciplined bookkeeping is the foundation of every business</a></li><li><a href="https://www.aaccounting.me/insights/dcf-terminal-values-family-office">Why DCF terminal values are mispriced for UAE family-office holdings</a></li><li><a href="https://www.aaccounting.me/insights/control-framework-erp-migrations">A control framework that survives ERP migrations: a practitioner’s note</a></li><li><a href="https://www.aaccounting.me/insights/designated-zone-reclassification">Designated zone reclassification — the trail you must keep</a></li><li><a href="https://www.aaccounting.me/insights/working-capital-pegs-uae-deals">Working capital pegs in UAE deals: closing-mechanic patterns we keep seeing</a></li><li><a href="https://www.aaccounting.me/insights/transfer-pricing-thresholds-board">Transfer pricing thresholds and the documentation a Board should expect</a></li><li><a href="https://www.aaccounting.me/insights/reconciliation-resolve-to-zero">Why every reconciliation should resolve to zero — and what to do when it does not</a></li><li><a href="https://www.aaccounting.me/insights/cost-of-equity-gcc-buildup">Cost-of-equity in the GCC: a practitioner’s build-up</a></li></ul></nav></div></div>
 
   <!-- Tweak defaults — the design host rewrites the block between the markers. -->
@@ -167,6 +214,6 @@
   </script>
 
   <!-- Precompiled bundle: routes + components + app shell. Rebuild with: npm run bundle -->
-  <script defer src="dist/app.min.js?v=20260718-asp-38"></script>
+  <script defer src="dist/app.min.js?v=20260718-loader"></script>
 </body>
 </html>

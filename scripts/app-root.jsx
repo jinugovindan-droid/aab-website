@@ -240,3 +240,10 @@ function AppRoot() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<AppRoot/>);
+
+// Dismiss the first-paint loader once the app has actually rendered a frame
+// (double rAF = after React commits and the browser paints). The inline script
+// in index.html owns the fade-out + removal and has its own safety timeouts.
+requestAnimationFrame(function () {
+  requestAnimationFrame(function () { if (window.__aaHideLoader) window.__aaHideLoader(); });
+});
