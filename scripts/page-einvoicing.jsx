@@ -71,7 +71,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     img.onerror = () => res(null); img.src = src;
   });
   const verdict = () => {
-    if (!inScope) return { title: 'Likely outside the current mandatory scope', body: 'Based on your answer, you issue only business-to-consumer (B2C) invoices. B2C invoicing is currently optional under the UAE e-invoicing mandate — the obligation applies to business-to-business (B2B) and business-to-government (B2G) transactions. We recommend you confirm your transaction mix carefully (a single B2B or B2G invoice brings you into scope) and prepare early if that is likely.' };
+    if (!inScope) return { title: 'B2C issuing is optional — but receiving still applies', body: 'Based on your answer, you issue only business-to-consumer (B2C) invoices, which are currently outside the mandatory issuing obligation. This does not take you out of the system: if you buy from UAE businesses, those purchases are B2B transactions, so from your phase date you must still appoint an Accredited Service Provider to receive and process the e-invoices your suppliers send you. A single B2B or B2G sales invoice would also bring your own issuing into scope. Plan to be ready on your phase timeline below.' };
     const noAsp = f.asp !== 'appointed';
     const needHelp = f.impl === 'no' || f.impl === 'unsure' || f.team === 'no';
     if (noAsp && needHelp) return { title: 'Action needed — start now', body: 'You issue B2B/B2G invoices and are in scope, you have not yet appointed an Accredited Service Provider, and you indicated you may need support to implement. With your go-live approaching, we recommend a guided readiness engagement: scope assessment, ASP selection, ERP field-mapping and end-to-end testing before go-live.' };
@@ -176,7 +176,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     pen.forEach((pp, i) => { const px = M + 16 + i * pcw; doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.text(pp[0], px, y + 38); setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.text(pp[1], px, y + 50); });
     y += 68;
     setC(steel); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
-    doc.text('Penalties under Cabinet Decision 106 of 2025 — applied from your go-live date.', M, y); y += 16;
+    doc.text('Penalties (Cabinet Decision 106 of 2025) start as each deadline passes — the ASP-appointment date is first, before go-live.', M, y); y += 16;
 
     heading('Your next moves');
     bullet(f.asp === 'appointed' ? 'Validate your appointed ASP — set-up, connectivity and accreditation.' : 'Appoint a Service Provider from the current MoF pre-approved list (see mof.gov.ae for the latest list).');
@@ -266,7 +266,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     ['OpenPeppol standard', 'Invoices are exchanged as structured data on the international OpenPeppol framework — not as PDFs or scans.', 'network'],
     ['5-corner model', 'Invoices are exchanged between the two parties’ accredited service providers over Peppol, with tax data reported to the FTA in near-real time.', 'route'],
     ['B2B and B2G scope', 'Mandatory for business-to-business and business-to-government transactions. Business-to-consumer (B2C) is currently optional / out of scope.', 'building-2'],
-    ['Accredited Service Provider', 'Each entity must appoint an ASP to transmit compliant invoices. PDF and paper invoices will no longer be valid.', 'badge-check'],
+    ['Accredited Service Provider', 'Each entity must appoint an ASP — to transmit its own e-invoices and to receive and process its suppliers’. From go-live, PDF and paper are no longer valid for in-scope transactions.', 'badge-check'],
   ];
 
   const scope = [
