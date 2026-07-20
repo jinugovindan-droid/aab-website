@@ -94,7 +94,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     const heading = (t) => { ensure(44); setC(charcoal); doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.text(t, M, y); y += 9; doc.setDrawColor(cyan[0], cyan[1], cyan[2]); doc.setLineWidth(1.4); doc.line(M, y, M + 40, y); y += 16; };
     const para = (t, o) => { o = o || {}; doc.setFont('helvetica', o.bold ? 'bold' : 'normal'); doc.setFontSize(o.size || 10.5); setC(o.color || ink); doc.splitTextToSize(t, colW).forEach((ln) => { ensure(15); doc.text(ln, M, y); y += 15; }); y += (o.gap == null ? 8 : o.gap); };
     const bullet = (t) => { doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5); const lines = doc.splitTextToSize(t, colW - 16); ensure(lines.length * 14 + 2); setC(cyan); doc.text('•', M, y); setC(ink); lines.forEach((ln) => { doc.text(ln, M + 16, y); y += 14; }); y += 4; };
-    try { const lg = await logoDataUrl('assets/logos/aab-short-eng.png?v=3'); if (lg) doc.addImage(lg.url, 'PNG', M, y - 6, 104, 104 * lg.h / lg.w); } catch (e) {}
+    try { const lg = await logoDataUrl('assets/logos/aab-short-eng-classic.png'); if (lg) doc.addImage(lg.url, 'PNG', M, y - 6, 104, 104 * lg.h / lg.w); } catch (e) {}
     doc.setTextColor.apply(doc, steel); doc.setFontSize(8.5);
     doc.text('Authentic Accounting & Bookkeeping L.L.C · Dubai, UAE', W - M, y + 2, { align: 'right' });
     doc.text('www.aaccounting.me', W - M, y + 14, { align: 'right' });
