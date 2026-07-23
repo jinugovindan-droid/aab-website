@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <meta name="theme-color" content="#0b3d91"/>
+  <title>India Quest — The Great Train Adventure</title>
+  <meta name="description" content="India Quest: ride a train across India, answer fun questions at every station, learn amazing facts and collect passport stamps. A learning game for kids."/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚂</text></svg>"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      /* Indian Railways-inspired: deep loco blue, saffron, leaf green, cream ticket stock */
+      --sky1: #0b3d91; --sky2: #062a66;
+      --ticket: #fff8e7; --ticket-edge: #f3e3bd;
+      --ink: #2b2419; --ink-soft: #7a6a4f;
+      --saffron: #f97316; --leaf: #15803d; --chakra: #1d4ed8;
+      --gold: #eab308; --bad: #dc2626; --good: #16a34a;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: "Comic Sans MS", "Chalkboard SE", "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(175deg, var(--sky1), var(--sky2) 75%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      overflow-x: hidden;
+    }
+    .bg-deco { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .bg-deco span { position: absolute; font-size: 40px; opacity: .16; animation: floaty 14s ease-in-out infinite; }
+    @keyframes floaty { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-26px) rotate(6deg); } }
+
+    .app { position: relative; z-index: 1; width: 100%; max-width: 640px; padding: 16px; flex: 1; display: flex; flex-direction: column; }
+    .screen { display: none; flex: 1; flex-direction: column; }
+    .screen.active { display: flex; animation: pop-in .35s ease; }
+    @keyframes pop-in { from { opacity: 0; transform: scale(.97) translateY(10px); } to { opacity: 1; transform: none; } }
+
+    /* ticket-style card: cream stock with punched edges */
+    .card {
+      background: var(--ticket);
+      border: 2px dashed var(--ticket-edge);
+      border-radius: 20px; padding: 22px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.4);
+    }
+
+    /* tricolour ribbon */
+    .tricolour { height: 8px; border-radius: 99px; overflow: hidden; display: flex; margin: 14px 0; }
+    .tricolour i { flex: 1; } .tricolour i:nth-child(1) { background: var(--saffron); }
+    .tricolour i:nth-child(2) { background: #fff; } .tricolour i:nth-child(3) { background: var(--leaf); }
+
+    /* ---------- HOME ---------- */
+    .home-card { text-align: center; margin-top: 20px; }
+    .logo { font-size: 60px; line-height: 1; display: inline-block; animation: chug 1.2s ease-in-out infinite; }
+    @keyframes chug { 0%,100% { transform: translateX(-4px); } 50% { transform: translateX(4px); } }
+    h1 {
+      font-size: clamp(28px, 7.5vw, 40px); margin: 6px 0 2px; color: var(--saffron);
+      text-shadow: 0 2px 0 #00000014;
+    }
+    .subtitle { font-size: 17px; font-weight: 800; color: var(--chakra); margin-bottom: 6px; }
+    .tagline { color: var(--ink-soft); font-size: 15px; margin-bottom: 14px; }
+
+    .btn {
+      display: inline-block; border: 0; cursor: pointer; font-family: inherit;
+      font-size: 20px; font-weight: 800; color: #fff;
+      background: linear-gradient(135deg, var(--saffron), #ea580c);
+      padding: 14px 34px; border-radius: 999px;
+      box-shadow: 0 6px 0 #9a340755, 0 10px 24px rgba(0,0,0,.25);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #9a340755; }
+    .btn.small { font-size: 15px; padding: 10px 20px; }
+    .btn.ghost { background: #efe7d2; color: var(--ink); box-shadow: 0 4px 0 #d8ccae; }
+    .btn.green { background: linear-gradient(135deg, var(--good), #15803d); box-shadow: 0 6px 0 #14532d55, 0 10px 24px rgba(0,0,0,.25); }
+
+    .how { text-align: left; margin: 14px auto 4px; max-width: 430px; font-size: 15px; color: var(--ink-soft); }
+    .how li { margin: 7px 0; list-style: none; }
+
+    /* ---------- JOURNEY MAP ---------- */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .icon-btn {
+      border: 0; background: rgba(255,255,255,.16); color: #fff; font-size: 18px;
+      width: 42px; height: 42px; border-radius: 50%; cursor: pointer; font-family: inherit;
+    }
+    .map-title { font-size: 23px; font-weight: 900; text-align: center; color: var(--ink); }
+    .map-sub { text-align: center; font-size: 14px; color: var(--ink-soft); margin: 2px 0 14px; }
+
+    .route { position: relative; margin-left: 26px; }
+    .route::before {
+      content: ""; position: absolute; left: 9px; top: 12px; bottom: 12px; width: 6px;
+      background: repeating-linear-gradient(var(--chakra) 0 14px, transparent 14px 22px);
+      border-radius: 3px;
+    }
+    .stop-row {
+      position: relative; display: flex; align-items: center; gap: 12px;
+      padding: 7px 0 7px 34px; border: 0; background: none; width: 100%;
+      font-family: inherit; text-align: left; cursor: pointer;
+    }
+    .stop-row .dot {
+      position: absolute; left: 0; width: 24px; height: 24px; border-radius: 50%;
+      background: #fff; border: 5px solid var(--chakra);
+    }
+    .stop-row.done .dot { border-color: var(--good); background: #dcfce7; }
+    .stop-row.locked { cursor: not-allowed; }
+    .stop-row.locked .dot { border-color: #cbbfa4; }
+    .stop-row .stamp { font-size: 30px; width: 40px; text-align: center; }
+    .stop-row.locked .stamp { filter: grayscale(1); opacity: .45; }
+    .stop-row .info { flex: 1; }
+    .stop-row .name { font-size: 17px; font-weight: 900; color: var(--ink); }
+    .stop-row.locked .name { color: #a29678; }
+    .stop-row .desc { font-size: 12.5px; color: var(--ink-soft); }
+    .stop-row .badge { font-size: 13px; font-weight: 800; color: var(--good); }
+    .stop-row .badge.go { color: var(--saffron); animation: pulse .7s ease infinite alternate; }
+    @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.1); } }
+    .stop-row:not(.locked):hover .name { color: var(--saffron); }
+
+    .train-here { font-size: 22px; position: absolute; left: -32px; animation: chug 1.2s ease-in-out infinite; }
+
+    /* ---------- GAME ---------- */
+    .hud { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; color: #fff; font-weight: 700; flex-wrap: wrap; }
+    .hud .chip { background: rgba(255,255,255,.16); border-radius: 999px; padding: 6px 14px; font-size: 14px; }
+    .hud .chip b { color: #fcd34d; }
+
+    .q-card { min-height: 380px; display: flex; flex-direction: column; }
+    .station-line { font-size: 13px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--chakra); margin-bottom: 8px; }
+    .q-icon { font-size: 52px; text-align: center; margin: 2px 0 8px; }
+    .q-text { font-size: 20px; font-weight: 800; margin-bottom: 16px; text-align: center; text-wrap: balance; }
+
+    .answers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .answers.tf { grid-template-columns: 1fr 1fr; }
+    .ans {
+      border: 3px solid #e7dcbe; background: #fffdf6; border-radius: 16px;
+      font-family: inherit; font-size: 17px; font-weight: 800; color: var(--ink);
+      padding: 15px 10px; cursor: pointer; transition: transform .1s ease, border-color .1s;
+    }
+    .ans:hover { transform: scale(1.03); border-color: var(--saffron); }
+    .ans.correct { background: #dcfce7; border-color: var(--good); }
+    .ans.wrong { background: #fee2e2; border-color: var(--bad); animation: shake .4s ease; }
+    .ans:disabled { cursor: default; opacity: .95; }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-7px); } 75% { transform: translateX(7px); } }
+
+    .verdict { text-align: center; font-size: 21px; font-weight: 900; min-height: 30px; margin-top: 14px; }
+    .verdict.good { color: var(--good); } .verdict.bad { color: var(--bad); }
+
+    .fact {
+      display: none; margin-top: 12px; padding: 14px 16px; border-radius: 16px;
+      background: #eef4ff; border: 2px solid #c7d8fb; font-size: 15.5px; color: #1e3a8a;
+    }
+    .fact.show { display: block; animation: pop-in .3s ease; }
+    .fact b { color: var(--chakra); }
+    .next-wrap { text-align: center; margin-top: 14px; min-height: 56px; }
+
+    /* ---------- RESULT ---------- */
+    .result-card { text-align: center; margin-top: 34px; }
+    .stamp-big {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 118px; height: 118px; font-size: 58px; margin: 8px 0;
+      border: 4px solid var(--good); border-radius: 50%;
+      background: #f0fdf4; transform: rotate(-8deg);
+      box-shadow: inset 0 0 0 4px #fff;
+    }
+    .stamp-big.missed { border-color: #cbbfa4; background: #faf6ea; filter: grayscale(.7); }
+    .result-title { font-size: 28px; font-weight: 900; }
+    .result-sub { color: var(--ink-soft); margin: 8px 0 18px; font-size: 16px; }
+    .result-score { font-size: 20px; font-weight: 800; color: var(--saffron); margin-bottom: 18px; }
+    .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+    .confetti i { position: absolute; top: -20px; width: 10px; height: 16px; border-radius: 3px; animation: fall linear forwards; }
+    @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+
+    @media (max-width: 420px) {
+      .ans { font-size: 15px; padding: 13px 6px; }
+      .q-text { font-size: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-deco" aria-hidden="true">
+    <span style="left:6%;  top:10%; animation-delay:0s">🚂</span>
+    <span style="left:82%; top:7%;  animation-delay:1.5s">🪁</span>
+    <span style="left:10%; top:68%; animation-delay:3s">🐯</span>
+    <span style="left:86%; top:58%; animation-delay:2s">🦚</span>
+    <span style="left:44%; top:86%; animation-delay:4s">🕌</span>
+    <span style="left:62%; top:28%; animation-delay:5s">🥭</span>
+  </div>
+
+  <div class="app">
+
+    <!-- HOME -->
+    <section id="screen-home" class="screen active">
+      <div class="card home-card">
+        <div class="logo">🚂💨</div>
+        <h1>India Quest</h1>
+        <div class="subtitle">The Great Train Adventure</div>
+        <div class="tricolour"><i></i><i></i><i></i></div>
+        <p class="tagline">All aboard! Ride the train across incredible India, answer questions at every station and collect passport stamps!</p>
+        <button class="btn" id="btn-play">🎫 Start the Journey</button>
+        <ul class="how">
+          <li>🚉 Visit <b>10 amazing stops</b> — from Delhi to the Grand Finale</li>
+          <li>❓ Answer <b>5 questions</b> at each station</li>
+          <li>💡 Learn a <b>“Did you know?”</b> fact after every answer</li>
+          <li>🛂 Get <b>3 or more right</b> to earn the station stamp</li>
+          <li>🏆 Collect all stamps to become an <b>India Explorer!</b></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- JOURNEY MAP -->
+    <section id="screen-map" class="screen">
+      <div class="top-bar">
+        <button class="icon-btn" id="btn-map-home" aria-label="Home">🏠</button>
+        <button class="icon-btn" id="btn-sound" aria-label="Sound on or off">🔊</button>
+      </div>
+      <div class="card">
+        <div class="map-title">🗺 Your Journey</div>
+        <p class="map-sub" id="map-progress"></p>
+        <div class="route" id="route"></div>
+      </div>
+    </section>
+
+    <!-- GAME -->
+    <section id="screen-game" class="screen">
+      <div class="hud">
+        <span class="chip">🚉 <b id="hud-stop">Delhi</b></span>
+        <span class="chip">Question <b id="hud-q">1</b>/<b id="hud-qtotal">5</b></span>
+        <span class="chip">✅ <b id="hud-right">0</b></span>
+        <span class="chip">⭐ <b id="hud-score">0</b></span>
+      </div>
+      <div class="card q-card">
+        <div class="station-line" id="station-line"></div>
+        <div class="q-icon" id="q-icon"></div>
+        <div class="q-text" id="q-text"></div>
+        <div class="answers" id="answers"></div>
+        <div class="verdict" id="verdict"></div>
+        <div class="fact" id="fact"></div>
+        <div class="next-wrap"><button class="btn green small" id="btn-next" style="display:none">Next ➜</button></div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="screen-result" class="screen">
+      <div class="card result-card">
+        <div class="stamp-big" id="result-stamp"></div>
+        <div class="result-title" id="result-title"></div>
+        <p class="result-sub" id="result-sub"></p>
+        <div class="result-score" id="result-score"></div>
+        <div class="result-actions">
+          <button class="btn small ghost" id="btn-result-retry">🔁 Try Again</button>
+          <button class="btn small" id="btn-result-map">🗺 Journey Map</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var PASS_MARK = 3;
+
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function pick(arr) { return arr[rnd(arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function el(id) { return document.getElementById(id); }
+
+  /* -------- sound -------- */
+  var soundOn = true, actx = null;
+  function beep(freq, dur, type, when) {
+    if (!soundOn) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      var o = actx.createOscillator(), g = actx.createGain();
+      var t = actx.currentTime + (when || 0);
+      o.type = type || "sine"; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.12, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.connect(g); g.connect(actx.destination);
+      o.start(t); o.stop(t + dur + 0.05);
+    } catch (e) {}
+  }
+  function sfxCorrect() { beep(660, .12); beep(880, .18, "sine", .1); }
+  function sfxWrong() { beep(220, .25, "square"); }
+  function sfxWin() { [523, 659, 784, 1047].forEach(function (f, i) { beep(f, .18, "sine", i * .13); }); }
+  function sfxWhistle() { beep(880, .3, "triangle"); beep(880, .3, "triangle", .4); }
+
+  /* -------- the journey --------
+     Each stop: name, stamp emoji, one-line desc, and 5 questions.
+     Question: { icon, q, options (first = correct), fact }        */
+  var STOPS = [
+    {
+      name: "Delhi", stamp: "🏛️", desc: "India's capital city",
+      questions: [
+        { icon: "🇮🇳", q: "What is the capital of India?",
+          options: ["New Delhi", "Mumbai", "Jaipur", "Chennai"],
+          fact: "New Delhi has one of the world's busiest metro train networks — over 4 million rides a day!" },
+        { icon: "🏰", q: "At which Delhi monument does the Prime Minister raise the flag every Independence Day?",
+          options: ["Red Fort", "Taj Mahal", "Gateway of India", "Charminar"],
+          fact: "India celebrates Independence Day on 15 August — the country became free in 1947." },
+        { icon: "🚩", q: "Which colour is at the TOP of India's flag?",
+          options: ["Saffron (orange)", "Green", "White", "Blue"],
+          fact: "The blue wheel in the middle is the Ashoka Chakra — it has exactly 24 spokes!" },
+        { icon: "🕊️", q: "True or False: India Gate in Delhi honours brave Indian soldiers.",
+          options: ["True", "False"],
+          fact: "India Gate is 42 metres tall, and an eternal flame burns there for the soldiers." },
+        { icon: "🏗️", q: "The tall, ancient stone tower in Delhi is called…",
+          options: ["Qutub Minar", "Eiffel Tower", "Big Ben", "Leaning Tower"],
+          fact: "Qutub Minar is about 73 metres tall and more than 800 years old — and it's made of bricks!" }
+      ]
+    },
+    {
+      name: "Agra", stamp: "🕌", desc: "Home of the Taj Mahal",
+      questions: [
+        { icon: "🕌", q: "Which world-famous white monument is in Agra?",
+          options: ["Taj Mahal", "Golden Temple", "Hawa Mahal", "India Gate"],
+          fact: "The Taj Mahal is one of the Seven Wonders of the World!" },
+        { icon: "💎", q: "What is the Taj Mahal made of?",
+          options: ["White marble", "Red bricks", "Wood", "Glass"],
+          fact: "The Taj seems to change colour — pinkish at sunrise, white by day and golden under the moon!" },
+        { icon: "👑", q: "Which emperor built the Taj Mahal?",
+          options: ["Shah Jahan", "Ashoka", "Akbar", "Tipu Sultan"],
+          fact: "He built it in memory of his wife, Mumtaz Mahal. It took around 22 years to finish!" },
+        { icon: "🌊", q: "The Taj Mahal stands beside which river?",
+          options: ["Yamuna", "Ganga", "Kaveri", "Nile"],
+          fact: "The river Yamuna also flows through Delhi before reaching Agra." },
+        { icon: "👷", q: "True or False: The Taj Mahal was built in just one year.",
+          options: ["False", "True"],
+          fact: "It took around 22 years, 20,000 workers and even 1,000 elephants to carry the heavy marble!" }
+      ]
+    },
+    {
+      name: "Jaipur", stamp: "🐪", desc: "The Pink City of Rajasthan",
+      questions: [
+        { icon: "🌸", q: "Jaipur is famous as the ____ City.",
+          options: ["Pink", "Blue", "Golden", "Green"],
+          fact: "The whole old city was painted pink in 1876 to welcome a visiting prince — and it still is!" },
+        { icon: "🏯", q: "Which Jaipur palace has 953 tiny windows?",
+          options: ["Hawa Mahal", "Red Fort", "Taj Mahal", "Mysore Palace"],
+          fact: "‘Hawa Mahal’ means Palace of Winds — the windows let cool breeze flow through." },
+        { icon: "🏜️", q: "Rajasthan has India's biggest desert. What is it called?",
+          options: ["Thar Desert", "Sahara Desert", "Gobi Desert", "Kutch Desert"],
+          fact: "The Thar is also called the Great Indian Desert — days are hot but nights get cold!" },
+        { icon: "🐪", q: "Which animal is called the Ship of the Desert?",
+          options: ["Camel", "Horse", "Elephant", "Donkey"],
+          fact: "Camels can go for days without water — perfect for desert journeys!" },
+        { icon: "🎭", q: "Rajasthan is famous for shows with kathputli. What are kathputli?",
+          options: ["String puppets", "Robots", "Kites", "Drums"],
+          fact: "Kathputli puppets are made of wood and colourful cloth, and puppeteers make them dance to folk songs." }
+      ]
+    },
+    {
+      name: "Amritsar", stamp: "🙏", desc: "Punjab's golden city",
+      questions: [
+        { icon: "✨", q: "Which shining temple is in Amritsar?",
+          options: ["Golden Temple", "Lotus Temple", "Sun Temple", "Taj Mahal"],
+          fact: "The Golden Temple really is covered in gold, and it stands in the middle of a holy pool!" },
+        { icon: "🍽️", q: "True or False: The Golden Temple kitchen serves free food to everyone, every day.",
+          options: ["True", "False"],
+          fact: "The free kitchen is called a langar — it feeds up to 100,000 people a day!" },
+        { icon: "💃", q: "Which energetic dance comes from Punjab?",
+          options: ["Bhangra", "Ballet", "Salsa", "Hip hop"],
+          fact: "Bhangra began as a harvest dance, celebrated at the festival of Baisakhi." },
+        { icon: "🌊", q: "Punjab means the land of five…",
+          options: ["Rivers", "Mountains", "Deserts", "Forests"],
+          fact: "‘Punj’ means five and ‘ab’ means waters — five rivers flow through Punjab." },
+        { icon: "🥛", q: "Which famous Punjabi drink is made from yogurt?",
+          options: ["Lassi", "Lemonade", "Coffee", "Cola"],
+          fact: "Sweet lassi is often served in a big steel glass with a dollop of cream on top. Yum!" }
+      ]
+    },
+    {
+      name: "Ahmedabad", stamp: "🪁", desc: "Gujarat — lions & kites",
+      questions: [
+        { icon: "🦁", q: "The only place in the world where wild Asiatic lions live is…",
+          options: ["Gir Forest, Gujarat", "Amazon Jungle", "Sahara Desert", "Himalayas"],
+          fact: "Gir National Park protects around 600 Asiatic lions — found nowhere else in the wild!" },
+        { icon: "🗽", q: "The Statue of Unity, the world's TALLEST statue, honours…",
+          options: ["Sardar Vallabhbhai Patel", "Mahatma Gandhi", "A famous cricketer", "A Bollywood star"],
+          fact: "It is 182 metres tall — almost twice the height of the Statue of Liberty!" },
+        { icon: "🪁", q: "In January, Gujarat's sky fills with thousands of…",
+          options: ["Kites", "Balloons", "Drones", "Parrots"],
+          fact: "The kite festival is called Uttarayan — people fly kites from rooftops all day long!" },
+        { icon: "🍰", q: "Which soft, steamed snack comes from Gujarat?",
+          options: ["Dhokla", "Pizza", "Momos", "Noodles"],
+          fact: "Dhokla is made from a batter of rice and chickpeas — it's fluffy like a sponge!" },
+        { icon: "🕊️", q: "True or False: Mahatma Gandhi was born in Delhi.",
+          options: ["False", "True"],
+          fact: "Gandhi was born in Porbandar, Gujarat! His famous Sabarmati Ashram is in Ahmedabad, where he began the Salt March in 1930." }
+      ]
+    },
+    {
+      name: "Mumbai", stamp: "🎬", desc: "The city of dreams",
+      questions: [
+        { icon: "🌊", q: "Mumbai sits on the shore of which sea?",
+          options: ["Arabian Sea", "Bay of Bengal", "Red Sea", "Dead Sea"],
+          fact: "Mumbai was once seven separate islands that were joined together over many years!" },
+        { icon: "🏛️", q: "The grand stone arch by Mumbai's harbour is called…",
+          options: ["Gateway of India", "India Gate", "Charminar", "Howrah Bridge"],
+          fact: "The Gateway of India was built to welcome a king and queen who sailed to India in 1911." },
+        { icon: "🎬", q: "Mumbai's famous film industry is called…",
+          options: ["Bollywood", "Hollywood", "Tollywood", "Nollywood"],
+          fact: "Bollywood makes more movies every year than Hollywood — full of songs and dancing!" },
+        { icon: "🍔", q: "Mumbai's favourite street snack is ____ pav.",
+          options: ["Vada", "Burger", "Pizza", "Samosa"],
+          fact: "Vada pav is a spicy potato fritter inside a soft bun — Mumbai's own ‘burger’!" },
+        { icon: "🍱", q: "Mumbai's famous dabbawalas deliver thousands of…",
+          options: ["Lunch boxes", "Letters", "Newspapers", "Toys"],
+          fact: "Dabbawalas deliver about 200,000 tiffin boxes every day — almost never getting one wrong!" }
+      ]
+    },
+    {
+      name: "Kochi", stamp: "🛶", desc: "Kerala's calm backwaters",
+      questions: [
+        { icon: "🌴", q: "Kerala is lovingly called…",
+          options: ["God's Own Country", "The Pink State", "Land of Kings", "The Big Apple"],
+          fact: "Kerala is famous for its green backwaters, beaches, hills and spice gardens." },
+        { icon: "🛶", q: "In Kerala's backwaters, people stay on boats called…",
+          options: ["Houseboats", "Submarines", "Ferries", "Canoes"],
+          fact: "Kerala's houseboats are called kettuvallams — some are like floating houses with bedrooms and kitchens!" },
+        { icon: "🎭", q: "Which Kerala dance uses green face paint and huge colourful costumes?",
+          options: ["Kathakali", "Bhangra", "Garba", "Tango"],
+          fact: "In Kathakali, dancers tell whole stories using only their eyes, hands and faces — no words!" },
+        { icon: "🚣", q: "At the Onam festival, Kerala holds exciting snake ____ races.",
+          options: ["Boat", "Car", "Horse", "Bicycle"],
+          fact: "A snake boat can be 30 metres long with 100 rowers paddling to drum beats!" },
+        { icon: "🥥", q: "The word ‘Kerala’ comes from ‘kera’. What does kera mean?",
+          options: ["Coconut tree", "Elephant", "River", "Rice"],
+          fact: "Kerala means the land of coconuts — coconut trees grow everywhere there!" }
+      ]
+    },
+    {
+      name: "Chennai", stamp: "💃", desc: "Tamil Nadu's seaside capital",
+      questions: [
+        { icon: "🥞", q: "Which thin, crispy South Indian pancake is loved everywhere?",
+          options: ["Dosa", "Waffle", "Crepe", "Paratha"],
+          fact: "Dosas are made from rice and lentil batter and served with sambar and chutney." },
+        { icon: "🏖️", q: "Chennai's Marina is one of the world's longest…",
+          options: ["Beaches", "Bridges", "Tunnels", "Roads"],
+          fact: "Marina Beach stretches about 13 kilometres along the Bay of Bengal!" },
+        { icon: "💃", q: "Which graceful classical dance comes from Tamil Nadu?",
+          options: ["Bharatanatyam", "Bhangra", "Breakdance", "Flamenco"],
+          fact: "Bharatanatyam is one of the oldest dance forms in the world — every hand shape has a meaning." },
+        { icon: "🍚", q: "Which Tamil harvest festival is celebrated in January?",
+          options: ["Pongal", "Holi", "Diwali", "Christmas"],
+          fact: "A sweet rice dish is cooked till it bubbles over — that's also called Pongal, which means ‘overflow’!" },
+        { icon: "🛕", q: "The tall, colourful towers at South Indian temple gates are called…",
+          options: ["Gopurams", "Minarets", "Domes", "Pyramids"],
+          fact: "Gopurams are covered with hundreds of colourful statues from top to bottom." }
+      ]
+    },
+    {
+      name: "Kolkata", stamp: "🐯", desc: "The city of joy",
+      questions: [
+        { icon: "🌉", q: "Kolkata's famous bridge over the Hooghly river is…",
+          options: ["Howrah Bridge", "London Bridge", "Golden Gate", "Rainbow Bridge"],
+          fact: "Howrah Bridge was built with rivets — no nuts and bolts — and lakhs of people cross it daily!" },
+        { icon: "🍬", q: "Which soft, spongy white sweet is Bengal's favourite?",
+          options: ["Rasgulla", "Chocolate", "Jalebi", "Donut"],
+          fact: "Rasgullas are cheese balls soaked in sugar syrup — soft enough to squish!" },
+        { icon: "🐯", q: "Which royal animal lives in the Sundarbans forest near Kolkata?",
+          options: ["Royal Bengal Tiger", "Polar Bear", "Kangaroo", "Panda"],
+          fact: "The Royal Bengal Tiger is India's national animal, and the Sundarbans is the world's largest mangrove forest." },
+        { icon: "🪔", q: "Kolkata's biggest, grandest festival is…",
+          options: ["Durga Puja", "Halloween", "Oktoberfest", "Easter"],
+          fact: "During Durga Puja the whole city turns into an open-air art show with amazing pandals!" },
+        { icon: "🎼", q: "Who wrote India's national anthem, ‘Jana Gana Mana’?",
+          options: ["Rabindranath Tagore", "Mahatma Gandhi", "A.R. Rahman", "William Shakespeare"],
+          fact: "Tagore, from Kolkata, was the first non-European to win the Nobel Prize in Literature!" }
+      ]
+    },
+    {
+      name: "Grand Finale", stamp: "🏆", desc: "All-India champion round!",
+      questions: [
+        { icon: "🦚", q: "Which beautiful bird is India's national bird?",
+          options: ["Peacock", "Parrot", "Eagle", "Penguin"],
+          fact: "Peacocks love the rain — they spread their feathers and dance when clouds gather!" },
+        { icon: "🐯", q: "India's national animal is the…",
+          options: ["Bengal Tiger", "Lion", "Elephant", "Leopard"],
+          fact: "India is home to more than half of all the wild tigers in the world!" },
+        { icon: "🌸", q: "India's national flower grows in ponds. It is the…",
+          options: ["Lotus", "Rose", "Sunflower", "Tulip"],
+          fact: "The lotus blooms clean and bright even in muddy water." },
+        { icon: "🥭", q: "India's national fruit — the king of fruits — is the…",
+          options: ["Mango", "Apple", "Banana", "Watermelon"],
+          fact: "India grows more mangoes than any other country — hundreds of kinds, like Alphonso and Dasheri!" },
+        { icon: "🏔️", q: "Which giant snowy mountains guard India's north?",
+          options: ["The Himalayas", "The Alps", "The Andes", "The Rockies"],
+          fact: "‘Him’ means snow and ‘alaya’ means home — the Himalayas are the Home of Snow, with the world's tallest peaks!" },
+        { icon: "🗺️", q: "How many states does India have?",
+          options: ["28", "15", "50", "7"],
+          fact: "28 states plus 8 union territories — and over 20 major languages are spoken across them!" }
+      ]
+    }
+  ];
+
+  /* -------- progress -------- */
+  var progress = { unlocked: 0, stamps: {}, bestScore: 0 }; // unlocked = index of furthest open stop
+  try {
+    var saved = JSON.parse(localStorage.getItem("iq-progress") || "null");
+    if (saved && typeof saved === "object") {
+      progress.unlocked = Math.min(Math.max(saved.unlocked || 0, 0), STOPS.length - 1);
+      progress.stamps = saved.stamps || {};
+      progress.bestScore = saved.bestScore || 0;
+    }
+  } catch (e) {}
+  function saveProgress() {
+    try { localStorage.setItem("iq-progress", JSON.stringify(progress)); } catch (e) {}
+  }
+
+  /* -------- state -------- */
+  var state = { stop: 0, qIndex: 0, correct: 0, score: 0, order: [], locked: false };
+
+  function show(id) {
+    var s = document.querySelectorAll(".screen");
+    for (var i = 0; i < s.length; i++) s[i].classList.remove("active");
+    el(id).classList.add("active");
+  }
+
+  /* -------- journey map -------- */
+  function renderMap() {
+    var route = el("route");
+    route.innerHTML = "";
+    var stampCount = Object.keys(progress.stamps).length;
+    el("map-progress").textContent = "🛂 Stamps collected: " + stampCount + " of " + STOPS.length;
+
+    STOPS.forEach(function (stop, i) {
+      var done = !!progress.stamps[i];
+      var locked = i > progress.unlocked;
+      var row = document.createElement("button");
+      row.className = "stop-row" + (done ? " done" : "") + (locked ? " locked" : "");
+      row.innerHTML =
+        (i === progress.unlocked && !done ? '<span class="train-here">🚂</span>' : "") +
+        '<span class="dot"></span>' +
+        '<span class="stamp">' + stop.stamp + "</span>" +
+        '<span class="info"><span class="name">' + stop.name + '</span><br/><span class="desc">' + stop.desc + "</span></span>" +
+        (done ? '<span class="badge">✔ Stamped</span>'
+              : locked ? '<span class="badge" style="color:#a29678">🔒</span>'
+                       : '<span class="badge go">▶ Go!</span>');
+      if (!locked) row.addEventListener("click", function () { startStop(i); });
+      route.appendChild(row);
+    });
+  }
+
+  /* -------- gameplay -------- */
+  function startStop(i) {
+    state.stop = i; state.qIndex = 0; state.correct = 0; state.score = 0;
+    state.order = shuffle(STOPS[i].questions);
+    sfxWhistle();
+    show("screen-game");
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    var stop = STOPS[state.stop];
+    var q = state.order[state.qIndex];
+    state.locked = false;
+
+    el("hud-stop").textContent = stop.name;
+    el("hud-q").textContent = state.qIndex + 1;
+    el("hud-qtotal").textContent = state.order.length;
+    el("hud-right").textContent = state.correct;
+    el("hud-score").textContent = state.score;
+
+    el("station-line").textContent = "🚉 " + stop.name + " station · " + stop.desc;
+    el("q-icon").textContent = q.icon;
+    el("q-text").textContent = q.q;
+    el("verdict").textContent = "";
+    el("verdict").className = "verdict";
+    el("fact").className = "fact";
+    el("fact").innerHTML = "";
+    el("btn-next").style.display = "none";
+
+    var answers = el("answers");
+    answers.innerHTML = "";
+    answers.className = "answers" + (q.options.length === 2 ? " tf" : "");
+    var correct = q.options[0];
+    shuffle(q.options).forEach(function (opt) {
+      var b = document.createElement("button");
+      b.className = "ans";
+      b.textContent = opt;
+      b.addEventListener("click", function () { answer(opt, correct, b, q); });
+      answers.appendChild(b);
+    });
+  }
+
+  function answer(given, correct, btn, q) {
+    if (state.locked) return;
+    state.locked = true;
+
+    var right = given === correct;
+    var verdict = el("verdict");
+
+    if (right) {
+      state.correct++;
+      state.score += 100;
+      btn.classList.add("correct");
+      verdict.textContent = pick(["🎉 Shabash! (Well done!)", "⭐ Wonderful!", "💪 You got it!", "🚀 Superb!", "🦚 Beautiful answer!"]);
+      verdict.classList.add("good");
+      sfxCorrect();
+    } else {
+      btn.classList.add("wrong");
+      verdict.textContent = "❌ Not quite — it's " + correct + "!";
+      verdict.classList.add("bad");
+      sfxWrong();
+      var opts = el("answers").querySelectorAll(".ans");
+      for (var i = 0; i < opts.length; i++) {
+        if (opts[i].textContent === correct) opts[i].classList.add("correct");
+      }
+    }
+
+    var all = el("answers").querySelectorAll(".ans");
+    for (var j = 0; j < all.length; j++) all[j].disabled = true;
+
+    var fact = el("fact");
+    fact.innerHTML = "<b>💡 Did you know?</b> " + q.fact;
+    fact.classList.add("show");
+
+    el("hud-right").textContent = state.correct;
+    el("hud-score").textContent = state.score;
+    el("btn-next").style.display = "";
+    el("btn-next").textContent = state.qIndex + 1 >= state.order.length ? "🚉 Arrive at station" : "Next ➜";
+    el("btn-next").focus();
+  }
+
+  function nextStep() {
+    state.qIndex++;
+    if (state.qIndex >= state.order.length) finishStop();
+    else renderQuestion();
+  }
+
+  /* -------- stop result -------- */
+  function finishStop() {
+    var stop = STOPS[state.stop];
+    var passed = state.correct >= PASS_MARK;
+    var isLast = state.stop === STOPS.length - 1;
+
+    if (passed) {
+      progress.stamps[state.stop] = true;
+      if (state.stop === progress.unlocked && state.stop < STOPS.length - 1) {
+        progress.unlocked = state.stop + 1;
+      }
+    }
+    if (state.score > progress.bestScore) progress.bestScore = state.score;
+    saveProgress();
+
+    var allStamps = Object.keys(progress.stamps).length === STOPS.length;
+
+    el("result-stamp").textContent = passed ? stop.stamp : "🎫";
+    el("result-stamp").className = "stamp-big" + (passed ? "" : " missed");
+    el("result-title").textContent =
+      passed && isLast && allStamps ? "🏆 INDIA EXPLORER! 🏆" :
+      passed ? "Stamp earned!" : "Almost there!";
+    el("result-sub").textContent =
+      passed && isLast && allStamps
+        ? "You collected every stamp on the journey. Shanaya, you are an official India Explorer!"
+        : passed
+          ? "You answered " + state.correct + " of " + state.order.length + " right at " + stop.name + ". Your passport has a new stamp!"
+          : "You answered " + state.correct + " of " + state.order.length + ". Get " + PASS_MARK + " right to earn the " + stop.name + " stamp — the facts you just read will help!";
+    el("result-score").textContent = "⭐ Station score: " + state.score;
+
+    show("screen-result");
+    if (passed) { sfxWin(); confetti(isLast && allStamps ? 160 : 70); }
+  }
+
+  /* -------- confetti -------- */
+  function confetti(n) {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var box = el("confetti");
+    var colors = ["#f97316", "#15803d", "#1d4ed8", "#eab308", "#ffffff"];
+    for (var i = 0; i < n; i++) {
+      var p = document.createElement("i");
+      p.style.left = rnd(100) + "vw";
+      p.style.background = pick(colors);
+      p.style.animationDuration = (2 + Math.random() * 2.5) + "s";
+      p.style.animationDelay = (Math.random() * 0.8) + "s";
+      p.style.transform = "rotate(" + rnd(360) + "deg)";
+      box.appendChild(p);
+    }
+    setTimeout(function () { box.innerHTML = ""; }, 6000);
+  }
+
+  /* -------- wire up -------- */
+  el("btn-play").addEventListener("click", function () { renderMap(); show("screen-map"); });
+  el("btn-map-home").addEventListener("click", function () { show("screen-home"); });
+  el("btn-sound").addEventListener("click", function () {
+    soundOn = !soundOn;
+    el("btn-sound").textContent = soundOn ? "🔊" : "🔇";
+  });
+  el("btn-next").addEventListener("click", nextStep);
+  el("btn-result-retry").addEventListener("click", function () { startStop(state.stop); });
+  el("btn-result-map").addEventListener("click", function () { renderMap(); show("screen-map"); });
+})();
+</script>
+</body>
+</html>
