@@ -230,7 +230,7 @@
         <div style="margin-top:12px"><button class="btn small ghost" id="btn-explore">🗺 Explore India's Map</button></div>
         <ul class="how">
           <li>🚉 Visit <b>10 amazing stops</b> — from Delhi to the Grand Finale</li>
-          <li>❓ Answer <b>5 questions</b> at each station</li>
+          <li>❓ Answer <b>5 questions</b> at each station (6 at the Grand Finale!)</li>
           <li>💡 Learn a <b>“Did you know?”</b> fact after every answer</li>
           <li>🛂 Get <b>3 or more right</b> to earn the station stamp</li>
           <li>🏆 Collect all stamps to become an <b>India Explorer!</b></li>
@@ -264,7 +264,7 @@
           <svg id="india-svg" viewBox="0 0 612 696" role="group" aria-label="Interactive map of India"></svg>
         </div>
         <div class="explore-hint" id="explore-hint">👆 Tap a state on the map — green states are ones you've already visited!</div>
-        <div class="state-card" id="state-card" hidden>
+        <div class="state-card" id="state-card" hidden aria-live="polite">
           <div class="state-head">
             <span class="state-emoji" id="state-emoji"></span>
             <div>
@@ -293,8 +293,8 @@
         <div class="q-icon" id="q-icon"></div>
         <div class="q-text" id="q-text"></div>
         <div class="answers" id="answers"></div>
-        <div class="verdict" id="verdict"></div>
-        <div class="fact" id="fact"></div>
+        <div class="verdict" id="verdict" aria-live="polite"></div>
+        <div class="fact" id="fact" aria-live="polite"></div>
         <div class="next-wrap"><button class="btn green small" id="btn-next" style="display:none">Next ➜</button></div>
       </div>
     </section>
@@ -762,7 +762,7 @@
     dd: { emoji: "⛵", type: "Union Territory", capital: "Daman",
       famous: "Seaside forts, lighthouses and calm beaches.",
       fact: "Daman and Diu were ruled by Portugal for over 400 years — you can still see Portuguese forts and churches!" },
-    dl: { emoji: "🏛️", type: "Union Territory (Capital)", capital: "New Delhi",
+    dl: { emoji: "🏛️", type: "National Capital Territory", capital: "New Delhi",
       famous: "India Gate, the Red Fort, Qutub Minar and the country's Parliament.",
       fact: "Delhi's metro is one of the busiest in the world, and the Republic Day parade marches down Kartavya Path every 26 January!" },
     ga: { emoji: "🏖️", type: "State", capital: "Panaji",
@@ -855,11 +855,27 @@
   }
 
   var mapBuilt = false, selectedPath = null;
+  var SVG_NS = "http://www.w3.org/2000/svg";
+
+  // Rough centroid of a path's points, good enough to place an invisible
+  // "easier to tap" hit-circle for states whose true shape is too small/thin
+  // for a 9-year-old to reliably hit on a phone.
+  function pathCentroid(d) {
+    var nums = (d.match(/-?\d+(?:\.\d+)?/g) || []).map(Number);
+    var sx = 0, sy = 0, n = 0;
+    for (var i = 0; i + 1 < nums.length; i += 2) { sx += nums[i]; sy += nums[i + 1]; n++; }
+    return n ? { x: sx / n, y: sy / n } : { x: 0, y: 0 };
+  }
+  // Extra tap radius (in viewBox units) for states that are too small or too
+  // thin to reliably tap otherwise — scattered islands, city-sized UTs, etc.
+  var SMALL_HIT_RADIUS = { an: 34, ld: 20, dd: 16, dn: 16, ch: 14, py: 16, ga: 20, sk: 18 };
+
   function buildMapOnce() {
     if (mapBuilt || typeof INDIA_MAP === "string") return;
     var svg = el("india-svg");
+    var byId = {};
     INDIA_MAP.forEach(function (loc) {
-      var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      var p = document.createElementNS(SVG_NS, "path");
       p.setAttribute("d", loc.d);
       p.setAttribute("class", "st");
       p.setAttribute("tabindex", "0");
@@ -872,6 +888,24 @@
       });
       svg.appendChild(p);
       if (explored[loc.id]) p.classList.add("explored");
+      byId[loc.id] = { loc: loc, el: p };
+    });
+    // Add invisible, larger tap targets on top for the hardest-to-hit states —
+    // real touch testing showed several (Chandigarh, Goa, Sikkim, the island
+    // UTs) render at just a few pixels wide on a phone screen.
+    Object.keys(SMALL_HIT_RADIUS).forEach(function (id) {
+      var rec = byId[id];
+      if (!rec) return;
+      var c = pathCentroid(rec.loc.d);
+      var hit = document.createElementNS(SVG_NS, "circle");
+      hit.setAttribute("cx", c.x);
+      hit.setAttribute("cy", c.y);
+      hit.setAttribute("r", SMALL_HIT_RADIUS[id]);
+      hit.setAttribute("fill", "transparent");
+      hit.setAttribute("aria-hidden", "true");
+      hit.style.cursor = "pointer";
+      hit.addEventListener("click", function () { openState(rec.loc, rec.el); });
+      svg.appendChild(hit);
     });
     mapBuilt = true;
   }
@@ -930,9 +964,9 @@
       p.style.animationDuration = (2 + Math.random() * 2.5) + "s";
       p.style.animationDelay = (Math.random() * 0.8) + "s";
       p.style.transform = "rotate(" + rnd(360) + "deg)";
+      p.addEventListener("animationend", function () { p.remove(); });
       box.appendChild(p);
     }
-    setTimeout(function () { box.innerHTML = ""; }, 6000);
   }
 
   /* -------- wire up -------- */

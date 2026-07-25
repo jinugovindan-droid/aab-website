@@ -169,7 +169,6 @@
     .q-text { font-size: 19px; font-weight: 800; margin-bottom: 16px; text-align: center; text-wrap: balance; }
 
     .answers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .answers.tf { grid-template-columns: 1fr 1fr; }
     .ans {
       border: 3px solid #e7dcbe; background: #fffdf6; border-radius: 16px;
       font-family: inherit; font-size: 15.5px; font-weight: 800; color: var(--ink);
@@ -355,6 +354,11 @@
   ===================================================== */
   var stepIndex = 0;
   var stepDone = {}; // per-step ready flags
+  // Per-step answer memory, so navigating Back and Next again restores what was
+  // already answered instead of forcing the activity to be redone from scratch.
+  var answerStore = { sort: {}, storyA: null, storyB: null, classify: {} };
+  var vennTimers = [];
+  var reflectionDraft = saved.reflection || "";
 
   function ready(key) {
     stepDone[key] = true;
@@ -394,6 +398,10 @@
     el("btn-back").disabled = false;
     el("lesson-card").innerHTML = "";
     notReady();
+    // Leaving the Venn step: cancel any pending reveal timers so they don't
+    // fire against elements that no longer exist once this step is rebuilt.
+    vennTimers.forEach(function (t) { clearTimeout(t); });
+    vennTimers = [];
     step.build(el("lesson-card"));
     el("btn-next").textContent = stepIndex === STEPS.length - 1 ? "Start the Quiz! 📝" : "Next ➜";
   }
@@ -434,10 +442,22 @@
     { line: "Mia studies hard every night because she wants to reach her goals.", answer: "respectful", type: "self", expl: "That's self-respect — believing you're worth the effort it takes to succeed." },
     { line: "Zayd stays calm and speaks kindly even when he's upset in an argument.", answer: "respectful", type: "self", expl: "Staying calm shows both self-respect and respect for the other person." }
   ];
+  function markScenarioAnswered(card, btns, s, chosen) {
+    var right = chosen === s.answer;
+    for (var k = 0; k < btns.length; k++) {
+      btns[k].disabled = true;
+      if (btns[k].getAttribute("data-v") === s.answer) btns[k].classList.add("correct");
+      else if (btns[k].getAttribute("data-v") === chosen) btns[k].classList.add("wrong");
+    }
+    var expl = card.querySelector(".expl");
+    expl.textContent = (right ? "✅ Yes! " : "Actually, it's " + s.answer + ". ") + s.expl;
+    expl.classList.add("show");
+    return right;
+  }
   function buildSort(box) {
     box.innerHTML = '<div class="step-title">🧠 Activity 1: Respectful or Disrespectful?</div>' +
       '<p class="step-lead">Read each sentence and decide!</p>';
-    var answered = 0;
+    var store = answerStore.sort;
     var list = document.createElement("div");
     SCENARIOS.forEach(function (s, i) {
       var card = document.createElement("div");
@@ -447,38 +467,37 @@
         '<div class="opts"><button data-v="respectful">✅ Respectful</button><button data-v="disrespectful">❌ Disrespectful</button></div>' +
         '<div class="expl"></div>';
       var btns = card.querySelectorAll("button");
-      var lock = false;
-      for (var b = 0; b < btns.length; b++) {
-        btns[b].addEventListener("click", function (ev) {
-          if (lock) return;
-          lock = true;
-          var chosen = ev.target.getAttribute("data-v");
-          var right = chosen === s.answer;
-          for (var k = 0; k < btns.length; k++) {
-            btns[k].disabled = true;
-            if (btns[k].getAttribute("data-v") === s.answer) btns[k].classList.add("correct");
-            else if (btns[k] === ev.target) btns[k].classList.add("wrong");
-          }
-          var expl = card.querySelector(".expl");
-          expl.textContent = (right ? "✅ Yes! " : "Actually, it's " + s.answer + ". ") + s.expl;
-          expl.classList.add("show");
-          right ? sfxCorrect() : sfxWrong();
-          answered++;
-          el("ready-hint").textContent = answered + " / " + SCENARIOS.length + " answered";
-          if (answered === SCENARIOS.length) ready("sort");
-        });
+      if (store[i] !== undefined) {
+        markScenarioAnswered(card, btns, s, store[i]);
+      } else {
+        var lock = false;
+        for (var b = 0; b < btns.length; b++) {
+          btns[b].addEventListener("click", function (ev) {
+            if (lock) return;
+            lock = true;
+            var chosen = ev.target.getAttribute("data-v");
+            var right = markScenarioAnswered(card, btns, s, chosen);
+            right ? sfxCorrect() : sfxWrong();
+            store[i] = chosen;
+            var answered = Object.keys(store).length;
+            el("ready-hint").textContent = answered + " / " + SCENARIOS.length + " answered";
+            if (answered === SCENARIOS.length) ready("sort");
+          });
+        }
       }
       list.appendChild(card);
     });
     box.appendChild(list);
-    notReady("0 / " + SCENARIOS.length + " answered");
+    var answeredNow = Object.keys(store).length;
+    if (answeredNow === SCENARIOS.length) ready("sort");
+    else notReady(answeredNow + " / " + SCENARIOS.length + " answered");
   }
 
   /* ---- Step: Story part A + checkpoint ---- */
   function buildStoryA(box) {
     box.innerHTML = '<div class="step-title">📖 The Story of Nemo &amp; Majid</div>' +
       '<p class="story-text">Nemo and his classmates were sitting quietly, waiting for their teacher. When she walked in, everyone stood and greeted her politely — except one seat was empty. It belonged to <strong>Majid</strong>.</p>' +
-      '<p class="story-text">That morning, another boy had left his bag in the hallway. Majid had moved it out of the way with his foot — but other students kept kicking it as they passed, and a fight broke out. A teacher separated the boys and sent Majid to the headmaster\'s office. It wasn\'t his first time in trouble, so this time he might be expelled.</p>' +
+      '<p class="story-text">That morning, another boy had left his bag in the hallway. Majid nudged it with his foot — right into the middle of the corridor — and other students kept kicking it as they walked past, until a fight broke out. A teacher separated the boys and sent Majid to the headmaster\'s office. It wasn\'t his first time in trouble, so this time he might be expelled.</p>' +
       '<p class="story-text">Later, while the class watched a video, the door suddenly swung open — no knock, no warning. It was Majid! He marched straight to his seat next to Nemo. The whole class gasped at how rude it seemed.</p>' +
       '<div class="checkpoint" id="cpA"><div class="q">🤔 What rule did Majid break when he came back to class?</div><div class="opts"></div><div class="cp-fb"></div></div>';
     buildCheckpoint("cpA",
@@ -506,7 +525,20 @@
     var box = el(boxId);
     var optsWrap = box.querySelector(".opts");
     var order = shuffle(options.map(function (o, i) { return { text: o, correct: i === correctIndex }; }));
-    var lock = false;
+    var already = answerStore[stepKey]; // previously chosen option text, or null
+
+    function markAnswered(all, chosenText) {
+      for (var i = 0; i < all.length; i++) {
+        all[i].disabled = true;
+        if (all[i].textContent === options[correctIndex]) all[i].classList.add("correct");
+        else if (all[i].textContent === chosenText && chosenText !== options[correctIndex]) all[i].classList.add("wrong");
+      }
+      var fb = box.querySelector(".cp-fb");
+      fb.innerHTML = "<b>💡</b> " + factText;
+      fb.classList.add("show");
+    }
+
+    var lock = !!already;
     order.forEach(function (opt) {
       var b = document.createElement("button");
       b.textContent = opt.text;
@@ -514,22 +546,20 @@
         if (lock) return;
         lock = true;
         var all = optsWrap.querySelectorAll("button");
-        for (var i = 0; i < all.length; i++) all[i].disabled = true;
-        b.classList.add(opt.correct ? "correct" : "wrong");
-        if (!opt.correct) {
-          for (var j = 0; j < all.length; j++) {
-            if (all[j].textContent === options[correctIndex]) all[j].classList.add("correct");
-          }
-        }
+        markAnswered(all, opt.text);
         opt.correct ? sfxCorrect() : sfxWrong();
-        var fb = box.querySelector(".cp-fb");
-        fb.innerHTML = "<b>💡</b> " + factText;
-        fb.classList.add("show");
+        answerStore[stepKey] = opt.text;
         ready(stepKey);
       });
       optsWrap.appendChild(b);
     });
-    notReady("Answer the question to continue");
+
+    if (already) {
+      markAnswered(optsWrap.querySelectorAll("button"), already);
+      ready(stepKey);
+    } else {
+      notReady("Answer the question to continue");
+    }
   }
 
   /* ---- Step: Real-world classify ---- */
@@ -547,11 +577,20 @@
       expl: "It's both! Being a good citizen who values their own culture is self-respect — and treating people kindly is respect for others."
     }
   ];
+  function markClassifyAnswered(card, btns, c) {
+    for (var k = 0; k < btns.length; k++) {
+      btns[k].disabled = true;
+      if (btns[k].getAttribute("data-v") === c.answer) btns[k].classList.add("correct");
+    }
+    var expl = card.querySelector(".expl");
+    expl.textContent = c.expl;
+    expl.classList.add("show");
+  }
   function buildClassify(box) {
     box.innerHTML = '<div class="step-title">🌍 Respect Around the World</div>' +
       '<p class="step-lead">Read each true story, then tap what kind of respect it shows.</p>';
-    var answered = 0;
-    CLASSIFY_CARDS.forEach(function (c) {
+    var store = answerStore.classify;
+    CLASSIFY_CARDS.forEach(function (c, i) {
       var card = document.createElement("div");
       card.className = "classify-card";
       card.innerHTML =
@@ -563,29 +602,30 @@
           '<button data-v="both">✨ Both!</button>' +
         '</div><div class="expl"></div>';
       var btns = card.querySelectorAll("button");
-      var lock = false;
-      for (var b = 0; b < btns.length; b++) {
-        btns[b].addEventListener("click", function (ev) {
-          if (lock) return;
-          lock = true;
-          var chosen = ev.target.getAttribute("data-v");
-          var right = chosen === c.answer;
-          for (var k = 0; k < btns.length; k++) {
-            btns[k].disabled = true;
-            if (btns[k].getAttribute("data-v") === c.answer) btns[k].classList.add("correct");
-          }
-          var expl = card.querySelector(".expl");
-          expl.textContent = c.expl;
-          expl.classList.add("show");
-          right ? sfxCorrect() : sfxTap();
-          answered++;
-          el("ready-hint").textContent = answered + " / " + CLASSIFY_CARDS.length + " answered";
-          if (answered === CLASSIFY_CARDS.length) ready("classify");
-        });
+      if (store[i] !== undefined) {
+        markClassifyAnswered(card, btns, c);
+      } else {
+        var lock = false;
+        for (var b = 0; b < btns.length; b++) {
+          btns[b].addEventListener("click", function (ev) {
+            if (lock) return;
+            lock = true;
+            var chosen = ev.target.getAttribute("data-v");
+            var right = chosen === c.answer;
+            markClassifyAnswered(card, btns, c);
+            right ? sfxCorrect() : sfxTap();
+            store[i] = chosen;
+            var answered = Object.keys(store).length;
+            el("ready-hint").textContent = answered + " / " + CLASSIFY_CARDS.length + " answered";
+            if (answered === CLASSIFY_CARDS.length) ready("classify");
+          });
+        }
       }
       box.appendChild(card);
     });
-    notReady("0 / " + CLASSIFY_CARDS.length + " answered");
+    var answeredNow = Object.keys(store).length;
+    if (answeredNow === CLASSIFY_CARDS.length) ready("classify");
+    else notReady(answeredNow + " / " + CLASSIFY_CARDS.length + " answered");
   }
 
   /* ---- Step: Venn diagram — the big idea ---- */
@@ -601,9 +641,14 @@
         '<div class="venn-label venn-label-3" id="vl3">I respect<br/>myself</div>' +
       '</div>' +
       '<p class="venn-caption">When you respect <b>yourself</b> first, it becomes natural to respect <b>others</b> too — and that\'s usually what earns you <b>respect back</b>! 🌟</p>';
-    setTimeout(function () { el("v3").classList.add("show"); el("vl3").classList.add("show"); }, 150);
-    setTimeout(function () { el("v2").classList.add("show"); el("vl2").classList.add("show"); }, 550);
-    setTimeout(function () { el("v1").classList.add("show"); el("vl1").classList.add("show"); }, 950);
+    function revealRing(ringId, labelId) {
+      var ring = el(ringId), label = el(labelId);
+      if (ring) ring.classList.add("show");
+      if (label) label.classList.add("show");
+    }
+    vennTimers.push(setTimeout(function () { revealRing("v3", "vl3"); }, 150));
+    vennTimers.push(setTimeout(function () { revealRing("v2", "vl2"); }, 550));
+    vennTimers.push(setTimeout(function () { revealRing("v1", "vl1"); }, 950));
     ready("venn");
   }
 
@@ -614,7 +659,8 @@
       '<div class="reflect-box"><textarea id="reflect-input" placeholder="I show respect by..."></textarea>' +
       '<div class="reflect-save-row"><button class="btn ghost small" id="btn-reflect-save">💾 Save my answer</button><span class="reflect-saved" id="reflect-saved">🌟 Saved! Great thinking.</span></div></div>';
     var input = el("reflect-input");
-    if (saved.reflection) input.value = saved.reflection;
+    input.value = reflectionDraft;
+    input.addEventListener("input", function () { reflectionDraft = input.value; });
     el("btn-reflect-save").addEventListener("click", function () {
       saved.reflection = input.value;
       persist();
