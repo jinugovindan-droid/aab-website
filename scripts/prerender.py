@@ -36,6 +36,10 @@ PAGE_TO_PATH = {
     "service-cfo": "/services/cfo-services",
     "service-financial-statements": "/services/financial-statements",
     "service-tax-planning": "/services/tax-planning",
+    "service-ct-filing": "/services/corporate-tax-filing",
+    "service-vat-filing": "/services/vat-return-filing",
+    "service-vat-refund": "/services/vat-refund",
+    "service-tax-advisory": "/services/tax-advisory",
     "service-fixed-asset-tagging": "/services/fixed-asset-tagging",
     "service-forensic-accounting": "/services/forensic-accounting",
     "service-internal-controls": "/services/internal-controls",
@@ -122,6 +126,22 @@ PAGE_SEO = {
     "service-strategic-advisory": {
         "title": "Strategic Financial Advisory Dubai — Board-Level Support",
         "description": "Board-level financial advisory in the UAE — accounting policy selection, complex transactions, restructuring and defensible Board-grade positions.",
+    },
+    "service-ct-filing": {
+        "title": "Corporate Tax Filing UAE — Return Preparation & EmaraTax",
+        "description": "UAE Corporate Tax returns are due, with payment, within 9 months of financial year-end on EmaraTax. Partner-reviewed computation, disclosures and filing.",
+    },
+    "service-vat-filing": {
+        "title": "VAT Return Filing Dubai & UAE — Quarterly VAT201 Service",
+        "description": "Quarterly VAT201 preparation and filing for UAE businesses — due with payment within 28 days of period end. Partner-reviewed, defensible line by line.",
+    },
+    "service-vat-refund": {
+        "title": "VAT Refund UAE & Dubai: Claim Excess Input VAT (VAT311)",
+        "description": "Claim excess input VAT via the VAT311 form on EmaraTax; the FTA typically reviews within 20 business days. Evidence-led refund claims, Dubai & all UAE.",
+    },
+    "service-tax-advisory": {
+        "title": "Tax Advisory UAE — Corporate Tax & VAT Consultants Dubai",
+        "description": "Standing counsel across UAE Corporate Tax, VAT, transfer pricing and e-invoicing — a position memo behind every judgement call. Dubai, all seven emirates.",
     },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — ASP, Peppol & 2026 Deadlines",
@@ -323,6 +343,8 @@ BREADCRUMB_LABELS = {
     "service-audit-support": "Audit Support", "service-valuations": "Valuations",
     "service-transaction-advisory": "Transaction Advisory", "service-cfo": "CFO Services",
     "service-financial-statements": "Financial Statements", "service-tax-planning": "Tax Planning",
+    "service-ct-filing": "Corporate Tax Filing", "service-vat-filing": "VAT Return Filing",
+    "service-vat-refund": "VAT Refunds", "service-tax-advisory": "Tax Advisory",
     "service-fixed-asset-tagging": "Fixed Asset Tagging", "service-forensic-accounting": "Forensic Accounting",
     "service-internal-controls": "Internal Controls", "service-financial-modelling": "Financial Modelling",
     "service-feasibility-studies": "Feasibility Studies", "service-strategic-advisory": "Strategic Advisory",
@@ -739,6 +761,50 @@ IND_MANUFACTURING_FAQ = [
      "a": "A fixed asset register ties plant and machinery on the floor to the ledger — recording cost, location, depreciation and impairment indicators for every asset. It underpins the depreciation in your Corporate Tax computation and is one of the first things auditors test. Our fixed asset tagging service physically verifies assets and reconstructs the register."},
 ]
 
+CT_FILING_FAQ = [
+    {"q": "What does a corporate tax return filing engagement cover?",
+     "a": "The full annual cycle: closing the numbers, computing taxable income from accounting profit, weighing adjustments and elections, preparing the transfer pricing disclosure schedule, partner review of the complete file, then filing and payment on EmaraTax — all inside the nine-month deadline. Every judgement call along the way is backed by a position memo."},
+    {"q": "How is taxable income different from accounting profit?",
+     "a": "Taxable income starts from your accounting profit and is adjusted under Federal Decree-Law 47 of 2022 — for exempt income, disallowed costs, reliefs and elections — before the 0% band to AED 375,000 and the 9% rate above it are applied. We schedule each adjustment and record its basis, so the computation reads as a review-ready file, not a black box."},
+    {"q": "Do I need to file a transfer pricing disclosure with my return?",
+     "a": "If your related-party or connected-person transactions exceed the FTA’s disclosure thresholds, a transfer pricing disclosure schedule is filed with the return. We prepare it from the ledger, reconcile it to the financial statements, and flag where arm’s-length support needs strengthening before you file."},
+    {"q": "What happens if I miss the nine-month filing deadline?",
+     "a": "Both the return and the payment are due within nine months of your financial year-end — miss it and FTA administrative penalties apply to each. There is no safe margin in filing at the wire, so we work the timetable backwards from your deadline and hold a buffer for partner review: filing day becomes a formality, not a scramble."},
+]
+
+VAT_FILING_FAQ = [
+    {"q": "What happens each quarter in your VAT return filing cycle?",
+     "a": "Five controlled steps: we capture and reconcile the quarter’s source data, classify every line with its basis, write a position memo on any contested treatment, put the draft VAT201 through manager review and partner sign-off, then file with payment on EmaraTax inside the 28-day window. The full evidence file — return, workings and memos — goes into a five-year archive."},
+    {"q": "What is the penalty for filing a VAT return late in the UAE?",
+     "a": "AED 1,000 for the first offence, and AED 2,000 if it is repeated within 24 months. Each VAT201 is due, with payment, within 28 days of the period end — shifted where the deadline falls on a UAE weekend or public holiday. Our cycle is built backwards from that date, so the partner-signed return is ready before the window closes."},
+    {"q": "Can I recover excess input VAT, and how long does a refund take?",
+     "a": "Yes. Recoverable excess input VAT can be carried forward against future returns or reclaimed through the VAT311 refund form on EmaraTax. The FTA typically reviews a claim within 20 business days — it can extend — and will ask for supporting evidence such as your top-value tax invoices. Because every return we file is archived with its workings, assembling that evidence is a retrieval exercise, not a reconstruction."},
+    {"q": "How long do VAT records need to be kept in the UAE?",
+     "a": "Five years for most VAT records, and 15 years for records relating to real estate. That covers tax invoices, credit notes, import documents and the workings behind each return — and the FTA can request any of it during an audit or a refund review. We archive every filed VAT201 with its complete evidence file, so retrieval never depends on a scramble through old inboxes."},
+]
+
+VAT_REFUND_FAQ = [
+    {"q": "How do I claim a VAT refund from the FTA?",
+     "a": "Through the VAT311 refund form on EmaraTax. Where your recoverable input VAT exceeds your output VAT, you can either carry the excess forward against future returns or file VAT311 to reclaim it. The claim must reconcile to your filed VAT201 returns and be backed by supporting evidence — typically your top-value tax invoices — which the FTA can request before deciding. We prepare and file the claim with the evidence pack ready on day one."},
+    {"q": "Should I take a refund or carry the credit forward?",
+     "a": "It depends on how the excess arose. Carry-forward suits a temporary credit your next returns will absorb; a VAT311 refund claim suits a sustained excess — common for exporters, zero-rated suppliers and businesses in heavy capital expenditure. A claim also invites FTA review, so it should only carry figures your evidence fully supports. We document the decision in a short position memo before anything is filed."},
+    {"q": "How long does a VAT refund take in the UAE?",
+     "a": "The FTA typically reviews a refund claim within 20 business days of submission, and it can extend that period — particularly where it raises queries or asks for further evidence. The fastest claims are the ones that answer the first information request completely, which is why we build the invoice evidence pack before filing rather than after the questions arrive. No adviser can guarantee approval or a payment date."},
+    {"q": "Are there special VAT refund schemes for individuals?",
+     "a": "Yes — separate schemes exist for UAE nationals building a new residence, for foreign business visitors, and for tourists, each with its own forms and conditions. This page covers business refunds of excess input VAT through VAT311; if you fall under a special scheme, we can point you to the right route in a short call."},
+]
+
+TAX_ADVISORY_FAQ = [
+    {"q": "What does a tax advisor in the UAE actually cover?",
+     "a": "Everything with a tax consequence: Corporate Tax at 9% above AED 375,000 of taxable income, VAT at 5%, free-zone (QFZP) status, transfer pricing, e-invoicing readiness and the FTA processes around them. The value is in the interplay — one supply-chain decision can move your VAT recovery, your qualifying income and your related-party pricing at once, so the advice has to read every tax together."},
+    {"q": "How is tax advisory different from tax planning?",
+     "a": "Planning is episodic — structuring a group, an election or a transaction before it happens. Advisory is standing counsel: the questions that arrive all year, across every UAE tax, answered with the same discipline and documented the same way. Most clients retain us for advisory and commission planning work as specific structuring needs surface."},
+    {"q": "Can I get certainty from the FTA on an unclear tax position?",
+     "a": "Yes. The FTA accepts private clarification requests where the tax treatment of your specific facts is genuinely uncertain. We draft the technical analysis and the request, support the submission on EmaraTax and manage the follow-up until the FTA responds. Where a clarification is not the right route, we document the position in a memo with its legal basis instead."},
+    {"q": "What does tax due diligence cover in an acquisition?",
+     "a": "Whether the target’s tax affairs are what the seller says they are: Corporate Tax and VAT registrations and filings, open FTA matters, transfer pricing exposure on related-party dealings, and e-invoicing readiness against the phased 2027 go-lives. We quantify the exposures so they can be priced, warranted or fixed before completion — not discovered after it."},
+]
+
 FAQ_BY_PAGE = {
     "e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ,
     "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ,
@@ -748,7 +814,7 @@ FAQ_BY_PAGE = {
     "service-fixed-asset-tagging": FIXED_ASSET_FAQ, "service-forensic-accounting": FORENSIC_FAQ,
     "service-internal-controls": CONTROLS_FAQ, "service-financial-modelling": MODELLING_FAQ,
     "service-feasibility-studies": FEASIBILITY_FAQ, "service-strategic-advisory": STRATEGIC_FAQ,
-    "services": SERVICES_HUB_FAQ, "industries": INDUSTRIES_HUB_FAQ, "industry-real-estate": IND_REALESTATE_FAQ, "industry-construction": IND_CONSTRUCTION_FAQ, "industry-trading": IND_TRADING_FAQ, "industry-hospitality": IND_HOSPITALITY_FAQ, "industry-ecommerce": IND_ECOMMERCE_FAQ, "industry-manufacturing": IND_MANUFACTURING_FAQ,
+    "service-ct-filing": CT_FILING_FAQ, "service-vat-filing": VAT_FILING_FAQ, "service-vat-refund": VAT_REFUND_FAQ, "service-tax-advisory": TAX_ADVISORY_FAQ, "services": SERVICES_HUB_FAQ, "industries": INDUSTRIES_HUB_FAQ, "industry-real-estate": IND_REALESTATE_FAQ, "industry-construction": IND_CONSTRUCTION_FAQ, "industry-trading": IND_TRADING_FAQ, "industry-hospitality": IND_HOSPITALITY_FAQ, "industry-ecommerce": IND_ECOMMERCE_FAQ, "industry-manufacturing": IND_MANUFACTURING_FAQ,
 }
 
 # Answer-first capsules for the money pages — mirror of routes.js ANSWER_FIRST.
@@ -759,6 +825,14 @@ ANSWER_FIRST = {
         "UAE Corporate Tax is charged at 9% on annual taxable income above AED 375,000 — the first AED 375,000 is taxed at 0%. Every taxable person must register with the Federal Tax Authority, then file a return and pay any tax due within 9 months of financial year-end. Qualifying Free Zone Persons can keep a 0% rate on qualifying income, and Small Business Relief may apply where revenue is AED 3 million or less, for tax periods ending on or before 31 December 2026."},
     "e-invoicing": {"h": "UAE e-invoicing deadlines and readiness — the short answer", "text":
         "UAE e-invoicing replaces PDF and paper invoices for in-scope B2B and B2G transactions with structured e-invoices exchanged through Accredited Service Providers and reported to the FTA in near-real time. Go-live is phased: 1 January 2027 for businesses with revenue of AED 50 million or more, 1 July 2027 for other businesses, and 1 October 2027 for government entities. The first deadline lands earlier — Phase 1 businesses must appoint an Accredited Service Provider by 30 October 2026."},
+    "service-ct-filing": {"h": "When is corporate tax return filing due in the UAE?", "text":
+        "Your Corporate Tax return must be filed — and any tax paid — within nine months of your financial year-end, on EmaraTax. For a 31 December 2025 year-end that means 30 September 2026. The rate is 9% on taxable income above AED 375,000 and 0% below — and a nil return is still a return: every registered business files."},
+    "service-vat-filing": {"h": "VAT return filing in the UAE — the short answer", "text":
+        "UAE VAT returns (VAT201) are filed on EmaraTax — quarterly for most businesses, monthly where the FTA assigns it — with payment due within 28 days of the period end. Late filing costs AED 1,000 the first time and AED 2,000 if repeated within 24 months, and records must be kept for five years (15 for real estate). We run the whole cycle as a partner-reviewed quarterly engagement."},
+    "service-vat-refund": {"h": "How to claim a VAT refund in the UAE", "text":
+        "Excess recoverable input VAT can be carried forward against future returns or reclaimed through the VAT311 form on EmaraTax. The FTA typically reviews a refund claim within 20 business days, though it can extend, and will ask for supporting evidence such as your top-value tax invoices. Strong claims are decided by the evidence pack — quantified, reconciled to your VAT201s, and ready before you file."},
+    "service-tax-advisory": {"h": "What does tax advisory cover in the UAE?", "text":
+        "UAE tax advisory is standing counsel across Corporate Tax (9% above AED 375,000 of taxable income, 0% below), VAT at 5%, transfer pricing and e-invoicing — phased go-lives from 1 January 2027, with the first ASP appointment due 30 October 2026. A good advisor turns each judgement call — QFZP status, CT–VAT interplay, related-party pricing — into a documented position your Board and the FTA can review."},
 }
 
 # Contextual related guides & tools per page — mirror of routes.js RELATED_READING.
@@ -832,6 +906,26 @@ RELATED_READING = {
         ("insight", "transfer-pricing-thresholds-board", "Transfer pricing for the Board"),
         ("insight", "economic-substance-regulations-uae", "Economic substance regulations"),
         ("insight", "uae-corporate-tax-guide-sme", "Corporate Tax guide for SMEs"),
+    ],
+    "service-ct-filing": [
+        ("insight", "uae-corporate-tax-guide-sme", "Corporate Tax guide for SMEs"),
+        ("insight", "transfer-pricing-thresholds-board", "Transfer pricing for the Board"),
+        ("page", "service-corporate-tax", "Corporate Tax estimator"),
+    ],
+    "service-vat-filing": [
+        ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
+        ("insight", "reconciliation-resolve-to-zero", "Reconciliation: resolve to zero"),
+        ("page", "service-vat", "VAT registration checker"),
+    ],
+    "service-vat-refund": [
+        ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
+        ("insight", "designated-zone-reclassification", "Designated zones & VAT"),
+        ("page", "service-vat", "VAT compliance service"),
+    ],
+    "service-tax-advisory": [
+        ("insight", "free-zone-qualifying-income", "Free-zone qualifying income"),
+        ("insight", "transfer-pricing-thresholds-board", "Transfer pricing for the Board"),
+        ("insight", "economic-substance-regulations-uae", "Economic substance regulations"),
     ],
     "industry-real-estate": [
         ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
@@ -1125,10 +1219,10 @@ def main():
 
     written = []
 
-    # Static pages (home is the root index.html — already correct, skip)
-    for page in ("services", "service-vat", "service-corporate-tax", "service-bookkeeping", "service-audit-support", "service-valuations", "service-transaction-advisory", "service-cfo", "service-financial-statements", "service-tax-planning", "service-fixed-asset-tagging", "service-forensic-accounting", "service-internal-controls", "service-financial-modelling", "service-feasibility-studies", "service-strategic-advisory", "e-invoicing", "industries",
-                 "industry-real-estate", "industry-construction", "industry-trading", "industry-hospitality", "industry-ecommerce", "industry-manufacturing", "about",
-                 "insights", "careers", "contact", "privacy", "terms"):
+    # Static pages, derived from PAGE_TO_PATH (single source — a hard-coded list
+    # here once let new routes into the sitemap but not onto disk). Home is the
+    # root index.html — already correct, skip.
+    for page in (p for p in PAGE_TO_PATH if p != "home"):
         meta = PAGE_SEO[page]
         canonical = full_url(page)
         html = render(template, meta["title"], meta["description"], canonical, build_jsonld(page, None), body=seo_body(page))
@@ -1169,7 +1263,10 @@ def main():
     print("")
     print("NOTE: every route body is now the thin SEO skeleton. Run the snapshot")
     print("step to restore full prerendered bodies before committing/deploying:")
-    print("    node scripts/snapshot.mjs        (or: npm run build)")
+    print("    node scripts/snapshot.mjs        (or: npm run make)")
+    # NOTE: the chain script is deliberately NOT named "build" — Vercel auto-runs
+    # a package.json "build" script on deploy, and this chain (py + headless
+    # Chrome) cannot run on the Vercel builder. The site ships prebuilt.
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@
     "dev": "python3 -u scripts/dev-server.py",
     "bundle": "node scripts/build.mjs",
     "snapshot": "node scripts/snapshot.mjs",
-    "build": "node scripts/build.mjs && py scripts/prerender.py && node scripts/snapshot.mjs"
+    "make": "node scripts/build.mjs && py scripts/prerender.py && node scripts/snapshot.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.24.2",

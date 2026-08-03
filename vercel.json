@@ -1,6 +1,4 @@
 {
-  "buildCommand": null,
-  "framework": null,
   "trailingSlash": false,
   "redirects": [
     { "source": "/contacts", "destination": "/contact", "permanent": true },
