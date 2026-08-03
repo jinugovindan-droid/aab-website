@@ -751,6 +751,120 @@ FAQ_BY_PAGE = {
     "services": SERVICES_HUB_FAQ, "industries": INDUSTRIES_HUB_FAQ, "industry-real-estate": IND_REALESTATE_FAQ, "industry-construction": IND_CONSTRUCTION_FAQ, "industry-trading": IND_TRADING_FAQ, "industry-hospitality": IND_HOSPITALITY_FAQ, "industry-ecommerce": IND_ECOMMERCE_FAQ, "industry-manufacturing": IND_MANUFACTURING_FAQ,
 }
 
+# Answer-first capsules for the money pages — mirror of routes.js ANSWER_FIRST.
+ANSWER_FIRST = {
+    "service-vat":
+        "UAE VAT is a 5% tax on most goods and services. Registration with the Federal Tax Authority is mandatory once taxable supplies and imports exceed AED 375,000 over the previous 12 months — or are expected to within the next 30 days — and voluntary from AED 187,500. Registered businesses file VAT returns on EmaraTax, quarterly for most, with the return and payment due within 28 days of the period end.",
+    "service-corporate-tax":
+        "UAE Corporate Tax is charged at 9% on annual taxable income above AED 375,000 — the first AED 375,000 is taxed at 0%. Every taxable person must register with the Federal Tax Authority, then file a return and pay any tax due within 9 months of financial year-end. Qualifying Free Zone Persons can keep a 0% rate on qualifying income, and Small Business Relief may apply where revenue is AED 3 million or less, for tax periods ending on or before 31 December 2026.",
+    "e-invoicing":
+        "UAE e-invoicing replaces PDF and paper invoices for in-scope B2B and B2G transactions with structured e-invoices exchanged through Accredited Service Providers and reported to the FTA in near-real time. Go-live is phased: 1 January 2027 for businesses with revenue of AED 50 million or more, 1 July 2027 for other businesses, and 1 October 2027 for government entities. The first deadline lands earlier — Phase 1 businesses must appoint an Accredited Service Provider by 30 October 2026.",
+}
+
+# Contextual related guides & tools per page — mirror of routes.js RELATED_READING.
+# Each entry: (kind, target, label); 'insight' → /insights/<target>, 'page' → PAGE_TO_PATH[target].
+RELATED_READING = {
+    "service-vat": [
+        ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
+        ("insight", "uae-vat-5-percent-primer", "The 5% VAT primer"),
+        ("insight", "designated-zone-reclassification", "Designated zones & VAT"),
+    ],
+    "service-corporate-tax": [
+        ("insight", "uae-corporate-tax-guide-sme", "Corporate Tax guide for SMEs"),
+        ("insight", "free-zone-qualifying-income", "Free-zone qualifying income"),
+        ("insight", "transfer-pricing-thresholds-board", "Transfer pricing for the Board"),
+    ],
+    "service-bookkeeping": [
+        ("insight", "bookkeeping-foundation", "Bookkeeping as the foundation"),
+        ("insight", "outsourced-bookkeeping-dubai", "Outsourced bookkeeping in Dubai"),
+        ("page", "service-vat", "VAT registration checker"),
+    ],
+    "service-audit-support": [
+        ("insight", "ifrs-financial-statements-uae", "IFRS financial statements in the UAE"),
+        ("insight", "reconciliation-resolve-to-zero", "Reconciliation: resolve to zero"),
+        ("insight", "control-framework-erp-migrations", "Controls through ERP migrations"),
+    ],
+    "service-valuations": [
+        ("insight", "cost-of-equity-gcc-buildup", "Cost of equity in the GCC"),
+        ("insight", "working-capital-pegs-uae-deals", "Working-capital pegs in UAE deals"),
+    ],
+    "service-transaction-advisory": [
+        ("insight", "dcf-terminal-values-family-office", "DCF terminal values"),
+        ("insight", "cost-of-equity-gcc-buildup", "Cost of equity in the GCC"),
+    ],
+    "service-cfo": [
+        ("insight", "management-accounts-that-drive-decisions", "Management accounts that drive decisions"),
+        ("insight", "protecting-cash-flow-downturn", "Protecting cash flow in a downturn"),
+        ("page", "service-corporate-tax", "Corporate Tax estimator"),
+    ],
+    "service-financial-statements": [
+        ("insight", "ifrs-financial-statements-uae", "IFRS financial statements in the UAE"),
+        ("insight", "bookkeeping-foundation", "Bookkeeping as the foundation"),
+        ("insight", "management-accounts-that-drive-decisions", "Management accounts that drive decisions"),
+    ],
+    "service-tax-planning": [
+        ("insight", "economic-substance-regulations-uae", "Economic substance regulations"),
+        ("insight", "designated-zone-reclassification", "Designated zones & VAT"),
+        ("page", "service-corporate-tax", "Corporate Tax estimator"),
+    ],
+    "service-fixed-asset-tagging": [
+        ("insight", "ifrs-financial-statements-uae", "IFRS financial statements in the UAE"),
+        ("insight", "reconciliation-resolve-to-zero", "Reconciliation: resolve to zero"),
+    ],
+    "service-forensic-accounting": [
+        ("insight", "reconciliation-resolve-to-zero", "Reconciliation: resolve to zero"),
+        ("insight", "control-framework-erp-migrations", "Controls through ERP migrations"),
+    ],
+    "service-internal-controls": [
+        ("insight", "control-framework-erp-migrations", "Controls through ERP migrations"),
+        ("insight", "reconciliation-resolve-to-zero", "Reconciliation: resolve to zero"),
+    ],
+    "service-financial-modelling": [
+        ("insight", "dcf-terminal-values-family-office", "DCF terminal values"),
+        ("insight", "cost-of-equity-gcc-buildup", "Cost of equity in the GCC"),
+        ("insight", "working-capital-pegs-uae-deals", "Working-capital pegs in UAE deals"),
+    ],
+    "service-feasibility-studies": [
+        ("insight", "dcf-terminal-values-family-office", "DCF terminal values"),
+        ("insight", "cost-of-equity-gcc-buildup", "Cost of equity in the GCC"),
+    ],
+    "service-strategic-advisory": [
+        ("insight", "transfer-pricing-thresholds-board", "Transfer pricing for the Board"),
+        ("insight", "economic-substance-regulations-uae", "Economic substance regulations"),
+        ("insight", "uae-corporate-tax-guide-sme", "Corporate Tax guide for SMEs"),
+    ],
+    "industry-real-estate": [
+        ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
+        ("insight", "ifrs-financial-statements-uae", "IFRS financial statements in the UAE"),
+        ("page", "e-invoicing", "E-invoicing readiness check"),
+    ],
+    "industry-construction": [
+        ("insight", "protecting-cash-flow-downturn", "Protecting cash flow in a downturn"),
+        ("insight", "ifrs-financial-statements-uae", "IFRS financial statements in the UAE"),
+        ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
+    ],
+    "industry-trading": [
+        ("insight", "designated-zone-reclassification", "Designated zones & VAT"),
+        ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
+        ("insight", "reconciliation-resolve-to-zero", "Reconciliation: resolve to zero"),
+    ],
+    "industry-hospitality": [
+        ("insight", "management-accounts-that-drive-decisions", "Management accounts that drive decisions"),
+        ("insight", "uae-vat-5-percent-primer", "The 5% VAT primer"),
+        ("insight", "protecting-cash-flow-downturn", "Protecting cash flow in a downturn"),
+    ],
+    "industry-ecommerce": [
+        ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
+        ("insight", "prepare-erp-for-uae-e-invoicing", "Getting your ERP e-invoicing ready"),
+        ("insight", "reconciliation-resolve-to-zero", "Reconciliation: resolve to zero"),
+    ],
+    "industry-manufacturing": [
+        ("insight", "control-framework-erp-migrations", "Controls through ERP migrations"),
+        ("insight", "ifrs-financial-statements-uae", "IFRS financial statements in the UAE"),
+        ("insight", "prepare-erp-for-uae-e-invoicing", "Getting your ERP e-invoicing ready"),
+    ],
+}
+
 
 def build_jsonld(page, slug):
     blocks = []
@@ -880,12 +994,23 @@ def seo_body(page, slug=None):
     intro = intro_text(page, slug)
     if intro:
         parts.append("<p>%s</p>" % esc(intro))
+    # Answer-first capsule (mirror of the visible on-page block).
+    if page in ANSWER_FIRST:
+        parts.append("<p>%s</p>" % esc(ANSWER_FIRST[page]))
     # FAQ as real headings + paragraphs (the council's explicit ask).
     if page in FAQ_BY_PAGE:
         parts.append("<section><h2>Frequently asked questions</h2>")
         for f in FAQ_BY_PAGE[page]:
             parts.append("<h3>%s</h3><p>%s</p>" % (esc(f["q"]), esc(f["a"])))
         parts.append("</section>")
+    # Contextual related guides & tools (mirror of the visible on-page links) —
+    # topical internal links, ahead of the generic Explore nav below.
+    if page in RELATED_READING:
+        parts.append("<section><h2>Related guides and tools</h2><ul>")
+        for kind, target, label in RELATED_READING[page]:
+            href = SITE_ORIGIN + "/insights/" + target if kind == "insight" else PAGE_TO_PATH[target]
+            parts.append('<li><a href="%s">%s</a></li>' % (esc(href, attr=True), esc(label)))
+        parts.append("</ul></section>")
     # Internal-link graph — present on every page so crawlers can traverse the site.
     parts.append('<nav aria-label="Site sections"><h2>Explore</h2><ul>')
     for p in NAV_PAGES:

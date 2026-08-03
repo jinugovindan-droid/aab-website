@@ -870,6 +870,125 @@
       a: 'A fixed asset register ties plant and machinery on the floor to the ledger — recording cost, location, depreciation and impairment indicators for every asset. It underpins the depreciation in your Corporate Tax computation and is one of the first things auditors test. Our fixed asset tagging service physically verifies assets and reconstructs the register.' },
   ];
 
+  // Answer-first capsules for the money pages — the direct 2–3 sentence answer a
+  // searcher wants, shown under the hero AND injected into the prerendered
+  // crawlable body. Facts mirror the QC'd page content (thresholds, deadlines).
+  // Keep in sync with prerender.py's mirror.
+  const ANSWER_FIRST = {
+    'service-vat':
+      'UAE VAT is a 5% tax on most goods and services. Registration with the Federal Tax Authority is mandatory once taxable supplies and imports exceed AED 375,000 over the previous 12 months — or are expected to within the next 30 days — and voluntary from AED 187,500. Registered businesses file VAT returns on EmaraTax, quarterly for most, with the return and payment due within 28 days of the period end.',
+    'service-corporate-tax':
+      'UAE Corporate Tax is charged at 9% on annual taxable income above AED 375,000 — the first AED 375,000 is taxed at 0%. Every taxable person must register with the Federal Tax Authority, then file a return and pay any tax due within 9 months of financial year-end. Qualifying Free Zone Persons can keep a 0% rate on qualifying income, and Small Business Relief may apply where revenue is AED 3 million or less, for tax periods ending on or before 31 December 2026.',
+    'e-invoicing':
+      'UAE e-invoicing replaces PDF and paper invoices for in-scope B2B and B2G transactions with structured e-invoices exchanged through Accredited Service Providers and reported to the FTA in near-real time. Go-live is phased: 1 January 2027 for businesses with revenue of AED 50 million or more, 1 July 2027 for other businesses, and 1 October 2027 for government entities. The first deadline lands earlier — Phase 1 businesses must appoint an Accredited Service Provider by 30 October 2026.',
+  };
+
+  // Contextual related guides & tools per page (service/industry pages → insight
+  // articles + lead tools). Each entry: [kind, target, label] where kind 'insight'
+  // links to /insights/<target> and kind 'page' links to pathForPage(target).
+  // Keep in sync with prerender.py's mirror.
+  const RELATED_READING = {
+    'service-vat': [
+      ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
+      ['insight', 'uae-vat-5-percent-primer', 'The 5% VAT primer'],
+      ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
+    ],
+    'service-corporate-tax': [
+      ['insight', 'uae-corporate-tax-guide-sme', 'Corporate Tax guide for SMEs'],
+      ['insight', 'free-zone-qualifying-income', 'Free-zone qualifying income'],
+      ['insight', 'transfer-pricing-thresholds-board', 'Transfer pricing for the Board'],
+    ],
+    'service-bookkeeping': [
+      ['insight', 'bookkeeping-foundation', 'Bookkeeping as the foundation'],
+      ['insight', 'outsourced-bookkeeping-dubai', 'Outsourced bookkeeping in Dubai'],
+      ['page', 'service-vat', 'VAT registration checker'],
+    ],
+    'service-audit-support': [
+      ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
+      ['insight', 'reconciliation-resolve-to-zero', 'Reconciliation: resolve to zero'],
+      ['insight', 'control-framework-erp-migrations', 'Controls through ERP migrations'],
+    ],
+    'service-valuations': [
+      ['insight', 'cost-of-equity-gcc-buildup', 'Cost of equity in the GCC'],
+      ['insight', 'working-capital-pegs-uae-deals', 'Working-capital pegs in UAE deals'],
+    ],
+    'service-transaction-advisory': [
+      ['insight', 'dcf-terminal-values-family-office', 'DCF terminal values'],
+      ['insight', 'cost-of-equity-gcc-buildup', 'Cost of equity in the GCC'],
+    ],
+    'service-cfo': [
+      ['insight', 'management-accounts-that-drive-decisions', 'Management accounts that drive decisions'],
+      ['insight', 'protecting-cash-flow-downturn', 'Protecting cash flow in a downturn'],
+      ['page', 'service-corporate-tax', 'Corporate Tax estimator'],
+    ],
+    'service-financial-statements': [
+      ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
+      ['insight', 'bookkeeping-foundation', 'Bookkeeping as the foundation'],
+      ['insight', 'management-accounts-that-drive-decisions', 'Management accounts that drive decisions'],
+    ],
+    'service-tax-planning': [
+      ['insight', 'economic-substance-regulations-uae', 'Economic substance regulations'],
+      ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
+      ['page', 'service-corporate-tax', 'Corporate Tax estimator'],
+    ],
+    'service-fixed-asset-tagging': [
+      ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
+      ['insight', 'reconciliation-resolve-to-zero', 'Reconciliation: resolve to zero'],
+    ],
+    'service-forensic-accounting': [
+      ['insight', 'reconciliation-resolve-to-zero', 'Reconciliation: resolve to zero'],
+      ['insight', 'control-framework-erp-migrations', 'Controls through ERP migrations'],
+    ],
+    'service-internal-controls': [
+      ['insight', 'control-framework-erp-migrations', 'Controls through ERP migrations'],
+      ['insight', 'reconciliation-resolve-to-zero', 'Reconciliation: resolve to zero'],
+    ],
+    'service-financial-modelling': [
+      ['insight', 'dcf-terminal-values-family-office', 'DCF terminal values'],
+      ['insight', 'cost-of-equity-gcc-buildup', 'Cost of equity in the GCC'],
+      ['insight', 'working-capital-pegs-uae-deals', 'Working-capital pegs in UAE deals'],
+    ],
+    'service-feasibility-studies': [
+      ['insight', 'dcf-terminal-values-family-office', 'DCF terminal values'],
+      ['insight', 'cost-of-equity-gcc-buildup', 'Cost of equity in the GCC'],
+    ],
+    'service-strategic-advisory': [
+      ['insight', 'transfer-pricing-thresholds-board', 'Transfer pricing for the Board'],
+      ['insight', 'economic-substance-regulations-uae', 'Economic substance regulations'],
+      ['insight', 'uae-corporate-tax-guide-sme', 'Corporate Tax guide for SMEs'],
+    ],
+    'industry-real-estate': [
+      ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
+      ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
+      ['page', 'e-invoicing', 'E-invoicing readiness check'],
+    ],
+    'industry-construction': [
+      ['insight', 'protecting-cash-flow-downturn', 'Protecting cash flow in a downturn'],
+      ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
+      ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
+    ],
+    'industry-trading': [
+      ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
+      ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
+      ['insight', 'reconciliation-resolve-to-zero', 'Reconciliation: resolve to zero'],
+    ],
+    'industry-hospitality': [
+      ['insight', 'management-accounts-that-drive-decisions', 'Management accounts that drive decisions'],
+      ['insight', 'uae-vat-5-percent-primer', 'The 5% VAT primer'],
+      ['insight', 'protecting-cash-flow-downturn', 'Protecting cash flow in a downturn'],
+    ],
+    'industry-ecommerce': [
+      ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
+      ['insight', 'prepare-erp-for-uae-e-invoicing', 'Getting your ERP e-invoicing ready'],
+      ['insight', 'reconciliation-resolve-to-zero', 'Reconciliation: resolve to zero'],
+    ],
+    'industry-manufacturing': [
+      ['insight', 'control-framework-erp-migrations', 'Controls through ERP migrations'],
+      ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
+      ['insight', 'prepare-erp-for-uae-e-invoicing', 'Getting your ERP e-invoicing ready'],
+    ],
+  };
+
   // Single source for FAQPage JSON-LD + visible page Q&A (templates read it via
   // window.AARoutes.FAQ_BY_PAGE). Keep in sync with prerender.py's mirror.
   const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ, 'services': SERVICES_HUB_FAQ, 'industries': INDUSTRIES_HUB_FAQ, 'industry-real-estate': IND_REALESTATE_FAQ, 'industry-construction': IND_CONSTRUCTION_FAQ, 'industry-trading': IND_TRADING_FAQ, 'industry-hospitality': IND_HOSPITALITY_FAQ, 'industry-ecommerce': IND_ECOMMERCE_FAQ, 'industry-manufacturing': IND_MANUFACTURING_FAQ };
@@ -1026,6 +1145,8 @@
     FEASIBILITY_FAQ,
     STRATEGIC_FAQ,
     FAQ_BY_PAGE,
+    ANSWER_FIRST,
+    RELATED_READING,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,

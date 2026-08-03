@@ -2197,6 +2197,7 @@ function IndustrySimplePage({ page, onNav }) {
               <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
+          {window.RelatedReading && <window.RelatedReading page={page} onNav={onNav} />}
           <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 24, fontStyle: 'italic', maxWidth: 720 }}>
             General guidance for {cfg.crumb.toLowerCase()} businesses in the UAE; confirm tax and accounting specifics for your facts against the latest FTA / Ministry of Finance sources, or talk to us.
           </p>

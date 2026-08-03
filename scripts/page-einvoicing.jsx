@@ -424,6 +424,8 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
         </div>
       </section>
 
+      {window.AnswerFirst && <window.AnswerFirst page="e-invoicing" />}
+
       {/* ============== READINESS ASSESSMENT ============== */}
       <section id="aa-einv-assessment" className="section section--off" style={{ scrollMarginTop: 128 }}>
         <div className="container">

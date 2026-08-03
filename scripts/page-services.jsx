@@ -647,6 +647,8 @@ function ServiceVATPage({ onNav }) {
         </div>
       </section>
 
+      <AnswerFirst page="service-vat" />
+
       {/* VAT deadline countdown + registration checker (lead tool) */}
       <section id="aa-vat-checker" className="section section--off" style={{ scrollMarginTop: 128 }}>
         <div className="container">
@@ -726,6 +728,7 @@ function ServiceVATPage({ onNav }) {
             <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
             <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
           </div>
+          <RelatedReading page="service-vat" onNav={onNav} />
         </div>
       </section>
     </div>
@@ -978,6 +981,8 @@ function ServiceCorporateTaxPage({ onNav }) {
         </div>
       </section>
 
+      <AnswerFirst page="service-corporate-tax" />
+
       {/* Corporate Tax deadline countdown + estimator (lead tool) */}
       <section id="aa-ct-estimator" className="section section--off" style={{ scrollMarginTop: 128 }}>
         <div className="container">
@@ -1055,6 +1060,7 @@ function ServiceCorporateTaxPage({ onNav }) {
             <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
             <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
           </div>
+          <RelatedReading page="service-corporate-tax" onNav={onNav} />
         </div>
       </section>
     </div>
@@ -1188,6 +1194,7 @@ function ServiceBookkeepingPage({ onNav }) {
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
             <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
           </div>
+          <RelatedReading page="service-bookkeeping" onNav={onNav} />
         </div>
       </section>
     </div>
@@ -1321,6 +1328,7 @@ function ServiceAuditSupportPage({ onNav }) {
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
             <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
           </div>
+          <RelatedReading page="service-audit-support" onNav={onNav} />
         </div>
       </section>
     </div>
@@ -1454,6 +1462,7 @@ function ServiceValuationsPage({ onNav }) {
             <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
           </div>
+          <RelatedReading page="service-valuations" onNav={onNav} />
         </div>
       </section>
     </div>
@@ -1587,6 +1596,7 @@ function ServiceTransactionAdvisoryPage({ onNav }) {
             <a href={pathForPage('service-valuations')} onClick={(e) => { e.preventDefault(); onNav('service-valuations'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Valuations →</a>
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
           </div>
+          <RelatedReading page="service-transaction-advisory" onNav={onNav} />
         </div>
       </section>
     </div>
@@ -1720,6 +1730,7 @@ function ServiceCFOPage({ onNav }) {
             <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
             <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
           </div>
+          <RelatedReading page="service-cfo" onNav={onNav} />
         </div>
       </section>
     </div>
@@ -1853,6 +1864,7 @@ function ServiceFinancialStatementsPage({ onNav }) {
             <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
           </div>
+          <RelatedReading page="service-financial-statements" onNav={onNav} />
         </div>
       </section>
     </div>
@@ -1989,6 +2001,7 @@ function ServiceTaxPlanningPage({ onNav }) {
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
             <a href={pathForPage('service-transaction-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-transaction-advisory'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transaction advisory →</a>
           </div>
+          <RelatedReading page="service-tax-planning" onNav={onNav} />
         </div>
       </section>
     </div>
@@ -2143,6 +2156,7 @@ function ServiceSimplePage({ page, onNav }) {
               <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
+          <RelatedReading page={page} onNav={onNav} />
         </div>
       </section>
     </div>
@@ -2188,4 +2202,43 @@ function FAQList({ items, asOf }) {
   );
 }
 
-Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, ServiceTransactionAdvisoryPage, ServiceCFOPage, ServiceFinancialStatementsPage, ServiceTaxPlanningPage, ServiceSimplePage, FAQList });
+// Answer-first capsule — the direct answer a searcher wants, right under the
+// hero. Single-sourced from routes.js ANSWER_FIRST (mirrored into the
+// prerendered crawlable body by prerender.py).
+function AnswerFirst({ page }) {
+  const text = (window.AARoutes && window.AARoutes.ANSWER_FIRST && window.AARoutes.ANSWER_FIRST[page]) || '';
+  if (!text) return null;
+  return (
+    <section style={{ background: 'var(--aa-surface-off)', borderBottom: '1px solid var(--aa-rule)' }}>
+      <div className="container" style={{ padding: '26px 32px' }}>
+        <div style={{ maxWidth: 920 }}>
+          <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>The short answer</div>
+          <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.7, color: 'var(--aa-charcoal-800)' }}>{text}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Contextual "Guides & tools" links — single-sourced from routes.js
+// RELATED_READING (mirrored into the prerendered body by prerender.py).
+// Rendered directly under each page's existing Related-services row.
+function RelatedReading({ page, onNav }) {
+  const items = (window.AARoutes && window.AARoutes.RELATED_READING && window.AARoutes.RELATED_READING[page]) || [];
+  if (!items.length) return null;
+  return (
+    <div style={{ marginTop: 14, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+      <span className="eyebrow eyebrow--steel">Guides &amp; tools</span>
+      {items.map(([kind, target, label]) => (
+        <a
+          key={kind + target + label}
+          href={kind === 'insight' ? pathForInsight(target) : pathForPage(target)}
+          onClick={(e) => { e.preventDefault(); if (kind === 'insight') { onNav('insight', target); } else { onNav(target); } }}
+          style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}
+        >{label} →</a>
+      ))}
+    </div>
+  );
+}
+
+Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, ServiceTransactionAdvisoryPage, ServiceCFOPage, ServiceFinancialStatementsPage, ServiceTaxPlanningPage, ServiceSimplePage, FAQList, AnswerFirst, RelatedReading });
