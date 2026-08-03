@@ -667,6 +667,7 @@ const SEARCH_PAGES = [
   ['service-corporate-tax', 'Corporate Tax', '9% corporate tax registration filing estimator emaratax small business relief qfzp free zone'],
   ['service-vat', 'VAT Compliance', 'vat registration return filing fta threshold checker 375000 187500 deadline'],
   ['e-invoicing', 'E-Invoicing', 'einvoicing e invoicing e-invoice einvoice invoice invoices electronic peppol pint ae asp accredited service provider readiness mandate phase 1 2027'],
+  ['einv-deadline', '30 October 2026 Deadline', '30 october deadline asp appointment einvoicing phase 1 50 million penalty'],
   ['service-bookkeeping', 'Bookkeeping', 'outsourced accounting monthly close reconciliation'],
   ['service-financial-statements', 'Financial Statements', 'ifrs annual accounts'],
   ['service-audit-support', 'Audit Support', 'external audit ready workpapers'],

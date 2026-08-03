@@ -31,6 +31,7 @@ const PAGE_LABELS = {
   'service-feasibility-studies': '03 Service · Feasibility',
   'service-strategic-advisory': '03 Service · Strategic',
   'e-invoicing': '04 E-Invoicing',
+  'einv-deadline': '04 E-Invoicing · 30 Oct Deadline',
   industries: '05 Industries',
   'industry-real-estate': '05 Industry · Real Estate',
   'industry-construction': '05 Industry · Construction',
@@ -183,6 +184,7 @@ function AppRoot() {
       case 'service-feasibility-studies':
       case 'service-strategic-advisory': return <ServiceSimplePage page={page} onNav={navigateTo}/>;
       case 'e-invoicing': return <EInvoicingPage onNav={navigateTo}/>;
+      case 'einv-deadline': return <EInvDeadlinePage onNav={navigateTo}/>;
       case 'industries': return <IndustriesPage onNav={navigateTo}/>;
       case 'industry-real-estate':
       case 'industry-construction':

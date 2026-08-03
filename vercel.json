@@ -6,6 +6,9 @@
     { "source": "/home", "destination": "/", "permanent": true },
     { "source": "/index.php", "destination": "/", "permanent": true },
 
+    { "source": "/go/30-oct", "destination": "/e-invoicing/30-october-2026?utm_source=campaign&utm_medium=whatsapp&utm_campaign=asp-30oct&utm_content=broadcast", "permanent": false },
+    { "source": "/go/30-oct-li", "destination": "/e-invoicing/30-october-2026?utm_source=campaign&utm_medium=linkedin&utm_campaign=asp-30oct&utm_content=post", "permanent": false },
+
     { "source": "/go/einv-flyer", "destination": "/e-invoicing?utm_source=flyer&utm_medium=qr&utm_campaign=einvoicing-2027&utm_content=client-flyer-qr", "permanent": false },
     { "source": "/go/einv-flyer-wa", "destination": "/e-invoicing?utm_source=flyer&utm_medium=whatsapp&utm_campaign=einvoicing-2027&utm_content=client-flyer-wa", "permanent": false }
   ]

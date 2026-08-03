@@ -410,7 +410,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                   ['Exchange model', '5-corner'],
                   ['Scope', 'B2B + B2G'],
                   ['Issued via', 'Your appointed ASP'],
-                  ['First ASP deadline', '30 Oct 2026' + (window.__AA_SNAPSHOT ? '' : ' · ' + dlabel('2026-10-30'))],
+                  ['First ASP deadline', <a href={pathForPage('einv-deadline')} onClick={(e) => { e.preventDefault(); onNav('einv-deadline'); }} style={{ color: 'inherit', textDecorationColor: 'var(--aa-cyan)' }}>{'30 Oct 2026' + (window.__AA_SNAPSHOT ? '' : ' · ' + dlabel('2026-10-30'))}</a>],
                   ['Phase 1 go-live', '1 Jan 2027' + (window.__AA_SNAPSHOT ? '' : ' · ' + dlabel('2027-01-01'))],
                 ].map(([k, v]) => (
                   <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
@@ -716,4 +716,215 @@ function EInvoiceReadinessModal({ onNav }) {
   );
 }
 
-Object.assign(window, { EInvoicingPage, EInvoiceReadinessModal });
+// ---- 30 October 2026 deadline landing page ---------------------------------
+// The campaign piece for the first binding e-invoicing deadline (Phase 1 ASP
+// appointment, MD 244/2025 as amended by MD 66/2026). Every figure mirrors the
+// QC'd flagship/readiness-tool copy — edit there first, then here.
+function EInvDeadlinePage({ onNav }) {
+  const dubaiToday = () => {
+    try { const [y, m, d] = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' }).split('-').map(Number); return new Date(y, m - 1, d); }
+    catch (e) { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+  };
+  const daysLeft = Math.ceil((new Date('2026-10-30T00:00:00') - dubaiToday()) / 86400000);
+  const bookReadiness = () => {
+    try { window.dispatchEvent(new Event('aa:open-einvoice')); }
+    catch (e) { onNav('e-invoicing'); }
+  };
+  const AnswerFirst = window.AnswerFirst;
+  const RelatedReading = window.RelatedReading;
+  const FAQ = (window.AARoutes && window.AARoutes.FAQ_BY_PAGE && window.AARoutes.FAQ_BY_PAGE['einv-deadline']) || [];
+  const PHASES = [
+    ['Phase 1 — Revenue ≥ AED 50M', '30 Oct 2026', '1 Jan 2027'],
+    ['Phase 2 — Revenue < AED 50M', '31 Mar 2027', '1 Jul 2027'],
+    ['Phase 3 — Government entities', '31 Mar 2027', '1 Oct 2027'],
+  ];
+  const GUIDES = [
+    ['choosing-accredited-service-provider-asp', 'Choosing an Accredited Service Provider (ASP)'],
+    ['prepare-erp-for-uae-e-invoicing', 'Getting your ERP ready for e-invoicing'],
+    ['uae-e-invoicing-deadlines-phases', 'UAE e-invoicing deadlines and phases'],
+    ['uae-e-invoicing-explained', 'UAE e-invoicing explained: a plain-English guide'],
+  ];
+  return (
+    <div>
+      {/* Hero */}
+      <section style={{ background: 'var(--aa-charcoal)', color: '#fff', padding: '48px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'rgba(255,255,255,0.75)' }}>E-Invoicing</a>
+            <span>/</span><span style={{ color: '#fff' }}>30 October 2026</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 16 }}>E-Invoicing · The first binding deadline</div>
+              <h1 style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 'clamp(44px, 6vw, 72px)', textTransform: 'uppercase', letterSpacing: '0.01em', margin: 0, lineHeight: 1.0 }}>
+                30 October 2026.<br />
+                <span style={{ color: 'var(--aa-cyan)' }}>The clock is already running.</span>
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, maxWidth: 640 }}>
+                By this date, UAE businesses with annual revenue of <strong style={{ color: '#fff' }}>AED 50 million or more</strong> must
+                have appointed an <strong style={{ color: '#fff' }}>Accredited Service Provider</strong> for e-invoicing — under Ministerial
+                Decision 244 of 2025 as amended by MD 66 of 2026. It is the first deadline of the mandate, it lands <strong style={{ color: '#fff' }}>before</strong> the
+                1 January 2027 go-live, and penalties attach to it directly.
+              </p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={bookReadiness}>
+                  Check your readiness status
+                  <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+                </button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.35)' }}>
+                  <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
+                  WhatsApp us
+                </a>
+              </div>
+            </div>
+            <aside style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)', padding: 24 }}>
+              {/* Live countdown only — the static snapshot keeps the absolute date. */}
+              {!window.__AA_SNAPSHOT && (
+                <div style={{ textAlign: 'center', paddingBottom: 18, marginBottom: 6, borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+                  <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 56, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{daysLeft > 0 ? daysLeft.toLocaleString() : 'Now'}</div>
+                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 6 }}>{daysLeft > 0 ? (daysLeft === 1 ? 'day left' : 'days left') : 'due'}</div>
+                </div>
+              )}
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {[
+                  ['Deadline', '30 October 2026'],
+                  ['Who', 'Revenue ≥ AED 50M (Phase 1)'],
+                  ['Obligation', 'Appoint an accredited ASP'],
+                  ['Missed-appointment penalty', 'AED 5,000 / month'],
+                  ['Phase 1 go-live', '1 January 2027'],
+                  ['Legal basis', 'MD 244/2025 · MD 66/2026'],
+                ].map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
+                    <dt style={{ color: 'rgba(255,255,255,0.6)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: '#fff', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {AnswerFirst && <AnswerFirst page="einv-deadline" />}
+
+      {/* What must happen */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head"><div className="section-head__eyebrow">What the date demands</div><h2>Three things to understand about 30 October.</h2></div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {[
+              ['user-check', 'Appointing is the obligation', 'Phase 1 businesses must have an Accredited Service Provider appointed by the date — the ASP transmits your e-invoices and receives your suppliers’, so it is the gateway to the whole mandate.'],
+              ['wrench', 'The contract is the start, not the finish', 'Between appointment and the 1 January 2027 go-live sit master-data cleanup, ERP field mapping and end-to-end testing. Appointing late compresses exactly the stages that need the most time.'],
+              ['shield', 'Penalties attach before go-live', 'Cabinet Decision 106 of 2025 sets AED 5,000 per month for failing to appoint in time — the first penalty of the regime, and it bites at the appointment deadline, not at go-live.'],
+            ].map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 2 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13.5, color: 'var(--aa-steel-700)', lineHeight: 1.6 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* All phases */}
+      <section className="section section--off">
+        <div className="container" style={{ maxWidth: 920 }}>
+          <div className="section-head"><div className="section-head__eyebrow">Not in Phase 1?</div><h2>Every deadline, one table.</h2></div>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', border: '1px solid var(--aa-rule)', fontSize: 14 }}>
+              <thead>
+                <tr style={{ background: 'var(--aa-charcoal)', color: '#fff', textAlign: 'left' }}>
+                  <th style={{ padding: '12px 16px', fontWeight: 600 }}>Who</th>
+                  <th style={{ padding: '12px 16px', fontWeight: 600, whiteSpace: 'nowrap' }}>Appoint ASP by</th>
+                  <th style={{ padding: '12px 16px', fontWeight: 600, whiteSpace: 'nowrap' }}>Go-live</th>
+                </tr>
+              </thead>
+              <tbody>
+                {PHASES.map(([who, asp, live], i) => (
+                  <tr key={who} style={{ borderTop: '1px solid var(--aa-rule)', background: i === 0 ? 'rgba(41,171,226,0.07)' : '#fff' }}>
+                    <td style={{ padding: '12px 16px', fontWeight: i === 0 ? 700 : 400 }}>{who}</td>
+                    <td style={{ padding: '12px 16px', whiteSpace: 'nowrap', fontWeight: i === 0 ? 700 : 400 }}>{asp}</td>
+                    <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>{live}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p style={{ marginTop: 14, fontSize: 13, color: 'var(--aa-steel)', fontStyle: 'italic' }}>
+            Phase 2 and government appointments fall due 31 March 2027 — five months after Phase 1. The selection lessons below apply to everyone; only the urgency differs.
+          </p>
+        </div>
+      </section>
+
+      {/* Choosing well in a hurry */}
+      <section className="section">
+        <div className="container" style={{ maxWidth: 860 }}>
+          <div className="section-head"><div className="section-head__eyebrow">Selection under time pressure</div><h2>Choosing fast without choosing badly.</h2></div>
+          <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--aa-charcoal-800)', margin: 0 }}>
+            The Ministry of Finance publishes a register of <strong>pre-approved</strong> (Article 15) service providers — 42 names as at July 2026 — but
+            pre-approval is not accreditation. Accreditation is granted by the Ministry under Article 16 of MD 64 of 2025 (as amended by MD 56 of 2026),
+            and the FTA’s EmaraTax onboarding screen listed 38 entries as at July 2026 (one of them an FTA test row) — in practice the closest
+            thing to an accredited list available today, though it is an operational onboarding view, not the official register.
+            Contract for Article 16 accreditation, not just pre-approval — and say so in the agreement.
+          </p>
+          <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--aa-charcoal-800)', margin: '14px 0 0' }}>
+            Fit matters as much as status: transaction volumes, your ERP’s integration options, exception handling and support model differ sharply
+            across providers. Our selection guide walks the shortlist questions; we run the comparison as part of a readiness engagement.
+          </p>
+          <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
+            <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>The guides</div>
+            <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8 }}>
+              {GUIDES.map(([slug, label]) => (
+                <li key={slug}>
+                  <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+                    style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
+                    {label} →
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      {FAQ.length > 0 && (
+        <section className="section section--off">
+          <div className="container" style={{ maxWidth: 860 }}>
+            <div className="section-head"><div className="section-head__eyebrow">FAQ</div><h2>The deadline, answered.</h2></div>
+            <div style={{ borderTop: '1px solid var(--aa-rule)' }}>
+              {FAQ.map((f, i) => (
+                <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
+                  <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
+                    <span>{f.q}</span>
+                    <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
+                  </summary>
+                  <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
+                </details>
+              ))}
+            </div>
+            {RelatedReading && <RelatedReading page="einv-deadline" onNav={onNav} />}
+            <p style={{ marginTop: 16, fontSize: 12.5, color: 'var(--aa-steel)' }}>Rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || 'August 2026'} — general guidance, not tax advice. Sources: MD 243/2025, MD 244/2025 (as amended by MD 66/2026), MD 64/2025 (as amended by MD 56/2026), CD 106/2025.</p>
+          </div>
+        </section>
+      )}
+
+      {/* CTA band */}
+      <section style={{ background: 'var(--aa-charcoal)', color: '#fff', padding: '48px 0' }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
+          <div>
+            <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · 2 minutes · personalised PDF</div>
+            <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, lineHeight: 1.05 }}>Where do you stand today?</div>
+          </div>
+          <button className="btn btn--primary" onClick={bookReadiness}>
+            Get my readiness status
+            <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+Object.assign(window, { EInvoicingPage, EInvoiceReadinessModal, EInvDeadlinePage });

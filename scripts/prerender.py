@@ -47,6 +47,7 @@ PAGE_TO_PATH = {
     "service-feasibility-studies": "/services/feasibility-studies",
     "service-strategic-advisory": "/services/strategic-advisory",
     "e-invoicing": "/e-invoicing",
+    "einv-deadline": "/e-invoicing/30-october-2026",
     "industries": "/industries",
     "industry-real-estate": "/industries/real-estate",
     "industry-construction": "/industries/construction",
@@ -172,6 +173,10 @@ PAGE_SEO = {
     "location-umm-al-quwain": {
         "title": "Asset Tagging Services in Umm Al Quwain — Accounting & VAT",
         "description": "On-site fixed asset tagging, bookkeeping, VAT and Corporate Tax filing for Umm Al Quwain businesses — served from Dubai across all seven emirates since 2017.",
+    },
+    "einv-deadline": {
+        "title": "30 October 2026 UAE E-Invoicing Deadline — Who Must Act",
+        "description": "By 30 October 2026, UAE businesses with revenue of AED 50M+ must appoint an Accredited Service Provider. Who is caught, the penalties, and what to do now.",
     },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — ASP, Peppol & 2026 Deadlines",
@@ -378,7 +383,8 @@ BREADCRUMB_LABELS = {
     "service-fixed-asset-tagging": "Fixed Asset Tagging", "service-forensic-accounting": "Forensic Accounting",
     "service-internal-controls": "Internal Controls", "service-financial-modelling": "Financial Modelling",
     "service-feasibility-studies": "Feasibility Studies", "service-strategic-advisory": "Strategic Advisory",
-    "e-invoicing": "E-Invoicing", "industries": "Industries", "about": "About",
+    "e-invoicing": "E-Invoicing", "einv-deadline": "30 October 2026 Deadline",
+    "industries": "Industries", "about": "About",
     "industry-real-estate": "Real Estate", "industry-construction": "Construction & Contracting",
     "industry-trading": "Trading & Distribution", "industry-hospitality": "Hospitality & F&B",
     "industry-ecommerce": "E-commerce & Retail", "industry-manufacturing": "Manufacturing",
@@ -659,6 +665,10 @@ def breadcrumb_chain(page, slug):
         items.append({"name": "Industries", "url": SITE_ORIGIN + PAGE_TO_PATH["industries"]})
         items.append({"name": BREADCRUMB_LABELS[page], "url": full_url(page)})
         return items
+    if page == "einv-deadline":
+        items.append({"name": "E-Invoicing", "url": full_url("e-invoicing")})
+        items.append({"name": BREADCRUMB_LABELS[page], "url": full_url(page)})
+        return items
     if page == "service-vat":
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
         items.append({"name": BREADCRUMB_LABELS["service-vat"], "url": full_url("service-vat")})
@@ -903,6 +913,17 @@ LOC_UAQ_FAQ = [
      "a": "For goods, it can. Both UAQ FTZ sites — Ahmed Bin Rashid Port and Sheikh Mohammed Bin Zayed Road — are designated zones under Cabinet Decision 59/2017, so qualifying goods movements can fall outside UAE VAT while mainland transfers or in-zone consumption can bring it back. Services follow normal VAT rules wherever you sit. We map your actual flows and record the treatment of each, so the VAT201 rests on analysis rather than habit."},
 ]
 
+EINV_DEADLINE_FAQ = [
+    {"q": "Who must act by 30 October 2026?",
+     "a": "Businesses with annual revenue of AED 50 million or more — Phase 1 of the UAE e-invoicing mandate. They must have appointed an Accredited Service Provider by that date, ahead of their 1 January 2027 go-live. Businesses under AED 50 million have until 31 March 2027 to appoint, with go-live on 1 July 2027; government entities also appoint by 31 March 2027, going live 1 October 2027."},
+    {"q": "What is the penalty for missing the ASP-appointment deadline?",
+     "a": "Cabinet Decision 106 of 2025 sets AED 5,000 per month for failing to appoint an Accredited Service Provider in time — and it attaches to the appointment deadline itself, before go-live. Once the system is live, late issuance carries AED 100 per invoice (capped at AED 5,000 a month) and notification failures AED 1,000 per day. The appointment penalty is the first one the regime can charge."},
+    {"q": "Can we appoint any provider on the Ministry’s list?",
+     "a": "Check status carefully. The Ministry of Finance publishes a register of pre-approved (Article 15) service providers — 42 names as at July 2026 — but pre-approval is not accreditation. Accreditation is granted by the Ministry under Article 16 of MD 64 of 2025 (as amended by MD 56 of 2026), and the FTA’s EmaraTax onboarding screen listed 38 entries as at July 2026 — one of them an FTA test row. Contract for Article 16 accreditation, not just pre-approval — and say so in the agreement."},
+    {"q": "Is 30 October just about signing a contract?",
+     "a": "Appointing the ASP is the legal obligation, but the work behind it is integration: cleaning master data (TRNs, legal names, addresses), mapping your ERP fields to the e-invoice format and testing end to end before the 1 January 2027 go-live. Providers onboard clients in queues, and selecting late compresses exactly the stages that need the most time — which is why the appointment date sits two months before go-live."},
+]
+
 FAQ_BY_PAGE = {
     "e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ,
     "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ,
@@ -912,7 +933,7 @@ FAQ_BY_PAGE = {
     "service-fixed-asset-tagging": FIXED_ASSET_FAQ, "service-forensic-accounting": FORENSIC_FAQ,
     "service-internal-controls": CONTROLS_FAQ, "service-financial-modelling": MODELLING_FAQ,
     "service-feasibility-studies": FEASIBILITY_FAQ, "service-strategic-advisory": STRATEGIC_FAQ,
-    "service-ct-filing": CT_FILING_FAQ, "service-vat-filing": VAT_FILING_FAQ, "service-vat-refund": VAT_REFUND_FAQ, "service-tax-advisory": TAX_ADVISORY_FAQ, "location-abu-dhabi": LOC_ABUDHABI_FAQ, "location-sharjah": LOC_SHARJAH_FAQ, "location-ajman": LOC_AJMAN_FAQ, "location-ras-al-khaimah": LOC_RAK_FAQ, "location-fujairah": LOC_FUJAIRAH_FAQ, "location-umm-al-quwain": LOC_UAQ_FAQ, "services": SERVICES_HUB_FAQ, "industries": INDUSTRIES_HUB_FAQ, "industry-real-estate": IND_REALESTATE_FAQ, "industry-construction": IND_CONSTRUCTION_FAQ, "industry-trading": IND_TRADING_FAQ, "industry-hospitality": IND_HOSPITALITY_FAQ, "industry-ecommerce": IND_ECOMMERCE_FAQ, "industry-manufacturing": IND_MANUFACTURING_FAQ,
+    "service-ct-filing": CT_FILING_FAQ, "service-vat-filing": VAT_FILING_FAQ, "service-vat-refund": VAT_REFUND_FAQ, "service-tax-advisory": TAX_ADVISORY_FAQ, "location-abu-dhabi": LOC_ABUDHABI_FAQ, "location-sharjah": LOC_SHARJAH_FAQ, "location-ajman": LOC_AJMAN_FAQ, "location-ras-al-khaimah": LOC_RAK_FAQ, "location-fujairah": LOC_FUJAIRAH_FAQ, "location-umm-al-quwain": LOC_UAQ_FAQ, "einv-deadline": EINV_DEADLINE_FAQ, "services": SERVICES_HUB_FAQ, "industries": INDUSTRIES_HUB_FAQ, "industry-real-estate": IND_REALESTATE_FAQ, "industry-construction": IND_CONSTRUCTION_FAQ, "industry-trading": IND_TRADING_FAQ, "industry-hospitality": IND_HOSPITALITY_FAQ, "industry-ecommerce": IND_ECOMMERCE_FAQ, "industry-manufacturing": IND_MANUFACTURING_FAQ,
 }
 
 # Answer-first capsules for the money pages — mirror of routes.js ANSWER_FIRST.
@@ -943,6 +964,8 @@ ANSWER_FIRST = {
         "Authentic Accounting serves Fujairah from its Dubai office — there is no local branch — pairing remote bookkeeping, VAT and Corporate Tax compliance with on-site visits for stocktakes, fixed-asset verification and audit-support fieldwork. UAE tax is federal: 5% VAT, the AED 375,000 registration threshold, 9% Corporate Tax and the EmaraTax deadlines apply identically on the east coast, including inside Fujairah Free Zone and FOIZ."},
     "location-umm-al-quwain": {"h": "Who provides asset tagging and accounting services in Umm Al Quwain?", "text":
         "Authentic Accounting provides on-site fixed asset tagging, bookkeeping, VAT and Corporate Tax filing for Umm Al Quwain businesses from its Dubai (Al Nahda 1) office — serving all seven emirates since 2017, with no UAQ branch needed. UAE tax is federal: VAT at 5% and Corporate Tax at 9% above AED 375,000 taxable income are filed on EmaraTax identically in every emirate. Asset verification and tagging are done at your facility — we travel to the site."},
+    "einv-deadline": {"h": "What happens on 30 October 2026 — the UAE e-invoicing deadline", "text":
+        "By 30 October 2026, UAE businesses with annual revenue of AED 50 million or more must have appointed an Accredited Service Provider (ASP) for e-invoicing — the first binding deadline of the mandate, under Ministerial Decision 244 of 2025 as amended by MD 66 of 2026. Penalties under Cabinet Decision 106 of 2025 attach as each deadline passes: a missed appointment costs AED 5,000 per month, and it bites before the 1 January 2027 go-live."},
 }
 
 # Contextual related guides & tools per page — mirror of routes.js RELATED_READING.
@@ -1068,6 +1091,11 @@ RELATED_READING = {
         ("insight", "designated-zone-reclassification", "Designated zones & VAT"),
         ("insight", "bookkeeping-foundation", "Bookkeeping as the foundation"),
         ("page", "service-fixed-asset-tagging", "Fixed asset tagging service"),
+    ],
+    "einv-deadline": [
+        ("insight", "choosing-accredited-service-provider-asp", "Choosing an ASP"),
+        ("insight", "prepare-erp-for-uae-e-invoicing", "Getting your ERP e-invoicing ready"),
+        ("page", "e-invoicing", "E-invoicing readiness check"),
     ],
     "industry-real-estate": [
         ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
