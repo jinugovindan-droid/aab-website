@@ -443,10 +443,14 @@ function VatDeadlineCard({ onNav }) {
         </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{big}</div>
-          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
-        </div>
+        {/* Live countdown only — in the static build snapshot it would go stale
+            by the next day, so snapshot mode keeps just the absolute date above. */}
+        {!window.__AA_SNAPSHOT && (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{big}</div>
+            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
+          </div>
+        )}
         <button className="btn btn--primary" onClick={() => goContact('VAT compliance', onNav)}>
           Book a VAT scoping <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
         </button>
@@ -762,10 +766,13 @@ function CorpTaxDeadlineCard({ onNav }) {
         </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{big}</div>
-          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
-        </div>
+        {/* Same rule as the VAT card: no relative counts in the static snapshot. */}
+        {!window.__AA_SNAPSHOT && (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{big}</div>
+            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
+          </div>
+        )}
         <button className="btn btn--primary" onClick={() => goContact('UAE Corporate Tax', onNav)}>
           Book a scoping call <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
         </button>
@@ -2176,6 +2183,10 @@ function FAQList({ items, asOf }) {
     <div style={{ borderTop: '2px solid var(--aa-charcoal)' }}>
       {items.map((it, i) => (
         <div key={i} style={{ borderBottom: '1px solid var(--aa-rule)' }}>
+          {/* h3 wrapper (WAI-ARIA disclosure pattern) keeps each question in the
+              document outline for crawlers/assistive tech; styles neutralised so
+              the visual stays identical to the bare button. */}
+          <h3 style={{ margin: 0, fontSize: 'inherit', fontWeight: 'inherit', lineHeight: 'inherit' }}>
           <button
             onClick={() => setOpen(open === i ? -1 : i)}
             aria-expanded={open === i}
@@ -2190,11 +2201,12 @@ function FAQList({ items, asOf }) {
             <span style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{it.q}</span>
             <i data-lucide={open === i ? 'minus' : 'plus'} style={{ width: 18, height: 18, color: 'var(--aa-cyan)', flexShrink: 0 }} aria-hidden="true"></i>
           </button>
-          {open === i && (
-            <div id={uid + '-faq-' + i} style={{ paddingBottom: 24, fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 720 }}>
-              {it.a}
-            </div>
-          )}
+          </h3>
+          {/* Always in the DOM (hidden-toggled, not conditionally rendered) so the
+              build-time snapshot captures every answer for crawlers/no-JS clients. */}
+          <div id={uid + '-faq-' + i} hidden={open !== i} style={{ paddingBottom: 24, fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 720 }}>
+            {it.a}
+          </div>
         </div>
       ))}
     </div>
@@ -2206,14 +2218,16 @@ function FAQList({ items, asOf }) {
 // hero. Single-sourced from routes.js ANSWER_FIRST (mirrored into the
 // prerendered crawlable body by prerender.py).
 function AnswerFirst({ page }) {
-  const text = (window.AARoutes && window.AARoutes.ANSWER_FIRST && window.AARoutes.ANSWER_FIRST[page]) || '';
-  if (!text) return null;
+  const entry = (window.AARoutes && window.AARoutes.ANSWER_FIRST && window.AARoutes.ANSWER_FIRST[page]) || null;
+  if (!entry) return null;
   return (
     <section style={{ background: 'var(--aa-surface-off)', borderBottom: '1px solid var(--aa-rule)' }}>
       <div className="container" style={{ padding: '26px 32px' }}>
         <div style={{ maxWidth: 920 }}>
-          <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>The short answer</div>
-          <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.7, color: 'var(--aa-charcoal-800)' }}>{text}</p>
+          {/* Keyworded h2 (styled as the eyebrow) — the hero h1 stays brand voice,
+              this carries the search phrasing in the heading outline. */}
+          <h2 className="eyebrow eyebrow--charcoal" style={{ margin: '0 0 8px', fontSize: 12 }}>{entry.h}</h2>
+          <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.7, color: 'var(--aa-charcoal-800)' }}>{entry.text}</p>
         </div>
       </div>
     </section>

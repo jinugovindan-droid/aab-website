@@ -331,8 +331,8 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
             {TIER ? (
               <div style={{ marginBottom: 20 }}>
                 <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>{TIER.who}</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Appoint ASP by <strong style={{ color: '#fff' }}>{TIER.asp}</strong> <span style={{ color: 'var(--aa-cyan)' }}>({dlabel(TIER.aspISO)})</span></div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong> <span style={{ color: 'var(--aa-cyan)' }}>({dlabel(TIER.liveISO)})</span></div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Appoint ASP by <strong style={{ color: '#fff' }}>{TIER.asp}</strong>{!window.__AA_SNAPSHOT && <span style={{ color: 'var(--aa-cyan)' }}> ({dlabel(TIER.aspISO)})</span>}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong>{!window.__AA_SNAPSHOT && <span style={{ color: 'var(--aa-cyan)' }}> ({dlabel(TIER.liveISO)})</span>}</div>
               </div>
             ) : (
               <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue to generate your personalised PDF — your exact deadlines, a tailored verdict, and your next steps.</p>
@@ -410,8 +410,8 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                   ['Exchange model', '5-corner'],
                   ['Scope', 'B2B + B2G'],
                   ['Issued via', 'Your appointed ASP'],
-                  ['First ASP deadline', '30 Oct 2026 · ' + dlabel('2026-10-30')],
-                  ['Phase 1 go-live', '1 Jan 2027 · ' + dlabel('2027-01-01')],
+                  ['First ASP deadline', '30 Oct 2026' + (window.__AA_SNAPSHOT ? '' : ' · ' + dlabel('2026-10-30'))],
+                  ['Phase 1 go-live', '1 Jan 2027' + (window.__AA_SNAPSHOT ? '' : ' · ' + dlabel('2027-01-01'))],
                 ].map(([k, v]) => (
                   <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
@@ -485,11 +485,12 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                   </td>
                   <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>
                     {p.asp}
-                    <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-700)', marginTop: 2 }}>{dlabel(p.aspISO)}</span>
+                    {/* Live day-counts only — dropped in the static snapshot where they'd go stale. */}
+                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-700)', marginTop: 2 }}>{dlabel(p.aspISO)}</span>}
                   </td>
                   <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>
                     {p.ready}
-                    <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-700)', marginTop: 2 }}>{dlabel(p.readyISO)}</span>
+                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-700)', marginTop: 2 }}>{dlabel(p.readyISO)}</span>}
                   </td>
                 </tr>
               ))}

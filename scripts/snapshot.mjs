@@ -1,0 +1,208 @@
+// Full-body prerender snapshot.
+//
+// prerender.py writes each route's index.html with search-tuned meta, JSON-LD and
+// a thin crawlable skeleton in #root. This script replaces that skeleton with the
+// COMPLETE rendered page: it serves the repo over a local HTTP server, loads every
+// route in headless Chrome/Edge (the system browser — no download), waits for the
+// React app to mount, and writes #root's rendered HTML back into the route file.
+// React's createRoot().render() replaces #root's children on mount, so browsers
+// still get the live SPA; crawlers and no-JS clients get the full real page.
+//
+// Run order matters:  npm run bundle  →  py scripts/prerender.py  →  node scripts/snapshot.mjs
+// (prerender.py owns meta/JSON-LD and rewrites #root to the skeleton each run, so
+// this script must always run after it.)
+import { createServer } from 'node:http';
+import { readFile, writeFile, readdir, stat } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { join, extname } from 'node:path';
+import puppeteer from 'puppeteer-core';
+
+const ROOT = process.cwd();
+const PORT = 8117;
+const CONCURRENCY = 4;
+
+const BROWSERS = [
+  'C:/Program Files/Google/Chrome/Application/chrome.exe',
+  'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
+  'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
+  'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
+];
+const executablePath = BROWSERS.find((p) => existsSync(p));
+if (!executablePath) { console.error('No Chrome/Edge found'); process.exit(1); }
+
+const MIME = {
+  '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css',
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp',
+  '.woff2': 'font/woff2', '.ico': 'image/x-icon', '.json': 'application/json', '.xml': 'application/xml',
+};
+
+// ---- discover routes: every */index.html that prerender.py wrote (they all carry
+// its <base href="/"> marker), plus the home template itself.
+async function findRoutes() {
+  const SKIP = new Set(['node_modules', 'dist', 'assets', 'scripts', 'api']);
+  const routes = [];
+  async function walk(dir, url) {
+    for (const name of await readdir(dir)) {
+      // Dot-directories as a class: .git, and crucially .claude/worktrees — a
+      // worktree of this branch contains all the route marker files and would
+      // otherwise be discovered as phantom routes and silently overwritten.
+      if (name.startsWith('.') || SKIP.has(name)) continue;
+      const p = join(dir, name);
+      if ((await stat(p)).isDirectory()) {
+        const idx = join(p, 'index.html');
+        if (existsSync(idx)) {
+          const html = await readFile(idx, 'utf8');
+          if (html.includes('<base href="/">')) routes.push({ url: `${url}/${name}`, file: idx });
+        }
+        await walk(p, `${url}/${name}`);
+      }
+    }
+  }
+  await walk(ROOT, '');
+  routes.push({ url: '/', file: join(ROOT, 'index.html') }); // home template last
+  return routes;
+}
+
+// ---- tiny static server with /route → route/index.html mapping
+function serve() {
+  const server = createServer(async (req, res) => {
+    try {
+      let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+      if (p.endsWith('/')) p += 'index.html';
+      let file = join(ROOT, p);
+      if (!extname(file)) file = join(ROOT, p, 'index.html');
+      const body = await readFile(file);
+      res.writeHead(200, { 'content-type': MIME[extname(file)] || 'application/octet-stream' });
+      res.end(body);
+    } catch {
+      res.writeHead(404); res.end('not found');
+    }
+  });
+  return new Promise((ok) => server.listen(PORT, '127.0.0.1', () => ok(server)));
+}
+
+// ---- capture post-processing: the reveal classes exist only so JS can animate
+// sections in; in static HTML they'd leave below-fold content at opacity 0.
+function stripRevealClasses(html) {
+  return html.replace(/class="([^"]*)"/g, (m, cls) => {
+    const kept = cls.split(/\s+/).filter((c) => c !== 'reveal' && c !== 'is-visible');
+    return kept.length ? `class="${kept.join(' ')}"` : '';
+  });
+}
+
+// Same anchor contract as prerender.py's inject_root: the "Tweak defaults"
+// comment that always follows #root — unambiguous even though `body` contains
+// </div> tags, and idempotent across re-runs. Splices by index so `$` sequences
+// in the captured HTML can never be mangled by String.replace substitution.
+function injectRootSafe(pageHtml, body) {
+  const re = /<div id="root">[\s\S]*?<\/div>(\s*<!-- Tweak defaults)/;
+  const m = pageHtml.match(re);
+  if (!m) throw new Error('inject anchor not found');
+  const start = m.index;
+  const end = m.index + m[0].length - m[1].length;
+  return pageHtml.slice(0, start) + `<div id="root">${body}</div>` + pageHtml.slice(end);
+}
+
+async function snapshotRoute(browser, route) {
+  const page = await browser.newPage();
+  try {
+    await page.setViewport({ width: 1366, height: 900 });
+    // Never let build-time captures hit analytics, and never show the consent banner.
+    await page.setRequestInterception(true);
+    page.on('request', (r) => {
+      const u = r.url();
+      if (/googletagmanager|google-analytics|doubleclick|vercel-insights|vitals\.vercel/.test(u)) r.abort();
+      else r.continue();
+    });
+    await page.evaluateOnNewDocument(() => {
+      // Snapshot mode: components drop relative day-counts (stale from day one
+      // in static HTML) and force Date-gated campaign chrome off.
+      window.__AA_SNAPSHOT = true;
+      try { localStorage.setItem('aa-analytics-consent', 'denied'); } catch (e) {}
+    });
+    await page.goto(`http://127.0.0.1:${PORT}${route.url}`, { waitUntil: 'networkidle0', timeout: 45000 });
+    // Mount signal the static body can never satisfy: app-root.jsx sets
+    // __AA_MOUNTED after React's first committed paint. (DOM heuristics like
+    // "footer exists" pass vacuously when re-running over snapshotted files.)
+    // Timer polling, not the default rAF polling — rAF starves in throttled tabs.
+    await page.waitForFunction(() => window.__AA_MOUNTED === true, { timeout: 20000, polling: 100 });
+    await new Promise((r) => setTimeout(r, 400)); // settle post-mount effects
+    const result = await page.evaluate(() => {
+      // Deterministic icon swap: run lucide synchronously NOW, then serialize.
+      if (window.lucide) window.lucide.createIcons();
+      return {
+        html: document.getElementById('root').innerHTML,
+        rawIcons: document.querySelectorAll('#root i[data-lucide]').length,
+        consentShown: !!document.querySelector('#root [role="dialog"][aria-label="Cookie consent"]'),
+        h1: (document.querySelector('#root h1') || {}).textContent || '',
+      };
+    });
+    if (!result.html || result.html.length < 5000) throw new Error(`suspiciously small capture (${result.html ? result.html.length : 0} chars)`);
+    if (result.rawIcons > 0) throw new Error(`${result.rawIcons} unswapped lucide icon(s)`);
+    if (result.consentShown) throw new Error('consent banner rendered during capture');
+    if (/\(\d[\d,]* days?\)|\d[\d,]* days? left/.test(result.html)) throw new Error('relative day-count leaked into capture');
+    // Wrong-page guard: the SPA falls back to the home page for unknown paths,
+    // so a stale/phantom route directory would silently capture home content.
+    if (route.url !== '/' && /Accounting that stands up to scrutiny|Advisory Engineered/i.test(result.h1)) {
+      throw new Error(`route rendered the HOME page (h1: ${result.h1.slice(0, 60)})`);
+    }
+    return { url: route.url, file: route.file, body: stripRevealClasses(result.html) };
+  } finally {
+    await page.close();
+  }
+}
+
+const routes = await findRoutes();
+
+// Route-set sanity: prerender.py writes sitemap.xml from the same route list;
+// a count mismatch means findRoutes picked up phantom directories (or missed
+// real ones) — abort before touching any file.
+const sitemapUrls = ((await readFile(join(ROOT, 'sitemap.xml'), 'utf8')).match(/<loc>/g) || []).length;
+if (routes.length !== sitemapUrls) {
+  console.error(`route mismatch: found ${routes.length} routes but sitemap.xml has ${sitemapUrls} URLs`);
+  process.exit(1);
+}
+
+console.log(`${routes.length} routes (matches sitemap) · browser: ${executablePath}`);
+const server = await serve();
+// The throttling flags matter: with CONCURRENCY tabs, headless Chrome throttles
+// rAF/timers in backgrounded tabs, which starves the app's double-rAF mount
+// signal (and lucide's rAF-debounced icon swap) on whichever tabs aren't active.
+const browser = await puppeteer.launch({ executablePath, headless: true, args: [
+  '--no-first-run', '--disable-extensions',
+  '--disable-background-timer-throttling',
+  '--disable-backgrounding-occluded-windows',
+  '--disable-renderer-backgrounding',
+  '--disable-features=CalculateNativeWinOcclusion',
+] });
+
+// Capture everything first, write nothing until every route succeeded —
+// a failed or interrupted run must never leave a half-updated tree.
+const failures = [];
+const captures = [];
+let done = 0;
+const queue = routes.slice();
+await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
+  for (let r; (r = queue.shift()); ) {
+    try {
+      const res = await snapshotRoute(browser, r);
+      captures.push(res);
+      console.log(`  ok  ${res.url}  (${(res.body.length / 1024).toFixed(0)} KB)  [${++done}/${routes.length}]`);
+    } catch (e) {
+      failures.push({ url: r.url, error: String(e.message || e) });
+      console.error(`  FAIL ${r.url}: ${e.message}`);
+    }
+  }
+}));
+
+await browser.close();
+server.close();
+if (failures.length) {
+  console.error(`\n${failures.length} route(s) failed — NO files were written; the tree is unchanged.`);
+  process.exit(1);
+}
+for (const c of captures) {
+  const pageHtml = await readFile(c.file, 'utf8');
+  await writeFile(c.file, injectRootSafe(pageHtml, c.body), 'utf8');
+}
+console.log(`\nAll ${routes.length} routes snapshotted and written.`);

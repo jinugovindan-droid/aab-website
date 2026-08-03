@@ -351,15 +351,15 @@ EINVOICE_FAQ = [
     {"q": "When is the UAE e-invoicing deadline for my business?",
      "a": "It depends on your annual revenue. Businesses with revenue of AED 50 million or more must appoint an Accredited Service Provider (ASP) by 30 October 2026 and go live on 1 January 2027. Businesses under AED 50 million appoint by 31 March 2027 and go live on 1 July 2027. Government entities appoint by 31 March 2027 and go live on 1 October 2027."},
     {"q": "What is an Accredited Service Provider (ASP)?",
-     "a": "An ASP is a provider accredited by the UAE Ministry of Finance to transmit your e-invoices through the official network. Every in-scope business must appoint one — invoices are issued and exchanged through your ASP."},
+     "a": "An ASP is a provider accredited under the UAE Ministry of Finance’s framework (Article 16 of Ministerial Decision 64 of 2025) to transmit e-invoices through the official network. Every in-scope business must appoint one. Providers currently appear on the Ministry’s pre-approved (Article 15) list while they complete full accreditation, so verify a provider’s current status before you sign."},
     {"q": "What is the 5-corner (OpenPeppol) model?",
-     "a": "The UAE uses the OpenPeppol “5-corner” model: each invoice is exchanged as structured data between your ASP and your counterparty’s ASP, with the Federal Tax Authority as a reporting corner — replacing PDFs and paper."},
+     "a": "The UAE uses the OpenPeppol \"5-corner\" model: each invoice is exchanged as structured data between your ASP and your counterparty’s ASP, with the Federal Tax Authority as a reporting corner — replacing PDFs and paper."},
     {"q": "Will PDF or paper invoices still be valid?",
      "a": "No. From your phase’s go-live date, only structured invoices transmitted through an accredited ASP will be valid for the covered transactions. PDF and paper invoices will not."},
     {"q": "Does a free zone company have to comply?",
      "a": "Yes. The mandate applies to B2B and B2G transactions across the UAE, including free zone companies, based on the same revenue thresholds."},
     {"q": "What is the legal basis for UAE e-invoicing?",
-     "a": "Ministerial Decision 243 of 2025 establishes the system and MD 244 of 2025 sets the phased timeline (as amended by MD 66 of 2026); ASP accreditation is governed by MD 64 of 2025, as amended by MD 56 of 2026 — all issued by the UAE Ministry of Finance."},
+     "a": "Ministerial Decision 243 of 2025 establishes the system and MD 244 of 2025 sets the phased timeline (as amended by MD 66 of 2026); ASP accreditation is governed by MD 64 of 2025, as amended by MD 56 of 2026 — all issued by the UAE Ministry of Finance under the framework created by Federal Decree-Laws 16 and 17 of 2024."},
     {"q": "How do I get my business ready?",
      "a": "Assess your transaction scope, appoint an Accredited Service Provider, map your ERP / accounting-system fields to the required e-invoice format, and run end-to-end testing before your go-live date."},
 ]
@@ -753,12 +753,12 @@ FAQ_BY_PAGE = {
 
 # Answer-first capsules for the money pages — mirror of routes.js ANSWER_FIRST.
 ANSWER_FIRST = {
-    "service-vat":
-        "UAE VAT is a 5% tax on most goods and services. Registration with the Federal Tax Authority is mandatory once taxable supplies and imports exceed AED 375,000 over the previous 12 months — or are expected to within the next 30 days — and voluntary from AED 187,500. Registered businesses file VAT returns on EmaraTax, quarterly for most, with the return and payment due within 28 days of the period end.",
-    "service-corporate-tax":
-        "UAE Corporate Tax is charged at 9% on annual taxable income above AED 375,000 — the first AED 375,000 is taxed at 0%. Every taxable person must register with the Federal Tax Authority, then file a return and pay any tax due within 9 months of financial year-end. Qualifying Free Zone Persons can keep a 0% rate on qualifying income, and Small Business Relief may apply where revenue is AED 3 million or less, for tax periods ending on or before 31 December 2026.",
-    "e-invoicing":
-        "UAE e-invoicing replaces PDF and paper invoices for in-scope B2B and B2G transactions with structured e-invoices exchanged through Accredited Service Providers and reported to the FTA in near-real time. Go-live is phased: 1 January 2027 for businesses with revenue of AED 50 million or more, 1 July 2027 for other businesses, and 1 October 2027 for government entities. The first deadline lands earlier — Phase 1 businesses must appoint an Accredited Service Provider by 30 October 2026.",
+    "service-vat": {"h": "VAT registration and return filing in the UAE — the short answer", "text":
+        "UAE VAT is a 5% tax on most goods and services. Registration with the Federal Tax Authority is mandatory once taxable supplies and imports exceed AED 375,000 over the previous 12 months — or are expected to within the next 30 days — and voluntary from AED 187,500. Registered businesses file VAT returns on EmaraTax, quarterly for most, with the return and payment due within 28 days of the period end."},
+    "service-corporate-tax": {"h": "UAE Corporate Tax registration and filing — the short answer", "text":
+        "UAE Corporate Tax is charged at 9% on annual taxable income above AED 375,000 — the first AED 375,000 is taxed at 0%. Every taxable person must register with the Federal Tax Authority, then file a return and pay any tax due within 9 months of financial year-end. Qualifying Free Zone Persons can keep a 0% rate on qualifying income, and Small Business Relief may apply where revenue is AED 3 million or less, for tax periods ending on or before 31 December 2026."},
+    "e-invoicing": {"h": "UAE e-invoicing deadlines and readiness — the short answer", "text":
+        "UAE e-invoicing replaces PDF and paper invoices for in-scope B2B and B2G transactions with structured e-invoices exchanged through Accredited Service Providers and reported to the FTA in near-real time. Go-live is phased: 1 January 2027 for businesses with revenue of AED 50 million or more, 1 July 2027 for other businesses, and 1 October 2027 for government entities. The first deadline lands earlier — Phase 1 businesses must appoint an Accredited Service Provider by 30 October 2026."},
 }
 
 # Contextual related guides & tools per page — mirror of routes.js RELATED_READING.
@@ -994,9 +994,9 @@ def seo_body(page, slug=None):
     intro = intro_text(page, slug)
     if intro:
         parts.append("<p>%s</p>" % esc(intro))
-    # Answer-first capsule (mirror of the visible on-page block).
+    # Answer-first capsule (mirror of the visible on-page block): keyworded h2 + text.
     if page in ANSWER_FIRST:
-        parts.append("<p>%s</p>" % esc(ANSWER_FIRST[page]))
+        parts.append("<h2>%s</h2><p>%s</p>" % (esc(ANSWER_FIRST[page]["h"]), esc(ANSWER_FIRST[page]["text"])))
     # FAQ as real headings + paragraphs (the council's explicit ask).
     if page in FAQ_BY_PAGE:
         parts.append("<section><h2>Frequently asked questions</h2>")
@@ -1166,6 +1166,10 @@ def main():
     for w in written:
         print("  " + w)
     print("Wrote sitemap.xml with %d URLs" % n_urls)
+    print("")
+    print("NOTE: every route body is now the thin SEO skeleton. Run the snapshot")
+    print("step to restore full prerendered bodies before committing/deploying:")
+    print("    node scripts/snapshot.mjs        (or: npm run build)")
 
 
 if __name__ == "__main__":

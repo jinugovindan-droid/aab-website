@@ -875,12 +875,21 @@
   // crawlable body. Facts mirror the QC'd page content (thresholds, deadlines).
   // Keep in sync with prerender.py's mirror.
   const ANSWER_FIRST = {
-    'service-vat':
+    'service-vat': {
+      h: 'VAT registration and return filing in the UAE — the short answer',
+      text:
       'UAE VAT is a 5% tax on most goods and services. Registration with the Federal Tax Authority is mandatory once taxable supplies and imports exceed AED 375,000 over the previous 12 months — or are expected to within the next 30 days — and voluntary from AED 187,500. Registered businesses file VAT returns on EmaraTax, quarterly for most, with the return and payment due within 28 days of the period end.',
-    'service-corporate-tax':
+    },
+    'service-corporate-tax': {
+      h: 'UAE Corporate Tax registration and filing — the short answer',
+      text:
       'UAE Corporate Tax is charged at 9% on annual taxable income above AED 375,000 — the first AED 375,000 is taxed at 0%. Every taxable person must register with the Federal Tax Authority, then file a return and pay any tax due within 9 months of financial year-end. Qualifying Free Zone Persons can keep a 0% rate on qualifying income, and Small Business Relief may apply where revenue is AED 3 million or less, for tax periods ending on or before 31 December 2026.',
-    'e-invoicing':
+    },
+    'e-invoicing': {
+      h: 'UAE e-invoicing deadlines and readiness — the short answer',
+      text:
       'UAE e-invoicing replaces PDF and paper invoices for in-scope B2B and B2G transactions with structured e-invoices exchanged through Accredited Service Providers and reported to the FTA in near-real time. Go-live is phased: 1 January 2027 for businesses with revenue of AED 50 million or more, 1 July 2027 for other businesses, and 1 October 2027 for government entities. The first deadline lands earlier — Phase 1 businesses must appoint an Accredited Service Provider by 30 October 2026.',
+    },
   };
 
   // Contextual related guides & tools per page (service/industry pages → insight

@@ -109,6 +109,11 @@ function AppRoot() {
     document.body.setAttribute('data-density', tweaks.density);
   }, [tweaks]);
 
+  // Mount signal for scripts/snapshot.mjs. An effect, not rAF: in headless
+  // Chrome only the foreground tab produces frames, so rAF-based signals
+  // starve in the snapshot's background tabs — effects always run.
+  useEffect(() => { window.__AA_MOUNTED = true; }, []);
+
   // Lucide must run after any render that adds [data-lucide] nodes
   // (page change, FAQ open, wizard step, filter change). rAF debounces to one
   // pass per paint so we don't pay 50× during a single state update.
@@ -126,6 +131,7 @@ function AppRoot() {
   // briefly at the old scroll position. behavior:'instant' overrides
   // the page-wide `html { scroll-behavior: smooth }` rule so this is
   // a single hard jump, not an animation.
+  const firstScrollRun = React.useRef(true);
   useLayoutEffect(() => {
     let target = null;
     try {
@@ -136,6 +142,10 @@ function AppRoot() {
       const el = document.getElementById(target);
       if (el) { el.scrollIntoView({ block: 'start', behavior: 'instant' }); return; }
     }
+    // Initial mount replaces the prerendered static body the visitor may already
+    // be reading (slow-network case: the loader's 8s cap lifts before JS lands) —
+    // never yank them back to the top; only reset scroll on real page CHANGES.
+    if (firstScrollRun.current) { firstScrollRun.current = false; return; }
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [page, insightSlug]);
 

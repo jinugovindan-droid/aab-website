@@ -24,7 +24,11 @@ const NAV_ITEMS = [
 // then the site chrome reverts to the classic logo automatically — no deploy
 // needed (static assets like the favicon are reverted by a scheduled job).
 const FOOTBALL_LOGO_UNTIL = Date.parse('2026-07-20T00:00:00+04:00');
-const FOOTBALL_LOGO_ACTIVE = Date.now() < FOOTBALL_LOGO_UNTIL;
+// __AA_SNAPSHOT: build-time capture (scripts/snapshot.mjs) sets this before any
+// script runs. Date-gated chrome must be OFF under it — otherwise a rebuild
+// during a campaign window would freeze the campaign chrome into the static
+// HTML that no-JS clients and crawlers keep seeing after the window ends.
+const FOOTBALL_LOGO_ACTIVE = !window.__AA_SNAPSHOT && Date.now() < FOOTBALL_LOGO_UNTIL;
 
 const TAX_CHILDREN = [
   { id: 'service-corporate-tax', label: 'Corporate Tax' },
@@ -185,9 +189,12 @@ function TopNav({ active, onNav, sticky = true }) {
                 <circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
             </button>
-            <button className="btn btn--primary btn--sm" onClick={() => go('contact')}>
+            {/* Real href so the site's #1 CTA still works pre-mount / no-JS
+                (the static snapshot serves exactly that audience). */}
+            <a className="btn btn--primary btn--sm" href={pathForPage('contact')}
+              onClick={(e) => { e.preventDefault(); go('contact'); }}>
               Book a consultation
-            </button>
+            </a>
           </div>
           <button
             className="topnav__burger"
@@ -243,10 +250,11 @@ function TopNav({ active, onNav, sticky = true }) {
           ))}
 
           <div className="topnav__drawer-cta">
-            <button className="btn btn--primary" onClick={() => go('contact')}>
+            <a className="btn btn--primary" href={pathForPage('contact')}
+              onClick={(e) => { e.preventDefault(); go('contact'); }}>
               Book a consultation
               <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
-            </button>
+            </a>
             <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener" style={{ justifyContent: 'center' }}>
               <i data-lucide="message-circle" style={{ width: 14, height: 14 }}></i>
               WhatsApp us
@@ -350,9 +358,17 @@ function Footer({ onNav }) {
       ['Feasibility studies', 'service-feasibility-studies'],
       ['Strategic advisory', 'service-strategic-advisory'],
     ]},
+    { title: 'Industries', items: [
+      ['Real estate', 'industry-real-estate'],
+      ['Construction', 'industry-construction'],
+      ['Trading & distribution', 'industry-trading'],
+      ['Hospitality & F&B', 'industry-hospitality'],
+      ['E-commerce & retail', 'industry-ecommerce'],
+      ['Manufacturing', 'industry-manufacturing'],
+      ['All industries', 'industries'],
+    ]},
     { title: 'Firm', items: [
       ['About', 'about'],
-      ['Industries', 'industries'],
       ['Insights', 'insights'],
       ['Careers', 'careers'],
       ['Contact', 'contact'],
@@ -364,7 +380,7 @@ function Footer({ onNav }) {
       <div className="container">
         <div
           className="aa-stack-sm"
-          style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: 48, paddingBottom: 48 }}>
+          style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr 1fr', gap: 40, paddingBottom: 48 }}>
           <div>
             <img
               src={FOOTBALL_LOGO_ACTIVE ? 'assets/logos/authentic-accounting-full.png' : 'assets/logos/authentic-accounting-full-classic.png'}
@@ -595,7 +611,10 @@ function EInvoiceMarquee({ onNav }) {
     setVisible(false);
   };
   const onKey = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } };
-  const dcount = (n) => <b className="aa-marquee__num">{n > 0 ? '(' + n.toLocaleString() + ' days)' : '(now due)'}</b>;
+  // Relative day-counts are only correct at render time — in the static build
+  // snapshot they would read stale from the next day on, so snapshot mode keeps
+  // the absolute dates and drops the counts.
+  const dcount = (n) => window.__AA_SNAPSHOT ? null : <b className="aa-marquee__num">{n > 0 ? '(' + n.toLocaleString() + ' days)' : '(now due)'}</b>;
 
   const group = (key) => (
     <div className="aa-marquee__group" key={key} aria-hidden={key === 'b' ? 'true' : undefined}>
@@ -603,7 +622,9 @@ function EInvoiceMarquee({ onNav }) {
       <span className="aa-marquee__seg">UAE e-invoicing · phased by revenue</span>
       <span className="aa-marquee__dot">·</span>
       {dl
-        ? <span className="aa-marquee__seg"><span>Next go-live: {dl.who} in <b className="aa-marquee__num">{dl.n.toLocaleString()}</b> days ({dl.date})</span></span>
+        ? (window.__AA_SNAPSHOT
+          ? <span className="aa-marquee__seg"><span>Next go-live: {dl.who} on {dl.date}</span></span>
+          : <span className="aa-marquee__seg"><span>Next go-live: {dl.who} in <b className="aa-marquee__num">{dl.n.toLocaleString()}</b> days ({dl.date})</span></span>)
         : <span className="aa-marquee__seg">Phase 1 is now live</span>}
       {rows.map((r, i) => (
         <React.Fragment key={r.who}>
@@ -630,7 +651,7 @@ function EInvoiceMarquee({ onNav }) {
 
   return (
     <div className="aa-marquee" role="link" tabIndex={0}
-      aria-label={'UAE e-invoicing deadlines, phased by revenue' + (dl ? '. ' + dl.who + ' go live in ' + dl.n + ' days, ' + dl.date : '') + '. Check your free e-invoicing readiness status and deadlines, and fill the form.'}
+      aria-label={'UAE e-invoicing deadlines, phased by revenue' + (dl ? (window.__AA_SNAPSHOT ? '. ' + dl.who + ' go live ' + dl.date : '. ' + dl.who + ' go live in ' + dl.n + ' days, ' + dl.date) : '') + '. Check your free e-invoicing readiness status and deadlines, and fill the form.'}
       onClick={go} onKeyDown={onKey}>
       <div className="aa-marquee__track">{group('a')}{group('b')}</div>
       <button className="aa-marquee__close" aria-label="Dismiss e-invoicing notice" onClick={close}>×</button>
