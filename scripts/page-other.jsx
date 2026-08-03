@@ -126,7 +126,7 @@ function IndustriesPage({ onNav }) {
                 </details>
               ))}
             </div>
-            <p style={{ marginTop: 16, fontSize: 12.5, color: 'var(--aa-steel)' }}>Rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || 'July 2026'} — general guidance, not tax advice.</p>
+            <p style={{ marginTop: 16, fontSize: 12.5, color: 'var(--aa-steel)' }}>Rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || 'August 2026'} — general guidance, not tax advice.</p>
           </div>
         </section>
       )}
@@ -2223,7 +2223,7 @@ function IndustrySimplePage({ page, onNav }) {
                 </details>
               ))}
             </div>
-            <p style={{ marginTop: 16, fontSize: 12.5, color: 'var(--aa-steel)' }}>Rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || 'July 2026'} — general guidance, not tax advice.</p>
+            <p style={{ marginTop: 16, fontSize: 12.5, color: 'var(--aa-steel)' }}>Rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || 'August 2026'} — general guidance, not tax advice.</p>
           </div>
         </section>
       )}

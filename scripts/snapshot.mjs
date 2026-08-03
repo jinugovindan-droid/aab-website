@@ -14,7 +14,8 @@
 import { createServer } from 'node:http';
 import { readFile, writeFile, readdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { join, extname } from 'node:path';
+import { join, extname, relative } from 'node:path';
+import { execFileSync } from 'node:child_process';
 import puppeteer from 'puppeteer-core';
 
 const ROOT = process.cwd();
@@ -201,8 +202,38 @@ if (failures.length) {
   console.error(`\n${failures.length} route(s) failed — NO files were written; the tree is unchanged.`);
   process.exit(1);
 }
+// React useId values (":r0:" etc.) churn on every capture — normalise them so
+// two builds of unchanged content compare equal.
+const norm = (s) => s.replace(/:r[0-9a-z]+:/gi, ':id:');
+const gitShow = (relPath) => {
+  try { return execFileSync('git', ['show', 'HEAD:' + relPath.replace(/\\/g, '/')], { cwd: ROOT, maxBuffer: 16 * 1024 * 1024 }).toString('utf8'); }
+  catch { return null; } // new file — counts as changed
+};
+
+const changedUrls = new Set();
 for (const c of captures) {
   const pageHtml = await readFile(c.file, 'utf8');
-  await writeFile(c.file, injectRootSafe(pageHtml, c.body), 'utf8');
+  const finalHtml = injectRootSafe(pageHtml, c.body);
+  await writeFile(c.file, finalHtml, 'utf8');
+  const prev = gitShow(relative(ROOT, c.file));
+  if (prev === null || norm(prev.replace(/\r\n/g, '\n')) !== norm(finalHtml.replace(/\r\n/g, '\n'))) changedUrls.add(c.url);
 }
-console.log(`\nAll ${routes.length} routes snapshotted and written.`);
+
+// Honest sitemap lastmod: prerender stamps every static page "today"; restore
+// the committed lastmod for routes whose content did NOT actually change, so
+// crawlers can trust the dates. (Insight lastmods already carry real dates.)
+const prevSitemap = gitShow('sitemap.xml');
+if (prevSitemap) {
+  const prevDates = {};
+  for (const m of prevSitemap.matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)) prevDates[m[1]] = m[2];
+  let sitemap = await readFile(join(ROOT, 'sitemap.xml'), 'utf8');
+  let restored = 0;
+  sitemap = sitemap.replace(/<loc>([^<]+)<\/loc>(\s*)<lastmod>([^<]+)<\/lastmod>/g, (full, loc, ws, cur) => {
+    const url = new URL(loc).pathname.replace(/\/$/, '') || '/';
+    if (!changedUrls.has(url) && prevDates[loc] && prevDates[loc] !== cur) { restored++; return `<loc>${loc}</loc>${ws}<lastmod>${prevDates[loc]}</lastmod>`; }
+    return full;
+  });
+  await writeFile(join(ROOT, 'sitemap.xml'), sitemap, 'utf8');
+  console.log(`\nsitemap lastmod: ${changedUrls.size} route(s) changed, ${restored} unchanged lastmod(s) restored`);
+}
+console.log(`All ${routes.length} routes snapshotted and written.`);

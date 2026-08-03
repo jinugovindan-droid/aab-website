@@ -1134,7 +1134,8 @@
         mainEntityOfPage: SITE_ORIGIN + pathForInsight(a.slug),
       };
       const iso = isoDate(a.date);
-      if (iso) { block.datePublished = iso; block.dateModified = iso; }
+      // Honest freshness: revised articles carry their real revision date.
+      if (iso) { block.datePublished = iso; block.dateModified = isoDate(a.updated) || iso; }
       blocks.push(block);
     }
     if (page === 'services' || page === 'e-invoicing' || page.indexOf('service-') === 0 || page.indexOf('industry-') === 0) {
@@ -1240,7 +1241,10 @@
 
   window.AARoutes = {
     SITE_ORIGIN,
-    TAX_RULES_ASOF: 'July 2026',
+    // Bumped 3 Aug 2026: the core figures (CT/VAT thresholds, deadlines,
+    // penalties, e-invoicing phases) were re-verified by the intent-page and
+    // capsule fact-check panels against current law on this date.
+    TAX_RULES_ASOF: 'August 2026',
     VAT_DEADLINES,
     PAGE_TO_PATH,
     VALID_PAGES,

@@ -211,25 +211,25 @@ INSIGHTS = [
     {"slug": "prepare-erp-for-uae-e-invoicing",
      "seoTitle": "UAE E-Invoicing ERP Readiness Checklist", "seoDesc": "Master-data hygiene, field mapping, tax-code cleanup and testing — the ERP groundwork that decides whether your UAE e-invoicing go-live is smooth.", "tag": "E-Invoicing", "date": "10 Mar 2026",
      "title": "Getting your ERP ready for UAE e-invoicing: a practical checklist.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)", "updated": "20 Jul 2026",
      "excerpt": "E-invoicing is not just a tax change — it is a data change. The master-data hygiene, field mapping and testing that decide whether your go-live is smooth or painful.",
      "published": True},
     {"slug": "choosing-accredited-service-provider-asp",
      "seoTitle": "UAE E-Invoicing ASP List: 42 Pre-Approved Providers", "seoDesc": "How to choose an Accredited Service Provider for UAE e-invoicing — with the full MoF pre-approved list of 42 providers and the questions to ask first.", "tag": "E-Invoicing", "date": "22 Jan 2026",
      "title": "Choosing an Accredited Service Provider (ASP) for UAE e-invoicing.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)", "updated": "20 Jul 2026",
      "excerpt": "Every in-scope business must appoint an Accredited Service Provider to transmit its e-invoices. What an ASP does, pre-approved vs accredited status, the full MoF pre-approved list (42 providers, July 2026), and the questions to ask before you sign.",
      "published": True},
     {"slug": "uae-e-invoicing-deadlines-phases",
      "seoTitle": "UAE E-Invoicing Deadlines & Phases: Full Timeline", "seoDesc": "The UAE e-invoicing rollout tier by tier: ASP appointment deadlines and mandatory go-live dates by annual revenue, laid out in one clear timeline.", "tag": "E-Invoicing", "date": "08 Dec 2025",
      "title": "UAE e-invoicing deadlines and phases: who must comply, and by when.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)", "updated": "20 Jul 2026",
      "excerpt": "The rollout is phased by annual revenue, with two dates that matter for each business — the deadline to appoint an Accredited Service Provider, and the mandatory go-live. Here is the full timeline, tier by tier.",
      "published": True},
     {"slug": "uae-e-invoicing-explained",
      "seoTitle": "UAE E-Invoicing Explained: Peppol 5-Corner Guide", "seoDesc": "Plain-English guide to the UAE’s mandatory B2B and B2G e-invoicing: what actually changes, why, and how the Peppol 5-corner model reshapes invoicing.", "tag": "E-Invoicing", "date": "17 Nov 2025",
      "title": "UAE e-invoicing explained: a plain-English guide for businesses.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)", "updated": "20 Jul 2026",
      "excerpt": "The UAE is moving to mandatory structured e-invoicing for B2B and B2G transactions. What that actually means, why it is happening, and how the OpenPeppol 5-corner model changes the way you issue an invoice.",
      "published": True},
     {"slug": "free-zone-qualifying-income",
@@ -986,7 +986,8 @@ def build_jsonld(page, slug):
         iso = iso_date(a["date"])
         if iso:
             block["datePublished"] = iso
-            block["dateModified"] = iso
+            # Honest freshness: revised articles carry their real revision date.
+            block["dateModified"] = iso_date(a.get("updated", "")) or iso
         block["image"] = ORG["logo"]  # Article rich results want an image; brand logo as fallback
         blocks.append(block)
     if page == "services" or page == "e-invoicing" or page.startswith("service-") or page.startswith("industry-"):
@@ -1193,9 +1194,10 @@ def write_sitemap():
         rows.append((loc, priority(page), changefreq(page), today))
     for a in INSIGHTS:
         if a["published"]:
-            # Articles carry their real publish date, not the prerender date —
-            # a uniform, ever-changing lastmod teaches crawlers to distrust it.
-            rows.append((SITE_ORIGIN + "/insights/" + a["slug"], "0.6", "monthly", iso_date(a["date"]) or today))
+            # Articles carry their real publish (or revision) date, not the
+            # prerender date — a uniform, ever-changing lastmod teaches
+            # crawlers to distrust it.
+            rows.append((SITE_ORIGIN + "/insights/" + a["slug"], "0.6", "monthly", iso_date(a.get("updated", "")) or iso_date(a["date"]) or today))
 
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
@@ -1241,9 +1243,13 @@ def main():
         html = html.replace('<meta property="og:type" content="website"/>', '<meta property="og:type" content="article"/>', 1)
         iso = iso_date(a["date"])
         if iso:
+            mod = iso_date(a.get("updated", "")) or ""
+            extra = '\n  <meta property="article:published_time" content="%s"/>' % iso
+            if mod and mod != iso:
+                extra += '\n  <meta property="article:modified_time" content="%s"/>' % mod
             html = html.replace(
                 '<meta property="og:type" content="article"/>',
-                '<meta property="og:type" content="article"/>\n  <meta property="article:published_time" content="%s"/>' % iso,
+                '<meta property="og:type" content="article"/>' + extra,
                 1,
             )
         written.append(write(path, html))
