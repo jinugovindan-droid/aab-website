@@ -60,9 +60,12 @@ main:focus { outline: none; }
   transition: background 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
   border-radius: 0;
 }
-.btn--primary { background: var(--aa-cyan-700); color: #fff; }
-.btn--primary:hover { background: var(--aa-cyan-800); }
-.btn--primary:active { background: var(--aa-cyan-800); }
+/* Owner rule (4 Aug 2026): buttons use the STANDARD brand blue, never the
+   muted deep cyan. White text on #29ABE2 fails WCAG AA (2.6:1), so primary
+   buttons pair the brand blue with charcoal text instead (6.6:1 — passes). */
+.btn--primary { background: var(--aa-cyan); color: var(--aa-charcoal); }
+.btn--primary:hover { background: #1E9AD0; color: var(--aa-charcoal); }
+.btn--primary:active { background: #1E9AD0; color: var(--aa-charcoal); }
 
 .btn--ghost {
   background: transparent;
@@ -378,7 +381,7 @@ html { scroll-behavior: smooth; }
 .aa-growth__col { flex: 1; display: flex; justify-content: center; }
 .aa-growth__bar {
   width: 22px;
-  background: var(--aa-cyan-700);
+  background: var(--aa-cyan); /* brand blue — owner rule, no muted fills */
   border-radius: 3px 3px 0 0;
 }
 .aa-growth__labels { display: flex; gap: 8px; margin-top: 8px; }
