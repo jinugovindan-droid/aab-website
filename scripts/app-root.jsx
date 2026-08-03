@@ -38,6 +38,12 @@ const PAGE_LABELS = {
   'industry-hospitality': '05 Industry · Hospitality',
   'industry-ecommerce': '05 Industry · E-commerce',
   'industry-manufacturing': '05 Industry · Manufacturing',
+  'location-abu-dhabi': '05 Location · Abu Dhabi',
+  'location-sharjah': '05 Location · Sharjah',
+  'location-ajman': '05 Location · Ajman',
+  'location-ras-al-khaimah': '05 Location · RAK',
+  'location-fujairah': '05 Location · Fujairah',
+  'location-umm-al-quwain': '05 Location · UAQ',
   about: '06 About',
   insights: '07 Insights',
   insight: '08 Insight Article',
@@ -184,6 +190,12 @@ function AppRoot() {
       case 'industry-hospitality':
       case 'industry-ecommerce':
       case 'industry-manufacturing': return <IndustrySimplePage page={page} onNav={navigateTo}/>;
+      case 'location-abu-dhabi':
+      case 'location-sharjah':
+      case 'location-ajman':
+      case 'location-ras-al-khaimah':
+      case 'location-fujairah':
+      case 'location-umm-al-quwain': return <LocationPage page={page} onNav={navigateTo}/>;
       case 'about': return <AboutPage onNav={navigateTo}/>;
       case 'insights': return <InsightsPage onNav={navigateTo}/>;
       case 'insight': return <InsightArticlePage onNav={navigateTo} slug={insightSlug}/>;

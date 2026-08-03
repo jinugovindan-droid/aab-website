@@ -356,6 +356,20 @@ function ServicesPage({ onNav }) {
               <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
+          {/* Emirate coverage pages — served from Dubai (no local branches). */}
+          <div style={{ marginTop: 14, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+            <span className="eyebrow eyebrow--steel">Across the UAE</span>
+            {[
+              ['location-abu-dhabi', 'Abu Dhabi'],
+              ['location-sharjah', 'Sharjah'],
+              ['location-ajman', 'Ajman'],
+              ['location-ras-al-khaimah', 'Ras Al Khaimah'],
+              ['location-fujairah', 'Fujairah'],
+              ['location-umm-al-quwain', 'Umm Al Quwain'],
+            ].map(([pg, label]) => (
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+            ))}
+          </div>
         </div>
       </section>
 

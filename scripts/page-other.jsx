@@ -2231,4 +2231,201 @@ function IndustrySimplePage({ page, onNav }) {
   );
 }
 
-Object.assign(window, { IndustriesPage, IndustrySimplePage, AboutPage, InsightsPage, InsightArticlePage, CareersPage, ContactPage });
+// ---- Emirate location pages -------------------------------------------------
+// One page per emirate we serve OUTSIDE Dubai. OWNER RULE (3 Aug 2026: "we are
+// not having presence, but we can work"): the firm has ONE office, in Dubai —
+// these pages must never imply local branches. The served-from-Dubai line is
+// hard-coded in the template below so no config entry can omit it.
+const LOCATIONS = {
+  'location-abu-dhabi': {
+    crumb: 'Abu Dhabi', eyebrow: 'Locations · Abu Dhabi',
+    h1a: 'Accounting for Abu Dhabi.', h1b: 'Federal tax, zero distance.', cta: 'Scope your Abu Dhabi engagement', intent: 'UAE Corporate Tax',
+    intro: 'Accounting, VAT and Corporate Tax for Abu Dhabi businesses — government suppliers, ADGM entities and KIZAD industrials — run from our Dubai office since 2017. UAE tax is federal: the FTA, EmaraTax and the deadlines are identical in every emirate, so the work travels well; we come on site when the work needs hands.',
+    glance: [['Serving', 'Abu Dhabi & all seven emirates'], ['Base', 'Dubai office · on-site visits'], ['Tax authority', 'FTA · EmaraTax (federal)'], ['Focus', 'B2G · ADGM · KIZAD industry'], ['Core work', 'VAT · CT · IFRS financials'], ['On site', 'Stocktakes, tagging, closings'], ['Pricing', 'Customised to your scope']],
+    how: [['file-check', 'Federal, not local', 'VAT and Corporate Tax are FTA-administered and identical in every emirate — distance changes nothing.'], ['refresh-cw', 'Remote-first cadence', 'Books, returns and reviews run from Dubai on a set monthly cycle — calls, shared drives and EmaraTax access.'], ['scan-line', 'On site when it matters', 'Stocktakes, fixed-asset verification and tagging, audit-support fieldwork and year-end closings — we travel to the facility.'], ['badge-check', 'Partner-reviewed output', 'Every return, memo and set of financials carries manager review and partner sign-off before it leaves us.']],
+    zones: ['Abu Dhabi’s free zones — KIZAD, Abu Dhabi Airport Free Zone and the Free Trade Zone of Khalifa Port among them, with ADGM as its financial free zone — carry real Corporate Tax consequences. The 0% Qualifying Free Zone Person rate demands qualifying income, substance and audited IFRS financial statements; miss a condition and 9% applies. We keep the books, transfer pricing discipline and audit-ready financials that QFZP status assumes.', 'VAT adds a second layer. Abu Dhabi’s industrial designated zones under Cabinet Decision 59 of 2017 (as amended) include the Free Trade Zone of Khalifa Port, Abu Dhabi Airport Free Zone and KIZAD — zones where certain goods movements can fall outside the normal VAT rules, while goods consumed inside a zone are generally taxed (unless used to produce other goods there) and services follow the standard treatment regardless. ADGM is not a designated zone: normal VAT applies there. Getting each flow classified — and evidenced — is the work we do.'],
+    demand: [['service-vat', 'VAT compliance', 'Registration at the AED 375,000 threshold, quarterly VAT201s inside the 28-day window, designated-zone flows classified.'], ['service-corporate-tax', 'Corporate Tax', '9% above AED 375,000 taxable income, QFZP positions tested, returns filed on EmaraTax within nine months of year-end.'], ['service-tax-advisory', 'Tax advisory', 'Standing counsel — CT and VAT interplay, free-zone positions, clarifications and e-invoicing readiness for B2G work.'], ['service-financial-statements', 'Financial statements', 'IFRS financial statements for ADGM entities and free zone audits — prepared, referenced and ready for the auditor.']],
+    related: [['location-sharjah', 'Sharjah'], ['location-ajman', 'Ajman'], ['location-fujairah', 'Fujairah']],
+  },
+  'location-sharjah': {
+    crumb: 'Sharjah', eyebrow: 'Locations · Sharjah',
+    h1a: 'Accounting for Sharjah.', h1b: 'Federal tax, zero distance.', cta: 'Discuss your Sharjah business', intent: 'VAT compliance',
+    intro: 'VAT, Corporate Tax, bookkeeping and audit-ready financial statements for Sharjah’s manufacturers, traders and family industrial groups — served from our Dubai office since 2017, on site for stocktakes, asset tagging and closings when the work demands it. UAE tax is federal: the FTA reads Hamriyah exactly as it reads Dubai.',
+    glance: [['Serving', 'Sharjah — all zones & mainland'], ['Base', 'Dubai office · on-site visits'], ['Since', '2017 · all seven emirates'], ['Focus', 'Manufacturing & trading'], ['Designated zones', 'Hamriyah · SAIF'], ['Tax regime', 'Federal — FTA & EmaraTax'], ['Pricing', 'Customised to your scope']],
+    how: [['refresh-cw', 'Remote-first cycle', 'Books, VAT and CT run from Dubai on a controlled monthly cycle — EmaraTax is the same in every emirate.'], ['scan-line', 'On-site when it matters', 'Stocktakes, fixed-asset counts and audit walkthroughs happen at your Sharjah facility — we travel to you.'], ['badge-check', 'Partner review', 'Every return and set of financials carries manager review and partner sign-off before anything is filed.'], ['messages-square', 'One point of contact', 'A named accountant who knows Hamriyah from mainland — one thread for queries, documents and deadlines.']],
+    zones: ['Sharjah’s flagship free zones — Hamriyah Free Zone and Sharjah Airport International Free Zone (SAIF Zone) — are home to the goods-heavy businesses Corporate Tax watches closely. A free zone licence is not a tax outcome: the 0% rate belongs only to a Qualifying Free Zone Person, and QFZP status demands audited IFRS financial statements, adequate substance and qualifying-income discipline. We keep the books to that standard all year, so the position is defensible at filing.', 'Hamriyah and SAIF are also designated zones under Cabinet Decision 59/2017 — which changes VAT on goods, not services. Goods moved between designated zones, brought onto the mainland or consumed inside the zone can each take a different VAT treatment, while services follow the normal rules. For manufacturers moving raw materials and stock daily, that distinction decides real money — we map each flow once, document the treatment, and apply it on every VAT201.'],
+    demand: [['service-vat', 'VAT compliance', 'Registration at AED 375,000, quarterly VAT201s and designated-zone goods treatments — documented, filed inside 28 days.'], ['service-bookkeeping', 'Accounting & bookkeeping', 'Monthly books for manufacturers and traders — inventory, WIP and landed cost handled properly, audit-ready all year.'], ['service-corporate-tax', 'Corporate Tax', '9% above AED 375,000, QFZP positions for Hamriyah and SAIF entities, returns filed within nine months on EmaraTax.'], ['service-fixed-asset-tagging', 'Fixed asset tagging', 'Plant and machinery verified and tagged on site at your Sharjah facility — a register your auditor can rely on.']],
+    related: [['location-ajman', 'Ajman'], ['location-umm-al-quwain', 'Umm Al Quwain'], ['location-ras-al-khaimah', 'Ras Al Khaimah']],
+  },
+  'location-ajman': {
+    crumb: 'Ajman', eyebrow: 'Locations · Ajman',
+    h1a: 'Ajman, served from Dubai.', h1b: 'Same federal rules. Same rigour.', cta: 'Hand over your finance function', intent: 'Outsourced accounting',
+    intro: 'Full finance-function support for Ajman’s trading and manufacturing SMEs — bookkeeping, VAT, Corporate Tax and year-end financial statements, run from our Dubai office under the same federal FTA rules that govern every emirate. Partner-reviewed, evidence-led, with on-site visits when the work needs them.',
+    glance: [['Coverage', 'Ajman · all seven emirates'], ['Base', 'Dubai office · on-site visits'], ['Scope', 'Books · VAT · CT · statements'], ['Tax regime', 'Federal — FTA & EmaraTax'], ['Free zone', 'Ajman Free Zone (designated)'], ['Cadence', 'Monthly close · quarterly VAT'], ['Pricing', 'Customised to your scope']],
+    how: [['book-open', 'One federal rulebook', 'VAT, Corporate Tax and EmaraTax are identical in every emirate — distance changes nothing about compliance.'], ['refresh-cw', 'Remote-first, by design', 'Cloud ledgers, shared workflows and a monthly close cadence — your books run from Dubai without friction.'], ['scan-line', 'On-site when it matters', 'Stocktakes, fixed-asset verification and tagging, audit-support fieldwork, closings — we travel to your Ajman site.'], ['badge-check', 'Partner review', 'Every VAT201, Corporate Tax return and set of financial statements is reviewed and signed off before filing.']],
+    zones: ['Ajman Free Zone concentrates much of the emirate’s light manufacturing and trading activity. A free-zone company aiming for the 0% Qualifying Free Zone Person rate carries a discipline the mainland does not: audited IFRS financial statements, qualifying-income analysis, adequate substance and de-minimis monitoring, tested every year. We keep the books to that standard — or tell you plainly when the 9% rate is the simpler, safer answer.', 'Ajman Free Zone is also a designated zone under Cabinet Decision 59/2017 — a status that affects goods, not services. Goods moved into, out of or within the zone, or consumed inside it, can take a different VAT treatment from the mainland depending on the facts, while services follow the normal VAT rules. We classify each flow, keep the movement and customs evidence, and reflect the treatment correctly in your VAT201.'],
+    demand: [['service-bookkeeping', 'Bookkeeping & accounting', 'The whole finance function, outsourced — cloud bookkeeping, monthly close and management accounts, run from Dubai.'], ['service-vat', 'VAT compliance', 'Registration, quarterly VAT201s inside the 28-day window, and designated-zone treatments for goods flows.'], ['service-ct-filing', 'Corporate Tax filing', 'The 9% computation, Small Business Relief where it applies, and the return filed on EmaraTax within nine months.'], ['service-financial-statements', 'Financial statements', 'IFRS financial statements that stand up to audit — for banks, licensing and the QFZP audited-accounts condition.']],
+    related: [['location-sharjah', 'Sharjah'], ['location-umm-al-quwain', 'Umm Al Quwain'], ['location-ras-al-khaimah', 'Ras Al Khaimah']],
+  },
+  'location-ras-al-khaimah': {
+    crumb: 'Ras Al Khaimah', eyebrow: 'Locations · Ras Al Khaimah',
+    h1a: 'Ras Al Khaimah.', h1b: 'Counted, tagged, defensible.', cta: 'Book an on-site asset count', intent: 'Fixed asset tagging',
+    intro: 'Fixed asset tagging, VAT and Corporate Tax for Ras Al Khaimah businesses — from RAKEZ manufacturers to quarrying and ceramics operations. We serve RAK from our Dubai office: books, returns and reviews run remotely, and we travel to your facility for the work that belongs on the floor — asset counts, tagging and stocktakes.',
+    glance: [['Lead service', 'Fixed asset tagging'], ['Base', 'Dubai office · on-site visits'], ['Serving', 'All seven emirates since 2017'], ['Zones', 'RAKEZ & designated zones'], ['Tax regime', 'Federal — one FTA, one EmaraTax'], ['On the floor', 'Counts · tagging · stocktakes'], ['Pricing', 'Customised to your scope']],
+    how: [['scan-line', 'On site when it matters', 'Asset counts, tagging and stocktakes happen at your RAK facility — we schedule visits and come to the floor.'], ['refresh-cw', 'Remote-first cadence', 'Books, VAT201s and CT returns run on a monthly and quarterly rhythm — shared ledgers, no site dependency.'], ['shield', 'Federal tax, one standard', 'VAT and Corporate Tax are federal — the FTA, EmaraTax and every deadline are identical in RAK and Dubai.'], ['badge-check', 'Partner-reviewed output', 'Every return, register and financial statement carries manager review and partner sign-off before release.']],
+    zones: ['Most RAK free-zone businesses sit under RAKEZ, and the emirate’s zones include RAK Free Trade Zone, RAK Maritime City and RAK Airport Free Zone. A free-zone licence does not settle Corporate Tax: the 0% rate belongs only to Qualifying Free Zone Persons, and QFZP status rests on audited IFRS financial statements, adequate substance and qualifying income — tested activity by activity. For RAKEZ manufacturers, that discipline starts in the ledger.', 'RAK Free Trade Zone, RAK Maritime City and RAK Airport Free Zone are also designated zones under Cabinet Decision 59/2017 as amended — treated as outside the UAE for certain movements of goods. Goods entering, leaving or consumed inside those zones can change VAT treatment; services follow the normal rules. For a manufacturer moving stock between zone, mainland and export, each flow needs its own classification — we map the routes and evidence each treatment.'],
+    demand: [['service-fixed-asset-tagging', 'Fixed asset tagging', 'On-site verification and durable tags at your RAK facility — a register tied to the ledger, ready for audit.'], ['service-vat', 'VAT compliance', 'Registration, quarterly VAT201s and designated-zone treatments — classified line by line and filed inside 28 days.'], ['service-corporate-tax', 'Corporate Tax', '9% above AED 375,000, 0% below — computation, QFZP assessment for RAKEZ entities, and filing within nine months.'], ['service-audit-support', 'Audit support', 'Year-end audit preparation for RAK entities — schedules, reconciliations and the FA register your auditor will test.']],
+    related: [['location-umm-al-quwain', 'Umm Al Quwain'], ['location-fujairah', 'Fujairah'], ['location-sharjah', 'Sharjah']],
+  },
+  'location-fujairah': {
+    crumb: 'Fujairah', eyebrow: 'Locations · Fujairah',
+    h1a: 'Accounting for Fujairah.', h1b: 'Federal tax, zero distance.', cta: 'Scope your Fujairah engagement', intent: 'VAT compliance',
+    intro: 'Accounting, VAT and Corporate Tax for Fujairah’s port economy — bunkering, shipping, oil storage and trading — run from our Dubai office, as we have for clients across all seven emirates since 2017. UAE tax is federal: the FTA, EmaraTax and every deadline are identical on the east coast, and partner review travels well.',
+    glance: [['Serving', 'Fujairah & the east coast'], ['Base', 'Dubai office · on-site visits'], ['Sectors', 'Port, bunkering, oil, trading'], ['Tax regime', 'Federal — FTA & EmaraTax'], ['Designated zones', 'Fujairah Free Zone · FOIZ'], ['Since', '2017 · all seven emirates'], ['Pricing', 'Customised to your scope']],
+    how: [['refresh-cw', 'Remote-first cycle', 'Books, VAT and Corporate Tax run on cloud ledgers and EmaraTax — the monthly rhythm needs no site visit.'], ['scan-line', 'On site when it counts', 'Stocktakes, fixed-asset verification and audit fieldwork — we travel to your Fujairah facility for those.'], ['badge-check', 'Partner review', 'Every return and financial statement is reviewed and signed off by a partner before it is filed or issued.'], ['messages-square', 'One point of contact', 'A named accountant who knows your file — WhatsApp, calls and scheduled reviews replace the office drop-in.']],
+    zones: ['Fujairah’s flagship zones are the Fujairah Free Zone beside the port and the Fujairah Oil Industry Zone (FOIZ) behind the east coast’s bunkering and oil-storage trade. Free-zone status does not lighten the books — claiming the 0% Qualifying Free Zone Person rate takes qualifying income, adequate substance, staying inside the de minimis limit and audited IFRS financial statements. That discipline starts in the ledger, not at the return.', 'Both are also designated zones under Cabinet Decision 59/2017 (as amended) — where east-coast VAT turns technical. Certain goods supplied within or between designated zones can fall outside the scope of UAE VAT; the same goods consumed in the zone, or moved to the mainland, are generally taxed normally — services follow the normal rules. For bunkering, storage and trading, the answer turns on each cargo’s movement, so we document the treatment per flow, not per customer.'],
+    demand: [['service-vat', 'VAT compliance', 'Designated-zone goods flows, zero-rated exports and the VAT201 inside 28 days — treatment documented per movement.'], ['service-bookkeeping', 'Accounting & bookkeeping', 'IFRS ledgers kept remotely on cloud software — month-end close, management accounts and a file an auditor can follow.'], ['service-audit-support', 'Audit support', 'We are not your statutory auditor — we prepare for one: schedules, reconciliations and evidence, ready for fieldwork.'], ['service-corporate-tax', 'Corporate Tax', '9% above AED 375,000, QFZP positions for zone entities, and the return filed on EmaraTax within nine months.']],
+    related: [['location-ras-al-khaimah', 'Ras Al Khaimah'], ['location-sharjah', 'Sharjah'], ['location-abu-dhabi', 'Abu Dhabi']],
+  },
+  'location-umm-al-quwain': {
+    crumb: 'Umm Al Quwain', eyebrow: 'Locations · Umm Al Quwain',
+    h1a: 'Umm Al Quwain.', h1b: 'Counted, tagged, compliant.', cta: 'Scope your UAQ engagement', intent: 'Fixed asset tagging',
+    intro: 'On-site fixed asset verification and tagging at your Umm Al Quwain facility, with bookkeeping, VAT and Corporate Tax run from our Dubai office. UAE tax is federal — the FTA and EmaraTax work identically in all seven emirates — so distance changes nothing. When the work needs a floor, we travel to it.',
+    glance: [['Serving', 'Umm Al Quwain businesses'], ['Base', 'Dubai office · on-site visits'], ['On site', 'Counts, tagging, stocktakes'], ['Free zone', 'UAQ FTZ · designated zone'], ['Tax regime', 'Federal · FTA & EmaraTax'], ['Sectors', 'FTZ SMEs · industry · marine'], ['Pricing', 'Customised to your scope']],
+    how: [['scan-line', 'On-site asset tagging', 'We travel to your UAQ facility, count and tag every asset, and deliver a register reconciled to the ledger.'], ['file-spreadsheet', 'Books kept from Dubai', 'Cloud bookkeeping to IFRS — month-end close, management reporting and audit-ready records, all remote.'], ['file-check', 'Federal filings', 'VAT201s inside the 28-day window and the CT return within nine months — filed on EmaraTax, partner-reviewed.'], ['shield', 'QFZP discipline', 'UAQ FTZ entities held to audited IFRS financials and the qualifying-income tests the 0% rate demands.']],
+    zones: ['Umm Al Quwain Free Trade Zone — with sites at Ahmed Bin Rashid Port and on Sheikh Mohammed Bin Zayed Road — is the emirate’s free zone and a popular low-cost base for trading and light-industrial SMEs. Incorporating there does not soften Corporate Tax: the 0% Qualifying Free Zone Person rate rests on audited IFRS financial statements, adequate substance and qualifying income, and a licence alone earns none of it. We keep the books and the audit file to that standard.', 'Both UAQ Free Trade Zone sites are designated zones under Cabinet Decision 59/2017 — which changes how VAT reads goods. Qualifying goods moving between designated zones can sit outside UAE VAT, while goods entering the mainland or consumed inside the zone can trigger it; the answer turns on movement and use, line by line. Services follow normal VAT rules regardless of the zone. We document each flow so the VAT201 position survives an FTA query.'],
+    demand: [['service-fixed-asset-tagging', 'Fixed asset tagging', 'On-site verification and durable tagging at UAQ facilities — a reconciled register that stands up at audit.'], ['service-bookkeeping', 'Bookkeeping & accounting', 'IFRS books kept remotely on cloud ledgers — month-end close, reporting and records ready for audit and tax.'], ['service-vat', 'VAT compliance', 'Registration, quarterly VAT201s and the designated-zone goods analysis UAQ FTZ trade depends on.'], ['service-ct-filing', 'Corporate Tax filing', 'The 9% computation, Small Business Relief where it applies, and filing on EmaraTax inside nine months.']],
+    related: [['location-ajman', 'Ajman'], ['location-ras-al-khaimah', 'Ras Al Khaimah'], ['location-sharjah', 'Sharjah']],
+  },
+};
+
+function LocationPage({ page, onNav }) {
+  const cfg = LOCATIONS[page];
+  if (!cfg) return null;
+  const book = () => {
+    try {
+      if (cfg.intent) sessionStorage.setItem('aa_intent_service', cfg.intent);
+      sessionStorage.setItem('aa_scroll_target', 'aa-contact-wizard');
+    } catch (e) {}
+    onNav('contact');
+  };
+  const AnswerFirst = window.AnswerFirst;
+  const RelatedReading = window.RelatedReading;
+  return (
+    <div>
+      <section style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', padding: '40px 0 56px' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
+            <span>Locations</span>
+            <span>/</span><span style={{ color: 'var(--aa-charcoal)' }}>{cfg.crumb}</span>
+          </div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>{cfg.eyebrow}</div>
+              <h1 style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 'clamp(44px, 6vw, 72px)', textTransform: 'uppercase', letterSpacing: '0.01em', margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0 }}>
+                {cfg.h1a}<br />{cfg.h1b}
+              </h1>
+              <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>{cfg.intro}</p>
+              {/* Owner's presence rule — hard-coded, not configurable. */}
+              <p style={{ marginTop: 14, fontSize: 13.5, fontStyle: 'italic', color: 'var(--aa-steel)', maxWidth: 620 }}>
+                We serve {cfg.crumb} from our Dubai office — remote-first, on site when the work needs it. UAE tax is federal: the FTA, EmaraTax and every filing deadline are the same in all seven emirates.
+              </p>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+                <button className="btn btn--primary" onClick={book}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
+                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener"><i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>WhatsApp us</a>
+              </div>
+            </div>
+            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
+              <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
+                {cfg.glance.map(([k, v]) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
+                    <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
+                    <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {AnswerFirst && <AnswerFirst page={page} />}
+
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head"><div className="section-head__eyebrow">How the engagement runs</div><h2>How we serve {cfg.crumb}.</h2></div>
+          <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+            {cfg.how.map(([ic, t, d], i) => (
+              <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container" style={{ maxWidth: 860 }}>
+          <div className="section-head"><div className="section-head__eyebrow">Free zones &amp; VAT</div><h2>{cfg.crumb}&rsquo;s zones, and what they change.</h2></div>
+          {cfg.zones.map((p, i) => (
+            <p key={i} style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--aa-charcoal-800)', margin: i ? '16px 0 0' : 0 }}>{p}</p>
+          ))}
+        </div>
+      </section>
+
+      <section className="section section--off">
+        <div className="container">
+          <div className="section-head"><div className="section-head__eyebrow">What we&rsquo;re asked for</div><h2>{cfg.crumb} engagements, most often.</h2></div>
+          <div style={{ borderTop: '2px solid var(--aa-charcoal)' }}>
+            {cfg.demand.map(([pg, label, d]) => (
+              <a key={pg + label} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }}
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 24, padding: '18px 4px', borderBottom: '1px solid var(--aa-rule)', textDecoration: 'none' }}>
+                <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', flexShrink: 0 }}>{label}</span>
+                <span style={{ fontSize: 14, color: 'var(--aa-steel-700)', textAlign: 'right' }}>{d} <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>→</span></span>
+              </a>
+            ))}
+          </div>
+          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+            <span className="eyebrow eyebrow--steel">Nearby</span>
+            {cfg.related.map(([pg, label]) => (
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+            ))}
+          </div>
+          {RelatedReading && <RelatedReading page={page} onNav={onNav} />}
+          <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 24, fontStyle: 'italic', maxWidth: 720 }}>
+            General guidance for businesses in {cfg.crumb}; confirm tax specifics for your facts against the latest FTA / Ministry of Finance sources, or talk to us.
+          </p>
+        </div>
+      </section>
+
+      {/* FAQ — same single source as the FAQPage JSON-LD (routes.js FAQ_BY_PAGE). */}
+      {(window.AARoutes && window.AARoutes.FAQ_BY_PAGE && window.AARoutes.FAQ_BY_PAGE[page] || []).length > 0 && (
+        <section className="section">
+          <div className="container" style={{ maxWidth: 860 }}>
+            <div className="section-head">
+              <div className="section-head__eyebrow">FAQ</div>
+              <h2>Working with us from {cfg.crumb}, answered.</h2>
+            </div>
+            <div style={{ borderTop: '1px solid var(--aa-rule)' }}>
+              {window.AARoutes.FAQ_BY_PAGE[page].map((f, i) => (
+                <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
+                  <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
+                    <span>{f.q}</span>
+                    <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
+                  </summary>
+                  <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
+                </details>
+              ))}
+            </div>
+            <p style={{ marginTop: 16, fontSize: 12.5, color: 'var(--aa-steel)' }}>Rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || 'August 2026'} — general guidance, not tax advice.</p>
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+Object.assign(window, { IndustriesPage, IndustrySimplePage, AboutPage, InsightsPage, InsightArticlePage, CareersPage, ContactPage, LocationPage });

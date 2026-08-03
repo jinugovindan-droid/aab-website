@@ -32,6 +32,12 @@
     'industry-hospitality': '/industries/hospitality',
     'industry-ecommerce': '/industries/ecommerce',
     'industry-manufacturing': '/industries/manufacturing',
+    'location-abu-dhabi': '/locations/abu-dhabi',
+    'location-sharjah': '/locations/sharjah',
+    'location-ajman': '/locations/ajman',
+    'location-ras-al-khaimah': '/locations/ras-al-khaimah',
+    'location-fujairah': '/locations/fujairah',
+    'location-umm-al-quwain': '/locations/umm-al-quwain',
     about: '/about',
     insights: '/insights',
     careers: '/careers',
@@ -344,6 +350,30 @@
       title: 'Tax Advisory UAE — Corporate Tax & VAT Consultants Dubai',
       description: 'Standing counsel across UAE Corporate Tax, VAT, transfer pricing and e-invoicing — a position memo behind every judgement call. Dubai, all seven emirates.',
     },
+    'location-abu-dhabi': {
+      title: 'Accounting, VAT & Corporate Tax Services for Abu Dhabi',
+      description: 'VAT, Corporate Tax and IFRS financial statements for Abu Dhabi businesses — served from Dubai since 2017, with on-site visits when the work needs it.',
+    },
+    'location-sharjah': {
+      title: 'VAT Consultancy & Accounting for Sharjah Businesses',
+      description: 'VAT consultancy, registration, accounting and Corporate Tax advisory for Sharjah businesses — Hamriyah & SAIF designated-zone expertise, served from Dubai.',
+    },
+    'location-ajman': {
+      title: 'Accounting & VAT Consultancy for Ajman Businesses',
+      description: 'Outsourced accounting, VAT and Corporate Tax for Ajman businesses, served from Dubai under federal FTA rules — bookkeeping to filed returns.',
+    },
+    'location-ras-al-khaimah': {
+      title: 'Asset Tagging Services in Ras Al Khaimah — VAT & Tax',
+      description: 'Fixed asset tagging, VAT consultancy and Corporate Tax for Ras Al Khaimah businesses — on-site counts at RAKEZ facilities, served from Dubai since 2017.',
+    },
+    'location-fujairah': {
+      title: 'Accounting, Audit Support & VAT Consultancy for Fujairah',
+      description: 'Accounting, VAT consultancy, Corporate Tax and audit support for Fujairah businesses — port, bunkering, oil storage, trading — served from Dubai since 2017.',
+    },
+    'location-umm-al-quwain': {
+      title: 'Asset Tagging Services in Umm Al Quwain — Accounting & VAT',
+      description: 'On-site fixed asset tagging, bookkeeping, VAT and Corporate Tax filing for Umm Al Quwain businesses — served from Dubai across all seven emirates since 2017.',
+    },
     'e-invoicing': {
       title: 'UAE E-Invoicing Readiness — ASP, Peppol & 2026 Deadlines',
       description: 'Get ready for the 30 October 2026 UAE e-invoicing deadline — ASP selection, Peppol readiness, process design and a free readiness PDF.',
@@ -470,6 +500,8 @@
     'industry-real-estate': 'Real Estate', 'industry-construction': 'Construction & Contracting',
     'industry-trading': 'Trading & Distribution', 'industry-hospitality': 'Hospitality & F&B',
     'industry-ecommerce': 'E-commerce & Retail', 'industry-manufacturing': 'Manufacturing',
+    'location-abu-dhabi': 'Abu Dhabi', 'location-sharjah': 'Sharjah', 'location-ajman': 'Ajman',
+    'location-ras-al-khaimah': 'Ras Al Khaimah', 'location-fujairah': 'Fujairah', 'location-umm-al-quwain': 'Umm Al Quwain',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
   };
@@ -940,6 +972,78 @@
       a: 'Whether the target’s tax affairs are what the seller says they are: Corporate Tax and VAT registrations and filings, open FTA matters, transfer pricing exposure on related-party dealings, and e-invoicing readiness against the phased 2027 go-lives. We quantify the exposures so they can be priced, warranted or fixed before completion — not discovered after it.' },
   ];
 
+  // /locations/abu-dhabi FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const LOC_ABUDHABI_FAQ = [
+    { q: 'Do you have an office in Abu Dhabi?',
+      a: 'No — our one office is in Al Nahda 1, Dubai, and we have served Abu Dhabi businesses from it since 2017. UAE tax is federal: the FTA, EmaraTax, VAT and Corporate Tax are identical in every emirate, so filings, reviews and advisory run remotely without losing anything. Where the work is physical — stocktakes, fixed-asset verification and tagging, audit-support fieldwork, year-end closings — we travel to your site.' },
+    { q: 'How does VAT work in KIZAD and the Khalifa Port free zone?',
+      a: 'The Free Trade Zone of Khalifa Port, Abu Dhabi Airport Free Zone and KIZAD are designated zones under Cabinet Decision 59/2017 (as amended), so certain goods movements — into, within or between designated zones — can sit outside the normal 5% VAT treatment, while goods consumed inside a zone are generally taxed (unless used to produce other goods there). Services follow the standard rules regardless. Each flow needs classifying on its facts and evidencing — exactly the work our VAT engagements are built for.' },
+    { q: 'Can you keep IFRS books for an ADGM holding company?',
+      a: 'Yes. ADGM entities — holding companies especially — need proper IFRS accounting records and — depending on size and ADGM’s audit-exemption criteria — audited financial statements, always where the 0% QFZP rate is claimed. ADGM itself is a financial free zone where normal VAT rules apply rather than a designated zone. We keep the ledger, prepare full IFRS financial statements with audit referencing in mind, and handle the Corporate Tax analysis behind the structure. Partner review before anything is signed off.' },
+    { q: 'We supply government entities — when does e-invoicing apply?',
+      a: 'In phases. Businesses with revenue of AED 50 million or more fall in scope from 1 January 2027, other businesses from 1 July 2027, and government (B2G) transactions follow from 1 October 2027 — relevant to Abu Dhabi’s government and semi-government supply chains. Readiness is mostly a data-quality exercise: TRNs, addresses and tax categories in your master data have to be right before an accredited service provider can transmit a compliant invoice.' },
+  ];
+
+  // /locations/sharjah FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const LOC_SHARJAH_FAQ = [
+    { q: 'Do you have an office in Sharjah?',
+      a: 'No — our one office is in Al Nahda 1, Dubai, and we say so plainly. UAE tax is federal: VAT, Corporate Tax, the FTA and EmaraTax are identical in Sharjah and Dubai, so distance adds no compliance cost. The routine cycle runs remotely; where the work is physical — stocktakes, fixed-asset counts, audit walkthroughs, year-end closings — we travel to your Sharjah site. Businesses across all seven emirates have worked with us this way since 2017.' },
+    { q: 'How does VAT work in Hamriyah Free Zone and SAIF Zone?',
+      a: 'Both are designated zones under Cabinet Decision 59/2017, so certain movements of goods can fall outside UAE VAT — while services follow the normal rules. Whether a transfer, sale or consumption of goods inside the zone is taxed depends on the facts of each flow, and getting it wrong in either direction costs money or penalties. We document the treatment of each recurring flow once, then apply it consistently on every return.' },
+    { q: 'Can you handle manufacturing accounts — inventory, WIP and costing?',
+      a: 'Yes — Sharjah’s manufacturers and family industrial groups are exactly the businesses we build books for. Inventory and WIP need a costing method applied consistently, landed costs captured, and physical counts reconciled to the ledger — and Corporate Tax then relies on those same numbers. We run the monthly cycle remotely and attend stocktakes and fixed-asset verification at your plant in person.' },
+    { q: 'Does a Sharjah free zone company automatically pay 0% Corporate Tax?',
+      a: 'No. The 0% rate belongs only to a Qualifying Free Zone Person — which requires adequate substance, audited financial statements and qualifying income tested against the conditions; fail them and the standard 9% applies above AED 375,000. Mainland Sharjah companies follow the standard regime, and Small Business Relief can apply where revenue is AED 3 million or less, for periods ending on or before 31 December 2026.' },
+  ];
+
+  // /locations/ajman FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const LOC_AJMAN_FAQ = [
+    { q: 'Do you have an office in Ajman?',
+      a: 'No — we work from one office in Dubai (Al Nahda 1) and have served Ajman businesses from it since 2017. UAE tax is federal: the FTA, EmaraTax, VAT and Corporate Tax are identical in every emirate, so distance changes nothing about your compliance. Day-to-day work runs remotely on cloud ledgers; when the job needs physical presence — stocktakes, fixed-asset verification, audit support, closings — we come to you.' },
+    { q: 'We’re in Ajman Free Zone — can you handle the 0% Corporate Tax conditions?',
+      a: 'Yes. The 0% Qualifying Free Zone Person rate is conditional — qualifying income, adequate substance, audited financial statements, de-minimis limits and transfer pricing compliance all have to hold, every year. We keep the books to that standard, test the conditions before you rely on them, and document the position. Where a condition fails, we quantify the 9% outcome early so you can plan for it.' },
+    { q: 'Does being in a designated zone change our VAT?',
+      a: 'It can — for goods. Ajman Free Zone is a designated zone under Cabinet Decision 59/2017, so goods moved into, out of or within the zone, or consumed inside it, can take a different VAT treatment from the mainland depending on the facts and the paper trail. Services follow the normal VAT rules regardless. We classify each flow, keep the movement evidence and carry the treatment through to your VAT201.' },
+    { q: 'Can you run our whole finance function, not just the tax filings?',
+      a: 'That is the most common shape of our Ajman engagements: bookkeeping and monthly close, receivables and payables, quarterly VAT returns, the annual Corporate Tax filing and year-end IFRS financial statements — one team, one cadence, partner-reviewed. You see management accounts every month, and deadlines are worked to a calendar rather than a scramble. Pricing is customised to your scope.' },
+  ];
+
+  // /locations/ras-al-khaimah FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const LOC_RAK_FAQ = [
+    { q: 'Do you have an office in Ras Al Khaimah?',
+      a: 'No — our one office is in Al Nahda, Dubai, and we have served businesses across all seven emirates from it since 2017. UAE tax is federal: the FTA, EmaraTax, VAT and Corporate Tax work identically in Ras Al Khaimah and Dubai, so distance changes nothing about your compliance. Books and filings run remotely, and we travel to your RAK site for the work that needs a physical presence — asset counts, tagging, stocktakes and audit-time visits.' },
+    { q: 'How does fixed asset tagging work at a RAK facility?',
+      a: 'It is an on-site engagement — tagging cannot be done remotely. We agree scope, locations and asset categories, then travel to your plant, warehouse or yard in Ras Al Khaimah, physically verify each asset, apply durable tags or barcodes, and reconcile the count to your register and general ledger. You receive a rebuilt fixed-asset register with depreciation policy and impairment indicators reviewed — ready for your auditor.' },
+    { q: 'Can a RAKEZ company keep the 0% Corporate Tax rate?',
+      a: 'Only as a Qualifying Free Zone Person, and the conditions are tested every year — audited IFRS financial statements, adequate substance in the zone, qualifying income assessed activity by activity, and arm’s-length pricing on related-party dealings. Fail a condition and the standard 9% regime can apply instead. We assess the position, keep the books and audited financials behind it, and document the conclusion so it can be defended.' },
+    { q: 'How do designated zones in Ras Al Khaimah affect VAT?',
+      a: 'RAK Free Trade Zone, RAK Maritime City and RAK Airport Free Zone are designated zones — treated as outside the UAE for certain movements of goods. Goods moving into, out of or between the zones can fall outside the 5% charge, goods consumed inside them are generally taxed, and services follow the normal rules wherever you sit. The treatment turns on the exact flow, so we classify each route and keep the evidence behind it.' },
+  ];
+
+  // /locations/fujairah FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const LOC_FUJAIRAH_FAQ = [
+    { q: 'Do you have an office in Fujairah?',
+      a: 'No — our one office is in Al Nahda 1, Dubai, and we say so plainly. UAE tax is federal: the FTA, EmaraTax, VAT and Corporate Tax rules in Fujairah are identical to Dubai’s, so the recurring work runs remotely on cloud ledgers. We travel to the east coast for the work that is genuinely physical — stocktakes, fixed-asset verification and tagging, and audit-support fieldwork — and we have served clients across all seven emirates this way since 2017.' },
+    { q: 'How does VAT work in the Fujairah Free Zone and FOIZ?',
+      a: 'Both are designated zones under Cabinet Decision 59/2017 (as amended), so certain movements of goods — into, within or between designated zones — can fall outside the scope of UAE VAT, while goods consumed in the zone or moved to the mainland are generally taxed normally. Services follow the standard VAT rules regardless of the zone. The treatment turns on each flow’s facts, so we map and document it per movement rather than assuming a blanket answer.' },
+    { q: 'Can you act as our statutory auditor in Fujairah?',
+      a: 'No — we deliberately do not perform statutory audits, and we would not audit books we help prepare. What we provide is audit support: preparing the schedules, reconciliations and evidence packs your appointed auditor asks for, managing their queries and closing the findings afterwards. Free-zone entities that need audited IFRS financial statements — including QFZP claimants — lean on exactly this preparation.' },
+    { q: 'What Corporate Tax rules apply to a Fujairah company?',
+      a: 'The same federal rules as everywhere in the UAE: 9% on taxable income above AED 375,000 and 0% below it, with the return and payment due on EmaraTax within nine months of year-end. Small Business Relief can apply where revenue stays at or under AED 3 million (conditions apply, for periods ending by 31 December 2026), and free-zone entities may access the 0% QFZP rate if they meet its conditions — audited IFRS financial statements included.' },
+  ];
+
+  // /locations/umm-al-quwain FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const LOC_UAQ_FAQ = [
+    { q: 'Do you have an office in Umm Al Quwain?',
+      a: 'No — our one office is in Al Nahda 1, Dubai, and we have served all seven emirates from it since 2017. UAE tax is federal: the FTA, EmaraTax, VAT and Corporate Tax work identically in Umm Al Quwain, so the ledger, the returns and the review happen the same way they would next door. Where the work is physical — asset counts, stocktakes, audit support, closings — we travel to your site.' },
+    { q: 'How does fixed asset tagging work at a site in Umm Al Quwain?',
+      a: 'It is on-site work by design — a register built at a desk is guesswork. We plan the scope and categories with you, travel to your facility, physically verify and tag every asset with durable tags or barcodes, then reconcile the count to the fixed-asset register and the general ledger. You end with a register that matches the floor, supports depreciation and stands up to your auditor.' },
+    { q: 'Can you act for an Umm Al Quwain Free Trade Zone company?',
+      a: 'Yes. UAQ FTZ entities are standard work for us — the free zone’s trading and light-industrial SMEs face exactly the tests every free-zone company does. If you want the 0% Qualifying Free Zone Person rate, you need audited IFRS financial statements, adequate substance and qualifying income; if you fall outside it, the normal 9% regime and Small Business Relief analysis apply. We keep the books to whichever standard your position demands, and document why.' },
+    { q: 'Does the UAQ Free Trade Zone change how VAT applies to my business?',
+      a: 'For goods, it can. Both UAQ FTZ sites — Ahmed Bin Rashid Port and Sheikh Mohammed Bin Zayed Road — are designated zones under Cabinet Decision 59/2017, so qualifying goods movements can fall outside UAE VAT while mainland transfers or in-zone consumption can bring it back. Services follow normal VAT rules wherever you sit. We map your actual flows and record the treatment of each, so the VAT201 rests on analysis rather than habit.' },
+  ];
+
   // Answer-first capsules for the money pages — the direct 2–3 sentence answer a
   // searcher wants, shown under the hero AND injected into the prerendered
   // crawlable body. Facts mirror the QC'd page content (thresholds, deadlines).
@@ -979,6 +1083,36 @@
       h: 'What does tax advisory cover in the UAE?',
       text:
       'UAE tax advisory is standing counsel across Corporate Tax (9% above AED 375,000 of taxable income, 0% below), VAT at 5%, transfer pricing and e-invoicing — phased go-lives from 1 January 2027, with the first ASP appointment due 30 October 2026. A good advisor turns each judgement call — QFZP status, CT–VAT interplay, related-party pricing — into a documented position your Board and the FTA can review.',
+    },
+    'location-abu-dhabi': {
+      h: 'Can a Dubai accounting firm handle VAT and Corporate Tax in Abu Dhabi?',
+      text:
+      'Yes — because UAE tax is federal, VAT (5%, VAT201 due within 28 days of period end) and Corporate Tax (9% above AED 375,000, filed on EmaraTax within nine months of year-end) work identically in every emirate. Authentic Accounting has served Abu Dhabi businesses from its Dubai office since 2017 — remote-first, with on-site visits for stocktakes, fixed-asset tagging and audit-support fieldwork, and designated-zone VAT for KIZAD, Khalifa Port and the airport free zone.',
+    },
+    'location-sharjah': {
+      h: 'Does a Sharjah business need a Sharjah-based accountant?',
+      text:
+      'No — UAE tax is federal. VAT at 5%, Corporate Tax at 9% above AED 375,000 and every EmaraTax filing work identically across all seven emirates, so a Sharjah manufacturer files the same returns to the same FTA on the same deadlines as a Dubai one. We serve Sharjah businesses from our Dubai office — remote-first for the monthly cycle, on site at your facility for stocktakes, fixed-asset tagging and audit support.',
+    },
+    'location-ajman': {
+      h: 'Accounting and VAT consultancy for Ajman businesses — how does it work?',
+      text:
+      'Authentic Accounting serves Ajman businesses from its Dubai office — no Ajman branch, because UAE tax is federal: 5% VAT above the AED 375,000 registration threshold, 9% Corporate Tax above AED 375,000 of taxable income, all filed on EmaraTax. Bookkeeping, VAT201s, CT returns and IFRS financial statements run remotely on a monthly cadence, with on-site visits for stocktakes, fixed-asset tagging and audit support.',
+    },
+    'location-ras-al-khaimah': {
+      h: 'Asset tagging services in Ras Al Khaimah — the short answer',
+      text:
+      'Fixed asset tagging in Ras Al Khaimah is on-site work: we travel from our Dubai office to your plant or warehouse, verify and tag every asset, and deliver a register reconciled to the ledger. The rest of compliance — VAT201s within 28 days of period end, Corporate Tax filed within nine months of year-end — runs remotely, because UAE tax is federal and identical in every emirate. One office in Dubai, serving all seven emirates since 2017.',
+    },
+    'location-fujairah': {
+      h: 'Who provides accounting, VAT and audit support for Fujairah businesses?',
+      text:
+      'Authentic Accounting serves Fujairah from its Dubai office — there is no local branch — pairing remote bookkeeping, VAT and Corporate Tax compliance with on-site visits for stocktakes, fixed-asset verification and audit-support fieldwork. UAE tax is federal: 5% VAT, the AED 375,000 registration threshold, 9% Corporate Tax and the EmaraTax deadlines apply identically on the east coast, including inside Fujairah Free Zone and FOIZ.',
+    },
+    'location-umm-al-quwain': {
+      h: 'Who provides asset tagging and accounting services in Umm Al Quwain?',
+      text:
+      'Authentic Accounting provides on-site fixed asset tagging, bookkeeping, VAT and Corporate Tax filing for Umm Al Quwain businesses from its Dubai (Al Nahda 1) office — serving all seven emirates since 2017, with no UAQ branch needed. UAE tax is federal: VAT at 5% and Corporate Tax at 9% above AED 375,000 taxable income are filed on EmaraTax identically in every emirate. Asset verification and tagging are done at your facility — we travel to the site.',
     },
   };
 
@@ -1033,6 +1167,8 @@
     'service-fixed-asset-tagging': [
       ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
       ['insight', 'reconciliation-resolve-to-zero', 'Reconciliation: resolve to zero'],
+      ['page', 'location-ras-al-khaimah', 'Asset tagging in Ras Al Khaimah'],
+      ['page', 'location-umm-al-quwain', 'Asset tagging in Umm Al Quwain'],
     ],
     'service-forensic-accounting': [
       ['insight', 'reconciliation-resolve-to-zero', 'Reconciliation: resolve to zero'],
@@ -1076,6 +1212,36 @@
       ['insight', 'transfer-pricing-thresholds-board', 'Transfer pricing for the Board'],
       ['insight', 'economic-substance-regulations-uae', 'Economic substance regulations'],
     ],
+    'location-abu-dhabi': [
+      ['insight', 'free-zone-qualifying-income', 'Free-zone qualifying income'],
+      ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
+      ['page', 'e-invoicing', 'E-invoicing readiness check'],
+    ],
+    'location-sharjah': [
+      ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
+      ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
+      ['page', 'service-vat', 'VAT registration checker'],
+    ],
+    'location-ajman': [
+      ['insight', 'bookkeeping-foundation', 'Bookkeeping as the foundation'],
+      ['insight', 'uae-vat-5-percent-primer', 'The 5% VAT primer'],
+      ['page', 'service-corporate-tax', 'Corporate Tax estimator'],
+    ],
+    'location-ras-al-khaimah': [
+      ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
+      ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
+      ['page', 'service-fixed-asset-tagging', 'Fixed asset tagging service'],
+    ],
+    'location-fujairah': [
+      ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
+      ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
+      ['page', 'service-audit-support', 'Audit support service'],
+    ],
+    'location-umm-al-quwain': [
+      ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
+      ['insight', 'bookkeeping-foundation', 'Bookkeeping as the foundation'],
+      ['page', 'service-fixed-asset-tagging', 'Fixed asset tagging service'],
+    ],
     'industry-real-estate': [
       ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
       ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
@@ -1110,7 +1276,7 @@
 
   // Single source for FAQPage JSON-LD + visible page Q&A (templates read it via
   // window.AARoutes.FAQ_BY_PAGE). Keep in sync with prerender.py's mirror.
-  const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ, 'service-ct-filing': CT_FILING_FAQ, 'service-vat-filing': VAT_FILING_FAQ, 'service-vat-refund': VAT_REFUND_FAQ, 'service-tax-advisory': TAX_ADVISORY_FAQ, 'services': SERVICES_HUB_FAQ, 'industries': INDUSTRIES_HUB_FAQ, 'industry-real-estate': IND_REALESTATE_FAQ, 'industry-construction': IND_CONSTRUCTION_FAQ, 'industry-trading': IND_TRADING_FAQ, 'industry-hospitality': IND_HOSPITALITY_FAQ, 'industry-ecommerce': IND_ECOMMERCE_FAQ, 'industry-manufacturing': IND_MANUFACTURING_FAQ };
+  const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ, 'service-ct-filing': CT_FILING_FAQ, 'service-vat-filing': VAT_FILING_FAQ, 'service-vat-refund': VAT_REFUND_FAQ, 'service-tax-advisory': TAX_ADVISORY_FAQ, 'location-abu-dhabi': LOC_ABUDHABI_FAQ, 'location-sharjah': LOC_SHARJAH_FAQ, 'location-ajman': LOC_AJMAN_FAQ, 'location-ras-al-khaimah': LOC_RAK_FAQ, 'location-fujairah': LOC_FUJAIRAH_FAQ, 'location-umm-al-quwain': LOC_UAQ_FAQ, 'services': SERVICES_HUB_FAQ, 'industries': INDUSTRIES_HUB_FAQ, 'industry-real-estate': IND_REALESTATE_FAQ, 'industry-construction': IND_CONSTRUCTION_FAQ, 'industry-trading': IND_TRADING_FAQ, 'industry-hospitality': IND_HOSPITALITY_FAQ, 'industry-ecommerce': IND_ECOMMERCE_FAQ, 'industry-manufacturing': IND_MANUFACTURING_FAQ };
 
   function buildJsonLd(page, slug) {
     const blocks = [];
@@ -1138,15 +1304,19 @@
       if (iso) { block.datePublished = iso; block.dateModified = isoDate(a.updated) || iso; }
       blocks.push(block);
     }
-    if (page === 'services' || page === 'e-invoicing' || page.indexOf('service-') === 0 || page.indexOf('industry-') === 0) {
+    if (page === 'services' || page === 'e-invoicing' || page.indexOf('service-') === 0 || page.indexOf('industry-') === 0 || page.indexOf('location-') === 0) {
       const meta = PAGE_SEO[page] || {};
       blocks.push({
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: (meta.title || '').split('|')[0].split('—')[0].trim(),
         description: meta.description,
-        serviceType: BREADCRUMB_LABELS[page] || 'Accounting services',
-        areaServed: { '@type': 'Country', name: 'United Arab Emirates' },
+        serviceType: page.indexOf('location-') === 0 ? 'Accounting services' : (BREADCRUMB_LABELS[page] || 'Accounting services'),
+        // Location pages narrow areaServed to their emirate; the provider stays
+        // the Dubai firm — service coverage, never a local-presence claim.
+        areaServed: page.indexOf('location-') === 0
+          ? { '@type': 'AdministrativeArea', name: BREADCRUMB_LABELS[page] }
+          : { '@type': 'Country', name: 'United Arab Emirates' },
         provider: ORG,
       });
     }
