@@ -5,3 +5,7 @@ node_modules/
 .idea/
 .claude/
 *.log
+
+# Marketing research - local only, never deploy (repo root is served publicly by Vercel)
+COMPETITOR-DIGITAL-RESEARCH.md
+AAB-keyword-matrix.csv
