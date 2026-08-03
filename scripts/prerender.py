@@ -790,7 +790,7 @@ VAT_REFUND_FAQ = [
      "a": "It depends on how the excess arose. Carry-forward suits a temporary credit your next returns will absorb; a VAT311 refund claim suits a sustained excess — common for exporters, zero-rated suppliers and businesses in heavy capital expenditure. A claim also invites FTA review, so it should only carry figures your evidence fully supports. We document the decision in a short position memo before anything is filed."},
     {"q": "How long does a VAT refund take in the UAE?",
      "a": "The FTA typically reviews a refund claim within 20 business days of submission, and it can extend that period — particularly where it raises queries or asks for further evidence. The fastest claims are the ones that answer the first information request completely, which is why we build the invoice evidence pack before filing rather than after the questions arrive. No adviser can guarantee approval or a payment date."},
-    {"q": "Are there special VAT refund schemes for individuals?",
+    {"q": "Are there special VAT refund schemes outside the VAT311 business route?",
      "a": "Yes — separate schemes exist for UAE nationals building a new residence, for foreign business visitors, and for tourists, each with its own forms and conditions. This page covers business refunds of excess input VAT through VAT311; if you fall under a special scheme, we can point you to the right route in a short call."},
 ]
 

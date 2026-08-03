@@ -341,6 +341,24 @@ function ServicesPage({ onNav }) {
         </div>
       </section>
 
+      {/* Popular engagements — task-specific landing pages (not separate catalog
+          services; they deep-dive facets of VAT / Corporate Tax / Tax Planning). */}
+      <section className="section">
+        <div className="container">
+          <div style={{ borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+            <span className="eyebrow eyebrow--steel">Popular engagements</span>
+            {[
+              ['service-ct-filing', 'Corporate Tax return filing'],
+              ['service-vat-filing', 'VAT return filing'],
+              ['service-vat-refund', 'VAT refund claims'],
+              ['service-tax-advisory', 'Tax advisory'],
+            ].map(([pg, label]) => (
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Engagement models */}
       <section className="section section--off">
         <div className="container">
@@ -728,8 +746,9 @@ function ServiceVATPage({ onNav }) {
           <FAQList items={VAT_FAQ} asOf />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForPage('service-vat-filing')} onClick={(e) => { e.preventDefault(); onNav('service-vat-filing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT return filing →</a>
+            <a href={pathForPage('service-vat-refund')} onClick={(e) => { e.preventDefault(); onNav('service-vat-refund'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT refunds →</a>
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
-            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
             <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
           </div>
           <RelatedReading page="service-vat" onNav={onNav} />
@@ -1064,6 +1083,8 @@ function ServiceCorporateTaxPage({ onNav }) {
           </p>
           <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForPage('service-ct-filing')} onClick={(e) => { e.preventDefault(); onNav('service-ct-filing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax filing →</a>
+            <a href={pathForPage('service-tax-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-tax-advisory'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Tax advisory →</a>
             <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
             <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
           </div>
@@ -2004,6 +2025,7 @@ function ServiceTaxPlanningPage({ onNav }) {
           </p>
           <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForPage('service-tax-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-tax-advisory'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Tax advisory →</a>
             <a href={pathForInsight('free-zone-qualifying-income')} onClick={(e) => { e.preventDefault(); onNav('insight', 'free-zone-qualifying-income'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Insight: Free-zone qualifying income →</a>
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
             <a href={pathForPage('service-transaction-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-transaction-advisory'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transaction advisory →</a>
@@ -2017,6 +2039,46 @@ function ServiceTaxPlanningPage({ onNav }) {
 
 // Config-driven detail page for the specialist services (same template, no illustration).
 const SIMPLE_SERVICES = {
+  'service-ct-filing': {
+    cat: 'Compliance', crumb: 'Corporate Tax Filing', eyebrow: 'Compliance · The 9-month deadline',
+    h1a: 'Corporate tax filing.', h1b: 'Signed, filed, defensible.', cta: 'Start my return filing', intent: 'UAE Corporate Tax',
+    intro: 'The annual Corporate Tax return, run as its own engagement — taxable-income computation, adjustments and elections, the transfer pricing disclosure schedule, partner review, then filing and payment on EmaraTax within nine months of year-end. A position memo behind every judgement call.',
+    faqKey: 'CT_FILING_FAQ',
+    glance: [['Deadline', '9 months from year-end'], ['Filed on', 'EmaraTax'], ['Scope', 'Computation to filing'], ['Includes', 'TP disclosure schedule'], ['Review', 'Partner sign-off'], ['Engagement', 'Annual cycle'], ['Pricing', 'Customised to your scope']],
+    covers: [['calculator', 'Taxable-income computation', 'Accounting profit adjusted to taxable income under FDL 47/2022 — every adjustment scheduled and sourced.'], ['sliders-horizontal', 'Adjustments & elections', 'Reliefs and elections — Small Business Relief where it applies — weighed, decided and documented in a memo.'], ['grid-3x3', 'TP disclosure schedule', 'The related-party and connected-person disclosure schedule prepared and reconciled to your ledger.'], ['badge-check', 'Partner review & filing', 'A partner signs off the full return file before we file and settle on EmaraTax — inside the nine months.']],
+    process: [['01', 'Close & gather', 'Lock the trial balance and assemble the year’s schedules and supporting evidence.'], ['02', 'Compute', 'Build the taxable-income computation, with every adjustment scheduled and sourced.'], ['03', 'Elect & disclose', 'Weigh reliefs and elections; prepare the transfer pricing disclosure schedule.'], ['04', 'Partner review', 'A partner challenges every position before anything is filed.'], ['05', 'File & pay', 'File the return and settle the tax on EmaraTax, inside the nine-month deadline.']],
+    related: [['service-corporate-tax', 'Corporate Tax'], ['service-tax-advisory', 'Tax advisory'], ['service-bookkeeping', 'Bookkeeping']],
+  },
+  'service-vat-filing': {
+    cat: 'Compliance', crumb: 'VAT Return Filing', eyebrow: 'Compliance · Quarterly VAT returns',
+    h1a: 'VAT return filing.', h1b: 'Signed, filed, defensible.', cta: 'Hand over your VAT returns', intent: 'VAT compliance',
+    intro: 'Your recurring VAT201, run as a controlled quarterly cycle — source capture, line-by-line classification, a position memo behind every contested treatment, manager review and partner sign-off, then filing on EmaraTax inside the 28-day window. Every return archived, with its evidence, for five years.',
+    faqKey: 'VAT_FILING_FAQ',
+    glance: [['Cycle', 'Quarterly (or FTA-set monthly)'], ['Deadline', '28 days from period end'], ['Filing', 'VAT201 on EmaraTax'], ['Review', 'Manager + partner sign-off'], ['Contested lines', 'Position memos'], ['Archive', '5 years, retrieval-ready'], ['Pricing', 'Customised to your scope']],
+    covers: [['folder-search', 'Source capture', 'Sales, purchase and expense records pulled each quarter and reconciled to the ledger before classification.'], ['grid-3x3', 'Line classification', 'Standard-rated, zero-rated, exempt, reverse charge, out of scope — every line tagged with its basis.'], ['file-text', 'Position memos', 'A short memo behind every contested treatment, so each judgement call has a documented, defensible basis.'], ['badge-check', 'Sign-off, filing & archive', 'Manager review, partner sign-off, the VAT201 filed on EmaraTax — and the evidence file archived for five years.']],
+    process: [['01', 'Capture', 'Pull the quarter’s sales, purchase and expense data and reconcile it to the ledger.'], ['02', 'Classify', 'Tag every line — standard, zero-rated, exempt, reverse charge — with the basis recorded.'], ['03', 'Resolve', 'Write a position memo on each contested line and resolve open queries to zero.'], ['04', 'Sign off', 'Manager review of the draft VAT201, then partner sign-off before anything is filed.'], ['05', 'File & archive', 'File on EmaraTax with payment inside the 28-day window; archive the evidence file for five years.']],
+    related: [['service-vat', 'VAT compliance'], ['service-vat-refund', 'VAT refunds'], ['service-bookkeeping', 'Bookkeeping']],
+  },
+  'service-vat-refund': {
+    cat: 'Compliance', crumb: 'VAT Refund', eyebrow: 'Compliance · VAT refunds',
+    h1a: 'VAT refunds.', h1b: 'Evidence-led, review-ready.', cta: 'Scope your refund claim', intent: 'VAT compliance',
+    intro: 'A VAT refund is an evidence exercise. We quantify the recoverable excess, make the carry-forward versus refund call in a documented memo, build the VAT311 claim and its invoice evidence pack on EmaraTax, and answer FTA queries until the claim is resolved — for businesses across all seven emirates.',
+    faqKey: 'VAT_REFUND_FAQ',
+    glance: [['Scope', 'Business VAT refunds'], ['Form', 'VAT311 on EmaraTax'], ['FTA review', 'Typically 20 business days'], ['Evidence', 'Top-value tax invoices'], ['Also covers', 'Queries, audits, disclosures'], ['Engagement', 'Per claim or retained'], ['Pricing', 'Customised to your scope']],
+    covers: [['calculator', 'Refund position', 'Recoverable input VAT quantified, with a documented call on carry-forward versus a VAT311 refund claim.'], ['file-check', 'VAT311 preparation', 'The refund claim built and filed on EmaraTax, every figure reconciled to your VAT201 returns and the ledger.'], ['folder-search', 'Invoice evidence packs', 'Top-value tax invoices and supporting records compiled into a pack that answers the FTA’s first request.'], ['messages-square', 'FTA queries & audits', 'FTA query responses, refund-linked audit support and voluntary disclosures where an error surfaces.']],
+    process: [['01', 'Assess', 'Quantify the recoverable excess and decide carry-forward versus refund — documented in a memo.'], ['02', 'Evidence', 'Compile the evidence pack — top-value tax invoices and the supporting trail behind each figure.'], ['03', 'File', 'Prepare and submit the VAT311 on EmaraTax, reconciled to your filed VAT201 returns.'], ['04', 'Respond', 'Answer FTA information requests within their deadlines — from the pack, not from scratch.'], ['05', 'Close', 'Track the claim to its decision; where an error surfaces, handle the voluntary disclosure.']],
+    related: [['service-vat', 'VAT compliance'], ['service-vat-filing', 'VAT return filing'], ['service-audit-support', 'Audit support']],
+  },
+  'service-tax-advisory': {
+    cat: 'Advisory', crumb: 'Tax Advisory', eyebrow: 'Advisory · Standing tax counsel',
+    h1a: 'Tax advisory.', h1b: 'Positions you can defend.', cta: 'Engage standing tax counsel', intent: 'Tax planning',
+    intro: 'Standing tax counsel across every UAE tax — Corporate Tax and VAT interplay, free-zone (QFZP) structuring, transfer pricing, e-invoicing readiness and FTA clarifications — with a partner-reviewed position memo behind every judgement call.',
+    faqKey: 'TAX_ADVISORY_FAQ',
+    glance: [['Scope', 'CT · VAT · TP · e-invoicing'], ['Level', 'Partner-reviewed'], ['Deliverable', 'Documented position memos'], ['Also', 'FTA clarifications · tax DD'], ['Coverage', 'Dubai & all seven emirates'], ['Engagement', 'Retained or per question'], ['Pricing', 'Customised to your scope']],
+    covers: [['git-merge', 'CT & VAT interplay', 'One fact pattern, two taxes. We resolve how Corporate Tax and VAT read the same transaction — in writing.'], ['layers', 'Free-zone & TP structuring', 'QFZP status, substance and arm’s-length pricing tested against the conditions — and documented.'], ['messages-square', 'FTA clarifications', 'Where the law is genuinely unclear, a private clarification request drafted and managed to an answer.'], ['search', 'Tax due diligence', 'Registrations, filings, TP and e-invoicing readiness quantified in deals — before you sign, not after.']],
+    process: [['01', 'Frame', 'Define the question, the taxes it touches and what the Board needs to decide.'], ['02', 'Analyse', 'Work the facts against FDL 47/2022, the VAT law and the Cabinet and Ministerial Decisions.'], ['03', 'Position', 'Set out the options, the risk on each and the position we recommend.'], ['04', 'Partner review', 'A partner tests the reasoning, the legal basis and the residual risk.'], ['05', 'Document', 'Deliver a position memo the Board — and an FTA reviewer — can follow.']],
+    related: [['service-tax-planning', 'Tax planning'], ['service-corporate-tax', 'Corporate Tax'], ['service-vat', 'VAT compliance']],
+  },
   'service-fixed-asset-tagging': {
     cat: 'Compliance', crumb: 'Fixed Asset Tagging', eyebrow: 'Compliance · Fixed assets',
     h1a: 'Fixed asset tagging.', h1b: 'A register you can trust.', cta: 'Request asset tagging', intent: 'Fixed asset tagging',
@@ -2119,6 +2181,9 @@ function ServiceSimplePage({ page, onNav }) {
           </div>
         </div>
       </section>
+
+      {/* Answer-first capsule — renders only for pages with an ANSWER_FIRST entry */}
+      <AnswerFirst page={page} />
 
       {/* What it covers */}
       <section className="section section--off">

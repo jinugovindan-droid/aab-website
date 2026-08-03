@@ -20,6 +20,10 @@ const PAGE_LABELS = {
   'service-cfo': '03 Service · CFO',
   'service-financial-statements': '03 Service · Financial Statements',
   'service-tax-planning': '03 Service · Tax Planning',
+  'service-ct-filing': '03 Service · CT Filing',
+  'service-vat-filing': '03 Service · VAT Filing',
+  'service-vat-refund': '03 Service · VAT Refunds',
+  'service-tax-advisory': '03 Service · Tax Advisory',
   'service-fixed-asset-tagging': '03 Service · Fixed Assets',
   'service-forensic-accounting': '03 Service · Forensic',
   'service-internal-controls': '03 Service · Internal Controls',
@@ -162,6 +166,10 @@ function AppRoot() {
       case 'service-cfo': return <ServiceCFOPage onNav={navigateTo}/>;
       case 'service-financial-statements': return <ServiceFinancialStatementsPage onNav={navigateTo}/>;
       case 'service-tax-planning': return <ServiceTaxPlanningPage onNav={navigateTo}/>;
+      case 'service-ct-filing':
+      case 'service-vat-filing':
+      case 'service-vat-refund':
+      case 'service-tax-advisory':
       case 'service-fixed-asset-tagging':
       case 'service-forensic-accounting':
       case 'service-internal-controls':
