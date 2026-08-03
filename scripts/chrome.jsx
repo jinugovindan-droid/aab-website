@@ -388,7 +388,7 @@ function Footer({ onNav }) {
               loading="lazy"
               style={{ height: 56 }} />
 
-            <div style={{ marginTop: 18, fontFamily: 'var(--aa-font-display)', fontSize: 18, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--aa-cyan-700)' }}>
+            <div style={{ marginTop: 18, fontFamily: 'var(--aa-font-display)', fontSize: 18, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--aa-cyan)' }}>
               Responsibly Your Accountant.
             </div>
             <div style={{ marginTop: 18, fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.7 }}>
@@ -780,7 +780,7 @@ function SiteSearchModal({ onNav }) {
                 <span style={{ display: 'block', fontSize: 15, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{it.label}</span>
                 {it.sub ? <span style={{ display: 'block', fontSize: 12, color: 'var(--aa-steel)', marginTop: 2 }}>{it.sub}</span> : null}
               </span>
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--aa-cyan-700)', flexShrink: 0 }}>{it.type}</span>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--aa-cyan)', flexShrink: 0 }}>{it.type}</span>
             </button>
           ))}
         </div>

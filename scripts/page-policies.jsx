@@ -98,7 +98,7 @@ function PrivacyPolicyPage({ onNav }) {
       <PolicyBody>
         <PolicySection n={1} title="Who we are" id="who">
           <P>The data controller is <strong>Authentic Accounting and Bookkeeping L.L.C</strong>, a UAE limited liability company registered in Dubai with offices at Office 406, Mai Tower, Al Nahda 1, Dubai, United Arab Emirates.</P>
-          <P>For any privacy-related question, contact us at <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a> or <a href="tel:+97143960399" style={{ color: 'var(--aa-cyan-700)' }}>+971 4 396 0399</a>.</P>
+          <P>For any privacy-related question, contact us at <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan)' }}>info@aaccounting.me</a> or <a href="tel:+97143960399" style={{ color: 'var(--aa-cyan)' }}>+971 4 396 0399</a>.</P>
         </PolicySection>
 
         <PolicySection n={2} title="Information we collect" id="collect">
@@ -123,7 +123,7 @@ function PrivacyPolicyPage({ onNav }) {
             'To keep the website secure, prevent abuse, and improve content',
             'To meet our legal, regulatory and professional obligations as a UAE accounting firm',
           ]}/>
-          <P><strong>Automated processing of CVs.</strong> CVs sent to our talent network are parsed and indexed automatically into a skills profile (qualifications, sectors, jurisdictions, software and languages) so we can match candidates to current and upcoming roles. This automated indexing supports — but does not replace — human judgement: a partner reviews your CV before anyone contacts you, and no hiring decision is made solely by automated means. You can ask us to stop processing your CV, or remove it, at any time by emailing <a href="mailto:careers@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>careers@aaccounting.me</a>.</P>
+          <P><strong>Automated processing of CVs.</strong> CVs sent to our talent network are parsed and indexed automatically into a skills profile (qualifications, sectors, jurisdictions, software and languages) so we can match candidates to current and upcoming roles. This automated indexing supports — but does not replace — human judgement: a partner reviews your CV before anyone contacts you, and no hiring decision is made solely by automated means. You can ask us to stop processing your CV, or remove it, at any time by emailing <a href="mailto:careers@aaccounting.me" style={{ color: 'var(--aa-cyan)' }}>careers@aaccounting.me</a>.</P>
         </PolicySection>
 
         <PolicySection n={4} title="Lawful basis" id="basis">
@@ -171,7 +171,7 @@ function PrivacyPolicyPage({ onNav }) {
             'Request the transfer of your personal information to another controller, where technically feasible',
             'Lodge a complaint with the UAE Data Office if you believe your personal information has been mishandled',
           ]}/>
-          <P>To exercise any of these rights, email <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a>. We aim to respond within 30 days and, where applicable, within the timelines set out by the UAE Data Office.</P>
+          <P>To exercise any of these rights, email <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan)' }}>info@aaccounting.me</a>. We aim to respond within 30 days and, where applicable, within the timelines set out by the UAE Data Office.</P>
         </PolicySection>
 
         <PolicySection n={8} title="Security" id="security">
@@ -195,7 +195,7 @@ function PrivacyPolicyPage({ onNav }) {
             <strong>Authentic Accounting and Bookkeeping L.L.C</strong><br/>
             Office 406, Mai Tower<br/>
             Al Nahda 1, Dubai, United Arab Emirates<br/>
-            <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a> &middot; <a href="tel:+97143960399" style={{ color: 'var(--aa-cyan-700)' }}>+971 4 396 0399</a>
+            <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan)' }}>info@aaccounting.me</a> &middot; <a href="tel:+97143960399" style={{ color: 'var(--aa-cyan)' }}>+971 4 396 0399</a>
           </P>
         </PolicySection>
 
@@ -246,7 +246,7 @@ function TermsPage({ onNav }) {
         </PolicySection>
 
         <PolicySection n={6} title="Confidentiality of communications" id="confidential">
-          <P>Communications sent through the website&rsquo;s contact form or by email are not, of themselves, privileged or confidential beyond what applies under general law. You should not send highly sensitive information through the website without prior arrangement. The handling of personal information is governed by our <a href={pathForPolicyPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-700)' }}>Privacy Policy</a>.</P>
+          <P>Communications sent through the website&rsquo;s contact form or by email are not, of themselves, privileged or confidential beyond what applies under general law. You should not send highly sensitive information through the website without prior arrangement. The handling of personal information is governed by our <a href={pathForPolicyPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)' }}>Privacy Policy</a>.</P>
         </PolicySection>
 
         <PolicySection n={7} title="Limitation of liability" id="liability">
@@ -269,7 +269,7 @@ function TermsPage({ onNav }) {
             <strong>Authentic Accounting and Bookkeeping L.L.C</strong><br/>
             Office 406, Mai Tower<br/>
             Al Nahda 1, Dubai, United Arab Emirates<br/>
-            <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan-700)' }}>info@aaccounting.me</a> &middot; <a href="tel:+97143960399" style={{ color: 'var(--aa-cyan-700)' }}>+971 4 396 0399</a>
+            <a href="mailto:info@aaccounting.me" style={{ color: 'var(--aa-cyan)' }}>info@aaccounting.me</a> &middot; <a href="tel:+97143960399" style={{ color: 'var(--aa-cyan)' }}>+971 4 396 0399</a>
           </P>
         </PolicySection>
 

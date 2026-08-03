@@ -45,7 +45,7 @@ function IndustriesPage({ onNav }) {
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0
               }}>
                 Sector-shaped,<br />but never<br />
-                <span style={{ color: 'var(--aa-cyan-700)' }}>sector-bound</span>.
+                <span style={{ color: 'var(--aa-cyan)' }}>sector-bound</span>.
               </h1>
             </div>
             <p className="muted" style={{ fontSize: 17, lineHeight: 1.6, maxWidth: 460, margin: 0 }}>
@@ -100,7 +100,7 @@ function IndustriesPage({ onNav }) {
                 style={{ textDecoration: 'none', color: 'inherit', padding: 28, borderRight: (i % 3 !== 2) ? '1px solid var(--aa-rule)' : 'none', borderTop: i >= 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
-                <div style={{ marginTop: 'auto', paddingTop: 10, color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 13 }}>Explore →</div>
+                <div style={{ marginTop: 'auto', paddingTop: 10, color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 13 }}>Explore →</div>
               </a>
             ))}
           </div>
@@ -120,7 +120,7 @@ function IndustriesPage({ onNav }) {
                 <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                   <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span>{f.q}</span>
-                    <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
+                    <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
                   </summary>
                   <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
                 </details>
@@ -233,7 +233,7 @@ function AboutPage({ onNav }) {
                   {TRAJ.map(([yr, , label, t, d]) => (
                     <div key={yr} style={{ borderTop: '1px solid var(--aa-rule-strong)' }}>
                       <div style={{ width: 12, height: 12, background: 'var(--aa-cyan)', borderRadius: '50%', marginTop: -6, marginBottom: 14, position: 'relative', zIndex: 1, border: '3px solid var(--aa-surface-off)' }}></div>
-                      <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan-700)', fontWeight: 600 }}>{yr}</div>
+                      <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan)', fontWeight: 600 }}>{yr}</div>
                       <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginTop: 6 }}>{t}</div>
                       <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel-700)', marginTop: 5 }}>{label} engagements / yr</div>
                       <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', marginTop: 6, lineHeight: 1.5 }}>{d}</div>
@@ -372,13 +372,13 @@ function InsightsPage({ onNav }) {
               position: 'relative', overflow: 'hidden'
             }}>
               <div style={{ position: 'absolute', top: 24, right: 24, display: 'flex', gap: 8 }}>
-                <span className="pill" style={{ background: 'rgba(41,171,226,0.2)', color: 'var(--aa-cyan-200)', borderColor: 'transparent' }}>Featured</span>
+                <span className="pill" style={{ background: 'rgba(0,176,240,0.2)', color: 'var(--aa-cyan-200)', borderColor: 'transparent' }}>Featured</span>
               </div>
               {/* big number-style watermark */}
               <div aria-hidden="true" style={{
                 position: 'absolute', right: -20, bottom: -40,
                 fontFamily: 'var(--aa-font-display)', fontWeight: 700,
-                fontSize: 280, color: 'rgba(41,171,226,0.08)', lineHeight: 0.85
+                fontSize: 280, color: 'rgba(0,176,240,0.08)', lineHeight: 0.85
               }}>9%</div>
               <div className="eyebrow" style={{ color: 'var(--aa-cyan)', position: 'relative' }}>{featured.tag} · {featured.date}</div>
               <div style={{ position: 'relative' }}>
@@ -400,7 +400,7 @@ function InsightsPage({ onNav }) {
                 <span className="pill pill--charcoal">Substance</span>
                 <span className="pill pill--charcoal">De minimis</span>
               </div>
-              <span style={{ marginTop: 16, color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14 }}>Read the full note →</span>
+              <span style={{ marginTop: 16, color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14 }}>Read the full note →</span>
             </div>
           </a>
         </div>
@@ -433,7 +433,7 @@ function InsightsPage({ onNav }) {
               minHeight: 220
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                  <span style={{ color: 'var(--aa-cyan-700)' }}>{a.tag}</span>
+                  <span style={{ color: 'var(--aa-cyan)' }}>{a.tag}</span>
                   <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
                 </div>
                 <div style={{ fontSize: 22, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.25, textWrap: 'balance' }}>{a.title}</div>
@@ -528,7 +528,7 @@ function EInvoiceGuideLinks({ onNav, current }) {
         {links.map(([slug, label]) => (
           <li key={slug}>
             <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-              style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
+              style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
               {label} →
             </a>
           </li>
@@ -547,7 +547,7 @@ function FiveCornerDiagram() {
   const cap = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
   const Badge = ({ x, y, n, dark }) => (
     <g>
-      <circle cx={x} cy={y} r={13} fill={dark ? '#29ABE2' : '#176E93'} />
+      <circle cx={x} cy={y} r={13} fill={dark ? '#00B0F0' : '#176E93'} />
       <text x={x} y={y + 4.5} textAnchor="middle" style={{ fontSize: 13, fontWeight: 700, fill: '#fff', fontFamily: 'inherit' }}>{n}</text>
     </g>
   );
@@ -568,7 +568,7 @@ function FiveCornerDiagram() {
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#176E93" />
             </marker>
             <marker id="aa5c-arrow-resp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#29ABE2" />
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#00B0F0" />
             </marker>
           </defs>
 
@@ -597,7 +597,7 @@ function FiveCornerDiagram() {
           <text x="524" y="206" style={cap}><tspan x="524">Checks &amp; delivers</tspan><tspan x="524" dy="14">to the buyer</tspan></text>
 
           {/* Peppol network bus */}
-          <rect x="296" y="180" width="128" height="40" rx="20" fill="#E9F6FC" stroke="#29ABE2" strokeWidth="1" />
+          <rect x="296" y="180" width="128" height="40" rx="20" fill="#E9F6FC" stroke="#00B0F0" strokeWidth="1" />
           <text x="360" y="197" textAnchor="middle" style={{ fontSize: 10, fontWeight: 700, fill: '#176E93', letterSpacing: '0.1em', fontFamily: 'inherit' }}>PEPPOL</text>
           <text x="360" y="210" textAnchor="middle" style={{ fontSize: 10, fontWeight: 700, fill: '#176E93', letterSpacing: '0.1em', fontFamily: 'inherit' }}>NETWORK</text>
 
@@ -616,9 +616,9 @@ function FiveCornerDiagram() {
           {/* Buyer response (dotted) — acceptance / rejection returns to the
               supplier along the same corners: 4 down to 3, across under the
               network, then up from 2 to 1. */}
-          <line x1="616" y1="100" x2="616" y2="152" stroke="#29ABE2" strokeWidth="1.4" strokeDasharray="2 4" markerEnd="url(#aa5c-arrow-resp)" />
-          <line x1="500" y1="228" x2="226" y2="228" stroke="#29ABE2" strokeWidth="1.4" strokeDasharray="2 4" markerEnd="url(#aa5c-arrow-resp)" />
-          <line x1="104" y1="158" x2="104" y2="106" stroke="#29ABE2" strokeWidth="1.4" strokeDasharray="2 4" markerEnd="url(#aa5c-arrow-resp)" />
+          <line x1="616" y1="100" x2="616" y2="152" stroke="#00B0F0" strokeWidth="1.4" strokeDasharray="2 4" markerEnd="url(#aa5c-arrow-resp)" />
+          <line x1="500" y1="228" x2="226" y2="228" stroke="#00B0F0" strokeWidth="1.4" strokeDasharray="2 4" markerEnd="url(#aa5c-arrow-resp)" />
+          <line x1="104" y1="158" x2="104" y2="106" stroke="#00B0F0" strokeWidth="1.4" strokeDasharray="2 4" markerEnd="url(#aa5c-arrow-resp)" />
 
           {/* Tax-data reporting (dashed) — endpoints stop at the FTA box edges
               so the arrowheads stay visible (badge 5 sits on the top-left corner). */}
@@ -630,7 +630,7 @@ function FiveCornerDiagram() {
           <text x="96" y="402" style={cap}>Invoice flow</text>
           <line x1="192" y1="398" x2="220" y2="398" stroke="#176E93" strokeWidth="1.4" strokeDasharray="5 4" />
           <text x="228" y="402" style={cap}>Tax-data reporting</text>
-          <line x1="352" y1="398" x2="380" y2="398" stroke="#29ABE2" strokeWidth="1.4" strokeDasharray="2 4" />
+          <line x1="352" y1="398" x2="380" y2="398" stroke="#00B0F0" strokeWidth="1.4" strokeDasharray="2 4" />
           <text x="388" y="402" style={cap}>Buyer response — accepts / rejects</text>
         </svg>
       </div>
@@ -692,7 +692,7 @@ function DeadlinesRoadmap() {
   const Stop = ({ x, y }) => (
     <g>
       <circle cx={x} cy={y} r={9} fill="#fff" stroke="#176E93" strokeWidth="2.5" />
-      <circle cx={x} cy={y} r={3.5} fill="#29ABE2" />
+      <circle cx={x} cy={y} r={3.5} fill="#00B0F0" />
     </g>
   );
   return (
@@ -714,7 +714,7 @@ function DeadlinesRoadmap() {
           <polyline points="466,389 473,396 466,403" fill="none" stroke="#fff" strokeWidth="2" opacity="0.9" />
 
           {/* TODAY — start of the road */}
-          <circle cx="60" cy="120" r="9" fill="#29ABE2" />
+          <circle cx="60" cy="120" r="9" fill="#00B0F0" />
           <circle cx="60" cy="120" r="3.5" fill="#fff" />
           <text x="24" y="66" style={{ ...date, fill: '#1A1A2E' }}>TODAY</text>
           <text x="24" y="82" style={cap}><tspan x="24">Readiness check &amp;</tspan><tspan x="24" dy="14">ASP shortlist</tspan></text>
@@ -840,12 +840,12 @@ function ChoosingASPBody({ onNav }) {
           At the time of writing (July 2026), the Ministry’s published register — 42 providers at its mid-July update — remains a <strong>pre-approval (Article 15) list</strong>. Individual providers have begun announcing full accreditation (Advintek and Comarch did so in early July 2026), but the Ministry has not yet published an official register of accredited providers — and some earlier &ldquo;accredited&rdquo; marketing in fact referred to pre-approval — so a provider’s Article-16 status still has to be verified individually. Appointing from that list now is exactly what the deadlines anticipate, but make the engagement <strong>accreditation-contingent</strong>: full Article-16 accreditation comfortably before your go-live as a contractual milestone, with exit and migration rights — at no penalty to you — if it is missed. A provider that stalls at the technical stage must be their problem, not yours on go-live morning. Have a lawyer review the engagement terms before you sign.
         </p>
         <p style={{ margin: '14px 0 0', fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.65 }}>
-          <strong>Where to check, in practice:</strong> the public register is the MoF’s pre-approved list at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>mof.gov.ae</a>. Separately, registered businesses can already see the FTA’s operational list inside <strong>EmaraTax</strong> (e-Invoicing → onboarding) — the interface you will actually select and link your provider through. When we checked on <strong>18 July 2026</strong>, that list showed <strong>38 entries</strong> (one of them an FTA test row) under the FTA’s “Accredited Service Providers” heading, against the MoF’s 42 pre-approved names — while the portal still described provider onboarding as in progress. In practice, <strong>EmaraTax is the closest thing to an accredited list available today</strong>, but it is an operational onboarding view, not the official register; the MoF page remains the public pre-approval register, and the two do not fully match. Ask your shortlisted provider for written confirmation of its Article-16 accreditation, check both places at signing, and re-check before go-live.
+          <strong>Where to check, in practice:</strong> the public register is the MoF’s pre-approved list at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>mof.gov.ae</a>. Separately, registered businesses can already see the FTA’s operational list inside <strong>EmaraTax</strong> (e-Invoicing → onboarding) — the interface you will actually select and link your provider through. When we checked on <strong>18 July 2026</strong>, that list showed <strong>38 entries</strong> (one of them an FTA test row) under the FTA’s “Accredited Service Providers” heading, against the MoF’s 42 pre-approved names — while the portal still described provider onboarding as in progress. In practice, <strong>EmaraTax is the closest thing to an accredited list available today</strong>, but it is an operational onboarding view, not the official register; the MoF page remains the public pre-approval register, and the two do not fully match. Ask your shortlisted provider for written confirmation of its Article-16 accreditation, check both places at signing, and re-check before go-live.
         </p>
       </div>
 
       <h3 style={H3}>The pre-approved list, for reference</h3>
-      <p>For convenience, here is the Ministry’s pre-approved list as at its <strong>17 July 2026</strong> update — 42 providers, alphabetical, names as published by the MoF. All are listed by the Ministry as pre-approved under Article 15; some have since announced full (Article 16) accreditation, so verify each provider’s current status individually. The Ministry updates the list periodically, so treat this as a snapshot: confirm a provider’s current status on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
+      <p>For convenience, here is the Ministry’s pre-approved list as at its <strong>17 July 2026</strong> update — 42 providers, alphabetical, names as published by the MoF. All are listed by the Ministry as pre-approved under Article 15; some have since announced full (Article 16) accreditation, so verify each provider’s current status individually. The Ministry updates the list periodically, so treat this as a snapshot: confirm a provider’s current status on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
       <div style={{ border: '1px solid var(--aa-rule)', background: '#fff', padding: '20px 24px', margin: '20px 0 8px' }}>
         <ol style={{ margin: 0, paddingLeft: 22, columns: '2 240px', columnGap: 40, fontSize: 13.5, color: 'var(--aa-charcoal)', lineHeight: 1.9 }}>
           {[
@@ -960,7 +960,7 @@ function PrepareERPBody({ onNav }) {
 function CorporateTaxGuideBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1009,7 +1009,7 @@ function CorporateTaxGuideBody({ onNav }) {
         <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
           <li>{link('service-corporate-tax', 'UAE Corporate Tax compliance →')}</li>
           <li>{link('service-tax-planning', 'Corporate Tax planning & structuring →')}</li>
-          <li><a href={pathForInsight('free-zone-qualifying-income')} onClick={(e) => { e.preventDefault(); onNav('insight', 'free-zone-qualifying-income'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>Free zone qualifying income — three traps →</a></li>
+          <li><a href={pathForInsight('free-zone-qualifying-income')} onClick={(e) => { e.preventDefault(); onNav('insight', 'free-zone-qualifying-income'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>Free zone qualifying income — three traps →</a></li>
         </ul>
       </div>
     </div>
@@ -1019,7 +1019,7 @@ function CorporateTaxGuideBody({ onNav }) {
 function VATGuideBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1062,7 +1062,7 @@ function VATGuideBody({ onNav }) {
         <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
           <li>{link('service-vat', 'UAE VAT compliance →')}</li>
           <li>{link('service-corporate-tax', 'UAE Corporate Tax compliance →')}</li>
-          <li><a href={pathForInsight('uae-corporate-tax-guide-sme')} onClick={(e) => { e.preventDefault(); onNav('insight', 'uae-corporate-tax-guide-sme'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>UAE Corporate Tax: a complete guide →</a></li>
+          <li><a href={pathForInsight('uae-corporate-tax-guide-sme')} onClick={(e) => { e.preventDefault(); onNav('insight', 'uae-corporate-tax-guide-sme'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>UAE Corporate Tax: a complete guide →</a></li>
         </ul>
       </div>
     </div>
@@ -1072,7 +1072,7 @@ function VATGuideBody({ onNav }) {
 function BookkeepingGuideBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1125,11 +1125,11 @@ function BookkeepingGuideBody({ onNav }) {
 // Shared helpers for the shorter historical posts.
 const artLink = (onNav, page, label) => (
   <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-    style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+    style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
 );
 const artInsightLink = (onNav, slug, label) => (
   <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-    style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+    style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
 );
 const artNote = (text) => (
   <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>{text}</p>
@@ -1398,7 +1398,7 @@ function DesignatedZoneBody({ onNav }) {
 function IFRSStatementsBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1549,7 +1549,7 @@ function InsightArticlePage({ onNav, slug }) {
               display: 'flex', flexDirection: 'column', gap: 12
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                  <span style={{ color: 'var(--aa-cyan-700)' }}>{a.tag}</span>
+                  <span style={{ color: 'var(--aa-cyan)' }}>{a.tag}</span>
                   <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
                 </div>
                 <div style={{ fontSize: 19, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.3 }}>{a.title}</div>
@@ -1579,7 +1579,7 @@ function CareersPage({ onNav }) {
                 textTransform: 'uppercase', letterSpacing: '0.01em',
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0
               }}>
-                We hire every quarter. For <span style={{ color: 'var(--aa-cyan-700)' }}>ourselves</span> — and for our clients.
+                We hire every quarter. For <span style={{ color: 'var(--aa-cyan)' }}>ourselves</span> — and for our clients.
               </h1>
             </div>
             <p className="muted" style={{ fontSize: 16, lineHeight: 1.6, margin: 0 }}>
@@ -1645,7 +1645,7 @@ function CareersPage({ onNav }) {
               </div>
 
               <p style={{ marginTop: 14, fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.55 }}>
-                By sending your CV you consent to Authentic Accounting storing and processing it &mdash; including automated indexing to match you to roles, always with a partner&rsquo;s review before any contact &mdash; as described in our <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>Privacy Policy</a>. We keep it for 18&nbsp;months; withdraw any time.
+                By sending your CV you consent to Authentic Accounting storing and processing it &mdash; including automated indexing to match you to roles, always with a partner&rsquo;s review before any contact &mdash; as described in our <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. We keep it for 18&nbsp;months; withdraw any time.
               </p>
             </div>
 
@@ -1954,7 +1954,7 @@ function ContactPage({ onNav }) {
                     </span>
                     <button onClick={() => setStep(1)} style={{
                       background: 'transparent', border: 0, padding: 0,
-                      color: 'var(--aa-cyan-700)', fontSize: 12, fontWeight: 600,
+                      color: 'var(--aa-cyan)', fontSize: 12, fontWeight: 600,
                       letterSpacing: '0.04em', textTransform: 'uppercase',
                       cursor: 'pointer', fontFamily: 'var(--aa-font-sans)',
                     }}>Change</button>
@@ -1994,7 +1994,7 @@ function ContactPage({ onNav }) {
                   </label>
                   <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55, cursor: 'pointer' }}>
                     <input type="checkbox" checked={form.consent} onChange={(e) => update('consent', e.target.checked)} style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0 }} />
-                    <span>I agree to Authentic Accounting processing my details to respond to my enquiry, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>Privacy Policy</a>. <span style={{ color: 'var(--aa-negative)' }}>*</span></span>
+                    <span>I agree to Authentic Accounting processing my details to respond to my enquiry, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. <span style={{ color: 'var(--aa-negative)' }}>*</span></span>
                   </label>
                   <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55, cursor: 'pointer' }}>
                     <input type="checkbox" checked={form.marketing} onChange={(e) => update('marketing', e.target.checked)} style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0 }} />
@@ -2194,7 +2194,7 @@ function IndustrySimplePage({ page, onNav }) {
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="eyebrow eyebrow--steel">Related services</span>
             {cfg.related.map(([pg, label]) => (
-              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
           {window.RelatedReading && <window.RelatedReading page={page} onNav={onNav} />}
@@ -2217,7 +2217,7 @@ function IndustrySimplePage({ page, onNav }) {
                 <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                   <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span>{f.q}</span>
-                    <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
+                    <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
                   </summary>
                   <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
                 </details>
@@ -2384,14 +2384,14 @@ function LocationPage({ page, onNav }) {
               <a key={pg + label} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }}
                 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 24, padding: '18px 4px', borderBottom: '1px solid var(--aa-rule)', textDecoration: 'none' }}>
                 <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', flexShrink: 0 }}>{label}</span>
-                <span style={{ fontSize: 14, color: 'var(--aa-steel-700)', textAlign: 'right' }}>{d} <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>→</span></span>
+                <span style={{ fontSize: 14, color: 'var(--aa-steel-700)', textAlign: 'right' }}>{d} <span style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>→</span></span>
               </a>
             ))}
           </div>
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="eyebrow eyebrow--steel">Nearby</span>
             {cfg.related.map(([pg, label]) => (
-              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
           {RelatedReading && <RelatedReading page={page} onNav={onNav} />}
@@ -2414,7 +2414,7 @@ function LocationPage({ page, onNav }) {
                 <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                   <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span>{f.q}</span>
-                    <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
+                    <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
                   </summary>
                   <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
                 </details>

@@ -114,7 +114,7 @@ function AppRoot() {
 
     const accent = tweaks.accentIntensity === 'bold' ? '#0E8FC9'
                  : tweaks.accentIntensity === 'soft' ? '#5BBEE9'
-                 : '#29ABE2';
+                 : '#00B0F0';
     document.documentElement.style.setProperty('--aa-cyan', accent);
 
     document.body.setAttribute('data-density', tweaks.density);

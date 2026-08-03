@@ -439,7 +439,7 @@ function ServiceColumn({ kicker, desc, items, onNav }) {
               <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{it.t}</div>
               <div style={{ fontSize: 14, color: 'var(--aa-steel-700)', marginTop: 4, lineHeight: 1.5 }}>{it.d}</div>
             </div>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan-700)', whiteSpace: 'nowrap', paddingTop: 2 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan)', whiteSpace: 'nowrap', paddingTop: 2 }}>
               Read more →
             </span>
           </a>
@@ -623,7 +623,7 @@ function HomeInsights({ onNav }) {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                <span style={{ color: 'var(--aa-cyan-700)' }}>{a.tag}</span>
+                <span style={{ color: 'var(--aa-cyan)' }}>{a.tag}</span>
                 <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
               </div>
               <div style={{ fontSize: 22, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.25, textWrap: 'balance' }}>
@@ -631,7 +631,7 @@ function HomeInsights({ onNav }) {
               </div>
               <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: 'var(--aa-steel)' }}>
                 <span>{a.published ? a.read + ' read' : 'In preparation'}</span>
-                <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600 }}>{a.published ? 'Read note →' : 'View →'}</span>
+                <span style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>{a.published ? 'Read note →' : 'View →'}</span>
               </div>
             </a>
           ))}

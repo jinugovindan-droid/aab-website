@@ -85,7 +85,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     const doc = new jsPDF({ unit: 'pt', format: 'a4' });
     const W = doc.internal.pageSize.getWidth();
     const M = 48; const colW = W - 2 * M;
-    const cyan = [41, 171, 226], charcoal = [26, 26, 46], steel = [110, 120, 135], ink = [55, 58, 70], offbg = [244, 245, 247];
+    const cyan = [0, 176, 240], charcoal = [26, 26, 46], steel = [110, 120, 135], ink = [55, 58, 70], offbg = [244, 245, 247];
     const PH = doc.internal.pageSize.getHeight();
     const setC = (rgb) => doc.setTextColor(rgb[0], rgb[1], rgb[2]);
     let y = 54;
@@ -378,7 +378,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.02, textWrap: 'balance',
               }}>
                 UAE E-Invoicing is coming.<br />
-                <span style={{ color: 'var(--aa-cyan-700)' }}>We have you covered.</span>
+                <span style={{ color: 'var(--aa-cyan)' }}>We have you covered.</span>
               </h1>
               <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-charcoal-800)', lineHeight: 1.6, maxWidth: 640 }}>
                 The <strong style={{ color: 'var(--aa-charcoal)' }}>UAE Ministry of Finance</strong> is rolling out a
@@ -486,11 +486,11 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                   <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>
                     {p.asp}
                     {/* Live day-counts only — dropped in the static snapshot where they'd go stale. */}
-                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-700)', marginTop: 2 }}>{dlabel(p.aspISO)}</span>}
+                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan)', marginTop: 2 }}>{dlabel(p.aspISO)}</span>}
                   </td>
                   <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>
                     {p.ready}
-                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-700)', marginTop: 2 }}>{dlabel(p.readyISO)}</span>}
+                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan)', marginTop: 2 }}>{dlabel(p.readyISO)}</span>}
                   </td>
                 </tr>
               ))}
@@ -498,7 +498,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
           </table>
 
           <p style={{ marginTop: 20, fontSize: 13, lineHeight: 1.55, color: 'var(--aa-steel)', maxWidth: 860 }}>
-            <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, marginRight: 4 }}>†</span>
+            <span style={{ color: 'var(--aa-cyan)', fontWeight: 600, marginRight: 4 }}>†</span>
             <strong style={{ color: 'var(--aa-charcoal)' }}>ASP selection</strong> — deadline for each business to appoint
             its Accredited Service Provider. <strong style={{ color: 'var(--aa-charcoal)' }}>System readiness</strong> —
             mandatory go-live; from this date, only structured invoices transmitted through an accredited ASP will be
@@ -532,7 +532,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 </div>
               </div>
             </div>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, fontWeight: 600, color: 'var(--aa-cyan-700)', whiteSpace: 'nowrap' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, fontWeight: 600, color: 'var(--aa-cyan)', whiteSpace: 'nowrap' }}>
               View the MoF list
               <i data-lucide="external-link" style={{ width: 16, height: 16 }}></i>
             </span>
@@ -605,7 +605,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 }}>
                 <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{title}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{desc}</div>
-                <span style={{ marginTop: 4, fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan-700)' }}>Read the guide →</span>
+                <span style={{ marginTop: 4, fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan)' }}>Read the guide →</span>
               </a>
             ))}
           </div>
@@ -624,7 +624,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
               <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                 <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                   <span>{f.q}</span>
-                  <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
+                  <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
                 </summary>
                 <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
               </details>
@@ -701,14 +701,14 @@ function EInvoiceReadinessModal({ onNav }) {
         <button onClick={close} aria-label="Close"
           style={{ position: 'absolute', top: 8, right: 10, zIndex: 2, width: 38, height: 38, border: 0, background: 'transparent', fontSize: 26, lineHeight: 1, color: 'var(--aa-steel)', cursor: 'pointer' }}>×</button>
         <div style={{ padding: '28px 28px 0' }}>
-          <div className="eyebrow" style={{ color: 'var(--aa-cyan-700)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
+          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
           <h2 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(22px, 3vw, 30px)', margin: '0 0 6px', color: 'var(--aa-charcoal)', lineHeight: 1.05 }}>Get your e-invoicing readiness status.</h2>
           <p style={{ margin: '0 0 18px', fontSize: 14, color: 'var(--aa-steel-700)', lineHeight: 1.5 }}>Answer a few quick questions — your exact deadlines, a tailored verdict and next steps, as an instant PDF.</p>
         </div>
         <div style={{ padding: '0 28px 24px' }}>
           <EInvoicingPage formOnly onNav={onNav} onClose={close} />
           <div style={{ marginTop: 16, textAlign: 'center' }}>
-            <a href={pathForPage('e-invoicing')} onClick={viewFull} style={{ fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan-700)', textDecoration: 'none' }}>Read the full e-invoicing briefing →</a>
+            <a href={pathForPage('e-invoicing')} onClick={viewFull} style={{ fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan)', textDecoration: 'none' }}>Read the full e-invoicing briefing →</a>
           </div>
         </div>
       </div>
@@ -842,7 +842,7 @@ function EInvDeadlinePage({ onNav }) {
               </thead>
               <tbody>
                 {PHASES.map(([who, asp, live], i) => (
-                  <tr key={who} style={{ borderTop: '1px solid var(--aa-rule)', background: i === 0 ? 'rgba(41,171,226,0.07)' : '#fff' }}>
+                  <tr key={who} style={{ borderTop: '1px solid var(--aa-rule)', background: i === 0 ? 'rgba(0,176,240,0.07)' : '#fff' }}>
                     <td style={{ padding: '12px 16px', fontWeight: i === 0 ? 700 : 400 }}>{who}</td>
                     <td style={{ padding: '12px 16px', whiteSpace: 'nowrap', fontWeight: i === 0 ? 700 : 400 }}>{asp}</td>
                     <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>{live}</td>
@@ -878,7 +878,7 @@ function EInvDeadlinePage({ onNav }) {
               {GUIDES.map(([slug, label]) => (
                 <li key={slug}>
                   <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-                    style={{ color: 'var(--aa-cyan-700)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
+                    style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
                     {label} →
                   </a>
                 </li>
@@ -898,7 +898,7 @@ function EInvDeadlinePage({ onNav }) {
                 <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                   <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span>{f.q}</span>
-                    <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
+                    <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
                   </summary>
                   <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
                 </details>

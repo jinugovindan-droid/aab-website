@@ -9,8 +9,8 @@ const path = require('path');
   const W = 1200, H = 630;
   const card = new Jimp(W, H, 0xffffffff);            // opaque white background
 
-  // Brand accent bar along the bottom (cyan #29ABE2)
-  card.composite(new Jimp(W, 14, 0x29abe2ff), 0, H - 14);
+  // Brand accent bar along the bottom (cyan #00B0F0)
+  card.composite(new Jimp(W, 14, 0x00b0f0ff), 0, H - 14);
 
   // Clean English logo, centred. No tagline text — WhatsApp/social already show
   // the title + description beside the thumbnail, and small text just smudges when
