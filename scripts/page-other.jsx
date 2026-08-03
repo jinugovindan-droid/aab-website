@@ -106,6 +106,30 @@ function IndustriesPage({ onNav }) {
           </div>
         </div>
       </section>
+
+      {/* FAQ — same single source as the FAQPage JSON-LD (routes.js FAQ_BY_PAGE). */}
+      {(window.AARoutes && window.AARoutes.FAQ_BY_PAGE && window.AARoutes.FAQ_BY_PAGE.industries || []).length > 0 && (
+        <section className="section">
+          <div className="container" style={{ maxWidth: 860 }}>
+            <div className="section-head">
+              <div className="section-head__eyebrow">FAQ</div>
+              <h2>Industry accounting, answered.</h2>
+            </div>
+            <div style={{ borderTop: '1px solid var(--aa-rule)' }}>
+              {window.AARoutes.FAQ_BY_PAGE.industries.map((f, i) => (
+                <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
+                  <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
+                    <span>{f.q}</span>
+                    <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
+                  </summary>
+                  <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
+                </details>
+              ))}
+            </div>
+            <p style={{ marginTop: 16, fontSize: 12.5, color: 'var(--aa-steel)' }}>Rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || 'July 2026'} — general guidance, not tax advice.</p>
+          </div>
+        </section>
+      )}
     </div>);
 
 }
@@ -2178,6 +2202,30 @@ function IndustrySimplePage({ page, onNav }) {
           </p>
         </div>
       </section>
+
+      {/* FAQ — same single source as the FAQPage JSON-LD (routes.js FAQ_BY_PAGE). */}
+      {(window.AARoutes && window.AARoutes.FAQ_BY_PAGE && window.AARoutes.FAQ_BY_PAGE[page] || []).length > 0 && (
+        <section className="section section--off">
+          <div className="container" style={{ maxWidth: 860 }}>
+            <div className="section-head">
+              <div className="section-head__eyebrow">FAQ</div>
+              <h2>{cfg.crumb} accounting, answered.</h2>
+            </div>
+            <div style={{ borderTop: '1px solid var(--aa-rule)' }}>
+              {window.AARoutes.FAQ_BY_PAGE[page].map((f, i) => (
+                <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
+                  <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
+                    <span>{f.q}</span>
+                    <span style={{ color: 'var(--aa-cyan-700)', flexShrink: 0 }}>+</span>
+                  </summary>
+                  <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
+                </details>
+              ))}
+            </div>
+            <p style={{ marginTop: 16, fontSize: 12.5, color: 'var(--aa-steel)' }}>Rules current as at {(window.AARoutes && window.AARoutes.TAX_RULES_ASOF) || 'July 2026'} — general guidance, not tax advice.</p>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

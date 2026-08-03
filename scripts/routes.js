@@ -50,6 +50,7 @@
   const INSIGHTS = [
     {
       slug: 'ifrs-financial-statements-uae',
+      seoTitle: 'IFRS Financial Statements in the UAE: Who Needs Them', seoDesc: 'Who must prepare IFRS statements in the UAE, the standards Corporate Tax accepts (IFRS, IFRS for SMEs, cash basis), and what a complete set contains.',
       tag: 'Financial Reporting', date: '15 Apr 2026', read: '7 min',
       title: 'IFRS financial statements in the UAE: who needs them, and what a full set contains.',
       author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan', reference: 'Ministerial Decision No. 114 of 2023 (accounting standards for UAE Corporate Tax)',
@@ -58,6 +59,7 @@
     },
     {
       slug: 'prepare-erp-for-uae-e-invoicing',
+      seoTitle: 'UAE E-Invoicing ERP Readiness Checklist', seoDesc: 'Master-data hygiene, field mapping, tax-code cleanup and testing — the ERP groundwork that decides whether your UAE e-invoicing go-live is smooth.',
       tag: 'E-Invoicing', date: '10 Mar 2026', read: '6 min',
       title: 'Getting your ERP ready for UAE e-invoicing: a practical checklist.',
       author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026), UAE Ministry of Finance', updated: '20 Jul 2026',
@@ -66,6 +68,7 @@
     },
     {
       slug: 'choosing-accredited-service-provider-asp',
+      seoTitle: 'UAE E-Invoicing ASP List: 42 Pre-Approved Providers', seoDesc: 'How to choose an Accredited Service Provider for UAE e-invoicing — with the full MoF pre-approved list of 42 providers and the questions to ask first.',
       tag: 'E-Invoicing', date: '22 Jan 2026', read: '6 min',
       title: 'Choosing an Accredited Service Provider (ASP) for UAE e-invoicing.',
       author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026) and MD 64 of 2025 (as amended by MD 56 of 2026), UAE Ministry of Finance', updated: '20 Jul 2026',
@@ -74,6 +77,7 @@
     },
     {
       slug: 'uae-e-invoicing-deadlines-phases',
+      seoTitle: 'UAE E-Invoicing Deadlines & Phases: Full Timeline', seoDesc: 'The UAE e-invoicing rollout tier by tier: ASP appointment deadlines and mandatory go-live dates by annual revenue, laid out in one clear timeline.',
       tag: 'E-Invoicing', date: '08 Dec 2025', read: '5 min',
       title: 'UAE e-invoicing deadlines and phases: who must comply, and by when.',
       author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026), UAE Ministry of Finance', updated: '20 Jul 2026',
@@ -82,6 +86,7 @@
     },
     {
       slug: 'uae-e-invoicing-explained',
+      seoTitle: 'UAE E-Invoicing Explained: Peppol 5-Corner Guide', seoDesc: 'Plain-English guide to the UAE’s mandatory B2B and B2G e-invoicing: what actually changes, why, and how the Peppol 5-corner model reshapes invoicing.',
       tag: 'E-Invoicing', date: '17 Nov 2025', read: '7 min',
       title: 'UAE e-invoicing explained: a plain-English guide for businesses.',
       author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026), UAE Ministry of Finance', updated: '20 Jul 2026',
@@ -90,6 +95,7 @@
     },
     {
       slug: 'free-zone-qualifying-income',
+      seoTitle: 'Free Zone Qualifying Income: 3 UAE Corporate Tax Traps', seoDesc: 'Three ways tax teams misread the UAE free-zone rules under Cabinet Decision 100 and Ministerial Decision 229 of 2025 — and what each trap costs at filing.',
       tag: 'Corporate Tax', date: '06 May 2025', read: '6 min',
       title: 'Free zone qualifying income — three traps in the UAE free-zone tax rules.',
       author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan', reference: 'Cabinet Decision 100 of 2023 · Ministerial Decision 229 of 2025 (replacing MD 265 of 2023)',
@@ -98,6 +104,7 @@
     },
     {
       slug: 'uae-corporate-tax-guide-sme',
+      seoTitle: 'UAE Corporate Tax Guide for SMEs & Free Zones 2026', seoDesc: 'Who pays 0% and 9%, registration and the AED 10,000 late penalty, Small Business Relief and its 2026 sunset, QFZP status and the 15% top-up tax.',
       tag: 'Corporate Tax', date: '18 Feb 2025', read: '8 min',
       title: 'UAE Corporate Tax: a complete guide for SMEs and free-zone businesses.',
       author: 'Jinu Govindan', reviewer: 'Sabith Abdul Rahman', reference: 'Federal Decree-Law No. 47 of 2022 (UAE Corporate Tax)',
@@ -106,6 +113,7 @@
     },
     {
       slug: 'outsourced-bookkeeping-dubai',
+      seoTitle: 'Outsourced Bookkeeping in Dubai: What Good Looks Like', seoDesc: 'What proper outsourced bookkeeping covers in a VAT and Corporate Tax world, the record-retention rules, and when to outsource versus hire in-house.',
       tag: 'Bookkeeping', date: '12 Sep 2023', read: '6 min',
       title: 'Outsourced bookkeeping in Dubai: what good looks like in a VAT and Corporate Tax world.',
       author: 'Johncy', reviewer: 'Jinu Govindan', reference: 'UAE VAT (FDL 8 of 2017) & Corporate Tax (FDL 47 of 2022) record-keeping requirements',
@@ -114,6 +122,7 @@
     },
     {
       slug: 'uae-vat-guide-dubai',
+      seoTitle: 'UAE VAT Registration, Filing & Recovery: Dubai Guide', seoDesc: 'The 5% rate, AED 375,000 and AED 187,500 registration thresholds, EmaraTax filing deadlines, input-VAT recovery and the zero-rated vs exempt line.',
       tag: 'VAT', date: '20 Mar 2023', read: '7 min',
       title: 'VAT in the UAE: registration, filing and recovery — a Dubai business guide.',
       author: 'Jinu Govindan', reviewer: 'Sabith Abdul Rahman', reference: 'Federal Decree-Law No. 8 of 2017 on VAT (as amended)',
@@ -122,6 +131,7 @@
     },
     {
       slug: 'uae-corporate-tax-is-coming',
+      seoTitle: 'UAE Corporate Tax at 9%: Preparing Your Business', seoDesc: 'Written as the 9% federal Corporate Tax was announced: the AED 375,000 threshold, effective dates and the groundwork to lay before day one.',
       tag: 'Corporate Tax', date: '28 Sep 2022', read: '5 min',
       title: 'UAE Corporate Tax is coming: what businesses should start doing now.',
       author: 'Jinu Govindan', reviewer: 'Sabith Abdul Rahman', reference: 'UAE Ministry of Finance Corporate Tax announcement (2022)',
@@ -130,6 +140,7 @@
     },
     {
       slug: 'management-accounts-that-drive-decisions',
+      seoTitle: 'Management Accounts That Drive Decisions: UAE Guide', seoDesc: 'What belongs in a monthly management pack a UAE owner-manager can actually steer by — the KPIs, cash view and variances that lead to decisions.',
       tag: 'Advisory', date: '14 Oct 2021', read: '5 min',
       title: 'Management accounts that actually drive decisions.',
       author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan',
@@ -138,6 +149,7 @@
     },
     {
       slug: 'protecting-cash-flow-downturn',
+      seoTitle: 'Protecting Cash Flow in a Downturn: 13-Week Method', seoDesc: 'Profit is an opinion, cash is a fact. A practical 13-week cash-flow discipline for UAE SMEs when revenue suddenly slows, written in the 2020 slowdown.',
       tag: 'Advisory', date: '20 May 2020', read: '5 min',
       title: 'Protecting cash flow when revenue stalls.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan',
@@ -146,6 +158,7 @@
     },
     {
       slug: 'economic-substance-regulations-uae',
+      seoTitle: 'Economic Substance Regulations UAE: Are You in Scope?', seoDesc: 'Which relevant activities bring a UAE company into ESR scope, the notification and reporting duties that follow, and what filing actually requires.',
       tag: 'Compliance', date: '16 Sep 2019', read: '5 min',
       title: 'Economic Substance Regulations: do they apply to your UAE company?',
       author: 'Rijo Mathew', reviewer: 'Jinu Govindan', reference: 'UAE Economic Substance Regulations (Cabinet Resolution, 2019)',
@@ -154,6 +167,7 @@
     },
     {
       slug: 'uae-vat-5-percent-primer',
+      seoTitle: 'UAE VAT at 5%: A First-Principles Primer (2018)', seoDesc: 'From 1 January 2018 the UAE introduced 5% VAT. A first-principles primer from the year it landed — who registers, what to charge, which records to keep.',
       tag: 'VAT', date: '26 Feb 2018', read: '4 min',
       title: 'VAT has arrived: a 5% primer for UAE businesses.',
       author: 'Rijo Mathew', reviewer: 'Jinu Govindan', reference: 'Federal Decree-Law No. 8 of 2017 on VAT',
@@ -162,6 +176,7 @@
     },
     {
       slug: 'bookkeeping-foundation',
+      seoTitle: 'Bookkeeping Discipline: The Foundation of a Business', seoDesc: 'Clean, reconciled books are not overhead — they are what every financing, audit and tax position is built on. The firm’s founding note from 2017.',
       tag: 'Bookkeeping', date: '11 Dec 2017', read: '4 min',
       title: 'Why disciplined bookkeeping is the foundation of every business.',
       author: 'Jinu Govindan', reviewer: 'Johncy',
@@ -170,6 +185,7 @@
     },
     {
       slug: 'dcf-terminal-values-family-office',
+      seoTitle: 'DCF Terminal Values: Where UAE Family Offices Drift', seoDesc: 'Terminal value carries most of a DCF’s weight — and it is where UAE family-office valuations most often go wrong. The assumptions we test first.',
       tag: 'Valuations', date: '24 Mar 2021', read: '9 min',
       title: 'Why DCF terminal values are mispriced for UAE family-office holdings.',
       author: 'Jinu Govindan',
@@ -178,6 +194,7 @@
     },
     {
       slug: 'control-framework-erp-migrations',
+      seoTitle: 'Internal Controls That Survive ERP Migrations', seoDesc: 'Most control breaks trace back to an ERP migration. The controls that must survive the cutover, and how to test them before go-live rather than after.',
       tag: 'Controls', date: '09 May 2023', read: '11 min',
       title: 'A control framework that survives ERP migrations: a practitioner’s note.',
       author: 'Jinu Kurikesu',
@@ -186,6 +203,7 @@
     },
     {
       slug: 'designated-zone-reclassification',
+      seoTitle: 'Designated Zone VAT: The Movement Trail to Keep', seoDesc: 'Goods in a UAE designated zone can be reclassified as taxable supplies when the movement trail is thin. The records that keep your position defensible.',
       tag: 'VAT', date: '22 Feb 2024', read: '5 min',
       title: 'Designated zone reclassification — the trail you must keep.',
       author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan',
@@ -194,6 +212,7 @@
     },
     {
       slug: 'working-capital-pegs-uae-deals',
+      seoTitle: 'Working Capital Pegs in UAE Deals: Setting the Target', seoDesc: 'The working-capital peg is where UAE deals quietly gain or lose value at close. Closing-mechanic patterns we keep seeing, and how to set the peg well.',
       tag: 'M&A', date: '14 Apr 2022', read: '8 min',
       title: 'Working capital pegs in UAE deals: closing-mechanic patterns we keep seeing.',
       author: 'Jinu Govindan',
@@ -202,6 +221,7 @@
     },
     {
       slug: 'transfer-pricing-thresholds-board',
+      seoTitle: 'UAE Transfer Pricing Thresholds & Documentation Guide', seoDesc: 'The thresholds that make UAE transfer pricing documentation mandatory — disclosure form, master file, local file — and what a Board should expect to see.',
       tag: 'Corporate Tax', date: '16 Sep 2024', read: '7 min',
       title: 'Transfer pricing thresholds and the documentation a Board should expect.',
       author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan',
@@ -210,6 +230,7 @@
     },
     {
       slug: 'reconciliation-resolve-to-zero',
+      seoTitle: 'Why Every Reconciliation Should Resolve to Zero', seoDesc: 'A reconciliation that closes to a tolerance is not reconciled. Why we hold the line at zero, and the disciplined way to clear any residual balance.',
       tag: 'Controls', date: '18 Nov 2020', read: '6 min',
       title: 'Why every reconciliation should resolve to zero — and what to do when it does not.',
       author: 'Jinu Kurikesu',
@@ -218,6 +239,7 @@
     },
     {
       slug: 'cost-of-equity-gcc-buildup',
+      seoTitle: 'Cost of Equity in the GCC: A Practitioner’s Build-Up', seoDesc: 'Off-the-shelf cost-of-equity inputs travel badly to the GCC. A component-by-component build-up with the local adjustments that actually matter.',
       tag: 'Valuations', date: '12 Jun 2019', read: '10 min',
       title: 'Cost-of-equity in the GCC: a practitioner’s build-up.',
       author: 'Jinu Govindan',
@@ -235,128 +257,128 @@
 
   const PAGE_SEO = {
     home: {
-      title: 'Authentic Accounting — UAE Compliance & Advisory · Accounting, VAT, Corporate Tax, E-Invoicing',
-      description: 'UAE-based accounting and advisory firm serving SMEs, enterprises and Government across all 7 emirates. Accounting, VAT, UAE Corporate Tax, E-Invoicing, financial statements (IFRS), valuations and due diligence — delivered with reconciliation discipline since 2017.',
+      title: 'Accounting, VAT, Corporate Tax & E-Invoicing — Dubai, UAE',
+      description: 'Accounting, VAT, Corporate Tax and E-Invoicing for UAE businesses across all 7 emirates since 2017. Free CT estimator, VAT checker and readiness tools.',
     },
     services: {
-      title: 'Services — Accounting, VAT, Corporate Tax & Advisory | Authentic Accounting',
-      description: 'Compliance and advisory services for UAE businesses: accounting, VAT, Corporate Tax, IFRS financial statements, valuations, M&A support and due diligence.',
+      title: 'Accounting, VAT & Corporate Tax Consultancy Dubai, UAE',
+      description: 'Full-scope services for UAE businesses: accounting, VAT consultancy, Corporate Tax, IFRS financial statements, valuations and e-invoicing readiness.',
     },
     'service-vat': {
-      title: 'VAT Compliance UAE — Registration, Filing & FTA Support | Authentic Accounting',
-      description: 'End-to-end UAE VAT compliance: registration, return filing, FTA correspondence, voluntary disclosures and audit support — with a free VAT registration checker and live filing-deadline countdown.',
+      title: 'VAT Registration & Return Filing UAE — Free Checker',
+      description: 'UAE VAT registration, return filing, voluntary disclosures and FTA correspondence support — plus a free VAT registration checker and deadline countdown.',
     },
     'service-corporate-tax': {
-      title: 'UAE Corporate Tax — Registration, Filing & 9% Compliance | Authentic Accounting',
-      description: 'End-to-end UAE Corporate Tax compliance under Federal Decree-Law 47 of 2022: registration, computation, QFZP analysis, Small Business Relief and FTA filing — with a free Corporate Tax calculator (estimator) and return-deadline countdown.',
+      title: 'Corporate Tax Registration & Filing UAE — 9% Compliance',
+      description: 'UAE Corporate Tax registration, computation and FTA filing — 0% and 9% bands, Small Business Relief, QFZP analysis and a free Corporate Tax estimator.',
     },
     'service-bookkeeping': {
-      title: 'Outsourced Bookkeeping & Accounting Services Dubai, UAE | Authentic Accounting',
-      description: 'Outsourced bookkeeping and accounting in Dubai: day-to-day recording, bank and ledger reconciliations, monthly close and management accounts — VAT and Corporate Tax-ready, delivered against a documented controls framework.',
+      title: 'Outsourced Bookkeeping & Accounting Services Dubai',
+      description: 'Outsourced bookkeeping in Dubai: daily recording, bank reconciliations, monthly close and management accounts — VAT and Corporate Tax-ready books.',
     },
     'service-audit-support': {
-      title: 'Audit Support & Preparation Services Dubai, UAE | Authentic Accounting',
-      description: 'Audit preparation and support in the UAE: audit-ready trial balance and lead schedules, reconciliations, auditor liaison and findings closeout for statutory and group audits under IFRS — so your external audit runs fast and clean.',
+      title: 'Audit Support & Preparation Services Dubai, UAE',
+      description: 'Audit-ready trial balance, lead schedules, reconciliations and auditor liaison for statutory and group audits under IFRS — a faster, cleaner external audit.',
     },
     'service-valuations': {
-      title: 'Business Valuation Services Dubai, UAE — DCF & Fair Value | Authentic Accounting',
-      description: 'Independent business valuations in the UAE — DCF, market-multiple and asset-based — for M&A, shareholder disputes, financial reporting (IFRS 13 fair value), fundraising and statutory purposes, to International Valuation Standards.',
+      title: 'Business Valuation Services Dubai, UAE — DCF & Fair Value',
+      description: 'Independent business valuations in the UAE — DCF, market multiples and asset-based — for M&A, disputes, IFRS 13 fair value and fundraising.',
     },
     'service-transaction-advisory': {
-      title: 'M&A Support & Financial Due Diligence Dubai, UAE | Authentic Accounting',
-      description: 'Buy-side and sell-side M&A support and financial due diligence in the UAE — quality of earnings, working capital and net debt analysis, deal structuring and closing mechanics. Independent, evidence-led transaction advisory.',
+      title: 'Financial Due Diligence & M&A Support Dubai, UAE',
+      description: 'Buy-side and sell-side financial due diligence in the UAE — quality of earnings, working capital and net debt analysis, deal structuring and closing support.',
     },
     'service-cfo': {
-      title: 'Outsourced & Fractional CFO Services Dubai, UAE | Authentic Accounting',
-      description: 'Interim, fractional and outsourced CFO services in the UAE — board reporting, budgeting and forecasting, cash and treasury, fundraising support and finance function build-out. Senior finance leadership without a full-time hire.',
+      title: 'Outsourced & Fractional CFO Services Dubai, UAE',
+      description: 'Fractional and outsourced CFO services in the UAE — board reporting, budgeting, cash and treasury, fundraising support and finance team build-out.',
     },
     'service-financial-statements': {
-      title: 'IFRS Financial Statements Preparation Dubai, UAE | Authentic Accounting',
-      description: 'Preparation of IFRS and IFRS for SMEs financial statements in the UAE — balance sheet, income statement, cash flow and notes, group consolidation and disclosures — audit- and Corporate Tax-ready.',
+      title: 'IFRS Financial Statements Preparation Dubai, UAE',
+      description: 'IFRS and IFRS for SMEs financial statements in the UAE — full sets with notes and disclosures, group consolidation, audit- and Corporate Tax-ready.',
     },
     'service-tax-planning': {
-      title: 'Corporate Tax Planning & Structuring Dubai, UAE | Authentic Accounting',
-      description: 'UAE Corporate Tax planning and structuring — group and transaction structuring, free-zone (QFZP) optimisation, transfer pricing alignment and Corporate Tax position memos. Compliant, FTA-defensible tax advisory.',
+      title: 'Corporate Tax Advisory & Planning UAE — QFZP & Structuring',
+      description: 'UAE Corporate Tax advisory — group and transaction structuring, free-zone QFZP optimisation, transfer pricing alignment and defensible position memos.',
     },
     'service-fixed-asset-tagging': {
-      title: 'Fixed Asset Tagging & Register Services Dubai, UAE | Authentic Accounting',
-      description: 'Physical fixed-asset verification and tagging, register reconstruction, depreciation policy review and impairment indicators across the UAE — a clean, auditable fixed-asset register.',
+      title: 'Fixed Asset Tagging & Verification UAE — All 7 Emirates',
+      description: 'Physical fixed-asset verification and tagging, register reconstruction and depreciation review — on site across Dubai, RAK, UAQ and all seven emirates.',
     },
     'service-forensic-accounting': {
-      title: 'Forensic Accounting & Fraud Investigation Dubai, UAE | Authentic Accounting',
-      description: 'Forensic accounting in the UAE — fraud investigation, dispute and litigation support, expert testimony and evidence reconstruction for contested financial matters.',
+      title: 'Forensic Accounting & Fraud Investigation Dubai, UAE',
+      description: 'Forensic accounting in the UAE — fraud investigation, dispute and litigation support, expert testimony and evidence reconstruction for contested matters.',
     },
     'service-internal-controls': {
-      title: 'Internal Controls Design & Review Dubai, UAE | Authentic Accounting',
-      description: 'Internal controls design, walkthroughs and remediation for UAE businesses, regulated entities and pre-IPO issuers — risk-and-control matrices, testing and management attestation.',
+      title: 'Internal Controls & Internal Audit Support Dubai, UAE',
+      description: 'Internal controls design, walkthroughs and remediation for UAE businesses, regulated entities and pre-IPO issuers — risk-and-control matrices and testing.',
     },
     'service-financial-modelling': {
-      title: 'Financial Modelling Services Dubai, UAE | Authentic Accounting',
-      description: 'Auditable financial models for UAE businesses — operating, transaction, LBO and board-pack models, FAST-standard, with scenarios and sensitivity analysis.',
+      title: 'Financial Modelling Services Dubai — FAST-Standard Models',
+      description: 'Auditable financial models for UAE businesses — operating, transaction, LBO and board-pack models with scenario and sensitivity analysis built in.',
     },
     'service-feasibility-studies': {
-      title: 'Feasibility Study Services Dubai, UAE | Authentic Accounting',
-      description: 'Project feasibility studies in the UAE — financial modelling, sensitivity and scenario analysis and a clear pre-investment recommendation for new projects and ventures.',
+      title: 'Project Feasibility Study Services Dubai, UAE',
+      description: 'Project feasibility studies in the UAE — financial modelling, sensitivity and scenario analysis, and a clear pre-investment recommendation for new ventures.',
     },
     'service-strategic-advisory': {
-      title: 'Strategic Financial Advisory Dubai, UAE | Authentic Accounting',
-      description: 'Board-level strategic financial advisory in the UAE — accounting policy selection, complex transactions, restructuring and Board-grade positions.',
+      title: 'Strategic Financial Advisory Dubai — Board-Level Support',
+      description: 'Board-level financial advisory in the UAE — accounting policy selection, complex transactions, restructuring and defensible Board-grade positions.',
     },
     'e-invoicing': {
-      title: 'UAE E-Invoicing Readiness — Peppol & FTA Compliance | Authentic Accounting',
-      description: 'Prepare your UAE business for e-invoicing mandates. System readiness, Peppol integration guidance, process design and compliance advisory.',
+      title: 'UAE E-Invoicing Readiness — ASP, Peppol & 2026 Deadlines',
+      description: 'Get ready for the 30 October 2026 UAE e-invoicing deadline — ASP selection, Peppol readiness, process design and a free readiness PDF.',
     },
     industries: {
-      title: 'Industries We Serve — UAE Accounting & Advisory | Authentic Accounting',
-      description: 'Sector-specific accounting and advisory for trading, manufacturing, hospitality, healthcare, real estate, technology and Government entities across the UAE.',
+      title: 'Industries — Accounting & Advisory by Sector, UAE',
+      description: 'Sector-focused accounting and advisory for real estate, construction, trading, hospitality, e-commerce and manufacturing businesses across Dubai and the UAE.',
     },
     'industry-real-estate': {
-      title: 'Real Estate Accounting Dubai, UAE — Developers & Property | Authentic Accounting',
-      description: 'Accounting, VAT, Corporate Tax and audit support for UAE real estate developers, property and jointly-owned-property management companies — IFRS 15 revenue recognition, service-charge and escrow accounting, lease accounting and developer valuations.',
+      title: 'Real Estate Accounting Dubai — Developers & Property',
+      description: 'Accounting, VAT and Corporate Tax for UAE developers and property managers — IFRS 15 revenue, escrow and service-charge accounting, audit-ready books.',
     },
     'industry-construction': {
-      title: 'Construction & Contracting Accounting Dubai, UAE | Authentic Accounting',
-      description: 'Accounting and advisory for UAE construction and contracting companies — IFRS 15 over-time revenue, work-in-progress and cost-to-complete, retention, variation orders, project costing and audit-ready statements.',
+      title: 'Construction & Contracting Accounting Dubai, UAE',
+      description: 'Accounting for UAE construction and contracting firms — IFRS 15 over-time revenue, WIP and cost-to-complete, retentions and audit-ready project reporting.',
     },
     'industry-trading': {
-      title: 'Trading & Distribution Accounting Dubai, UAE | Authentic Accounting',
-      description: 'Accounting, VAT and Corporate Tax for UAE trading and distribution companies — inventory valuation and COGS, import/export VAT and reverse charge, designated-zone treatment and margin analysis.',
+      title: 'Trading & Distribution Accounting Dubai, UAE',
+      description: 'Accounting, VAT and Corporate Tax for UAE trading and distribution companies — inventory and COGS, import VAT and reverse charge, designated-zone treatment.',
     },
     'industry-hospitality': {
-      title: 'Hospitality, F&B & Restaurant Accounting Dubai, UAE | Authentic Accounting',
-      description: 'Accounting for UAE hospitality, F&B and restaurant businesses — multi-outlet consolidation, daily POS sales reconciliation, service and municipality fees, food-cost control and VAT compliance.',
+      title: 'Hospitality, F&B & Restaurant Accounting Dubai, UAE',
+      description: 'Accounting for UAE hotels, restaurants and F&B groups — multi-outlet consolidation, daily POS reconciliation, cost control and VAT compliance.',
     },
     'industry-ecommerce': {
-      title: 'E-commerce & Retail Accounting Dubai, UAE | Authentic Accounting',
-      description: 'Accounting and VAT for UAE e-commerce and retail businesses — marketplace and payment-gateway reconciliation, multi-channel revenue, cross-border and import VAT, inventory and returns.',
+      title: 'E-commerce & Retail Accounting Dubai, UAE',
+      description: 'Accounting and VAT for UAE e-commerce and retail — marketplace and payment-gateway reconciliation, multi-channel revenue, import VAT, inventory and returns.',
     },
     'industry-manufacturing': {
-      title: 'Manufacturing Accounting Dubai, UAE — Cost & Inventory | Authentic Accounting',
-      description: 'Accounting and advisory for UAE manufacturers — cost accounting and overhead allocation, raw-material/WIP/finished-goods inventory valuation, fixed-asset accounting, and VAT and Corporate Tax compliance.',
+      title: 'Manufacturing Accounting Dubai — Cost & Inventory',
+      description: 'Accounting for UAE manufacturers — cost and overhead allocation, WIP and finished-goods inventory valuation, fixed assets, VAT and Corporate Tax compliance.',
     },
     about: {
-      title: 'About Us — Authentic Accounting | UAE Accounting & Advisory Firm Since 2017',
-      description: 'Learn about Authentic Accounting and Bookkeeping L.L.C — a Dubai-based firm delivering reconciliation discipline, regulatory compliance and Board-grade advisory since 2017.',
+      title: 'About Us — Dubai Accounting & Advisory Firm Since 2017',
+      description: 'Authentic Accounting and Bookkeeping L.L.C — Dubai firm serving all 7 emirates since 2017. Reconciliation-led accounting, tax and Board-grade advisory.',
     },
     insights: {
-      title: 'Insights — UAE Tax, Compliance & Advisory Articles | Authentic Accounting',
-      description: 'Regulatory updates, FTA guidance, Corporate Tax notes and advisory articles from Authentic Accounting\'s UAE compliance team.',
+      title: 'UAE VAT, Corporate Tax & E-Invoicing Insights',
+      description: 'Practical articles on UAE VAT, Corporate Tax, e-invoicing and IFRS from a Dubai accounting team — plain-English guides plus free calculators and tools.',
     },
     careers: {
-      title: 'Careers — Join Authentic Accounting | Dubai, UAE',
-      description: 'Explore career opportunities at Authentic Accounting. Join a UAE compliance and advisory team built on reconciliation discipline and professional standards.',
+      title: 'Careers — Accounting Jobs in Dubai, UAE',
+      description: 'Explore open roles at a Dubai accounting and advisory firm serving all 7 emirates since 2017. Send your CV and grow with a compliance-first team.',
     },
     contact: {
-      title: 'Contact Us — Book a Consultation | Authentic Accounting Dubai',
-      description: 'Contact Authentic Accounting in Dubai. Book a consultation for accounting, VAT, Corporate Tax, valuations or advisory support across the UAE.',
+      title: 'Contact — Book an Accounting Consultation in Dubai',
+      description: 'Speak to our Dubai team about accounting, VAT, Corporate Tax or E-Invoicing. Call, email or book a consultation — we serve businesses across the UAE.',
     },
     privacy: {
-      title: 'Privacy Policy | Authentic Accounting Dubai',
-      description: 'How Authentic Accounting and Bookkeeping L.L.C collects, uses, retains and protects personal information submitted through aaccounting.me, in line with UAE Federal Decree-Law No. 45 of 2021 (PDPL).',
+      title: 'Privacy Policy — How We Handle Your Data',
+      description: 'How Authentic Accounting collects, uses, retains and protects personal data submitted via aaccounting.me, in line with the UAE Personal Data Protection Law.',
     },
     terms: {
-      title: 'Terms of Use | Authentic Accounting Dubai',
-      description: 'Terms governing use of the aaccounting.me website. Marketing site only — does not constitute a professional engagement. UAE law and Dubai courts apply.',
+      title: 'Terms of Use — aaccounting.me',
+      description: 'Terms governing use of the aaccounting.me website — general information, not professional advice or an engagement; governed by UAE law as applied in Dubai.',
     },
   };
 
@@ -752,6 +774,106 @@
     return items;
   }
 
+  // /services FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const SERVICES_HUB_FAQ = [
+    { q: 'What services does an accounting firm in Dubai typically provide?',
+      a: 'A full-service Dubai accounting firm covers bookkeeping, VAT and Corporate Tax compliance, financial statements, audit support and advisory work such as valuations, due diligence and CFO services. Authentic Accounting delivers these under one engagement, spanning compliance — monthly close, FTA filings, IFRS statements — and advisory, including financial modelling, tax planning and transaction support.' },
+    { q: 'When must a UAE business register for VAT?',
+      a: 'A UAE business must register for VAT once its taxable supplies and imports exceed AED 375,000 over the previous 12 months, or are expected to within the next 30 days. Voluntary registration is available from AED 187,500. Registration, return preparation and FTA filing are part of our VAT compliance service, so thresholds are monitored before they become a problem.' },
+    { q: 'What is the Corporate Tax rate in the UAE?',
+      a: 'UAE Corporate Tax applies at 9% on taxable income above AED 375,000, with a 0% rate on taxable income up to that level. Qualifying free zone persons can access a 0% rate on qualifying income, subject to conditions. Our UAE Corporate Tax service handles registration, the period computation and return filing, including free-zone (QFZP) analysis where relevant.' },
+    { q: 'When does e-invoicing become mandatory in the UAE?',
+      a: 'UAE e-invoicing goes live in phases by revenue: businesses with annual revenue of AED 50 million or more go live on 1 January 2027, after appointing an Accredited Service Provider by 30 October 2026; other businesses follow on 1 July 2027 and government entities on 1 October 2027. Our E-Invoicing support service covers readiness assessment, ASP selection and ERP data preparation ahead of your dates.' },
+  ];
+
+  // /industries FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const INDUSTRIES_HUB_FAQ = [
+    { q: 'Does industry matter when choosing an accounting firm in Dubai?',
+      a: 'Yes — the accounting judgements that matter most are sector-specific: IFRS 15 revenue for developers and contractors, designated-zone VAT for traders, daily POS reconciliation for F&B, cost absorption for manufacturers. A firm that knows your sector asks the right questions from day one. Authentic Accounting organises its work around these industry differences.' },
+    { q: 'Which industries does Authentic Accounting work with in the UAE?',
+      a: 'We work across government and public sector, large enterprises, SMEs and family offices, financial services, real estate and construction, and healthcare and education — with dedicated capability in trading, hospitality, e-commerce and manufacturing. The engagement model flexes from a full outsourced finance function to project-based advisory, sector by sector.' },
+    { q: 'Do regulated financial firms in the UAE need specialised accounting support?',
+      a: 'Yes — SCA and CBUAE-regulated entities carry obligations beyond standard bookkeeping, including controls attestation, risk-and-control matrix design and regulator-ready reporting. Asset managers, brokers and insurers each have their own reporting nuances. We support regulated entities with controls work alongside the core accounting engagement.' },
+    { q: 'What accounting support do UAE healthcare and education providers need?',
+      a: 'Healthcare and education providers face regulatory cost reporting and funder reconciliation on top of normal accounting — DOH cost submissions for healthcare and KHDA requirements for Dubai schools being common examples. Funder and insurer settlements need disciplined reconciliation. We support hospital groups and school operators with both.' },
+  ];
+
+  // /industries/real-estate FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const IND_REALESTATE_FAQ = [
+    { q: 'How is VAT applied to real estate in the UAE?',
+      a: 'The first supply of a new residential building is zero-rated, subsequent residential sales and leases are exempt, and commercial property is taxed at the standard 5% rate. Mixed-use buildings need the treatment applied line by line, which also affects how much input VAT a property business can recover. Our VAT compliance work for property companies covers exactly this analysis.' },
+    { q: 'How do UAE developers recognise revenue on off-plan sales?',
+      a: 'Under IFRS 15, off-plan revenue is recognised either over time as the project progresses or at a point in time on handover, depending on the contract terms and the developer’s enforceable right to payment. It is usually the biggest accounting judgement on a developer’s books, and one we document with audit-ready workings as part of our financial statements service.' },
+    { q: 'What is service-charge accounting for jointly owned property in Dubai?',
+      a: 'Service-charge accounting keeps owners’ contributions, budgets and spending for a jointly owned property in separate, auditable ledgers, distinct from the management company’s own books. RERA escrow discipline and Owners’-Committee reporting sit alongside it. We run service-charge ledgers and reporting as part of our bookkeeping work for property managers.' },
+    { q: 'Do UAE companies pay Corporate Tax on rental income?',
+      a: 'Yes — rental income earned by a UAE company forms part of its taxable income and is taxed at 9% above AED 375,000, with 0% below that level. The position can differ for individuals holding property personally, so ownership structure matters. Our Corporate Tax service computes taxable income for property holdings, including any free-zone analysis.' },
+  ];
+
+  // /industries/construction FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const IND_CONSTRUCTION_FAQ = [
+    { q: 'How do construction companies recognise revenue in the UAE?',
+      a: 'Most UAE contractors recognise revenue over time under IFRS 15, typically on a cost-to-cost (input) basis that is re-estimated each reporting period. That makes reliable cost-to-complete estimates and work-in-progress schedules essential, because they drive both revenue and margin. We compute and evidence over-time revenue and WIP so the numbers hold up at audit.' },
+    { q: 'What accounting records must a UAE construction contractor keep?',
+      a: 'A UAE contractor should keep per-project cost ledgers, work-in-progress and cost-to-complete schedules, retention ageing, variation and claim files, and VAT records for each milestone billing — on top of the general books UAE tax law requires every business to maintain. Our project bookkeeping service builds these records so contract margins stay visible and auditable.' },
+    { q: 'How is retention money accounted for in construction contracts?',
+      a: 'Retention should be tracked as a separate receivable (amounts clients withhold from you) and payable (amounts you withhold from sub-contractors), aged apart from normal trade balances. Because retention can stay outstanding for years, mixing it with trade debtors hides real collection risk. We keep retention ledgers separate and aged as standard for contracting clients.' },
+    { q: 'How does VAT apply to construction contracts in the UAE?',
+      a: 'Construction services in the UAE are generally subject to VAT at 5%, with tax points typically triggered by milestone billings, certified payments or receipts under the date-of-supply rules. Sub-contractor chains add input-recovery and timing questions of their own. Our VAT compliance service handles contract, milestone and sub-contractor treatment correctly.' },
+  ];
+
+  // /industries/trading FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const IND_TRADING_FAQ = [
+    { q: 'How should a trading company in Dubai value its inventory?',
+      a: 'Inventory should be valued under IAS 2 at the lower of cost and net realisable value, using FIFO or weighted average cost. Landed cost — duty, freight and handling — belongs in cost, otherwise reported margin is overstated. We set up perpetual inventory, COGS and landed-cost capture for trading clients so margin by SKU is real, not an estimate.' },
+    { q: 'How does import VAT work for UAE trading companies?',
+      a: 'A VAT-registered UAE importer generally self-accounts for import VAT through its VAT return under the reverse-charge mechanism, rather than paying at the border, and recovers it as input tax where the goods are used for taxable supplies. Getting the customs-to-return linkage right matters at FTA review. Our VAT compliance service manages import VAT and reverse charge end to end.' },
+    { q: 'Are goods in a UAE designated zone subject to VAT?',
+      a: 'Goods inside a designated zone can be treated as outside the scope of UAE VAT while certain conditions are met, but supplies become taxable when goods move to the mainland or the conditions fail. The rules are transaction-specific, so blanket assumptions are risky. We map designated-zone flows for trading clients as part of VAT compliance.' },
+    { q: 'Do free zone trading companies pay Corporate Tax in the UAE?',
+      a: 'Free zone companies are within the UAE Corporate Tax regime, but a Qualifying Free Zone Person can access a 0% rate on qualifying income if it meets the conditions; other income is taxed at 9% above AED 375,000. Whether trading activity qualifies depends on the facts, including who the customers are. Our Corporate Tax service includes this free-zone analysis.' },
+  ];
+
+  // /industries/hospitality FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const IND_HOSPITALITY_FAQ = [
+    { q: 'Do restaurants in Dubai need to register for VAT?',
+      a: 'Yes — a restaurant must register for VAT once taxable supplies exceed AED 375,000 over the previous 12 months, and may register voluntarily from AED 187,500. Dine-in, delivery and aggregator sales all count towards the threshold, so multi-channel outlets often cross it earlier than expected. We handle VAT registration and returns for F&B businesses.' },
+    { q: 'What is daily sales reconciliation for a restaurant?',
+      a: 'Daily sales reconciliation matches what the POS says you sold to what actually arrived — cash counts, card settlements and aggregator payouts — every single day. It is the fastest way to catch leakage, missed settlements and aggregator fee errors in F&B. We run daily POS-to-bank reconciliation as part of multi-outlet bookkeeping for hospitality clients.' },
+    { q: 'How are municipality and tourism fees accounted for by UAE restaurants?',
+      a: 'Service charge, municipality and tourism fees should be identified and accounted for separately from food and beverage revenue, since they follow their own rules and remittance obligations by emirate. Bundling them into sales overstates revenue and muddies the VAT workings. We separate these fees in the ledgers as standard for hospitality clients.' },
+    { q: 'How do multi-outlet F&B groups consolidate their accounts?',
+      a: 'Consolidation works when every outlet uses a consistent chart of accounts, per-outlet ledgers roll into one group view, and inter-outlet transactions are eliminated. Done properly, you can compare outlets like-for-like on prime cost and margin. Our hospitality bookkeeping consolidates multi-outlet groups and produces outlet-level management accounts.' },
+  ];
+
+  // /industries/ecommerce FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const IND_ECOMMERCE_FAQ = [
+    { q: 'How does VAT apply to e-commerce sales in the UAE?',
+      a: 'VAT on e-commerce follows place-of-supply rules: sales delivered within the UAE are generally standard-rated at 5%, while cross-border sales and imported goods each have their own treatment. Selling through marketplaces adds questions about who accounts for the VAT. Our VAT compliance service maps the right treatment across website, marketplace and retail channels.' },
+    { q: 'How do online sellers reconcile payment gateway and marketplace payouts?',
+      a: 'Reconcile each payout back to the individual orders it settles, then tie the net amount to the bank — capturing the gateway’s fees, refunds and holdbacks in between. Skipping this step leaves revenue, fees and VAT all approximate. We reconcile Stripe, PayTabs, Amazon, Noon and similar settlements to orders and bank as core e-commerce bookkeeping.' },
+    { q: 'Do e-commerce businesses in the UAE pay Corporate Tax?',
+      a: 'Yes — UAE e-commerce businesses are subject to Corporate Tax like any other company: 9% on taxable income above AED 375,000 and 0% below. Online and omni-channel models raise their own computation questions, from channel-level revenue recognition to marketplace fees. Our Corporate Tax service handles registration, computation and filing for online sellers.' },
+    { q: 'How should an online store account for returns and chargebacks?',
+      a: 'Returns, refunds and chargebacks should reduce recognised revenue and flow back into stock and VAT adjustments in the period they happen, not sit unrecorded in a gateway balance. High-return categories can materially change true margin. We build returns and chargebacks into the monthly close so revenue and inventory stay accurate.' },
+  ];
+
+  // /industries/manufacturing FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
+  const IND_MANUFACTURING_FAQ = [
+    { q: 'What costing method should a UAE manufacturer use?',
+      a: 'Most manufacturers use standard or absorption costing, allocating production overheads to units through defined cost centres — which is also what IAS 2 expects for inventory valuation. The real test is whether the overhead allocation is defensible at audit. We set up job and process costing with overhead absorption that stands up to that scrutiny.' },
+    { q: 'How are raw materials, WIP and finished goods valued?',
+      a: 'All three inventory categories are valued under IAS 2 at the lower of cost and net realisable value, with cost building up through the production process: materials, direct labour and absorbed production overheads. Each stage needs its own valuation workings. We maintain raw-material, WIP and finished-goods valuations as part of manufacturing bookkeeping.' },
+    { q: 'Can UAE manufacturers recover VAT on machinery and raw materials?',
+      a: 'Generally yes — input VAT on machinery, raw materials and production costs is recoverable where the purchases are used to make taxable supplies, subject to the normal documentation rules. Recovery gets harder if some output is exempt or out of scope. Our VAT compliance service manages input recovery and return filing for manufacturers.' },
+    { q: 'Why do manufacturers need a fixed asset register?',
+      a: 'A fixed asset register ties plant and machinery on the floor to the ledger — recording cost, location, depreciation and impairment indicators for every asset. It underpins the depreciation in your Corporate Tax computation and is one of the first things auditors test. Our fixed asset tagging service physically verifies assets and reconstructs the register.' },
+  ];
+
+  // Single source for FAQPage JSON-LD + visible page Q&A (templates read it via
+  // window.AARoutes.FAQ_BY_PAGE). Keep in sync with prerender.py's mirror.
+  const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ, 'services': SERVICES_HUB_FAQ, 'industries': INDUSTRIES_HUB_FAQ, 'industry-real-estate': IND_REALESTATE_FAQ, 'industry-construction': IND_CONSTRUCTION_FAQ, 'industry-trading': IND_TRADING_FAQ, 'industry-hospitality': IND_HOSPITALITY_FAQ, 'industry-ecommerce': IND_ECOMMERCE_FAQ, 'industry-manufacturing': IND_MANUFACTURING_FAQ };
+
   function buildJsonLd(page, slug) {
     const blocks = [];
     const chain = breadcrumbChain(page, slug);
@@ -789,7 +911,6 @@
         provider: ORG,
       });
     }
-    const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ };
     if (FAQ_BY_PAGE[page]) {
       blocks.push({
         '@context': 'https://schema.org',
@@ -821,8 +942,10 @@
     if (id === 'insight') {
       const a = insightBySlug(slug) || DEFAULT_INSIGHT;
       meta = {
-        title: a.title.replace(/\.\s*$/, '') + ' | Authentic Accounting Insights',
-        description: a.excerpt,
+        // seoTitle/seoDesc are search-tuned (<=60 / <=158 chars, no brand suffix —
+        // Google shows the site name separately); the on-page headline stays a.title.
+        title: a.seoTitle || a.title.replace(/\.\s*$/, '') + ' | Authentic Accounting Insights',
+        description: a.seoDesc || a.excerpt,
       };
       canonical = SITE_ORIGIN + pathForInsight(a.slug);
     } else {
@@ -902,6 +1025,7 @@
     MODELLING_FAQ,
     FEASIBILITY_FAQ,
     STRATEGIC_FAQ,
+    FAQ_BY_PAGE,
     insightBySlug,
     insightSlugFromPath,
     pageFromPath,
