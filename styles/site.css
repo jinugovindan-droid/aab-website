@@ -60,12 +60,13 @@ main:focus { outline: none; }
   transition: background 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
   border-radius: 0;
 }
-/* Owner rule (4 Aug 2026): buttons use the STANDARD brand blue, never the
-   muted deep cyan. White text on #00B0F0 fails WCAG AA (2.6:1), so primary
-   buttons pair the brand blue with charcoal text instead (6.6:1 — passes). */
-.btn--primary { background: var(--aa-cyan); color: var(--aa-charcoal); }
-.btn--primary:hover { background: #009BD4; color: var(--aa-charcoal); }
-.btn--primary:active { background: #009BD4; color: var(--aa-charcoal); }
+/* Owner rule (4 Aug 2026): "banner style" primary buttons — brand blue
+   (#00B0F0, the true logo blue) INSIDE the charcoal, echoing the dark top
+   banner. 6.9:1 contrast (AA). The thin blue border keeps the button legible
+   on the site's dark charcoal sections (heroes, CTA bands, consent panel). */
+.btn--primary { background: var(--aa-charcoal); color: var(--aa-cyan); border: 1px solid var(--aa-cyan); }
+.btn--primary:hover { background: #23233C; color: var(--aa-cyan); }
+.btn--primary:active { background: #23233C; color: var(--aa-cyan); }
 
 .btn--ghost {
   background: transparent;
