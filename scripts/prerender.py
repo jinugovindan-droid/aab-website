@@ -75,11 +75,11 @@ PAGE_SEO = {
         "description": "Full-scope services for UAE businesses: accounting, VAT consultancy, Corporate Tax, IFRS financial statements, valuations and e-invoicing readiness.",
     },
     "service-vat": {
-        "title": "VAT Registration & Return Filing UAE — Free Checker",
-        "description": "UAE VAT registration, return filing, voluntary disclosures and FTA correspondence support — plus a free VAT registration checker and deadline countdown.",
+        "title": "VAT Registration & Compliance UAE — Free VAT Checker",
+        "description": "UAE VAT registration, scoping, voluntary disclosures and FTA correspondence support — plus a free VAT registration checker and live deadline countdown.",
     },
     "service-corporate-tax": {
-        "title": "Corporate Tax Registration & Filing UAE — 9% Compliance",
+        "title": "Corporate Tax Registration UAE — 9% Rules & Estimator",
         "description": "UAE Corporate Tax registration, computation and FTA filing — 0% and 9% bands, Small Business Relief, QFZP analysis and a free Corporate Tax estimator.",
     },
     "service-bookkeeping": {
@@ -107,7 +107,7 @@ PAGE_SEO = {
         "description": "IFRS and IFRS for SMEs financial statements in the UAE — full sets with notes and disclosures, group consolidation, audit- and Corporate Tax-ready.",
     },
     "service-tax-planning": {
-        "title": "Corporate Tax Advisory & Planning UAE — QFZP & Structuring",
+        "title": "Tax Planning & Structuring UAE — QFZP, Groups, Elections",
         "description": "UAE Corporate Tax advisory — group and transaction structuring, free-zone QFZP optimisation, transfer pricing alignment and defensible position memos.",
     },
     "service-fixed-asset-tagging": {
@@ -246,25 +246,25 @@ INSIGHTS = [
     {"slug": "prepare-erp-for-uae-e-invoicing",
      "seoTitle": "UAE E-Invoicing ERP Readiness Checklist", "seoDesc": "Master-data hygiene, field mapping, tax-code cleanup and testing — the ERP groundwork that decides whether your UAE e-invoicing go-live is smooth.", "tag": "E-Invoicing", "date": "10 Mar 2026",
      "title": "Getting your ERP ready for UAE e-invoicing: a practical checklist.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)", "updated": "20 Jul 2026",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026), UAE Ministry of Finance", "updated": "20 Jul 2026",
      "excerpt": "E-invoicing is not just a tax change — it is a data change. The master-data hygiene, field mapping and testing that decide whether your go-live is smooth or painful.",
      "published": True},
     {"slug": "choosing-accredited-service-provider-asp",
      "seoTitle": "UAE E-Invoicing ASP List: 42 Pre-Approved Providers", "seoDesc": "How to choose an Accredited Service Provider for UAE e-invoicing — with the full MoF pre-approved list of 42 providers and the questions to ask first.", "tag": "E-Invoicing", "date": "22 Jan 2026",
      "title": "Choosing an Accredited Service Provider (ASP) for UAE e-invoicing.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)", "updated": "20 Jul 2026",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026), UAE Ministry of Finance", "updated": "20 Jul 2026",
      "excerpt": "Every in-scope business must appoint an Accredited Service Provider to transmit its e-invoices. What an ASP does, pre-approved vs accredited status, the full MoF pre-approved list (42 providers, July 2026), and the questions to ask before you sign.",
      "published": True},
     {"slug": "uae-e-invoicing-deadlines-phases",
      "seoTitle": "UAE E-Invoicing Deadlines & Phases: Full Timeline", "seoDesc": "The UAE e-invoicing rollout tier by tier: ASP appointment deadlines and mandatory go-live dates by annual revenue, laid out in one clear timeline.", "tag": "E-Invoicing", "date": "08 Dec 2025",
      "title": "UAE e-invoicing deadlines and phases: who must comply, and by when.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)", "updated": "20 Jul 2026",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026), UAE Ministry of Finance", "updated": "20 Jul 2026",
      "excerpt": "The rollout is phased by annual revenue, with two dates that matter for each business — the deadline to appoint an Accredited Service Provider, and the mandatory go-live. Here is the full timeline, tier by tier.",
      "published": True},
     {"slug": "uae-e-invoicing-explained",
      "seoTitle": "UAE E-Invoicing Explained: Peppol 5-Corner Guide", "seoDesc": "Plain-English guide to the UAE’s mandatory B2B and B2G e-invoicing: what actually changes, why, and how the Peppol 5-corner model reshapes invoicing.", "tag": "E-Invoicing", "date": "17 Nov 2025",
      "title": "UAE e-invoicing explained: a plain-English guide for businesses.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (UAE Ministry of Finance)", "updated": "20 Jul 2026",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026), UAE Ministry of Finance", "updated": "20 Jul 2026",
      "excerpt": "The UAE is moving to mandatory structured e-invoicing for B2B and B2G transactions. What that actually means, why it is happening, and how the OpenPeppol 5-corner model changes the way you issue an invoice.",
      "published": True},
     {"slug": "free-zone-qualifying-income",
@@ -855,7 +855,7 @@ LOC_ABUDHABI_FAQ = [
     {"q": "Can you keep IFRS books for an ADGM holding company?",
      "a": "Yes. ADGM entities — holding companies especially — need proper IFRS accounting records and — depending on size and ADGM’s audit-exemption criteria — audited financial statements, always where the 0% QFZP rate is claimed. ADGM itself is a financial free zone where normal VAT rules apply rather than a designated zone. We keep the ledger, prepare full IFRS financial statements with audit referencing in mind, and handle the Corporate Tax analysis behind the structure. Partner review before anything is signed off."},
     {"q": "We supply government entities — when does e-invoicing apply?",
-     "a": "In phases. Businesses with revenue of AED 50 million or more fall in scope from 1 January 2027, other businesses from 1 July 2027, and government (B2G) transactions follow from 1 October 2027 — relevant to Abu Dhabi’s government and semi-government supply chains. Readiness is mostly a data-quality exercise: TRNs, addresses and tax categories in your master data have to be right before an accredited service provider can transmit a compliant invoice."},
+     "a": "In phases. Businesses with revenue of AED 50 million or more fall in scope from 1 January 2027, other businesses from 1 July 2027, and government entities themselves go live from 1 October 2027 — but the invoices YOU issue to them follow your own phase go-live, not theirs — relevant to Abu Dhabi’s government and semi-government supply chains. Readiness is mostly a data-quality exercise: TRNs, addresses and tax categories in your master data have to be right before an accredited service provider can transmit a compliant invoice."},
 ]
 
 LOC_SHARJAH_FAQ = [
@@ -1440,6 +1440,15 @@ def main():
     for w in written:
         print("  " + w)
     print("Wrote sitemap.xml with %d URLs" % n_urls)
+    # Route manifest for scripts/snapshot.mjs: sitemap lists PUBLISHED insights
+    # only, but a route file is written for every insight (unpublished get
+    # noindex) — snapshot must expect the file count, not the sitemap count.
+    manifest = [PAGE_TO_PATH[k] for k in PAGE_TO_PATH if k != "home"]
+    manifest += ["/insights/" + a["slug"] for a in INSIGHTS]
+    manifest += ["/"]
+    with open(os.path.join(ROOT, ".routes-manifest.json"), "w", encoding="utf-8", newline="\n") as mf:
+        json.dump(sorted(manifest), mf, indent=1)
+    print("Wrote .routes-manifest.json with %d routes" % len(manifest))
     print("")
     print("NOTE: every route body is now the thin SEO skeleton. Run the snapshot")
     print("step to restore full prerendered bodies before committing/deploying:")

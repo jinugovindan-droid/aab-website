@@ -2145,7 +2145,7 @@ function IndustrySimplePage({ page, onNav }) {
               </h1>
               <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>{cfg.intro}</p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={book}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); book(); }}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener"><i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>WhatsApp us</a>
               </div>
             </div>
@@ -2331,7 +2331,7 @@ function LocationPage({ page, onNav }) {
                 We serve {cfg.crumb} from our Dubai office — remote-first, on site when the work needs it. UAE tax is federal: the FTA, EmaraTax and every filing deadline are the same in all seven emirates.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={book}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); book(); }}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener"><i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>WhatsApp us</a>
               </div>
             </div>
@@ -2381,14 +2381,14 @@ function LocationPage({ page, onNav }) {
           <div className="section-head"><div className="section-head__eyebrow">What we&rsquo;re asked for</div><h2>{cfg.crumb} engagements, most often.</h2></div>
           <div style={{ borderTop: '2px solid var(--aa-charcoal)' }}>
             {cfg.demand.map(([pg, label, d]) => (
-              <a key={pg + label} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }}
+              <a key={pg + label} className="aa-demand-row" href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }}
                 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 24, padding: '18px 4px', borderBottom: '1px solid var(--aa-rule)', textDecoration: 'none' }}>
                 <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', flexShrink: 0 }}>{label}</span>
                 <span style={{ fontSize: 14, color: 'var(--aa-steel-700)', textAlign: 'right' }}>{d} <span style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>→</span></span>
               </a>
             ))}
           </div>
-          <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+          <div className="aa-linkrow" style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="eyebrow eyebrow--steel">Nearby</span>
             {cfg.related.map(([pg, label]) => (
               <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>

@@ -112,8 +112,9 @@ function AppRoot() {
         ? "'Archivo Black','Archivo','Antique Olive',sans-serif"
         : "'Oswald','Archivo','Antique Olive',sans-serif");
 
-    const accent = tweaks.accentIntensity === 'bold' ? '#0E8FC9'
-                 : tweaks.accentIntensity === 'soft' ? '#5BBEE9'
+    // Presets are shades OF the logo blue (#00B0F0) — never other blues.
+    const accent = tweaks.accentIntensity === 'bold' ? '#0092C8'
+                 : tweaks.accentIntensity === 'soft' ? '#4FC6F5'
                  : '#00B0F0';
     document.documentElement.style.setProperty('--aa-cyan', accent);
 

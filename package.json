@@ -2,7 +2,7 @@
   "name": "aab-website",
   "private": true,
   "scripts": {
-    "dev": "python3 -u scripts/dev-server.py",
+    "dev": "py -u scripts/dev-server.py",
     "bundle": "node scripts/build.mjs",
     "snapshot": "node scripts/snapshot.mjs",
     "make": "node scripts/build.mjs && py scripts/prerender.py && node scripts/snapshot.mjs"

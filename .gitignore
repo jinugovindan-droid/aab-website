@@ -9,3 +9,6 @@ node_modules/
 # Marketing research - local only, never deploy (repo root is served publicly by Vercel)
 COMPETITOR-DIGITAL-RESEARCH.md
 AAB-keyword-matrix.csv
+
+# Build artifact: route manifest consumed by scripts/snapshot.mjs
+.routes-manifest.json

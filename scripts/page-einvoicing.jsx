@@ -679,14 +679,38 @@ function EInvoiceReadinessModal({ onNav }) {
     return () => window.removeEventListener('aa:open-einvoice', openHandler);
   }, []);
 
+  const panelRef = React.useRef(null);
+
+  // Focus management (WAI-ARIA modal pattern): move focus in on open, keep Tab
+  // inside the dialog, hide the rest of the app from assistive tech, and
+  // restore focus to whatever opened it on close.
   React.useEffect(() => {
     if (!open) return;
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const root = document.getElementById('root');
+    const opener = document.activeElement;
+    const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const onKey = (e) => {
+      if (e.key === 'Escape') { setOpen(false); return; }
+      if (e.key !== 'Tab' || !panelRef.current) return;
+      const items = Array.prototype.filter.call(panelRef.current.querySelectorAll(FOCUSABLE), (el) => el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
     document.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    if (root) root.setAttribute('aria-hidden', 'true');
     if (window.lucide) window.lucide.createIcons();
-    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+    const t = setTimeout(() => { if (panelRef.current) panelRef.current.focus(); }, 0);
+    return () => {
+      clearTimeout(t);
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+      if (root) root.removeAttribute('aria-hidden');
+      if (opener && opener.focus) opener.focus();
+    };
   }, [open]);
 
   if (!open) return null;
@@ -696,8 +720,8 @@ function EInvoiceReadinessModal({ onNav }) {
   return (
     <div role="dialog" aria-modal="true" aria-label="E-invoicing readiness status" onClick={close}
       style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(10,12,20,0.66)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', overflowY: 'auto', padding: '40px 16px' }}>
-      <div onClick={(e) => e.stopPropagation()}
-        style={{ background: '#fff', width: '100%', maxWidth: 760, position: 'relative', boxShadow: '0 24px 70px rgba(0,0,0,0.45)' }}>
+      <div ref={panelRef} tabIndex={-1} onClick={(e) => e.stopPropagation()}
+        style={{ background: '#fff', width: '100%', maxWidth: 760, position: 'relative', boxShadow: '0 24px 70px rgba(0,0,0,0.45)', outline: 'none' }}>
         <button onClick={close} aria-label="Close"
           style={{ position: 'absolute', top: 8, right: 10, zIndex: 2, width: 38, height: 38, border: 0, background: 'transparent', fontSize: 26, lineHeight: 1, color: 'var(--aa-steel)', cursor: 'pointer' }}>×</button>
         <div style={{ padding: '28px 28px 0' }}>
@@ -756,7 +780,7 @@ function EInvDeadlinePage({ onNav }) {
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
             <div>
               <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 16 }}>E-Invoicing · The first binding deadline</div>
-              <h1 style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 'clamp(44px, 6vw, 72px)', textTransform: 'uppercase', letterSpacing: '0.01em', margin: 0, lineHeight: 1.0 }}>
+              <h1 style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 'clamp(44px, 6vw, 72px)', textTransform: 'uppercase', letterSpacing: '0.01em', margin: 0, lineHeight: 1.0, color: '#fff' }}>
                 30 October 2026.<br />
                 <span style={{ color: 'var(--aa-cyan)' }}>The clock is already running.</span>
               </h1>
@@ -771,7 +795,7 @@ function EInvDeadlinePage({ onNav }) {
                   Check your readiness status
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
                 </button>
-                <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.35)' }}>
+                <a className="btn btn--ghost-light" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
                 </a>
@@ -874,7 +898,7 @@ function EInvDeadlinePage({ onNav }) {
           </p>
           <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
             <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>The guides</div>
-            <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8 }}>
+            <ul className="aa-linkrow" style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8 }}>
               {GUIDES.map(([slug, label]) => (
                 <li key={slug}>
                   <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}

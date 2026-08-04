@@ -76,7 +76,7 @@ async function aaBuildBrandedPdf(cfg) {
   const W = doc.internal.pageSize.getWidth();
   const PH = doc.internal.pageSize.getHeight();
   const M = 48; const colW = W - 2 * M;
-  const cyan = [41, 171, 226], charcoal = [26, 26, 46], steel = [110, 120, 135], ink = [55, 58, 70], offbg = [244, 245, 247];
+  const cyan = [0, 176, 240], charcoal = [26, 26, 46], steel = [110, 120, 135], ink = [55, 58, 70], offbg = [244, 245, 247];
   const setC = (rgb) => doc.setTextColor(rgb[0], rgb[1], rgb[2]);
   let y = 54;
   const ensure = (need) => { if (y + need > PH - 70) { doc.addPage(); y = 60; } };
@@ -345,7 +345,7 @@ function ServicesPage({ onNav }) {
           services; they deep-dive facets of VAT / Corporate Tax / Tax Planning). */}
       <section className="section">
         <div className="container">
-          <div style={{ borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+          <div className="aa-linkrow" style={{ borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="eyebrow eyebrow--steel">Popular engagements</span>
             {[
               ['service-ct-filing', 'Corporate Tax return filing'],
@@ -357,7 +357,7 @@ function ServicesPage({ onNav }) {
             ))}
           </div>
           {/* Emirate coverage pages — served from Dubai (no local branches). */}
-          <div style={{ marginTop: 14, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+          <div className="aa-linkrow" style={{ marginTop: 14, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="eyebrow eyebrow--steel">Across the UAE</span>
             {[
               ['location-abu-dhabi', 'Abu Dhabi'],
@@ -456,7 +456,7 @@ function VatDeadlineCard({ onNav }) {
           <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, lineHeight: 1.05 }}>The 28th of the month</div>
           <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 10, lineHeight: 1.5, maxWidth: 540 }}>VAT returns and payment are due the 28th of the month after your tax period ends (moved to the next working day for UAE weekends/holidays). Talk to us to confirm your exact deadline.</div>
         </div>
-        <button className="btn btn--primary" onClick={() => goContact('VAT compliance', onNav)}>Book a VAT scoping <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
+        <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('VAT compliance', onNav); }}>Book a VAT scoping <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></a>
       </React.Fragment>
     );
   }
@@ -483,9 +483,9 @@ function VatDeadlineCard({ onNav }) {
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
           </div>
         )}
-        <button className="btn btn--primary" onClick={() => goContact('VAT compliance', onNav)}>
+        <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('VAT compliance', onNav); }}>
           Book a VAT scoping <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-        </button>
+        </a>
       </div>
     </React.Fragment>
   );
@@ -651,10 +651,10 @@ function ServiceVATPage({ onNav }) {
                 We register, prepare, review and file VAT returns with the Federal Tax Authority — with a position memo behind every contested line and a review-ready return file at the end of every quarter.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
-                <button className="btn btn--primary" onClick={() => goContact('VAT compliance', onNav)}>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('VAT compliance', onNav); }}>
                   Request a VAT scoping
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-                </button>
+                </a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
@@ -806,9 +806,9 @@ function CorpTaxDeadlineCard({ onNav }) {
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
           </div>
         )}
-        <button className="btn btn--primary" onClick={() => goContact('UAE Corporate Tax', onNav)}>
+        <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('UAE Corporate Tax', onNav); }}>
           Book a scoping call <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-        </button>
+        </a>
       </div>
     </div>
   );
@@ -988,10 +988,10 @@ function ServiceCorporateTaxPage({ onNav }) {
                 We handle UAE Corporate Tax end to end — registration on EmaraTax, taxable-income computation, free-zone (QFZP) analysis, Small Business Relief elections and return filing with the Federal Tax Authority — under Federal Decree-Law No. 47 of 2022, with a position memo behind every judgement call.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => goContact('UAE Corporate Tax', onNav)}>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('UAE Corporate Tax', onNav); }}>
                   Request a Corporate Tax scoping
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-                </button>
+                </a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
@@ -1140,10 +1140,10 @@ function ServiceBookkeepingPage({ onNav }) {
                 We run your day-to-day bookkeeping end to end — recording, bank and ledger reconciliations, a disciplined monthly close and a management accounts pack — kept VAT and Corporate Tax-ready and delivered against a documented controls framework.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => goContact('Outsourced accounting', onNav)}>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('Outsourced accounting', onNav); }}>
                   Request a bookkeeping scoping
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-                </button>
+                </a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
@@ -1274,10 +1274,10 @@ function ServiceAuditSupportPage({ onNav }) {
                 We get your books and schedules audit-ready, act as the single point of contact with your appointed auditor, and close out findings — so your statutory or group audit runs fast and clean. We are not your auditor; we make the audit easy.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => goContact('Audit support', onNav)}>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('Audit support', onNav); }}>
                   Request audit support
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-                </button>
+                </a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
@@ -1408,10 +1408,10 @@ function ServiceValuationsPage({ onNav }) {
                 Independent valuations built on the income, market and asset approaches — for M&amp;A, shareholder disputes, financial reporting and statutory needs. Every number traces to a documented assumption, to International Valuation Standards.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => goContact('Business valuations', onNav)}>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('Business valuations', onNav); }}>
                   Request a valuation
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-                </button>
+                </a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
@@ -1542,10 +1542,10 @@ function ServiceTransactionAdvisoryPage({ onNav }) {
                 Buy-side and sell-side support across the deal — financial due diligence, quality of earnings, working-capital and net-debt analysis, structuring and closing mechanics — so you go into the transaction with the numbers proven, not assumed.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => goContact('M&A support', onNav)}>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('M&A support', onNav); }}>
                   Discuss a transaction
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-                </button>
+                </a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
@@ -1676,10 +1676,10 @@ function ServiceCFOPage({ onNav }) {
                 Senior finance leadership on an interim, fractional or project basis — board reporting, budgeting and forecasting, cash and treasury, fundraising support and finance function build-out. The strategy and control of a CFO, without a full-time hire.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => goContact('CFO services', onNav)}>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('CFO services', onNav); }}>
                   Talk to a CFO
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-                </button>
+                </a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
@@ -1810,10 +1810,10 @@ function ServiceFinancialStatementsPage({ onNav }) {
                 We prepare your year-end financial statements under IFRS or IFRS for SMEs — balance sheet, income statement, cash flow, changes in equity and the notes — consolidated where needed, and ready to drop straight into the audit and the Corporate Tax computation.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => goContact('Financial statements', onNav)}>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('Financial statements', onNav); }}>
                   Request financial statements
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-                </button>
+                </a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
@@ -1944,10 +1944,10 @@ function ServiceTaxPlanningPage({ onNav }) {
                 Compliant UAE Corporate Tax planning — group and transaction structuring, free-zone (QFZP) optimisation and transfer pricing alignment — with every position documented to its legal basis. Efficiency that holds up if the FTA looks.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => goContact('Tax planning', onNav)}>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact('Tax planning', onNav); }}>
                   Plan your tax position
                   <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
-                </button>
+                </a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener">
                   <i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>
                   WhatsApp us
@@ -2177,7 +2177,7 @@ function ServiceSimplePage({ page, onNav }) {
               </h1>
               <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>{cfg.intro}</p>
               <div style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
-                <button className="btn btn--primary" onClick={() => goContact(cfg.intent, onNav)}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></button>
+                <a className="btn btn--primary" href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact(cfg.intent, onNav); }}>{cfg.cta}<i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></a>
                 <a className="btn btn--ghost" href="https://wa.me/971565484635" target="_blank" rel="noopener"><i data-lucide="message-circle" style={{ width: 16, height: 16 }}></i>WhatsApp us</a>
               </div>
             </div>
@@ -2320,7 +2320,7 @@ function RelatedReading({ page, onNav }) {
   const items = (window.AARoutes && window.AARoutes.RELATED_READING && window.AARoutes.RELATED_READING[page]) || [];
   if (!items.length) return null;
   return (
-    <div style={{ marginTop: 14, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+    <div className="aa-linkrow" style={{ marginTop: 14, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
       <span className="eyebrow eyebrow--steel">Guides &amp; tools</span>
       {items.map(([kind, target, label]) => (
         <a

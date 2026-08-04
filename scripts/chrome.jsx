@@ -368,6 +368,7 @@ function Footer({ onNav }) {
       ['All industries', 'industries'],
     ]},
     { title: 'Firm', items: [
+      ['30 Oct 2026 deadline', 'einv-deadline'],
       ['About', 'about'],
       ['Insights', 'insights'],
       ['Careers', 'careers'],
@@ -442,14 +443,14 @@ function Footer({ onNav }) {
           <span>© 2026 Authentic Accounting and Bookkeeping L.L.C</span>
           <span style={{ display: 'inline-flex', gap: 14, alignItems: 'center' }}>
             <a
-              href="#privacy"
+              href={pathForPage('privacy')}
               onClick={(e) => { e.preventDefault(); onNav('privacy'); }}
               style={{ color: 'inherit', textDecoration: 'none', letterSpacing: 'inherit' }}>
               Privacy
             </a>
             <span aria-hidden="true" style={{ opacity: 0.5 }}>·</span>
             <a
-              href="#terms"
+              href={pathForPage('terms')}
               onClick={(e) => { e.preventDefault(); onNav('terms'); }}
               style={{ color: 'inherit', textDecoration: 'none', letterSpacing: 'inherit' }}>
               Terms

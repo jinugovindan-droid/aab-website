@@ -42,6 +42,16 @@ summary:focus-visible,
   outline-offset: 2px;
   border-radius: 2px;
 }
+/* On charcoal surfaces the deep cyan ring is only 3.0:1 — use the bright brand
+   blue there so the focus indicator keeps its WCAG 1.4.11 contrast. */
+.section--dark a:focus-visible,
+.section--dark button:focus-visible,
+.section--dark [tabindex]:focus-visible,
+.btn--primary:focus-visible,
+.topnav__drawer a:focus-visible,
+.topnav__drawer button:focus-visible {
+  outline-color: var(--aa-cyan);
+}
 main:focus { outline: none; }
 
 /* ---------- Buttons ---------- */
@@ -658,12 +668,36 @@ body.no-scroll { overflow: hidden; }
      carousel dots, which are deliberate 4px hairline indicators. */
   main button:not(.aa-hero__dot),
   [role="dialog"] button { min-height: 42px; }
+
+  /* Arrow-link rows (Related, Guides & tools, Popular engagements, Across the
+     UAE, deadline-page guides) are bare inline anchors — 18-22px tall without
+     this, i.e. below the 42px touch minimum the buttons already meet. */
+  main .aa-linkrow a,
+  main .aa-demand-row {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+  }
+
+  /* Location-page "most often" rows: label left / description right-aligned is a
+     desktop pattern — on phones the description compresses to a ~143px sliver.
+     Stack it instead. */
+  main .aa-demand-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  main .aa-demand-row > span:last-child { text-align: left !important; }
 }
 
 /* Tablet: 4-cols become 2-cols; 5-col process strips become 3-cols
    (at 721-960px five columns squeeze to ~86px of unreadable text). */
 @media (min-width: 721px) and (max-width: 960px) {
   main [style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  /* 3-col card strips (deadline page, e-invoicing) squeeze to ~230px here. */
+  main [style*="grid-template-columns: repeat(3, 1fr)"] {
     grid-template-columns: repeat(2, 1fr) !important;
   }
   main [style*="grid-template-columns: repeat(5, 1fr)"] {

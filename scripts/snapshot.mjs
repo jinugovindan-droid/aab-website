@@ -135,7 +135,7 @@ async function snapshotRoute(browser, route) {
         html: document.getElementById('root').innerHTML,
         rawIcons: document.querySelectorAll('#root i[data-lucide]').length,
         consentShown: !!document.querySelector('#root [role="dialog"][aria-label="Cookie consent"]'),
-        h1: (document.querySelector('#root h1') || {}).textContent || '',
+        screen: (document.querySelector('#root [data-screen-label]') || { dataset: {} }).dataset.screenLabel || '',
       };
     });
     if (!result.html || result.html.length < 5000) throw new Error(`suspiciously small capture (${result.html ? result.html.length : 0} chars)`);
@@ -144,8 +144,13 @@ async function snapshotRoute(browser, route) {
     if (/\(\d[\d,]* days?\)|\d[\d,]* days? left/.test(result.html)) throw new Error('relative day-count leaked into capture');
     // Wrong-page guard: the SPA falls back to the home page for unknown paths,
     // so a stale/phantom route directory would silently capture home content.
-    if (route.url !== '/' && /Accounting that stands up to scrutiny|Advisory Engineered/i.test(result.h1)) {
-      throw new Error(`route rendered the HOME page (h1: ${result.h1.slice(0, 60)})`);
+    // app-root renders data-screen-label inside #root — a stable identity check.
+    // (The old guard matched hero copy, which churned and silently rotted.)
+    if (route.url !== '/' && result.screen === '01 Home') {
+      throw new Error('route rendered the HOME page (screen label 01 Home)');
+    }
+    if (route.url === '/' && result.screen && result.screen !== '01 Home') {
+      throw new Error('home captured the wrong screen (' + result.screen + ')');
     }
     return { url: route.url, file: route.file, body: stripRevealClasses(result.html) };
   } finally {
@@ -158,9 +163,15 @@ const routes = await findRoutes();
 // Route-set sanity: prerender.py writes sitemap.xml from the same route list;
 // a count mismatch means findRoutes picked up phantom directories (or missed
 // real ones) — abort before touching any file.
-const sitemapUrls = ((await readFile(join(ROOT, 'sitemap.xml'), 'utf8')).match(/<loc>/g) || []).length;
-if (routes.length !== sitemapUrls) {
-  console.error(`route mismatch: found ${routes.length} routes but sitemap.xml has ${sitemapUrls} URLs`);
+let expected = null;
+try { expected = JSON.parse(await readFile(join(ROOT, '.routes-manifest.json'), 'utf8')).length; } catch {}
+if (expected === null) {
+  // Tree built before prerender.py emitted the manifest.
+  expected = ((await readFile(join(ROOT, 'sitemap.xml'), 'utf8')).match(/<loc>/g) || []).length;
+  console.warn('no .routes-manifest.json - falling back to sitemap count (unpublished insights would trip this)');
+}
+if (routes.length !== expected) {
+  console.error(`route mismatch: found ${routes.length} routes but prerender declared ${expected}`);
   process.exit(1);
 }
 
