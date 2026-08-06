@@ -349,9 +349,11 @@ function ServicesPage({ onNav }) {
             <span className="eyebrow eyebrow--steel">Popular engagements</span>
             {[
               ['service-ct-filing', 'Corporate Tax return filing'],
+              ['service-vat-registration', 'VAT registration'],
               ['service-vat-filing', 'VAT return filing'],
               ['service-vat-refund', 'VAT refund claims'],
               ['service-tax-advisory', 'Tax advisory'],
+              ['service-transfer-pricing', 'Transfer pricing'],
             ].map(([pg, label]) => (
               <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
@@ -760,6 +762,7 @@ function ServiceVATPage({ onNav }) {
           <FAQList items={VAT_FAQ} asOf />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
+            <a href={pathForPage('service-vat-registration')} onClick={(e) => { e.preventDefault(); onNav('service-vat-registration'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT registration →</a>
             <a href={pathForPage('service-vat-filing')} onClick={(e) => { e.preventDefault(); onNav('service-vat-filing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT return filing →</a>
             <a href={pathForPage('service-vat-refund')} onClick={(e) => { e.preventDefault(); onNav('service-vat-refund'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT refunds →</a>
             <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
@@ -1099,6 +1102,7 @@ function ServiceCorporateTaxPage({ onNav }) {
             <span className="eyebrow eyebrow--steel">Related</span>
             <a href={pathForPage('service-ct-filing')} onClick={(e) => { e.preventDefault(); onNav('service-ct-filing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax filing →</a>
             <a href={pathForPage('service-tax-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-tax-advisory'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Tax advisory →</a>
+            <a href={pathForPage('service-transfer-pricing')} onClick={(e) => { e.preventDefault(); onNav('service-transfer-pricing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transfer pricing →</a>
             <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
             <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
           </div>
@@ -2092,6 +2096,26 @@ const SIMPLE_SERVICES = {
     covers: [['git-merge', 'CT & VAT interplay', 'One fact pattern, two taxes. We resolve how Corporate Tax and VAT read the same transaction — in writing.'], ['layers', 'Free-zone & TP structuring', 'QFZP status, substance and arm’s-length pricing tested against the conditions — and documented.'], ['messages-square', 'FTA clarifications', 'Where the law is genuinely unclear, a private clarification request drafted and managed to an answer.'], ['search', 'Tax due diligence', 'Registrations, filings, TP and e-invoicing readiness quantified in deals — before you sign, not after.']],
     process: [['01', 'Frame', 'Define the question, the taxes it touches and what the Board needs to decide.'], ['02', 'Analyse', 'Work the facts against FDL 47/2022, the VAT law and the Cabinet and Ministerial Decisions.'], ['03', 'Position', 'Set out the options, the risk on each and the position we recommend.'], ['04', 'Partner review', 'A partner tests the reasoning, the legal basis and the residual risk.'], ['05', 'Document', 'Deliver a position memo the Board — and an FTA reviewer — can follow.']],
     related: [['service-tax-planning', 'Tax planning'], ['service-corporate-tax', 'Corporate Tax'], ['service-vat', 'VAT compliance']],
+  },
+  'service-transfer-pricing': {
+    cat: 'Advisory', crumb: 'Transfer Pricing', eyebrow: 'Advisory · Arm’s-length pricing',
+    h1a: 'Transfer pricing.', h1b: 'Documented before it’s asked.', cta: 'Scope your TP documentation', intent: 'Tax planning',
+    intro: 'Related-party pricing documented to stand up to FTA scrutiny — a transaction register, method selection and benchmarking, the disclosure schedule filed with your Corporate Tax return where thresholds are crossed, and Master and Local File where required. The FTA allows 30 days to produce it, so the file is built and partner-reviewed before it is asked for.',
+    faqKey: 'TRANSFER_PRICING_FAQ',
+    glance: [['Applies to', 'Related & connected persons'], ['Disclosure', 'With CT return, above thresholds'], ['Master & Local File', 'AED 3.15bn MNE group or 200m own'], ['FTA request', '30 days to produce'], ['Methods', 'Five recognised methods tested'], ['Free zone', 'QFZP arm’s-length testing'], ['Pricing', 'Customised to your scope']],
+    covers: [['grid-3x3', 'Related-party mapping', 'Every related-party and connected-person flow identified, quantified and tied back to the ledger.'], ['line-chart', 'Benchmarking & method choice', 'The right method selected — CUP, resale price, cost plus, TNMM or profit split — and benchmarked to evidence.'], ['file-check', 'TP disclosure & Local File', 'The disclosure schedule filed with your CT return where thresholds are crossed, and Master/Local File where required.'], ['shield', 'Free-zone & FTA defence', 'QFZP arm’s-length and substance tested, and a partner-reviewed file ready for the FTA’s 30-day request.']],
+    process: [['01', 'Map', 'Identify every related-party and connected-person transaction and quantify it from the ledger.'], ['02', 'Characterise', 'Set out the functions, assets and risks on each side of the transaction, in writing.'], ['03', 'Benchmark', 'Select the method, run the comparables search and set the arm’s-length range.'], ['04', 'Partner review', 'A partner challenges the method, the comparables and the residual risk before anything is filed.'], ['05', 'File & hold', 'File the disclosure with the CT return where thresholds are crossed; hold the file for the FTA’s 30-day window.']],
+    related: [['service-corporate-tax', 'Corporate Tax'], ['service-tax-advisory', 'Tax advisory'], ['service-ct-filing', 'Corporate Tax filing']],
+  },
+  'service-vat-registration': {
+    cat: 'Compliance', crumb: 'VAT Registration', eyebrow: 'Compliance · Threshold to TRN',
+    h1a: 'VAT registration.', h1b: 'From threshold to TRN.', cta: 'Start my VAT registration', intent: 'VAT compliance',
+    intro: 'Registration is an event, not a form. We test where you sit against the AED 375,000 mandatory and AED 187,500 voluntary thresholds — including the 30-day forward test — build the EmaraTax application and document pack, structure a tax group where related entities warrant it, and set up your first return. Drift costs more than the AED 10,000 penalty.',
+    faqKey: 'VAT_REGISTRATION_FAQ',
+    glance: [['Mandatory threshold', 'AED 375,000, past 12 months'], ['Apply within', '30 days of becoming liable'], ['Voluntary from', 'AED 187,500'], ['Applied on', 'EmaraTax, TRN issued'], ['Late registration', 'AED 10,000 + back-dated VAT'], ['Also covers', 'Tax groups · non-residents'], ['Pricing', 'Customised to your scope']],
+    covers: [['calculator', 'Threshold testing', 'Supplies and imports tested against AED 375,000, AED 187,500 and the 30-day forward test — call documented.'], ['file-check', 'EmaraTax application & TRN', 'The document pack assembled, the application built and filed on EmaraTax, and the TRN tracked through review.'], ['layers', 'Tax groups & non-residents', 'Common-control grouping tested, and non-resident registration where no other person accounts for the VAT.'], ['clipboard-check', 'First return set-up', 'Tax codes, invoice fields and the first VAT201 period set up so return one is routine, not a rebuild.']],
+    process: [['01', 'Test', 'Measure taxable supplies, imports and expenses against both thresholds and the 30-day forward test.'], ['02', 'Structure', 'Confirm the registration shape — single entity, tax group or non-resident — and establish the effective date.'], ['03', 'Assemble', 'Build the document pack the application calls for: licence, ownership, banking and turnover evidence.'], ['04', 'Partner review', 'A partner tests the position, the effective date and the evidence before anything is submitted.'], ['05', 'File & set up', 'Submit on EmaraTax, track the TRN through FTA review, then set up your first return period.']],
+    related: [['service-vat', 'VAT compliance'], ['service-vat-filing', 'VAT return filing'], ['service-bookkeeping', 'Bookkeeping']],
   },
   'service-fixed-asset-tagging': {
     cat: 'Compliance', crumb: 'Fixed Asset Tagging', eyebrow: 'Compliance · Fixed assets',

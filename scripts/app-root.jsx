@@ -24,6 +24,8 @@ const PAGE_LABELS = {
   'service-vat-filing': '03 Service · VAT Filing',
   'service-vat-refund': '03 Service · VAT Refunds',
   'service-tax-advisory': '03 Service · Tax Advisory',
+  'service-transfer-pricing': '03 Service · Transfer Pricing',
+  'service-vat-registration': '03 Service · VAT Registration',
   'service-fixed-asset-tagging': '03 Service · Fixed Assets',
   'service-forensic-accounting': '03 Service · Forensic',
   'service-internal-controls': '03 Service · Internal Controls',
@@ -177,6 +179,8 @@ function AppRoot() {
       case 'service-ct-filing':
       case 'service-vat-filing':
       case 'service-vat-refund':
+      case 'service-transfer-pricing':
+      case 'service-vat-registration':
       case 'service-tax-advisory':
       case 'service-fixed-asset-tagging':
       case 'service-forensic-accounting':

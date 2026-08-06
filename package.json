@@ -5,7 +5,8 @@
     "dev": "py -u scripts/dev-server.py",
     "bundle": "node scripts/build.mjs",
     "snapshot": "node scripts/snapshot.mjs",
-    "make": "node scripts/build.mjs && py scripts/prerender.py && node scripts/snapshot.mjs"
+    "make": "node scripts/build-icons.mjs && node scripts/build.mjs && py scripts/prerender.py && node scripts/snapshot.mjs",
+    "icons": "node scripts/build-icons.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.24.2",

@@ -40,6 +40,8 @@ PAGE_TO_PATH = {
     "service-vat-filing": "/services/vat-return-filing",
     "service-vat-refund": "/services/vat-refund",
     "service-tax-advisory": "/services/tax-advisory",
+    "service-transfer-pricing": "/services/transfer-pricing",
+    "service-vat-registration": "/services/vat-registration",
     "service-fixed-asset-tagging": "/services/fixed-asset-tagging",
     "service-forensic-accounting": "/services/forensic-accounting",
     "service-internal-controls": "/services/internal-controls",
@@ -178,6 +180,14 @@ PAGE_SEO = {
         "title": "30 October 2026 UAE E-Invoicing Deadline — Who Must Act",
         "description": "By 30 October 2026, UAE businesses with revenue of AED 50M+ must appoint an Accredited Service Provider. Who is caught, the penalties, and what to do now.",
     },
+    "service-transfer-pricing": {
+        "title": "Transfer Pricing UAE — TP Documentation & Study",
+        "description": "UAE transfer pricing documentation and benchmarking — arm’s-length method selection, the CT-return disclosure schedule, and Master and Local File.",
+    },
+    "service-vat-registration": {
+        "title": "VAT Registration UAE & Dubai — Thresholds, EmaraTax, TRN",
+        "description": "Mandatory VAT registration above AED 375,000, voluntary from AED 187,500 — the EmaraTax application, document pack and TRN, run as one reviewed engagement.",
+    },
     "e-invoicing": {
         "title": "UAE E-Invoicing Readiness — ASP, Peppol & 2026 Deadlines",
         "description": "Get ready for the 30 October 2026 UAE e-invoicing deadline — ASP selection, Peppol readiness, process design and a free readiness PDF.",
@@ -252,7 +262,7 @@ INSIGHTS = [
     {"slug": "choosing-accredited-service-provider-asp",
      "seoTitle": "UAE E-Invoicing ASP List: 42 Pre-Approved Providers", "seoDesc": "How to choose an Accredited Service Provider for UAE e-invoicing — with the full MoF pre-approved list of 42 providers and the questions to ask first.", "tag": "E-Invoicing", "date": "22 Jan 2026",
      "title": "Choosing an Accredited Service Provider (ASP) for UAE e-invoicing.",
-     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026), UAE Ministry of Finance", "updated": "20 Jul 2026",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026) and MD 64 of 2025 (as amended by MD 56 of 2026), UAE Ministry of Finance", "updated": "20 Jul 2026",
      "excerpt": "Every in-scope business must appoint an Accredited Service Provider to transmit its e-invoices. What an ASP does, pre-approved vs accredited status, the full MoF pre-approved list (42 providers, July 2026), and the questions to ask before you sign.",
      "published": True},
     {"slug": "uae-e-invoicing-deadlines-phases",
@@ -380,6 +390,7 @@ BREADCRUMB_LABELS = {
     "service-financial-statements": "Financial Statements", "service-tax-planning": "Tax Planning",
     "service-ct-filing": "Corporate Tax Filing", "service-vat-filing": "VAT Return Filing",
     "service-vat-refund": "VAT Refunds", "service-tax-advisory": "Tax Advisory",
+    "service-transfer-pricing": "Transfer Pricing", "service-vat-registration": "VAT Registration",
     "service-fixed-asset-tagging": "Fixed Asset Tagging", "service-forensic-accounting": "Forensic Accounting",
     "service-internal-controls": "Internal Controls", "service-financial-modelling": "Financial Modelling",
     "service-feasibility-studies": "Feasibility Studies", "service-strategic-advisory": "Strategic Advisory",
@@ -924,6 +935,28 @@ EINV_DEADLINE_FAQ = [
      "a": "Appointing the ASP is the legal obligation, but the work behind it is integration: cleaning master data (TRNs, legal names, addresses), mapping your ERP fields to the e-invoice format and testing end to end before the 1 January 2027 go-live. Providers onboard clients in queues, and selecting late compresses exactly the stages that need the most time — which is why the appointment date sits two months before go-live."},
 ]
 
+TRANSFER_PRICING_FAQ = [
+    {"q": "When does a UAE business need a Master File and Local File?",
+     "a": "Where the taxable person is part of a multinational group with consolidated group revenue of AED 3.15 billion or more in the period, or where its own revenue is AED 200 million or more. Below those thresholds there is no Master File or Local File duty — but a transfer pricing disclosure schedule is still filed with the Corporate Tax return where the FTA’s own thresholds are crossed: aggregate related-party transactions above AED 40 million (then per-category above AED 4 million), or payments and benefits to a single connected person and its related parties above AED 500,000. A Local File is required in both cases; a Master File where the group has operations outside the UAE. Both are produced to the FTA within 30 days of a request, so we build them before they are asked for."},
+    {"q": "Which transfer pricing methods does the UAE accept?",
+     "a": "Five recognised methods: comparable uncontrolled price (CUP), resale price, cost plus, the transactional net margin method (TNMM) and profit split. Where none of them fits the facts, another method can be applied if it produces an arm’s-length result — but the reasoning has to be documented. Method choice carries the analysis, so we set out why the chosen method beats the alternatives, in a memo a partner has signed off."},
+    {"q": "Do payments to owners and directors need transfer pricing support?",
+     "a": "Yes. Individual owners, directors and officers — and their related parties — are connected persons (a corporate shareholder is a related party instead, tested under the same arm’s-length principle), and payments to them — salary, management fees, rent, interest on shareholder loans — are deductible only to the extent they match market value and are incurred wholly and exclusively for the business. That makes the owner’s remuneration a transfer pricing question, not a payroll one. Benchmarking settles the market-value test; the business-purpose evidence settles the second, and we document both with the Corporate Tax file — so the deduction rests on analysis, not assertion, when the FTA asks."},
+    {"q": "Does a free zone company need transfer pricing documentation?",
+     "a": "If it wants to keep the 0% rate, yes. Arm’s-length pricing and transfer pricing compliance are two of the five cumulative QFZP conditions — alongside qualifying income, adequate substance, the de-minimis limit (non-qualifying revenue not exceeding the lower of 5% of total revenue or AED 5 million) and audited financial statements. Fail any condition at any point in a period and QFZP status is lost from the start of that period and for the four periods after it — five tax periods on the ordinary 9% regime above AED 375,000, not one. We test the transfer pricing conditions each year and document the conclusion; the others are tested with your Corporate Tax file."},
+]
+
+VAT_REGISTRATION_FAQ = [
+    {"q": "How do I register for VAT in Dubai, and what documents does EmaraTax need?",
+     "a": "Registration runs through the FTA’s EmaraTax portal: you create the taxable-person profile, complete the VAT registration application, and support it with the evidence the form calls for — trade licence, ownership and authorised-signatory details, banking details and turnover evidence that ties back to your ledger. Once the application is approved, the FTA issues your Tax Registration Number (TRN) — approval, timing and the effective date granted are the FTA’s decision. We assemble the pack and handle the FTA’s queries through the review."},
+    {"q": "What is the penalty for registering for VAT late in the UAE?",
+     "a": "AED 10,000 — an administrative penalty for failing to register when you were required to. The trap is the forward-looking test: if you expect taxable supplies and imports to pass AED 375,000 within the next 30 days, the obligation arrives before the revenue does, so one large order deliverable inside the next 30 days can start the clock. We track the rolling 12-month figure and the pipeline, so the application goes in ahead of the line rather than after it."},
+    {"q": "Should I register for VAT voluntarily at AED 187,500?",
+     "a": "You can, once taxable supplies or taxable expenses exceed AED 187,500 — the expenses limb can let a pre-revenue business register, provided you can satisfy the FTA you are carrying on a business in the UAE — and a voluntary registrant cannot apply to deregister within 12 months. It is a trade-off: registration opens input VAT recovery on costs used for making taxable supplies — subject to apportionment where you also have exempt activity, and to the blocked-expense rules, but it also commits you to returns, records and the full compliance cycle from that date. We work both positions on your numbers and document the recommendation, so it is a decision on record, not a default."},
+    {"q": "How does VAT registration work for tax groups and non-residents?",
+     "a": "Entities that each have a UAE place of establishment or fixed establishment, are related parties and are under common control may apply to be registered as a VAT tax group and treated as a single taxable person — approval is the FTA’s, and it can add or remove members — which changes the filing position and how flows between them are treated, so it is worth testing before each entity applies alone. Separately, a non-resident making taxable supplies in the UAE, where no other person is liable to account for the VAT, must register regardless of threshold. Both calls get a position memo."},
+]
+
 FAQ_BY_PAGE = {
     "e-invoicing": EINVOICE_FAQ, "service-corporate-tax": CORPTAX_FAQ,
     "service-bookkeeping": BOOKKEEPING_FAQ, "service-audit-support": AUDIT_FAQ,
@@ -933,7 +966,7 @@ FAQ_BY_PAGE = {
     "service-fixed-asset-tagging": FIXED_ASSET_FAQ, "service-forensic-accounting": FORENSIC_FAQ,
     "service-internal-controls": CONTROLS_FAQ, "service-financial-modelling": MODELLING_FAQ,
     "service-feasibility-studies": FEASIBILITY_FAQ, "service-strategic-advisory": STRATEGIC_FAQ,
-    "service-ct-filing": CT_FILING_FAQ, "service-vat-filing": VAT_FILING_FAQ, "service-vat-refund": VAT_REFUND_FAQ, "service-tax-advisory": TAX_ADVISORY_FAQ, "location-abu-dhabi": LOC_ABUDHABI_FAQ, "location-sharjah": LOC_SHARJAH_FAQ, "location-ajman": LOC_AJMAN_FAQ, "location-ras-al-khaimah": LOC_RAK_FAQ, "location-fujairah": LOC_FUJAIRAH_FAQ, "location-umm-al-quwain": LOC_UAQ_FAQ, "einv-deadline": EINV_DEADLINE_FAQ, "services": SERVICES_HUB_FAQ, "industries": INDUSTRIES_HUB_FAQ, "industry-real-estate": IND_REALESTATE_FAQ, "industry-construction": IND_CONSTRUCTION_FAQ, "industry-trading": IND_TRADING_FAQ, "industry-hospitality": IND_HOSPITALITY_FAQ, "industry-ecommerce": IND_ECOMMERCE_FAQ, "industry-manufacturing": IND_MANUFACTURING_FAQ,
+    "service-ct-filing": CT_FILING_FAQ, "service-vat-filing": VAT_FILING_FAQ, "service-vat-refund": VAT_REFUND_FAQ, "service-tax-advisory": TAX_ADVISORY_FAQ, "location-abu-dhabi": LOC_ABUDHABI_FAQ, "location-sharjah": LOC_SHARJAH_FAQ, "location-ajman": LOC_AJMAN_FAQ, "location-ras-al-khaimah": LOC_RAK_FAQ, "location-fujairah": LOC_FUJAIRAH_FAQ, "location-umm-al-quwain": LOC_UAQ_FAQ, "einv-deadline": EINV_DEADLINE_FAQ, "service-transfer-pricing": TRANSFER_PRICING_FAQ, "service-vat-registration": VAT_REGISTRATION_FAQ, "services": SERVICES_HUB_FAQ, "industries": INDUSTRIES_HUB_FAQ, "industry-real-estate": IND_REALESTATE_FAQ, "industry-construction": IND_CONSTRUCTION_FAQ, "industry-trading": IND_TRADING_FAQ, "industry-hospitality": IND_HOSPITALITY_FAQ, "industry-ecommerce": IND_ECOMMERCE_FAQ, "industry-manufacturing": IND_MANUFACTURING_FAQ,
 }
 
 # Answer-first capsules for the money pages — mirror of routes.js ANSWER_FIRST.
@@ -966,6 +999,10 @@ ANSWER_FIRST = {
         "Authentic Accounting provides on-site fixed asset tagging, bookkeeping, VAT and Corporate Tax filing for Umm Al Quwain businesses from its Dubai (Al Nahda 1) office — serving all seven emirates since 2017, with no UAQ branch needed. UAE tax is federal: VAT at 5% and Corporate Tax at 9% above AED 375,000 taxable income are filed on EmaraTax identically in every emirate. Asset verification and tagging are done at your facility — we travel to the site."},
     "einv-deadline": {"h": "What happens on 30 October 2026 — the UAE e-invoicing deadline", "text":
         "By 30 October 2026, UAE businesses with annual revenue of AED 50 million or more must have appointed an Accredited Service Provider (ASP) for e-invoicing — the first binding deadline of the mandate, under Ministerial Decision 244 of 2025 as amended by MD 66 of 2026. Penalties under Cabinet Decision 106 of 2025 attach as each deadline passes: a missed appointment costs AED 5,000 per month, and it bites before the 1 January 2027 go-live."},
+    "service-transfer-pricing": {"h": "UAE transfer pricing documentation — the short answer", "text":
+        "UAE transfer pricing applies the arm’s-length principle and the OECD Guidelines to related-party and connected-person transactions. A disclosure form is filed with the Corporate Tax return where thresholds are exceeded, and a Master File and Local File must be maintained where the business is part of a multinational group with consolidated group revenue of AED 3.15 billion or more, or its own revenue is AED 200 million or more. The FTA can require the documentation within 30 days of a request."},
+    "service-vat-registration": {"h": "How to register for VAT in the UAE and get a TRN — the short answer", "text":
+        "VAT registration is mandatory once taxable supplies and imports exceeded AED 375,000 in the previous 12 months, or are expected to within the next 30 days; voluntary registration opens at AED 187,500 of taxable supplies or taxable expenses. You apply on EmaraTax and the FTA issues a Tax Registration Number (TRN). Registering late carries an AED 10,000 penalty on top of back-dated output VAT, and non-residents making taxable supplies here can be required to register with no threshold at all."},
 }
 
 # Contextual related guides & tools per page — mirror of routes.js RELATED_READING.
@@ -1096,6 +1133,16 @@ RELATED_READING = {
         ("insight", "choosing-accredited-service-provider-asp", "Choosing an ASP"),
         ("insight", "prepare-erp-for-uae-e-invoicing", "Getting your ERP e-invoicing ready"),
         ("page", "e-invoicing", "E-invoicing readiness check"),
+    ],
+    "service-transfer-pricing": [
+        ("insight", "transfer-pricing-thresholds-board", "Transfer pricing for the Board"),
+        ("insight", "free-zone-qualifying-income", "Free-zone qualifying income"),
+        ("page", "service-corporate-tax", "Corporate Tax estimator"),
+    ],
+    "service-vat-registration": [
+        ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
+        ("insight", "uae-vat-5-percent-primer", "The 5% VAT primer"),
+        ("page", "service-vat", "VAT registration checker"),
     ],
     "industry-real-estate": [
         ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
