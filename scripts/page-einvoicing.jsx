@@ -42,15 +42,29 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
   // B2B/B2G transactions are in scope of the mandate; B2C-only is currently optional.
   const inScope = f.b2b !== 'b2c';
 
+  // Revenue is captured as a BAND, not an exact figure: the mandate only cares
+  // which side of AED 50m you sit on, and asking a prospect to disclose their
+  // precise turnover in a first-touch form is both intrusive and costs
+  // completions. Numeric strings are still parsed so any older saved value works.
+  const GOV  = { who: 'Government entity · Phase 3', asp: '31 Mar 2027', aspISO: '2027-03-31', live: '1 Oct 2027', liveISO: '2027-10-01' };
+  const BIG  = { who: 'Large business (AED 50M+) · Phase 1', asp: '30 Oct 2026', aspISO: '2026-10-30', live: '1 Jan 2027', liveISO: '2027-01-01' };
+  const SMALL= { who: 'Business under AED 50M · Phase 2', asp: '31 Mar 2027', aspISO: '2027-03-31', live: '1 Jul 2027', liveISO: '2027-07-01' };
   const tierOf = (revenue, isGov) => {
+    if (isGov) return GOV;
+    if (revenue === 'gte50') return BIG;
+    if (revenue === 'lt50') return SMALL;
+    // Legacy/typed numeric values still resolve, so nothing breaks if an older
+    // saved value or a pasted figure reaches this function.
     const n = parseFloat(String(revenue).replace(/[^0-9.]/g, ''));
-    if (isGov) return { who: 'Government entity · Phase 3', asp: '31 Mar 2027', aspISO: '2027-03-31', live: '1 Oct 2027', liveISO: '2027-10-01' };
-    if (!isNaN(n) && n > 0) return n >= 50000000
-      ? { who: 'Large business (AED 50M+) · Phase 1', asp: '30 Oct 2026', aspISO: '2026-10-30', live: '1 Jan 2027', liveISO: '2027-01-01' }
-      : { who: 'Business under AED 50M · Phase 2', asp: '31 Mar 2027', aspISO: '2027-03-31', live: '1 Jul 2027', liveISO: '2027-07-01' };
+    if (!isNaN(n) && n > 0) return n >= 50000000 ? BIG : SMALL;
     return null;
   };
+
   const TIER = tierOf(f.revenue, f.isGov);
+  const revenueLabel = f.isGov ? 'Government entity'
+    : f.revenue === 'gte50' ? 'AED 50 million or more'
+    : f.revenue === 'lt50' ? 'Less than AED 50 million'
+    : (f.revenue ? 'AED ' + f.revenue : '—');
 
   const loadJsPDF = () => new Promise((res, rej) => {
     if (window.jspdf && window.jspdf.jsPDF) return res();
@@ -127,7 +141,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
 
     heading('Your inputs');
     doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
-    [['Annual revenue', f.isGov ? 'Government entity' : (f.revenue ? 'AED ' + f.revenue : '—')],
+    [['Annual revenue', revenueLabel],
      ['Phase / tier', TIER.who],
      ['B2B / B2G invoices', b2bLbl[f.b2b] || '—'],
      ['In-house accounting team', lbl[f.team] || '—'],
@@ -211,21 +225,21 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     setErr('');
     if (!f.company.trim() || !f.name.trim() || !f.email.trim() || !f.phone.trim()) { setErr('Please complete company name, your name, email and phone.'); return; }
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.trim())) { setErr('Please enter a valid work email.'); return; }
-    if (!TIER) { setErr('Please enter your annual revenue (or tick “government entity”) so we can calculate your deadline.'); return; }
+    if (!TIER) { setErr('Please choose your revenue band (or tick “government entity”) so we can calculate your deadline.'); return; }
     if (!f.b2b) { setErr('Please tell us whether you issue B2B / B2G invoices — it decides whether the mandate applies to you.'); return; }
     if (!f.consent) { setErr('Please confirm you agree to our Privacy Policy so we can prepare your report.'); return; }
     setBusy(true);
     try {
       let downloadDate = '';
       try { downloadDate = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' (GST)'; } catch (e) { downloadDate = new Date().toISOString(); }
-      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Revenue: ' + (f.isGov ? 'Government entity' : f.revenue), 'Tier: ' + TIER.who, 'B2B/B2G scope: ' + (b2bLbl[f.b2b] || '—'), 'In-house team: ' + (lbl[f.team] || '—'), 'Can implement in-house: ' + (lbl[f.impl] || '—'), 'ASP status: ' + (lbl[f.asp] || '—'), 'ERP: ' + (f.erp || '—'), 'Downloaded: ' + downloadDate].join('\n');
+      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Revenue: ' + revenueLabel, 'Tier: ' + TIER.who, 'B2B/B2G scope: ' + (b2bLbl[f.b2b] || '—'), 'In-house team: ' + (lbl[f.team] || '—'), 'Can implement in-house: ' + (lbl[f.impl] || '—'), 'ASP status: ' + (lbl[f.asp] || '—'), 'ERP: ' + (f.erp || '—'), 'Downloaded: ' + downloadDate].join('\n');
       // Awaited + bounded (6s): the done-state copy must tell the truth about
       // whether the details actually reached us.
       let sent = false;
       if (window.AAContactSheet && window.AAContactSheet.submitRaw) {
         try {
           await Promise.race([
-            window.AAContactSheet.submitRaw({ type: 'E-Invoicing Readiness Assessment', company: f.company, name: f.name, email: f.email, phone: f.phone, revenue: f.isGov ? 'Government' : f.revenue, tier: TIER.who, b2bScope: b2bLbl[f.b2b] || '', inHouseTeam: lbl[f.team] || '', canImplement: lbl[f.impl] || '', aspStatus: lbl[f.asp] || '', erp: f.erp, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() }),
+            window.AAContactSheet.submitRaw({ type: 'E-Invoicing Readiness Assessment', company: f.company, name: f.name, email: f.email, phone: f.phone, revenue: revenueLabel, tier: TIER.who, b2bScope: b2bLbl[f.b2b] || '', inHouseTeam: lbl[f.team] || '', canImplement: lbl[f.impl] || '', aspStatus: lbl[f.asp] || '', erp: f.erp, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() }),
             new Promise((resolve, reject) => setTimeout(() => reject(new Error('lead-timeout')), 6000)),
           ]);
           sent = true;
@@ -290,8 +304,13 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
           <div><label htmlFor={uid + '-phone'} style={laS}>Phone / WhatsApp *</label><input id={uid + '-phone'} type="tel" autoComplete="tel" style={inS} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
         </div>
         <div style={{ marginTop: 14 }}>
-          <label htmlFor={uid + '-revenue'} style={laS}>Approximate annual revenue (AED) *</label>
-          <input id={uid + '-revenue'} style={{ ...inS, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.revenue} onChange={upd('revenue')} placeholder="e.g. 75,000,000" disabled={f.isGov} />
+          <label htmlFor={uid + '-revenue'} style={laS}>Annual revenue band *</label>
+          <select id={uid + '-revenue'} style={inS} value={f.revenue} onChange={upd('revenue')} disabled={f.isGov}>
+            <option value="">Select your revenue band…</option>
+            <option value="gte50">AED 50 million or more</option>
+            <option value="lt50">Less than AED 50 million</option>
+          </select>
+          <div style={{ fontSize: 12.5, color: 'var(--aa-steel)', marginTop: 6 }}>We only need the band — AED 50 million is the line that sets your phase. No exact figures.</div>
           <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer' }}>
             <input type="checkbox" checked={f.isGov} onChange={upd('isGov')} style={{ width: 16, height: 16 }} /> We are a government entity
           </label>
@@ -335,7 +354,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong>{!window.__AA_SNAPSHOT && <span style={{ color: 'var(--aa-cyan)' }}> ({dlabel(TIER.liveISO)})</span>}</div>
               </div>
             ) : (
-              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue to generate your personalised PDF — your exact deadlines, a tailored verdict, and your next steps.</p>
+              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue band to generate your personalised PDF — your exact deadlines, a tailored verdict, and your next steps.</p>
             )}
             <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5, cursor: 'pointer', marginBottom: 14 }}>
               <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />

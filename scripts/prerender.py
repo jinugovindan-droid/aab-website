@@ -249,7 +249,7 @@ PAGE_SEO = {
 INSIGHTS = [
     {"slug": "small-business-relief-extended-2029",
      "seoTitle": "UAE Small Business Relief Extended to 2029 — MD 131/2026", "seoDesc": "Ministerial Decision 131 of 2026 extends UAE Small Business Relief to tax periods ending 31 December 2029. Who still qualifies and what is unchanged.",
-     "tag": "Corporate Tax", "date": "5 Aug 2026", "read": "4 min",
+     "tag": "Corporate Tax", "date": "7 Aug 2026", "read": "4 min",
      "title": "Small Business Relief extended to 2029: what UAE SMEs should do now.",
      "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decision No. 131 of 2026 amending Ministerial Decision No. 73 of 2023, UAE Ministry of Finance",
      "excerpt": "The relief was due to end with tax periods closing in 2026. Ministerial Decision 131 of 2026 pushed that to 31 December 2029 — three more years for SMEs under AED 3 million of revenue. The threshold and the exclusions did not change, and it is still an election you have to claim.",
