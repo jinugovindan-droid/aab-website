@@ -761,6 +761,114 @@ function DeadlinesRoadmap() {
   );
 }
 
+// The Small Business Relief road. Same visual language as DeadlinesRoadmap
+// (charcoal tarmac, dashed centre line, dated stops) but telling a different
+// story: the road was built to STOP at 31 Dec 2026, and MD 131/2026 paved three
+// more years past that point. The original stretch and the extension are drawn
+// as two separate paths so the new tarmac can carry the brand-blue casing —
+// the extension has to be visible at a glance, that is the whole news.
+// The exit ramp encodes the trap the article is really about: the AED 3m test
+// looks at every period, and leaving the road is permanent.
+function SBRRoadmap() {
+  const date = { fontSize: 13, fontWeight: 700, fill: '#176E93', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' };
+  const cap = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
+  const ORIG = 'M 60 150 L 580 150 Q 670 150 670 240 Q 670 330 580 330 L 205 330';
+  const EXT  = 'M 205 330 Q 115 330 115 420 Q 115 510 205 510 L 655 510';
+  const Stop = ({ x, y }) => (
+    <g>
+      <circle cx={x} cy={y} r={9} fill="#fff" stroke="#176E93" strokeWidth="2.5" />
+      <circle cx={x} cy={y} r={3.5} fill="#00B0F0" />
+    </g>
+  );
+  return (
+    <figure style={{ margin: '36px 0 40px' }}>
+      <div style={{ overflowX: 'auto' }}>
+        <svg
+          viewBox="0 0 720 600"
+          role="img"
+          aria-label="Small Business Relief drawn as a road. The road starts on 1 June 2023, when the relief became available for tax periods commencing on or after that date. Along the way, a warning: revenue of AED 3 million or less must hold in the relevant period and in every previous period — cross it once and you leave the road permanently, shown as an exit ramp with no return. The road originally stopped at 31 December 2026, shown as a barrier that has been lifted: Ministerial Decision 131 of 2026 removed that finish line. Beyond it, three more years of new road, ending at 31 December 2029, the last tax periods the relief covers."
+          style={{ display: 'block', width: '100%', minWidth: 580, height: 'auto' }}
+        >
+          {/* ---- EXTENSION casing: brand-blue edge so the new stretch reads instantly */}
+          <path d={EXT} fill="none" stroke="#00B0F0" strokeWidth="46" strokeLinecap="round" strokeLinejoin="round" opacity="0.28" />
+
+          {/* ---- Tarmac */}
+          <path d={ORIG} fill="none" stroke="#1A1A2E" strokeWidth="36" strokeLinecap="round" strokeLinejoin="round" />
+          <path d={EXT} fill="none" stroke="#1A1A2E" strokeWidth="36" strokeLinecap="round" strokeLinejoin="round" />
+
+          {/* ---- Centre lines: white on the original, brand blue on the new stretch */}
+          <path d={ORIG} fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="12 10" opacity="0.85" />
+          <path d={EXT} fill="none" stroke="#00B0F0" strokeWidth="2.5" strokeDasharray="12 10" />
+
+          {/* Direction chevrons */}
+          <polyline points="420,143 427,150 420,157" fill="none" stroke="#fff" strokeWidth="2" opacity="0.9" />
+          <polyline points="400,323 393,330 400,337" fill="none" stroke="#fff" strokeWidth="2" opacity="0.9" />
+          <polyline points="470,503 477,510 470,517" fill="none" stroke="#00B0F0" strokeWidth="2" />
+
+          {/* ---- START: 1 Jun 2023 */}
+          <circle cx="60" cy="150" r="9" fill="#00B0F0" />
+          <circle cx="60" cy="150" r="3.5" fill="#fff" />
+          <text x="26" y="96" style={{ ...date, fill: '#1A1A2E' }}>1 JUN 2023</text>
+          <text x="26" y="112" style={cap}><tspan x="26">Relief available from periods</tspan><tspan x="26" dy="14">commencing on or after this date</tspan></text>
+
+          {/* ---- The AED 3m exit ramp — leave once and you cannot rejoin */}
+          <path d="M 405 150 Q 445 150 455 108" fill="none" stroke="#C2410C" strokeWidth="13" strokeLinecap="round" opacity="0.55" strokeDasharray="9 7" />
+          <g>
+            <circle cx="459" cy="98" r="8.5" fill="#fff" stroke="#C2410C" strokeWidth="2.5" />
+            <text x="459" y="102" textAnchor="middle" style={{ fontSize: 11, fontWeight: 700, fill: '#C2410C', fontFamily: 'inherit' }}>!</text>
+          </g>
+          <text x="478" y="88" style={{ ...date, fontSize: 11.5, fill: '#C2410C' }}>ABOVE AED 3M?</text>
+          <text x="478" y="103" style={{ ...cap, fill: '#9A3412' }}><tspan x="478">Any single period since Jun 2023</tspan><tspan x="478" dy="13">takes you off — and there is no</tspan><tspan x="478" dy="13">slip road back on.</tspan></text>
+
+          {/* ---- The lifted barrier at the OLD finish line, 31 Dec 2026 */}
+          <g>
+            {/* post */}
+            <rect x="199" y="296" width="6" height="30" rx="2" fill="#6E7887" />
+            {/* boom, raised */}
+            <g transform="rotate(-58 202 300)">
+              <rect x="202" y="295" width="86" height="9" rx="3" fill="#fff" stroke="#6E7887" strokeWidth="1.5" />
+              <rect x="216" y="295" width="18" height="9" fill="#C2410C" opacity="0.75" />
+              <rect x="252" y="295" width="18" height="9" fill="#C2410C" opacity="0.75" />
+            </g>
+            {/* little arc showing it swinging up */}
+            <path d="M 232 292 Q 244 268 226 250" fill="none" stroke="#00B0F0" strokeWidth="1.6" strokeDasharray="3 4" />
+            <polyline points="222,254 226,249 231,252" fill="none" stroke="#00B0F0" strokeWidth="1.6" />
+          </g>
+          <Stop x={205} y={330} />
+          <text x="258" y="372" style={date}>31 DEC 2026</text>
+          <text x="258" y="388" style={cap}>
+            <tspan x="258">The road used to stop here</tspan>
+            <tspan x="258" dy="14" style={{ fill: '#00B0F0', fontWeight: 700 }}>MD 131 of 2026 lifted the barrier</tspan>
+          </text>
+
+          {/* ---- "+3 YEARS" flag over the new stretch */}
+          <g>
+            <rect x="286" y="452" width="150" height="30" rx="4" fill="#00B0F0" />
+            <text x="361" y="472" textAnchor="middle"
+              style={{ fontSize: 14, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.08em' }}>
+              +3 YEARS
+            </text>
+            <path d="M 361 482 L 361 494" stroke="#00B0F0" strokeWidth="2.5" />
+          </g>
+          <text x="361" y="556" textAnchor="middle" style={cap}>Newly paved by Ministerial Decision 131 of 2026</text>
+
+          {/* ---- FINISH: 31 Dec 2029 */}
+          <line x1="648" y1="510" x2="648" y2="474" stroke="#1A1A2E" strokeWidth="2.5" />
+          {[0, 1, 2, 3].map((c) => [0, 1].map((r) => (
+            <rect key={`${c}-${r}`} x={648 + c * 8} y={474 + r * 8} width="8" height="8"
+              fill={(c + r) % 2 === 0 ? '#1A1A2E' : '#fff'} stroke="#1A1A2E" strokeWidth="0.5" />
+          )))}
+          <text x="655" y="452" textAnchor="middle" style={{ ...date, fill: '#1A1A2E' }}>31 DEC 2029</text>
+          <text x="655" y="468" textAnchor="middle" style={cap}>Last periods covered</text>
+        </svg>
+      </div>
+      <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>
+        SMALL BUSINESS RELIEF — THE ROAD, NOW PAVED THREE YEARS FURTHER (MD 131 OF 2026)
+      </figcaption>
+    </figure>
+  );
+}
+
 function EInvoiceDeadlinesBody({ onNav }) {
   return (
     <div className="container" style={ART}>
@@ -1454,6 +1562,8 @@ function SBRExtendedBody({ onNav }) {
 
       <h3 style={H3}>What actually changed</h3>
       <p>Exactly one clause. Article&nbsp;2(2) of Ministerial Decision No.&nbsp;73 of 2023 previously applied the revenue threshold to tax periods ending on or before 31&nbsp;December&nbsp;2026. It now reads: the threshold applies to tax periods commencing on or after 1&nbsp;June&nbsp;2023 and continues to apply to subsequent tax periods that <strong>end on or before 31&nbsp;December&nbsp;2029</strong>. The decision takes effect the day after publication.</p>
+
+      <SBRRoadmap />
 
       <h3 style={H3}>What did not change</h3>
       <p>Everything else. The threshold is still <strong>AED&nbsp;3&nbsp;million of revenue</strong>, and it still has to hold in the relevant tax period <em>and</em> in every previous tax period &mdash; one year above AED&nbsp;3&nbsp;million closes the door permanently, extension or not. The relief is still unavailable to Qualifying Free Zone Persons and to members of multinational groups within scope of Pillar&nbsp;Two. And it is still an <strong>election</strong>: you register, you file a return, and you claim the relief on it. Nothing about this is automatic.</p>

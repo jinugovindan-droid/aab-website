@@ -23,8 +23,8 @@ const W = 1200, H = 630;
 const CARDS = {
   'small-business-relief-extended-2029': {
     kicker: 'Small Business Relief · MD 131/2026',
-    headline: 'Extended to 2029 — unless you crossed AED 3m.',
-    sub: 'The AED 3m test looks at every period since June 2023',
+    headline: 'Three more years. Now runs to 2029.',
+    sub: 'For UAE businesses at or under AED 3m revenue',
   },
 };
 

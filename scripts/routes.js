@@ -65,7 +65,7 @@
       slug: 'small-business-relief-extended-2029',
       seoTitle: 'Small Business Relief UAE Extended to 2029: Who Qualifies', seoDesc: 'Small Business Relief now runs to tax periods ending 31 December 2029. The AED 3m threshold and the all-previous-periods test did not change.',
       tag: 'Corporate Tax', date: '7 Aug 2026', read: '4 min',
-      title: 'Small Business Relief now runs to 2029. One past period can end it.',
+      title: 'Three more years: Small Business Relief now runs to 2029.',
       author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decision No. 131 of 2026 amending Ministerial Decision No. 73 of 2023, UAE Ministry of Finance',
       excerpt: 'Ministerial Decision 131 of 2026 extends UAE Small Business Relief to tax periods ending on or before 31 December 2029. The threshold did not move: AED 3m or less in the relevant period and every period since June 2023. Cross it once and eligibility is gone. It is still an election on the return.',
       published: true,
