@@ -225,7 +225,10 @@ function AppRoot() {
       <a className="skip-link" href="#main-content">Skip to content</a>
       {tweaks.showSubBar && <SubBar/>}
       <TopNav active={navActive} onNav={navigateTo}/>
-      <main id="main-content" tabIndex={-1}>{renderPage()}</main>
+      <main id="main-content" tabIndex={-1}>
+        <LatestUpdate page={page} onNav={navigateTo}/>
+        {renderPage()}
+      </main>
       <Footer onNav={navigateTo}/>
       <WhatsAppFab/>
       <EInvoiceMarquee onNav={navigateTo}/>

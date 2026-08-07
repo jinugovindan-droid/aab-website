@@ -794,4 +794,74 @@ function SiteSearchModal({ onNav }) {
   );
 }
 
-Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, CookieConsent, EInvoiceMarquee, useScrollReveal, LucideHost, SiteSearchModal });
+// ---- Latest-update ribbon ---------------------------------------------------
+// A slim, IN-FLOW band (never fixed — the page already carries one fixed 46px
+// marquee, and a second bar would eat the phone viewport and compete with the
+// e-invoicing countdown). It always renders the newest PUBLISHED insight, read
+// straight from the registry, so it can never go stale and every future news
+// item gets prominent placement with no code change.
+//
+// Labelled "Latest update", not "New": the newest article is always the latest,
+// whatever its age, so nothing here needs a date cutoff (which would also bake a
+// build-time decision into the static snapshot).
+const LATEST_TAG_PAGES = {
+  'Corporate Tax': ['service-corporate-tax', 'service-ct-filing', 'service-tax-advisory', 'service-tax-planning', 'service-transfer-pricing'],
+  'VAT': ['service-vat', 'service-vat-filing', 'service-vat-refund', 'service-vat-registration'],
+  'E-Invoicing': ['e-invoicing', 'einv-deadline'],
+  'Bookkeeping': ['service-bookkeeping'],
+  'Financial Reporting': ['service-financial-statements'],
+  'Controls': ['service-internal-controls', 'service-audit-support'],
+  'Valuations': ['service-valuations'],
+  'M&A': ['service-transaction-advisory'],
+  'Advisory': ['service-strategic-advisory'],
+  'Compliance': ['services'],
+};
+
+const LATEST_MONTHS = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+const latestTime = (d) => {
+  const p = String(d || '').split(' ');
+  return new Date(parseInt(p[2], 10) || 2017, LATEST_MONTHS[p[1]] || 0, parseInt(p[0], 10) || 1).getTime();
+};
+
+function LatestUpdate({ page, onNav }) {
+  const R = window.AARoutes || {};
+  const all = (R.INSIGHTS || []).filter((a) => a.published);
+  if (!all.length) return null;
+  const a = all.slice().sort((x, y) => latestTime(y.date) - latestTime(x.date))[0];
+
+  // Home always shows it; elsewhere only where the topic is contextually right.
+  const eligible = page === 'home' || (LATEST_TAG_PAGES[a.tag] || []).indexOf(page) !== -1;
+  if (!eligible) return null;
+
+  const href = R.pathForInsight ? R.pathForInsight(a.slug) : '/insights/' + a.slug;
+  return (
+    <section style={{ background: 'var(--aa-surface-off)', borderBottom: '1px solid var(--aa-rule)' }}>
+      {/* Vertical padding only — the .container class owns the horizontal
+          gutter and narrows it on phones; overriding it here would break the
+          20px phone gutter. */}
+      <div className="container" style={{ paddingTop: 11, paddingBottom: 11 }}>
+        {/* Real href so it works pre-mount and without JS. */}
+        <a href={href}
+          onClick={(e) => { e.preventDefault(); onNav('insight', a.slug); }}
+          style={{ display: 'flex', alignItems: 'center', gap: '4px 14px', flexWrap: 'wrap', textDecoration: 'none', color: 'inherit' }}>
+          {/* pill + date travel together so they never split across lines */}
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+            <span style={{
+              background: 'var(--aa-cyan)', color: 'var(--aa-charcoal)',
+              fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+              padding: '4px 9px',
+            }}>Latest update</span>
+            <span style={{ fontSize: 12.5, color: 'var(--aa-steel)', fontFamily: 'var(--aa-font-mono)' }}>{a.date}</span>
+          </span>
+          {/* arrow lives INSIDE the headline so it can never orphan onto its own row */}
+          <span style={{ flex: '1 1 240px', minWidth: 0, fontSize: 14.5, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.4 }}>
+            {String(a.title).replace(/\.\s*$/, '')}
+            <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 700, whiteSpace: 'nowrap' }}>&nbsp;&rarr;</span>
+          </span>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { TopNav, SubBar, Footer, WhatsAppFab, CookieConsent, EInvoiceMarquee, useScrollReveal, LucideHost, SiteSearchModal, LatestUpdate });
