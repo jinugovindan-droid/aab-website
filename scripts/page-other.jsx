@@ -1581,7 +1581,7 @@ function SBRExtendedBody({ onNav }) {
       </ul>
 
       <h3 style={H3}>The wider read</h3>
-      <p>Two amendments in one month &mdash; the e-invoicing timetable in Ministerial Decision 66 of 2026 and now this &mdash; point the same way: the UAE is willing to move dates when the compliance burden lands faster than the market can absorb it. That is worth remembering when planning against any transitional measure. Plan for the current law, not for the extension you hope arrives.</p>
+      <p>Two amendments in under three months &mdash; on 10&nbsp;May&nbsp;2026 the Ministry moved the e-invoicing ASP deadline from 31&nbsp;July to 30&nbsp;October (Ministerial Decision 66 of 2026), and now this &mdash; point the same way: the UAE is willing to move dates when the compliance burden lands faster than the market can absorb it. That is worth remembering when planning against any transitional measure. Plan for the current law, not for the extension you hope arrives.</p>
 
       <p>If you want the eligibility test run properly against your own numbers, our {link('service-corporate-tax', 'Corporate Tax')} service does exactly that &mdash; and the estimator on that page now reflects the 2029 window.</p>
     </div>
