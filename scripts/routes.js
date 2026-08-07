@@ -62,6 +62,15 @@
   // render an honest "in preparation" state so a card never shows the wrong note.
   const INSIGHTS = [
     {
+      slug: 'small-business-relief-extended-2029',
+      seoTitle: 'UAE Small Business Relief Extended to 2029 — MD 131/2026', seoDesc: 'Ministerial Decision 131 of 2026 extends UAE Small Business Relief to tax periods ending 31 December 2029. Who still qualifies and what is unchanged.',
+      tag: 'Corporate Tax', date: '5 Aug 2026', read: '4 min',
+      title: 'Small Business Relief extended to 2029: what UAE SMEs should do now.',
+      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decision No. 131 of 2026 amending Ministerial Decision No. 73 of 2023, UAE Ministry of Finance',
+      excerpt: 'The relief was due to end with tax periods closing in 2026. Ministerial Decision 131 of 2026 pushed that to 31 December 2029 — three more years for SMEs under AED 3 million of revenue. The threshold and the exclusions did not change, and it is still an election you have to claim.',
+      published: true,
+    },
+    {
       slug: 'ifrs-financial-statements-uae',
       seoTitle: 'IFRS Financial Statements in the UAE: Who Needs Them', seoDesc: 'Who must prepare IFRS statements in the UAE, the standards Corporate Tax accepts (IFRS, IFRS for SMEs, cash basis), and what a complete set contains.',
       tag: 'Financial Reporting', date: '15 Apr 2026', read: '7 min',
@@ -117,11 +126,11 @@
     },
     {
       slug: 'uae-corporate-tax-guide-sme',
-      seoTitle: 'UAE Corporate Tax Guide for SMEs & Free Zones 2026', seoDesc: 'Who pays 0% and 9%, registration and the AED 10,000 late penalty, Small Business Relief and its 2026 sunset, QFZP status and the 15% top-up tax.',
+      seoTitle: 'UAE Corporate Tax Guide for SMEs & Free Zones 2026', seoDesc: 'Who pays 0% and 9%, registration and the AED 10,000 late penalty, Small Business Relief now running to 2029, QFZP status and the 15% top-up tax.',
       tag: 'Corporate Tax', date: '18 Feb 2025', read: '8 min',
       title: 'UAE Corporate Tax: a complete guide for SMEs and free-zone businesses.',
       author: 'Jinu Govindan', reviewer: 'Sabith Abdul Rahman', reference: 'Federal Decree-Law No. 47 of 2022 (UAE Corporate Tax)',
-      excerpt: 'Who pays UAE Corporate Tax, the 0% and 9% bands, registration and the AED 10,000 late-registration penalty, the nine-month filing deadline, Small Business Relief and its 31 December 2026 sunset, free-zone QFZP status, and the 15% domestic minimum top-up tax — in plain English for UAE businesses.',
+      excerpt: 'Who pays UAE Corporate Tax, the 0% and 9% bands, registration and the AED 10,000 late-registration penalty, the nine-month filing deadline, Small Business Relief now extended to 31 December 2029, free-zone QFZP status, and the 15% domestic minimum top-up tax — in plain English for UAE businesses.',
       published: true,
     },
     {
@@ -568,7 +577,7 @@
     { q: 'Do I still need to register if my income is below AED 375,000?',
       a: 'Yes. The AED 375,000 threshold is a 0% rate band, not an exemption. Every taxable person must register for Corporate Tax, obtain a Tax Registration Number and file an annual return — even when the tax due is zero.' },
     { q: 'What is Small Business Relief?',
-      a: 'Businesses with revenue of AED 3 million or less in the relevant tax period AND all previous tax periods can elect Small Business Relief and be treated as having no taxable income. It is a transitional measure for tax periods ending on or before 31 December 2026, is not available to Qualifying Free Zone Persons or members of large multinational groups, and must be actively elected with the FTA.' },
+      a: 'Businesses with revenue of AED 3 million or less in the relevant tax period AND all previous tax periods can elect Small Business Relief and be treated as having no taxable income. It is a transitional measure, extended by Ministerial Decision 131 of 2026 to tax periods ending on or before 31 December 2029 (it was to end in 2026). It is not available to Qualifying Free Zone Persons or members of large multinational groups, and must be actively elected with the FTA.' },
     { q: 'Do free zone companies pay Corporate Tax?',
       a: 'A Qualifying Free Zone Person (QFZP) can benefit from a 0% rate on its qualifying income if it meets all conditions (adequate substance, qualifying activities and the de minimis limits) under Cabinet Decision 100 of 2023 and Ministerial Decision 229 of 2025. Non-qualifying income is taxed at 9%, and free zone businesses must still register and file.' },
     { q: 'When is my Corporate Tax return due?',
@@ -1015,7 +1024,7 @@
     { q: 'Can you handle manufacturing accounts — inventory, WIP and costing?',
       a: 'Yes — Sharjah’s manufacturers and family industrial groups are exactly the businesses we build books for. Inventory and WIP need a costing method applied consistently, landed costs captured, and physical counts reconciled to the ledger — and Corporate Tax then relies on those same numbers. We run the monthly cycle remotely and attend stocktakes and fixed-asset verification at your plant in person.' },
     { q: 'Does a Sharjah free zone company automatically pay 0% Corporate Tax?',
-      a: 'No. The 0% rate belongs only to a Qualifying Free Zone Person — which requires adequate substance, audited financial statements and qualifying income tested against the conditions; fail them and the standard 9% applies above AED 375,000. Mainland Sharjah companies follow the standard regime, and Small Business Relief can apply where revenue is AED 3 million or less, for periods ending on or before 31 December 2026.' },
+      a: 'No. The 0% rate belongs only to a Qualifying Free Zone Person — which requires adequate substance, audited financial statements and qualifying income tested against the conditions; fail them and the standard 9% applies above AED 375,000. Mainland Sharjah companies follow the standard regime, and Small Business Relief can apply where revenue is AED 3 million or less, for periods ending on or before 31 December 2029 (extended from 2026 by Ministerial Decision 131 of 2026).' },
   ];
 
   // /locations/ajman FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
@@ -1051,7 +1060,7 @@
     { q: 'Can you act as our statutory auditor in Fujairah?',
       a: 'No — we deliberately do not perform statutory audits, and we would not audit books we help prepare. What we provide is audit support: preparing the schedules, reconciliations and evidence packs your appointed auditor asks for, managing their queries and closing the findings afterwards. Free-zone entities that need audited IFRS financial statements — including QFZP claimants — lean on exactly this preparation.' },
     { q: 'What Corporate Tax rules apply to a Fujairah company?',
-      a: 'The same federal rules as everywhere in the UAE: 9% on taxable income above AED 375,000 and 0% below it, with the return and payment due on EmaraTax within nine months of year-end. Small Business Relief can apply where revenue stays at or under AED 3 million (conditions apply, for periods ending by 31 December 2026), and free-zone entities may access the 0% QFZP rate if they meet its conditions — audited IFRS financial statements included.' },
+      a: 'The same federal rules as everywhere in the UAE: 9% on taxable income above AED 375,000 and 0% below it, with the return and payment due on EmaraTax within nine months of year-end. Small Business Relief can apply where revenue stays at or under AED 3 million (conditions apply, for periods ending by 31 December 2029 following Ministerial Decision 131 of 2026), and free-zone entities may access the 0% QFZP rate if they meet its conditions — audited IFRS financial statements included.' },
   ];
 
   // /locations/umm-al-quwain FAQ — single source for FAQPage JSON-LD + visible Q&A. Sync with prerender.py.
@@ -1115,7 +1124,7 @@
     'service-corporate-tax': {
       h: 'UAE Corporate Tax registration and filing — the short answer',
       text:
-      'UAE Corporate Tax is charged at 9% on annual taxable income above AED 375,000 — the first AED 375,000 is taxed at 0%. Every taxable person must register with the Federal Tax Authority, then file a return and pay any tax due within 9 months of financial year-end. Qualifying Free Zone Persons can keep a 0% rate on qualifying income, and Small Business Relief may apply where revenue is AED 3 million or less, for tax periods ending on or before 31 December 2026.',
+      'UAE Corporate Tax is charged at 9% on annual taxable income above AED 375,000 — the first AED 375,000 is taxed at 0%. Every taxable person must register with the Federal Tax Authority, then file a return and pay any tax due within 9 months of financial year-end. Qualifying Free Zone Persons can keep a 0% rate on qualifying income, and Small Business Relief may apply where revenue is AED 3 million or less, for tax periods ending on or before 31 December 2029 (extended by Ministerial Decision 131 of 2026).',
     },
     'e-invoicing': {
       h: 'UAE e-invoicing deadlines and readiness — the short answer',

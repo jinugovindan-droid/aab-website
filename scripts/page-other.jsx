@@ -981,8 +981,8 @@ function CorporateTaxGuideBody({ onNav }) {
       <h3 style={H3}>Filing and payment — the nine-month rule</h3>
       <p>Corporate Tax is self-assessed and filed once per tax period. The return must be filed, and any tax paid, <strong>within nine months of the end of the tax period</strong>. For a business whose tax period is the 2024 calendar year, that means a deadline of 30&nbsp;September&nbsp;2025. There are no provisional or advance payments — one return, one payment, nine months after year-end. See our {link('service-corporate-tax', 'Corporate Tax compliance')} service for how we scope and file it.</p>
 
-      <h3 style={H3}>Small Business Relief — and its 31 December 2026 sunset</h3>
-      <p>If your revenue is <strong>AED&nbsp;3&nbsp;million or less</strong>, you can elect for <strong>Small Business Relief</strong>: you are treated as having no taxable income for the period (you still register and file, but you do not compute or pay Corporate Tax). Two things to watch. First, it is an <em>election</em> — you have to claim it on the return. Second, it is <strong>transitional: it is available only for tax periods ending on or before 31&nbsp;December&nbsp;2026</strong>. Plan now for the first post-relief period, because the step-up to normal computation is not automatic.</p>
+      <h3 style={H3}>Small Business Relief — now extended to 31 December 2029</h3>
+      <p>If your revenue is <strong>AED&nbsp;3&nbsp;million or less</strong>, you can elect for <strong>Small Business Relief</strong>: you are treated as having no taxable income for the period (you still register and file, but you do not compute or pay Corporate Tax). Two things to watch. First, it is an <em>election</em> — you have to claim it on the return. Second, it is still <strong>transitional</strong> — but the window just got three years longer: <strong>Ministerial Decision 131 of 2026</strong> (issued 29&nbsp;July&nbsp;2026) replaced the sunset with tax periods ending on or before <strong>31&nbsp;December&nbsp;2029</strong>. The AED&nbsp;3&nbsp;million threshold and the exclusions are unchanged. Plan for the first post-relief period anyway, because the step-up to normal computation is not automatic.</p>
 
       <h3 style={H3}>Free-zone businesses — the QFZP 0%</h3>
       <p>A Qualifying Free Zone Person can access a 0% rate on its <em>qualifying</em> income, while non-qualifying income is taxed at 9%. The conditions — adequate substance in the zone, qualifying activities, the de&nbsp;minimis limit on non-qualifying revenue, and audited financials — are strict, and breaching them costs you the status for that period plus four more. We unpack the three traps we see most often in {link('service-tax-planning', 'tax planning')} engagements and in our companion guide on free-zone qualifying income.</p>
@@ -995,7 +995,7 @@ function CorporateTaxGuideBody({ onNav }) {
         <ul style={{ margin: 0, paddingLeft: 20, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.6 }}>
           <li>Confirm you are registered and hold a Corporate Tax registration number.</li>
           <li>Mark your filing date — nine months after your tax-period end — in the calendar now.</li>
-          <li>If revenue is ≤ AED 3M, decide on Small Business Relief and plan for its 2026 sunset.</li>
+          <li>If revenue is ≤ AED 3M, decide on Small Business Relief — now available for periods ending to 31 Dec 2029.</li>
           <li>Free-zone? Re-test your QFZP conditions every period, not once a year.</li>
         </ul>
       </div>
@@ -1443,7 +1443,43 @@ function IFRSStatementsBody({ onNav }) {
   );
 }
 
+function SBRExtendedBody({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>Small Business Relief was written to expire. On 29&nbsp;July&nbsp;2026 the Ministry of Finance issued <strong>Ministerial Decision No.&nbsp;131 of 2026</strong>, which amends the relief&rsquo;s enabling decision and moves its end date out by three years &mdash; to tax periods ending on or before <strong>31&nbsp;December&nbsp;2029</strong>.</p>
+
+      <h3 style={H3}>What actually changed</h3>
+      <p>Exactly one clause. Article&nbsp;2(2) of Ministerial Decision No.&nbsp;73 of 2023 previously applied the revenue threshold to tax periods ending on or before 31&nbsp;December&nbsp;2026. It now reads: the threshold applies to tax periods commencing on or after 1&nbsp;June&nbsp;2023 and continues to apply to subsequent tax periods that <strong>end on or before 31&nbsp;December&nbsp;2029</strong>. The decision takes effect the day after publication.</p>
+
+      <h3 style={H3}>What did not change</h3>
+      <p>Everything else. The threshold is still <strong>AED&nbsp;3&nbsp;million of revenue</strong>, and it still has to hold in the relevant tax period <em>and</em> in every previous tax period &mdash; one year above AED&nbsp;3&nbsp;million closes the door permanently, extension or not. The relief is still unavailable to Qualifying Free Zone Persons and to members of multinational groups within scope of Pillar&nbsp;Two. And it is still an <strong>election</strong>: you register, you file a return, and you claim the relief on it. Nothing about this is automatic.</p>
+
+      <h3 style={H3}>What it is worth</h3>
+      <p>For an eligible business the relief treats you as having <strong>no taxable income</strong> for the period. Against the 9% rate above the AED&nbsp;375,000 band, the arithmetic is easy: an SME with AED&nbsp;800,000 of taxable income would otherwise owe roughly AED&nbsp;38,000 a year. Three more years of relief is real money, and it lands with the certainty of a published decision rather than a hoped-for renewal.</p>
+
+      <h3 style={H3}>What to do now</h3>
+      <ul>
+        <li><strong>Re-test eligibility on the prior-period rule, not just this year.</strong> Revenue is measured across every tax period since June&nbsp;2023. Businesses that grew through AED&nbsp;3&nbsp;million in 2024 or 2025 gain nothing from the extension.</li>
+        <li><strong>Do not skip registration or filing.</strong> The relief removes the tax, not the obligations. Late registration still carries the AED&nbsp;10,000 penalty, and the return is still due within nine months of year-end.</li>
+        <li><strong>Revisit any plan built around a 2026 cliff.</strong> Restructuring, timing of income, or a decision to leave the relief early may have been priced on the old sunset. That assumption is now three years out of date.</li>
+        <li><strong>Free zone? Check the trade-off again.</strong> A Qualifying Free Zone Person cannot use the relief. If you are marginal on the QFZP conditions, the comparison between the 0% qualifying-income route and three more years of Small Business Relief has genuinely changed.</li>
+        <li><strong>Keep the books that prove it.</strong> The election is only as good as the revenue records behind it &mdash; and the FTA can ask.</li>
+      </ul>
+
+      <h3 style={H3}>The wider read</h3>
+      <p>Two amendments in one month &mdash; the e-invoicing timetable in Ministerial Decision 66 of 2026 and now this &mdash; point the same way: the UAE is willing to move dates when the compliance burden lands faster than the market can absorb it. That is worth remembering when planning against any transitional measure. Plan for the current law, not for the extension you hope arrives.</p>
+
+      <p>If you want the eligibility test run properly against your own numbers, our {link('service-corporate-tax', 'Corporate Tax')} service does exactly that &mdash; and the estimator on that page now reflects the 2029 window.</p>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
+  'small-business-relief-extended-2029': SBRExtendedBody,
   'ifrs-financial-statements-uae': IFRSStatementsBody,
   'uae-vat-guide-dubai': VATGuideBody,
   'outsourced-bookkeeping-dubai': BookkeepingGuideBody,

@@ -15,13 +15,23 @@ const ROOT = process.cwd();
 const VENDOR = 'assets/vendor/lucide-1.21.0.min.js';
 const OUT = 'assets/vendor/lucide-subset.js';
 
-// ---- 1. collect every icon name the site can reference
+// ---- 1. collect every icon name the site can reference.
+// SOURCE is the authority — the built route HTML is NOT scanned, because during
+// `npm run make` prerender.py has already reset those files to thin skeletons,
+// which would silently shrink the subset (and snapshot.mjs would then fail on
+// unswapped icons). Candidates are over-collected here and filtered against the
+// real lucide icon set below, so route ids and step numbers drop out by
+// themselves.
+// Strategy: OVER-COLLECT every quoted kebab-case token in the source, then keep
+// only those that are real lucide icons (step 2). Icons are referenced in too
+// many shapes to enumerate safely — data-lucide="x", data-lucide={cond?'a':'b'},
+// <LucideHost name="x">, { icon: 'x' }, and config tuples with the icon first
+// OR last. Missing one silently breaks icons in production, while an extra
+// icon costs ~200 bytes, so the trade is deliberately lopsided.
+// snapshot.mjs hard-fails on any unswapped icon, which is the backstop.
 const names = new Set();
 const addFrom = (text) => {
-  for (const m of text.matchAll(/data-lucide="([a-z0-9-]+)"/g)) names.add(m[1]);
-  for (const m of text.matchAll(/lucide lucide-([a-z0-9-]+)/g)) names.add(m[1]);
-  // dynamic: data-lucide={ic} fed from config tuples/objects
-  for (const m of text.matchAll(/icon:\s*'([a-z0-9-]+)'/g)) names.add(m[1]);
+  for (const m of text.matchAll(/['"`]([a-z][a-z0-9]*(?:-[a-z0-9]+)*)['"`]/g)) names.add(m[1]);
 };
 
 const SKIP_DIRS = new Set(['node_modules', 'dist', 'assets', '.git', 'print']);
@@ -30,12 +40,11 @@ async function walk(dir) {
     if (name.startsWith('.') || SKIP_DIRS.has(name)) continue;
     const p = join(dir, name);
     if ((await stat(p)).isDirectory()) { await walk(p); continue; }
-    if (name.endsWith('.jsx') || name.endsWith('.js') || name.endsWith('.html')) {
-      addFrom(await readFile(p, 'utf8'));
-    }
+    if (name.endsWith('.jsx') || name.endsWith('.js')) addFrom(await readFile(p, 'utf8'));
   }
 }
-await walk(ROOT);
+await walk(join(ROOT, 'scripts'));
+addFrom(await readFile(join(ROOT, 'index.html'), 'utf8'));
 
 // ---- 2. load the vendor bundle and pull the needed definitions
 const src = await readFile(VENDOR, 'utf8');

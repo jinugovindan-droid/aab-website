@@ -848,7 +848,7 @@ function CorpTaxEstimator({ onNav }) {
 
   const verdict = () => {
     if (f.freezone) return { t: 'Free zone — a QFZP analysis is essential', b: 'As a free zone person you may qualify for the 0% rate on qualifying income — but only if you meet the substance, de minimis and qualifying-activity tests. Non-qualifying income is taxed at 9%, and Small Business Relief is not available to Qualifying Free Zone Persons. The figure shown assumes taxable (mainland-equivalent) income; your actual position depends on a QFZP assessment, which we can run for you.' };
-    if (sbrApplied) return { t: 'Likely AED 0 — Small Business Relief', b: 'Your revenue is at or below AED 3,000,000, so you may be able to elect Small Business Relief and be treated as having no taxable income for the period. Conditions apply: revenue must be AED 3M or below in this and all previous tax periods (from June 2023), the relief ends for periods ending after 31 December 2026, and it is not available to Qualifying Free Zone Persons or members of large multinational groups. You still must register and file — the relief is claimed on the return.' };
+    if (sbrApplied) return { t: 'Likely AED 0 — Small Business Relief', b: 'Your revenue is at or below AED 3,000,000, so you may be able to elect Small Business Relief and be treated as having no taxable income for the period. Conditions apply: revenue must be AED 3M or below in this and all previous tax periods (from June 2023), the relief now runs to periods ending 31 December 2029 (extended from 2026 by Ministerial Decision 131 of 2026), and it is not available to Qualifying Free Zone Persons or members of large multinational groups. You still must register and file — the relief is claimed on the return.' };
     if (ct === 0) return { t: 'Within the 0% band', b: 'Your taxable income is at or below the AED 375,000 threshold, so the estimated Corporate Tax is nil at the 0% band. You must still register with the FTA and file a return for the period.' };
     return { t: 'Estimated liability: ' + AA_MONEY(ct), b: 'Based on an accounting profit of ' + AA_MONEY(profit) + ', the first AED 375,000 is taxed at 0% and the balance at 9% — an effective rate of about ' + effRate.toFixed(1) + '%. This is an indicative estimate: your actual taxable income reflects add-backs, exempt income, reliefs and interest-limitation rules.' };
   };
@@ -887,7 +887,7 @@ function CorpTaxEstimator({ onNav }) {
         inputs,
         nextMoves: [
           'Register for Corporate Tax on EmaraTax and confirm your first tax period (late registration carries an AED 10,000 penalty).',
-          sbrApplied ? 'Check Small Business Relief eligibility — revenue must be AED 3M or below in this and all previous tax periods, and the relief ends for periods ending after 31 Dec 2026 — then elect it on your return.' : 'Prepare a taxable-income computation — add-backs, exempt income, reliefs and interest limitation — from your financial statements.',
+          sbrApplied ? 'Check Small Business Relief eligibility — revenue must be AED 3M or below in this and all previous tax periods, and the relief now runs to periods ending 31 Dec 2029 — then elect it on your return.' : 'Prepare a taxable-income computation — add-backs, exempt income, reliefs and interest limitation — from your financial statements.',
           f.freezone ? 'Commission a Qualifying Free Zone Person (QFZP) assessment before relying on the 0% rate.' : 'File your return on EmaraTax within nine months of your year-end and keep audit-ready workpapers.',
         ],
         legal: 'Indicative estimate only — not tax advice. Taxable income is simplified here as accounting profit; your actual position reflects add-backs, exempt income, reliefs, transfer pricing and interest-limitation rules under Federal Decree-Law No. 47 of 2022 and related decisions. Confirm against the latest UAE Ministry of Finance / Federal Tax Authority sources.',
@@ -1008,7 +1008,7 @@ function ServiceCorporateTaxPage({ onNav }) {
                   ['Standard rate', '9% (above AED 375,000)'],
                   ['0% rate band', 'First AED 375,000'],
                   ['Free zone', '0% on qualifying income (QFZP)'],
-                  ['Small Business Relief', 'Revenue up to AED 3M · to 31 Dec 2026'],
+                  ['Small Business Relief', 'Revenue up to AED 3M · to 31 Dec 2029'],
                   ['Return filing', 'Within 9 months of year-end'],
                   ['Late-registration penalty', 'AED 10,000'],
                   ['Pricing', 'Customised to your scope'],
