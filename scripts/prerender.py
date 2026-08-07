@@ -248,11 +248,11 @@ PAGE_SEO = {
 
 INSIGHTS = [
     {"slug": "small-business-relief-extended-2029",
-     "seoTitle": "UAE Small Business Relief Extended to 2029 — MD 131/2026", "seoDesc": "Ministerial Decision 131 of 2026 extends UAE Small Business Relief to tax periods ending 31 December 2029. Who still qualifies and what is unchanged.",
+     "seoTitle": "Small Business Relief UAE Extended to 2029: Who Qualifies", "seoDesc": "Small Business Relief now runs to tax periods ending 31 December 2029. The AED 3m threshold and the all-previous-periods test did not change.",
      "tag": "Corporate Tax", "date": "7 Aug 2026", "read": "4 min",
-     "title": "Small Business Relief extended to 2029: what UAE SMEs should do now.",
+     "title": "Small Business Relief now runs to 2029. One past period can end it.",
      "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decision No. 131 of 2026 amending Ministerial Decision No. 73 of 2023, UAE Ministry of Finance",
-     "excerpt": "The relief was due to end with tax periods closing in 2026. Ministerial Decision 131 of 2026 pushed that to 31 December 2029 — three more years for SMEs under AED 3 million of revenue. The threshold and the exclusions did not change, and it is still an election you have to claim.",
+     "excerpt": "Ministerial Decision 131 of 2026 extends UAE Small Business Relief to tax periods ending on or before 31 December 2029. The threshold did not move: AED 3m or less in the relevant period and every period since June 2023. Cross it once and eligibility is gone. It is still an election on the return.",
      "published": True},
     {"slug": "ifrs-financial-statements-uae",
      "seoTitle": "IFRS Financial Statements in the UAE: Who Needs Them", "seoDesc": "Who must prepare IFRS statements in the UAE, the standards Corporate Tax accepts (IFRS, IFRS for SMEs, cash basis), and what a complete set contains.", "tag": "Financial Reporting", "date": "15 Apr 2026",
@@ -1469,6 +1469,15 @@ def main():
         html = render(template, title, a.get("seoDesc") or a["excerpt"], canonical, build_jsonld("insight", a["slug"]), robots=robots, body=seo_body("insight", a["slug"]))
         # Articles get article OG semantics (og:type + published_time) for social/rich results.
         html = html.replace('<meta property="og:type" content="website"/>', '<meta property="og:type" content="article"/>', 1)
+        # Per-article share card when one has been generated (scripts/make-article-og.mjs).
+        # The share image is the single biggest visual slot a LinkedIn/WhatsApp
+        # post gets; the generic logo card wastes it for a news piece.
+        card = os.path.join(ROOT, "assets", "og", "article-%s.jpg" % a["slug"])
+        if os.path.exists(card):
+            card_url = SITE_ORIGIN + "/assets/og/article-%s.jpg?v=1" % a["slug"]
+            html = re.sub(r'(<meta property="og:image" content=")[^"]*("/>)', lambda m: m.group(1) + card_url + m.group(2), html, count=1)
+            html = re.sub(r'(<meta name="twitter:image" content=")[^"]*("/>)', lambda m: m.group(1) + card_url + m.group(2), html, count=1)
+            html = re.sub(r'(<meta property="og:image:alt" content=")[^"]*("/>)', lambda m: m.group(1) + esc(strip_period(a["title"]), attr=True) + m.group(2), html, count=1)
         iso = iso_date(a["date"])
         if iso:
             mod = iso_date(a.get("updated", "")) or ""

@@ -6,6 +6,10 @@
     { "source": "/home", "destination": "/", "permanent": true },
     { "source": "/index.php", "destination": "/", "permanent": true },
 
+    { "source": "/go/sbr", "destination": "/insights/small-business-relief-extended-2029?utm_source=campaign&utm_medium=whatsapp&utm_campaign=sbr-2029&utm_content=broadcast", "permanent": false },
+    { "source": "/go/sbr-li", "destination": "/insights/small-business-relief-extended-2029?utm_source=linkedin&utm_medium=social&utm_campaign=sbr-2029&utm_content=founder-post", "permanent": false },
+    { "source": "/go/sbr-li-page", "destination": "/insights/small-business-relief-extended-2029?utm_source=linkedin&utm_medium=social&utm_campaign=sbr-2029&utm_content=company-page", "permanent": false },
+
     { "source": "/go/30-oct", "destination": "/e-invoicing/30-october-2026?utm_source=campaign&utm_medium=whatsapp&utm_campaign=asp-30oct&utm_content=broadcast", "permanent": false },
     { "source": "/go/30-oct-li", "destination": "/e-invoicing/30-october-2026?utm_source=campaign&utm_medium=linkedin&utm_campaign=asp-30oct&utm_content=post", "permanent": false },
 

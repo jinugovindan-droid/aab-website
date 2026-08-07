@@ -1466,7 +1466,7 @@ function SBRExtendedBody({ onNav }) {
         <li><strong>Re-test eligibility on the prior-period rule, not just this year.</strong> Revenue is measured across every tax period since June&nbsp;2023. Businesses that grew through AED&nbsp;3&nbsp;million in 2024 or 2025 gain nothing from the extension.</li>
         <li><strong>Do not skip registration or filing.</strong> The relief removes the tax, not the obligations. Late registration still carries the AED&nbsp;10,000 penalty, and the return is still due within nine months of year-end.</li>
         <li><strong>Revisit any plan built around a 2026 cliff.</strong> Restructuring, timing of income, or a decision to leave the relief early may have been priced on the old sunset. That assumption is now three years out of date.</li>
-        <li><strong>Free zone? Check the trade-off again.</strong> A Qualifying Free Zone Person cannot use the relief. If you are marginal on the QFZP conditions, the comparison between the 0% qualifying-income route and three more years of Small Business Relief has genuinely changed.</li>
+        <li><strong>Free zone? It is a choice, not a combination.</strong> A Qualifying Free Zone Person cannot elect Small Business Relief. What changed is the calculation behind holding QFZP status at all: a free-zone business that does not meet those conditions is an ordinary taxable person, and can elect the relief if it is under AED&nbsp;3&nbsp;million. Three more years alters that arithmetic.</li>
         <li><strong>Keep the books that prove it.</strong> The election is only as good as the revenue records behind it &mdash; and the FTA can ask.</li>
       </ul>
 
