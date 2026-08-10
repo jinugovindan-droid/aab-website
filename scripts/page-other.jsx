@@ -1306,17 +1306,25 @@ function CashFlowBody({ onNav }) {
 function ESRBody({ onNav }) {
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>The UAE has introduced Economic Substance Regulations (ESR), bringing notification and reporting duties for companies that carry on certain &ldquo;relevant activities&rdquo;. Many businesses are in scope without realising it.</p>
-      <h3 style={H3}>Are you carrying on a relevant activity?</h3>
-      <p>The relevant activities include banking, insurance, investment-fund management, lease-finance, headquarters, shipping, holding-company, intellectual-property and distribution-and-service-centre business. If any of these describes part of what your entity does, you likely have ESR obligations — even as a holding company.</p>
-      <h3 style={H3}>What being in scope means</h3>
-      <p>In-scope entities must file an annual <strong>notification</strong>, and those earning income from the activity must meet an <strong>economic substance test</strong> and file an <strong>ESR report</strong>, demonstrating adequate activity, people and expenditure in the UAE. Missing the filings carries penalties, so the first step is simply to assess scope deliberately rather than assume you are out.</p>
-      {artNote('Written in 2019 as ESR was introduced; confirm current filing requirements and deadlines before relying on this.')}
+      <p style={LEAD}>The UAE Economic Substance Regulations are finished. <strong>Cabinet Decision No.&nbsp;98 of 2024</strong> amended Cabinet Decision No.&nbsp;57 of 2020 so that ESR applies only to financial years from <strong>1&nbsp;January&nbsp;2019 to 31&nbsp;December&nbsp;2022</strong>. If your financial year ended after 31&nbsp;December&nbsp;2022 you owe no ESR notification, no ESR report and no substance test.</p>
+
+      <h3 style={H3}>What was cancelled</h3>
+      <p>All three obligations fall away for financial years ending after 31&nbsp;December&nbsp;2022: the annual <strong>notification</strong>, the <strong>economic substance test</strong>, and the <strong>ESR report</strong>. The decision took effect on 2&nbsp;September&nbsp;2024 and was announced by the Ministry of Finance on 14&nbsp;October&nbsp;2024.</p>
+      <p>Administrative penalties already issued for those later periods are <strong>cancelled</strong>, and the Ministry has said penalties already paid for them are to be <strong>refunded</strong>. If you were fined for a 2023 or 2024 financial year, that fine should no longer stand — it is worth checking your status on the Ministry of Finance portal rather than assuming it was written off automatically.</p>
+
+      <h3 style={H3}>What still applies</h3>
+      <p>ESR has not been erased retrospectively. Financial years from <strong>2019 through 2022</strong> remain in scope, and filings, assessments and penalties for those years stand. If you had a relevant activity in that window &mdash; banking, insurance, investment-fund management, lease-finance, headquarters, shipping, holding-company, intellectual-property, or distribution-and-service-centre business &mdash; those years can still be reviewed, and the supporting records still need to be retained.</p>
+
+      <h3 style={H3}>Where the substance question went</h3>
+      <p>Substance did not stop mattering; it moved. From 1&nbsp;June&nbsp;2023 the questions ESR used to ask &mdash; are the people, the decisions and the expenditure genuinely here? &mdash; are asked inside the Corporate Tax regime instead, under Federal Decree-Law No.&nbsp;47 of 2022. For a free-zone business the sharpest version of that test is whether it holds up as a Qualifying Free Zone Person, and for anyone with related-party dealings it is whether the pricing is defensible. Both are live, and both are examined.</p>
+
+      {artNote('First published in September 2019 as ESR was introduced. Rewritten in August 2026 for the position after Cabinet Decision No. 98 of 2024. General information, not advice on your own position.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Related</div>
         <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
           <li>{artLink(onNav, 'service-corporate-tax', 'Corporate Tax & compliance →')}</li>
-          <li>{artLink(onNav, 'service-financial-statements', 'Financial statements →')}</li>
+          <li>{artLink(onNav, 'service-transfer-pricing', 'Transfer pricing documentation →')}</li>
+          <li>{artLink(onNav, 'service-tax-advisory', 'Tax advisory →')}</li>
         </ul>
       </div>
     </div>

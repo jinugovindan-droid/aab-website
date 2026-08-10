@@ -117,7 +117,7 @@
     },
     {
       slug: 'free-zone-qualifying-income',
-      seoTitle: 'Free Zone Qualifying Income: 3 UAE Corporate Tax Traps', seoDesc: 'Three ways tax teams misread the UAE free-zone rules under Cabinet Decision 100 and Ministerial Decision 229 of 2025 — and what each trap costs at filing.',
+      seoTitle: 'Free Zone Qualifying Income UAE — QFZP 0% Rules & Traps', seoDesc: 'What counts as qualifying income for a Qualifying Free Zone Person, the 5% / AED 5m de minimis cap, and three traps that cost the 0% rate at filing.',
       tag: 'Corporate Tax', date: '06 May 2025', read: '6 min',
       title: 'Free zone qualifying income — three traps in the UAE free-zone tax rules.',
       author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan', reference: 'Cabinet Decision 100 of 2023 · Ministerial Decision 229 of 2025 (replacing MD 265 of 2023)',
@@ -153,11 +153,11 @@
     },
     {
       slug: 'uae-corporate-tax-is-coming',
-      seoTitle: 'UAE Corporate Tax at 9%: Preparing Your Business', seoDesc: 'Written as the 9% federal Corporate Tax was announced: the AED 375,000 threshold, effective dates and the groundwork to lay before day one.',
+      seoTitle: 'When UAE Corporate Tax Was Announced — Our 2022 Note', seoDesc: 'Our September 2022 note, written as the UAE announced the 9% federal Corporate Tax. An archive — for the rules as enacted from 1 June 2023, see our SME guide.',
       tag: 'Corporate Tax', date: '28 Sep 2022', read: '5 min',
-      title: 'UAE Corporate Tax is coming: what businesses should start doing now.',
+      title: 'When UAE Corporate Tax was announced: what we told clients in 2022.',
       author: 'Jinu Govindan', reviewer: 'Sabith Abdul Rahman', reference: 'UAE Ministry of Finance Corporate Tax announcement (2022)',
-      excerpt: 'The UAE has confirmed a federal Corporate Tax from financial years starting on or after 1 June 2023. Written as the regime was announced — the headline 9% rate, the AED 375,000 threshold, and the groundwork to lay before it arrives.',
+      excerpt: 'Our note from September 2022, published as the Ministry of Finance announced a 9% federal Corporate Tax. Kept as a record of what we advised at the time — the regime has been law since 1 June 2023, and our SME guide covers it as enacted.',
       published: true,
     },
     {
@@ -180,11 +180,11 @@
     },
     {
       slug: 'economic-substance-regulations-uae',
-      seoTitle: 'Economic Substance Regulations UAE: Are You in Scope?', seoDesc: 'Which relevant activities bring a UAE company into ESR scope, the notification and reporting duties that follow, and what filing actually requires.',
-      tag: 'Compliance', date: '16 Sep 2019', read: '5 min',
-      title: 'Economic Substance Regulations: do they apply to your UAE company?',
-      author: 'Rijo Mathew', reviewer: 'Jinu Govindan', reference: 'UAE Economic Substance Regulations (Cabinet Resolution, 2019)',
-      excerpt: 'The UAE’s Economic Substance Regulations introduced notification and reporting duties for companies carrying on “relevant activities”. How to tell whether you are in scope — and what filing actually requires.',
+      seoTitle: 'Economic Substance Regulations UAE: Cancelled from 2023', seoDesc: 'Cabinet Decision 98 of 2024 ended UAE ESR filings for financial years ending after 31 December 2022. Penalties for those years are cancelled.',
+      tag: 'Compliance', date: '16 Sep 2019', read: '5 min', updated: '8 Aug 2026',
+      title: 'Economic Substance Regulations: cancelled for years after 2022.',
+      author: 'Rijo Mathew', reviewer: 'Jinu Govindan', reference: 'Cabinet Decision No. 98 of 2024 amending Cabinet Decision No. 57 of 2020, UAE Ministry of Finance',
+      excerpt: 'Cabinet Decision No. 98 of 2024 ended the UAE Economic Substance Regulations for financial years ending after 31 December 2022 — no notification, no report, no substance test, and penalties for those years cancelled. ESR still covers 2019 to 2022.',
       published: true,
     },
     {
@@ -347,7 +347,7 @@
       description: 'Board-level financial advisory in the UAE — accounting policy selection, complex transactions, restructuring and defensible Board-grade positions.',
     },
     'service-ct-filing': {
-      title: 'Corporate Tax Filing UAE — Return Preparation & EmaraTax',
+      title: 'Corporate Tax Return Filing UAE — Deadline & EmaraTax',
       description: 'UAE Corporate Tax returns are due, with payment, within 9 months of financial year-end on EmaraTax. Partner-reviewed computation, disclosures and filing.',
     },
     'service-vat-filing': {
@@ -372,7 +372,7 @@
     },
     'location-ajman': {
       title: 'Accounting & VAT Consultancy for Ajman Businesses',
-      description: 'Outsourced accounting, VAT and Corporate Tax for Ajman businesses, served from Dubai under federal FTA rules — bookkeeping to filed returns.',
+      description: 'Accounting, VAT and Corporate Tax for Ajman and Ajman Free Zone businesses — designated-zone goods and QFZP conditions, served from our Dubai office.',
     },
     'location-ras-al-khaimah': {
       title: 'Asset Tagging Services in Ras Al Khaimah — VAT & Tax',
@@ -391,11 +391,11 @@
       description: 'By 30 October 2026, UAE businesses with revenue of AED 50M+ must appoint an Accredited Service Provider. Who is caught, the penalties, and what to do now.',
     },
     'service-transfer-pricing': {
-      title: 'Transfer Pricing UAE — TP Documentation & Study',
-      description: 'UAE transfer pricing documentation and benchmarking — arm’s-length method selection, the CT-return disclosure schedule, and Master and Local File.',
+      title: 'Transfer Pricing Services Dubai & UAE — Master & Local File',
+      description: 'UAE transfer pricing services — arm’s-length benchmarking, the Corporate Tax return disclosure schedule, and Master and Local File where thresholds are met.',
     },
     'service-vat-registration': {
-      title: 'VAT Registration UAE & Dubai — Thresholds, EmaraTax, TRN',
+      title: 'VAT Registration UAE — How to Register & Get a TRN',
       description: 'Mandatory VAT registration above AED 375,000, voluntary from AED 187,500 — the EmaraTax application, document pack and TRN, run as one reviewed engagement.',
     },
     'e-invoicing': {
@@ -1242,7 +1242,7 @@
       ['insight', 'management-accounts-that-drive-decisions', 'Management accounts that drive decisions'],
     ],
     'service-tax-planning': [
-      ['insight', 'economic-substance-regulations-uae', 'Economic substance regulations'],
+      ['insight', 'economic-substance-regulations-uae', 'ESR cancelled: what replaced it'],
       ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
       ['page', 'service-corporate-tax', 'Corporate Tax estimator'],
     ],
@@ -1271,7 +1271,7 @@
     ],
     'service-strategic-advisory': [
       ['insight', 'transfer-pricing-thresholds-board', 'Transfer pricing for the Board'],
-      ['insight', 'economic-substance-regulations-uae', 'Economic substance regulations'],
+      ['insight', 'economic-substance-regulations-uae', 'ESR cancelled: what replaced it'],
       ['insight', 'uae-corporate-tax-guide-sme', 'Corporate Tax guide for SMEs'],
     ],
     'service-ct-filing': [
@@ -1292,7 +1292,7 @@
     'service-tax-advisory': [
       ['insight', 'free-zone-qualifying-income', 'Free-zone qualifying income'],
       ['insight', 'transfer-pricing-thresholds-board', 'Transfer pricing for the Board'],
-      ['insight', 'economic-substance-regulations-uae', 'Economic substance regulations'],
+      ['insight', 'economic-substance-regulations-uae', 'ESR cancelled: what replaced it'],
     ],
     'location-abu-dhabi': [
       ['insight', 'free-zone-qualifying-income', 'Free-zone qualifying income'],
