@@ -62,6 +62,15 @@
   // render an honest "in preparation" state so a card never shows the wrong note.
   const INSIGHTS = [
     {
+      slug: 'small-business-relief-evidence-test',
+      seoTitle: 'Small Business Relief UAE: How to Prove You Qualify', seoDesc: 'The AED 3m test looks at every tax period since June 2023. Which revenue counts, what records the law actually requires, and how long to keep them.',
+      tag: 'Corporate Tax', date: '8 Aug 2026', read: '7 min',
+      title: 'Proving Small Business Relief: what “every period since June 2023” really means.',
+      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 73 of 2023 and 131 of 2026; Cabinet Decision 74 of 2023; FTA Guide CTGSBR1 and Public Clarification CTP003',
+      excerpt: 'Three more years of Small Business Relief is three more years of evidence. Which periods you actually have to test, why nothing is pro-rated in a first tax period, what counts as revenue beyond your sales ledger, and the record the law requires that almost nobody keeps.',
+      published: true,
+    },
+    {
       slug: 'small-business-relief-extended-2029',
       seoTitle: 'Small Business Relief UAE Extended to 2029: Who Qualifies', seoDesc: 'Small Business Relief now runs to tax periods ending 31 December 2029. The AED 3m threshold and the all-previous-periods test did not change.',
       tag: 'Corporate Tax', date: '7 Aug 2026', read: '4 min',
@@ -1209,11 +1218,13 @@
       ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
     ],
     'service-corporate-tax': [
+      ['insight', 'small-business-relief-evidence-test', 'Proving Small Business Relief'],
       ['insight', 'uae-corporate-tax-guide-sme', 'Corporate Tax guide for SMEs'],
       ['insight', 'free-zone-qualifying-income', 'Free-zone qualifying income'],
       ['insight', 'transfer-pricing-thresholds-board', 'Transfer pricing for the Board'],
     ],
     'service-bookkeeping': [
+      ['insight', 'small-business-relief-evidence-test', 'Proving Small Business Relief'],
       ['insight', 'bookkeeping-foundation', 'Bookkeeping as the foundation'],
       ['insight', 'outsourced-bookkeeping-dubai', 'Outsourced bookkeeping in Dubai'],
       ['page', 'service-vat', 'VAT registration checker'],
@@ -1275,6 +1286,7 @@
       ['insight', 'uae-corporate-tax-guide-sme', 'Corporate Tax guide for SMEs'],
     ],
     'service-ct-filing': [
+      ['insight', 'small-business-relief-evidence-test', 'Proving Small Business Relief'],
       ['insight', 'uae-corporate-tax-guide-sme', 'Corporate Tax guide for SMEs'],
       ['insight', 'transfer-pricing-thresholds-board', 'Transfer pricing for the Board'],
       ['page', 'service-corporate-tax', 'Corporate Tax estimator'],

@@ -21,6 +21,11 @@ const W = 1200, H = 630;
 // Cards to generate: slug -> { kicker, headline }. Headline is written for the
 // card (short, high contrast at thumbnail size), not copied from the <h1>.
 const CARDS = {
+  'small-business-relief-evidence-test': {
+    kicker: 'Small Business Relief · The evidence test',
+    headline: 'Can you prove every period since 2023?',
+    sub: 'What the AED 3m test actually looks at',
+  },
   'small-business-relief-extended-2029': {
     kicker: 'Small Business Relief · MD 131/2026',
     headline: 'Three more years. Now runs to 2029.',

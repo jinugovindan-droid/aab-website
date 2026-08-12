@@ -1596,7 +1596,88 @@ function SBRExtendedBody({ onNav }) {
   );
 }
 
+// Sequel to SBRExtendedBody. The announcement piece answers "what changed";
+// this answers the question it provokes — "how do I prove I qualify?". Every
+// citation here was verified against the primary instrument, not against the
+// FTA's own guide, which still carries the superseded 2026 sunset.
+function SBREvidenceBody({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  const ilink = (slug, label) => (
+    <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>Small Business Relief now runs to tax periods ending on or before 31&nbsp;December&nbsp;2029. The condition attached to it did not move: revenue of <strong>AED&nbsp;3&nbsp;million or less</strong> in the relevant tax period <em>and</em> in every previous one. The FTA&rsquo;s own guide puts the burden plainly &mdash; an electing business &ldquo;must be able to provide evidence to the FTA that their Revenue did not exceed the Small Business Relief threshold for all relevant Tax Periods&rdquo;. Three more years of relief is three more years of evidence.</p>
+
+      <h3 style={H3}>Count your periods before you count your revenue</h3>
+      <p>&ldquo;Every previous period&rdquo; sounds alarming until you work out how many you actually have. Corporate Tax applies to tax periods commencing on or after <strong>1&nbsp;June&nbsp;2023</strong>, so trading history before that is irrelevant to this test. What matters is your financial year-end.</p>
+      <p>A December year-end business has its first tax period in 2024, so by the time it files for 2026 it is evidencing three periods. A 31&nbsp;March year-end started earlier, with a first period ending 31&nbsp;March&nbsp;2024. A company incorporated in 2025 has <em>one</em> period to evidence, not three. Establish the count first &mdash; a surprising number of eligibility arguments fall apart because someone tested the wrong years.</p>
+
+      <h3 style={H3}>The first-period trap: nothing is pro-rated</h3>
+      <p>This is the most expensive arithmetic error we see, and it runs in both directions. The FTA&rsquo;s public clarification on first tax periods states it without hedging: <em>&ldquo;Where the first Tax Period is longer or shorter than a 12-month period, there is no pro-rating of the various thresholds prescribed under the Corporate Tax Law, for example the Revenue threshold for Small Business Relief.&rdquo;</em></p>
+      <p>So a seven-month first period still gets the full AED&nbsp;3&nbsp;million &mdash; businesses routinely and needlessly disqualify themselves by scaling it down to AED&nbsp;1.75&nbsp;million. And an eighteen-month first period also gets AED&nbsp;3&nbsp;million, <strong>not</strong> AED&nbsp;4.5&nbsp;million. Since a UAE company&rsquo;s first financial year can run anywhere from six to eighteen months, the year-end chosen at incorporation is quietly a Small Business Relief decision.</p>
+
+      <h3 style={H3}>What &ldquo;revenue&rdquo; catches that your sales ledger will not</h3>
+      <p>The test is <strong>revenue</strong>, not profit &mdash; gross, top-line, before a single cost. The working formula is simply <em>sales plus other income</em>, and &ldquo;other income&rdquo; is where eligibility usually dies:</p>
+      <ul>
+        <li><strong>Asset disposals count at their proceeds, not their gain.</strong> The FTA&rsquo;s own worked example has a business sell a shop for AED&nbsp;1.2&nbsp;million and cross the line at AED&nbsp;4,150,000 of revenue &mdash; permanently, on a transaction that may have made no profit at all.</li>
+        <li><strong>Exempt income still counts as revenue.</strong> A UAE dividend is exempt from Corporate Tax and still lands in the revenue figure for this test.</li>
+        <li><strong>Foreign income counts</strong> for a UAE company, wherever it arose.</li>
+        <li><strong>Barter and related-party dealings</strong> are measured at market value, at arm&rsquo;s length.</li>
+        <li><strong>Output VAT is excluded</strong> &mdash; it was never your revenue.</li>
+      </ul>
+      <p>A one-off disposal in year two is the classic way a business that trades comfortably under AED&nbsp;3&nbsp;million loses the relief for good.</p>
+
+      <h3 style={H3}>Your VAT returns will not agree, and forcing them to is the mistake</h3>
+      <p>Corporate Tax revenue and VAT-declared supplies are different measures and will differ legitimately &mdash; output VAT, dividends, disposal proceeds, foreign income, cash-basis timing, and mismatched period boundaries all pull them apart. The discipline is not to make the two numbers match. It is to hold a short written reconciliation explaining <em>why</em> they differ, prepared while you still remember.</p>
+      <p>We have not seen anything from the FTA describing an automated cross-check between the two, and we would not tell you there is one. The reason to keep the reconciliation is simpler: a tax audit is notified only ten business days in advance, and under the Tax Procedures Law the burden of proving the accuracy of your return sits with <em>you</em>, not with the Authority.</p>
+
+      <h3 style={H3}>The evidence file the law actually asks for</h3>
+      <p>Here is the part almost every summary misses. The FTA&rsquo;s relief guide offers an illustrative list &mdash; bank statements, sales ledgers, till rolls &mdash; and says explicitly that the Corporate Tax record rules sit <em>on top of</em> the Tax Procedures Law. That underlying regulation is binding, and it asks for more.</p>
+      <p><strong>Cabinet Decision No.&nbsp;74 of 2023</strong> requires every business to keep, as a minimum, a balance sheet and profit-and-loss account, a <strong>fixed asset register</strong>, a wages and salaries register, and inventory records. And then the clause nobody quotes: documents recording <em>&ldquo;any election, assessment, determination or calculation made&hellip; including the basis, or method of assessment, determination or calculation made.&rdquo;</em></p>
+      <p>Read that against Small Business Relief and it is unambiguous. The election is an election. The AED&nbsp;3&nbsp;million test is a calculation. So the law requires you to keep, for every period, a record that the election was made <em>and</em> a note of how you computed revenue &mdash; which accounting basis, what you included, what you left out. A clean sales ledger with no written basis behind it does not discharge that.</p>
+      <p>The fixed asset register earns its place too: it is precisely the document that evidences the disposal proceeds most likely to have broken the threshold.</p>
+      <p>Below AED&nbsp;3&nbsp;million you may prepare accounts on the cash basis rather than accrual &mdash; a real choice, and one the FTA can challenge if the outcome is unreasonable. Because the regulation requires the basis to be recorded, switching it in the one year you would otherwise breach is both visible and challengeable. Write down the commercial reason at the time, not afterwards.</p>
+
+      <h3 style={H3}>Seven years, not five</h3>
+      <p>You will read &ldquo;five years&rdquo; in a lot of places. For Corporate Tax it is wrong. The Tax Procedures regulation sets five years <em>&ldquo;unless the Tax Law states otherwise&rdquo;</em> &mdash; and the Corporate Tax Law states otherwise, at <strong>seven years</strong>, expressly overriding it. Five is right for VAT and Excise, not for this.</p>
+      <p>The clock runs from the period the records relate to, and it extends: four further years if you are in dispute with the FTA, under audit, or were notified of an intended audit before the base period expired. Copies are acceptable instead of originals &mdash; but only if you can reproduce a legible copy within the period the FTA specifies, which can be as little as five business days. A lapsed accounting subscription or an unindexed folder of scans does not meet that standard.</p>
+      <p>With the relief now running to 2029, the last electing period has to be evidenced into the mid-2030s. This is a decade-long filing discipline, not a year-end task.</p>
+
+      <h3 style={H3}>If you own more than one company</h3>
+      <p>First separate two situations that get muddled. A sole establishment holding three licences is <strong>one taxable person</strong>: you add the revenue together and file once. No anti-abuse analysis is needed &mdash; only arithmetic. Three separate LLCs are three taxable persons, and there is exactly one route by which the FTA can treat them as one for this purpose: <strong>Article&nbsp;6 of Ministerial Decision No.&nbsp;73 of 2023</strong>, the artificial-separation rule. (Much of the commentary online cites Article&nbsp;5 for this. Article&nbsp;5 is the interest limitation rule.)</p>
+      <p>The FTA is careful to protect legitimate structures, and says so: <em>&ldquo;There are legitimate circumstances in which a Business may separate its activities or choose to operate through separate entities.&rdquo;</em> Its own worked example of a franchised second cafe &mdash; same name, same branding, same supplier, customers unable to tell them apart &mdash; is <strong>not</strong> artificial separation, because the ownership is genuinely different. The distinguishing question is ownership and commercial substance, not whether the shopfronts look alike.</p>
+      <p>Where it turns serious is intent. The Tax Procedures Law defines deliberately understating your revenue, or failing to consolidate related businesses in order to stay below a threshold, as <strong>tax evasion</strong> &mdash; a criminal matter, not an administrative one. We are not aware of any published FTA statement applying that provision to Small Business Relief by name, and we would not claim otherwise. But the direction of travel is not ambiguous, and &ldquo;we split it to stay under three million&rdquo; is not a sentence to say out loud.</p>
+
+      <h3 style={H3}>What to do this month</h3>
+      <ul>
+        <li><strong>List your tax periods</strong> from your first one commencing on or after 1&nbsp;June&nbsp;2023, and put the revenue figure against each.</li>
+        <li><strong>Rebuild each figure as sales plus other income</strong>, adding back disposal proceeds, dividends and foreign income. This is where breaches surface.</li>
+        <li><strong>Write the basis note</strong> &mdash; one paragraph per period on how the figure was computed. The regulation asks for it and almost nobody has it.</li>
+        <li><strong>Check the fixed asset register</strong> for any disposal in a period you claimed.</li>
+        <li><strong>If you find a breach in a period you already elected</strong>, deal with it deliberately. The duty to correct is clear; the route runs through voluntary disclosure, and correcting before the FTA notifies an audit is materially better than after. Take advice on the mechanics before touching the filing.</li>
+      </ul>
+
+      {artNote('Sources: Ministerial Decision No. 131 of 2026 (the 2029 date); Ministerial Decision No. 73 of 2023; Federal Decree-Law No. 47 of 2022; Federal Decree-Law No. 28 of 2022 on Tax Procedures and Cabinet Decision No. 74 of 2023; FTA Corporate Tax Guide CTGSBR1 and Public Clarification CTP003. Note the FTA guide remains at its August 2023 version and still shows the superseded 2026 sunset — for the end date, the amending decision governs. General information on published law, not advice on your own position.')}
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{ilink('small-business-relief-extended-2029', 'What changed: relief extended to 2029 →')}</li>
+          <li>{link('service-ct-filing', 'Corporate Tax return filing →')}</li>
+          <li>{link('service-bookkeeping', 'Outsourced bookkeeping →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
+  'small-business-relief-evidence-test': SBREvidenceBody,
   'small-business-relief-extended-2029': SBRExtendedBody,
   'ifrs-financial-statements-uae': IFRSStatementsBody,
   'uae-vat-guide-dubai': VATGuideBody,
