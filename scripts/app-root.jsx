@@ -226,7 +226,7 @@ function AppRoot() {
       {tweaks.showSubBar && <SubBar/>}
       <TopNav active={navActive} onNav={navigateTo}/>
       <main id="main-content" tabIndex={-1}>
-        <LatestUpdate page={page} onNav={navigateTo}/>
+        <LatestUpdate onNav={navigateTo}/>
         {renderPage()}
       </main>
       <Footer onNav={navigateTo}/>

@@ -808,44 +808,27 @@ function SiteSearchModal({ onNav }) {
 // Labelled "Latest update", not "New": the newest article is always the latest,
 // whatever its age, so nothing here needs a date cutoff (which would also bake a
 // build-time decision into the static snapshot).
-const LATEST_TAG_PAGES = {
-  'Corporate Tax': ['service-corporate-tax', 'service-ct-filing', 'service-tax-advisory', 'service-tax-planning', 'service-transfer-pricing'],
-  'VAT': ['service-vat', 'service-vat-filing', 'service-vat-refund', 'service-vat-registration'],
-  'E-Invoicing': ['e-invoicing', 'einv-deadline'],
-  'Bookkeeping': ['service-bookkeeping'],
-  'Financial Reporting': ['service-financial-statements'],
-  'Controls': ['service-internal-controls', 'service-audit-support'],
-  'Valuations': ['service-valuations'],
-  'M&A': ['service-transaction-advisory'],
-  'Advisory': ['service-strategic-advisory'],
-  'Compliance': ['services'],
-};
-
 const LATEST_MONTHS = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
 const latestTime = (d) => {
   const p = String(d || '').split(' ');
   return new Date(parseInt(p[2], 10) || 2017, LATEST_MONTHS[p[1]] || 0, parseInt(p[0], 10) || 1).getTime();
 };
 
-// How many recent insights the ribbon carries. Two gives a second story a
-// chance without turning a slim band into a feed — the pill labels the block
-// once and the items stack beside it, so the band grows by one line, not two.
+// How many recent insights the ribbon carries.
 const LATEST_COUNT = 2;
 
-function LatestUpdate({ page, onNav }) {
+// Shown on EVERY page, newest first — no topic gating. The items sit side by
+// side rather than stacked: each is flex 1 1 300px, so two fit across a normal
+// container and wrap to their own rows on a phone, where a 150px column would
+// be unreadable. That is why there is no media query here — the wrap point is
+// governed by how much room the headlines actually need.
+function LatestUpdate({ onNav }) {
   const R = window.AARoutes || {};
-  const all = (R.INSIGHTS || []).filter((a) => a.published);
-  if (!all.length) return null;
-
-  // Newest first, then keep only those whose topic suits this page. Home shows
-  // everything; elsewhere an item earns its place or is dropped individually,
-  // so a Corporate Tax page never carries an unrelated VAT headline just
-  // because it happened to be published second.
-  const items = all
+  const items = (R.INSIGHTS || [])
+    .filter((a) => a.published)
     .slice()
     .sort((x, y) => latestTime(y.date) - latestTime(x.date))
-    .slice(0, LATEST_COUNT)
-    .filter((a) => page === 'home' || (LATEST_TAG_PAGES[a.tag] || []).indexOf(page) !== -1);
+    .slice(0, LATEST_COUNT);
   if (!items.length) return null;
 
   return (
@@ -854,30 +837,28 @@ function LatestUpdate({ page, onNav }) {
           gutter and narrows it on phones; overriding it here would break the
           20px phone gutter. */}
       <div className="container" style={{ paddingTop: 11, paddingBottom: 11 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px 14px', flexWrap: 'wrap' }}>
-          {/* One pill for the whole block, not one per row. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px 18px', flexWrap: 'wrap' }}>
+          {/* One pill for the whole block, not one per item. */}
           <span style={{
             background: 'var(--aa-cyan)', color: 'var(--aa-charcoal)',
             fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-            padding: '4px 9px', flexShrink: 0, marginTop: 1,
+            padding: '4px 9px', flexShrink: 0,
           }}>{items.length > 1 ? 'Latest updates' : 'Latest update'}</span>
 
-          <div style={{ flex: '1 1 240px', minWidth: 0, display: 'grid', gap: 6 }}>
-            {items.map((a) => (
-              /* Real href so it works pre-mount and without JS. */
-              <a key={a.slug}
-                href={R.pathForInsight ? R.pathForInsight(a.slug) : '/insights/' + a.slug}
-                onClick={(e) => { e.preventDefault(); onNav('insight', a.slug); }}
-                style={{ display: 'flex', alignItems: 'baseline', gap: '2px 12px', flexWrap: 'wrap', textDecoration: 'none', color: 'inherit' }}>
-                <span style={{ fontSize: 12.5, color: 'var(--aa-steel)', fontFamily: 'var(--aa-font-mono)', flexShrink: 0 }}>{a.date}</span>
-                {/* arrow lives INSIDE the headline so it can never orphan onto its own row */}
-                <span style={{ flex: '1 1 200px', minWidth: 0, fontSize: 14.5, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.4 }}>
-                  {String(a.title).replace(/\.\s*$/, '')}
-                  <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 700, whiteSpace: 'nowrap' }}>&nbsp;&rarr;</span>
-                </span>
-              </a>
-            ))}
-          </div>
+          {items.map((a) => (
+            /* Real href so it works pre-mount and without JS. */
+            <a key={a.slug}
+              href={R.pathForInsight ? R.pathForInsight(a.slug) : '/insights/' + a.slug}
+              onClick={(e) => { e.preventDefault(); onNav('insight', a.slug); }}
+              style={{ flex: '1 1 300px', minWidth: 0, display: 'flex', alignItems: 'baseline', gap: '2px 10px', flexWrap: 'wrap', textDecoration: 'none', color: 'inherit' }}>
+              <span style={{ fontSize: 12.5, color: 'var(--aa-steel)', fontFamily: 'var(--aa-font-mono)', flexShrink: 0 }}>{a.date}</span>
+              {/* arrow lives INSIDE the headline so it can never orphan onto its own row */}
+              <span style={{ flex: '1 1 180px', minWidth: 0, fontSize: 14.5, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.4 }}>
+                {String(a.title).replace(/\.\s*$/, '')}
+                <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 700, whiteSpace: 'nowrap' }}>&nbsp;&rarr;</span>
+              </span>
+            </a>
+          ))}
         </div>
       </div>
     </section>
