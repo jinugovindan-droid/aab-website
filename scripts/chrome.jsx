@@ -827,42 +827,58 @@ const latestTime = (d) => {
   return new Date(parseInt(p[2], 10) || 2017, LATEST_MONTHS[p[1]] || 0, parseInt(p[0], 10) || 1).getTime();
 };
 
+// How many recent insights the ribbon carries. Two gives a second story a
+// chance without turning a slim band into a feed — the pill labels the block
+// once and the items stack beside it, so the band grows by one line, not two.
+const LATEST_COUNT = 2;
+
 function LatestUpdate({ page, onNav }) {
   const R = window.AARoutes || {};
   const all = (R.INSIGHTS || []).filter((a) => a.published);
   if (!all.length) return null;
-  const a = all.slice().sort((x, y) => latestTime(y.date) - latestTime(x.date))[0];
 
-  // Home always shows it; elsewhere only where the topic is contextually right.
-  const eligible = page === 'home' || (LATEST_TAG_PAGES[a.tag] || []).indexOf(page) !== -1;
-  if (!eligible) return null;
+  // Newest first, then keep only those whose topic suits this page. Home shows
+  // everything; elsewhere an item earns its place or is dropped individually,
+  // so a Corporate Tax page never carries an unrelated VAT headline just
+  // because it happened to be published second.
+  const items = all
+    .slice()
+    .sort((x, y) => latestTime(y.date) - latestTime(x.date))
+    .slice(0, LATEST_COUNT)
+    .filter((a) => page === 'home' || (LATEST_TAG_PAGES[a.tag] || []).indexOf(page) !== -1);
+  if (!items.length) return null;
 
-  const href = R.pathForInsight ? R.pathForInsight(a.slug) : '/insights/' + a.slug;
   return (
     <section style={{ background: 'var(--aa-surface-off)', borderBottom: '1px solid var(--aa-rule)' }}>
       {/* Vertical padding only — the .container class owns the horizontal
           gutter and narrows it on phones; overriding it here would break the
           20px phone gutter. */}
       <div className="container" style={{ paddingTop: 11, paddingBottom: 11 }}>
-        {/* Real href so it works pre-mount and without JS. */}
-        <a href={href}
-          onClick={(e) => { e.preventDefault(); onNav('insight', a.slug); }}
-          style={{ display: 'flex', alignItems: 'center', gap: '4px 14px', flexWrap: 'wrap', textDecoration: 'none', color: 'inherit' }}>
-          {/* pill + date travel together so they never split across lines */}
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-            <span style={{
-              background: 'var(--aa-cyan)', color: 'var(--aa-charcoal)',
-              fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-              padding: '4px 9px',
-            }}>Latest update</span>
-            <span style={{ fontSize: 12.5, color: 'var(--aa-steel)', fontFamily: 'var(--aa-font-mono)' }}>{a.date}</span>
-          </span>
-          {/* arrow lives INSIDE the headline so it can never orphan onto its own row */}
-          <span style={{ flex: '1 1 240px', minWidth: 0, fontSize: 14.5, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.4 }}>
-            {String(a.title).replace(/\.\s*$/, '')}
-            <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 700, whiteSpace: 'nowrap' }}>&nbsp;&rarr;</span>
-          </span>
-        </a>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px 14px', flexWrap: 'wrap' }}>
+          {/* One pill for the whole block, not one per row. */}
+          <span style={{
+            background: 'var(--aa-cyan)', color: 'var(--aa-charcoal)',
+            fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+            padding: '4px 9px', flexShrink: 0, marginTop: 1,
+          }}>{items.length > 1 ? 'Latest updates' : 'Latest update'}</span>
+
+          <div style={{ flex: '1 1 240px', minWidth: 0, display: 'grid', gap: 6 }}>
+            {items.map((a) => (
+              /* Real href so it works pre-mount and without JS. */
+              <a key={a.slug}
+                href={R.pathForInsight ? R.pathForInsight(a.slug) : '/insights/' + a.slug}
+                onClick={(e) => { e.preventDefault(); onNav('insight', a.slug); }}
+                style={{ display: 'flex', alignItems: 'baseline', gap: '2px 12px', flexWrap: 'wrap', textDecoration: 'none', color: 'inherit' }}>
+                <span style={{ fontSize: 12.5, color: 'var(--aa-steel)', fontFamily: 'var(--aa-font-mono)', flexShrink: 0 }}>{a.date}</span>
+                {/* arrow lives INSIDE the headline so it can never orphan onto its own row */}
+                <span style={{ flex: '1 1 200px', minWidth: 0, fontSize: 14.5, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.4 }}>
+                  {String(a.title).replace(/\.\s*$/, '')}
+                  <span style={{ color: 'var(--aa-cyan-700)', fontWeight: 700, whiteSpace: 'nowrap' }}>&nbsp;&rarr;</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
