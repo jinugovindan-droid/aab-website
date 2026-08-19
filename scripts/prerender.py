@@ -1453,6 +1453,15 @@ def write_sitemap():
     return len(rows)
 
 
+# Article body chunks (scripts/build.mjs). Each article page loads exactly one.
+ARTICLE_CHUNKS = {}
+try:
+    with open(os.path.join(ROOT, "dist", "articles", "manifest.json"), encoding="utf-8") as _f:
+        ARTICLE_CHUNKS = json.load(_f)
+except Exception:
+    pass
+
+
 def main():
     with open(os.path.join(ROOT, "index.html"), encoding="utf-8") as f:
         template = f.read()
@@ -1498,6 +1507,22 @@ def main():
                 '<meta property="og:type" content="article"/>',
                 '<meta property="og:type" content="article"/>' + extra,
                 1,
+            )
+        # Load ONLY this article's body chunk. scripts/build.mjs splits every
+        # article body out of the shared bundle (dist/articles/<slug>.<hash>.js)
+        # so publishing an article costs every other page nothing. Filename
+        # carries a content hash, so it is safe to cache for a year.
+        chunk = ARTICLE_CHUNKS.get(a["slug"])
+        if chunk:
+            html = html.replace(
+                '<script defer src="dist/app.min.js',
+                '<script defer src="dist/articles/%s"></script>\n  <script defer src="dist/app.min.js' % chunk,
+                1,
+            )
+        elif a["published"]:
+            raise SystemExit(
+                "no article chunk for '%s' — run scripts/build.mjs first, or the page "
+                "will render an empty article body." % a["slug"]
             )
         written.append(write(path, html))
 

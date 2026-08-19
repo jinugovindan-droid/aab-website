@@ -1704,9 +1704,29 @@ const INSIGHT_BODIES = {
 };
 
 // ---------- Single article ----------
+const ARTICLE_CHUNKS_REQUESTED = new Set();
+
 function InsightArticlePage({ onNav, slug }) {
   const article = insightBySlug(slug) || DEFAULT_INSIGHT;
+  // Article bodies live in per-article chunks (see scripts/build.mjs). The page
+  // a visitor lands on already carries its own chunk; moving BETWEEN articles
+  // client-side has to fetch the next one. Until it arrives the article renders
+  // without its body — header, meta and related links are all present — and it
+  // fills in on load. A direct visit never hits this path.
+  const [, forceBody] = React.useState(0);
   const Body = INSIGHT_BODIES[article.slug] || null;
+  React.useEffect(() => {
+    if (Body) return;
+    const file = (window.AAArticleChunks || {})[article.slug];
+    if (!file) return;
+    const src = '/dist/articles/' + file;
+    if (ARTICLE_CHUNKS_REQUESTED.has(file)) return;
+    ARTICLE_CHUNKS_REQUESTED.add(file);
+    const el = document.createElement('script');
+    el.src = src;
+    el.onload = () => forceBody((n) => n + 1);
+    document.head.appendChild(el);
+  }, [article.slug, Body]);
   // Topic-scored, link-spread — see relatedInsights() in routes.js. Was
   // `.slice(0, 3)`, i.e. the three newest on every single article.
   const related = (window.AARoutes.relatedInsights || (() => []))(article.slug, 3);
@@ -2664,5 +2684,16 @@ function LocationPage({ page, onNav }) {
     </div>
   );
 }
+
+// Surface the article-body helpers so per-article chunks can use them.
+// Article bodies are split out of the main bundle by scripts/build.mjs — see
+// dist/articles/<slug>.js — so that publishing an article costs every OTHER
+// page nothing. These shared pieces stay here: they are a fixed cost that does
+// not grow with the archive.
+window.AAArt = {
+  ART, LEAD, H3,
+  artNote, artLink, artInsightLink,
+  DeadlinesRoadmap, SBRRoadmap, FiveCornerDiagram, EInvoiceCTA, EInvoiceGuideLinks,
+};
 
 Object.assign(window, { IndustriesPage, IndustrySimplePage, AboutPage, InsightsPage, InsightArticlePage, CareersPage, ContactPage, LocationPage });
