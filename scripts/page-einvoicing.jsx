@@ -72,11 +72,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     const s = document.createElement('script');
     s.src = 'assets/vendor/jspdf-2.5.1.umd.min.js';
     s.onload = res;
-    s.onerror = () => {
-      const cdn = document.createElement('script');
-      cdn.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
-      cdn.onload = res; cdn.onerror = rej; document.head.appendChild(cdn);
-    };
+    s.onerror = rej;   // no third-party CDN fallback: jsPDF is self-hosted
     document.head.appendChild(s);
   });
   const logoDataUrl = (src) => new Promise((res) => {

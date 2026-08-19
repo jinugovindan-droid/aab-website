@@ -69,7 +69,11 @@ function slugFromLocation() {
 }
 
 function AppRoot() {
-  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  // Design-host tweak panel removed from the shipped bundle (Aug 2026): it
+  // rendered nothing for visitors, yet shipped 18 KB and posted
+  // __edit_mode_available to window.parent with a '*' origin on every load.
+  // useTweaks never read storage, so the defaults were always what shipped.
+  const tweaks = TWEAK_DEFAULTS;
   const [page, setPageState] = useState(pageFromLocation);
   const [insightSlug, setInsightSlug] = useState(slugFromLocation);
   useScrollReveal(page === 'insight' ? 'insight:' + (insightSlug || '') : page);
@@ -236,45 +240,6 @@ function AppRoot() {
       <SiteSearchModal onNav={navigateTo}/>
       <CookieConsent onNav={navigateTo}/>
 
-      <TweaksPanel title="Tweaks">
-        <TweakSection title="Typography">
-          <TweakRadio
-            label="Display font"
-            value={tweaks.displayFont}
-            options={[{value:'Oswald',label:'Oswald'},{value:'Archivo Black',label:'Archivo Black'}]}
-            onChange={v => setTweak('displayFont', v)}
-          />
-        </TweakSection>
-        <TweakSection title="Accent">
-          <TweakRadio
-            label="Cyan intensity"
-            value={tweaks.accentIntensity}
-            options={[{value:'soft',label:'Soft'},{value:'default',label:'Default'},{value:'bold',label:'Bold'}]}
-            onChange={v => setTweak('accentIntensity', v)}
-          />
-        </TweakSection>
-        <TweakSection title="Layout">
-          <TweakRadio
-            label="Density"
-            value={tweaks.density}
-            options={[{value:'comfortable',label:'Comfortable'},{value:'compact',label:'Compact'}]}
-            onChange={v => setTweak('density', v)}
-          />
-          <TweakToggle
-            label="Show regulator sub-bar"
-            value={tweaks.showSubBar}
-            onChange={v => setTweak('showSubBar', v)}
-          />
-        </TweakSection>
-        <TweakSection title="Quick navigation">
-          <TweakSelect
-            label="Jump to page"
-            value={page}
-            options={Object.entries(PAGE_LABELS).map(([v,l])=>({value:v,label:l}))}
-            onChange={v => navigateTo(v)}
-          />
-        </TweakSection>
-      </TweaksPanel>
     </div>
   );
 }

@@ -16,7 +16,6 @@ import { createHash } from 'node:crypto';
 // Load order MUST match the original index.html script order.
 const ORDER = [
   'scripts/routes.js',
-  'scripts/tweaks-panel.jsx',
   'scripts/chrome.jsx',
   'scripts/page-home.jsx',
   'scripts/page-services.jsx',

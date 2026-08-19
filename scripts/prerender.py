@@ -249,7 +249,7 @@ PAGE_SEO = {
 INSIGHTS = [
     {"slug": "small-business-relief-evidence-test",
      "seoTitle": "Small Business Relief UAE: How to Prove You Qualify", "seoDesc": "The AED 3m test looks at every tax period since June 2023. Which revenue counts, what records the law actually requires, and how long to keep them.",
-     "tag": "Corporate Tax", "date": "8 Aug 2026", "read": "7 min",
+     "tag": "Corporate Tax", "date": "12 Aug 2026", "read": "7 min",
      "title": "Proving Small Business Relief: what “every period since June 2023” really means.",
      "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "Ministerial Decisions 73 of 2023 and 131 of 2026; Cabinet Decision 74 of 2023; FTA Guide CTGSBR1 and Public Clarification CTP003",
      "excerpt": "Three more years of Small Business Relief is three more years of evidence. Which periods you actually have to test, why nothing is pro-rated in a first tax period, what counts as revenue beyond your sales ledger, and the record the law requires that almost nobody keeps.",
