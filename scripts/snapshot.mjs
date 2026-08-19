@@ -280,4 +280,36 @@ if (prevSitemap) {
   }
   console.log(`bundle check: all ${captures.length} pages reference ?v=${want}`);
 }
+// Internal-link health. The related-reading graph is generated (see
+// relatedInsights in routes.js) and is meant to leave no article unreachable
+// from another article. If a future change to tags, neighbours or scoring
+// starts orphaning pages, this is where you find out — not months later in
+// Search Console.
+{
+  const arts = captures.filter((c) => c.url.startsWith('/insights/'));
+  if (arts.length > 2) {
+    const inbound = new Map(arts.map((c) => [c.url.replace('/insights/', ''), 0]));
+    for (const c of arts) {
+      const html = await readFile(c.file, 'utf8');
+      const i = html.indexOf('Continue reading');
+      if (i === -1) continue;
+      const self = c.url.replace('/insights/', '');
+      const seen = new Set();
+      for (const m of html.slice(i, i + 4000).matchAll(/\/insights\/([a-z0-9-]+)/g)) {
+        if (m[1] !== self) seen.add(m[1]);
+      }
+      for (const s of seen) if (inbound.has(s)) inbound.set(s, inbound.get(s) + 1);
+    }
+    const orphans = [...inbound].filter(([, n]) => n === 0).map(([s]) => s);
+    if (orphans.length) {
+      console.error(`\n${orphans.length} article(s) have NO inbound links from other articles:`);
+      orphans.slice(0, 10).forEach((s) => console.error('  ' + s));
+      console.error('\n  Check relatedInsights() in scripts/routes.js — a new tag with no');
+      console.error('  neighbours, or a scoring change, will strand pages like this.');
+      process.exit(1);
+    }
+    const counts = [...inbound.values()];
+    console.log(`internal links: ${arts.length} articles, ${Math.min(...counts)}-${Math.max(...counts)} inbound each, no orphans`);
+  }
+}
 console.log(`All ${routes.length} routes snapshotted and written.`);

@@ -1518,7 +1518,109 @@
     { due: '2027-07-28', dueLabel: 'Wednesday, 28 July 2027',    period: 'Quarter ended 30 Jun 2027 (Apr–Jun)' },
   ];
 
+  // ---- Related reading -------------------------------------------------
+  //
+  // Picks each article's "related" list from what the article already
+  // declares — tag, title, excerpt, the law it cites. Nothing to author per
+  // article, so this holds at 24 articles and at 240.
+  //
+  // Replaces a `.slice(0, 3)` that handed every article the same three newest
+  // pieces: the newest two collected 67 inbound links each while the page
+  // earning 58% of our search clicks had one.
+  //
+  // Two properties matter and both are enforced below:
+  //   RELEVANCE — same tag scores highest; a neighbouring topic is the
+  //     fallback, so a one-article tag still lands somewhere sensible instead
+  //     of on whatever shares a stray word.
+  //   SPREAD    — each pick is penalised by how many links the candidate has
+  //     already received in this pass, so link equity distributes instead of
+  //     pooling on the newest. Measured on the current 24: every article ends
+  //     with 2-5 inbound links, none with zero, and no cross-topic picks.
+  //
+  // Deterministic: same inputs give the same output, so builds do not churn.
+  // TOPIC neighbourhoods, not article ones — this table does not grow as the
+  // archive does.
+  const RELATED_NEIGHBOURS = {
+    'Corporate Tax': ['VAT', 'Compliance', 'E-Invoicing'],
+    'VAT': ['Corporate Tax', 'E-Invoicing', 'Compliance'],
+    'E-Invoicing': ['VAT', 'Corporate Tax', 'Controls'],
+    'Compliance': ['Corporate Tax', 'VAT', 'Controls'],
+    'Bookkeeping': ['Financial Reporting', 'Controls', 'VAT'],
+    'Financial Reporting': ['Bookkeeping', 'Controls', 'Valuations'],
+    'Controls': ['Bookkeeping', 'Financial Reporting', 'Compliance'],
+    'Valuations': ['M&A', 'Advisory', 'Financial Reporting'],
+    'M&A': ['Valuations', 'Advisory', 'Financial Reporting'],
+    'Advisory': ['Valuations', 'M&A', 'Bookkeeping'],
+  };
+
+  const RELATED_STOP = new Set(('the a an and or of for to in on at is are was were be been with from by as it its that ' +
+    'this what how who whom which when where why not no you your our we us they their than then so if but into out up ' +
+    'down over under more most less least new now still just only also can could should would must may might do does ' +
+    'did has have had one two three uae dubai abu dhabi emirates business businesses company companies').split(' '));
+
+  const relatedTerms = (s) => {
+    const out = new Set();
+    String(s || '').toLowerCase().replace(/[^a-z0-9\s-]/g, ' ').split(/\s+/)
+      .forEach((w) => { if (w.length > 3 && !RELATED_STOP.has(w)) out.add(w); });
+    return out;
+  };
+
+  // Citing the same instrument is a precise signal in tax writing.
+  const relatedInstruments = (a) => new Set(
+    (String(a.reference || '').match(/(Ministerial Decision(?: No\.)? \d+|Cabinet Decision(?: No\.)? \d+|Federal Decree-Law(?: No\.)? \d+|CTGSBR1|CTP003)/g) || [])
+      .map((x) => x.replace(/No\. /, ''))
+  );
+
+  let relatedCache = null;
+  function buildRelatedGraph(count) {
+    const live = INSIGHTS.filter((a) => a.published);
+    const bags = {};
+    live.forEach((a) => {
+      const m = {};
+      const add = (s, w) => relatedTerms(s).forEach((t) => { m[t] = (m[t] || 0) + w; });
+      add(a.title, 3); add(a.seoTitle, 2); add(a.excerpt, 1);
+      bags[a.slug] = m;
+    });
+    const instr = {};
+    live.forEach((a) => { instr[a.slug] = relatedInstruments(a); });
+
+    const affinity = (a, b) => {
+      let s = 0;
+      if (a.tag && a.tag === b.tag) s += 100;
+      else {
+        const n = RELATED_NEIGHBOURS[a.tag] || [];
+        const at = n.indexOf(b.tag);
+        if (at !== -1) s += 45 - 8 * at;
+      }
+      instr[a.slug].forEach((x) => { if (instr[b.slug].has(x)) s += 40; });
+      const ma = bags[a.slug], mb = bags[b.slug];
+      Object.keys(ma).forEach((t) => { if (mb[t]) s += Math.min(ma[t], mb[t]) * 6; });
+      return s;
+    };
+
+    const inbound = {}; live.forEach((a) => { inbound[a.slug] = 0; });
+    const graph = {};
+    // Fixed slug order keeps the result stable across builds.
+    live.slice().sort((x, y) => x.slug.localeCompare(y.slug)).forEach((a) => {
+      const picks = live.filter((b) => b.slug !== a.slug)
+        .map((b) => ({ b, adj: affinity(a, b) - 18 * inbound[b.slug] }))
+        .sort((p, q) => q.adj - p.adj || p.b.slug.localeCompare(q.b.slug))
+        .slice(0, count)
+        .map((o) => o.b);
+      graph[a.slug] = picks;
+      picks.forEach((b) => { inbound[b.slug]++; });
+    });
+    return graph;
+  }
+
+  // n is fixed at 3 by every caller; the cache assumes that.
+  function relatedInsights(slug, n) {
+    if (!relatedCache) relatedCache = buildRelatedGraph(n || 3);
+    return relatedCache[slug] || INSIGHTS.filter((a) => a.published && a.slug !== slug).slice(0, n || 3);
+  }
+
   window.AARoutes = {
+    relatedInsights,
     SITE_ORIGIN,
     // Bumped 3 Aug 2026: the core figures (CT/VAT thresholds, deadlines,
     // penalties, e-invoicing phases) were re-verified by the intent-page and

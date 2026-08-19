@@ -1707,7 +1707,9 @@ const INSIGHT_BODIES = {
 function InsightArticlePage({ onNav, slug }) {
   const article = insightBySlug(slug) || DEFAULT_INSIGHT;
   const Body = INSIGHT_BODIES[article.slug] || null;
-  const related = INSIGHTS.filter((a) => a.published && a.slug !== article.slug).slice(0, 3);
+  // Topic-scored, link-spread — see relatedInsights() in routes.js. Was
+  // `.slice(0, 3)`, i.e. the three newest on every single article.
+  const related = (window.AARoutes.relatedInsights || (() => []))(article.slug, 3);
   const openInsight = (e, s) => { e.preventDefault(); onNav('insight', s); };
 
   return (
