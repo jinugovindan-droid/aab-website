@@ -10,7 +10,7 @@
 //
 // Run: npm run bundle   (output: dist/app.min.js)
 import { transform } from 'esbuild';
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, readdir, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 
 // Load order MUST match the original index.html script order.
@@ -126,6 +126,16 @@ for (const c of articleChunks) {
   manifest[c.slug] = name;
   chunkBytes += c.code.length;
 }
+// Sweep chunks from previous builds. Filenames carry a content hash, so every
+// edit to an article leaves the old file behind — at weekly cadence that is
+// hundreds of orphans within a year, all of them committed and deployed.
+const keep = new Set([...Object.values(manifest), 'manifest.json']);
+let swept = 0;
+for (const f of await readdir('dist/articles').catch(() => [])) {
+  if (!keep.has(f)) { await rm(`dist/articles/${f}`); swept++; }
+}
+if (swept) console.log(`  swept ${swept} stale chunk(s) from earlier builds`);
+
 await writeFile('dist/articles/manifest.json', JSON.stringify(manifest, null, 1), 'utf8');
 // The router needs the same map at runtime: moving between articles must be
 // able to fetch a body chunk that this page never loaded. ~60 bytes per
