@@ -210,7 +210,15 @@ await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
 await browser.close();
 server.close();
 if (failures.length) {
-  console.error(`\n${failures.length} route(s) failed — NO files were written; the tree is unchanged.`);
+  // Be precise about the state this leaves behind. snapshot.mjs itself wrote
+  // nothing — but `npm run make` runs prerender.py first, and that has ALREADY
+  // replaced every page body with the short SEO skeleton. So the tree is very
+  // much changed, and committing now would publish 68 near-empty pages.
+  console.error(`\n${failures.length} route(s) failed. snapshot wrote nothing, but the tree is NOT clean:`);
+  console.error('prerender.py already replaced every page body with the SEO skeleton before this step.');
+  console.error('\n  DO NOT COMMIT OR PUSH. Recover with either:');
+  console.error('    npm run make          # re-run the whole chain');
+  console.error('    git checkout -- .     # discard, back to the last commit');
   process.exit(1);
 }
 // React useId values (":r0:" etc.) churn on every capture — normalise them so
@@ -246,5 +254,30 @@ if (prevSitemap) {
   });
   await writeFile(join(ROOT, 'sitemap.xml'), sitemap, 'utf8');
   console.log(`\nsitemap lastmod: ${changedUrls.size} route(s) changed, ${restored} unchanged lastmod(s) restored`);
+}
+// Final guard: every page must reference the bundle that was just built. A
+// stale hand-typed ?v= shipped once (Aug 2026) and returning visitors kept the
+// cached old bundle, so a brand-new article rendered as the previous one.
+// Cheap to check, expensive to miss.
+{
+  const built = await readFile(join(ROOT, 'index.html'), 'utf8');
+  const want = (built.match(/dist\/app\.min\.js\?v=([a-z0-9]+)/) || [])[1];
+  if (!want) {
+    console.error('\nCANNOT VERIFY: no versioned bundle reference in index.html.');
+    process.exit(1);
+  }
+  const stale = [];
+  for (const c of captures) {
+    const html = await readFile(c.file, 'utf8');
+    const got = (html.match(/dist\/app\.min\.js\?v=([a-z0-9]+)/) || [])[1];
+    if (got !== want) stale.push(`${c.url} -> ${got || '(none)'}`);
+  }
+  if (stale.length) {
+    console.error(`\n${stale.length} page(s) reference a bundle other than ?v=${want}:`);
+    stale.slice(0, 8).forEach((x) => console.error('  ' + x));
+    console.error('\n  DO NOT PUSH — returning visitors would keep a cached old bundle.');
+    process.exit(1);
+  }
+  console.log(`bundle check: all ${captures.length} pages reference ?v=${want}`);
 }
 console.log(`All ${routes.length} routes snapshotted and written.`);
