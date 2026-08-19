@@ -115,13 +115,32 @@
         }
       } catch (e) {}
       if (window.AA_GA_ID) {
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.AA_GA_ID;
-        document.head.appendChild(s);
+        // Queue the config immediately — dataLayer is a plain array, and gtag.js
+        // replays everything pushed before it arrived, in order. So consent
+        // defaults, config and any generate_lead fired during those first
+        // seconds are all preserved.
         gtag('js', new Date());
         // Page views are sent manually on each SPA route change (see AppRoot).
         gtag('config', window.AA_GA_ID, { anonymize_ip: true, send_page_view: false });
+
+        // Fetch the 165 KB tag only once the page is idle, or the moment the
+        // visitor interacts — whichever comes first. Measured Aug 2026: loading
+        // it eagerly cost ~1.4s of main-thread blocking on a mid-range phone,
+        // which is felt as sluggish taps, not as a slow paint (it is async, so
+        // first paint was never affected).
+        var gaLoaded = false;
+        var loadGA = function () {
+          if (gaLoaded) return; gaLoaded = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.AA_GA_ID;
+          document.head.appendChild(s);
+        };
+        ['pointerdown', 'keydown', 'scroll'].forEach(function (evt) {
+          window.addEventListener(evt, loadGA, { once: true, passive: true });
+        });
+        if ('requestIdleCallback' in window) window.requestIdleCallback(loadGA, { timeout: 3500 });
+        else window.addEventListener('load', function () { setTimeout(loadGA, 1200); });
       }
     })();
   </script>
@@ -162,7 +181,7 @@
   <link rel="stylesheet" href="styles/tokens.css?v=56dda07897"/>
   <link rel="stylesheet" href="styles/site.css?v=055a70b631"/>
   <!-- Self-hosted React + lucide (no third-party single point of failure). -->
-  <script defer src="assets/vendor/lucide-subset.js?v=6f95816aa5"></script>
+  <script defer src="assets/vendor/lucide-subset.js?v=f5a8cb572d"></script>
   <script defer src="assets/vendor/react-18.3.1.min.js"></script>
   <script defer src="assets/vendor/react-dom-18.3.1.min.js"></script>
 
