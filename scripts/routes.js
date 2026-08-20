@@ -66,7 +66,7 @@
       seoTitle: 'FTA Decision 13 of 2026: Supplier Checks Before Input VAT', seoDesc: 'From 1 October 2026, verify suppliers before deducting input VAT. The three thresholds, what Article 54 bis actually does, and the two questions the FTA has not answered.',
       tag: 'VAT', date: '20 Aug 2026', read: '10 min',
       title: 'Supplier checks before you claim input VAT: what changes on 1 October 2026.',
-      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 13 of 2026; Article 54 bis of Federal Decree-Law No. 8 of 2017 on VAT, as inserted by Federal Decree-Law No. 16 of 2025',
+      author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 13 of 2026; Article 54 bis of Federal Decree-Law No. 8 of 2017 on VAT, as inserted by Federal Decree-Law No. 16 of 2025',
       excerpt: 'FTA Decision No. 13 of 2026 takes effect on 1 October and reached the FTA website on 20 August. It does not make input VAT conditional on supplier checks — reading it that way is the mistake about to be made everywhere. What it removes is the defence that you could not have known. The three thresholds, the AED 10,000 let-off that switches itself off, and the two questions the FTA has not answered.',
       published: true,
     },
