@@ -67,6 +67,11 @@
       "permanent": false
     },
     {
+      "source": "/go/supplier-check-li-page",
+      "destination": "/insights/fta-decision-13-supplier-verification?utm_source=linkedin&utm_medium=social&utm_campaign=decision-13&utm_content=company-page",
+      "permanent": false
+    },
+    {
       "source": "/go/supplier-check-li",
       "destination": "/insights/fta-decision-13-supplier-verification?utm_source=linkedin&utm_medium=social&utm_campaign=decision-13&utm_content=founder-post",
       "permanent": false
