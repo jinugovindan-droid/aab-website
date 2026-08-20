@@ -14,3 +14,7 @@ scripts/
 node_modules/
 package.json
 package-lock.json
+
+# LinkedIn post visuals are attachments for social, not site assets — nothing
+# on the site links to them, so they do not need deploying.
+assets/linkedin/
