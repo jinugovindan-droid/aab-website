@@ -153,7 +153,13 @@ console.log(`  (that ${(chunkBytes / 1024).toFixed(0)} KB no longer ships to eve
 // old bundle and the site silently rendered stale data (a new article resolving
 // to DEFAULT_INSIGHT, a search index missing entries). Hashing the actual bytes
 // makes the URL change exactly when the file does, and never otherwise.
-const STAMPED = ['dist/app.min.js', 'styles/site.css', 'styles/tokens.css', 'assets/vendor/lucide-subset.js'];
+// The icons are in here because they were left behind. Every visible logo on
+// the site moved to the classic mark, but favicon.png and apple-touch-icon.png
+// were still the abandoned football design, frozen behind a hand-typed ?v=3
+// that nobody had reason to bump. Content-hashing them means the URL moves
+// whenever the bytes do, so replacing the artwork is enough on its own.
+const STAMPED = ['dist/app.min.js', 'styles/site.css', 'styles/tokens.css', 'assets/vendor/lucide-subset.js',
+  'assets/logos/favicon.png', 'assets/logos/apple-touch-icon.png'];
 let tpl = await readFile('index.html', 'utf8');
 const before = tpl;
 for (const asset of STAMPED) {
