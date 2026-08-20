@@ -1676,7 +1676,131 @@ function SBREvidenceBody({ onNav }) {
   );
 }
 
+function SupplierVerificationBody({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  const ilink = (slug, label) => (
+    <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>FTA Decision No.&nbsp;13 of 2026 was issued on 22&nbsp;July&nbsp;2026, appeared on the Federal Tax Authority&rsquo;s website on 20&nbsp;August, and takes effect on <strong>1&nbsp;October&nbsp;2026</strong>. It sets out the checks a business must run on its suppliers, and on individual purchases, before deducting input VAT. No FTA guide has been published alongside it. This note is written from the Authority&rsquo;s own text &mdash; and it has to start by correcting the reading that is about to become common.</p>
+
+      <h3 style={H3}>What it does not do</h3>
+      <p>The rule most people will take from this &mdash; <em>no supplier checks, no input VAT</em> &mdash; is wrong. The accurate position is more useful.</p>
+      <p>Decision&nbsp;13 does not stand on its own. It gives content to <strong>Article&nbsp;54&nbsp;bis</strong> of the VAT Law, inserted by Federal Decree-Law No.&nbsp;16 of 2025 and in force since 1&nbsp;January&nbsp;2026. That article has three clauses, and the first two use deliberately different verbs:</p>
+      <ul>
+        <li>The Authority <strong>shall</strong> reject a deduction where the supply was part of a supply or chain of supplies related to tax evasion <em>and</em> the taxable person was aware of that when deducting.</li>
+        <li>The Authority <strong>may</strong> reject it where, on the circumstances of the supply, the taxable person <em>should have been</em> aware.</li>
+      </ul>
+      <p>The third clause is where Decision&nbsp;13 attaches: a taxable person is treated as having been required to be aware if they did not verify the validity and integrity of the supplies they received, in accordance with the measures the Authority determines. That deeming feeds the <strong>second</strong> limb only &mdash; the discretionary one.</p>
+      <p>Read the halves together and the practical position is clear. <strong>If there is no tax evasion anywhere in the chain, an imperfect supplier file does not cost you your input VAT</strong> &mdash; both limbs independently require evasion in the chain. But if there is evasion, and you did not run these checks, you have lost the ability to say you had no way of knowing. That defence is what Decision&nbsp;13 takes away. Whether the presumption can be rebutted is not resolved by the English text, and we are not going to tell you it can.</p>
+
+      <h3 style={H3}>Does this apply to you?</h3>
+      <p>Every VAT-registered business that deducts input tax. There is no sectoral carve-out, no government or regulated-entity exception, and nothing in the six pages excludes free zone or designated zone companies &mdash; designated zone status affects where a supply of goods takes place, not a taxable person&rsquo;s deduction. Imports and reverse-charge supplies are caught as well: the Decision&rsquo;s own definition of input tax expressly covers tax due &ldquo;when conducting an Import&rdquo;.</p>
+      <p>The only exception is monetary, and it is narrower than it looks.</p>
+
+      <h3 style={H3}>Three numbers, and the one that governs you</h3>
+      <div style={{ overflowX: 'auto', marginTop: 8 }}>
+        <table className="aa-table" style={{ width: '100%' }}>
+          <thead>
+            <tr>
+              <th scope="col" className="aa-num" style={{ whiteSpace: 'nowrap' }}>Threshold</th>
+              <th scope="col">Measured how</th>
+              <th scope="col">Effect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>AED 10,000</strong></td>
+              <td>Per supply, VAT-exclusive. The test is <em>less than</em>.</td>
+              <td>You may disregard this Decision entirely for that supply.</td>
+            </tr>
+            <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>AED 100,000</strong></td>
+              <td>Per supplier, aggregate, rolling 12 months back <em>or</em> expected forward. The test is <em>exceeds</em>.</td>
+              <td>Switches the AED 10,000 exception off completely for that supplier.</td>
+            </tr>
+            <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>AED 375,000</strong></td>
+              <td>Per supplier, same rolling test. The test is <em>exceeds</em>.</td>
+              <td>Adds a UAE bank confirmation and a documented review of public reputation.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style={{ marginTop: 20 }}>The worked case that matters: an <strong>AED&nbsp;8,000</strong> invoice from a supplier you spend <strong>AED&nbsp;120,000</strong> a year with is <strong>not</strong> exempt. The first threshold would have covered it. The second disapplies the exception outright &mdash; so the full supplier check and the full supply check are required for that AED&nbsp;8,000 purchase, and for every one after it.</p>
+      <p>Three boundary points, each a live way to get this wrong:</p>
+      <ul>
+        <li>The test is <em>less than</em> AED&nbsp;10,000, so an invoice of exactly AED&nbsp;10,000 is not excepted. It is also not the same line as the simplified tax invoice threshold in the VAT Executive Regulation, which reads &ldquo;does not exceed AED&nbsp;10,000&rdquo;. A supply of exactly AED&nbsp;10,000 falls on opposite sides of the two.</li>
+        <li>Test the <strong>VAT-exclusive</strong> consideration, not the invoice total.</li>
+        <li>There is no anti-fragmentation rule at supply level. Splitting an AED&nbsp;30,000 order into four invoices does keep each one under the first threshold &mdash; and all AED&nbsp;30,000 still counts toward the AED&nbsp;100,000 supplier aggregate, which is the only backstop the Decision has.</li>
+      </ul>
+      <p>And where the exception does apply, it disapplies the <strong>whole</strong> Decision, not just the invoice-level checks. The mirror of that is the trap &mdash; once AED&nbsp;100,000 is crossed, supplier onboarding becomes due too, even for the small invoices.</p>
+
+      <div style={{ marginTop: 28, padding: '20px 22px', background: 'var(--aa-cyan-050)', borderLeft: '3px solid var(--aa-cyan)', borderRadius: 4 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Three different AED 375,000s</div>
+        <p style={{ margin: 0, fontSize: 15.5 }}>One number, three unrelated tests. <strong>Supplies you make</strong> &mdash; the VAT mandatory registration threshold. <strong>Taxable income</strong> &mdash; the 0% Corporate Tax band. <strong>Purchases from one supplier</strong> &mdash; this Decision. The mechanics differ too: VAT registration looks forward 30&nbsp;days, this Decision looks forward 12&nbsp;months.</p>
+      </div>
+
+      <h3 style={H3}>Once per supplier</h3>
+      <p><strong>Identity.</strong> Where the supplier is a natural person: a copy of the Emirates ID or passport, and &mdash; the part that will surprise people &mdash; you must meet them, in person or virtually, before the supply. Where the supplier is a company: verify incorporation through official records and obtain identification for the authorised representative. <strong>The meeting requirement does not apply to companies.</strong></p>
+      <p><strong>Place of business.</strong> Verify that the supplier has a real place of business, electronically or by visiting, and that it is consistent with what they actually do.</p>
+      <p><strong>Risk indicators.</strong> Three of them: an address changed more than twice in the previous 12&nbsp;months; key employees &mdash; managers, or the people you deal with &mdash; changed more than twice in the previous 12&nbsp;months; and commercial transactions disproportionate or unexpected in volume, value or nature against the size and history of that supplier&rsquo;s business. Where an indicator is present, the Decision requires you to obtain and document a reasonable explanation. <strong>It does not tell you to stop dealing with the supplier.</strong> It tells you to write the file note.</p>
+      <p><strong>Above AED&nbsp;375,000 with one supplier</strong>, two more: a written confirmation from an authorised bank in the State that the supplier holds a bank account, carrying no relevant reservations or conditions &mdash; usefully, it need not be issued to you &mdash; and a documented review of publicly available reviews and media coverage from reliable sources.</p>
+      <p>That bank letter is the hardest operational ask in the instrument, and it has an obvious gap. &ldquo;An authorised bank in the State&rdquo; means a UAE bank; a non-resident supplier will not hold one; and the Decision offers no alternative test while plainly bringing imports into scope. That is a question for the FTA, not one we can answer for you.</p>
+
+      <h3 style={H3}>Every invoice</h3>
+      <p>The workload is asymmetric, and this is the part most summaries will miss. The <strong>supplier</strong> file is annual &mdash; Article&nbsp;5 requires verification when you deal with a supplier for the first time, or on recurrent dealings where they have not been verified in the previous 12&nbsp;months. The <strong>supply</strong> check under Article&nbsp;4 runs on every taxable supply you receive that is not inside the AED&nbsp;10,000 exception.</p>
+      <p>Article&nbsp;4 asks you to satisfy yourself that there is a genuine commercial rationale for the transaction; that price and margin are justifiable against the market; that the supply is not outside the supplier&rsquo;s licensed activity; and, where a third party or intermediary is involved, that there is a reasonable commercial explanation for their role. For <strong>goods</strong> it adds authenticity and origin, and the validity of the supplier&rsquo;s ownership or right to dispose. The Decision says what to verify. It sets no documentary standard for how &mdash; so do not accept that a certificate of origin has suddenly become mandatory.</p>
+      <p><strong>Payment carries its own condition, in mandatory language.</strong> The consideration &ldquo;shall be paid by electronic means&rdquo;. Cash is not prohibited &mdash; the clause expressly contemplates it &mdash; but a cash payment must rest on a documented commercial reason, be easily verifiable, and fall within &ldquo;the thresholds specified in the applicable Tax legislation&rdquo;. We went looking for that threshold. The word &ldquo;cash&rdquo; does not appear in the VAT Law, the Excise Tax Law or the Tax Procedures executive regulation at all. Two of the three conditions are workable today; the third points at a figure we cannot locate, and anyone who quotes you one should be asked which article it comes from.</p>
+
+      <h3 style={H3}>The one document that has to exist by 1 October</h3>
+      <p>Article&nbsp;5(4) requires a documented policy for these verification procedures, stating the powers and responsibilities of the persons implementing, reviewing and supervising them, kept with your tax records.</p>
+      <p>Deal with this one first, for a specific reason: its timing does not depend on any of the open questions below. It is also the single thing an FTA officer can ask for on day one, because either it exists or it does not. It does not require three different people, and it is not filed with the Authority.</p>
+
+      <h3 style={H3}>What it costs if you get it wrong</h3>
+      <p>Decision&nbsp;13 carries <strong>no penalty of its own</strong>. There is none in its seven articles, and the consolidated administrative penalties schedule contains no violation for failing to verify a supplier, failing to verify a supply, or failing to hold the Article&nbsp;5(4) policy. If you see a fine quoted for &ldquo;breaching Decision&nbsp;13&rdquo;, ask which article it comes from &mdash; there are figures circulating on this subject with no instrument behind them.</p>
+      <p>The exposure is the <strong>denied deduction itself</strong>, and then the ordinary consequences of an understated return under the penalty schedule &mdash; with a materially better outcome if you correct by voluntary disclosure before the Authority notifies an audit than after. Whether the general records penalty reaches these particular files is arguable, and we would not assert it either way.</p>
+
+      <h3 style={H3}>Two things the FTA has not answered</h3>
+      <p><strong>Does this catch supplies received before 1&nbsp;October but deducted on or after it?</strong> The Decision is silent &mdash; no transitional provision and no grandfathering, in either language version. There are textual pulls both ways. Article&nbsp;2 scopes the Decision to verification &ldquo;before deduction of Input Tax&rdquo;, which points at the deduction date; but the duty to meet a natural-person supplier arises before the supply, which cannot be complied with retrospectively at all. We will not resolve that for you. The practical answer is the one that is right under either reading: start applying this to new suppliers and new purchases now.</p>
+      <p><strong>From what point is the AED&nbsp;10,000 exception lost once you cross AED&nbsp;100,000 with a supplier?</strong> Article&nbsp;6(2) says only that the exception &ldquo;shall not apply&rdquo;. No commencement point, no retrospective-adjustment mechanism, nothing on curing supplies already deducted. The prudent operating position &mdash; verify the supplier as soon as the forward-looking limb makes AED&nbsp;100,000 foreseeable, on signing the framework contract rather than on crossing the line mid-year &mdash; is defensible under either answer.</p>
+      <p>There is a third gap worth naming. Article&nbsp;54&nbsp;bis has referred to &ldquo;the measures, procedures and conditions determined by the Authority&rdquo; since 1&nbsp;January&nbsp;2026, but the Decision determining them takes effect on 1&nbsp;October&nbsp;2026. We found no earlier instrument specifying them for that nine-month window, and we cannot confirm that none exists. The position for that period is unclear.</p>
+
+      <h3 style={H3}>E-invoicing will not do this for you</h3>
+      <p>Different regimes, different timelines, different populations. Decision&nbsp;13 bites on 1&nbsp;October&nbsp;2026. E-invoicing Phase&nbsp;1 goes live on 1&nbsp;January&nbsp;2027 for businesses at or above AED&nbsp;50&nbsp;million, with smaller businesses following later in 2027 &mdash; and the Phase&nbsp;1 ASP appointment deadline now sits at 30&nbsp;October&nbsp;2026. E-invoicing covers B2B and B2G; B2C sits outside it, and outside nothing in Decision&nbsp;13.</p>
+      <p>More fundamentally, an Accredited Service Provider validates the structure of an invoice against the FTA&rsquo;s data dictionary. It does not verify that your supplier exists, trades from a real address, or sits in an honest chain. That reading of the overlap is ours, not the Authority&rsquo;s.</p>
+
+      <h3 style={H3}>Your September</h3>
+      <ul>
+        <li><strong>Run a rolling 12-month purchase report by supplier</strong> and sort it into three buckets: above AED&nbsp;375,000, above AED&nbsp;100,000, and the rest. Note what that means &mdash; on 1&nbsp;October the look-back already reaches back to October&nbsp;2025. The data you need is historic, not future. A business that cannot produce spend by supplier for the last twelve months is already behind.</li>
+        <li><strong>Build the supplier file</strong> for both upper buckets: identification, incorporation, place of business, risk-indicator notes. Add the bank confirmation and the reputation review for the top bucket &mdash; and start the bank letters early, because they run on someone else&rsquo;s turnaround.</li>
+        <li><strong>Write the Article&nbsp;5(4) policy</strong> and name who implements, who reviews and who supervises.</li>
+        <li><strong>Put the Article&nbsp;4 checks into the purchase-invoice approval workflow.</strong> They run on every invoice, and nobody will do them as a separate monthly exercise.</li>
+        <li><strong>Decide your position on cash payments</strong> now, in writing, while it is a policy choice rather than an audit answer.</li>
+      </ul>
+
+      {artNote('Written on 20 August 2026 from the FTA’s published text of Decision No. 13 of 2026 and the consolidated VAT Law published by the Ministry of Finance (the consolidation of 28 November 2025, which carries Article 54 bis as inserted by Federal Decree-Law No. 16 of 2025). The FTA had issued no guidance on this Decision at that date, and we found no published commentary on it. The English texts are unofficial translations; the Arabic governs. We will update this page when guidance is published. General information on published law, not advice on your own position.')}
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{ilink('uae-vat-guide-dubai', 'UAE VAT: a complete guide →')}</li>
+          <li>{ilink('uae-e-invoicing-deadlines-phases', 'E-invoicing: every deadline by phase →')}</li>
+          <li>{link('service-vat', 'UAE VAT compliance and filing →')}</li>
+          <li>{link('service-bookkeeping', 'Outsourced bookkeeping →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
+  'fta-decision-13-supplier-verification': SupplierVerificationBody,
   'small-business-relief-evidence-test': SBREvidenceBody,
   'small-business-relief-extended-2029': SBRExtendedBody,
   'ifrs-financial-statements-uae': IFRSStatementsBody,

@@ -21,6 +21,11 @@ const W = 1200, H = 630;
 // Cards to generate: slug -> { kicker, headline }. Headline is written for the
 // card (short, high contrast at thumbnail size), not copied from the <h1>.
 const CARDS = {
+  'fta-decision-13-supplier-verification': {
+    kicker: 'FTA Decision 13 of 2026 · From 1 October',
+    headline: 'Check your suppliers before you claim.',
+    sub: 'The three thresholds, and what the rule does not say',
+  },
   'small-business-relief-evidence-test': {
     kicker: 'Small Business Relief · The evidence test',
     headline: 'Can you prove every period since 2023?',

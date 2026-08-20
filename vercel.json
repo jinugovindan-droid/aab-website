@@ -62,6 +62,16 @@
       "permanent": false
     },
     {
+      "source": "/go/supplier-check",
+      "destination": "/insights/fta-decision-13-supplier-verification?utm_source=campaign&utm_medium=whatsapp&utm_campaign=decision-13&utm_content=broadcast",
+      "permanent": false
+    },
+    {
+      "source": "/go/supplier-check-li",
+      "destination": "/insights/fta-decision-13-supplier-verification?utm_source=linkedin&utm_medium=social&utm_campaign=decision-13&utm_content=founder-post",
+      "permanent": false
+    },
+    {
       "source": "/go/30-oct",
       "destination": "/e-invoicing/30-october-2026?utm_source=campaign&utm_medium=whatsapp&utm_campaign=asp-30oct&utm_content=broadcast",
       "permanent": false

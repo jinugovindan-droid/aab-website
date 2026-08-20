@@ -248,6 +248,13 @@ PAGE_SEO = {
 }
 
 INSIGHTS = [
+    {"slug": "fta-decision-13-supplier-verification",
+     "seoTitle": "FTA Decision 13 of 2026: Supplier Checks Before Input VAT", "seoDesc": "From 1 October 2026, verify suppliers before deducting input VAT. The three thresholds, what Article 54 bis actually does, and the two questions the FTA has not answered.",
+     "tag": "VAT", "date": "20 Aug 2026", "read": "10 min",
+     "title": "A thin supplier file will not cost you your input VAT. It will cost you the argument.",
+     "author": "CA Kiran Prasad S", "reviewer": "Jinu Govindan", "reference": "FTA Decision No. 13 of 2026; Article 54 bis of Federal Decree-Law No. 8 of 2017 on VAT, as inserted by Federal Decree-Law No. 16 of 2025",
+     "excerpt": "FTA Decision No. 13 of 2026 takes effect on 1 October and reached the FTA website on 20 August. It does not make input VAT conditional on supplier checks — reading it that way is the mistake about to be made everywhere. What it removes is the defence that you could not have known. The three thresholds, the AED 10,000 let-off that switches itself off, and the two questions the FTA has not answered.",
+     "published": True},
     {"slug": "small-business-relief-evidence-test",
      "seoTitle": "Small Business Relief UAE: How to Prove You Qualify", "seoDesc": "The AED 3m test looks at every tax period since June 2023. Which revenue counts, what records the law actually requires, and how long to keep them.",
      "tag": "Corporate Tax", "date": "12 Aug 2026", "read": "7 min",
