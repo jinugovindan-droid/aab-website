@@ -12,3 +12,4 @@ AAB-keyword-matrix.csv
 
 # Build artifact: route manifest consumed by scripts/snapshot.mjs
 .routes-manifest.json
+base.json
