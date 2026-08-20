@@ -17,6 +17,7 @@ with scripts/routes.js (single source of truth at runtime).
 """
 
 import datetime
+import hashlib
 import json
 import os
 import re
@@ -1493,7 +1494,11 @@ def main():
         # post gets; the generic logo card wastes it for a news piece.
         card = os.path.join(ROOT, "assets", "og", "article-%s.jpg" % a["slug"])
         if os.path.exists(card):
-            card_url = SITE_ORIGIN + "/assets/og/article-%s.jpg?v=1" % a["slug"]
+            # Content hash, not a hardcoded ?v=1: regenerating a share card after a
+            # headline change must actually reach LinkedIn and returning visitors.
+            with open(card, "rb") as _cf:
+                _cv = hashlib.sha256(_cf.read()).hexdigest()[:10]
+            card_url = SITE_ORIGIN + "/assets/og/article-%s.jpg?v=%s" % (a["slug"], _cv)
             html = re.sub(r'(<meta property="og:image" content=")[^"]*("/>)', lambda m: m.group(1) + card_url + m.group(2), html, count=1)
             html = re.sub(r'(<meta name="twitter:image" content=")[^"]*("/>)', lambda m: m.group(1) + card_url + m.group(2), html, count=1)
             html = re.sub(r'(<meta property="og:image:alt" content=")[^"]*("/>)', lambda m: m.group(1) + esc(strip_period(a["title"]), attr=True) + m.group(2), html, count=1)
