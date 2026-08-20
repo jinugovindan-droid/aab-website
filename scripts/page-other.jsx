@@ -1725,6 +1725,10 @@ function InsightArticlePage({ onNav, slug }) {
     const el = document.createElement('script');
     el.src = src;
     el.onload = () => forceBody((n) => n + 1);
+    // Retryable: a failed fetch must not strand the article for the whole
+    // session. The Set is populated before the load resolves, so without this
+    // one 404 makes every later visit short-circuit and show the placeholder.
+    el.onerror = () => { ARTICLE_CHUNKS_REQUESTED.delete(file); forceBody((n) => n + 1); };
     document.head.appendChild(el);
   }, [article.slug, Body]);
   // Topic-scored, link-spread — see relatedInsights() in routes.js. Was

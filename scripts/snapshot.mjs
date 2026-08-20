@@ -139,6 +139,13 @@ async function snapshotRoute(browser, route) {
       };
     });
     if (!result.html || result.html.length < 5000) throw new Error(`suspiciously small capture (${result.html ? result.html.length : 0} chars)`);
+    // 5000 chars proves nothing for an article: page chrome alone is ~24 KB, so
+    // a bodyless article sails past it. Assert the body is really there.
+    if (route.url.startsWith('/insights/') && route.url !== '/insights') {
+      if (/This note is in preparation/i.test(result.html)) throw new Error('article rendered the "in preparation" placeholder — chunk missing or failed');
+      const words = result.html.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
+      if (words < 500) throw new Error(`article body too short (${words} words) — chunk probably did not load`);
+    }
     if (result.rawIcons > 0) throw new Error(`${result.rawIcons} unswapped lucide icon(s)`);
     if (result.consentShown) throw new Error('consent banner rendered during capture');
     if (/\(\d[\d,]* days?\)|\d[\d,]* days? left/.test(result.html)) throw new Error('relative day-count leaked into capture');
@@ -279,6 +286,27 @@ if (prevSitemap) {
     process.exit(1);
   }
   console.log(`bundle check: all ${captures.length} pages reference ?v=${want}`);
+}
+// Every article page names a chunk file; that file must exist. Running
+// `npm run bundle` on its own sweeps chunks the already-committed HTML still
+// points at, and nothing else notices: the ?v= check only inspects the shared
+// bundle, and prerender only complains when a SLUG is missing from the
+// manifest, never when the HTML and the manifest disagree.
+{
+  const missing = [];
+  for (const c of captures.filter((x) => x.url.startsWith('/insights/'))) {
+    const html = await readFile(c.file, 'utf8');
+    const m = html.match(/dist\/articles\/([A-Za-z0-9._-]+\.js)/);
+    if (!m) continue;
+    if (!existsSync(join(ROOT, 'dist', 'articles', m[1]))) missing.push(`${c.url} -> ${m[1]}`);
+  }
+  if (missing.length) {
+    console.error(`\n${missing.length} page(s) reference an article chunk that does not exist:`);
+    missing.slice(0, 8).forEach((x) => console.error('  ' + x));
+    console.error('\n  DO NOT PUSH — those articles would render as empty stubs.');
+    console.error('  Run the full `npm run make`, not just `npm run bundle`.');
+    process.exit(1);
+  }
 }
 // Internal-link health. The related-reading graph is generated (see
 // relatedInsights in routes.js) and is meant to leave no article unreachable

@@ -1,0 +1,16 @@
+# Deployment scope. The built site is plain HTML plus dist/, styles/ and
+# assets/ — the sources that PRODUCE it have no business being served.
+#
+# Found in QC (20 Aug 2026): the whole tree was public. scripts/page-other.jsx
+# (228 KB), scripts/routes.js, scripts/prerender.py, scripts/build.mjs and
+# WEBSITE-GUIDE.md all returned 200. scripts/tweaks-panel.jsx was still served
+# verbatim at its own URL — including the window.parent.postMessage host
+# protocol — even though commit 9cba675 removed it from the bundle. Verifying
+# "absent from the bundle" tested the wrong artefact.
+scripts/
+*.md
+!index.html
+.claude/
+node_modules/
+package.json
+package-lock.json
