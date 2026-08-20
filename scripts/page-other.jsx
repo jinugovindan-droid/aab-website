@@ -1685,6 +1685,182 @@ function SupplierVerificationBody({ onNav }) {
     <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
       style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
+  // Three diagrams, defined inside the body so they travel in this article's
+  // own chunk rather than the shared bundle — nothing else on the site uses them.
+  const FIG = { margin: '36px 0 40px' };
+  const CAP = { fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' };
+  const qBox = { fill: '#fff', stroke: '#C7C8CA', strokeWidth: 1 };
+  const qText = { fontSize: 13, fontWeight: 600, fill: '#1A1A2E', fontFamily: 'inherit' };
+  const oTitle = { fontSize: 14, fontWeight: 700, fontFamily: 'inherit' };
+  const oText = { fontSize: 11.5, fill: '#4A5260', fontFamily: 'inherit' };
+  const branch = { fontSize: 10, fontWeight: 700, fill: '#6E7887', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.08em' };
+  const Arrow = ({ d }) => <path d={d} fill="none" stroke="#9AA3AF" strokeWidth="1.6" markerEnd="url(#aa13-arrow)" />;
+
+  const Article54Tree = () => (
+    <figure className="aa-figwide" style={FIG}>
+      <div style={{ overflowX: 'auto' }}>
+        <svg
+          viewBox="0 0 720 476"
+          role="img"
+          aria-label="Decision tree for Article 54 bis of the UAE VAT Law. First question: was the supply part of a supply or chain of supplies related to tax evasion? If no, the input tax stands, because neither limb of the article is engaged. If yes, second question: did you know that when you deducted the input tax? If yes, clause 1 applies and the Authority shall reject the deduction — it is mandatory. If no, third question: had you verified the supplier and the supply as Decision 13 requires? If yes, no deeming applies and whether you should have known is judged on the circumstances of the supply. If no, clause 3 treats you as having been required to be aware, which feeds clause 2 only: the Authority may reject the deduction, at its discretion, and evasion in the chain is still required."
+          style={{ display: 'block', width: '100%', minWidth: 600, height: 'auto' }}
+        >
+          <defs>
+            <marker id="aa13-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#9AA3AF" />
+            </marker>
+          </defs>
+
+          {/* ---- Stage 1: is there evasion in the chain at all? */}
+          <rect x="30" y="20" width="290" height="76" rx="3" {...qBox} />
+          <text x="175" y="52" textAnchor="middle" style={qText}><tspan x="175">Was the supply part of a supply or</tspan><tspan x="175" dy="18">chain of supplies related to tax evasion?</tspan></text>
+          <Arrow d="M 320 58 H 384" />
+          <text x="352" y="50" textAnchor="middle" style={branch}>NO</text>
+          <rect x="390" y="20" width="300" height="76" rx="3" fill="#F2FAF5" stroke="#86C7A4" strokeWidth="1" />
+          <text x="408" y="46" style={{ ...oTitle, fill: '#1B6E45' }}>Input tax stands.</text>
+          <text x="408" y="66" style={oText}><tspan x="408">Neither limb is engaged. Both of them</tspan><tspan x="408" dy="16">independently require evasion in the chain.</tspan></text>
+
+          <Arrow d="M 175 96 V 126" />
+          <text x="186" y="116" style={branch}>YES</text>
+
+          {/* ---- Stage 2: actual knowledge — the mandatory limb */}
+          <rect x="30" y="130" width="290" height="76" rx="3" {...qBox} />
+          <text x="175" y="162" textAnchor="middle" style={qText}><tspan x="175">Did you know that when you</tspan><tspan x="175" dy="18">deducted the input tax?</tspan></text>
+          <Arrow d="M 320 168 H 384" />
+          <text x="352" y="160" textAnchor="middle" style={branch}>YES</text>
+          <rect x="390" y="130" width="300" height="76" rx="3" fill="#FEF2F2" stroke="#E88C8C" strokeWidth="1" />
+          <text x="408" y="156" style={{ ...oTitle, fill: '#B3261E' }}>The FTA shall reject.</text>
+          <text x="408" y="176" style={oText}><tspan x="408">Article 54 bis(1). Mandatory — the</tspan><tspan x="408" dy="16">Authority has no discretion here.</tspan></text>
+
+          <Arrow d="M 175 206 V 236" />
+          <text x="186" y="226" style={branch}>NO</text>
+
+          {/* ---- Stage 3: this is the only place Decision 13 operates */}
+          <rect x="30" y="240" width="290" height="76" rx="3" fill="#ECF7FC" stroke="#00B0F0" strokeWidth="1.4" />
+          <text x="175" y="272" textAnchor="middle" style={qText}><tspan x="175">Had you verified the supplier and</tspan><tspan x="175" dy="18">the supply as Decision 13 requires?</tspan></text>
+          <Arrow d="M 320 278 H 384" />
+          <text x="352" y="270" textAnchor="middle" style={branch}>YES</text>
+          <rect x="390" y="240" width="300" height="76" rx="3" fill="#F2FAF5" stroke="#86C7A4" strokeWidth="1" />
+          <text x="408" y="266" style={{ ...oTitle, fill: '#1B6E45' }}>You keep the argument.</text>
+          <text x="408" y="286" style={oText}><tspan x="408">No deeming. Whether you should have</tspan><tspan x="408" dy="16">known is judged on the circumstances.</tspan></text>
+
+          <Arrow d="M 175 316 V 350" />
+          <text x="186" y="340" style={branch}>NO</text>
+
+          {/* ---- Stage 4: the deeming rule, and its limits */}
+          <rect x="30" y="352" width="660" height="104" rx="3" fill="#FFF7ED" stroke="#F0A868" strokeWidth="1.4" />
+          <text x="52" y="382" style={{ ...oTitle, fill: '#9A3412' }}>You are treated as having been required to be aware.</text>
+          <text x="52" y="406" style={{ ...oText, fontSize: 12 }}><tspan x="52">Article 54 bis(3) feeds the second limb only — so the FTA <tspan style={{ fontWeight: 700 }}>may</tspan> reject the deduction, not must.</tspan><tspan x="52" dy="18">The defence that you had no way of knowing is gone. The discretion remains, and so does the</tspan><tspan x="52" dy="18">requirement that there be evasion in the chain in the first place.</tspan></text>
+        </svg>
+      </div>
+      <figcaption className="mono" style={CAP}>WHERE DECISION 13 ATTACHES — ARTICLE 54 BIS, CLAUSE BY CLAUSE</figcaption>
+    </figure>
+  );
+
+  const ThresholdFlow = () => (
+    <figure className="aa-figwide" style={FIG}>
+      <div style={{ overflowX: 'auto' }}>
+        <svg
+          viewBox="0 0 720 470"
+          role="img"
+          aria-label="Flowchart for deciding which checks apply to a purchase under FTA Decision 13. Start with a purchase you intend to deduct. First ask whether your rolling 12-month spend with that supplier — the past 12 months, or what you expect over the next 12 — exceeds AED 100,000. If it does not, ask whether this supply is less than AED 10,000 excluding VAT: if yes, you may disregard the whole Decision for that supply, supplier checks included; if no, the full check applies. If the rolling spend does exceed AED 100,000, the AED 10,000 exception is switched off, and you ask instead whether spend also exceeds AED 375,000: if not, the full check applies; if it does, the full check applies plus a written confirmation from a UAE bank and a documented review of public reviews and media coverage. The full check means the Article 3 supplier file — identity, place of business and risk indicators — together with the Article 4 checks on the invoice itself."
+          style={{ display: 'block', width: '100%', minWidth: 620, height: 'auto' }}
+        >
+          <rect x="265" y="16" width="190" height="36" rx="18" fill="#1A1A2E" />
+          <text x="360" y="39" textAnchor="middle" style={{ fontSize: 13, fontWeight: 600, fill: '#fff', fontFamily: 'inherit' }}>A purchase to deduct</text>
+          <Arrow d="M 360 52 V 74" />
+
+          {/* Gate 1 — the supplier aggregate governs everything below it */}
+          <rect x="185" y="78" width="350" height="76" rx="3" {...qBox} />
+          <text x="360" y="104" textAnchor="middle" style={qText}><tspan x="360">Rolling 12-month spend with this supplier</tspan><tspan x="360" dy="18">exceeds AED 100,000?</tspan></text>
+          <text x="360" y="141" textAnchor="middle" style={{ fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' }}>the past 12 months, or what you expect over the next 12</text>
+
+          <Arrow d="M 300 154 V 166 H 165 V 176" />
+          <text x="232" y="162" textAnchor="middle" style={branch}>NO</text>
+          <Arrow d="M 420 154 V 166 H 555 V 176" />
+          <text x="488" y="162" textAnchor="middle" style={branch}>YES</text>
+
+          <rect x="40" y="180" width="250" height="64" rx="3" {...qBox} />
+          <text x="165" y="208" textAnchor="middle" style={qText}><tspan x="165">Is this supply less than</tspan><tspan x="165" dy="18">AED 10,000, VAT-exclusive?</tspan></text>
+
+          <rect x="430" y="180" width="250" height="64" rx="3" {...qBox} />
+          <text x="555" y="208" textAnchor="middle" style={qText}><tspan x="555">Does that spend also</tspan><tspan x="555" dy="18">exceed AED 375,000?</tspan></text>
+
+          <Arrow d="M 124 244 V 294" />
+          <text x="132" y="272" style={branch}>YES</text>
+          <Arrow d="M 220 244 V 268 H 360 V 294" />
+          <text x="286" y="264" textAnchor="middle" style={branch}>NO</text>
+          <Arrow d="M 500 244 V 268 H 360 V 294" />
+          <text x="434" y="264" textAnchor="middle" style={branch}>NO</text>
+          <Arrow d="M 596 244 V 294" />
+          <text x="604" y="272" style={branch}>YES</text>
+
+          {/* ---- The three outcomes */}
+          <rect x="16" y="296" width="216" height="152" rx="3" fill="#F2FAF5" stroke="#86C7A4" strokeWidth="1" />
+          <text x="34" y="326" style={{ ...oTitle, fill: '#1B6E45' }}>Nothing to do</text>
+          <text x="34" y="350" style={oText}><tspan x="34">Article 6(1) lets you</tspan><tspan x="34" dy="16">disregard the whole</tspan><tspan x="34" dy="16">Decision for this supply —</tspan><tspan x="34" dy="16">supplier checks included.</tspan></text>
+
+          <rect x="252" y="296" width="216" height="152" rx="3" fill="#F7F8F9" stroke="#9AA3AF" strokeWidth="1.2" />
+          <text x="270" y="326" style={{ ...oTitle, fill: '#1A1A2E' }}>The full check</text>
+          <text x="270" y="350" style={oText}><tspan x="270"><tspan style={{ fontWeight: 700 }}>Article 3</tspan> supplier file:</tspan><tspan x="270" dy="16">identity, place of business,</tspan><tspan x="270" dy="16">risk indicators. Annual.</tspan></text>
+          <text x="270" y="414" style={oText}><tspan x="270"><tspan style={{ fontWeight: 700 }}>Article 4</tspan> on this invoice:</tspan><tspan x="270" dy="16">rationale, pricing, licensed</tspan><tspan x="270" dy="16">activity, payment method.</tspan></text>
+
+          <rect x="488" y="296" width="216" height="152" rx="3" fill="#ECF7FC" stroke="#00B0F0" strokeWidth="1.4" />
+          <text x="506" y="326" style={{ ...oTitle, fill: '#125A79' }}>Full check, plus two</text>
+          <text x="506" y="350" style={oText}><tspan x="506">Everything in the middle</tspan><tspan x="506" dy="16">column, and also:</tspan></text>
+          <text x="506" y="398" style={oText}><tspan x="506">· a UAE bank confirmation</tspan><tspan x="506" dy="16">· a documented review of</tspan><tspan x="506" dy="16">&#160;&#160;public reviews and media</tspan></text>
+        </svg>
+      </div>
+      <figcaption className="mono" style={CAP}>WHICH CHECKS APPLY TO THIS PURCHASE — DECISION 13, ARTICLES 3, 4 AND 6</figcaption>
+    </figure>
+  );
+
+  const Decision13Timeline = () => (
+    <figure className="aa-figwide" style={FIG}>
+      <div style={{ overflowX: 'auto' }}>
+        <svg
+          viewBox="0 0 720 206"
+          role="img"
+          aria-label="Timeline of the dates governing FTA Decision 13. On 1 October 2025 the 12-month look-back window opens, because the rolling tests in the Decision measure the previous twelve months from the date it takes effect. On 1 January 2026 Article 54 bis of the VAT Law comes into force, inserted by Federal Decree-Law 16 of 2025. On 1 October 2026 Decision 13 itself takes effect. A band across the whole timeline shows that on 1 October 2026 the look-back already reaches back to October 2025, so the data requirement is historic rather than future. A second band shows the nine months between Article 54 bis taking effect and the measures it points to taking effect."
+          style={{ display: 'block', width: '100%', minWidth: 560, height: 'auto' }}
+        >
+          {/* Band 1 — the look-back already covers the whole span. Labels sit
+              INSIDE their bands: floating them below left the caption reading
+              as though it belonged to the axis rather than to the band. */}
+          <rect x="60" y="20" width="600" height="24" rx="3" fill="#ECF7FC" stroke="#9BD8F0" strokeWidth="1" />
+          <path d="M 60 20 V 44 M 660 20 V 44" stroke="#00B0F0" strokeWidth="2.5" />
+          <text x="360" y="36" textAnchor="middle" style={{ fontSize: 11, fontWeight: 600, fill: '#125A79', fontFamily: 'inherit' }}>On 1 October 2026 the 12-month look-back already reaches back to here</text>
+
+          {/* Band 2 — the nine-month gap, stated and not resolved */}
+          <rect x="210" y="58" width="450" height="24" rx="3" fill="#FFF7ED" stroke="#F0A868" strokeWidth="1" />
+          <path d="M 210 58 V 82 M 660 58 V 82" stroke="#EA8C3F" strokeWidth="2.5" />
+          <text x="435" y="74" textAnchor="middle" style={{ fontSize: 10.5, fill: '#9A3412', fontFamily: 'inherit' }}>Nine months between the article and the measures it points to</text>
+
+          {/* Axis */}
+          <path d="M 60 44 V 112 M 210 82 V 112 M 660 44 V 112" stroke="#C7C8CA" strokeWidth="1" strokeDasharray="4 5" />
+          <line x1="60" y1="122" x2="660" y2="122" stroke="#1A1A2E" strokeWidth="2.5" />
+
+          <circle cx="60" cy="122" r="7.5" fill="#fff" stroke="#176E93" strokeWidth="2.5" />
+          <circle cx="60" cy="122" r="3" fill="#00B0F0" />
+          <circle cx="210" cy="122" r="7.5" fill="#fff" stroke="#176E93" strokeWidth="2.5" />
+          <circle cx="210" cy="122" r="3" fill="#00B0F0" />
+          <circle cx="660" cy="122" r="9.5" fill="#00B0F0" stroke="#125A79" strokeWidth="2.5" />
+          <circle cx="660" cy="122" r="3.5" fill="#fff" />
+
+          <text x="52" y="160" style={{ fontSize: 12, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' }}>1 OCT 2025</text>
+          <text x="52" y="178" style={{ fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' }}>look-back opens</text>
+
+          <text x="210" y="160" textAnchor="middle" style={{ fontSize: 12, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' }}>1 JAN 2026</text>
+          <text x="210" y="178" textAnchor="middle" style={{ fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' }}><tspan x="210">Article 54 bis in force</tspan><tspan x="210" dy="14">(FDL 16 of 2025)</tspan></text>
+
+          <text x="668" y="160" textAnchor="end" style={{ fontSize: 12, fontWeight: 700, fill: '#125A79', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' }}>1 OCT 2026</text>
+          <text x="668" y="178" textAnchor="end" style={{ fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' }}>Decision 13 takes effect</text>
+        </svg>
+      </div>
+      <figcaption className="mono" style={CAP}>THE DATES THAT MATTER — AND WHY THE DATA REQUIREMENT IS ALREADY HISTORIC</figcaption>
+    </figure>
+  );
+
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>FTA Decision No.&nbsp;13 of 2026 was issued on 22&nbsp;July&nbsp;2026, appeared on the Federal Tax Authority&rsquo;s website on 20&nbsp;August, and takes effect on <strong>1&nbsp;October&nbsp;2026</strong>. It sets out the checks a business must run on its suppliers, and on individual purchases, before deducting input VAT. No FTA guide has been published alongside it. This note is written from the Authority&rsquo;s own text &mdash; and it has to start by correcting the reading that is about to become common.</p>
@@ -1698,6 +1874,8 @@ function SupplierVerificationBody({ onNav }) {
       </ul>
       <p>The third clause is where Decision&nbsp;13 attaches: a taxable person is treated as having been required to be aware if they did not verify the validity and integrity of the supplies they received, in accordance with the measures the Authority determines. That deeming feeds the <strong>second</strong> limb only &mdash; the discretionary one.</p>
       <p>Read the halves together and the practical position is clear. <strong>If there is no tax evasion anywhere in the chain, an imperfect supplier file does not cost you your input VAT</strong> &mdash; both limbs independently require evasion in the chain. But if there is evasion, and you did not run these checks, you have lost the ability to say you had no way of knowing. That defence is what Decision&nbsp;13 takes away. Whether the presumption can be rebutted is not resolved by the English text, and we are not going to tell you it can.</p>
+
+      <Article54Tree />
 
       <h3 style={H3}>Does this apply to you?</h3>
       <p>Every VAT-registered business that deducts input tax. There is no sectoral carve-out, no government or regulated-entity exception, and nothing in the six pages excludes free zone or designated zone companies &mdash; designated zone status affects where a supply of goods takes place, not a taxable person&rsquo;s deduction. Imports and reverse-charge supplies are caught as well: the Decision&rsquo;s own definition of input tax expressly covers tax due &ldquo;when conducting an Import&rdquo;.</p>
@@ -1741,6 +1919,8 @@ function SupplierVerificationBody({ onNav }) {
       </ul>
       <p>And where the exception does apply, it disapplies the <strong>whole</strong> Decision, not just the invoice-level checks. The mirror of that is the trap &mdash; once AED&nbsp;100,000 is crossed, supplier onboarding becomes due too, even for the small invoices.</p>
 
+      <ThresholdFlow />
+
       <div style={{ marginTop: 28, padding: '20px 22px', background: 'var(--aa-cyan-050)', borderLeft: '3px solid var(--aa-cyan)', borderRadius: 4 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Three different AED 375,000s</div>
         <p style={{ margin: 0, fontSize: 15.5 }}>One number, three unrelated tests. <strong>Supplies you make</strong> &mdash; the VAT mandatory registration threshold. <strong>Taxable income</strong> &mdash; the 0% Corporate Tax band. <strong>Purchases from one supplier</strong> &mdash; this Decision. The mechanics differ too: VAT registration looks forward 30&nbsp;days, this Decision looks forward 12&nbsp;months.</p>
@@ -1770,6 +1950,8 @@ function SupplierVerificationBody({ onNav }) {
       <p><strong>Does this catch supplies received before 1&nbsp;October but deducted on or after it?</strong> The Decision is silent &mdash; no transitional provision and no grandfathering, in either language version. There are textual pulls both ways. Article&nbsp;2 scopes the Decision to verification &ldquo;before deduction of Input Tax&rdquo;, which points at the deduction date; but the duty to meet a natural-person supplier arises before the supply, which cannot be complied with retrospectively at all. We will not resolve that for you. The practical answer is the one that is right under either reading: start applying this to new suppliers and new purchases now.</p>
       <p><strong>From what point is the AED&nbsp;10,000 exception lost once you cross AED&nbsp;100,000 with a supplier?</strong> Article&nbsp;6(2) says only that the exception &ldquo;shall not apply&rdquo;. No commencement point, no retrospective-adjustment mechanism, nothing on curing supplies already deducted. The prudent operating position &mdash; verify the supplier as soon as the forward-looking limb makes AED&nbsp;100,000 foreseeable, on signing the framework contract rather than on crossing the line mid-year &mdash; is defensible under either answer.</p>
       <p>There is a third gap worth naming. Article&nbsp;54&nbsp;bis has referred to &ldquo;the measures, procedures and conditions determined by the Authority&rdquo; since 1&nbsp;January&nbsp;2026, but the Decision determining them takes effect on 1&nbsp;October&nbsp;2026. We found no earlier instrument specifying them for that nine-month window, and we cannot confirm that none exists. The position for that period is unclear.</p>
+
+      <Decision13Timeline />
 
       <h3 style={H3}>E-invoicing will not do this for you</h3>
       <p>Different regimes, different timelines, different populations. Decision&nbsp;13 bites on 1&nbsp;October&nbsp;2026. E-invoicing Phase&nbsp;1 goes live on 1&nbsp;January&nbsp;2027 for businesses at or above AED&nbsp;50&nbsp;million, with smaller businesses following later in 2027 &mdash; and the Phase&nbsp;1 ASP appointment deadline now sits at 30&nbsp;October&nbsp;2026. E-invoicing covers B2B and B2G; B2C sits outside it, and outside nothing in Decision&nbsp;13.</p>

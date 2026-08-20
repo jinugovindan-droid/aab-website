@@ -663,6 +663,19 @@ body.no-scroll { overflow: hidden; }
     -webkit-overflow-scrolling: touch;
   }
 
+  /* Wide diagrams scroll inside their own <figure> — they carry a min-width so
+     the labels stay legible rather than shrinking to nothing. Same hazard as
+     the tables above: with no cue, a cut-off flowchart reads as a broken image
+     instead of a scrollable one, so say it in the caption at these widths. */
+  main figure.aa-figwide figcaption::before {
+    content: 'Scroll the diagram sideways to see all of it →';
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11.5px;
+    letter-spacing: 0;
+    color: var(--aa-cyan-700);
+  }
+
   /* Comfortable touch targets: grow small inline buttons (insights filters,
      contact-wizard options, etc.) to a ~42px tap height — but NOT the hero
      carousel dots, which are deliberate 4px hairline indicators. */
