@@ -21,6 +21,11 @@ const W = 1200, H = 630;
 // Cards to generate: slug -> { kicker, headline }. Headline is written for the
 // card (short, high contrast at thumbnail size), not copied from the <h1>.
 const CARDS = {
+  'fta-decision-4-accounting-records': {
+    kicker: 'FTA Decision 4 of 2026 · In force since 30 July',
+    headline: 'Partial scans are no longer a record.',
+    sub: 'The standard your books have to meet',
+  },
   'fta-decision-13-supplier-verification': {
     kicker: 'FTA Decision 13 of 2026 · From 1 October',
     headline: 'Check your suppliers before you claim.',

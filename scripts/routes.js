@@ -62,6 +62,15 @@
   // render an honest "in preparation" state so a card never shows the wrong note.
   const INSIGHTS = [
     {
+      slug: 'fta-decision-4-accounting-records',
+      seoTitle: 'UAE Accounting Records: FTA Decision 4 of 2026 Rules', seoDesc: 'Since 30 July 2026, scanned and electronic copies of accounting records must meet an FTA standard: no partial scans, copies that stay legible, and access including passwords.',
+      tag: 'Compliance', date: '23 Aug 2026', read: '8 min',
+      title: 'Your scanned records have a standard now — and it has applied since 30 July.',
+      author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 4 of 2026 on the Rules and Requirements for Maintaining the Information Contained in Accounting Records and Commercial Books; Federal Decree-Law No. 28 of 2022 on Tax Procedures',
+      excerpt: 'FTA Decision No. 4 of 2026 sets a published standard for the scans, exports and photocopies almost every business keeps its books in. It took effect on 30 July 2026 and reached the FTA website on 20 August — binding for twenty-one days before it could be read. Partial scans are expressly not accepted, copies must stay legible across a retention period that can run to eleven years, the Authority can require your encryption keys, and outsourcing the records does not move the responsibility.',
+      published: true,
+    },
+    {
       slug: 'fta-decision-13-supplier-verification',
       seoTitle: 'FTA Decision 13 of 2026: Supplier Checks Before Input VAT', seoDesc: 'From 1 October 2026, verify suppliers before deducting input VAT. The three thresholds, what Article 54 bis actually does, and the two questions the FTA has not answered.',
       tag: 'VAT', date: '20 Aug 2026', read: '10 min',

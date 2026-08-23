@@ -1988,7 +1988,152 @@ function SupplierVerificationBody({ onNav }) {
   );
 }
 
+function RecordCopyStandardBody({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  const ilink = (slug, label) => (
+    <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+
+  // Defined in the body so it ships in this article's chunk, not the shared bundle.
+  const GateDiagram = () => {
+    const cap = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
+    const gateNo = { fontSize: 11, fontWeight: 700, fill: '#00B0F0', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.1em' };
+    const gateTitle = { fontSize: 15.5, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'inherit' };
+    const ok = { fontSize: 11.5, fill: '#1B6E45', fontFamily: 'inherit' };
+    const no = { fontSize: 11.5, fill: '#B3261E', fontFamily: 'inherit' };
+    const Gate = ({ x, n, title, art, passes, fails }) => (
+      <g>
+        <rect x={x} y={92} width={196} height={202} rx={4} fill="#fff" stroke="#C7C8CA" strokeWidth="1" />
+        <rect x={x} y={92} width={196} height={4} fill="#00B0F0" />
+        <text x={x + 18} y={122} style={gateNo}>{n}</text>
+        <text x={x + 18} y={146} style={gateTitle}>{title}</text>
+        <text x={x + 18} y={165} style={cap}>{art}</text>
+        <line x1={x + 18} y1={180} x2={x + 178} y2={180} stroke="#E4E6E9" strokeWidth="1" />
+        {passes.map((t, i) => (
+          <text key={'p' + i} x={x + 32} y={202 + i * 17} style={ok}>
+            <tspan x={x + 18} style={{ fontWeight: 700 }}>✓</tspan><tspan x={x + 32}>{t}</tspan>
+          </text>
+        ))}
+        {fails.map((t, i) => (
+          <text key={'f' + i} x={x + 32} y={202 + passes.length * 17 + 14 + i * 17} style={no}>
+            <tspan x={x + 18} style={{ fontWeight: 700 }}>✕</tspan><tspan x={x + 32}>{t}</tspan>
+          </text>
+        ))}
+      </g>
+    );
+    return (
+      <figure className="aa-figwide" style={{ margin: '36px 0 40px' }}>
+        <div style={{ overflowX: 'auto' }}>
+          <svg
+            viewBox="0 0 720 354"
+            role="img"
+            aria-label="A copy of an accounting record must pass three gates before it counts as a kept record under FTA Decision 4 of 2026. Gate one, complete and identical, from Article 3 clause 1: it passes if every page is present in the original order; it fails if only part of the document was scanned or pages are missing. Gate two, clear and legible, from Article 3 clause 2: it passes if the detail is readable on screen and the copy will not fade across the retention period, and black and white copies of colour originals are acceptable while still legible; it fails on low resolution or fading thermal paper. Gate three, accessible to the Authority, from Article 3 clause 3: it passes if the Authority can reach the file and the system holding it, with encryption keys or passwords supplied; it fails if the file is locked or the storage location is not disclosed. A copy that clears all three gates is a record the Authority will accept."
+            style={{ display: 'block', width: '100%', minWidth: 640, height: 'auto' }}
+          >
+            <defs>
+              <marker id="aa4-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#9AA3AF" />
+              </marker>
+            </defs>
+
+            <rect x="16" y="20" width="200" height="44" rx="22" fill="#1A1A2E" />
+            <text x="116" y="47" textAnchor="middle" style={{ fontSize: 13.5, fontWeight: 600, fill: '#fff', fontFamily: 'inherit' }}>Your original document</text>
+            <path d="M 216 42 H 470" fill="none" stroke="#9AA3AF" strokeWidth="1.6" strokeDasharray="5 5" markerEnd="url(#aa4-arrow)" />
+            <rect x="482" y="20" width="222" height="44" rx="4" fill="#ECF7FC" stroke="#00B0F0" strokeWidth="1.4" />
+            <text x="593" y="47" textAnchor="middle" style={{ fontSize: 13.5, fontWeight: 700, fill: '#125A79', fontFamily: 'inherit' }}>A record that counts</text>
+
+            {/* One entry per line: the renderer draws a mark per entry, so a
+                phrase that wraps would get a second tick of its own. */}
+            <Gate
+              x={16} n="GATE 1" title="Complete and identical" art="Article 3(1)"
+              passes={['Every page, in order']}
+              fails={['Partial scan', 'Missing pages']}
+            />
+            <Gate
+              x={262} n="GATE 2" title="Clear and legible" art="Article 3(2)"
+              passes={['Readable on screen', 'Will not fade in storage', 'B&W of a colour original']}
+              fails={['Low resolution', 'Fading thermal paper']}
+            />
+            <Gate
+              x={508} n="GATE 3" title="Accessible to the FTA" art="Article 3(3)"
+              passes={['The file and the system', 'Keys or passwords given']}
+              fails={['Locked file, no key', 'Storage place unknown']}
+            />
+
+            <text x="360" y="330" textAnchor="middle" style={{ fontSize: 11.5, fill: '#6E7887', fontFamily: 'inherit' }}>Fail any one gate and the copy is not a kept record — whoever is holding it for you.</text>
+          </svg>
+        </div>
+        <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>THREE GATES A COPY MUST PASS — FTA DECISION 4 OF 2026, ARTICLES 2 AND 3</figcaption>
+      </figure>
+    );
+  };
+
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>If you keep your books as scans, exports or photocopies &mdash; and almost everyone does &mdash; there is now a published standard those copies have to meet. FTA Decision No.&nbsp;4 of 2026 sets it, and it has applied since <strong>30&nbsp;July&nbsp;2026</strong>. The text itself only appeared on the Authority&rsquo;s website on 20&nbsp;August, three weeks after it started to bite.</p>
+
+      <h3 style={H3}>The dates, because they are unusual</h3>
+      <p>Decision&nbsp;4 was issued on <strong>2&nbsp;June&nbsp;2026</strong>, approved at the FTA Board&rsquo;s 44th meeting on 30&nbsp;April. Article&nbsp;5 makes it effective on publication in the Official Gazette, and the Authority&rsquo;s own cover page gives that as <strong>30&nbsp;July&nbsp;2026</strong>.</p>
+      <p>The PDF went up on tax.gov.ae on <strong>20&nbsp;August&nbsp;2026</strong>. We can be precise about that: the FTA&rsquo;s legislation index records a publish date of 20&nbsp;August against an issue date of 2&nbsp;June, the file was generated on 19&nbsp;August, and the web server reports it as uploaded at 09:29 Dubai time on the 20th. So for twenty-one days the rules were binding on every business in the country and could not be read by any of them.</p>
+      <p>Worth saying plainly: this was not Decision&nbsp;4 being singled out. Decisions 13, 7 and 4 of 2026 all carry the same 20&nbsp;August publish date &mdash; the site is updated in batches rather than continuously. The practical consequence is the same either way, which is why the compliance date matters more here than the news date.</p>
+
+      <h3 style={H3}>What it actually covers</h3>
+      <p>Two defined terms carry the whole Decision. An <strong>Electronic Copy</strong> is a document created, saved or converted electronically so it can be viewed, retrieved and read. A <strong>Photocopy</strong> is an identical reproduction by photocopying, scanning or photography that preserves content and form legibly. If your accounting records and commercial books exist in either form &mdash; and for most businesses that is all of them &mdash; Decision&nbsp;4 applies.</p>
+      <p>Article&nbsp;2 sets three rules. Records must be <strong>complete and identical to the originals</strong>; they must be <strong>clear and easily legible</strong>; and <strong>access must be provided to the Authority on request, including access to the system</strong> in which they are held. Article&nbsp;3 then says what each of those means in practice, and that is where the surprises are.</p>
+
+      <GateDiagram />
+
+      <h3 style={H3}>Partial scans are out</h3>
+      <p>Article&nbsp;3(1) requires the copy to be identical to the original and to <strong>include all the pages in the same order</strong>. Then, in its own sentence: <em>&ldquo;Partial scanning of any part of the document shall not be accepted.&rdquo;</em></p>
+      <p>That is the line that will catch the most businesses. Scanning the first page of a multi-page supplier contract, capturing the invoice but not the annexure, filing the signature page without the schedule &mdash; all of it is ordinary practice in a busy finance function, and none of it now produces a record the Authority has to accept. It is a bright line with no materiality threshold attached to it.</p>
+
+      <h3 style={H3}>Legible &mdash; and still legible in seven years</h3>
+      <p>Article&nbsp;3(2) asks for sufficient quality and resolution that the detail is <strong>clear and easily legible when displayed on a computer screen</strong>. It also requires that the <em>&ldquo;ink and paper used must be of a quality that ensures that the Photocopy does not fade during the record-keeping period&rdquo;</em>.</p>
+      <p>Read that against how long you have to keep things. Under the Tax Procedures rules the general period is <strong>five years</strong>; for Corporate Tax the Corporate Tax Law overrides it at <strong>seven</strong>, and either can extend by four more years if you are in dispute or under audit. Cabinet Decision No.&nbsp;17 of 2026, in force since 1&nbsp;April&nbsp;2026, adds a further two years where a refund application is still undecided.</p>
+      <p>Now consider a thermal till roll, which fades to blank in months, or a cheap inkjet copy of a delivery note. Neither survives five years, let alone eleven. If a document is going to be retained as paper, the fade requirement effectively forces you to scan it &mdash; and once scanned, gates one and three apply to it. One helpful concession: a <strong>black and white copy of a colour original is acceptable</strong>, provided the data stays clearly legible.</p>
+
+      <h3 style={H3}>The part nobody expects: your passwords</h3>
+      <p>Article&nbsp;3(3) is short and it is the one to read twice. Where electronic copies, or the systems holding them, <em>&ldquo;are protected by encryption or passwords, the Person must provide the encryption keys or passwords necessary to enable access to the Authority.&rdquo;</em> For photocopies, access must include <strong>the places where they are stored</strong>.</p>
+      <p>Two things follow. Access runs to the <em>system</em>, not just to an export &mdash; handing over a PDF pack is not obviously the same as giving access to the accounting platform it came from. And any arrangement where nobody in the business can produce the key, because the records sit in an ex-employee&rsquo;s drive or a vendor&rsquo;s vault under someone else&rsquo;s credentials, is a compliance problem waiting for an audit notice.</p>
+
+      <h3 style={H3}>Outsourcing does not move the responsibility</h3>
+      <p>Article&nbsp;4 permits you to engage a third party to maintain the records &mdash; <em>&ldquo;provided that the Person remains legally responsible for maintaining such records and books and ensuring their safety.&rdquo;</em></p>
+      <p>That is one sentence and it settles a question a lot of businesses have assumed the other way. If your books sit with an outsourced accountant, a bookkeeping platform or a document-storage provider, the obligation is still yours. Two practical consequences: your engagement terms should say who holds what, in what format, and how fast it can be produced; and you should know today whether you could actually retrieve a complete, legible, unlocked set from that provider inside the window an audit gives you.</p>
+
+      <h3 style={H3}>Where this meets the supplier-verification rules</h3>
+      <p>Decision&nbsp;4 reads like housekeeping until you put it next to <strong>FTA Decision No.&nbsp;13 of 2026</strong>, which from 1&nbsp;October requires you to verify suppliers and supplies before deducting input VAT. Article&nbsp;5(3) of that Decision tells you to <em>&ldquo;document the verification steps taken and retain supporting documents and records, enabling the Authority to verify the correctness of their implementation.&rdquo;</em></p>
+      <p>Decision&nbsp;13 tells you <em>what</em> to keep. Decision&nbsp;4 tells you <em>how</em> it has to be kept. A supplier file assembled to satisfy Decision&nbsp;13 &mdash; trade licence, incorporation extract, Emirates ID, bank confirmation, a note of the risk indicators &mdash; is worth nothing if it is a set of partial scans in a password-protected folder nobody can open. And Decision&nbsp;4 is already in force while Decision&nbsp;13 is not, so the standard exists before the files do. {ilink('fta-decision-13-supplier-verification', 'We have written up Decision 13 separately →')}</p>
+
+      <h3 style={H3}>What to do</h3>
+      <ul>
+        <li><strong>Test one document end to end.</strong> Pick a multi-page supplier contract from last year and try to produce it: every page, in order, legible on screen, without asking anyone outside the business for a password. What breaks is your gap.</li>
+        <li><strong>Find the partial scans.</strong> Anywhere a workflow captures &ldquo;the invoice&rdquo; rather than the document, that is now non-compliant. Purchase approval and expense apps are the usual culprits.</li>
+        <li><strong>Deal with thermal paper.</strong> Fuel, taxi and till receipts do not survive the retention period. Scan them on receipt or accept that they will be blank when asked for.</li>
+        <li><strong>Write down who holds the keys.</strong> Every system holding accounting records, who can unlock it, and what happens when that person leaves.</li>
+        <li><strong>Check your outsourcing terms.</strong> Article&nbsp;4 leaves the responsibility with you; your contract should at least give you a retrieval right and a turnaround.</li>
+      </ul>
+
+      {artNote('Written on 23 August 2026 from the FTA’s published text of Decision No. 4 of 2026, read in full. Dates verified against the FTA legislation index (issue 2 June 2026, publish 20 August 2026), the PDF’s own creation timestamp and the web server’s upload timestamp; the 30 July 2026 effective date is as stated on the Authority’s cover page, and we have not been able to inspect the Official Gazette entry itself. Retention periods are from Federal Decree-Law No. 28 of 2022 and its Executive Regulation and, for Corporate Tax, Federal Decree-Law No. 47 of 2022; the additional two years where a refund is pending is per Cabinet Decision No. 17 of 2026 as reported by advisers — we have not read that amendment in primary text. The English is an unofficial translation; the Arabic governs. General information on published law, not advice on your own position.')}
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{ilink('fta-decision-13-supplier-verification', 'Supplier checks before you claim input VAT →')}</li>
+          <li>{ilink('small-business-relief-evidence-test', 'Proving Small Business Relief: the evidence test →')}</li>
+          <li>{link('service-bookkeeping', 'Outsourced bookkeeping →')}</li>
+          <li>{link('service-audit-support', 'Audit support →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
+  'fta-decision-4-accounting-records': RecordCopyStandardBody,
   'fta-decision-13-supplier-verification': SupplierVerificationBody,
   'small-business-relief-evidence-test': SBREvidenceBody,
   'small-business-relief-extended-2029': SBRExtendedBody,
