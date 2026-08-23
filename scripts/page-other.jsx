@@ -1644,7 +1644,7 @@ function SBREvidenceBody({ onNav }) {
       <p>Below AED&nbsp;3&nbsp;million you may prepare accounts on the cash basis rather than accrual &mdash; a real choice, and one the FTA can challenge if the outcome is unreasonable. Because the regulation requires the basis to be recorded, switching it in the one year you would otherwise breach is both visible and challengeable. Write down the commercial reason at the time, not afterwards.</p>
 
       <h3 style={H3}>Seven years, not five</h3>
-      <p>You will read &ldquo;five years&rdquo; in a lot of places. For Corporate Tax it is wrong. The Tax Procedures regulation sets five years <em>&ldquo;unless the Tax Law states otherwise&rdquo;</em> &mdash; and the Corporate Tax Law states otherwise, at <strong>seven years</strong>, expressly overriding it. Five is right for VAT and Excise, not for this.</p>
+      <p>The general period is five years, and for Corporate Tax it is seven. The Tax Procedures regulation sets five <em>&ldquo;unless the Tax Law states otherwise&rdquo;</em> &mdash; and the Corporate Tax Law states otherwise, at <strong>seven years</strong>, expressly overriding it. Five is the right figure for VAT and Excise; for Corporate Tax, work to seven.</p>
       <p>The clock runs from the period the records relate to, and it extends: four further years if you are in dispute with the FTA, under audit, or were notified of an intended audit before the base period expired. Copies are acceptable instead of originals &mdash; but only if you can reproduce a legible copy within the period the FTA specifies, which can be as little as five business days. A lapsed accounting subscription or an unindexed folder of scans does not meet that standard.</p>
       <p>With the relief now running to 2029, the last electing period has to be evidenced into the mid-2030s. This is a decade-long filing discipline, not a year-end task.</p>
 
@@ -1863,10 +1863,10 @@ function SupplierVerificationBody({ onNav }) {
 
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>FTA Decision No.&nbsp;13 of 2026 was issued on 22&nbsp;July&nbsp;2026, appeared on the Federal Tax Authority&rsquo;s website on 20&nbsp;August, and takes effect on <strong>1&nbsp;October&nbsp;2026</strong>. It sets out the checks a business must run on its suppliers, and on individual purchases, before deducting input VAT. No FTA guide has been published alongside it. This note is written from the Authority&rsquo;s own text, and it starts with what the Decision does <em>not</em> do &mdash; because that is where most summaries of it are going to go wrong.</p>
+      <p style={LEAD}>FTA Decision No.&nbsp;13 of 2026 was issued on 22&nbsp;July&nbsp;2026, appeared on the Federal Tax Authority&rsquo;s website on 20&nbsp;August, and takes effect on <strong>1&nbsp;October&nbsp;2026</strong>. It sets out the checks a business must run on its suppliers, and on individual purchases, before deducting input VAT. No FTA guide has been published alongside it. This note is written from the Authority&rsquo;s own text, and it starts with what the Decision does <em>not</em> do, because that is where the practical answer lies.</p>
 
       <h3 style={H3}>What it does not do</h3>
-      <p>The rule most people will take from this &mdash; <em>no supplier checks, no input VAT</em> &mdash; is wrong. The accurate position is more useful.</p>
+      <p>It is easy to read this as <em>no supplier checks, no input VAT</em>. The Decision does not go that far, and the position it actually creates is more useful to know.</p>
       <p>Decision&nbsp;13 does not stand on its own. It gives content to <strong>Article&nbsp;54&nbsp;bis</strong> of the VAT Law, inserted by Federal Decree-Law No.&nbsp;16 of 2025 and in force since 1&nbsp;January&nbsp;2026. Everything turns on its exact words, so here it is in full, as published on the UAE legislation portal:</p>
       <div style={{ margin: '24px 0 26px', borderLeft: '3px solid var(--aa-cyan)', paddingLeft: 22, fontSize: 15.5, lineHeight: 1.6, color: 'var(--aa-charcoal-800)' }}>
         <p style={{ marginTop: 0 }}><strong>1.</strong> The Authority <strong>shall</strong> reject the deduction of recoverable input tax if it is established that the supply in respect of which the deduction is claimed was part of a supply or a chain of supplies connected with tax evasion, and that the Taxable knew of such connection at the time of deducting the recoverable input tax.</p>
@@ -1914,7 +1914,7 @@ function SupplierVerificationBody({ onNav }) {
         </table>
       </div>
       <p style={{ marginTop: 20 }}>The worked case that matters: an <strong>AED&nbsp;8,000</strong> invoice from a supplier you spend <strong>AED&nbsp;120,000</strong> a year with is <strong>not</strong> exempt. The first threshold would have covered it. The second disapplies the exception outright &mdash; so the full supplier check and the full supply check are required for that AED&nbsp;8,000 purchase, and for every one after it.</p>
-      <p>Three boundary points, each a live way to get this wrong:</p>
+      <p>Three boundary points, each easy to miss:</p>
       <ul>
         <li>The test is <em>less than</em> AED&nbsp;10,000, so an invoice of exactly AED&nbsp;10,000 does not qualify for the exception. It is also not the same line as the simplified tax invoice threshold in the VAT Executive Regulation, which reads &ldquo;does not exceed AED&nbsp;10,000&rdquo;. A supply of exactly AED&nbsp;10,000 falls on opposite sides of the two.</li>
         <li>Test the <strong>VAT-exclusive</strong> consideration, not the invoice total.</li>
@@ -1937,7 +1937,7 @@ function SupplierVerificationBody({ onNav }) {
       <p>That bank letter is the hardest operational ask in the instrument, and it has an obvious gap. &ldquo;An authorised bank in the State&rdquo; means a UAE bank; a non-resident supplier will not hold one; and the Decision offers no alternative test while plainly bringing imports into scope. That is a question for the FTA, not one we can answer for you.</p>
 
       <h3 style={H3}>Every invoice</h3>
-      <p>The workload is asymmetric, and this is the part most summaries will miss. The <strong>supplier</strong> file is annual &mdash; Article&nbsp;5 requires verification when you deal with a supplier for the first time, or on recurrent dealings where they have not been verified in the previous 12&nbsp;months. The <strong>supply</strong> check under Article&nbsp;4 runs on every taxable supply you receive that is not inside the AED&nbsp;10,000 exception.</p>
+      <p>The workload is asymmetric, and this is the part most easily overlooked. The <strong>supplier</strong> file is annual &mdash; Article&nbsp;5 requires verification when you deal with a supplier for the first time, or on recurrent dealings where they have not been verified in the previous 12&nbsp;months. The <strong>supply</strong> check under Article&nbsp;4 runs on every taxable supply you receive that is not inside the AED&nbsp;10,000 exception.</p>
       <p>Article&nbsp;4 asks you to satisfy yourself that there is a genuine commercial rationale for the transaction; that price and margin are justifiable against the market; that the supply is not outside the supplier&rsquo;s licensed activity; and, where a third party or intermediary is involved, that there is a reasonable commercial explanation for their role. For <strong>goods</strong> it adds authenticity and origin, and the validity of the supplier&rsquo;s ownership or right to dispose. The Decision says what to verify. It sets no documentary standard for how &mdash; so do not accept that a certificate of origin has suddenly become mandatory.</p>
       <p><strong>Payment carries its own condition, in mandatory language.</strong> The consideration &ldquo;shall be paid by electronic means&rdquo;. Cash is not prohibited &mdash; the clause expressly contemplates it &mdash; but a cash payment must rest on a documented commercial reason, be easily verifiable, and fall within &ldquo;the thresholds specified in the applicable Tax legislation&rdquo;. We went looking for that threshold. The word &ldquo;cash&rdquo; does not appear anywhere in the VAT Law itself, and the one mention of it in the Tax Procedures Law is about settling a disputed amount with the Authority &mdash; not a ceiling on what you may pay a supplier. So two of the three conditions are workable today, and the third points at a figure we have not been able to find.</p>
 
@@ -1950,7 +1950,7 @@ function SupplierVerificationBody({ onNav }) {
       </div>
 
       <h3 style={H3}>What it costs if you get it wrong</h3>
-      <p>Decision&nbsp;13 carries <strong>no penalty of its own</strong>. There is none in its seven articles, and the consolidated administrative penalties schedule contains no violation for failing to verify a supplier, failing to verify a supply, or failing to hold the Article&nbsp;5(4) policy. Any penalty figure quoted for this Decision should be traceable to an article. We have not found one.</p>
+      <p>Decision&nbsp;13 carries <strong>no penalty of its own</strong>. There is none in its seven articles, and the consolidated administrative penalties schedule contains no violation for failing to verify a supplier, failing to verify a supply, or failing to hold the Article&nbsp;5(4) policy. We have not found a penalty attached to this Decision in either instrument.</p>
       <p>The exposure is the <strong>denied deduction itself</strong>, and then the ordinary consequences of an understated return under the penalty schedule &mdash; with a materially better outcome if you correct by voluntary disclosure before the Authority notifies an audit than after. Whether the general records penalty reaches these particular files is arguable, and we would not assert it either way.</p>
 
       <h3 style={H3}>Two things the FTA has not answered</h3>
@@ -2074,12 +2074,12 @@ function RecordCopyStandardBody({ onNav }) {
 
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>If you keep your books as scans, exports or photocopies &mdash; and almost everyone does &mdash; there is now a published standard those copies have to meet. FTA Decision No.&nbsp;4 of 2026 sets it, and it has applied since <strong>30&nbsp;July&nbsp;2026</strong>. The text itself only appeared on the Authority&rsquo;s website on 20&nbsp;August, three weeks after it started to bite.</p>
+      <p style={LEAD}>If you keep your books as scans, exports or photocopies &mdash; and almost everyone does &mdash; there is now a published standard those copies have to meet. FTA Decision No.&nbsp;4 of 2026 sets it, and it has applied since <strong>30&nbsp;July&nbsp;2026</strong>. It was published on the Authority&rsquo;s website on 20&nbsp;August.</p>
 
-      <h3 style={H3}>The dates, because they are unusual</h3>
+      <h3 style={H3}>The date to work from</h3>
       <p>Decision&nbsp;4 was issued on <strong>2&nbsp;June&nbsp;2026</strong>, approved at the FTA Board&rsquo;s 44th meeting on 30&nbsp;April. Article&nbsp;5 makes it effective on publication in the Official Gazette, and the Authority&rsquo;s own cover page gives that as <strong>30&nbsp;July&nbsp;2026</strong>.</p>
-      <p>The PDF went up on tax.gov.ae on <strong>20&nbsp;August&nbsp;2026</strong>. We can be precise about that: the FTA&rsquo;s legislation index records a publish date of 20&nbsp;August against an issue date of 2&nbsp;June, the file was generated on 19&nbsp;August, and the web server reports it as uploaded at 09:29 Dubai time on the 20th. So for twenty-one days the rules were binding on every business in the country and could not be read by any of them.</p>
-      <p>Worth saying plainly: this was not Decision&nbsp;4 being singled out. Decisions 13, 7 and 4 of 2026 all carry the same 20&nbsp;August publish date &mdash; the site is updated in batches rather than continuously. The practical consequence is the same either way, which is why the compliance date matters more here than the news date.</p>
+      <p>The text was published on tax.gov.ae on <strong>20&nbsp;August&nbsp;2026</strong>, alongside Decisions 7 and 13 of the same year.</p>
+      <p>The date to plan against is 30&nbsp;July. That is what separates this Decision from the supplier-verification rules in Decision&nbsp;13, which start on 1&nbsp;October: these requirements already apply to the records you are keeping today, so the question is not what to put in place by a deadline but whether what you have now would stand.</p>
 
       <h3 style={H3}>What it actually covers</h3>
       <p>Two defined terms carry the whole Decision. An <strong>Electronic Copy</strong> is a document created, saved or converted electronically so it can be viewed, retrieved and read. A <strong>Photocopy</strong> is an identical reproduction by photocopying, scanning or photography that preserves content and form legibly. If your accounting records and commercial books exist in either form &mdash; and for most businesses that is all of them &mdash; Decision&nbsp;4 applies.</p>

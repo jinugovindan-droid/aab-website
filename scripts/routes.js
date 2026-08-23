@@ -67,7 +67,7 @@
       tag: 'Compliance', date: '23 Aug 2026', read: '8 min',
       title: 'Your scanned records have a standard now — and it has applied since 30 July.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 4 of 2026 on the Rules and Requirements for Maintaining the Information Contained in Accounting Records and Commercial Books; Federal Decree-Law No. 28 of 2022 on Tax Procedures',
-      excerpt: 'FTA Decision No. 4 of 2026 sets a published standard for the scans, exports and photocopies almost every business keeps its books in. It took effect on 30 July 2026 and reached the FTA website on 20 August — binding for twenty-one days before it could be read. Partial scans are expressly not accepted, copies must stay legible across a retention period that can run to eleven years, the Authority can require your encryption keys, and outsourcing the records does not move the responsibility.',
+      excerpt: 'FTA Decision No. 4 of 2026 sets a published standard for the scans, exports and photocopies almost every business keeps its books in. It took effect on 30 July 2026 and was published on the FTA website on 20 August, so it already applies to the records you keep today. Partial scans are expressly not accepted, copies must stay legible across a retention period that can run to eleven years, the Authority can require your encryption keys, and outsourcing the records does not move the responsibility.',
       published: true,
     },
     {
@@ -76,7 +76,7 @@
       tag: 'VAT', date: '20 Aug 2026', read: '10 min',
       title: 'Supplier checks before you claim input VAT: what changes on 1 October 2026.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 13 of 2026; Article 54 bis of Federal Decree-Law No. 8 of 2017 on VAT, as inserted by Federal Decree-Law No. 16 of 2025; Federal Decree-Law No. 28 of 2022 on Tax Procedures',
-      excerpt: 'FTA Decision No. 13 of 2026 takes effect on 1 October and reached the FTA website on 20 August. It does not make input VAT conditional on supplier checks — reading it that way is the mistake about to be made everywhere. What it removes is the defence that you could not have known. The three thresholds, the AED 10,000 let-off that switches itself off, and the two questions the FTA has not answered.',
+      excerpt: 'FTA Decision No. 13 of 2026 takes effect on 1 October and reached the FTA website on 20 August. It does not make input VAT conditional on supplier checks; both limbs of Article 54 bis require tax evasion in the chain. What it removes is the defence that you could not have known. The three thresholds, the AED 10,000 let-off that switches itself off, and the two questions the FTA has not answered.',
       published: true,
     },
     {
