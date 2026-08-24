@@ -28,6 +28,17 @@ const W = 1200, H = 1200;
 // fastest thing a reader can absorb. Keep `note` under ~46 characters or it
 // wraps and the card stops being glanceable.
 const CARDS = {
+  'fta-decision-4-accounting-records': {
+    eyebrow: 'UAE TAX RECORDS · FTA DECISION 4 OF 2026',
+    headline: 'Three gates your records<br>already have to pass',
+    chip: 'IN FORCE SINCE 30 JULY 2026',
+    rows: [
+      { k: 'Identical', note: 'Every page, in order. No partial scans.' },
+      { k: 'Legible', note: 'Readable on screen, and it must not fade.' },
+      { k: 'Accessible', note: 'The file, the system, and the password.' },
+    ],
+    kicker: 'Outsourcing the filing does not move the responsibility.',
+  },
   'fta-decision-13-supplier-verification': {
     eyebrow: 'UAE VAT · FTA DECISION 13 OF 2026',
     headline: 'Check your suppliers<br>before you claim input VAT',
