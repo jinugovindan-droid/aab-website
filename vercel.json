@@ -67,6 +67,11 @@
       "permanent": false
     },
     {
+      "source": "/go/records-li-page",
+      "destination": "/insights/fta-decision-4-accounting-records?utm_source=linkedin&utm_medium=social&utm_campaign=decision-4&utm_content=company-page",
+      "permanent": false
+    },
+    {
       "source": "/go/records-li",
       "destination": "/insights/fta-decision-4-accounting-records?utm_source=linkedin&utm_medium=social&utm_campaign=decision-4&utm_content=founder-post",
       "permanent": false
