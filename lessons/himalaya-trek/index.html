@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <meta name="theme-color" content="#123a5c"/>
+  <title>Himalaya Trek — A Visit to the Northern Mountains</title>
+  <meta name="description" content="Himalaya Trek: an interactive study game for Class 4 Social Studies, Chapter 7 — A Visit to the Northern Mountains."/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%8F%94%EF%B8%8F%3C%2Ftext%3E%3C%2Fsvg%3E"/>
+  <style>
+    *,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    :root{
+      --sky1:#7fb7d9; --sky2:#2f6a95; --deep:#123a5c; --night:#0b2438;
+      --snow:#f7fbfd; --paper:#ffffff; --ink:#1f3348; --ink-soft:#6b8199;
+      --rock:#5b6f80; --ice:#bfe4f2;
+      --gold:#f2a93b; --flag-r:#e05c4b; --flag-g:#3fa66f; --flag-b:#3d86c6; --flag-y:#eec643;
+      --good:#2b9e63; --bad:#d9534f;
+    }
+    html,body{ height:100%; }
+    body{
+      font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+      background:linear-gradient(180deg,var(--sky1) 0%, var(--sky2) 38%, var(--deep) 72%, var(--night) 100%);
+      background-attachment:fixed;
+      color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center;
+      overflow-x:hidden;
+    }
+    /* distant ridgeline */
+    .ridge{ position:fixed; left:0; right:0; bottom:0; height:38vh; pointer-events:none; z-index:0; opacity:.5; }
+    .snowfall{ position:fixed; inset:0; pointer-events:none; z-index:0; }
+    .snowfall i{ position:absolute; width:4px; height:4px; border-radius:50%; background:#fff; opacity:.55;
+      animation:drift linear infinite; }
+    @keyframes drift{ from{ transform:translateY(-10vh) translateX(0);} to{ transform:translateY(110vh) translateX(24px);} }
+
+    .app{ position:relative; z-index:1; width:100%; max-width:720px; padding:14px; flex:1; display:flex; flex-direction:column; }
+    .screen{ display:none; flex:1; flex-direction:column; }
+    .screen.active{ display:flex; animation:in .3s ease; }
+    @keyframes in{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
+
+    .card{ background:var(--paper); border-radius:20px; padding:18px; box-shadow:0 12px 38px rgba(0,0,0,.32); }
+
+    /* prayer-flag strip */
+    .flags{ display:flex; height:8px; border-radius:99px; overflow:hidden; margin:10px 0 14px; }
+    .flags i{ flex:1; }
+    .flags i:nth-child(1){background:var(--flag-b)} .flags i:nth-child(2){background:var(--flag-y)}
+    .flags i:nth-child(3){background:var(--flag-r)} .flags i:nth-child(4){background:var(--flag-g)}
+    .flags i:nth-child(5){background:var(--flag-b)} .flags i:nth-child(6){background:var(--flag-y)}
+
+    .btn{ border:0; cursor:pointer; font-family:inherit; font-size:17px; font-weight:800; color:#fff;
+      background:linear-gradient(135deg,#2f8fd0,#1d5f8f); padding:12px 26px; border-radius:999px;
+      box-shadow:0 5px 0 #14425f,0 8px 18px rgba(0,0,0,.25); transition:transform .1s,box-shadow .1s; }
+    .btn:active{ transform:translateY(3px); box-shadow:0 2px 0 #14425f; }
+    .btn.small{ font-size:14px; padding:9px 18px; box-shadow:0 4px 0 #14425f; }
+    .btn.gold{ background:linear-gradient(135deg,var(--gold),#cf8514); box-shadow:0 5px 0 #96600d,0 8px 18px rgba(0,0,0,.25); }
+    .btn.ghost{ background:#e9eff4; color:var(--ink); box-shadow:0 4px 0 #c8d4dd; }
+    .btn.green{ background:linear-gradient(135deg,var(--good),#1d7a4b); box-shadow:0 5px 0 #145737,0 8px 18px rgba(0,0,0,.25); }
+    .btn:disabled{ opacity:.45; cursor:not-allowed; }
+    .icon-btn{ border:0; background:rgba(255,255,255,.18); color:#fff; font-size:17px; width:40px; height:40px;
+      border-radius:50%; cursor:pointer; font-family:inherit; flex:none; }
+
+    /* ---------- home ---------- */
+    .hero{ text-align:center; color:#fff; padding:8px 0 2px; text-shadow:0 2px 10px rgba(0,0,0,.35); }
+    .hero .peak{ font-size:50px; display:block; line-height:1; }
+    .hero h1{ font-size:clamp(26px,7vw,38px); margin-top:2px; }
+    .hero .sub{ font-size:14px; opacity:.9; margin-top:2px; }
+    .hero .chap{ font-size:12px; opacity:.75; margin-top:3px; }
+
+    .altbox{ background:rgba(255,255,255,.12); border-radius:16px; padding:12px 14px; margin:12px 0; color:#fff; }
+    .altrow{ display:flex; justify-content:space-between; align-items:baseline; font-size:13px; font-weight:700; }
+    .altrow b{ color:var(--gold); font-size:16px; }
+    .altbar{ height:10px; background:rgba(255,255,255,.2); border-radius:99px; margin-top:8px; overflow:hidden; }
+    .altfill{ height:100%; border-radius:99px; background:linear-gradient(90deg,#8fd3f4,#fff,var(--gold)); transition:width .7s ease; }
+    .statrow{ display:flex; gap:8px; margin-top:10px; }
+    .stat{ flex:1; background:rgba(255,255,255,.1); border-radius:12px; padding:8px 4px; text-align:center; color:#fff; }
+    .stat b{ display:block; font-size:17px; } .stat span{ font-size:10.5px; opacity:.85; }
+
+    .modes{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .mode{ border:0; cursor:pointer; font-family:inherit; text-align:left; border-radius:16px; padding:14px;
+      color:#fff; box-shadow:0 6px 16px rgba(0,0,0,.28); transition:transform .12s; position:relative; }
+    .mode:hover{ transform:translateY(-3px); }
+    .mode .mi{ font-size:24px; } .mode .mt{ font-weight:800; font-size:15.5px; margin-top:2px; }
+    .mode .md{ font-size:11.5px; opacity:.92; line-height:1.35; margin-top:2px; }
+    .mode.trek{ background:linear-gradient(135deg,#3f8fd2,#1e5b8c); grid-column:1/-1; }
+    .mode.map{ background:linear-gradient(135deg,#2fa06d,#17724b); }
+    .mode.cards{ background:linear-gradient(135deg,#8a6fd1,#5b45a0); }
+    .mode.push{ background:linear-gradient(135deg,var(--gold),#c07d10); grid-column:1/-1; }
+
+    /* ---------- camp trail ---------- */
+    .trail{ position:relative; margin:6px 0 4px; }
+    .camp{ display:flex; align-items:center; gap:12px; padding:9px 10px; border-radius:14px; margin-bottom:8px;
+      border:2px solid #e3ebf1; background:#fbfdff; cursor:pointer; font-family:inherit; width:100%; text-align:left; }
+    .camp:disabled{ cursor:not-allowed; opacity:.55; }
+    .camp.done{ border-color:var(--good); background:#eefaf3; }
+    .camp .cn{ font-size:26px; width:34px; text-align:center; }
+    .camp .ci{ flex:1; }
+    .camp .ct{ font-weight:800; font-size:15px; }
+    .camp .cd{ font-size:11.5px; color:var(--ink-soft); }
+    .camp .cs{ font-size:12px; font-weight:800; color:var(--good); }
+    .camp .alt{ font-size:11px; color:var(--rock); font-weight:700; }
+
+    /* ---------- learn panel ---------- */
+    .learnwrap{ }
+    .lhead{ text-align:center; margin-bottom:6px; }
+    .lhead .lt{ font-size:21px; font-weight:900; }
+    .lhead .ls{ font-size:12.5px; color:var(--ink-soft); }
+    .lbox{ background:#f2f8fc; border:2px solid #d5e6f2; border-radius:14px; padding:12px 14px; margin:9px 0; font-size:15px; line-height:1.55; }
+    .lbox h4{ font-size:15px; color:#1d5f8f; margin-bottom:4px; }
+    .lbox ul{ margin:4px 0 0 18px; } .lbox li{ margin:3px 0; }
+    .lbox b{ color:#1d5f8f; }
+    .lbox.warm{ background:#fff6e8; border-color:#f2ddb8; } .lbox.warm h4{ color:#a2700f; } .lbox.warm b{ color:#a2700f; }
+
+    /* ---------- play ---------- */
+    .topbar{ display:flex; align-items:center; gap:8px; margin-bottom:9px; color:#fff; }
+    .topbar .chip{ background:rgba(255,255,255,.18); border-radius:99px; padding:6px 12px; font-size:13px; font-weight:700; }
+    .topbar .chip b{ color:var(--gold); } .topbar .grow{ flex:1; }
+    .qprog{ height:6px; background:rgba(255,255,255,.2); border-radius:99px; overflow:hidden; margin-bottom:10px; }
+    .qprogfill{ height:100%; background:linear-gradient(90deg,#8fd3f4,var(--gold)); border-radius:99px; transition:width .35s; }
+
+    .qkind{ font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a6fd1; text-align:center; }
+    .qtext{ font-size:18.5px; font-weight:800; margin:5px 0 12px; text-align:center; text-wrap:balance; }
+    .qhint{ font-size:12.5px; color:var(--ink-soft); text-align:center; margin-top:-6px; margin-bottom:10px; }
+
+    .opts{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    .opts.one{ grid-template-columns:1fr; }
+    .opt{ border:2.5px solid #dde7ee; background:#fbfdff; border-radius:14px; font-family:inherit; font-size:15px;
+      font-weight:700; color:var(--ink); padding:13px 9px; cursor:pointer; transition:transform .1s,border-color .1s; }
+    .opt:hover{ transform:scale(1.02); border-color:var(--gold); }
+    .opt.ok{ background:#dcf5e7; border-color:var(--good); }
+    .opt.no{ background:#fde3e1; border-color:var(--bad); animation:shake .4s; }
+    .opt.sel{ border-color:#3d86c6; background:#e8f2fb; }
+    .opt:disabled{ cursor:default; }
+    @keyframes shake{ 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+    /* order / sequence */
+    .seqpick{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:10px; }
+    .seqslot{ display:flex; gap:8px; justify-content:center; margin-bottom:10px; flex-wrap:wrap; }
+    .slot{ min-width:96px; min-height:46px; border:2.5px dashed #c3d4e0; border-radius:12px; display:flex;
+      align-items:center; justify-content:center; font-size:13.5px; font-weight:800; color:var(--ink-soft); padding:6px 8px; text-align:center; }
+    .slot.filled{ border-style:solid; border-color:#3d86c6; background:#e8f2fb; color:var(--ink); }
+    .slot .lbl{ font-size:10px; display:block; color:var(--rock); font-weight:700; }
+
+    /* sort buckets */
+    .buckets{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; margin-bottom:10px; }
+    .bucket{ border:2.5px solid #dde7ee; border-radius:12px; padding:7px 5px; min-height:74px; text-align:center; }
+    .bucket h5{ font-size:11.5px; color:#1d5f8f; margin-bottom:4px; }
+    .bucket .bi{ font-size:11.5px; background:#eaf3fa; border-radius:7px; padding:3px 5px; margin:3px 0; }
+    .bucket.sel{ border-color:var(--gold); background:#fff9ee; }
+    .bucket .bi.ok{ background:#dcf5e7; } .bucket .bi.no{ background:#fde3e1; }
+    .sortitem{ display:inline-block; border:2px solid #dde7ee; background:#fbfdff; border-radius:99px;
+      padding:7px 13px; margin:3px; font-size:13.5px; font-weight:700; cursor:pointer; font-family:inherit; }
+    .sortitem.active{ border-color:var(--gold); background:#fff4de; }
+    .sortitem:disabled{ opacity:.4; }
+
+    /* map */
+    .mapwrap{ position:relative; background:linear-gradient(180deg,#eaf6fd,#d6ebf7); border-radius:14px;
+      overflow:hidden; border:2px solid #cfe3ef; }
+    .mapwrap svg{ display:block; width:100%; height:auto; }
+    .st{ fill:#e6eef3; stroke:#9db4c4; stroke-width:.6; cursor:pointer; }
+    .st:hover{ fill:#cfe3f2; }
+    .st.him{ fill:#e6eef3; }
+    .st.sel{ fill:var(--gold); }
+    .st.ok{ fill:#5fce9a; stroke:#1d7a4b; stroke-width:1; }
+    .st.no{ fill:#f0938a; stroke:#a33228; stroke-width:1; }
+    .st.miss{ fill:#ffe08a; stroke:#a2700f; stroke-width:1; }
+    .st:focus-visible{ outline:none; stroke:#123a5c; stroke-width:1.8; }
+
+    /* revision cards */
+    .deck{ display:flex; flex-direction:column; gap:10px; }
+    .rc{ border:2px solid #dde7ee; border-radius:14px; background:#fbfdff; overflow:hidden; }
+    .rc button{ width:100%; text-align:left; border:0; background:none; font-family:inherit; cursor:pointer;
+      padding:12px 14px; font-size:15px; font-weight:800; color:var(--ink); display:flex; gap:9px; align-items:center; }
+    .rc .ans{ display:none; padding:0 14px 12px; font-size:14.5px; line-height:1.55; color:var(--ink); }
+    .rc.open .ans{ display:block; }
+    .rc .tag{ font-size:10px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; color:#8a6fd1; }
+
+    .verdict{ text-align:center; font-size:18.5px; font-weight:900; min-height:24px; margin-top:11px; }
+    .verdict.good{ color:var(--good); } .verdict.bad{ color:var(--bad); }
+    .explain{ display:none; margin-top:10px; background:#f2f8fc; border:2px solid #d5e6f2; border-radius:14px;
+      padding:11px 13px; font-size:14.5px; line-height:1.55; }
+    .explain.show{ display:block; animation:in .25s ease; }
+    .explain b{ color:#1d5f8f; }
+    .nextwrap{ text-align:center; margin-top:12px; min-height:48px; }
+
+    /* terrace demo */
+    .terr{ background:#eaf6fd; border:2px solid #cfe3ef; border-radius:14px; padding:10px; margin:8px 0; }
+    .terr svg{ display:block; width:100%; height:auto; }
+    .terrbtns{ display:flex; gap:8px; justify-content:center; margin-top:8px; flex-wrap:wrap; }
+
+    /* results */
+    .res{ text-align:center; }
+    .res .big{ font-size:54px; } .res h2{ font-size:24px; margin:4px 0; }
+    .res .sub{ color:var(--ink-soft); font-size:14.5px; margin-bottom:12px; }
+    .reslist{ text-align:left; display:flex; flex-direction:column; gap:6px; margin:12px 0; }
+    .resrow{ background:#f2f8fc; border-radius:11px; padding:8px 12px; font-size:14px; display:flex; justify-content:space-between; gap:10px; }
+    .resrow b{ color:#1d5f8f; }
+    .missed{ background:#fff6e8; border:2px solid #f2ddb8; border-radius:12px; padding:10px 12px; margin-top:10px; text-align:left; font-size:13.5px; }
+    .missed h5{ color:#a2700f; margin-bottom:5px; font-size:13px; }
+    .missed li{ margin:3px 0 3px 16px; }
+
+    .conf{ position:fixed; inset:0; pointer-events:none; z-index:60; overflow:hidden; }
+    .conf i{ position:absolute; top:-18px; width:9px; height:14px; border-radius:2px; animation:fall linear forwards; }
+    @keyframes fall{ to{ transform:translateY(112vh) rotate(720deg); } }
+
+    .foot{ text-align:center; color:rgba(255,255,255,.55); font-size:10.5px; padding:12px 0 4px; }
+
+    .opt:focus-visible,.btn:focus-visible,.mode:focus-visible,.icon-btn:focus-visible,
+    .camp:focus-visible,.sortitem:focus-visible,.rc button:focus-visible{
+      outline:3px solid var(--gold); outline-offset:2px; }
+
+    @media(max-width:430px){
+      .opts{ grid-template-columns:1fr; }
+      .qtext{ font-size:17px; }
+      .buckets{ grid-template-columns:1fr; }
+    }
+    @media(prefers-reduced-motion:reduce){ *,*::before,*::after{ animation:none!important; transition:none!important; } }
+  </style>
+</head>
+<body>
+  <svg class="ridge" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,300 L0,190 L120,120 L210,180 L320,90 L430,170 L540,60 L660,150 L780,100 L900,175 L1020,120 L1120,180 L1200,140 L1200,300 Z" fill="#0e3350"/>
+    <path d="M540,60 L505,105 L575,105 Z" fill="#eaf6ff"/>
+    <path d="M320,90 L295,125 L348,125 Z" fill="#eaf6ff"/>
+    <path d="M780,100 L757,132 L806,132 Z" fill="#eaf6ff"/>
+  </svg>
+  <div class="snowfall" id="snow" aria-hidden="true"></div>
+
+  <div class="app">
+
+    <!-- HOME -->
+    <section id="s-home" class="screen active">
+      <div class="hero">
+        <span class="peak">🏔️</span>
+        <h1>Himalaya Trek</h1>
+        <div class="sub">Climb from the foothills to the summit of Everest</div>
+        <div class="chap">Social Studies · Chapter 7 · A Visit to the Northern Mountains</div>
+      </div>
+      <div class="altbox">
+        <div class="altrow"><span>Highest altitude reached</span><b id="h-alt">0 m</b></div>
+        <div class="altbar"><div class="altfill" id="h-altfill" style="width:0%"></div></div>
+        <div class="statrow">
+          <div class="stat"><b id="h-camps">0/5</b><span>CAMPS</span></div>
+          <div class="stat"><b id="h-mastered">0</b><span>FACTS LEARNT</span></div>
+          <div class="stat"><b id="h-best">0</b><span>BEST PUSH</span></div>
+        </div>
+      </div>
+      <div class="modes">
+        <button class="mode trek" id="m-trek">
+          <div class="mi">🧗</div><div class="mt">The Expedition</div>
+          <div class="md">Five camps up the mountain. Learn each part of the chapter, then prove it to move higher.</div>
+        </button>
+        <button class="mode map" id="m-map">
+          <div class="mi">🗺️</div><div class="mt">Map Lab</div>
+          <div class="md">Tap the states the Himalayas pass through.</div>
+        </button>
+        <button class="mode cards" id="m-cards">
+          <div class="mi">📇</div><div class="mt">Revision Cards</div>
+          <div class="md">Every key fact, ready before a test.</div>
+        </button>
+        <button class="mode push" id="m-push">
+          <div class="mi">⛰️</div><div class="mt">Summit Push</div>
+          <div class="md">Mixed rapid round over the whole chapter. Three oxygen tanks — how high can you get?</div>
+        </button>
+      </div>
+      <div class="foot">Built from Shanaya's Class 4 Social Studies textbook, Chapter 7 (pages 50–55)</div>
+    </section>
+
+    <!-- CAMP LIST -->
+    <section id="s-camps" class="screen">
+      <div class="topbar">
+        <button class="icon-btn" id="c-home">🏠</button>
+        <span class="chip">🧗 The Expedition</span>
+        <span class="grow"></span>
+        <span class="chip" id="c-alt"></span>
+      </div>
+      <div class="card">
+        <div class="lhead"><div class="lt">Choose your camp</div>
+          <div class="ls">Each camp teaches one part of the chapter, then tests it.</div></div>
+        <div class="flags"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="trail" id="trail"></div>
+      </div>
+    </section>
+
+    <!-- LEARN -->
+    <section id="s-learn" class="screen">
+      <div class="topbar">
+        <button class="icon-btn" id="l-back">←</button>
+        <span class="chip" id="l-camp"></span>
+        <span class="grow"></span>
+        <span class="chip" id="l-altitude"></span>
+      </div>
+      <div class="card">
+        <div class="lhead"><div class="lt" id="l-title"></div><div class="ls" id="l-sub"></div></div>
+        <div class="flags"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div id="l-body"></div>
+        <div style="text-align:center;margin-top:14px">
+          <button class="btn green" id="l-go">I'm ready — climb! 🧗</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAY -->
+    <section id="s-play" class="screen">
+      <div class="topbar">
+        <button class="icon-btn" id="p-quit">✕</button>
+        <span class="chip" id="p-mode"></span>
+        <span class="grow"></span>
+        <span class="chip" id="p-oxy" hidden></span>
+        <span class="chip">✅ <b id="p-right">0</b>/<b id="p-total">0</b></span>
+      </div>
+      <div class="qprog"><div class="qprogfill" id="p-fill" style="width:0%"></div></div>
+      <div class="card">
+        <div class="qkind" id="q-kind"></div>
+        <div class="qtext" id="q-text"></div>
+        <div class="qhint" id="q-hint"></div>
+        <div id="q-body"></div>
+        <div class="verdict" id="q-verdict"></div>
+        <div class="explain" id="q-explain"></div>
+        <div class="nextwrap"><button class="btn small" id="q-next" style="display:none">Next ➜</button></div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="s-res" class="screen">
+      <div class="card res">
+        <div class="big" id="r-emoji"></div>
+        <h2 id="r-title"></h2>
+        <p class="sub" id="r-sub"></p>
+        <div class="reslist" id="r-list"></div>
+        <div id="r-missed"></div>
+        <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px">
+          <button class="btn ghost small" id="r-home">🏠 Home</button>
+          <button class="btn small" id="r-again">🔁 Try again</button>
+          <button class="btn green small" id="r-next" style="display:none">Next camp ➜</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAP LAB -->
+    <section id="s-map" class="screen">
+      <div class="topbar">
+        <button class="icon-btn" id="mp-home">🏠</button>
+        <span class="chip">🗺️ Map Lab</span>
+        <span class="grow"></span>
+        <span class="chip" id="mp-count"></span>
+      </div>
+      <div class="card">
+        <div class="lhead"><div class="lt">The Himalayan states</div>
+          <div class="ls" id="mp-sub">Tap every state and union territory the Himalayas pass through.</div></div>
+        <div class="mapwrap" id="mp-wrap"></div>
+        <div id="mp-info" style="margin-top:10px"></div>
+        <div style="text-align:center;margin-top:12px;display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
+          <button class="btn small" id="mp-check">✔ Check my answer</button>
+          <button class="btn ghost small" id="mp-reset">↺ Clear</button>
+          <button class="btn ghost small" id="mp-show">👁 Show me</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVISION CARDS -->
+    <section id="s-cards" class="screen">
+      <div class="topbar">
+        <button class="icon-btn" id="rc-home">🏠</button>
+        <span class="chip">📇 Revision Cards</span>
+        <span class="grow"></span>
+        <span class="chip" id="rc-count"></span>
+      </div>
+      <div class="card">
+        <div class="lhead"><div class="lt">Every key fact</div><div class="ls">Tap a card to reveal the answer.</div></div>
+        <div class="flags"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="deck" id="deck"></div>
+      </div>
+    </section>
+
+  </div>
+  <div class="conf" id="conf" aria-hidden="true"></div>
+
+<script>var INDIA_MAP = [{"id": "an", "name": "Andaman and Nicobar Islands", "d": "M537 685L538 689L539 691L538 693L538 694L537 696L537 694L536 693L535 691L534 690L533 688L534 687L535 686L537 685ZM534 681L535 683L533 685L532 684L533 683L534 682L534 681ZM527 669L528 669L528 670L528 670L529 671L529 672L528 671L527 672L527 671L527 671L526 671L526 669L527 669ZM531 669L532 670L532 671L530 670L531 669L531 669L531 669ZM532 667L532 669L531 667L532 667ZM530 664L531 665L530 666L531 668L531 669L531 668L530 669L530 669L530 668L530 669L530 668L530 668L531 668L530 668L530 667L529 667L529 666L530 664ZM524 664L524 665L524 664L524 664ZM522 662L522 662L522 664L524 665L524 665L522 665L521 664L521 662L522 662ZM520 659L521 660L520 660L520 659ZM532 657L533 659L533 659L532 660L532 657ZM515 643L516 644L516 644L516 644L516 645L515 646L514 646L514 644L515 644L515 643L515 643ZM509 608L510 609L510 608L510 609L510 610L511 610L511 613L510 614L510 615L509 616L508 615L507 616L507 614L506 613L506 610L507 611L508 609L509 608L509 608L509 608ZM512 595L513 596L512 597L513 597L513 598L511 598L511 598L511 597L512 597L511 596L512 595ZM511 594L511 594L511 593L511 594ZM503 593L504 593L504 594L503 594L503 593ZM510 593L510 593L510 594L510 593ZM520 588L521 588L520 588L520 588L520 588ZM519 584L519 583L520 584L521 586L520 587L519 585L519 585L518 584L519 583L519 584ZM519 582L519 583L519 583L519 582L519 582ZM520 581L520 583L520 583L520 582L519 581L519 581L520 582L520 581ZM521 580L521 581L521 582L520 581L521 580ZM513 579L513 581L514 583L515 583L514 585L514 587L514 586L514 591L512 592L514 592L513 595L512 594L511 592L511 590L510 588L510 585L511 587L512 582L513 579ZM514 580L514 580L514 580L514 580L514 580ZM517 579L518 579L517 579L517 580L517 579L517 579ZM521 579L521 579L522 579L522 580L521 579L521 579ZM518 578L518 579L517 578L518 578L518 578L518 578ZM515 578L516 578L517 578L517 579L516 579L517 580L516 580L516 581L516 581L515 581L516 582L515 583L514 582L515 579L514 579L514 578L515 579L515 578L515 578ZM537 577L538 578L538 579L537 579L536 578L537 577ZM519 575L518 577L518 576L518 575L519 575ZM513 566L514 569L513 567L513 566ZM517 565L518 567L519 569L519 570L519 574L518 575L516 575L517 577L516 578L515 577L513 577L513 571L514 570L514 567L515 565L517 565L517 565ZM513 563L514 563L514 565L513 566L513 566L513 567L512 567L512 566L513 564L513 563ZM520 563L519 564L519 564L518 564L519 563L519 563L520 563ZM520 550L520 553L521 556L520 555L520 557L520 559L520 561L520 562L518 561L518 563L516 564L515 563L515 561L516 560L516 558L516 556L516 555L517 554L518 552L519 551L520 550ZM520 548L520 549L519 549L520 548ZM533 522L532 523L532 522L533 522Z"}, {"id": "ap", "name": "Andhra Pradesh", "d": "M295 482L295 482L295 482L295 482ZM296 482L296 485L295 484L295 483L296 482ZM295 482L294 482L295 484L296 485L288 489L283 491L280 490L276 490L274 492L271 497L268 502L268 503L265 504L264 503L264 501L262 500L259 501L256 502L254 503L253 505L252 509L249 513L248 518L250 525L251 529L250 539L252 545L252 549L254 553L251 548L250 550L250 548L248 550L251 552L252 552L254 554L252 553L250 552L249 551L247 551L248 552L247 553L246 555L244 556L243 557L242 559L241 558L239 558L238 556L235 556L235 558L234 559L233 561L231 560L230 563L228 562L226 561L225 561L221 562L220 563L218 563L219 565L218 568L217 570L216 570L213 571L212 570L209 570L210 568L210 566L213 564L215 565L214 563L215 562L216 561L217 559L218 557L215 556L214 556L213 555L214 550L210 550L209 549L207 549L208 547L208 546L208 545L206 544L205 545L204 544L205 542L204 543L202 543L202 544L201 545L199 546L198 547L197 547L195 547L195 548L194 546L192 545L190 545L189 544L187 544L188 547L186 546L185 546L184 545L185 544L183 541L183 538L183 537L185 538L185 539L187 540L191 541L192 543L193 543L192 542L191 541L193 539L193 538L195 538L195 535L194 535L192 535L193 537L192 536L190 535L188 534L187 535L187 537L183 536L182 534L183 532L184 531L182 531L181 530L179 528L180 525L181 524L182 520L180 520L180 518L182 519L184 519L185 519L188 517L188 515L188 514L187 512L185 510L184 509L185 506L187 506L185 504L186 502L186 500L188 499L190 499L195 500L197 500L198 501L201 501L203 500L205 501L207 501L208 501L209 500L210 499L211 497L214 496L217 497L218 496L220 497L223 496L223 494L224 496L224 494L227 492L230 493L231 487L232 486L235 485L237 484L240 483L243 482L244 483L245 484L248 482L249 480L247 479L248 477L250 476L251 475L253 476L254 477L254 479L255 480L257 480L259 481L259 480L260 478L258 477L255 477L255 475L256 475L257 475L259 473L261 474L262 475L265 475L266 473L266 472L268 472L269 471L272 471L272 469L274 469L275 467L277 468L279 466L279 464L280 461L285 458L284 456L288 454L290 453L293 453L294 454L295 453L296 453L296 451L296 450L296 448L297 447L297 446L299 442L300 444L302 446L301 447L302 449L303 448L305 447L306 445L308 445L309 446L310 446L311 445L312 442L311 441L310 440L313 437L314 438L316 437L318 436L319 435L317 434L316 432L319 432L320 433L320 431L322 430L323 429L325 432L326 434L326 432L328 436L330 436L332 436L333 438L334 437L338 437L338 435L339 434L340 433L341 431L343 430L345 431L343 429L345 429L346 430L343 435L343 436L341 438L338 442L334 446L325 451L322 454L321 455L319 457L317 460L315 463L302 469L297 473L295 475L295 477L296 479L296 482L295 482Z"}, {"id": "ar", "name": "Arunachal Pradesh", "d": "M586 193L586 194L587 196L590 195L589 198L588 198L586 200L585 200L586 202L585 203L587 203L589 201L591 201L593 200L592 202L593 205L595 207L595 209L592 209L591 212L590 212L590 214L588 216L589 217L591 218L592 216L594 215L596 215L598 216L600 217L602 218L603 218L605 217L607 219L609 219L612 221L610 222L610 224L611 224L612 225L611 228L610 228L609 228L605 231L604 232L603 234L601 235L602 237L601 239L607 246L605 247L603 246L601 245L601 243L599 241L597 240L595 241L593 243L587 243L583 245L581 248L580 249L578 249L577 252L575 252L574 254L572 253L570 256L568 258L566 257L566 254L566 253L565 248L569 247L571 246L571 244L572 243L574 244L578 243L580 243L583 241L582 239L580 240L580 237L579 236L578 235L578 233L578 232L579 230L581 228L582 227L579 226L574 227L572 229L569 230L568 229L562 231L558 232L557 233L555 234L550 236L548 236L547 235L545 235L546 236L544 238L542 241L539 242L536 246L537 248L536 248L534 250L530 251L527 250L520 251L518 250L517 249L512 249L511 250L508 250L507 251L504 252L501 252L501 249L499 248L499 246L500 244L501 243L500 242L500 240L499 238L497 239L496 238L493 238L491 238L489 236L489 234L491 233L491 231L490 230L489 229L491 229L492 230L495 230L496 232L497 233L498 231L500 232L503 229L505 231L506 231L508 230L509 230L510 230L511 229L513 228L514 226L512 224L513 223L515 221L517 221L519 220L520 220L524 218L524 216L523 215L525 214L526 212L526 211L529 210L531 210L532 210L535 209L537 209L539 210L540 207L540 206L544 203L545 200L546 198L548 198L549 196L552 196L554 194L555 195L557 196L557 198L559 197L562 199L563 198L567 199L570 201L571 200L572 199L573 197L574 196L578 193L580 193L581 193L584 191Z"}, {"id": "as", "name": "Assam", "d": "M454 283L454 285L454 285L454 285L454 283ZM501 252L504 252L506 251L508 250L511 250L512 250L517 249L518 250L520 251L527 250L530 251L534 250L536 248L537 248L536 246L539 242L542 241L544 238L546 237L545 235L546 235L548 236L549 235L555 234L556 234L558 233L562 231L568 229L569 230L572 229L574 227L579 226L582 227L581 228L579 230L578 232L578 233L578 235L579 236L580 237L579 239L580 239L583 241L580 243L578 243L574 244L572 243L571 244L571 246L569 247L566 249L564 250L562 251L560 251L557 254L555 256L553 256L552 256L550 257L549 259L549 260L547 262L546 260L544 262L544 265L543 265L540 269L540 271L539 273L540 275L539 276L537 276L536 277L536 275L536 274L534 275L534 276L531 278L530 281L528 281L526 283L528 285L529 286L529 287L529 289L528 290L526 294L525 295L525 297L524 299L524 300L522 300L522 302L522 304L521 305L520 308L520 310L518 310L517 310L515 307L513 311L512 312L511 313L510 315L509 316L507 313L505 313L503 313L504 310L503 309L504 304L505 302L504 298L505 298L507 300L508 299L509 298L508 297L507 295L509 294L512 293L512 292L515 291L515 290L514 288L513 286L511 286L511 285L512 284L510 283L509 282L508 280L508 279L505 279L503 279L502 281L502 277L502 276L502 274L505 271L502 271L500 272L498 272L497 273L496 272L495 270L493 272L493 274L492 275L490 274L491 272L488 275L487 277L485 277L483 279L482 279L482 276L479 277L478 277L478 275L476 274L474 274L473 275L472 274L470 275L469 274L467 275L468 274L467 273L465 273L463 273L460 274L459 274L457 276L455 277L455 279L457 282L454 283L454 282L453 279L453 277L454 274L453 273L452 272L452 270L451 269L451 267L451 266L452 265L454 264L454 262L454 259L454 258L454 256L456 256L460 255L460 254L463 253L464 252L468 254L472 255L479 255L480 254L483 254L485 255L486 253L488 254L491 254L492 254L494 253L496 251L498 253L500 253L501 252Z"}, {"id": "br", "name": "Bihar", "d": "M417 260L417 260L417 260L417 260ZM334 237L335 238L337 240L344 241L346 244L345 247L345 248L347 249L348 249L350 250L351 250L353 252L356 253L356 254L356 255L359 256L361 254L365 252L367 254L367 258L369 259L372 259L374 257L376 258L377 259L380 258L384 260L388 263L390 263L392 262L392 261L394 260L395 259L396 262L397 263L399 263L400 264L402 263L404 263L407 264L408 263L409 263L410 262L412 263L412 261L413 263L415 264L417 263L417 260L418 260L420 260L419 261L420 262L420 264L419 266L418 267L416 269L415 270L414 271L411 272L411 274L411 276L413 276L413 278L414 279L416 280L416 281L416 284L416 285L415 284L413 284L412 285L411 286L410 287L412 290L411 292L410 290L409 290L408 289L407 289L405 288L404 289L404 292L402 291L401 291L400 294L398 294L397 296L397 299L395 300L395 305L392 304L392 306L390 306L389 305L388 306L387 306L386 305L384 307L383 309L382 311L380 309L379 309L379 306L377 305L376 305L376 303L374 302L372 302L370 301L368 301L367 303L366 306L364 305L363 307L358 307L355 309L354 310L354 309L352 310L350 311L349 309L348 307L345 309L345 310L343 310L342 311L341 313L341 311L339 310L338 309L337 308L337 306L336 307L334 307L333 308L332 305L330 307L328 307L325 308L321 307L321 305L321 303L320 302L318 301L318 299L317 296L318 293L317 292L319 290L321 289L323 288L325 288L326 287L328 286L329 283L333 281L332 280L334 279L335 281L337 281L338 279L339 280L341 280L342 279L344 279L344 278L343 277L340 275L338 274L335 273L333 271L331 269L331 267L333 268L334 267L335 265L335 264L333 264L331 262L329 262L329 261L330 260L332 260L333 259L337 259L340 258L338 257L337 255L336 256L336 254L335 252L334 253L332 252L332 251L332 248L330 247L331 245L329 243L329 242L328 242L329 240L328 239L330 239L332 239L333 238L334 237Z"}, {"id": "ch", "name": "Chandigarh", "d": "M181 161L180 162L179 161L178 159L179 158L180 159L180 159L180 159L181 159L181 159Z"}, {"id": "ct", "name": "Chhattisgarh", "d": "M317 317L319 317L321 319L321 322L325 323L325 325L325 326L326 328L330 329L330 328L331 328L332 330L330 332L330 333L332 334L332 339L334 340L334 343L335 341L337 342L339 343L339 345L337 347L336 348L336 350L334 350L333 350L331 352L331 353L332 354L331 356L328 357L326 359L324 360L322 362L321 366L323 367L322 368L321 369L320 370L319 372L320 373L318 373L317 376L318 378L318 380L316 379L315 380L315 381L314 384L313 385L311 385L309 383L308 384L306 384L302 384L302 386L301 389L299 389L299 391L298 390L296 393L297 396L296 397L297 398L298 400L297 402L298 403L298 405L297 406L297 408L302 410L304 410L304 412L304 413L301 415L302 413L298 412L296 413L294 410L290 409L288 407L286 409L286 411L288 413L289 414L290 414L290 416L290 420L292 422L293 423L292 424L292 426L293 428L294 430L294 432L294 434L293 434L293 437L291 437L288 439L288 440L287 440L288 441L287 442L284 445L284 446L282 447L281 447L279 448L279 450L279 452L278 453L277 457L276 458L274 458L272 457L270 459L267 452L268 450L265 451L265 450L263 450L264 448L263 447L262 446L261 444L257 440L254 441L253 438L255 436L253 433L254 430L254 429L255 428L256 426L257 424L259 423L260 425L261 425L263 426L265 424L264 422L266 422L265 420L263 419L262 418L261 418L261 417L259 415L257 414L256 414L258 413L256 412L257 411L259 410L259 408L258 407L256 406L255 404L258 404L260 402L260 401L260 396L258 397L258 395L259 394L259 393L259 389L257 389L256 387L256 385L257 383L261 382L261 381L263 377L262 374L262 371L264 370L265 369L265 366L266 362L267 363L269 362L269 360L270 359L271 355L272 354L274 353L276 353L277 355L277 354L279 352L281 353L282 350L283 349L285 347L284 346L286 345L288 343L287 341L290 340L292 340L292 337L293 336L292 334L290 333L289 333L287 330L286 330L284 329L283 330L281 331L281 329L281 327L283 326L282 324L281 323L281 321L283 322L285 323L286 323L287 322L289 322L290 323L293 323L294 324L296 324L299 323L300 324L301 323L303 322L305 321L306 320L309 322L312 322L314 321L315 319L316 319L316 317Z"}, {"id": "dn", "name": "Dadra and Nagar Haveli", "d": "M105 407L105 408L102 407L101 407L100 405L99 403L101 403L102 402L103 402L104 403L103 404L102 406L104 406L105 405L105 407Z"}, {"id": "dd", "name": "Daman and Diu", "d": "M52 393L52 391L53 387L54 388L56 388L57 388L57 390L55 391L57 391L57 392L56 392L56 393L56 393L57 394L57 394L56 394L56 394L55 394L52 393Z"}, {"id": "dl", "name": "Delhi", "d": "M188 205L189 207L190 209L191 210L191 212L192 214L190 214L190 216L188 216L187 214L186 214L184 213L182 214L181 213L182 211L184 209L183 206L185 206L186 205L187 206Z"}, {"id": "ga", "name": "Goa", "d": "M115 504L118 504L119 502L121 503L121 506L122 506L124 505L126 505L127 505L127 507L127 509L128 511L129 513L127 514L128 516L128 518L128 519L127 520L126 521L125 521L123 521L121 518L121 516L120 512L117 511L119 511L119 510L117 510L116 506L115 504Z"}, {"id": "gj", "name": "Gujarat", "d": "M30 354L31 355L30 356L29 355L30 354ZM20 354L20 354L19 355L19 354L20 354ZM38 351L39 352L37 352L37 352L38 351ZM8 335L9 335L9 336L8 336L8 336L7 336L8 336L8 335ZM8 333L9 334L9 335L8 334L8 334L8 333ZM6 331L6 332L6 333L6 333L6 332L5 332L5 332L6 331ZM6 328L6 329L5 330L5 329L6 328ZM6 328L6 328L5 329L5 328L6 328ZM4 324L4 324L5 324L4 327L3 329L2 329L2 328L2 328L1 328L1 329L1 329L1 328L0 328L0 328L0 327L2 327L3 326L4 324ZM3 324L3 325L2 326L2 324L3 324ZM6 323L7 325L5 325L6 324L5 324L6 323ZM4 322L5 322L5 324L4 323L4 323L4 322ZM5 321L5 322L4 322L3 323L3 322L5 321ZM7 321L8 321L8 321L7 322L6 322L6 322L7 321L7 321ZM6 319L7 321L5 323L6 321L6 320L5 321L5 320L6 319ZM5 319L5 321L3 321L3 323L3 324L2 323L2 324L2 326L1 326L0 325L1 324L1 323L1 323L2 321L3 321L4 320L4 320L5 319ZM61 303L65 305L66 304L69 304L72 304L76 304L77 305L77 304L79 305L81 303L82 304L83 305L85 305L86 305L85 306L86 307L87 306L88 308L89 309L90 310L91 308L94 309L95 311L98 311L99 312L101 311L101 308L103 308L103 309L104 311L106 311L105 312L102 315L105 317L106 319L108 317L109 316L109 318L109 319L110 321L108 322L108 324L111 326L112 328L113 327L115 328L114 330L114 332L116 332L117 332L119 334L121 334L122 334L124 335L124 338L126 339L127 338L128 339L128 341L129 342L130 344L132 345L130 348L130 350L127 350L125 353L123 352L123 354L124 354L125 355L127 355L126 357L125 357L123 357L123 358L123 360L124 363L124 364L125 365L118 369L118 370L120 372L117 373L119 376L123 375L126 375L127 375L129 376L127 377L124 377L123 376L123 378L121 378L121 381L119 381L118 383L116 384L115 384L114 383L115 385L117 385L116 386L118 387L120 388L121 391L121 393L119 393L118 394L118 396L116 397L115 397L113 395L112 395L111 394L110 395L110 396L111 398L110 400L110 402L110 405L108 405L107 406L105 407L106 406L104 405L103 406L103 404L104 403L103 402L102 402L101 403L99 403L100 405L98 405L97 406L95 407L96 403L97 401L98 398L99 397L96 390L95 386L95 384L94 385L93 382L92 381L93 379L94 377L94 376L92 375L93 373L95 373L96 373L95 372L91 372L91 371L92 369L91 368L90 366L91 361L92 360L93 360L96 361L97 359L98 360L99 358L97 358L96 360L94 359L93 358L91 359L90 360L89 358L88 357L88 358L89 360L87 359L87 360L87 362L86 366L85 364L86 362L85 363L84 366L85 371L86 373L85 377L82 380L82 381L82 383L80 384L76 386L74 387L71 388L68 390L67 390L63 392L62 393L61 393L58 393L57 394L56 393L57 391L55 391L57 390L57 389L54 388L52 391L52 393L47 391L40 385L32 375L33 374L32 373L31 373L32 374L22 366L16 359L16 358L17 355L18 354L18 356L21 355L20 358L22 359L24 358L26 358L27 357L28 356L31 357L32 355L34 356L35 354L37 353L39 352L41 352L43 350L43 348L45 345L47 344L48 340L46 341L46 343L43 342L41 343L34 345L32 348L31 347L29 347L27 347L24 346L21 346L13 340L8 337L10 336L9 334L8 333L7 331L6 328L7 326L9 325L10 324L12 323L9 323L7 325L7 323L8 322L10 321L9 321L12 320L12 312L14 314L16 313L17 314L19 313L21 314L24 313L28 313L30 313L32 315L38 315L39 315L40 312L50 310L50 311L50 313L52 314L55 314L57 313L58 311L60 311L62 310L59 309L59 307L59 305L61 303Z"}, {"id": "hr", "name": "Haryana", "d": "M180 156L181 157L184 158L185 160L186 160L188 161L188 163L187 165L189 166L191 167L193 168L194 167L193 168L195 168L197 168L196 170L194 173L193 175L190 177L188 180L188 183L188 185L186 187L186 189L187 191L187 193L187 195L187 198L187 199L189 202L188 203L189 204L187 206L186 205L185 206L183 206L184 209L183 210L181 212L182 214L184 213L186 214L187 214L188 216L190 216L190 214L192 214L194 216L195 217L195 219L195 220L195 222L195 223L195 225L196 226L195 227L194 229L192 229L190 230L189 230L187 231L185 230L186 231L184 232L184 234L182 234L182 232L182 230L183 228L183 226L184 222L181 220L180 222L177 223L177 225L175 226L175 225L173 225L173 223L171 223L169 222L171 223L170 223L171 224L170 225L169 224L167 224L167 226L167 228L168 229L167 230L165 229L163 229L162 228L163 226L164 225L162 224L164 222L166 222L165 221L164 219L163 218L162 217L159 216L156 213L156 211L154 211L154 208L153 206L152 204L153 203L152 202L151 200L151 199L151 197L151 196L150 196L149 195L147 196L145 196L143 195L142 195L141 193L139 192L138 193L135 193L134 194L133 192L135 189L134 188L134 184L133 184L131 183L133 181L132 180L135 180L136 179L138 178L140 179L142 181L144 181L145 182L146 183L146 182L147 184L147 185L146 187L147 189L149 188L149 186L151 185L152 182L153 184L155 184L157 184L157 182L159 182L161 184L163 184L164 184L165 183L169 181L167 180L168 177L169 175L168 175L169 175L170 175L172 175L172 173L173 175L175 175L177 175L177 173L176 172L178 170L179 169L179 167L181 167L182 168L182 167L183 165L183 163L182 162L181 161L181 159L181 158L180 156Z"}, {"id": "hp", "name": "Himachal Pradesh", "d": "M161 115L162 113L161 112L162 110L161 109L159 107L160 106L162 107L165 105L169 103L169 101L172 99L173 99L175 99L177 100L179 99L179 98L181 98L180 100L181 101L183 103L184 104L186 105L188 106L189 107L191 108L193 107L194 107L195 107L197 105L198 105L201 106L202 108L203 110L203 112L205 114L206 113L207 112L209 112L212 111L213 110L213 112L214 113L212 114L211 116L213 116L215 116L216 118L215 120L215 122L217 123L218 123L217 125L219 126L221 129L220 134L220 135L221 136L223 138L220 141L222 142L222 144L223 145L224 147L226 149L226 151L224 151L223 150L222 148L219 149L218 148L217 148L215 148L214 147L213 146L212 147L210 148L209 148L207 149L206 150L204 149L203 150L202 151L202 153L202 155L200 154L201 155L201 157L199 159L200 161L201 162L200 163L201 164L199 167L197 167L195 167L193 168L194 167L193 168L192 167L190 166L188 165L187 164L188 161L186 160L185 160L184 158L182 156L181 156L178 154L176 153L177 151L176 149L177 148L176 147L174 147L172 144L170 144L170 145L167 146L166 145L167 143L164 138L162 133L161 130L159 129L157 127L155 127L156 125L156 123L158 122L160 119L162 118L160 116Z"}, {"id": "jk", "name": "Jammu and Kashmir", "d": "M140 1L141 3L143 3L145 2L147 1L148 1L150 1L151 4L153 7L156 10L157 12L161 14L164 16L167 18L170 20L172 22L174 24L177 24L179 27L179 28L179 30L179 32L181 34L183 34L187 34L190 35L192 37L193 40L194 42L198 42L202 40L205 40L208 40L210 36L212 34L215 34L217 33L219 31L223 31L226 32L227 33L229 32L229 30L230 28L231 28L234 30L235 31L237 32L240 32L242 33L244 32L246 32L247 34L248 36L250 37L252 38L253 40L252 42L252 43L252 45L251 46L250 49L250 50L250 53L249 55L249 57L248 58L248 61L246 61L244 62L242 63L242 65L242 66L240 66L238 66L237 67L238 70L238 72L237 76L235 78L234 79L232 78L230 77L228 78L226 78L225 80L225 82L226 83L227 85L228 87L228 88L227 89L225 90L225 91L225 93L228 97L228 98L230 99L235 99L234 103L236 107L236 109L238 110L238 112L238 114L236 114L233 117L232 116L229 117L229 120L226 120L225 120L222 117L221 115L221 112L219 113L217 114L216 115L214 115L212 117L212 116L214 113L213 112L213 110L211 110L210 112L208 113L206 113L205 114L203 112L204 110L202 108L200 107L199 105L197 105L195 107L194 107L193 107L192 108L190 107L188 106L187 104L185 104L183 103L182 101L180 100L181 98L179 98L179 99L177 100L176 99L173 99L172 99L169 101L169 103L166 104L162 107L161 106L159 107L161 109L162 110L161 112L162 113L161 115L159 117L158 118L154 120L153 122L153 120L149 120L147 119L144 117L142 118L139 117L136 117L135 114L136 112L135 111L136 108L135 110L133 110L132 111L129 111L127 110L125 109L124 107L121 106L119 105L116 105L115 103L114 102L113 101L113 99L112 97L112 94L113 93L112 89L113 88L113 87L112 85L112 84L113 82L112 79L110 78L110 75L110 73L109 70L110 68L110 66L111 65L113 64L115 63L115 61L116 59L118 59L121 59L122 58L123 55L124 53L124 51L122 49L120 48L118 47L116 46L116 45L116 43L117 42L118 41L117 39L115 39L113 39L111 38L107 38L105 36L104 34L104 32L101 30L98 30L96 31L94 31L93 30L93 28L93 25L93 23L94 21L97 19L99 17L101 15L103 12L104 9L106 8L109 8L113 9L118 9L120 8L118 6L116 5L117 4L119 4L121 5L123 6L125 4L127 4L128 3L130 3L132 1L133 0L136 0L137 0Z"}, {"id": "jh", "name": "Jharkhand", "d": "M321 307L325 308L328 307L330 307L331 304L333 308L334 307L336 307L337 306L338 308L337 309L338 310L340 311L341 313L342 311L343 310L345 310L345 309L348 307L349 309L350 311L351 311L353 310L356 309L358 308L362 306L364 306L366 306L366 303L367 300L370 301L372 302L374 301L376 303L376 305L377 306L378 306L379 307L380 309L382 310L383 309L383 307L386 305L387 306L388 306L389 305L390 306L391 306L392 304L395 305L396 301L396 299L397 296L398 294L400 294L401 291L402 291L404 292L404 290L405 288L407 289L408 289L409 290L410 290L410 294L412 295L414 298L412 300L412 301L411 302L413 303L413 304L412 305L412 306L410 306L410 308L410 310L410 312L408 314L408 315L406 316L406 317L404 317L404 318L403 319L401 319L399 318L399 320L400 321L399 323L397 322L397 323L393 322L392 322L390 323L389 326L387 326L385 327L384 328L382 328L381 329L380 331L379 332L378 332L376 331L376 329L374 329L374 331L372 332L370 331L370 333L370 335L369 336L369 338L371 339L374 339L376 340L377 342L379 342L381 343L383 342L382 344L382 345L382 347L384 349L386 349L387 352L389 352L390 353L389 355L391 356L390 357L391 358L390 359L389 360L387 359L385 359L384 358L382 357L380 357L379 355L375 354L374 352L372 353L373 355L373 357L372 359L373 361L373 362L372 364L371 365L368 365L368 363L366 364L364 363L360 361L359 362L357 365L356 363L354 362L352 363L353 359L354 358L353 354L351 355L350 355L348 355L347 355L342 355L341 356L340 357L337 357L335 356L334 354L331 353L333 350L334 350L336 350L336 348L337 347L338 345L339 343L337 343L336 343L334 343L334 340L332 339L333 335L331 334L330 332L332 330L331 328L330 328L330 329L326 328L325 326L325 325L325 323L322 322L321 319L319 317L317 317L319 313L320 311L318 310L318 308Z"}, {"id": "ka", "name": "Karnataka", "d": "M124 505L124 504L126 503L128 504L129 503L130 501L132 497L130 497L131 495L132 495L132 493L131 492L129 491L129 490L129 488L128 487L129 486L132 485L133 484L134 486L135 485L136 484L136 482L140 481L141 481L141 479L142 478L143 477L146 479L147 479L149 479L149 477L151 476L152 476L155 477L156 477L157 475L156 472L156 470L155 469L155 468L156 465L157 467L159 468L161 467L161 468L165 468L166 468L167 469L169 468L171 468L172 468L171 466L171 465L171 463L172 463L174 461L175 460L176 459L177 461L179 460L180 459L179 457L180 457L183 456L183 453L184 452L184 450L185 450L187 451L188 449L188 448L190 446L191 444L192 445L192 447L194 447L195 448L197 448L196 450L197 452L196 453L197 454L198 455L197 456L196 458L196 460L194 461L194 463L195 464L197 464L199 465L197 466L195 467L195 468L194 470L192 471L192 472L194 474L195 476L194 478L194 481L193 482L194 484L194 485L193 486L192 487L191 487L189 488L190 489L192 490L193 490L195 490L197 490L196 492L195 494L195 496L195 497L195 500L190 499L188 499L186 500L185 502L185 504L187 505L185 506L185 509L185 510L186 513L187 513L187 515L188 516L186 520L185 519L182 519L180 518L180 519L181 521L181 524L180 524L179 528L180 530L182 531L184 531L183 533L182 534L183 535L186 536L187 535L188 534L189 535L192 535L193 537L192 535L194 535L195 535L195 538L193 538L192 539L191 541L192 542L193 543L192 543L192 542L188 541L185 540L185 538L183 537L182 538L184 540L185 543L184 545L184 547L186 547L188 547L188 545L188 543L189 544L191 544L193 545L194 548L195 548L197 547L198 546L199 547L201 545L202 544L202 543L203 543L205 542L204 544L204 545L206 544L208 545L208 546L208 547L207 548L209 549L209 551L214 550L213 555L214 556L215 556L216 557L217 558L216 560L216 562L215 564L215 565L213 564L212 566L210 568L208 568L206 566L205 567L204 566L201 566L200 570L198 570L197 570L196 572L197 574L197 576L196 578L194 579L200 581L201 582L199 584L198 586L195 586L194 588L193 590L192 589L190 589L187 589L185 589L184 589L182 589L181 592L181 593L179 593L175 593L175 591L173 592L172 591L171 590L169 588L167 587L166 587L166 585L163 586L161 586L160 585L159 583L158 583L156 582L155 581L153 578L151 578L151 576L150 576L151 574L150 574L149 573L149 572L147 572L147 571L146 570L144 569L143 569L142 567L140 568L139 566L136 555L136 549L134 544L134 542L132 541L132 537L129 530L128 528L127 526L124 524L124 522L125 522L127 520L128 519L128 518L128 516L127 514L129 513L129 512L128 510L128 508L127 506L127 505L124 505Z"}, {"id": "kl", "name": "Kerala", "d": "M140 568L142 567L142 569L144 569L146 570L147 571L147 572L148 571L149 573L150 574L151 574L150 575L151 576L151 578L153 578L155 581L157 582L158 583L159 583L160 585L161 586L163 586L166 585L166 587L167 587L168 589L171 590L172 590L172 592L171 593L169 593L169 596L170 596L172 596L173 597L174 598L175 599L173 601L177 602L178 601L178 603L179 605L177 607L181 609L182 610L181 613L180 614L180 618L181 619L181 621L183 622L184 623L185 622L188 620L189 620L190 622L190 624L188 625L190 627L190 628L189 630L189 631L189 633L188 635L190 636L191 636L193 638L191 639L191 641L190 644L190 645L189 646L187 648L188 649L190 651L189 653L188 654L190 658L188 659L187 661L188 663L187 663L184 661L177 652L175 650L174 648L171 639L169 628L170 629L171 631L171 633L171 637L174 637L172 636L172 634L172 633L171 630L171 629L169 626L168 624L169 627L166 619L162 610L161 605L158 598L157 596L156 595L154 591L151 588L148 584L147 584L146 582L142 574L140 568Z"}, {"id": "ld", "name": "Lakshadweep", "d": "M102 663L102 663L102 664L101 664L101 664L101 664L101 664L102 664L102 663L102 663ZM114 625L114 626L114 626L114 625L114 625L114 625L114 625ZM87 624L87 624L87 624L87 624ZM115 624L115 624L115 624L115 624ZM93 615L93 615L93 615L93 615L93 615ZM115 609L115 610L116 610L115 610L115 610L115 610L115 609ZM84 610L84 609L84 608L84 608L84 608L84 610ZM86 607L86 607L86 607L86 607L86 607L86 607ZM87 607L86 607L86 607L87 607ZM95 603L95 603L95 603L95 603L95 603L95 603ZM82 601L82 601L82 601L82 601ZM96 600L96 601L96 602L96 601L96 600ZM101 595L101 595L101 596L101 596L101 595L101 595L101 595ZM84 593L84 593L84 593L84 593ZM95 591L95 591L95 591L95 591Z"}, {"id": "mp", "name": "Madhya Pradesh", "d": "M210 253L211 253L213 252L214 254L215 254L217 255L219 255L220 254L221 255L224 256L225 257L226 259L226 260L228 261L229 262L228 264L229 265L228 267L227 267L226 269L226 271L225 272L225 274L224 275L223 276L223 278L222 277L221 279L222 280L220 282L218 282L216 283L214 284L214 285L213 286L212 287L212 288L213 290L214 292L215 292L214 293L212 294L212 296L209 299L210 300L210 302L211 304L211 306L211 308L213 310L212 312L213 313L216 310L218 311L219 314L221 313L222 315L224 314L224 312L226 311L226 309L224 308L226 308L224 304L222 306L221 304L221 301L221 299L219 298L218 297L219 295L217 290L216 289L214 289L216 289L217 288L218 286L220 286L219 287L220 288L221 287L222 286L221 285L223 285L224 284L225 283L225 285L226 287L224 287L225 287L224 287L223 288L222 289L223 291L224 288L225 288L226 290L224 290L224 292L225 291L226 290L228 291L227 293L228 292L229 294L230 293L231 293L233 293L232 292L234 291L233 290L232 290L233 288L233 289L235 290L237 290L235 291L234 292L235 293L236 293L238 292L242 293L244 294L244 291L245 291L247 290L248 288L249 288L251 287L253 286L254 287L254 289L255 291L256 292L255 293L253 295L255 296L257 294L258 295L257 294L259 295L260 294L260 293L261 294L263 294L262 293L264 293L265 292L266 292L266 294L265 296L264 297L266 297L267 298L268 297L270 297L271 299L272 297L274 295L274 292L275 293L275 292L276 293L278 294L278 293L279 292L280 292L281 294L283 295L285 296L287 296L287 298L288 300L292 301L293 300L293 302L294 302L294 304L295 304L298 305L298 303L300 304L303 303L304 304L305 304L306 306L304 306L305 308L304 310L305 312L305 314L304 316L303 316L304 317L305 319L306 320L305 321L303 321L301 323L300 324L299 323L296 324L295 323L293 323L290 323L289 322L287 322L286 323L285 323L283 323L282 321L281 323L282 324L283 326L282 327L281 328L281 330L283 330L284 329L285 330L287 330L289 333L290 333L291 334L293 335L292 337L292 339L291 339L288 340L288 343L286 344L284 345L285 347L284 350L282 350L282 352L279 352L278 354L277 355L276 353L275 354L273 355L271 355L271 358L269 360L269 362L268 363L267 362L265 366L265 369L264 370L263 370L262 374L263 377L261 380L260 380L257 378L256 379L256 377L255 376L253 373L251 373L250 374L249 375L247 375L246 375L242 374L240 375L238 375L237 372L235 372L234 372L231 371L231 373L229 372L228 374L227 374L225 374L225 376L224 376L222 376L221 377L218 376L216 375L214 376L214 374L213 374L211 374L209 375L209 376L204 379L201 378L200 379L198 379L197 378L195 379L194 377L193 375L196 375L196 373L196 371L194 370L190 370L189 371L188 371L186 371L182 374L181 374L180 375L180 377L177 380L177 381L177 383L174 383L173 385L171 386L169 386L167 385L166 384L167 383L167 381L166 379L163 378L161 378L157 379L155 378L154 379L152 378L151 379L149 379L147 378L145 377L144 375L141 373L138 374L133 372L132 371L132 369L133 367L131 365L130 364L128 365L126 366L125 366L124 364L125 363L124 360L123 358L123 357L125 357L126 356L128 356L126 355L125 354L123 354L122 353L125 353L127 350L130 350L130 348L132 345L131 344L129 344L128 341L130 339L132 340L134 339L136 337L137 337L136 336L134 335L134 333L135 332L136 331L138 330L141 328L141 326L141 325L141 322L141 321L142 318L140 314L140 313L137 313L138 311L140 308L138 308L137 307L138 306L138 305L139 304L138 301L140 304L142 303L142 302L141 301L140 300L139 298L140 297L141 299L144 299L145 299L145 297L146 295L150 295L150 297L149 298L148 297L148 299L149 299L152 299L149 300L147 299L147 301L148 302L152 303L155 303L159 302L160 302L160 304L160 305L162 306L161 307L160 310L159 308L158 309L158 311L160 312L160 314L158 316L160 317L159 318L159 319L157 320L157 318L155 319L153 318L152 320L152 321L154 322L155 324L156 324L158 323L157 322L159 323L161 322L163 321L163 319L165 317L166 317L166 315L167 313L167 312L168 314L169 314L172 314L175 315L176 314L178 313L178 315L179 315L180 316L182 316L183 315L182 313L181 311L181 308L181 307L182 307L184 309L185 307L186 304L185 303L183 302L181 302L180 300L183 300L183 298L181 296L184 294L186 295L188 293L190 293L193 293L193 292L192 290L192 287L190 286L189 287L189 289L186 288L185 289L184 289L182 289L180 289L178 288L176 287L175 286L174 284L174 281L175 279L175 278L176 276L177 275L179 275L180 274L181 273L182 271L184 270L185 269L187 267L189 267L191 266L192 265L194 264L195 263L198 261L200 260L202 260L203 258L204 257L207 257L208 255L209 254L209 254Z"}, {"id": "mh", "name": "Maharashtra", "d": "M125 366L126 366L128 366L129 365L131 364L132 366L132 369L132 371L133 372L138 374L141 373L144 375L145 377L147 378L149 378L150 378L152 378L154 379L155 378L157 379L161 378L163 378L165 379L167 381L167 383L166 384L167 385L169 385L171 386L173 385L174 383L177 383L177 381L177 380L180 377L180 376L180 374L182 374L186 371L188 371L189 371L190 370L194 370L196 371L196 373L196 375L194 375L194 377L195 379L197 379L198 378L199 379L201 378L203 379L209 376L209 375L211 374L212 374L214 374L214 376L216 375L218 376L220 377L222 376L224 376L225 376L225 374L226 373L228 374L229 372L231 373L231 371L234 372L235 372L237 372L238 375L240 375L242 374L244 375L246 375L249 375L250 374L251 373L253 373L255 376L256 377L256 379L257 378L260 380L261 380L261 382L257 383L256 385L257 386L257 389L259 389L259 393L259 394L258 395L258 397L259 396L260 401L260 402L259 403L255 404L256 405L258 407L259 408L259 410L258 411L257 411L257 412L256 414L259 414L261 417L261 418L262 418L263 419L265 420L266 422L264 422L265 424L263 426L261 425L260 425L259 423L257 424L256 426L255 428L254 429L254 430L253 432L255 436L253 437L252 439L250 439L248 437L246 437L245 436L246 431L244 431L244 430L246 428L246 427L246 425L247 423L246 422L244 420L243 419L240 419L239 421L238 420L236 421L234 419L233 419L231 418L231 420L231 422L229 420L227 420L225 420L226 417L223 417L223 415L222 415L220 415L218 414L216 414L214 413L212 412L213 415L213 416L211 417L212 418L212 422L209 423L210 425L209 427L207 426L204 424L203 425L202 428L202 429L201 431L201 432L202 433L204 436L202 436L201 439L200 442L198 442L197 442L197 444L196 445L195 446L196 448L194 448L192 447L193 445L192 444L190 445L189 447L188 449L187 451L185 450L184 450L183 451L184 453L183 456L180 457L179 456L180 458L179 459L178 461L176 459L176 461L175 459L174 461L173 462L171 463L171 465L170 466L171 468L172 469L169 469L167 468L165 469L162 469L161 467L160 467L158 467L157 466L156 467L155 469L156 470L156 472L157 474L156 475L157 477L155 477L153 477L152 477L150 477L149 479L147 479L146 479L145 477L143 478L141 477L142 479L141 481L140 481L136 482L136 484L135 485L134 486L133 484L132 483L130 485L129 486L128 487L129 488L129 489L128 491L131 492L132 493L132 495L132 496L129 497L131 497L130 500L129 501L129 503L128 504L126 503L124 504L124 505L122 506L121 506L121 503L119 503L115 504L113 500L111 499L111 497L110 493L109 490L108 488L107 487L107 485L107 480L107 478L107 476L107 474L105 470L105 468L105 466L105 465L104 464L103 462L104 460L103 458L102 456L101 455L101 453L100 451L101 450L99 449L99 448L102 449L103 451L102 449L101 448L100 447L99 444L99 442L98 439L98 436L100 436L101 435L99 435L100 434L100 432L101 432L101 431L99 432L98 434L97 431L97 430L96 428L96 426L96 424L95 422L96 420L95 420L95 419L94 414L93 413L94 411L95 410L95 408L95 407L97 407L97 406L100 405L100 407L102 408L104 408L105 407L107 406L107 405L109 405L110 402L110 400L111 398L110 396L109 395L110 394L111 395L113 395L114 397L115 397L118 396L118 394L119 393L121 393L121 391L120 389L118 387L116 386L117 385L115 385L113 383L115 384L116 384L118 383L118 381L121 381L121 378L123 378L123 376L124 377L126 377L129 376L128 375L127 375L123 375L119 376L118 374L119 373L118 370L118 369L125 366Z"}, {"id": "mn", "name": "Manipur", "d": "M529 289L530 290L532 291L534 288L536 285L536 284L538 283L540 283L541 282L542 283L543 284L544 283L546 284L549 284L550 282L552 280L553 281L552 283L552 284L554 285L554 286L553 291L556 293L556 296L555 297L554 300L553 303L551 305L550 306L549 308L549 309L547 311L546 315L546 318L544 321L544 323L542 322L539 320L537 321L535 319L532 319L531 319L530 320L528 317L527 317L525 318L524 317L523 318L522 318L521 317L519 317L520 314L520 313L520 311L519 310L520 308L521 306L522 304L522 302L522 301L524 300L524 299L524 298L525 296L526 295L528 290Z"}, {"id": "ml", "name": "Meghalaya", "d": "M454 283L457 282L454 279L456 278L457 276L459 274L460 274L463 273L465 273L467 273L468 274L467 275L469 274L470 275L471 274L472 275L474 274L475 274L477 276L478 277L479 276L482 276L481 278L482 279L485 277L486 276L489 276L490 272L491 274L492 275L493 274L493 271L495 270L496 272L497 273L498 272L500 272L501 272L504 271L502 274L503 275L502 277L502 281L503 279L505 279L508 279L508 280L509 282L510 283L512 282L510 285L511 286L513 286L514 287L515 288L515 290L512 292L512 293L509 293L508 295L506 295L503 294L500 292L494 292L492 292L491 293L490 292L487 293L486 292L485 292L483 291L479 292L475 293L473 292L471 292L467 292L466 293L464 292L459 291L456 289L453 289L453 287L454 285L454 285Z"}, {"id": "mz", "name": "Mizoram", "d": "M505 313L507 313L508 316L510 315L510 314L512 312L513 311L515 307L516 310L517 310L519 310L520 311L520 313L520 314L519 317L521 317L522 318L523 317L524 318L525 318L526 319L528 321L528 325L529 326L528 332L527 334L528 337L527 339L526 342L524 341L522 341L523 344L522 346L522 348L522 351L522 353L522 354L523 355L524 359L523 359L523 361L521 360L521 362L520 365L519 364L518 366L517 363L514 361L513 364L511 365L511 363L510 362L511 361L510 352L510 350L509 348L508 346L508 344L506 344L507 341L506 337L506 335L505 331L505 328L505 326L504 323L505 322L505 320L505 318L506 316Z"}, {"id": "nl", "name": "Nagaland", "d": "M565 248L566 252L566 254L566 256L565 258L563 262L563 263L564 267L564 269L564 270L565 271L564 274L562 274L562 276L562 278L560 281L560 282L558 283L557 285L555 285L552 284L552 283L553 281L552 280L551 282L549 282L547 285L545 285L544 283L542 284L541 282L540 283L538 283L536 284L536 285L534 288L532 291L531 290L529 290L529 288L529 286L528 285L526 283L528 281L530 281L531 278L534 276L534 275L535 274L536 276L537 276L539 275L540 275L539 273L540 271L540 269L543 265L544 265L544 262L546 260L547 262L548 261L549 259L550 257L552 256L553 256L555 256L557 254L559 251L561 251L564 250Z"}, {"id": "or", "name": "Odisha", "d": "M391 392L394 392L394 394L392 394L392 394L391 395L390 395L390 395L390 395L390 395L389 395L390 393L391 392ZM331 353L334 354L334 356L336 356L340 357L341 356L342 355L347 355L348 355L349 355L351 355L353 354L354 357L354 358L352 362L354 362L355 363L356 364L358 362L360 361L363 363L365 363L369 362L368 365L371 365L372 364L373 362L373 361L372 359L374 358L373 356L372 354L373 353L375 354L379 355L380 357L382 358L383 357L385 358L386 359L388 360L388 361L389 361L390 363L393 363L394 364L394 367L396 368L397 366L399 366L399 369L401 370L403 370L404 371L403 373L402 375L398 375L396 376L393 378L392 380L390 383L393 391L391 392L389 395L391 395L392 394L394 394L389 398L388 401L389 402L387 404L384 405L382 409L381 410L379 408L378 409L381 411L366 415L360 418L355 422L353 424L350 426L348 428L347 430L346 429L343 429L345 430L343 432L341 431L340 432L340 433L339 434L338 437L334 437L333 438L332 436L330 436L328 436L327 432L326 434L325 432L323 428L323 430L321 432L321 430L320 432L319 432L317 432L317 434L319 435L318 436L316 437L315 437L313 437L311 440L310 441L312 442L310 444L311 446L309 446L308 445L306 444L305 447L303 448L302 449L301 448L302 446L300 445L300 443L297 445L296 447L296 449L297 451L296 453L295 453L295 454L293 454L290 453L288 454L285 455L283 457L281 458L278 458L276 458L276 457L278 455L279 452L279 451L279 448L281 447L282 447L284 446L284 445L286 443L287 442L287 440L288 439L290 438L292 437L293 434L294 434L294 432L294 430L293 429L292 426L293 425L293 423L292 422L291 421L290 421L290 416L290 414L289 414L288 413L286 412L286 409L288 407L290 409L293 410L296 413L297 412L302 413L301 415L303 414L304 413L304 410L302 410L297 408L297 406L298 405L298 404L297 402L298 400L297 398L296 397L297 396L296 393L296 390L298 391L299 389L301 389L302 386L303 385L305 384L308 384L309 383L311 385L313 385L314 384L315 381L316 381L316 379L318 380L318 378L317 377L318 373L319 373L320 371L320 369L322 368L323 367L321 366L321 363L323 363L324 360L326 359L328 357L331 356L332 354L331 353L331 353Z"}, {"id": "py", "name": "Puducherry", "d": "M244 610L243 610L243 608L242 608L241 607L242 607L242 606L243 606L243 606L244 606L244 606L244 610ZM243 588L242 587L240 587L242 587L241 586L241 584L242 585L242 586L243 585L243 588ZM295 483L293 482L294 481L294 482L295 482L295 482L295 482L295 482L295 482L295 482L295 482L295 482L294 482L295 483Z"}, {"id": "pb", "name": "Punjab", "d": "M161 115L160 116L162 118L160 119L158 122L156 123L156 125L155 127L156 127L159 129L161 130L163 133L164 138L167 143L166 145L167 146L170 146L170 144L171 143L173 146L174 147L176 147L176 149L176 150L176 152L178 154L180 156L181 158L181 159L179 158L178 159L179 161L180 162L182 161L183 163L182 165L182 166L183 168L181 167L179 167L178 168L179 170L176 171L175 171L176 172L177 175L175 175L174 175L172 173L172 175L170 174L169 175L168 174L169 175L168 177L168 179L167 181L166 183L164 184L163 184L161 184L160 182L157 182L157 184L156 183L155 184L152 182L151 185L150 186L149 187L147 189L147 187L146 186L147 184L146 182L146 183L145 182L145 181L142 181L141 179L139 179L137 179L135 180L133 179L119 179L119 177L121 175L121 173L121 171L119 169L120 168L120 167L121 166L122 165L124 164L124 162L127 160L127 159L128 157L129 156L132 154L133 154L133 152L135 152L136 151L135 150L133 151L132 150L132 147L135 142L134 141L134 140L133 136L133 133L134 132L136 131L137 130L139 130L140 128L141 127L143 128L145 127L147 126L150 123L149 120L151 121L153 121L158 118L158 117L159 117Z"}, {"id": "rj", "name": "Rajasthan", "d": "M121 173L121 175L119 177L119 179L133 179L133 181L131 183L133 184L134 183L134 188L135 189L134 191L134 193L138 193L139 192L141 193L142 195L143 195L144 196L146 195L149 195L149 196L151 196L151 197L150 198L151 200L152 202L153 202L152 204L153 206L154 208L154 211L156 211L156 213L159 215L161 216L163 218L164 219L165 220L166 222L164 222L162 224L163 225L163 226L163 227L163 229L165 229L167 230L168 230L168 228L167 226L168 225L169 224L171 225L170 223L171 223L169 222L171 223L173 222L173 224L175 225L175 226L176 226L177 223L180 222L180 221L184 222L183 226L183 228L183 230L182 232L182 234L184 234L184 232L186 232L185 231L187 231L188 230L190 230L191 232L192 234L192 235L192 237L193 238L193 239L195 240L197 242L198 244L198 245L197 247L195 247L196 248L198 249L199 249L198 250L193 253L193 255L195 255L195 253L197 253L199 252L200 251L203 252L206 252L208 252L210 251L210 252L209 254L208 254L207 256L205 256L203 257L202 259L200 260L198 261L195 263L193 263L192 265L191 266L189 267L187 267L185 269L184 270L182 271L181 272L180 274L179 275L177 275L176 276L175 278L175 279L174 280L174 284L175 286L176 287L178 288L180 288L181 288L183 290L185 289L186 288L189 289L189 287L190 286L192 287L192 289L193 291L193 293L191 294L188 293L187 295L184 294L181 296L182 298L183 299L181 300L181 302L183 302L184 302L186 304L186 306L185 308L183 308L182 307L181 308L181 311L182 313L183 314L182 316L180 316L179 315L178 315L178 313L176 313L175 315L173 314L170 313L168 314L168 313L166 315L166 317L165 317L163 319L163 321L161 322L159 322L157 321L158 323L157 325L155 324L154 322L152 321L152 320L153 318L155 319L157 318L157 320L159 319L159 318L160 317L159 316L159 314L160 312L158 311L158 310L159 308L160 310L162 309L162 307L161 305L160 304L160 302L159 302L155 303L152 303L148 302L147 301L148 300L147 299L148 300L151 299L149 299L148 299L148 297L149 298L150 297L150 296L146 295L145 297L145 299L144 299L141 299L140 297L139 298L140 300L139 301L141 301L143 301L143 303L141 304L138 301L138 303L138 305L138 306L137 307L138 308L140 308L138 311L137 313L140 313L141 314L142 318L141 321L141 322L141 325L141 326L141 328L139 329L137 331L135 331L134 332L133 335L135 336L137 337L136 337L134 339L133 339L130 339L128 341L128 339L127 338L126 339L124 338L125 336L123 335L122 334L119 334L118 332L117 332L116 333L114 332L115 331L115 328L113 327L112 328L111 326L110 324L108 322L110 321L109 319L109 318L109 316L108 317L107 319L105 318L103 316L104 312L105 311L103 310L103 308L101 308L100 310L99 312L98 311L95 311L94 310L92 308L90 309L89 309L88 308L87 306L86 307L85 306L87 306L85 305L83 305L82 304L81 303L79 305L77 304L77 305L76 304L73 305L69 304L67 305L65 305L61 303L58 298L57 293L54 290L54 289L52 287L52 284L52 280L49 280L46 281L44 280L40 274L40 271L42 267L42 261L41 260L39 259L35 259L34 259L32 258L28 255L27 254L28 249L29 246L35 240L37 238L38 236L40 231L41 230L46 226L48 225L50 225L52 228L52 230L54 232L56 233L65 230L67 229L73 229L78 227L78 223L80 221L84 217L86 210L88 208L95 203L100 201L101 198L103 196L106 189L109 179L114 177L117 176Z"}, {"id": "sk", "name": "Sikkim", "d": "M428 223L430 224L432 226L432 227L433 229L432 234L431 236L432 240L434 242L434 243L432 244L431 245L430 246L429 246L426 245L424 248L422 247L420 247L418 247L416 245L416 242L416 240L416 238L419 231L419 229L417 229L417 227L419 227L422 226L425 225L426 224L428 223L428 223Z"}, {"id": "tn", "name": "Tamil Nadu", "d": "M233 641L233 642L233 642L233 643L236 645L233 643L231 643L231 642L231 642L232 642L233 641ZM210 568L209 570L211 569L213 571L215 571L216 569L217 568L219 565L218 563L220 563L221 562L224 561L224 562L226 561L228 562L230 563L230 561L232 560L234 560L235 559L235 557L238 556L239 558L240 557L241 558L243 558L241 557L243 556L246 556L246 554L247 553L247 551L249 551L250 552L252 553L253 554L255 557L254 560L253 567L251 574L245 583L244 586L242 586L241 585L241 584L241 586L242 587L240 587L242 587L243 588L242 594L244 598L244 606L243 606L241 607L243 608L244 610L245 621L242 621L234 620L233 621L231 624L232 626L230 628L229 630L226 633L225 635L224 638L225 640L228 642L230 642L228 643L225 642L224 643L221 644L219 644L218 645L214 646L210 649L209 651L209 653L210 654L208 656L207 657L208 659L207 660L201 664L200 666L197 667L196 668L191 667L187 663L188 663L187 661L189 660L190 659L188 654L189 653L190 651L189 650L187 648L189 646L190 645L190 644L190 642L191 639L193 638L192 636L190 636L189 635L188 633L189 632L189 630L189 628L190 627L188 625L190 624L190 623L189 620L188 620L186 621L184 623L183 622L182 621L181 619L180 618L181 614L182 614L182 611L181 610L177 607L178 605L180 605L179 603L179 601L177 602L174 601L175 599L174 598L173 597L172 596L171 596L169 596L168 594L170 594L172 592L173 592L174 591L175 593L179 593L181 593L182 589L184 589L185 589L186 590L189 589L191 589L193 590L194 588L195 586L198 586L199 584L201 582L200 581L194 580L196 578L197 577L198 574L196 572L197 571L198 570L200 570L201 567L204 565L204 567L205 567L206 566L208 568L210 568Z"}, {"id": "tg", "name": "Telangana", "d": "M196 448L195 446L196 445L197 443L197 442L198 442L200 442L200 439L202 436L204 436L203 434L202 433L200 431L201 430L202 428L203 426L204 424L206 426L209 427L210 425L209 423L212 422L211 419L211 417L213 416L213 415L213 413L212 412L213 412L215 414L218 414L220 415L222 415L223 415L223 417L226 417L226 419L229 420L230 422L231 420L231 418L233 419L234 419L236 421L238 420L239 421L240 419L242 418L244 420L246 422L247 423L247 425L246 427L246 428L244 430L244 431L246 431L246 435L246 437L248 437L250 439L251 439L253 438L254 441L257 440L261 443L262 444L263 447L264 448L263 449L264 450L265 449L265 451L268 450L267 452L269 459L272 457L274 458L276 458L278 458L280 458L282 457L284 456L285 458L280 460L279 463L279 466L277 468L275 467L274 469L272 469L272 471L269 471L268 472L266 472L266 473L265 475L262 475L261 475L259 473L258 474L257 476L256 474L255 476L258 478L260 478L259 479L260 481L257 481L256 479L254 479L254 477L253 476L251 475L250 476L248 477L248 478L249 480L248 482L246 484L244 483L243 482L240 483L237 484L235 485L232 486L231 487L231 493L227 492L225 493L224 496L223 495L223 496L222 497L218 496L217 497L214 496L212 497L210 499L209 500L208 501L207 501L206 500L203 500L201 501L199 500L197 500L195 500L195 498L195 496L195 494L195 493L196 491L195 490L193 490L192 490L190 489L189 488L191 487L192 487L193 485L194 485L194 484L194 482L194 481L194 478L195 476L194 474L192 472L193 471L194 470L194 468L196 468L196 467L198 466L197 464L196 463L194 463L194 461L196 460L195 459L196 457L198 455L197 454L196 453L197 452L196 450L197 448Z"}, {"id": "tr", "name": "Tripura", "d": "M502 307L503 309L504 310L503 313L505 313L506 316L505 318L505 320L505 322L505 323L504 325L503 327L502 326L500 327L498 325L497 326L498 331L496 332L495 333L494 336L495 340L494 341L493 342L491 342L489 343L488 339L488 337L486 336L486 338L486 341L484 338L485 336L484 335L483 331L482 330L481 328L481 327L481 325L482 325L483 323L483 321L484 320L485 320L486 318L485 317L489 317L491 317L491 315L493 316L493 313L495 314L496 316L497 313L497 311L498 312L498 310L501 310L502 309L502 308L502 307Z"}, {"id": "up", "name": "Uttar Pradesh", "d": "M196 168L198 168L199 170L204 172L202 175L200 177L200 178L200 180L201 183L200 185L202 186L204 185L205 187L205 189L206 188L208 186L209 185L212 183L214 183L216 184L216 187L218 188L222 190L225 191L224 192L222 193L222 194L220 194L222 196L224 197L225 198L227 199L227 198L229 199L229 200L231 201L233 203L234 203L235 205L237 205L239 205L241 205L243 205L243 207L244 206L245 207L246 208L248 208L248 207L250 206L252 208L254 209L255 211L257 211L258 213L258 210L259 209L260 211L262 212L263 212L265 214L268 215L270 217L273 217L273 219L275 221L275 223L276 222L278 222L278 223L281 226L283 226L287 229L289 227L291 228L292 229L294 230L299 233L304 232L304 234L305 236L305 238L309 238L311 239L314 239L317 242L319 240L318 238L323 238L328 241L329 242L329 243L330 244L330 247L331 247L332 250L332 252L334 252L335 253L336 253L336 255L337 255L338 257L339 257L337 259L333 258L332 260L330 260L329 261L329 262L331 263L333 264L335 264L335 265L334 267L333 268L331 267L331 269L333 271L335 272L337 274L340 274L342 276L344 278L344 279L343 279L342 280L340 280L339 279L338 281L335 281L334 279L332 280L333 281L329 283L328 285L327 286L325 287L324 287L323 288L322 289L320 290L318 291L318 293L317 296L318 299L318 301L320 302L321 303L321 305L321 307L318 308L318 310L320 311L318 312L317 317L316 319L315 319L314 321L312 322L309 322L306 320L305 319L305 317L303 316L304 316L304 314L305 312L305 311L305 308L304 306L306 306L305 305L304 304L303 303L300 304L299 304L298 305L296 305L295 303L294 301L293 302L293 301L292 301L289 300L287 299L287 296L286 296L284 295L282 294L281 294L281 293L280 292L279 293L278 294L277 294L275 292L275 293L274 292L273 294L272 296L273 298L271 299L270 297L268 297L267 298L266 297L265 298L265 296L266 294L266 292L265 292L265 294L262 293L264 294L261 295L260 294L259 295L257 294L258 295L257 294L255 295L254 296L255 293L256 292L256 290L254 289L254 287L253 286L251 286L250 288L248 288L247 290L245 291L244 291L245 293L242 293L239 293L237 294L235 294L234 292L236 291L236 290L234 289L233 288L232 290L233 290L234 291L232 290L233 293L232 293L230 293L229 294L228 292L227 293L228 291L226 290L226 292L224 292L224 290L225 290L225 288L224 288L223 291L222 289L223 288L225 287L224 287L226 287L226 286L225 284L223 284L223 286L221 285L222 286L221 287L221 288L219 287L220 286L219 287L217 287L217 289L215 289L217 290L218 294L218 297L219 298L221 299L221 301L222 303L221 305L224 304L226 308L224 308L226 309L226 311L224 312L224 314L222 314L221 313L220 314L218 311L216 310L215 312L212 312L213 310L211 309L210 307L211 304L210 302L210 300L209 299L212 296L212 294L214 293L215 292L214 292L213 290L212 289L212 287L213 286L214 285L214 284L216 283L218 283L219 283L222 282L221 279L223 278L223 276L224 275L225 274L225 272L226 271L225 270L226 268L228 267L228 266L228 263L228 261L227 260L226 259L226 257L224 256L222 255L221 254L219 255L217 255L215 254L214 254L213 252L211 253L210 253L211 251L208 251L206 251L206 253L204 252L200 251L199 252L197 253L195 254L195 255L193 255L193 253L198 250L200 250L199 248L196 249L195 247L197 247L198 245L198 244L197 242L195 240L194 240L193 239L193 237L191 236L192 234L191 232L191 231L192 229L193 229L194 227L196 227L195 225L195 223L196 221L195 221L196 220L194 219L194 218L194 216L192 214L191 212L192 211L191 209L189 207L188 205L188 203L189 202L187 199L187 198L188 196L188 194L188 193L186 189L186 187L188 185L187 183L188 180L190 178L193 175L193 174L196 171L197 169L197 168Z"}, {"id": "ut", "name": "Uttarakhand", "d": "M230 145L232 146L232 148L232 149L234 151L235 153L237 152L237 154L239 155L240 154L242 153L243 154L246 156L248 157L249 159L251 158L251 159L252 161L252 164L254 164L255 165L258 167L260 166L263 168L264 170L269 172L266 172L265 174L263 177L261 179L260 179L259 181L258 183L255 184L255 186L256 188L255 189L253 190L252 192L253 194L254 197L253 199L251 199L250 202L249 204L249 206L248 207L247 209L245 207L244 206L243 207L243 205L241 205L239 205L238 206L235 205L235 204L233 203L231 201L229 200L229 199L227 198L227 199L226 198L224 198L223 196L220 194L222 194L222 193L224 192L225 191L222 190L218 188L216 187L216 184L214 183L212 183L210 185L208 186L207 187L206 189L205 188L204 185L203 185L201 185L201 183L199 181L200 179L201 177L201 175L204 172L199 170L198 168L196 168L199 167L201 165L200 164L201 163L200 161L199 159L200 158L201 155L200 154L202 155L202 153L201 152L203 150L204 149L206 150L207 149L209 148L210 148L212 147L213 146L214 147L215 148L217 148L218 148L219 149L222 148L223 150L224 151L226 151L226 149L225 148L225 145L226 145L227 142L229 143Z"}, {"id": "wb", "name": "West Bengal", "d": "M425 374L426 374L426 375L425 375L425 374ZM432 374L434 375L432 375L432 374ZM430 373L431 374L430 374L430 374L430 373ZM426 373L427 374L426 375L425 374L426 373L426 373ZM431 373L431 374L431 374L431 374L430 373L431 373ZM435 373L435 373L435 373L435 372L435 373ZM427 372L427 373L426 373L427 372ZM435 371L436 372L436 373L436 374L436 374L436 373L435 373L435 371L435 371ZM432 372L431 373L431 372L432 372ZM421 371L422 372L422 373L421 374L421 371ZM424 371L425 372L424 373L424 372L424 371ZM419 371L419 371L419 372L419 372L419 373L419 374L419 372L419 371ZM437 371L438 373L437 373L436 372L436 371L437 371ZM426 371L427 371L427 372L426 373L426 371L426 371ZM433 370L434 372L434 373L433 372L433 370ZM423 371L424 371L423 372L424 373L423 374L423 372L423 371L423 371L423 370L423 371ZM419 370L420 371L421 372L421 374L421 374L421 375L420 374L419 370ZM434 370L435 371L434 371L434 370ZM423 370L422 371L423 371L422 372L422 370L423 370ZM436 370L437 371L436 371L436 370ZM432 370L433 370L432 371L433 373L432 373L432 373L432 371L431 371L431 370L432 370ZM427 370L428 371L427 372L427 370L427 370ZM435 370L436 371L436 371L435 370L435 370ZM428 369L428 370L427 370L427 370L428 369ZM425 370L425 371L424 371L424 370L425 370ZM430 369L431 370L431 371L431 371L431 372L430 372L430 372L429 372L429 371L430 369ZM426 369L427 370L427 371L426 371L425 370L426 369ZM424 369L424 369L424 371L423 370L424 369ZM436 369L436 369L436 370L435 369L436 369ZM432 369L432 370L431 370L432 369L432 369ZM434 368L435 369L435 370L434 370L434 369L434 368ZM427 368L427 369L427 369L427 369L427 368ZM422 368L422 369L423 370L423 370L422 370L422 371L421 371L421 369L422 368ZM433 368L433 368L434 371L432 370L433 368ZM418 368L418 369L418 371L418 372L418 373L417 373L416 373L416 372L416 370L418 368ZM431 368L432 367L432 368L431 369L431 368L431 368ZM435 367L436 368L436 369L435 368L435 367ZM428 367L428 368L428 370L427 368L428 367ZM427 367L427 367L426 369L426 368L427 367ZM424 367L425 367L425 368L424 369L423 369L424 367L424 367ZM430 367L430 367L431 368L431 370L429 368L430 367ZM428 367L429 367L428 367L428 367ZM432 367L434 366L435 367L435 367L434 368L432 367ZM430 366L432 367L432 367L431 368L431 367L430 367L430 366ZM430 365L430 366L431 366L431 366L430 366L430 365L430 365ZM429 364L430 365L429 366L428 366L429 364ZM418 364L417 366L416 367L416 365L418 364ZM432 364L434 364L434 366L433 366L431 365L431 364L432 364ZM437 364L437 365L437 366L436 366L435 364L435 363L437 364ZM433 363L433 364L431 364L433 363ZM432 362L433 363L431 363L431 364L431 363L431 362L432 362L432 362ZM433 360L434 363L433 363L432 362L433 362L432 360L433 360ZM435 361L435 361L435 363L434 363L434 364L435 365L434 363L435 363L435 365L436 367L436 367L434 366L434 365L434 363L434 363L433 361L434 361L435 361ZM436 360L437 362L436 363L435 363L436 362L435 360L436 360ZM429 360L431 361L429 363L430 364L430 365L429 364L428 362L429 360ZM433 361L431 362L430 363L430 363L429 363L432 361L432 361L433 361ZM435 360L435 360L434 361L434 360L434 360L435 360ZM432 358L432 359L431 360L432 361L431 361L430 360L431 359L432 358ZM432 357L433 357L434 358L434 358L435 359L434 360L434 361L432 360L432 359L432 357L432 357ZM435 356L435 357L436 358L436 358L437 360L437 361L438 361L437 362L436 360L435 360L435 359L435 356L435 356ZM433 353L433 354L434 356L433 356L433 353L433 353ZM434 352L435 352L436 355L435 355L434 358L434 357L434 356L434 356L434 354L434 352L434 352ZM415 244L417 246L419 246L421 246L424 248L426 246L428 245L429 245L431 246L433 247L433 251L434 250L434 251L436 251L438 252L438 253L441 254L444 253L445 253L447 254L449 255L449 256L451 256L453 256L454 258L454 259L454 261L453 264L452 265L452 266L451 267L450 268L449 268L450 269L448 269L448 271L449 271L448 272L448 274L445 273L443 273L442 272L441 270L439 270L439 267L438 266L438 265L438 264L435 262L434 263L435 264L436 266L437 266L435 267L434 266L433 266L431 266L430 265L429 264L428 263L426 262L425 260L423 258L422 262L425 262L426 264L424 264L423 265L422 266L422 268L420 268L419 269L418 271L419 272L417 275L417 278L419 278L420 277L423 280L424 281L424 282L425 283L427 284L428 285L430 285L432 284L432 285L432 287L433 289L436 289L435 290L435 292L432 291L431 292L430 291L428 291L425 291L424 293L424 294L423 297L422 298L422 299L420 299L420 297L418 298L418 299L418 301L416 301L415 304L418 308L419 309L421 309L422 310L424 311L426 311L428 312L429 312L430 315L430 316L430 319L430 321L429 322L427 322L426 324L427 327L428 328L429 329L430 331L431 332L431 334L429 335L431 337L434 337L436 337L434 339L433 342L434 343L434 345L435 346L434 347L435 349L434 351L433 352L433 354L432 356L432 358L430 359L429 360L428 362L428 364L427 365L427 367L426 367L424 367L423 369L422 368L420 369L419 370L418 367L418 366L419 364L419 361L416 360L417 358L416 360L414 359L414 356L412 355L414 356L414 359L415 360L418 361L419 362L416 364L414 368L413 369L410 372L408 372L404 374L404 371L403 370L402 370L399 369L399 366L397 365L396 367L394 368L395 365L393 363L390 363L389 361L388 361L388 360L390 360L391 359L390 357L391 356L389 355L390 353L389 352L387 352L386 349L384 348L382 347L382 345L382 344L384 343L382 342L379 342L377 342L376 341L374 340L371 339L370 338L369 336L370 335L370 333L370 331L372 332L374 331L373 329L376 329L376 331L378 332L379 332L381 331L380 330L382 328L384 328L385 327L387 326L389 326L390 325L390 323L391 323L393 323L396 324L397 322L398 323L399 321L400 320L399 318L401 318L403 320L405 318L404 317L406 317L406 316L408 316L407 314L409 312L411 310L411 308L410 306L412 306L413 306L413 304L413 303L411 302L412 301L412 300L414 299L412 295L410 294L410 291L412 290L410 288L410 287L411 285L412 284L414 284L416 285L416 284L416 281L416 280L414 279L413 278L412 277L411 276L411 274L411 272L413 271L414 269L416 269L418 267L419 266L421 265L420 264L420 262L420 260L418 260L417 260L418 258L419 255L418 253L418 251L418 250L416 249L415 247L415 245L415 244Z"}];</script>
+<script>
+(function(){
+  "use strict";
+  function el(id){ return document.getElementById(id); }
+  function rnd(n){ return Math.floor(Math.random()*n); }
+  function pick(a){ return a[rnd(a.length)]; }
+  function shuffle(a){ var b=a.slice(); for(var i=b.length-1;i>0;i--){ var j=rnd(i+1),t=b[i]; b[i]=b[j]; b[j]=t; } return b; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  /* ---------- sound ---------- */
+  var soundOn=true, actx=null;
+  function beep(f,d,t,w){ if(!soundOn) return; try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    var o=actx.createOscillator(),g=actx.createGain(),s=actx.currentTime+(w||0);
+    o.type=t||'sine'; o.frequency.value=f; g.gain.setValueAtTime(.09,s);
+    g.gain.exponentialRampToValueAtTime(.001,s+d); o.connect(g); g.connect(actx.destination);
+    o.start(s); o.stop(s+d+.05);
+  }catch(e){} }
+  function sfxOK(){ beep(700,.1); beep(950,.15,'sine',.09); }
+  function sfxNo(){ beep(210,.22,'square'); }
+  function sfxWin(){ [523,659,784,1047,1319].forEach(function(f,i){ beep(f,.17,'sine',i*.11); }); }
+
+  /* =======================================================
+     CHAPTER CONTENT — taken from Chapter 7, pages 50–55
+  ======================================================= */
+  var HIM_STATES = {
+    jk:{ name:'Jammu & Kashmir and Ladakh', note:'The Himalayas START here. Both are union territories.',
+         extra:'Languages: Kashmiri and Dogri in Jammu & Kashmir, Ladakhi in Ladakh.' },
+    hp:{ name:'Himachal Pradesh', note:'Heavy snowfall in winter. Shipki La mountain pass is here.',
+         extra:'Famous for apple orchards and terrace farming.' },
+    ut:{ name:'Uttarakhand', note:'Heavy snowfall in winter; some regions get the monsoon.',
+         extra:'Terrace farming is seen in its valleys.' },
+    sk:{ name:'Sikkim', note:'A small Himalayan state in the north-east.', extra:'' },
+    wb:{ name:'West Bengal (part)', note:'Only a PART of West Bengal is in the Himalayas.',
+         extra:'The hill station Darjeeling is here, in the Himachal range.' },
+    as:{ name:'Assam', note:'Houses are built on stilts to avoid flooding.', extra:'Assamese is the regional language. Capital: Dispur.' },
+    ml:{ name:'Meghalaya', note:'Mawsynram here gets the HIGHEST rainfall in the world.',
+         extra:'The Garo, Khasi and Jaintia hills are part of the Purvanchal range.' },
+    nl:{ name:'Nagaland', note:'The Naga hills are part of the Purvanchal range.',
+         extra:'Shawls are important here — each tribe has its own pattern.' },
+    mn:{ name:'Manipur', note:'Manipuri is the regional language.', extra:'' },
+    mz:{ name:'Mizoram', note:'The Lushai and Mizo hills are part of the Purvanchal range.', extra:'' },
+    tr:{ name:'Tripura', note:'One of the north-eastern Himalayan states.', extra:'' },
+    ar:{ name:'Arunachal Pradesh', note:'The Himalayas END here.', extra:'' }
+  };
+  var HIM_IDS = Object.keys(HIM_STATES);
+
+  var CAMPS = [
+    { id:0, name:'Base Camp', alt:2500, icon:'⛺',
+      title:'Landforms & Getting Started', sub:'What you already know',
+      learn:[
+        { h:'India has many landforms', b:'India is a vast country with varied climatic conditions and landforms. <b>Mountains</b>, <b>plateaus</b> and <b>plains</b> are some of the different landforms in India.' },
+        { h:'Quick reminders', b:'<ul><li><b>Baisakhi</b> is a popular festival of <b>Punjab</b>.</li><li>Houses in <b>Assam</b> are built on <b>stilts</b> to avoid flooding.</li><li>Houses on hills have <b>sloping</b> roofs, not flat ones, so snow and rain slide off.</li><li><b>Dispur</b> is the capital of <b>Assam</b>.</li></ul>' },
+        { h:'Where are the hill stations?', b:'Most hill stations in the northern and northeastern parts of India are in the <b>Himalayas</b> — the <b>highest mountain range in the world</b>.' }
+      ] },
+    { id:1, name:'Camp 1 · Shiwalik', alt:4000, icon:'🌲',
+      title:'The Outer Himalayas (Shiwalik)', sub:'The lowest range — where the climb begins',
+      learn:[
+        { h:'Three ranges, side by side', b:'The Himalayas consist of <b>three mountain ranges</b> running alongside each other: the <b>Himadri</b> (Greater), the <b>Himachal</b> (Middle) and the <b>Shiwalik</b> (Outer). You are starting at the lowest one.' },
+        { h:'The Shiwalik range', b:'It is the <b>southernmost</b> and the <b>lowest</b> of the Himalayan ranges. These mountains are covered by <b>dense forests</b>.' },
+        { h:'Purvanchal', b:'The <b>northeastern parts of the Shiwalik</b> are known as the <b>Purvanchal range</b>. Many small hills — <b>Garo, Khasi, Jaintia, Naga, Lushai and Mizo</b> — are part of the Purvanchal.' },
+        { h:'Mountain passes', b:'Mountain passes such as <b>Karakoram</b> in Kashmir and <b>Shipki La</b> in Himachal Pradesh are part of this range.<br/><i>A mountain pass is a route through a mountain range.</i>' }
+      ] },
+    { id:2, name:'Camp 2 · Himachal', alt:6000, icon:'🌄',
+      title:'The Middle Himalayas (Himachal)', sub:'Hill stations and river valleys',
+      learn:[
+        { h:'Where it sits', b:'The Himachal range is located to the <b>south of the Himadri</b> and is <b>lower</b> than it.' },
+        { h:'Valleys and passes', b:'This range has many <b>river valleys</b> and <b>mountain passes</b>.' },
+        { h:'The hill stations', b:'Many hill stations are in this range: <b>Shimla, Kullu, Mussoorie</b> and <b>Darjeeling</b>.' },
+        { h:'The forests', b:'The mountains in this range are covered by thick forests of <b>pine</b> and <b>deodar</b>.' }
+      ] },
+    { id:3, name:'Camp 3 · Himadri', alt:8000, icon:'🏔️',
+      title:'The Greater Himalayas (Himadri)', sub:'The highest range of all',
+      learn:[
+        { h:'Snow all year round', b:'The Himadri is the <b>highest</b> of the three ranges and remains <b>covered with snow throughout the year</b>.' },
+        { h:'The top of the world', b:'<b>Mount Everest</b>, the <b>highest peak in the world</b>, with a height of <b>8,848 metres</b>, lies in this range.' },
+        { h:'Where the great rivers begin', b:'The rivers <b>Indus, Sutlej, Ganga, Yamuna</b> and <b>Brahmaputra</b> originate from this range. They are formed by the <b>melting of glaciers</b>.' },
+        { h:'Very little rain', b:'The Himadri range experiences <b>very low rainfall</b>.' }
+      ] },
+    { id:4, name:'Summit · Everest', alt:8848, icon:'🚩',
+      title:'Life in the North & Northeast', sub:'Climate, people, vegetation',
+      learn:[
+        { h:'Climate', b:'Peaks stay snow-covered. There is heavy snowfall in <b>Jammu & Kashmir</b>, <b>Himachal Pradesh</b> and <b>Uttarakhand</b> in winter — very cold in winter and cool in summer. Hill stations of the Western Himalayas (Shimla, Kullu valley, Mussoorie) get the Indian monsoon. The northeast gets <b>heavy rainfall</b>, and <b>Mawsynram in Meghalaya</b> has the <b>highest rainfall in the world</b>.' },
+        { h:'People and languages', b:'<b>Kashmiri</b> and <b>Dogri</b> are spoken in Jammu & Kashmir, <b>Ladakhi</b> in Ladakh, <b>Assamese</b> in Assam and <b>Manipuri</b> in Manipur.' },
+        { h:'Clothes', b:'Women wear <b>salwar kameez</b>, <b>ghagra or lehenga choli</b> and <b>saree</b>. The <b>pheran</b> is a popular outfit in Kashmir. Men wear kurtas, cholas, sherwanis or pherans, and embroidered caps or <b>turbans</b>. <b>Pashmina</b> shawls of Kashmir are famous all over the world, and in <b>Nagaland</b> each tribe has its own shawl pattern which helps identify the tribe.' },
+        { h:'Work', b:'The major occupations are <b>agriculture, weaving</b> and <b>animal rearing</b>. Many people also do <b>handicrafts, woodwork</b> and <b>painting</b>.' },
+        { h:'Vegetation and farming', b:'The mountains are covered with thick forests of <b>pine, deodar</b> and <b>bamboo</b>. <b>Terrace (step) farming</b> is common: the mountain is cut into flat steps. This <b>conserves soil and water</b>, and makes irrigating easy because water poured on the top step runs down to each level. It is seen in the valleys of <b>Uttarakhand</b> and <b>Himachal Pradesh</b>. Crops include <b>rice, wheat, maize, rajma (red kidney beans)</b> and <b>potatoes</b>. Jammu & Kashmir and Himachal Pradesh are famous for <b>apple</b> orchards, and <b>saffron</b> is grown to add colour and flavour to food.' },
+        { h:'Why the Himalayas matter', b:'<ul><li>A <b>natural boundary</b> on India\'s northern borders.</li><li>They <b>protect us from cold dry winds</b> from Central Asia and <b>block monsoon winds</b>, giving heavy rainfall in the Northern Plains.</li><li>We get <b>medicine, wood</b> and other products from the forests.</li><li>We get <b>water</b> for use and irrigation from the rivers.</li><li>We get <b>electricity</b> from dams built across those rivers.</li></ul>' },
+        { h:'A record to remember', b:'In <b>1984</b>, <b>Bachendri Pal</b> became the <b>first Indian woman to climb Mount Everest</b>.' }
+      ] }
+  ];
+
+  // Every question carries the camp it belongs to, so the expedition and the
+  // Summit Push can draw from the same bank.
+  var Q = [
+    // ---- Base camp ----
+    { c:0, t:'tf', q:'Baisakhi is a popular festival of Punjab.', a:true, e:'True. Baisakhi is a popular festival of <b>Punjab</b>.' },
+    { c:0, t:'tf', q:'Houses in Assam are built on stilts to avoid flooding.', a:true, e:'True. Assam floods, so houses are raised on <b>stilts</b>.' },
+    { c:0, t:'tf', q:'Houses on hills have flat roofs.', a:false, e:'False. Houses on hills have <b>sloping</b> roofs so that snow and rain slide off easily.' },
+    { c:0, t:'tf', q:'Dispur is the capital of Assam.', a:true, e:'True. <b>Dispur</b> is the capital of Assam.' },
+    { c:0, t:'mcq', q:'Which of these is NOT a landform?', o:['Monsoon','Mountain','Plateau','Plain'], a:'Monsoon',
+      e:'Mountains, plateaus and plains are <b>landforms</b>. A monsoon is a season of rain, not a landform.' },
+    { c:0, t:'mcq', q:'Most hill stations in northern and northeastern India are situated in which mountain range?',
+      o:['The Himalayas','The Western Ghats','The Aravallis','The Vindhyas'], a:'The Himalayas',
+      e:'They lie in the <b>Himalayas</b>, the highest mountain range in the world.' },
+    { c:0, t:'mcq', q:'The Himalayas are the ______ mountain range in the world.',
+      o:['highest','longest','oldest','widest'], a:'highest', e:'The Himalayas are the <b>highest</b> mountain range in the world.' },
+    { c:0, t:'mcq', q:'The Himalayan range STARTS from…',
+      o:['Jammu & Kashmir and Ladakh','Arunachal Pradesh','Assam','Sikkim'], a:'Jammu & Kashmir and Ladakh',
+      e:'It starts from <b>Jammu & Kashmir and Ladakh</b> (union territories) and ends in <b>Arunachal Pradesh</b>.' },
+    { c:0, t:'mcq', q:'The Himalayan range ENDS in…',
+      o:['Arunachal Pradesh','Jammu & Kashmir','Meghalaya','Uttarakhand'], a:'Arunachal Pradesh',
+      e:'It ends in the north-eastern state of <b>Arunachal Pradesh</b>.' },
+    { c:0, t:'mcq', q:'About how long is the Himalayan mountain range?',
+      o:['2,500 kilometres','250 kilometres','25,000 kilometres','800 kilometres'], a:'2,500 kilometres',
+      e:'Its approximate length is <b>2,500 km</b>, and its breadth varies from <b>150 km to 400 km</b>.' },
+    { c:0, t:'mcq', q:'The breadth of the Himalayas varies from…',
+      o:['150 km to 400 km','10 km to 40 km','500 km to 900 km','1,000 km to 2,000 km'], a:'150 km to 400 km',
+      e:'The breadth varies from <b>150 kilometres to 400 kilometres</b>.' },
+    { c:0, t:'map', q:'Tap the state where the Himalayas END.', a:['ar'],
+      e:'The Himalayas end in <b>Arunachal Pradesh</b>.' },
+
+    // ---- Shiwalik ----
+    { c:1, t:'order', q:'Put the three Himalayan ranges in order, from the SOUTHERNMOST (lowest) to the NORTHERNMOST (highest).',
+      items:['Shiwalik (Outer)','Himachal (Middle)','Himadri (Greater)'], a:['Shiwalik (Outer)','Himachal (Middle)','Himadri (Greater)'],
+      hint:'Think about the order you climb them.',
+      e:'From south to north: <b>Shiwalik</b> (lowest) → <b>Himachal</b> (middle) → <b>Himadri</b> (highest).' },
+    { c:1, t:'mcq', q:'Which is the southernmost and lowest Himalayan range?',
+      o:['The Shiwalik range','The Himadri range','The Himachal range','The Purvanchal range'], a:'The Shiwalik range',
+      e:'The <b>Shiwalik</b> (Outer Himalayas) is the southernmost and lowest range.' },
+    { c:1, t:'mcq', q:'The northeastern parts of the Shiwalik are known as the…',
+      o:['Purvanchal range','Himadri range','Karakoram range','Aravalli range'], a:'Purvanchal range',
+      e:'They are called the <b>Purvanchal range</b>.' },
+    { c:1, t:'pickmany', q:'Which of these small hills are part of the Purvanchal range? Pick ALL that apply.',
+      o:['Garo','Khasi','Jaintia','Naga','Lushai','Mizo','Nilgiri','Aravalli'],
+      a:['Garo','Khasi','Jaintia','Naga','Lushai','Mizo'],
+      e:'<b>Garo, Khasi, Jaintia, Naga, Lushai</b> and <b>Mizo</b> hills are part of the Purvanchal. The Nilgiris and Aravallis are elsewhere in India.' },
+    { c:1, t:'mcq', q:'The Shiwalik mountains are covered by…',
+      o:['dense forests','snow all year','sand dunes','glaciers'], a:'dense forests',
+      e:'The Shiwalik range is covered by <b>dense forests</b>. Only the Himadri stays snow-covered all year.' },
+    { c:1, t:'mcq', q:'The Karakoram mountain pass is in…',
+      o:['Kashmir','Himachal Pradesh','Assam','Sikkim'], a:'Kashmir',
+      e:'<b>Karakoram</b> is in Kashmir; <b>Shipki La</b> is in Himachal Pradesh. Both are part of the Shiwalik range.' },
+    { c:1, t:'mcq', q:'The Shipki La mountain pass is in…',
+      o:['Himachal Pradesh','Kashmir','Nagaland','Uttarakhand'], a:'Himachal Pradesh',
+      e:'<b>Shipki La</b> is in Himachal Pradesh.' },
+    { c:1, t:'mcq', q:'What is a mountain pass?',
+      o:['A route through a mountain range','The top of a mountain','A river in the mountains','A kind of snow'],
+      a:'A route through a mountain range', e:'Glossary: a <b>mountain pass</b> is a route through a mountain range.' },
+
+    // ---- Himachal ----
+    { c:2, t:'fill', q:'The Himachal range is located to the south of the ______.',
+      o:['Himadri','Shiwalik','Purvanchal','Karakoram'], a:'Himadri',
+      e:'The Himachal range lies to the <b>south of the Himadri</b>, and is lower than it.' },
+    { c:2, t:'pickmany', q:'Which hill stations are located in the Himachal (Middle) range? Pick ALL that apply.',
+      o:['Shimla','Kullu','Mussoorie','Darjeeling','Dispur','Mawsynram'],
+      a:['Shimla','Kullu','Mussoorie','Darjeeling'],
+      e:'<b>Shimla, Kullu, Mussoorie</b> and <b>Darjeeling</b> are in the Himachal range. Dispur is Assam\'s capital and Mawsynram is the rainiest place — neither is a hill station in this list.' },
+    { c:2, t:'mcq', q:'The mountains of the Himachal range are covered by thick forests of…',
+      o:['pine and deodar','bamboo only','mangroves','cactus'], a:'pine and deodar',
+      e:'Thick forests of <b>pine</b> and <b>deodar</b> cover the Himachal range.' },
+    { c:2, t:'mcq', q:'Which range has many river valleys and mountain passes?',
+      o:['The Himachal range','The Himadri range','The Purvanchal range','None of them'], a:'The Himachal range',
+      e:'The <b>Himachal</b> range has many river valleys and mountain passes.' },
+    { c:2, t:'mcq', q:'Compared with the Himadri, the Himachal range is…',
+      o:['lower','higher','the same height','colder all year'], a:'lower',
+      e:'The Himachal range is <b>lower</b> than the Himadri and lies to its south.' },
+
+    // ---- Himadri ----
+    { c:3, t:'fill', q:'______ is the highest peak in the world, with a height of 8,848 metres.',
+      o:['Mount Everest','Mount Kailash','Kanchenjunga','Nanda Devi'], a:'Mount Everest',
+      e:'<b>Mount Everest</b> (8,848 m) is the highest peak in the world and lies in the <b>Himadri</b> range.' },
+    { c:3, t:'mcq', q:'How high is Mount Everest?', o:['8,848 metres','4,848 metres','8,848 kilometres','2,500 metres'],
+      a:'8,848 metres', e:'Mount Everest is <b>8,848 metres</b> high.' },
+    { c:3, t:'mcq', q:'Which range remains covered with snow throughout the year?',
+      o:['The Himadri range','The Himachal range','The Shiwalik range','The Purvanchal range'], a:'The Himadri range',
+      e:'The <b>Himadri</b> (Greater Himalayas) stays snow-covered all year — it is the highest range.' },
+    { c:3, t:'pickmany', q:'Which rivers originate from the Himadri range? Pick ALL that apply.',
+      o:['Indus','Sutlej','Ganga','Yamuna','Brahmaputra','Kaveri','Godavari'],
+      a:['Indus','Sutlej','Ganga','Yamuna','Brahmaputra'],
+      e:'The <b>Indus, Sutlej, Ganga, Yamuna</b> and <b>Brahmaputra</b> all begin in the Himadri. The Kaveri and Godavari are rivers of southern India.' },
+    { c:3, t:'mcq', q:'How are the rivers of the Himadri formed?',
+      o:['By the melting of glaciers','By rainfall only','By sea water','By underground springs only'], a:'By the melting of glaciers',
+      e:'These rivers are formed due to the <b>melting of glaciers</b>.' },
+    { c:3, t:'mcq', q:'Which range experiences very low rainfall?',
+      o:['The Himadri range','The Purvanchal range','The Shiwalik range','Meghalaya'], a:'The Himadri range',
+      e:'The <b>Himadri</b> range experiences <b>very low rainfall</b>.' },
+    { c:3, t:'sort', q:'Put each one into the right Himalayan range.',
+      buckets:['Himadri (Greater)','Himachal (Middle)','Shiwalik (Outer)'],
+      items:[ {x:'Mount Everest',b:0}, {x:'River Ganga begins',b:0}, {x:'Snow all year',b:0},
+              {x:'Shimla & Mussoorie',b:1}, {x:'Pine & deodar forests',b:1}, {x:'Darjeeling',b:1},
+              {x:'Purvanchal range',b:2}, {x:'Karakoram pass',b:2}, {x:'Lowest range',b:2} ],
+      e:'Himadri = highest, snow, Everest, river sources. Himachal = hill stations, pine and deodar. Shiwalik = lowest, Purvanchal, mountain passes.' },
+
+    // ---- Summit / life ----
+    { c:4, t:'mcq', q:'Which place has the HIGHEST rainfall in the world?',
+      o:['Mawsynram','Shimla','Darjeeling','Leh'], a:'Mawsynram',
+      e:'<b>Mawsynram</b>, in the state of <b>Meghalaya</b>, experiences the highest rainfall in the world.' },
+    { c:4, t:'mcq', q:'Mawsynram is in which state?', o:['Meghalaya','Assam','Nagaland','Sikkim'], a:'Meghalaya',
+      e:'Mawsynram is in <b>Meghalaya</b>.' },
+    { c:4, t:'mcq', q:'Which languages are spoken in Jammu & Kashmir?',
+      o:['Kashmiri and Dogri','Assamese and Manipuri','Ladakhi and Tamil','Bengali and Odia'], a:'Kashmiri and Dogri',
+      e:'<b>Kashmiri</b> and <b>Dogri</b> are spoken in Jammu & Kashmir. <b>Ladakhi</b> is spoken in Ladakh.' },
+    { c:4, t:'match', q:'Match each place with its language.',
+      pairs:[['Ladakh','Ladakhi'],['Assam','Assamese'],['Manipur','Manipuri'],['Jammu & Kashmir','Kashmiri']],
+      e:'Ladakh → Ladakhi, Assam → Assamese, Manipur → Manipuri, Jammu & Kashmir → Kashmiri (and Dogri).' },
+    { c:4, t:'mcq', q:'The pheran is a popular outfit of which region?',
+      o:['Kashmir','Nagaland','Assam','Meghalaya'], a:'Kashmir',
+      e:'The <b>pheran</b> is a popular outfit in <b>Kashmir</b>.' },
+    { c:4, t:'mcq', q:'Which famous woollen shawl comes from Kashmir?',
+      o:['Pashmina','Kanjivaram','Khadi','Jute'], a:'Pashmina',
+      e:'Woollen shawls made from <b>Pashmina</b> of Kashmir are famous all over the world.' },
+    { c:4, t:'mcq', q:'In which state does each tribe have a differently patterned shawl that helps identify the tribe?',
+      o:['Nagaland','Kashmir','Uttarakhand','Tripura'], a:'Nagaland',
+      e:'In <b>Nagaland</b>, each tribe has a different patterned shawl which helps in identifying the tribe.' },
+    { c:4, t:'pickmany', q:'What are the MAJOR occupations of people in the north and northeast? Pick ALL that apply.',
+      o:['Agriculture','Weaving','Animal rearing','Deep-sea fishing','Oil drilling'],
+      a:['Agriculture','Weaving','Animal rearing'],
+      e:'The major occupations are <b>agriculture, weaving</b> and <b>animal rearing</b>. Many people also do handicrafts, woodwork and painting.' },
+    { c:4, t:'mcq', q:'What is terrace (step) farming?',
+      o:['Cutting a mountain into a series of flat steps','Growing crops on a flat plain','Farming inside a greenhouse','Growing crops in water'],
+      a:'Cutting a mountain into a series of flat steps',
+      e:'In step farming a mountain is cut into a series of <b>flat surfaces resembling steps</b>.' },
+    { c:4, t:'pickmany', q:'Why is terrace farming useful? Pick ALL that apply.',
+      o:['It conserves soil','It conserves water','Water poured on the top step runs down to each level','It makes the mountain taller'],
+      a:['It conserves soil','It conserves water','Water poured on the top step runs down to each level'],
+      e:'Steps help in the <b>conservation of soil and water</b>, and make irrigating convenient because water poured at the topmost step runs down to each level.' },
+    { c:4, t:'mcq', q:'Terrace farming can be seen in the valleys of…',
+      o:['Uttarakhand and Himachal Pradesh','Kerala and Goa','Rajasthan and Gujarat','Bihar and Odisha'],
+      a:'Uttarakhand and Himachal Pradesh',
+      e:'Terrace farming is seen in the valleys of <b>Uttarakhand</b> and <b>Himachal Pradesh</b>.' },
+    { c:4, t:'pickmany', q:'Which crops are grown in these regions? Pick ALL that apply.',
+      o:['Rice','Wheat','Maize','Rajma (red kidney beans)','Potatoes','Coconut'],
+      a:['Rice','Wheat','Maize','Rajma (red kidney beans)','Potatoes'],
+      e:'Major crops are <b>rice, wheat, maize, rajma</b> and <b>potatoes</b>. Coconut grows in coastal areas, not the mountains.' },
+    { c:4, t:'mcq', q:'Which two places are famous for fruit orchards growing apples?',
+      o:['Jammu & Kashmir and Himachal Pradesh','Assam and Nagaland','Sikkim and Tripura','Meghalaya and Mizoram'],
+      a:'Jammu & Kashmir and Himachal Pradesh',
+      e:'<b>Jammu & Kashmir</b> and <b>Himachal Pradesh</b> are famous for apple orchards.' },
+    { c:4, t:'mcq', q:'Which spice, grown in these regions, is added to give colour and flavour to food?',
+      o:['Saffron','Pepper','Cardamom','Vanilla'], a:'Saffron',
+      e:'<b>Saffron</b> is cultivated in these regions and adds colour and flavour to food.' },
+    { c:4, t:'pickmany', q:'The mountains of the north and northeast are covered with thick forests of… Pick ALL that apply.',
+      o:['Pine','Deodar','Bamboo','Palm'], a:['Pine','Deodar','Bamboo'],
+      e:'Thick forests of <b>pine, deodar</b> and <b>bamboo</b> cover these mountains.' },
+    { c:4, t:'pickmany', q:'Why are the Himalayas important to India? Pick ALL that apply.',
+      o:['They form a natural boundary on the northern borders',
+          'They protect us from cold dry winds from Central Asia',
+          'They block monsoon winds, giving heavy rainfall in the Northern Plains',
+          'We get medicine and wood from their forests',
+          'We get water and electricity from their rivers',
+          'They make India the largest country in the world'],
+      a:['They form a natural boundary on the northern borders',
+         'They protect us from cold dry winds from Central Asia',
+         'They block monsoon winds, giving heavy rainfall in the Northern Plains',
+         'We get medicine and wood from their forests',
+         'We get water and electricity from their rivers'],
+      e:'All five are listed in the chapter. The Himalayas do not change India\'s size!' },
+    { c:4, t:'mcq', q:'In 1984, who became the first Indian woman to climb Mount Everest?',
+      o:['Bachendri Pal','Kalpana Chawla','Indira Gandhi','Mary Kom'], a:'Bachendri Pal',
+      e:'In <b>1984</b>, <b>Bachendri Pal</b> became the first Indian woman to climb Mount Everest.' },
+    { c:4, t:'mcq', q:'Glossary: what does “irrigate” mean?',
+      o:['To supply water to help grow','To cut down trees','To climb a mountain','To store grain'], a:'To supply water to help grow',
+      e:'<b>Irrigate</b> means to supply water to help grow.' },
+    { c:4, t:'mcq', q:'Glossary: what does “approximate” mean?',
+      o:['Close to actual','Exactly correct','Completely wrong','Very far away'], a:'Close to actual',
+      e:'<b>Approximate</b> means close to actual.' },
+    { c:4, t:'mcq', q:'Glossary: what is a “turban”?',
+      o:['Headgear of a long length of material wound around the head','A woollen shawl','A kind of shoe','A mountain route'],
+      a:'Headgear of a long length of material wound around the head',
+      e:'A <b>turban</b> is a type of headgear worn by men, made of a long length of material wound around the head.' },
+    { c:4, t:'mcq', q:'What does “vegetation” mean?',
+      o:['Plants and trees growing in a particular area','Only vegetables','Rainfall in an area','Animals of an area'],
+      a:'Plants and trees growing in a particular area',
+      e:'<b>Vegetation</b> means the plants and trees growing in a particular area.' },
+    { c:4, t:'map', q:'Tap the state where Mawsynram — the rainiest place on Earth — is found.', a:['ml'],
+      e:'<b>Mawsynram</b> is in <b>Meghalaya</b>.' },
+    { c:4, t:'map', q:'Tap the state whose capital is Dispur, where houses are built on stilts.', a:['as'],
+      e:'<b>Assam</b> — capital <b>Dispur</b>. Houses there are built on stilts to avoid flooding.' },
+    { c:4, t:'mapmany', q:'Tap ALL the states and union territories the Himalayas pass through.', a:HIM_IDS,
+      e:'The Himalayas run through <b>Jammu & Kashmir and Ladakh, Himachal Pradesh, Uttarakhand, Sikkim, Manipur, Nagaland, Tripura, Mizoram, Meghalaya, a part of West Bengal, Assam</b> and end in <b>Arunachal Pradesh</b>.' }
+  ];
+
+  var CARDS = [
+    { tag:'Ranges', q:'What are the three Himalayan ranges?', a:'The <b>Himadri</b> (Greater Himalayas), the <b>Himachal</b> (Middle Himalayas) and the <b>Shiwalik</b> (Outer Himalayas).' },
+    { tag:'Ranges', q:'Which range is the highest, and what is special about it?', a:'The <b>Himadri</b>. It stays <b>covered with snow throughout the year</b> and holds <b>Mount Everest</b> (8,848 m), the highest peak in the world.' },
+    { tag:'Ranges', q:'Which rivers originate from the Himadri?', a:'<b>Indus, Sutlej, Ganga, Yamuna</b> and <b>Brahmaputra</b> — formed by the <b>melting of glaciers</b>.' },
+    { tag:'Ranges', q:'Where is the Himachal range, and what is found there?', a:'To the <b>south of the Himadri</b> and lower than it. It has many <b>river valleys and mountain passes</b>, hill stations <b>Shimla, Kullu, Mussoorie, Darjeeling</b>, and thick forests of <b>pine and deodar</b>.' },
+    { tag:'Ranges', q:'Describe the Shiwalik range.', a:'The <b>southernmost and lowest</b> range, covered by <b>dense forests</b>. Its northeastern parts are the <b>Purvanchal range</b>, with the <b>Garo, Khasi, Jaintia, Naga, Lushai and Mizo</b> hills. Passes: <b>Karakoram</b> (Kashmir) and <b>Shipki La</b> (Himachal Pradesh).' },
+    { tag:'Extent', q:'Where do the Himalayas start and end?', a:'They start from <b>Jammu & Kashmir and Ladakh</b> and pass through <b>Himachal Pradesh, Uttarakhand, Sikkim, Manipur, Nagaland, Tripura, Mizoram, Meghalaya, a part of West Bengal and Assam</b>, before ending in <b>Arunachal Pradesh</b>.' },
+    { tag:'Extent', q:'How long and how broad are the Himalayas?', a:'Approximate length <b>2,500 km</b>; breadth varies from <b>150 km to 400 km</b>.' },
+    { tag:'Importance', q:'Why are the Himalayas important? (5 reasons)', a:'<ul><li>A <b>natural boundary</b> on India\'s northern borders.</li><li>They <b>protect us from cold dry winds</b> from Central Asia and <b>block monsoon winds</b>, giving heavy rainfall in the Northern Plains.</li><li><b>Medicine, wood</b> and other products from the forests.</li><li><b>Water</b> for use and irrigation from the rivers.</li><li><b>Electricity</b> from dams built across those rivers.</li></ul>' },
+    { tag:'Climate', q:'What is the climate like?', a:'Peaks stay snow-covered; heavy snowfall in <b>J&K, Himachal Pradesh and Uttarakhand</b> in winter. <b>Very cold in winter, cool in summer.</b> The <b>Himadri gets very low rainfall</b>. The northeast gets <b>heavy rainfall</b>, and <b>Mawsynram (Meghalaya)</b> has the highest rainfall in the world.' },
+    { tag:'People', q:'Which languages are spoken where?', a:'<b>Kashmiri</b> and <b>Dogri</b> in Jammu & Kashmir, <b>Ladakhi</b> in Ladakh, <b>Assamese</b> in Assam, <b>Manipuri</b> in Manipur.' },
+    { tag:'People', q:'What do people wear?', a:'Women: <b>salwar kameez, ghagra/lehenga choli, saree</b>. The <b>pheran</b> is popular in Kashmir. Men: kurtas, cholas, sherwanis or pherans, with embroidered caps or <b>turbans</b>. <b>Pashmina</b> shawls of Kashmir are world famous, and in <b>Nagaland</b> each tribe has its own shawl pattern.' },
+    { tag:'People', q:'What are the major occupations?', a:'<b>Agriculture, weaving</b> and <b>animal rearing</b>; also <b>handicrafts, woodwork</b> and <b>painting</b>.' },
+    { tag:'Vegetation', q:'What is terrace (step) farming and why is it done?', a:'A mountain is cut into a series of <b>flat steps</b>. It <b>conserves soil and water</b>, and irrigating is easy because water poured on the <b>topmost step runs down to each level</b>. Seen in the valleys of <b>Uttarakhand</b> and <b>Himachal Pradesh</b>.' },
+    { tag:'Vegetation', q:'Which crops and trees grow here?', a:'Forests of <b>pine, deodar and bamboo</b>. Crops: <b>rice, wheat, maize, rajma (red kidney beans), potatoes</b>. <b>J&K and Himachal Pradesh</b> are famous for <b>apples</b>, and <b>saffron</b> is grown for colour and flavour.' },
+    { tag:'Fact', q:'Who was the first Indian woman to climb Mount Everest?', a:'<b>Bachendri Pal</b>, in <b>1984</b>.' },
+    { tag:'Glossary', q:'approximate / mountain passes / turban / irrigate / vegetation', a:'<b>approximate</b> — close to actual.<br/><b>mountain passes</b> — routes through a mountain range.<br/><b>turban</b> — headgear of a long length of material wound around the head.<br/><b>irrigate</b> — supply water to help grow.<br/><b>vegetation</b> — plants and trees growing in a particular area.' }
+  ];
+
+  /* ---------- save ---------- */
+  var KEY='ht-save-v1';
+  var S={ camps:{}, bestAlt:0, bestPush:0, learnt:{} };
+  function num(v,d){ return (typeof v==='number'&&isFinite(v))?v:d; }
+  function obj(v){ return (v&&typeof v==='object'&&!Array.isArray(v))?v:{}; }
+  try{
+    var raw=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(raw&&typeof raw==='object'&&!Array.isArray(raw)){
+      S.camps=obj(raw.camps); S.learnt=obj(raw.learnt);
+      S.bestAlt=Math.max(0,num(raw.bestAlt,0)); S.bestPush=Math.max(0,num(raw.bestPush,0));
+    }
+  }catch(e){}
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+
+  function campDone(i){ return !!S.camps[i]; }
+  function campsCleared(){ return CAMPS.filter(function(c){ return campDone(c.id); }).length; }
+  function unlockedUpTo(){
+    var n=0; for(var i=0;i<CAMPS.length;i++){ if(campDone(i)) n=i+1; else break; } return n;
+  }
+
+  function show(id){
+    ['s-home','s-camps','s-learn','s-play','s-res','s-map','s-cards'].forEach(function(s){ el(s).classList.remove('active'); });
+    el(id).classList.add('active'); window.scrollTo(0,0);
+  }
+
+  function renderHome(){
+    el('h-alt').textContent=S.bestAlt.toLocaleString('en')+' m';
+    el('h-altfill').style.width=Math.min(100,S.bestAlt/8848*100)+'%';
+    el('h-camps').textContent=campsCleared()+'/'+CAMPS.length;
+    el('h-mastered').textContent=Object.keys(S.learnt).length+'/'+Q.length;
+    el('h-best').textContent=S.bestPush;
+  }
+
+  /* =============== india map widget =============== */
+  function IndiaMap(host, opts){
+    opts=opts||{};
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 612 696');
+    svg.setAttribute('role','group'); svg.setAttribute('aria-label','Map of India');
+    var paths={};
+    INDIA_MAP.forEach(function(s){
+      var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+      p.setAttribute('d',s.d);
+      p.setAttribute('class','st'+(HIM_STATES[s.id]?' him':''));
+      p.setAttribute('data-id',s.id);
+      p.setAttribute('aria-label',HIM_STATES[s.id]?HIM_STATES[s.id].name:s.name);
+      if(opts.pick!==false){ p.setAttribute('tabindex','0'); p.setAttribute('role','button'); }
+      svg.appendChild(p); paths[s.id]=p;
+    });
+    host.innerHTML=''; host.appendChild(svg);
+    var onPick=null;
+    function resolve(e){
+      var t=document.elementFromPoint(e.clientX,e.clientY);
+      var id=t&&t.getAttribute?t.getAttribute('data-id'):null;
+      if(!id && e.target&&e.target.getAttribute) id=e.target.getAttribute('data-id');
+      return id;
+    }
+    svg.addEventListener('click',function(e){ var id=resolve(e); if(id&&onPick) onPick(id); });
+    svg.addEventListener('keydown',function(e){
+      if((e.key==='Enter'||e.key===' ')&&e.target.getAttribute&&e.target.getAttribute('data-id')){
+        e.preventDefault(); if(onPick) onPick(e.target.getAttribute('data-id'));
+      }
+    });
+    return {
+      svg:svg, paths:paths,
+      onPick:function(f){ onPick=f; },
+      clear:function(){ Object.keys(paths).forEach(function(k){ paths[k].classList.remove('sel','ok','no','miss'); }); },
+      mark:function(id,cls){ if(paths[id]) paths[id].classList.add(cls); },
+      unmark:function(id,cls){ if(paths[id]) paths[id].classList.remove(cls); },
+      has:function(id,cls){ return paths[id]&&paths[id].classList.contains(cls); }
+    };
+  }
+
+  /* =============== learn screen =============== */
+  var curCamp=0;
+  function openCamp(i){
+    curCamp=i;
+    var c=CAMPS[i];
+    el('l-camp').textContent=c.icon+' '+c.name;
+    el('l-altitude').textContent=c.alt.toLocaleString('en')+' m';
+    el('l-title').textContent=c.title;
+    el('l-sub').textContent=c.sub;
+    el('l-body').innerHTML=c.learn.map(function(s){
+      return '<div class="lbox"><h4>'+s.h+'</h4>'+s.b+'</div>';
+    }).join('') + (i===4 ? terraceDemoHTML() : '');
+    show('s-learn');
+    if(i===4) wireTerrace();
+  }
+  function terraceDemoHTML(){
+    return '<div class="lbox warm"><h4>Try it: why do farmers cut steps?</h4>'+
+      'Tap <b>Cut steps</b> to change the hillside, then <b>Pour water</b> and watch what happens.'+
+      '<div class="terr"><svg id="terr-svg" viewBox="0 0 320 150" aria-label="Hillside diagram"></svg></div>'+
+      '<div class="terrbtns"><button class="btn small" id="t-steps">⛏ Cut steps</button>'+
+      '<button class="btn small ghost" id="t-water">💧 Pour water</button></div>'+
+      '<div id="t-msg" style="text-align:center;font-size:13.5px;margin-top:7px;min-height:20px"></div></div>';
+  }
+  function wireTerrace(){
+    var stepped=false;
+    function draw(){
+      var s=el('terr-svg'); if(!s) return;
+      var h='<rect x="0" y="0" width="320" height="150" fill="#dff0fb"/>';
+      if(!stepped){
+        h+='<path d="M0,150 L0,120 L300,20 L320,20 L320,150 Z" fill="#8a6a4a"/>'+
+           '<path d="M0,120 L300,20 L320,20 L320,26 L6,126 Z" fill="#3fa66f"/>';
+      }else{
+        h+='<path d="M0,150 L0,120 L60,120 L60,95 L120,95 L120,70 L180,70 L180,45 L240,45 L240,20 L320,20 L320,150 Z" fill="#8a6a4a"/>';
+        [[0,120],[60,95],[120,70],[180,45],[240,20]].forEach(function(p){
+          h+='<rect x="'+p[0]+'" y="'+(p[1]-6)+'" width="'+(p[0]===240?80:60)+'" height="6" fill="#3fa66f"/>';
+        });
+      }
+      s.innerHTML=h;
+    }
+    draw();
+    el('t-steps').addEventListener('click',function(){
+      stepped=!stepped; draw();
+      el('t-msg').innerHTML = stepped
+        ? '✅ Now the mountain is cut into <b>flat steps</b> — this is <b>terrace farming</b>.'
+        : 'This is a plain steep slope.';
+      beep(660,.09);
+    });
+    el('t-water').addEventListener('click',function(){
+      var s=el('terr-svg'); if(!s) return;
+      var d=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      d.setAttribute('r','5'); d.setAttribute('fill','#3d86c6');
+      d.setAttribute('cx','290'); d.setAttribute('cy','14');
+      s.appendChild(d);
+      var t=0;
+      var path = stepped ? [[290,14],[250,26],[240,38],[190,50],[180,62],[130,76],[120,88],[70,100],[60,112],[20,126]]
+                         : [[290,14],[220,38],[150,62],[80,88],[10,118]];
+      var i=0;
+      var iv=setInterval(function(){
+        i++; if(i>=path.length){ clearInterval(iv);
+          el('t-msg').innerHTML = stepped
+            ? '💧 The water <b>slows down on each step</b>, soaking in and staying on the farm — that is how steps <b>conserve soil and water</b>, and make irrigating easy.'
+            : '💧 On a steep slope the water <b>rushes straight down</b> and washes the soil away.';
+          setTimeout(function(){ if(d.parentNode) d.parentNode.removeChild(d); },700);
+          return; }
+        d.setAttribute('cx',path[i][0]); d.setAttribute('cy',path[i][1]);
+      }, stepped?150:110);
+      beep(500,.08,'triangle');
+    });
+  }
+
+  /* =============== question rendering =============== */
+  var P={ list:[], i:0, right:0, mode:'camp', locked:false, missed:[], oxy:3, alt:0, map:null, sel:null };
+
+  function startCamp(i){
+    var qs=shuffle(Q.filter(function(q){ return q.c===i; }));
+    P={ list:qs, i:0, right:0, mode:'camp', locked:false, missed:[], oxy:0, alt:CAMPS[i].alt, map:null, sel:null, camp:i };
+    el('p-mode').textContent=CAMPS[i].icon+' '+CAMPS[i].name;
+    el('p-oxy').hidden=true;
+    el('p-total').textContent=qs.length;
+    show('s-play'); renderQ();
+  }
+  function startPush(){
+    // whole-chapter mixed round, weighted towards facts not yet learnt
+    var pool=shuffle(Q.slice()).sort(function(a,b){
+      return (S.learnt[qKey(a)]?1:0)-(S.learnt[qKey(b)]?1:0);
+    });
+    P={ list:pool.slice(0,16), i:0, right:0, mode:'push', locked:false, missed:[], oxy:3, alt:0, map:null, sel:null };
+    el('p-mode').textContent='⛰️ Summit Push';
+    el('p-oxy').hidden=false;
+    el('p-total').textContent=P.list.length;
+    show('s-play'); renderQ();
+  }
+  function qKey(q){ return q.t+'|'+q.q.slice(0,40); }
+
+  function renderQ(){
+    var q=P.list[P.i]; P.locked=false; P.sel=null;
+    el('p-right').textContent=P.right;
+    el('p-fill').style.width=(P.i/P.list.length*100)+'%';
+    if(P.mode==='push') el('p-oxy').innerHTML='🫁 '+'●'.repeat(P.oxy)+'○'.repeat(3-P.oxy);
+    var kinds={ mcq:'Choose one', tf:'True or false', fill:'Fill in the blank', pickmany:'Pick all that apply',
+                order:'Put them in order', sort:'Sort them', map:'Find it on the map', mapmany:'Find them all',
+                match:'Match the pairs' };
+    el('q-kind').textContent=kinds[q.t]||'';
+    el('q-text').textContent=q.q;
+    el('q-hint').textContent=q.hint||'';
+    el('q-verdict').textContent=''; el('q-verdict').className='verdict';
+    el('q-explain').className='explain'; el('q-explain').innerHTML='';
+    el('q-next').style.display='none';
+    var body=el('q-body'); body.innerHTML='';
+    ({ mcq:renderMCQ, tf:renderTF, fill:renderMCQ, pickmany:renderPickMany,
+       order:renderOrder, sort:renderSort, map:renderMap, mapmany:renderMap, match:renderMatch }[q.t])(q,body);
+  }
+
+  function optButtons(list, body, onClick){
+    var wrap=document.createElement('div');
+    wrap.className='opts'+(list.some(function(t){ return String(t).length>26; })?' one':'');
+    list.forEach(function(t){
+      var b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=t;
+      b.addEventListener('click',function(){ onClick(t,b,wrap); });
+      wrap.appendChild(b);
+    });
+    body.appendChild(wrap); return wrap;
+  }
+  function lockOpts(wrap){ wrap.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; }); }
+
+  function renderMCQ(q,body){
+    var wrap=optButtons(shuffle(q.o), body, function(t,b){
+      if(P.locked) return;
+      var ok=(t===q.a);
+      wrap.querySelectorAll('.opt').forEach(function(x){
+        if(x.textContent===q.a) x.classList.add('ok');
+      });
+      if(!ok) b.classList.add('no');
+      lockOpts(wrap); finish(q,ok);
+    });
+  }
+  function renderTF(q,body){
+    var wrap=optButtons(['True','False'], body, function(t,b){
+      if(P.locked) return;
+      var ok=((t==='True')===q.a);
+      wrap.querySelectorAll('.opt').forEach(function(x){
+        if((x.textContent==='True')===q.a) x.classList.add('ok');
+      });
+      if(!ok) b.classList.add('no');
+      lockOpts(wrap); finish(q,ok);
+    });
+  }
+  function renderPickMany(q,body){
+    var chosen={};
+    var wrap=optButtons(shuffle(q.o), body, function(t,b){
+      if(P.locked) return;
+      if(chosen[t]){ delete chosen[t]; b.classList.remove('sel'); }
+      else { chosen[t]=1; b.classList.add('sel'); }
+      sub.disabled=!Object.keys(chosen).length;
+    });
+    var sub=document.createElement('button');
+    sub.className='btn small green'; sub.textContent='✔ Check'; sub.disabled=true;
+    sub.style.cssText='display:block;margin:12px auto 0';
+    sub.addEventListener('click',function(){
+      if(P.locked) return;
+      var got=Object.keys(chosen).sort().join('|');
+      var want=q.a.slice().sort().join('|');
+      var ok=(got===want);
+      wrap.querySelectorAll('.opt').forEach(function(x){
+        var isA=q.a.indexOf(x.textContent)>=0;
+        x.classList.remove('sel');
+        if(isA) x.classList.add('ok');
+        else if(chosen[x.textContent]) x.classList.add('no');
+      });
+      lockOpts(wrap); sub.disabled=true; finish(q,ok);
+    });
+    body.appendChild(sub);
+  }
+  function renderOrder(q,body){
+    var slots=document.createElement('div'); slots.className='seqslot';
+    var labels=['1st (lowest)','2nd','3rd (highest)'];
+    var filled=[];
+    for(var i=0;i<q.items.length;i++){
+      var s=document.createElement('div'); s.className='slot';
+      s.innerHTML='<span><span class="lbl">'+(labels[i]||('#'+(i+1)))+'</span>—</span>';
+      slots.appendChild(s);
+    }
+    body.appendChild(slots);
+    var picks=document.createElement('div'); picks.className='seqpick';
+    shuffle(q.items).forEach(function(it){
+      var b=document.createElement('button'); b.className='sortitem'; b.type='button'; b.textContent=it;
+      b.addEventListener('click',function(){
+        if(P.locked||b.disabled) return;
+        var idx=filled.length; if(idx>=q.items.length) return;
+        filled.push(it); b.disabled=true;
+        var sl=slots.children[idx];
+        sl.className='slot filled';
+        sl.innerHTML='<span><span class="lbl">'+(labels[idx]||('#'+(idx+1)))+'</span>'+esc(it)+'</span>';
+        if(filled.length===q.items.length){
+          var ok=filled.join('|')===q.a.join('|');
+          for(var k=0;k<slots.children.length;k++){
+            slots.children[k].style.borderColor = (filled[k]===q.a[k])?'#2b9e63':'#d9534f';
+            slots.children[k].style.background  = (filled[k]===q.a[k])?'#dcf5e7':'#fde3e1';
+          }
+          finish(q,ok);
+        }
+      });
+      picks.appendChild(b);
+    });
+    body.appendChild(picks);
+    var reset=document.createElement('button');
+    reset.className='btn ghost small'; reset.textContent='↺ Start over';
+    reset.style.cssText='display:block;margin:4px auto 0';
+    reset.addEventListener('click',function(){ if(!P.locked) renderQ(); });
+    body.appendChild(reset);
+  }
+  function renderSort(q,body){
+    var placed={};
+    var bwrap=document.createElement('div'); bwrap.className='buckets';
+    q.buckets.forEach(function(bn,bi){
+      var d=document.createElement('div'); d.className='bucket'; d.dataset.b=bi;
+      d.innerHTML='<h5>'+esc(bn)+'</h5><div class="bl"></div>';
+      d.addEventListener('click',function(){
+        if(P.locked||!P.sel) return;
+        placed[P.sel.x]=bi;
+        var chip=document.createElement('div'); chip.className='bi'; chip.textContent=P.sel.x; chip.dataset.item=P.sel.x;
+        d.querySelector('.bl').appendChild(chip);
+        P.sel.btn.disabled=true; P.sel.btn.classList.remove('active'); P.sel=null;
+        document.querySelectorAll('.bucket').forEach(function(x){ x.classList.remove('sel'); });
+        if(Object.keys(placed).length===q.items.length) grade();
+      });
+      bwrap.appendChild(d);
+    });
+    body.appendChild(bwrap);
+    var pool=document.createElement('div'); pool.style.textAlign='center';
+    shuffle(q.items).forEach(function(it){
+      var b=document.createElement('button'); b.className='sortitem'; b.type='button'; b.textContent=it.x;
+      b.addEventListener('click',function(){
+        if(P.locked||b.disabled) return;
+        document.querySelectorAll('.sortitem').forEach(function(x){ x.classList.remove('active'); });
+        b.classList.add('active'); P.sel={x:it.x,btn:b};
+        document.querySelectorAll('.bucket').forEach(function(x){ x.classList.add('sel'); });
+      });
+      pool.appendChild(b);
+    });
+    var tip=document.createElement('div');
+    tip.style.cssText='text-align:center;font-size:12.5px;color:var(--ink-soft);margin:6px 0';
+    tip.textContent='Tap an item, then tap the range it belongs to.';
+    body.appendChild(tip); body.appendChild(pool);
+    function grade(){
+      var ok=true;
+      q.items.forEach(function(it){ if(placed[it.x]!==it.b) ok=false; });
+      document.querySelectorAll('.bucket .bi').forEach(function(chip){
+        var it=q.items.filter(function(x){ return x.x===chip.dataset.item; })[0];
+        var inB=parseInt(chip.parentNode.parentNode.dataset.b,10);
+        chip.classList.add(it&&it.b===inB?'ok':'no');
+      });
+      finish(q,ok);
+    }
+    var reset=document.createElement('button');
+    reset.className='btn ghost small'; reset.textContent='↺ Start over';
+    reset.style.cssText='display:block;margin:10px auto 0';
+    reset.addEventListener('click',function(){ if(!P.locked) renderQ(); });
+    body.appendChild(reset);
+  }
+  function renderMap(q,body){
+    var many=(q.t==='mapmany');
+    var host=document.createElement('div'); host.className='mapwrap'; body.appendChild(host);
+    var m=IndiaMap(host,{}); P.map=m;
+    var chosen={};
+    m.onPick(function(id){
+      if(P.locked) return;
+      if(many){
+        if(chosen[id]){ delete chosen[id]; m.unmark(id,'sel'); } else { chosen[id]=1; m.mark(id,'sel'); }
+        sub.disabled=!Object.keys(chosen).length;
+        cnt.textContent=Object.keys(chosen).length+' selected';
+      }else{
+        var ok=(q.a.indexOf(id)>=0);
+        m.clear(); m.mark(id, ok?'ok':'no');
+        if(!ok) q.a.forEach(function(x){ m.mark(x,'miss'); });
+        finish(q,ok);
+      }
+    });
+    if(many){
+      var cnt=document.createElement('div');
+      cnt.style.cssText='text-align:center;font-size:13px;color:var(--ink-soft);margin-top:8px';
+      cnt.textContent='0 selected';
+      body.appendChild(cnt);
+      var sub=document.createElement('button');
+      sub.className='btn small green'; sub.textContent='✔ Check'; sub.disabled=true;
+      sub.style.cssText='display:block;margin:9px auto 0';
+      sub.addEventListener('click',function(){
+        if(P.locked) return;
+        var got=Object.keys(chosen).sort().join('|'), want=q.a.slice().sort().join('|');
+        var ok=(got===want);
+        m.clear();
+        q.a.forEach(function(x){ m.mark(x, chosen[x]?'ok':'miss'); });
+        Object.keys(chosen).forEach(function(x){ if(q.a.indexOf(x)<0) m.mark(x,'no'); });
+        sub.disabled=true; finish(q,ok);
+      });
+      body.appendChild(sub);
+    }
+  }
+  function renderMatch(q,body){
+    var left=shuffle(q.pairs.map(function(p){ return p[0]; }));
+    var right=shuffle(q.pairs.map(function(p){ return p[1]; }));
+    var want={}; q.pairs.forEach(function(p){ want[p[0]]=p[1]; });
+    var sel=null, done={}, wrapL, wrapR;
+    var grid=document.createElement('div');
+    grid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:9px';
+    wrapL=document.createElement('div'); wrapR=document.createElement('div');
+    wrapL.style.cssText='display:flex;flex-direction:column;gap:7px';
+    wrapR.style.cssText='display:flex;flex-direction:column;gap:7px';
+    left.forEach(function(t){
+      var b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=t;
+      b.style.fontSize='14px';
+      b.addEventListener('click',function(){
+        if(P.locked||b.disabled) return;
+        wrapL.querySelectorAll('.opt').forEach(function(x){ x.classList.remove('sel'); });
+        b.classList.add('sel'); sel={t:t,b:b};
+      });
+      wrapL.appendChild(b);
+    });
+    right.forEach(function(t){
+      var b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=t;
+      b.style.fontSize='14px';
+      b.addEventListener('click',function(){
+        if(P.locked||!sel||b.disabled) return;
+        var ok=(want[sel.t]===t);
+        sel.b.classList.remove('sel');
+        sel.b.classList.add(ok?'ok':'no'); b.classList.add(ok?'ok':'no');
+        sel.b.disabled=true; b.disabled=true;
+        done[sel.t]=ok; sel=null;
+        if(Object.keys(done).length===q.pairs.length){
+          var all=Object.keys(done).every(function(k){ return done[k]; });
+          finish(q,all);
+        }
+      });
+      wrapR.appendChild(b);
+    });
+    grid.appendChild(wrapL); grid.appendChild(wrapR); body.appendChild(grid);
+    var tip=document.createElement('div');
+    tip.style.cssText='text-align:center;font-size:12.5px;color:var(--ink-soft);margin-top:8px';
+    tip.textContent='Tap one on the left, then its match on the right.';
+    body.appendChild(tip);
+  }
+
+  function finish(q,ok){
+    P.locked=true;
+    var v=el('q-verdict');
+    if(ok){
+      P.right++; S.learnt[qKey(q)]=1;
+      v.textContent=pick(['🎉 Correct!','⭐ Well done!','💪 Yes!','🚩 Nailed it!']);
+      v.classList.add('good'); sfxOK();
+    }else{
+      P.missed.push(q);
+      delete S.learnt[qKey(q)];
+      v.textContent='❌ Not quite';
+      v.classList.add('bad'); sfxNo();
+      if(P.mode==='push'){ P.oxy--; el('p-oxy').innerHTML='🫁 '+'●'.repeat(Math.max(0,P.oxy))+'○'.repeat(3-Math.max(0,P.oxy)); }
+    }
+    save();
+    var ex=el('q-explain'); ex.innerHTML='<b>💡 Remember:</b> '+q.e; ex.classList.add('show');
+    el('p-right').textContent=P.right;
+    if(P.mode==='push' && P.oxy<=0){
+      el('q-next').textContent='🏁 Out of oxygen'; el('q-next').style.display='';
+    }else{
+      el('q-next').textContent=(P.i+1>=P.list.length)?'🏁 Finish':'Next ➜';
+      el('q-next').style.display='';
+    }
+    el('q-next').focus();
+  }
+
+  el('q-next').addEventListener('click',function(){
+    if(P.mode==='push'&&P.oxy<=0){ endRound(); return; }
+    P.i++;
+    if(P.i>=P.list.length) endRound(); else renderQ();
+  });
+  el('p-quit').addEventListener('click',function(){
+    if(confirm('Leave this climb? Facts you have already learnt are saved.')){ renderHome(); show('s-home'); }
+  });
+
+  function endRound(){
+    var total=P.list.length, pct=P.right/total;
+    var rows=[];
+    rows.push(['Correct answers',P.right+' / '+(P.mode==='push'?Math.min(P.i+1,total):total)]);
+
+    if(P.mode==='camp'){
+      var passed=pct>=0.7;
+      var c=CAMPS[P.camp];
+      if(passed){
+        if(!campDone(P.camp)) rows.push(['Camp reached','🏕️ '+c.name]);
+        S.camps[P.camp]=Math.max(S.camps[P.camp]||0,P.right);
+        S.bestAlt=Math.max(S.bestAlt,c.alt);
+      }
+      rows.push(['Altitude',c.alt.toLocaleString('en')+' m']);
+      el('r-emoji').textContent = pct===1?'🚩' : passed?'🏕️':'🥾';
+      el('r-title').textContent = pct===1 ? (P.camp===4?'SUMMIT! 🎉':'Perfect climb!')
+                                : passed ? 'Camp reached!' : 'Slipped on the ice';
+      el('r-sub').textContent = passed
+        ? (P.camp===4 && pct>=0.7 ? 'You have reached the top of Mount Everest — just like Bachendri Pal in 1984!'
+                                  : 'You may climb to the next camp.')
+        : ('You need '+Math.ceil(total*0.7)+' out of '+total+' to move up. Read the camp notes again and retry — you keep every fact you got right.');
+      el('r-next').style.display = (passed && P.camp<CAMPS.length-1) ? '' : 'none';
+      if(passed && P.camp===4){ sfxWin(); confetti(150); }
+      else if(passed){ sfxWin(); confetti(70); }
+    } else {
+      var reached=Math.round(Math.min(1,P.right/P.list.length)*8848);
+      S.bestPush=Math.max(S.bestPush,P.right);
+      S.bestAlt=Math.max(S.bestAlt,reached);
+      rows.push(['Altitude climbed',reached.toLocaleString('en')+' m']);
+      rows.push(['Oxygen left','🫁 '+Math.max(0,P.oxy)+'/3']);
+      el('r-emoji').textContent = P.oxy<=0?'🫁' : P.right===P.list.length?'🚩':'⛰️';
+      el('r-title').textContent = P.oxy<=0?'Out of oxygen!' : P.right===P.list.length?'Summit reached!':'Good push!';
+      el('r-sub').textContent = P.oxy<=0
+        ? 'Three wrong answers used up your oxygen. Check the Revision Cards and push again.'
+        : 'Your best answers so far are remembered — the next push focuses on what you have not learnt yet.';
+      el('r-next').style.display='none';
+      if(P.right===P.list.length){ sfxWin(); confetti(150); }
+    }
+    save();
+    el('r-list').innerHTML=rows.map(function(r){
+      return '<div class="resrow"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>';
+    }).join('');
+    el('r-missed').innerHTML = P.missed.length
+      ? '<div class="missed"><h5>📌 Worth another look</h5><ul>'+
+        P.missed.slice(0,6).map(function(q){ return '<li>'+esc(q.q)+'</li>'; }).join('')+'</ul></div>'
+      : '';
+    show('s-res');
+  }
+  el('r-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+  el('r-again').addEventListener('click',function(){
+    if(P.mode==='push') startPush(); else startCamp(P.camp);
+  });
+  el('r-next').addEventListener('click',function(){ openCamp(Math.min(CAMPS.length-1,P.camp+1)); });
+
+  /* =============== camp list =============== */
+  function renderCamps(){
+    el('c-alt').textContent='⛰ '+S.bestAlt.toLocaleString('en')+' m';
+    var open=unlockedUpTo();
+    el('trail').innerHTML='';
+    CAMPS.forEach(function(c){
+      var b=document.createElement('button');
+      var locked=c.id>open;
+      b.className='camp'+(campDone(c.id)?' done':'');
+      b.disabled=locked;
+      b.innerHTML='<span class="cn">'+(locked?'🔒':c.icon)+'</span><span class="ci">'+
+        '<span class="ct">'+esc(c.name)+'</span><br/><span class="cd">'+esc(c.title)+'</span></span>'+
+        '<span style="text-align:right"><span class="alt">'+c.alt.toLocaleString('en')+' m</span><br/>'+
+        (campDone(c.id)?'<span class="cs">✔ done</span>':'')+'</span>';
+      if(!locked) b.addEventListener('click',function(){ openCamp(c.id); });
+      el('trail').appendChild(b);
+    });
+    show('s-camps');
+  }
+
+  /* =============== map lab =============== */
+  var labMap=null, labChosen={};
+  function openMapLab(){
+    show('s-map');
+    labChosen={};
+    labMap=IndiaMap(el('mp-wrap'),{});
+    labMap.onPick(function(id){
+      if(labChosen[id]){ delete labChosen[id]; labMap.unmark(id,'sel'); }
+      else { labChosen[id]=1; labMap.mark(id,'sel'); }
+      el('mp-count').textContent=Object.keys(labChosen).length+' / '+HIM_IDS.length;
+      var st=HIM_STATES[id];
+      el('mp-info').innerHTML = st
+        ? '<div class="lbox"><h4>'+esc(st.name)+'</h4>'+esc(st.note)+(st.extra?'<br/><span style="color:var(--ink-soft)">'+esc(st.extra)+'</span>':'')+'</div>'
+        : '<div class="lbox warm"><h4>Not a Himalayan state</h4>The Himalayas do not pass through this state.</div>';
+    });
+    el('mp-count').textContent='0 / '+HIM_IDS.length;
+    el('mp-info').innerHTML='';
+  }
+  el('mp-check').addEventListener('click',function(){
+    if(!labMap) return;
+    labMap.clear();
+    var hit=0, wrong=0;
+    HIM_IDS.forEach(function(id){ if(labChosen[id]){ labMap.mark(id,'ok'); hit++; } else labMap.mark(id,'miss'); });
+    Object.keys(labChosen).forEach(function(id){ if(HIM_IDS.indexOf(id)<0){ labMap.mark(id,'no'); wrong++; } });
+    var missedN=HIM_IDS.length-hit;
+    el('mp-info').innerHTML='<div class="lbox"><h4>'+
+      (missedN===0&&!wrong ? 'Perfect — you found all '+HIM_IDS.length+'! 🎉' : 'You found '+hit+' of '+HIM_IDS.length)+'</h4>'+
+      (wrong?('<b>'+wrong+'</b> of your picks are not Himalayan states (shown in red). '):'')+
+      (missedN?'The yellow ones are the states you missed.':'')+
+      '<br/><span style="color:var(--ink-soft)">Jammu &amp; Kashmir and Ladakh share one shape on this map — the Himalayas start there and end in Arunachal Pradesh.</span></div>';
+    if(hit===HIM_IDS.length&&!wrong){ sfxWin(); confetti(80); }
+  });
+  el('mp-reset').addEventListener('click',function(){ openMapLab(); });
+  el('mp-show').addEventListener('click',function(){
+    if(!labMap) return;
+    labMap.clear(); labChosen={};
+    HIM_IDS.forEach(function(id){ labMap.mark(id,'ok'); labChosen[id]=1; });
+    el('mp-count').textContent=HIM_IDS.length+' / '+HIM_IDS.length;
+    el('mp-info').innerHTML='<div class="lbox"><h4>All the Himalayan states</h4>'+
+      HIM_IDS.map(function(id){ return esc(HIM_STATES[id].name); }).join(' · ')+
+      '<br/><span style="color:var(--ink-soft)">Start: Jammu &amp; Kashmir and Ladakh. End: Arunachal Pradesh.</span></div>';
+  });
+
+  /* =============== revision cards =============== */
+  function openCards(){
+    el('rc-count').textContent=CARDS.length+' cards';
+    el('deck').innerHTML=CARDS.map(function(c,i){
+      return '<div class="rc" data-i="'+i+'"><button type="button"><span>▸</span><span>'+
+             '<span class="tag">'+esc(c.tag)+'</span><br/>'+esc(c.q)+'</span></button>'+
+             '<div class="ans">'+c.a+'</div></div>';
+    }).join('');
+    el('deck').querySelectorAll('.rc button').forEach(function(b){
+      b.addEventListener('click',function(){
+        var rc=b.parentNode; rc.classList.toggle('open');
+        b.firstChild.textContent = rc.classList.contains('open')?'▾':'▸';
+        beep(620,.06);
+      });
+    });
+    show('s-cards');
+  }
+
+  /* =============== confetti + snow =============== */
+  function confetti(n){
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var box=el('conf'), cols=['#3d86c6','#eec643','#e05c4b','#3fa66f','#ffffff'];
+    for(var i=0;i<n;i++){
+      var p=document.createElement('i');
+      p.style.left=rnd(100)+'vw'; p.style.background=pick(cols);
+      p.style.animationDuration=(2+Math.random()*2.3)+'s';
+      p.style.animationDelay=(Math.random()*.6)+'s';
+      p.style.transform='rotate('+rnd(360)+'deg)';
+      p.addEventListener('animationend',function(){ this.remove(); });
+      box.appendChild(p);
+    }
+  }
+  (function(){
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var h='';
+    for(var i=0;i<34;i++){
+      h+='<i style="left:'+(Math.random()*100).toFixed(1)+'%;animation-duration:'+
+         (7+Math.random()*9).toFixed(1)+'s;animation-delay:-'+(Math.random()*12).toFixed(1)+'s"></i>';
+    }
+    el('snow').innerHTML=h;
+  })();
+
+  /* =============== wire up =============== */
+  el('m-trek').addEventListener('click',renderCamps);
+  el('m-map').addEventListener('click',openMapLab);
+  el('m-cards').addEventListener('click',openCards);
+  el('m-push').addEventListener('click',startPush);
+  el('c-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+  el('l-back').addEventListener('click',renderCamps);
+  el('l-go').addEventListener('click',function(){ startCamp(curCamp); });
+  el('mp-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+  el('rc-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+
+  renderHome();
+})();
+</script>
+</body>
+</html>
