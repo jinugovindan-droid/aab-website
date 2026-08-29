@@ -483,6 +483,8 @@
     var bubble=null, askbar=null;
     var st, log, stopped=false, running=false, budget=0;
     var doors=[];
+    var pendingAsk=null;   // resolver for an ask that is still waiting for input
+    var startedAt=0;
 
     function resetCanvas(){
       canvas.width=SW; canvas.height=SH;
@@ -536,6 +538,7 @@
     }
     function penLineTo(nx,ny){
       if(!st.penDown) return;
+      log.push({t:'draw'});
       ctx.strokeStyle='hsl('+((st.penHue*3.6)%360)+',85%,50%)';
       ctx.lineWidth=st.penSize;
       ctx.beginPath();
@@ -544,6 +547,10 @@
       ctx.stroke();
     }
     function num(v){ var n=parseFloat(v); return isFinite(n)?n:0; }
+    // Scratch keeps a sprite on the stage; without this a big "move" sends it
+    // off into nowhere and conditions like "touching" can never come true.
+    function fenceX(v){ return Math.max(-SW/2, Math.min(SW/2, v)); }
+    function fenceY(v){ return Math.max(-SH/2, Math.min(SH/2, v)); }
     function readVal(v){
       if(typeof v==='string'){
         if(v==='answer') return st.answer;
@@ -564,6 +571,7 @@
     }
     function ask(prompt){
       return new Promise(function(res){
+        pendingAsk=res;
         st.saying=prompt; paint();
         askbar=document.createElement('div'); askbar.className='askbar';
         askbar.innerHTML='<input type="text" aria-label="Your answer"/><button type="button">✓</button>';
@@ -571,7 +579,8 @@
         var inp=askbar.querySelector('input'), btn=askbar.querySelector('button');
         function done(){
           st.answer=inp.value; st.answerShown=true; st.saying='';
-          askbar.remove(); askbar=null; paint(); res();
+          if(askbar){ askbar.remove(); askbar=null; }
+          pendingAsk=null; paint(); res();
         }
         btn.addEventListener('click',done);
         inp.addEventListener('keydown',function(e){ if(e.key==='Enter') done(); });
@@ -582,7 +591,10 @@
     var onStep=null;
     async function tick(path){
       budget++;
-      if(budget>120000){ stopped=true; return; }
+      if(budget>120000){ stopped=true; log.push({t:'timeout'}); return; }
+      // A big "repeat" or a loop that never ends would otherwise sit there for
+      // minutes looking broken. Stop after 20s and say so instead.
+      if(startedAt && Date.now()-startedAt>20000){ stopped=true; log.push({t:'timeout'}); return; }
       if(onStep) onStep(path);
       var d=opts.getDelay?opts.getDelay():60;
       if(d>0) await sleep(d);
@@ -600,12 +612,12 @@
         case 'move': {
           var n=num(f.n);
           var r=st.dir*Math.PI/180;
-          var nx=st.x+Math.sin(r)*n, ny=st.y+Math.cos(r)*n;
+          var nx=fenceX(st.x+Math.sin(r)*n), ny=fenceY(st.y+Math.cos(r)*n);
           penLineTo(nx,ny); st.x=nx; st.y=ny;
           log.push({t:'move',n:n}); break; }
         case 'turnR': st.dir=(st.dir+num(f.n))%360; log.push({t:'turn',n:num(f.n)}); break;
         case 'turnL': st.dir=(st.dir-num(f.n)+360)%360; log.push({t:'turn',n:-num(f.n)}); break;
-        case 'goxy': st.x=num(f.x); st.y=num(f.y); log.push({t:'goto'}); break;
+        case 'goxy': st.x=fenceX(num(f.x)); st.y=fenceY(num(f.y)); log.push({t:'goto'}); break;
         case 'pointDir': st.dir=num(f.d); break;
         case 'say': st.saying=String(readVal(f.t)); log.push({t:'say',v:st.saying}); break;
         case 'sayFor': {
@@ -630,7 +642,10 @@
           break; }
         case 'repeatUntil': {
           var guard=0; log.push({t:'repeatUntil'});
-          while(!evalBool(b.c) && !stopped && guard++<10000) await runList(b.body, path+'/b');
+          // 500 is generous for any of these exercises, and keeps a loop whose
+          // condition never comes true from looking like a frozen page.
+          while(!evalBool(b.c) && !stopped && guard++<500) await runList(b.body, path+'/b');
+          if(guard>=500) log.push({t:'runaway'});
           break; }
         case 'ifThen': {
           var r1=evalBool(b.c); log.push({t:'if',v:r1});
@@ -647,12 +662,18 @@
       reset:reset,
       run:async function(script, stepCb){
         if(running) return null;
-        running=true; onStep=stepCb||null;
+        running=true; startedAt=Date.now(); onStep=stepCb||null;
         try{ await runList(script,'root'); }
-        finally{ running=false; onStep=null; paint(); }
+        finally{ running=false; startedAt=0; onStep=null; paint(); }
         return { log:log, state:st };
       },
-      stop:function(){ stopped=true; if(askbar){ askbar.remove(); askbar=null; } },
+      stop:function(){
+        stopped=true;
+        if(askbar){ askbar.remove(); askbar=null; }
+        // Releasing this matters: without it a run halted mid-question never
+        // finishes, and every later run is blocked until the page reloads.
+        if(pendingAsk){ var r=pendingAsk; pendingAsk=null; r(); }
+      },
       isRunning:function(){ return running; },
       getLog:function(){ return log; },
       getState:function(){ return st; },
@@ -681,6 +702,8 @@
     return null;
   }
   function said(log){ return log.filter(function(e){ return e.t==='say'; }).map(function(e){ return e.v; }); }
+  function hasSay(list){ return hasOp(list,'say')||hasOp(list,'sayFor'); }
+  function drewAnything(log){ return log.some(function(e){ return e.t==='draw'; }); }
 
   var CHALLENGES = [
     { id:0, icon:'👋', name:'Warm-up: move and say',
@@ -713,6 +736,7 @@
         if(Number(t.f.n)!==90) return {ok:false,msg:'To make square corners, turn <b>90</b> degrees.'};
         var moves=log.filter(function(e){ return e.t==='move'; }).length;
         if(moves<4) return {ok:false,msg:'The loop should run 4 times — press 🟢 to run it.'};
+        if(!drewAnything(log)) return {ok:false,msg:'Nothing was actually drawn. Make sure the pen is <b>down</b> while the sprite moves — a <b>pen up</b> block will stop it drawing.'};
         return {ok:true,msg:'A <b>loop</b> runs the same blocks again and again. 4 sides × (move + turn 90°) = a square!'};
       } },
 
@@ -729,6 +753,7 @@
         if(!iff.c) return {ok:false,msg:'Drop the <b>( ) = ( )</b> operator into the if block\'s hexagon.'};
         if(iff.c.op!=='eq'||String(iff.c.f.a)!=='time'||Number(iff.c.f.b)!==12)
           return {ok:false,msg:'The condition should read <b>time = 12</b>.'};
+        if(!hasSay(iff.body)) return {ok:false,msg:'The <b>say</b> block must go <i>inside</i> the if block — tap the empty space inside it, then add the say. Outside the if, it would run no matter what the condition said.'};
         var s=said(log);
         if(!s.length) return {ok:false,msg:'Put a <b>say</b> block INSIDE the if block.'};
         if(!/do your work/i.test(s.join(' '))) return {ok:false,msg:'It should say <b>Do your work !!</b>'};
@@ -785,6 +810,8 @@
         var mv=findOp(ru.body,'move');
         if(!mv) return {ok:false,msg:'Put <b>move ( ) steps</b> INSIDE the repeat until loop.'};
         if(Number(mv.f.n)!==20) return {ok:false,msg:'Move <b>20</b> steps each time.'};
+        if(hasSay(ru.body)) return {ok:false,msg:'Your <b>say</b> block is <i>inside</i> the loop, so the cat announces the door on every single step. Move it <b>after</b> the loop — select the repeat-until block, then add the say.'};
+        if(!hasSay(sc)) return {ok:false,msg:'After the loop, add <b>say “I have found a closed door”</b>.'};
         var s=said(log).join(' ');
         if(!/closed door/i.test(s)) return {ok:false,msg:'After the loop, <b>say “I have found a closed door”</b> — put it AFTER the loop, not inside.'};
         return {ok:true,msg:'<b>repeat until</b> checks its condition <i>before</i> each turn of the loop, and stops as soon as it is true. The cat kept moving until it touched the closed door.'};
@@ -810,6 +837,7 @@
         if(Number(outerTurns[0].f.n)!==60) return {ok:false,msg:'Turn <b>60</b> degrees between circles (6 × 60° = 360°).'};
         var moves=log.filter(function(e){ return e.t==='move'; }).length;
         if(moves<200) return {ok:false,msg:'Press 🟢 and let it finish drawing.'};
+        if(!drewAnything(log)) return {ok:false,msg:'The blocks are right but nothing was drawn — check that the pen is <b>down</b>.'};
         return {ok:true,msg:'A <b>nested loop</b>! The inner loop ran 36 times to draw one circle, and the outer loop repeated that 6 times — 216 moves from just a few blocks.'};
       } }
   ];
@@ -1134,9 +1162,16 @@
       var choices=vars.concat(['answer']);
       var j=choices.indexOf(String(cur)); block.f[key]=choices[(j+1)%choices.length]; renderScript(); return;
     }
-    var v=prompt('Value:', cur);
+    var wantsNumber=(typeof cur==='number');
+    var v=prompt(wantsNumber?'Type a number:':'Value:', cur);
     if(v===null) return;
-    block.f[key]= (typeof cur==='number' && v.trim()!=='' && isFinite(Number(v))) ? Number(v) : v;
+    if(wantsNumber){
+      if(v.trim()==='' || !isFinite(Number(v))){
+        flash('That block needs a <b>number</b>. “'+esc(v)+'” was not used.');
+        return;
+      }
+      block.f[key]=Number(v);
+    } else block.f[key]=v;
     renderScript();
   }
 
@@ -1151,7 +1186,11 @@
   el('btn-stop').addEventListener('click',function(){ if(L.rt) L.rt.stop(); });
   el('btn-run').addEventListener('click',runScript);
   async function runScript(){
-    if(!L.rt||L.rt.isRunning()) return;
+    if(!L.rt) return;
+    if(L.rt.isRunning()){          // stop whatever is in flight so we grade a fresh run
+      L.rt.stop();
+      for(var w=0; w<60 && L.rt.isRunning(); w++) await sleep(25);
+    }
     resetStage();
     L.running=true;
     var res=await L.rt.run(L.script, function(path){ renderScript(path); });
@@ -1162,8 +1201,15 @@
   el('btn-check').addEventListener('click',async function(){
     if(!L.script.length){ flash('Build a script first — tap blocks from the palette.'); return; }
     var res=await runScript();
-    var out=L.ch.check(L.script, res?res.log:[], res?res.state:null);
+    var log=res?res.log:[];
+    var out=L.ch.check(L.script, log, res?res.state:null);
     var fb=el('lab-fb');
+    if(log.some(function(e){ return e.t==='timeout'; })){
+      out={ ok:false, msg:'That program ran for a very long time, so I stopped it. Try smaller numbers in your loops — a <b>repeat</b> of a few hundred is plenty.' };
+    } else if(!out.ok && log.some(function(e){ return e.t==='runaway'; })){
+      out.msg='Your <b>repeat until</b> loop kept going and never stopped — its condition never became true. '+
+              'Check the condition, and make sure the sprite can actually reach it. '+out.msg;
+    }
     fb.className='fb '+(out.ok?'ok':'no')+' show';
     fb.innerHTML=(out.ok?'✅ ':'💡 ')+out.msg;
     if(out.ok){
