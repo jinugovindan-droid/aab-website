@@ -49,6 +49,11 @@
     .eq-list li { margin: 6px 0; list-style: none; }
     .eq-list b { color: var(--blue); }
 
+    /* visible keyboard focus — these controls have no border of their own */
+    .btn:focus-visible, .ans:focus-visible, .icon-btn:focus-visible,
+    .lesson-card button:focus-visible {
+      outline: 3px solid var(--gold); outline-offset: 3px;
+    }
     .btn {
       display: inline-block; border: 0; cursor: pointer; font-family: inherit;
       font-size: 19px; font-weight: 800; color: #fff;
@@ -273,7 +278,7 @@
         <div class="q-icon" id="q-icon"></div>
         <div class="q-text" id="q-text"></div>
         <div class="answers" id="answers"></div>
-        <div class="verdict" id="verdict"></div>
+        <div class="verdict" id="verdict" aria-live="polite"></div>
         <div class="fact" id="fact"></div>
         <div class="next-wrap"><button class="btn blue small" id="btn-quiz-next" style="display:none">Next ➜</button></div>
       </div>

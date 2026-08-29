@@ -60,6 +60,11 @@
     .subtitle { font-size: 17px; font-weight: 800; color: var(--chakra); margin-bottom: 6px; }
     .tagline { color: var(--ink-soft); font-size: 15px; margin-bottom: 14px; }
 
+    /* visible keyboard focus — these controls have no border of their own */
+    .btn:focus-visible, .ans:focus-visible, .icon-btn:focus-visible,
+    .stop:focus-visible, .route button:focus-visible {
+      outline: 3px solid var(--gold); outline-offset: 3px;
+    }
     .btn {
       display: inline-block; border: 0; cursor: pointer; font-family: inherit;
       font-size: 20px; font-weight: 800; color: #fff;

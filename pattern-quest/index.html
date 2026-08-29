@@ -57,6 +57,11 @@
     .best-line { font-size: 15px; color: var(--ink-soft); margin-bottom: 16px; }
     .best-line b { color: var(--ink); }
 
+    /* visible keyboard focus — these controls have no border of their own */
+    .btn:focus-visible, .ans:focus-visible, .icon-btn:focus-visible,
+    .grid-odd button:focus-visible, .level:focus-visible {
+      outline: 3px solid var(--accent); outline-offset: 3px;
+    }
     .btn {
       display: inline-block; border: 0; cursor: pointer; font-family: inherit;
       font-size: 20px; font-weight: 700; color: #fff;
@@ -235,7 +240,7 @@
         <div class="q-text" id="q-text"></div>
         <div id="q-stage"></div>
         <div class="answers" id="answers"></div>
-        <div class="feedback" id="feedback"></div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
       </div>
     </section>
 
