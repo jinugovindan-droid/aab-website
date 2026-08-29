@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <meta name="theme-color" content="#0f5c66"/>
+  <title>Showing Respect to Others — Shanaya's Learning Adventure</title>
+  <meta name="description" content="An interactive lesson and quiz for kids on self-respect and respecting others, based on Unit 1 Lesson 1 of Moral, Social & Cultural Studies."/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%A4%9D%3C%2Ftext%3E%3C%2Fsvg%3E"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --bg1: #0f5c66; --bg2: #0a3940;
+      --card: #fffaf0; --ink: #2d3a3a; --ink-soft: #6b7d7d;
+      --gold: #f2b84b; --rose: #e8677d; --blue: #3576a8;
+      --good: #2f9e44; --bad: #e0574c;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: "Comic Sans MS", "Chalkboard SE", "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(165deg, var(--bg1), var(--bg2) 75%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      overflow-x: hidden;
+    }
+    .bg-deco { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .bg-deco span { position: absolute; font-size: 38px; opacity: .14; animation: floaty 13s ease-in-out infinite; }
+    @keyframes floaty { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-24px) rotate(6deg); } }
+
+    .app { position: relative; z-index: 1; width: 100%; max-width: 640px; padding: 16px; flex: 1; display: flex; flex-direction: column; }
+    .screen { display: none; flex: 1; flex-direction: column; }
+    .screen.active { display: flex; animation: pop-in .35s ease; }
+    @keyframes pop-in { from { opacity: 0; transform: scale(.97) translateY(10px); } to { opacity: 1; transform: none; } }
+
+    .card { background: var(--card); border-radius: 22px; padding: 22px; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
+
+    .gold-bar { height: 7px; border-radius: 99px; background: linear-gradient(90deg, var(--gold), var(--rose)); margin: 12px 0; }
+
+    /* ---------- HOME ---------- */
+    .home-card { text-align: center; margin-top: 20px; }
+    .logo { font-size: 58px; line-height: 1; display: inline-block; animation: wobble 2.4s ease-in-out infinite; }
+    @keyframes wobble { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+    h1 { font-size: clamp(26px, 7vw, 36px); margin: 6px 0 0; color: var(--blue); }
+    .subtitle { font-size: 16px; font-weight: 800; color: var(--rose); margin-bottom: 6px; }
+    .source-line { font-size: 12px; color: var(--ink-soft); margin-bottom: 8px; }
+    .eq-list { text-align: left; margin: 12px auto 4px; max-width: 420px; font-size: 15.5px; color: var(--ink); }
+    .eq-list li { margin: 6px 0; list-style: none; }
+    .eq-list b { color: var(--blue); }
+
+    /* visible keyboard focus — these controls have no border of their own */
+    .btn:focus-visible, .ans:focus-visible, .icon-btn:focus-visible,
+    .lesson-card button:focus-visible {
+      outline: 3px solid var(--gold); outline-offset: 3px;
+    }
+    .btn {
+      display: inline-block; border: 0; cursor: pointer; font-family: inherit;
+      font-size: 19px; font-weight: 800; color: #fff;
+      background: linear-gradient(135deg, var(--gold), #e39a1f);
+      padding: 13px 30px; border-radius: 999px;
+      box-shadow: 0 6px 0 #9a660755, 0 10px 24px rgba(0,0,0,.25);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #9a660755; }
+    .btn.small { font-size: 14.5px; padding: 9px 18px; }
+    .btn.ghost { background: #eef2f0; color: var(--ink); box-shadow: 0 4px 0 #d3d9d6; }
+    .btn.blue { background: linear-gradient(135deg, var(--blue), #275a80); box-shadow: 0 6px 0 #17324755, 0 10px 24px rgba(0,0,0,.25); }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+    .best-line { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 14px; }
+    .best-line b { color: var(--ink); }
+
+    /* ---------- TOP BAR / PROGRESS ---------- */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; color: #fff; }
+    .icon-btn { border: 0; background: rgba(255,255,255,.16); color: #fff; font-size: 17px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-family: inherit; }
+    .step-label { font-size: 13px; font-weight: 800; background: rgba(255,255,255,.16); padding: 6px 14px; border-radius: 999px; }
+    .dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 10px; }
+    .dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.3); }
+    .dots span.on { background: var(--gold); }
+    .dots span.now { background: #fff; transform: scale(1.3); }
+
+    /* ---------- LESSON CONTENT ---------- */
+    .lesson-card { min-height: 380px; }
+    .step-title { font-size: 21px; font-weight: 900; color: var(--blue); margin-bottom: 4px; }
+    .step-lead { font-size: 15px; color: var(--ink-soft); margin-bottom: 14px; }
+
+    .vocab-box { background: #eef7f4; border: 2px solid #cfe9e0; border-radius: 16px; padding: 14px 16px; margin: 10px 0; }
+    .vocab-box.b { background: #fff3e6; border-color: #f7dcb0; }
+    .vocab-box h3 { font-size: 17px; color: var(--blue); margin-bottom: 4px; }
+    .vocab-box.b h3 { color: #b5680e; }
+    .vocab-box p { font-size: 15px; }
+
+    .story-text { font-size: 16px; line-height: 1.6; margin-bottom: 4px; }
+    .story-text strong { color: var(--rose); }
+
+    .scenario { border: 2px solid #e5e0d2; border-radius: 16px; padding: 12px 14px; margin-bottom: 10px; background: #fffdf7; }
+    .scenario .line { font-size: 15px; margin-bottom: 8px; }
+    .scenario .opts { display: flex; gap: 8px; }
+    .scenario button {
+      flex: 1; border: 2px solid #ddd4b8; background: #fff; border-radius: 12px; font-family: inherit;
+      font-size: 13.5px; font-weight: 800; padding: 8px 6px; cursor: pointer; color: var(--ink);
+    }
+    .scenario button.correct { background: #dcf5df; border-color: var(--good); color: #1a6e2c; }
+    .scenario button.wrong { background: #fbe0dd; border-color: var(--bad); color: #a13224; }
+    .scenario button:disabled { cursor: default; }
+    .scenario .expl { font-size: 13px; color: var(--ink-soft); margin-top: 8px; display: none; }
+    .scenario .expl.show { display: block; }
+
+    .classify-card { border: 2px solid #e5e0d2; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px; background: #fffdf7; }
+    .classify-card .line { font-size: 15px; margin-bottom: 10px; }
+    .classify-card .opts { display: flex; gap: 6px; flex-wrap: wrap; }
+    .classify-card button {
+      border: 2px solid #ddd4b8; background: #fff; border-radius: 999px; font-family: inherit;
+      font-size: 13px; font-weight: 800; padding: 7px 12px; cursor: pointer; color: var(--ink);
+    }
+    .classify-card button.correct { background: #dcf5df; border-color: var(--good); color: #1a6e2c; }
+    .classify-card button:disabled { cursor: default; opacity: .6; }
+    .classify-card button.correct:disabled { opacity: 1; }
+    .classify-card .expl { font-size: 13px; color: var(--ink-soft); margin-top: 8px; display: none; }
+    .classify-card .expl.show { display: block; }
+
+    .checkpoint { background: #f2f7fb; border: 2px solid #cfe0ef; border-radius: 16px; padding: 14px 16px; margin-top: 12px; }
+    .checkpoint .q { font-size: 15px; font-weight: 800; margin-bottom: 10px; color: var(--blue); }
+    .checkpoint .opts { display: flex; flex-direction: column; gap: 8px; }
+    .checkpoint button {
+      text-align: left; border: 2px solid #cfe0ef; background: #fff; border-radius: 12px; font-family: inherit;
+      font-size: 14.5px; padding: 10px 12px; cursor: pointer; color: var(--ink);
+    }
+    .checkpoint button.correct { background: #dcf5df; border-color: var(--good); }
+    .checkpoint button.wrong { background: #fbe0dd; border-color: var(--bad); }
+    .checkpoint button:disabled { cursor: default; }
+    .checkpoint .cp-fb { font-size: 13.5px; margin-top: 8px; color: var(--ink-soft); display: none; }
+    .checkpoint .cp-fb.show { display: block; }
+
+    .venn-wrap { position: relative; width: 240px; height: 240px; margin: 14px auto; }
+    .venn-ring {
+      position: absolute; top: 50%; left: 50%; border-radius: 50%;
+      opacity: 0; transform: translate(-50%, -50%) scale(.85); transition: opacity .5s ease, transform .5s ease;
+    }
+    .venn-ring.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .venn-1 { width: 240px; height: 240px; background: #eaf4ff; border: 3px solid #a9cdf0; z-index: 1; }
+    .venn-2 { width: 178px; height: 178px; background: #fff1e0; border: 3px solid #f0cd8f; z-index: 2; }
+    .venn-3 { width: 116px; height: 116px; background: #ffe4ea; border: 3px solid #f0aab8; z-index: 3; }
+    .venn-label {
+      position: absolute; left: 50%; width: 110px; transform: translateX(-50%);
+      font-size: 13px; font-weight: 800; text-align: center; z-index: 4;
+      opacity: 0; transition: opacity .5s ease;
+    }
+    .venn-label.show { opacity: 1; }
+    .venn-label-1 { top: 12px; color: var(--blue); }
+    .venn-label-2 { top: 42px; color: #b5680e; }
+    .venn-label-3 { top: 50%; transform: translate(-50%, -50%); color: #a13a52; }
+    .venn-caption { font-size: 15px; text-align: center; margin-top: 10px; color: var(--ink); }
+
+    .reflect-box textarea {
+      width: 100%; min-height: 110px; border: 2px solid #ddd4b8; border-radius: 14px; padding: 12px;
+      font-family: inherit; font-size: 15px; color: var(--ink); resize: vertical;
+    }
+    .reflect-save-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+    .reflect-saved { font-size: 14px; color: var(--good); font-weight: 800; opacity: 0; transition: opacity .3s ease; }
+    .reflect-saved.show { opacity: 1; }
+
+    .lesson-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; gap: 10px; }
+    .ready-hint { font-size: 13px; color: rgba(255,255,255,.85); text-align: center; flex: 1; }
+
+    /* ---------- QUIZ ---------- */
+    .hud { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; color: #fff; font-weight: 700; flex-wrap: wrap; }
+    .hud .chip { background: rgba(255,255,255,.16); border-radius: 999px; padding: 6px 14px; font-size: 14px; }
+    .hud .chip b { color: var(--gold); }
+
+    .q-card { min-height: 380px; display: flex; flex-direction: column; }
+    .q-icon { font-size: 50px; text-align: center; margin: 2px 0 8px; }
+    .q-text { font-size: 19px; font-weight: 800; margin-bottom: 16px; text-align: center; text-wrap: balance; }
+
+    .answers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ans {
+      border: 3px solid #e7dcbe; background: #fffdf6; border-radius: 16px;
+      font-family: inherit; font-size: 15.5px; font-weight: 800; color: var(--ink);
+      padding: 14px 8px; cursor: pointer; transition: transform .1s ease, border-color .1s;
+    }
+    .ans:hover { transform: scale(1.03); border-color: var(--gold); }
+    .ans.correct { background: #dcfce7; border-color: var(--good); }
+    .ans.wrong { background: #fee2e2; border-color: var(--bad); animation: shake .4s ease; }
+    .ans:disabled { cursor: default; opacity: .95; }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-7px); } 75% { transform: translateX(7px); } }
+
+    .verdict { text-align: center; font-size: 20px; font-weight: 900; min-height: 30px; margin-top: 14px; }
+    .verdict.good { color: var(--good); } .verdict.bad { color: var(--bad); }
+
+    .fact { display: none; margin-top: 12px; padding: 14px 16px; border-radius: 16px; background: #eef4ff; border: 2px solid #c7d8fb; font-size: 15px; color: #1e3a8a; }
+    .fact.show { display: block; animation: pop-in .3s ease; }
+    .fact b { color: var(--blue); }
+    .next-wrap { text-align: center; margin-top: 14px; min-height: 56px; }
+
+    /* ---------- RESULT ---------- */
+    .result-card { text-align: center; margin-top: 30px; }
+    .stamp-big {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 112px; height: 112px; font-size: 54px; margin: 8px 0;
+      border: 4px solid var(--good); border-radius: 50%;
+      background: #f0fdf4; transform: rotate(-6deg); box-shadow: inset 0 0 0 4px #fff;
+    }
+    .stamp-big.missed { border-color: #cbbfa4; background: #faf6ea; filter: grayscale(.6); }
+    .result-title { font-size: 27px; font-weight: 900; }
+    .result-sub { color: var(--ink-soft); margin: 8px 0 18px; font-size: 15.5px; }
+    .result-score { font-size: 19px; font-weight: 800; color: var(--rose); margin-bottom: 18px; }
+    .result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+    .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+    .confetti i { position: absolute; top: -20px; width: 10px; height: 16px; border-radius: 3px; animation: fall linear forwards; }
+    @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+
+    @media (max-width: 420px) {
+      .ans { font-size: 14px; padding: 12px 6px; }
+      .q-text { font-size: 17px; }
+      .venn-wrap { width: 200px; height: 200px; }
+      .venn-1 { width: 200px; height: 200px; } .venn-2 { width: 148px; height: 148px; } .venn-3 { width: 96px; height: 96px; }
+      .venn-label-2 { top: 34px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-deco" aria-hidden="true">
+    <span style="left:6%;  top:10%; animation-delay:0s">🤝</span>
+    <span style="left:82%; top:8%;  animation-delay:1.5s">💛</span>
+    <span style="left:10%; top:68%; animation-delay:3s">🙏</span>
+    <span style="left:86%; top:60%; animation-delay:2s">✨</span>
+    <span style="left:44%; top:86%; animation-delay:4s">📖</span>
+    <span style="left:62%; top:28%; animation-delay:5s">🕊️</span>
+  </div>
+
+  <div class="app">
+
+    <!-- HOME -->
+    <section id="screen-home" class="screen active">
+      <div class="card home-card">
+        <div class="logo">🤝</div>
+        <h1>Showing Respect</h1>
+        <div class="subtitle">...to Others 💛</div>
+        <div class="gold-bar"></div>
+        <p class="source-line">Unit 1 · Lesson 1 · Moral, Social &amp; Cultural Studies — for Shanaya</p>
+        <ul class="eq-list">
+          <li>⭐ <b>How do you respect yourself?</b></li>
+          <li>⭐ <b>How can you be a good citizen?</b></li>
+        </ul>
+        <p class="best-line" id="best-line" hidden>🏆 Last quiz score: <b id="best-score">0</b>/8 <span id="best-stars"></span></p>
+        <button class="btn" id="btn-play">📖 Start Learning</button>
+      </div>
+    </section>
+
+    <!-- LESSON -->
+    <section id="screen-lesson" class="screen">
+      <div class="top-bar">
+        <button class="icon-btn" id="btn-lesson-home" aria-label="Home">🏠</button>
+        <span class="step-label" id="step-label"></span>
+        <button class="icon-btn" id="btn-sound" aria-label="Sound on or off">🔊</button>
+      </div>
+      <div class="dots" id="dots"></div>
+      <div class="card lesson-card" id="lesson-card"></div>
+      <div class="lesson-footer">
+        <button class="btn ghost small" id="btn-back">⬅ Back</button>
+        <span class="ready-hint" id="ready-hint"></span>
+        <button class="btn small" id="btn-next" style="display:none">Next ➜</button>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="screen-quiz" class="screen">
+      <div class="hud">
+        <span class="chip">📝 Question <b id="hud-q">1</b>/<b id="hud-qtotal">8</b></span>
+        <span class="chip">✅ <b id="hud-right">0</b></span>
+      </div>
+      <div class="card q-card">
+        <div class="q-icon" id="q-icon"></div>
+        <div class="q-text" id="q-text"></div>
+        <div class="answers" id="answers"></div>
+        <div class="verdict" id="verdict" aria-live="polite"></div>
+        <div class="fact" id="fact"></div>
+        <div class="next-wrap"><button class="btn blue small" id="btn-quiz-next" style="display:none">Next ➜</button></div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="screen-result" class="screen">
+      <div class="card result-card">
+        <div class="stamp-big" id="result-stamp"></div>
+        <div class="result-title" id="result-title"></div>
+        <p class="result-sub" id="result-sub"></p>
+        <div class="result-score" id="result-score"></div>
+        <div class="result-actions">
+          <button class="btn small ghost" id="btn-result-lesson">📖 Back to Lesson</button>
+          <button class="btn small" id="btn-result-retry">🔁 Retake Quiz</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function pick(arr) { return arr[rnd(arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function el(id) { return document.getElementById(id); }
+
+  /* -------- sound -------- */
+  var soundOn = true, actx = null;
+  function beep(freq, dur, type, when) {
+    if (!soundOn) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      var o = actx.createOscillator(), g = actx.createGain();
+      var t = actx.currentTime + (when || 0);
+      o.type = type || "sine"; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.12, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.connect(g); g.connect(actx.destination);
+      o.start(t); o.stop(t + dur + 0.05);
+    } catch (e) {}
+  }
+  function sfxCorrect() { beep(660, .12); beep(880, .18, "sine", .1); }
+  function sfxWrong() { beep(220, .25, "square"); }
+  function sfxWin() { [523, 659, 784, 1047].forEach(function (f, i) { beep(f, .18, "sine", i * .13); }); }
+  function sfxTap() { beep(760, .08, "triangle"); }
+
+  /* -------- persisted state -------- */
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem("sr-progress") || "{}") || {}; } catch (e) {}
+  function persist() { try { localStorage.setItem("sr-progress", JSON.stringify(saved)); } catch (e) {} }
+
+  function show(id) {
+    var s = document.querySelectorAll(".screen");
+    for (var i = 0; i < s.length; i++) s[i].classList.remove("active");
+    el(id).classList.add("active");
+  }
+
+  function renderHome() {
+    if (saved.quizScore !== undefined) {
+      el("best-line").hidden = false;
+      el("best-score").textContent = saved.quizScore;
+      el("best-stars").textContent = "★★★".slice(0, saved.quizStars || 0) + "☆☆☆".slice(0, 3 - (saved.quizStars || 0));
+    }
+  }
+
+  /* =====================================================
+     LESSON STEPS
+  ===================================================== */
+  var stepIndex = 0;
+  var stepDone = {}; // per-step ready flags
+  // Per-step answer memory, so navigating Back and Next again restores what was
+  // already answered instead of forcing the activity to be redone from scratch.
+  var answerStore = { sort: {}, storyA: null, storyB: null, classify: {} };
+  var vennTimers = [];
+  var reflectionDraft = saved.reflection || "";
+
+  function ready(key) {
+    stepDone[key] = true;
+    el("btn-next").style.display = "";
+    el("ready-hint").textContent = "";
+  }
+  function notReady(hint) {
+    el("btn-next").style.display = "none";
+    el("ready-hint").textContent = hint || "";
+  }
+
+  var STEPS = [
+    { key: "vocab", label: "Key Words", build: buildVocab },
+    { key: "sort", label: "Activity 1", build: buildSort },
+    { key: "storyA", label: "The Story (Part 1)", build: buildStoryA },
+    { key: "storyB", label: "The Story (Part 2)", build: buildStoryB },
+    { key: "classify", label: "Respect Around the World", build: buildClassify },
+    { key: "venn", label: "The Big Idea", build: buildVenn },
+    { key: "reflect", label: "Your Turn to Reflect", build: buildReflect }
+  ];
+
+  function renderDots() {
+    var d = el("dots");
+    d.innerHTML = "";
+    STEPS.forEach(function (s, i) {
+      var dot = document.createElement("span");
+      if (i < stepIndex) dot.className = "on";
+      if (i === stepIndex) dot.className = "now";
+      d.appendChild(dot);
+    });
+  }
+
+  function renderStep() {
+    var step = STEPS[stepIndex];
+    el("step-label").textContent = "Step " + (stepIndex + 1) + " of " + STEPS.length + " · " + step.label;
+    renderDots();
+    el("btn-back").disabled = false;
+    el("lesson-card").innerHTML = "";
+    notReady();
+    // Leaving the Venn step: cancel any pending reveal timers so they don't
+    // fire against elements that no longer exist once this step is rebuilt.
+    vennTimers.forEach(function (t) { clearTimeout(t); });
+    vennTimers = [];
+    step.build(el("lesson-card"));
+    el("btn-next").textContent = stepIndex === STEPS.length - 1 ? "Start the Quiz! 📝" : "Next ➜";
+  }
+
+  function goHome() { show("screen-home"); renderHome(); }
+
+  function startLesson() {
+    stepIndex = 0;
+    show("screen-lesson");
+    renderStep();
+  }
+
+  el("btn-back").addEventListener("click", function () {
+    if (stepIndex === 0) { goHome(); return; }
+    stepIndex--; renderStep();
+  });
+  el("btn-next").addEventListener("click", function () {
+    if (stepIndex >= STEPS.length - 1) { startQuiz(); return; }
+    stepIndex++; renderStep();
+  });
+
+  /* ---- Step: Vocabulary ---- */
+  function buildVocab(box) {
+    box.innerHTML =
+      '<div class="step-title">📚 Key Words</div>' +
+      '<p class="step-lead">Before we start, let\'s learn two important words.</p>' +
+      '<div class="vocab-box"><h3>💛 Self-respect</h3><p>Believing in your own worth, and taking care of yourself — like studying hard, being honest, and staying calm even when things get tough.</p></div>' +
+      '<div class="vocab-box b"><h3>🤝 Respecting others</h3><p>Treating people kindly and politely — like knocking before entering a room, listening, and thinking about other people\'s feelings.</p></div>';
+    ready("vocab");
+  }
+
+  /* ---- Step: Activity 1 — sort respectful / disrespectful ---- */
+  var SCENARIOS = [
+    { line: "Yara holds the door open for her grandmother, who uses a walker.", answer: "respectful", type: "others", expl: "That's respect for others — thinking of someone else's needs before your own." },
+    { line: "Sam swings a door open and walks right in — no knock, no hello.", answer: "disrespectful", type: "others", expl: "Knocking first shows you respect someone else's space and privacy." },
+    { line: "Omar gets up and wanders off during class without asking the teacher first.", answer: "disrespectful", type: "others", expl: "Asking permission shows respect for the teacher and the classroom rules." },
+    { line: "Liam talks with his mouth full and makes a mess while eating.", answer: "disrespectful", type: "others", expl: "Good table manners show respect for the people sharing the meal with you." },
+    { line: "Mia studies hard every night because she wants to reach her goals.", answer: "respectful", type: "self", expl: "That's self-respect — believing you're worth the effort it takes to succeed." },
+    { line: "Zayd stays calm and speaks kindly even when he's upset in an argument.", answer: "respectful", type: "self", expl: "Staying calm shows both self-respect and respect for the other person." }
+  ];
+  function markScenarioAnswered(card, btns, s, chosen) {
+    var right = chosen === s.answer;
+    for (var k = 0; k < btns.length; k++) {
+      btns[k].disabled = true;
+      if (btns[k].getAttribute("data-v") === s.answer) btns[k].classList.add("correct");
+      else if (btns[k].getAttribute("data-v") === chosen) btns[k].classList.add("wrong");
+    }
+    var expl = card.querySelector(".expl");
+    expl.textContent = (right ? "✅ Yes! " : "Actually, it's " + s.answer + ". ") + s.expl;
+    expl.classList.add("show");
+    return right;
+  }
+  function buildSort(box) {
+    box.innerHTML = '<div class="step-title">🧠 Activity 1: Respectful or Disrespectful?</div>' +
+      '<p class="step-lead">Read each sentence and decide!</p>';
+    var store = answerStore.sort;
+    var list = document.createElement("div");
+    SCENARIOS.forEach(function (s, i) {
+      var card = document.createElement("div");
+      card.className = "scenario";
+      card.innerHTML =
+        '<div class="line">' + (i + 1) + ". " + s.line + '</div>' +
+        '<div class="opts"><button data-v="respectful">✅ Respectful</button><button data-v="disrespectful">❌ Disrespectful</button></div>' +
+        '<div class="expl"></div>';
+      var btns = card.querySelectorAll("button");
+      if (store[i] !== undefined) {
+        markScenarioAnswered(card, btns, s, store[i]);
+      } else {
+        var lock = false;
+        for (var b = 0; b < btns.length; b++) {
+          btns[b].addEventListener("click", function (ev) {
+            if (lock) return;
+            lock = true;
+            var chosen = ev.target.getAttribute("data-v");
+            var right = markScenarioAnswered(card, btns, s, chosen);
+            right ? sfxCorrect() : sfxWrong();
+            store[i] = chosen;
+            var answered = Object.keys(store).length;
+            el("ready-hint").textContent = answered + " / " + SCENARIOS.length + " answered";
+            if (answered === SCENARIOS.length) ready("sort");
+          });
+        }
+      }
+      list.appendChild(card);
+    });
+    box.appendChild(list);
+    var answeredNow = Object.keys(store).length;
+    if (answeredNow === SCENARIOS.length) ready("sort");
+    else notReady(answeredNow + " / " + SCENARIOS.length + " answered");
+  }
+
+  /* ---- Step: Story part A + checkpoint ---- */
+  function buildStoryA(box) {
+    box.innerHTML = '<div class="step-title">📖 The Story of Nemo &amp; Majid</div>' +
+      '<p class="story-text">Nemo and his classmates were sitting quietly, waiting for their teacher. When she walked in, everyone stood and greeted her politely — except one seat was empty. It belonged to <strong>Majid</strong>.</p>' +
+      '<p class="story-text">That morning, another boy had left his bag in the hallway. Majid nudged it with his foot — right into the middle of the corridor — and other students kept kicking it as they walked past, until a fight broke out. A teacher separated the boys and sent Majid to the headmaster\'s office. It wasn\'t his first time in trouble, so this time he might be expelled.</p>' +
+      '<p class="story-text">Later, while the class watched a video, the door suddenly swung open — no knock, no warning. It was Majid! He marched straight to his seat next to Nemo. The whole class gasped at how rude it seemed.</p>' +
+      '<div class="checkpoint" id="cpA"><div class="q">🤔 What rule did Majid break when he came back to class?</div><div class="opts"></div><div class="cp-fb"></div></div>';
+    buildCheckpoint("cpA",
+      ["He didn't knock before entering", "He was late for lunch", "He forgot his homework", "He sat in the wrong seat"],
+      0,
+      "Knocking before you enter a room is a simple way of showing respect for others — it tells them you value their space.",
+      "storyA");
+  }
+
+  /* ---- Step: Story part B + checkpoint ---- */
+  function buildStoryB(box) {
+    box.innerHTML = '<div class="step-title">📖 The Story, continued...</div>' +
+      '<p class="story-text">The teacher wasn\'t impressed. She told Majid he could stay in school and be forgiven for the fight — <em>but only</em> if a classmate volunteered to spend the whole week helping him learn to respect himself and others. If nobody volunteered, he would have to leave the classroom immediately.</p>' +
+      '<p class="story-text">Nobody moved. Majid looked around anxiously... until his eyes landed on the boy sitting right beside him: Nemo.</p>' +
+      '<p class="story-text">Nemo raised his hand. <strong>"Sir, I\'ll help my friend Majid this week,"</strong> he said. "I know he can learn to respect the rules." As class ended, Nemo began thinking about exactly how he could help his friend change.</p>' +
+      '<div class="checkpoint" id="cpB"><div class="q">🤔 What did Nemo do that showed respect for his friend?</div><div class="opts"></div><div class="cp-fb"></div></div>';
+    buildCheckpoint("cpB",
+      ["He offered to help Majid for a week instead of judging him", "He laughed at Majid in front of everyone", "He told the headmaster to punish Majid", "He ignored Majid completely"],
+      0,
+      "Real respect for others often means helping a friend do better — even when they've made a mistake.",
+      "storyB");
+  }
+
+  function buildCheckpoint(boxId, options, correctIndex, factText, stepKey) {
+    var box = el(boxId);
+    var optsWrap = box.querySelector(".opts");
+    var order = shuffle(options.map(function (o, i) { return { text: o, correct: i === correctIndex }; }));
+    var already = answerStore[stepKey]; // previously chosen option text, or null
+
+    function markAnswered(all, chosenText) {
+      for (var i = 0; i < all.length; i++) {
+        all[i].disabled = true;
+        if (all[i].textContent === options[correctIndex]) all[i].classList.add("correct");
+        else if (all[i].textContent === chosenText && chosenText !== options[correctIndex]) all[i].classList.add("wrong");
+      }
+      var fb = box.querySelector(".cp-fb");
+      fb.innerHTML = "<b>💡</b> " + factText;
+      fb.classList.add("show");
+    }
+
+    var lock = !!already;
+    order.forEach(function (opt) {
+      var b = document.createElement("button");
+      b.textContent = opt.text;
+      b.addEventListener("click", function () {
+        if (lock) return;
+        lock = true;
+        var all = optsWrap.querySelectorAll("button");
+        markAnswered(all, opt.text);
+        opt.correct ? sfxCorrect() : sfxWrong();
+        answerStore[stepKey] = opt.text;
+        ready(stepKey);
+      });
+      optsWrap.appendChild(b);
+    });
+
+    if (already) {
+      markAnswered(optsWrap.querySelectorAll("button"), already);
+      ready(stepKey);
+    } else {
+      notReady("Answer the question to continue");
+    }
+  }
+
+  /* ---- Step: Real-world classify ---- */
+  var CLASSIFY_CARDS = [
+    {
+      title: "🕌 Queen Elizabeth's Visit",
+      line: "When Queen Elizabeth II visited the Sheikh Zayed Grand Mosque in Abu Dhabi, she removed her shoes and wore a special robe and head covering — following the mosque's customs, just like everyone else.",
+      answer: "others",
+      expl: "This is respect for others — she honoured the local customs and traditions of the place she was visiting."
+    },
+    {
+      title: "🏺 Al Sanaa (Emirati Traditions)",
+      line: "Al Sanaa is a set of Emirati customs and traditions that teach children how to treat people kindly, protect their culture, and grow up to be good citizens.",
+      answer: "both",
+      expl: "It's both! Being a good citizen who values their own culture is self-respect — and treating people kindly is respect for others."
+    }
+  ];
+  function markClassifyAnswered(card, btns, c) {
+    for (var k = 0; k < btns.length; k++) {
+      btns[k].disabled = true;
+      if (btns[k].getAttribute("data-v") === c.answer) btns[k].classList.add("correct");
+    }
+    var expl = card.querySelector(".expl");
+    expl.textContent = c.expl;
+    expl.classList.add("show");
+  }
+  function buildClassify(box) {
+    box.innerHTML = '<div class="step-title">🌍 Respect Around the World</div>' +
+      '<p class="step-lead">Read each true story, then tap what kind of respect it shows.</p>';
+    var store = answerStore.classify;
+    CLASSIFY_CARDS.forEach(function (c, i) {
+      var card = document.createElement("div");
+      card.className = "classify-card";
+      card.innerHTML =
+        '<div style="font-weight:800;margin-bottom:4px">' + c.title + '</div>' +
+        '<div class="line">' + c.line + '</div>' +
+        '<div class="opts">' +
+          '<button data-v="self">💛 Self-Respect</button>' +
+          '<button data-v="others">🤝 Respect for Others</button>' +
+          '<button data-v="both">✨ Both!</button>' +
+        '</div><div class="expl"></div>';
+      var btns = card.querySelectorAll("button");
+      if (store[i] !== undefined) {
+        markClassifyAnswered(card, btns, c);
+      } else {
+        var lock = false;
+        for (var b = 0; b < btns.length; b++) {
+          btns[b].addEventListener("click", function (ev) {
+            if (lock) return;
+            lock = true;
+            var chosen = ev.target.getAttribute("data-v");
+            var right = chosen === c.answer;
+            markClassifyAnswered(card, btns, c);
+            right ? sfxCorrect() : sfxTap();
+            store[i] = chosen;
+            var answered = Object.keys(store).length;
+            el("ready-hint").textContent = answered + " / " + CLASSIFY_CARDS.length + " answered";
+            if (answered === CLASSIFY_CARDS.length) ready("classify");
+          });
+        }
+      }
+      box.appendChild(card);
+    });
+    var answeredNow = Object.keys(store).length;
+    if (answeredNow === CLASSIFY_CARDS.length) ready("classify");
+    else notReady(answeredNow + " / " + CLASSIFY_CARDS.length + " answered");
+  }
+
+  /* ---- Step: Venn diagram — the big idea ---- */
+  function buildVenn(box) {
+    box.innerHTML = '<div class="step-title">💡 The Big Idea</div>' +
+      '<p class="step-lead">Respect works like rings that grow outward — one leads to the next!</p>' +
+      '<div class="venn-wrap">' +
+        '<div class="venn-ring venn-1" id="v1"></div>' +
+        '<div class="venn-ring venn-2" id="v2"></div>' +
+        '<div class="venn-ring venn-3" id="v3"></div>' +
+        '<div class="venn-label venn-label-1" id="vl1">I\'m respected<br/>by others</div>' +
+        '<div class="venn-label venn-label-2" id="vl2">I respect<br/>others</div>' +
+        '<div class="venn-label venn-label-3" id="vl3">I respect<br/>myself</div>' +
+      '</div>' +
+      '<p class="venn-caption">When you respect <b>yourself</b> first, it becomes natural to respect <b>others</b> too — and that\'s usually what earns you <b>respect back</b>! 🌟</p>';
+    function revealRing(ringId, labelId) {
+      var ring = el(ringId), label = el(labelId);
+      if (ring) ring.classList.add("show");
+      if (label) label.classList.add("show");
+    }
+    vennTimers.push(setTimeout(function () { revealRing("v3", "vl3"); }, 150));
+    vennTimers.push(setTimeout(function () { revealRing("v2", "vl2"); }, 550));
+    vennTimers.push(setTimeout(function () { revealRing("v1", "vl1"); }, 950));
+    ready("venn");
+  }
+
+  /* ---- Step: Reflection (optional, not gated) ---- */
+  function buildReflect(box) {
+    box.innerHTML = '<div class="step-title">✍️ Your Turn to Reflect</div>' +
+      '<p class="step-lead">Think about Nemo and Majid. Write ONE way you show respect to your family, friends or teachers.</p>' +
+      '<div class="reflect-box"><textarea id="reflect-input" placeholder="I show respect by..."></textarea>' +
+      '<div class="reflect-save-row"><button class="btn ghost small" id="btn-reflect-save">💾 Save my answer</button><span class="reflect-saved" id="reflect-saved">🌟 Saved! Great thinking.</span></div></div>';
+    var input = el("reflect-input");
+    input.value = reflectionDraft;
+    input.addEventListener("input", function () { reflectionDraft = input.value; });
+    el("btn-reflect-save").addEventListener("click", function () {
+      saved.reflection = input.value;
+      persist();
+      el("reflect-saved").classList.add("show");
+      sfxCorrect();
+      setTimeout(function () { el("reflect-saved").classList.remove("show"); }, 2200);
+    });
+    ready("reflect");
+  }
+
+  /* =====================================================
+     QUIZ
+  ===================================================== */
+  var QUIZ = [
+    { icon: "💛", q: "What does 'self-respect' mean?",
+      options: ["Believing in your own worth and taking care of yourself", "Never listening to anyone else", "Only caring about winning games", "Ignoring your own feelings"],
+      fact: "Self-respect means valuing yourself enough to make good choices — like studying hard or staying calm, even when things get tough." },
+    { icon: "🚪", q: "True or False: Knocking before entering a room is a way of respecting others.",
+      options: ["True", "False"],
+      fact: "Knocking shows you care about other people's space and time — a simple habit that says 'I respect you.'" },
+    { icon: "📚", q: "Which of these BEST shows self-respect?",
+      options: ["Studying hard because you want to do well", "Copying a friend's homework", "Ignoring your teacher's instructions", "Blaming others for your mistakes"],
+      fact: "When you work hard for your own goals, you're showing that you believe in yourself." },
+    { icon: "😟", q: "In the story, why was Majid almost sent out of the classroom?",
+      options: ["He walked in without knocking, and he'd caused trouble before", "He forgot his homework", "He was late for the school bus", "He lost his pencil case"],
+      fact: "Majid broke a classroom rule, and because it wasn't his first time in trouble, the teacher had to take it seriously." },
+    { icon: "🤝", q: "What did Nemo do that showed respect for his friend Majid?",
+      options: ["He offered to help Majid for a week instead of judging him", "He laughed at Majid in front of the class", "He told the headmaster to punish Majid", "He ignored Majid completely"],
+      fact: "Real respect means helping a friend do better, even when they've made a mistake." },
+    { icon: "🕌", q: "Why did Queen Elizabeth II wear a special robe and cover her head at the Sheikh Zayed Grand Mosque?",
+      options: ["To respect the customs of the place she was visiting", "Because it was very cold that day", "Because she forgot her own clothes", "Because someone told her to hide"],
+      fact: "Respecting others often means following the customs of the place you're in — that's what the Queen did at the mosque." },
+    { icon: "🔵", q: "True or False: Respecting yourself can make it easier to respect others too.",
+      options: ["True", "False"],
+      fact: "That's the Big Idea! When you respect yourself, it becomes natural to treat others the same way — and then others respect you back." },
+    { icon: "😡", q: "What's the BEST way to stay respectful during an argument?",
+      options: ["Stay calm and talk it through", "Shout louder than the other person", "Walk away and stay angry all day", "Say mean things back"],
+      fact: "Staying calm and talking things through — like Zayd in Activity 1 — is one of the clearest signs of self-respect and respect for others." }
+  ];
+
+  var qState = { index: 0, correct: 0, score: 0, order: [], locked: false };
+
+  function startQuiz() {
+    qState.index = 0; qState.correct = 0; qState.score = 0;
+    qState.order = shuffle(QUIZ);
+    show("screen-quiz");
+    renderQuizQuestion();
+  }
+
+  function renderQuizQuestion() {
+    var q = qState.order[qState.index];
+    qState.locked = false;
+
+    el("hud-q").textContent = qState.index + 1;
+    el("hud-qtotal").textContent = qState.order.length;
+    el("hud-right").textContent = qState.correct;
+
+    el("q-icon").textContent = q.icon;
+    el("q-text").textContent = q.q;
+    el("verdict").textContent = "";
+    el("verdict").className = "verdict";
+    el("fact").className = "fact";
+    el("fact").innerHTML = "";
+    el("btn-quiz-next").style.display = "none";
+
+    var answers = el("answers");
+    answers.innerHTML = "";
+    answers.className = "answers" + (q.options.length === 2 ? " tf" : "");
+    var correct = q.options[0];
+    shuffle(q.options).forEach(function (opt) {
+      var b = document.createElement("button");
+      b.className = "ans";
+      b.textContent = opt;
+      b.addEventListener("click", function () { answerQuiz(opt, correct, b, q); });
+      answers.appendChild(b);
+    });
+  }
+
+  function answerQuiz(given, correct, btn, q) {
+    if (qState.locked) return;
+    qState.locked = true;
+
+    var right = given === correct;
+    var verdict = el("verdict");
+
+    if (right) {
+      qState.correct++;
+      qState.score += 100;
+      btn.classList.add("correct");
+      verdict.textContent = pick(["🎉 Well done!", "⭐ Wonderful!", "💪 You got it!", "🚀 Superb!", "🌟 Beautiful answer!"]);
+      verdict.classList.add("good");
+      sfxCorrect();
+    } else {
+      btn.classList.add("wrong");
+      verdict.textContent = "❌ Not quite — it's \"" + correct + "\"!";
+      verdict.classList.add("bad");
+      sfxWrong();
+      var opts = el("answers").querySelectorAll(".ans");
+      for (var i = 0; i < opts.length; i++) {
+        if (opts[i].textContent === correct) opts[i].classList.add("correct");
+      }
+    }
+
+    var all = el("answers").querySelectorAll(".ans");
+    for (var j = 0; j < all.length; j++) all[j].disabled = true;
+
+    var fact = el("fact");
+    fact.innerHTML = "<b>💡 Why this matters:</b> " + q.fact;
+    fact.classList.add("show");
+
+    el("hud-right").textContent = qState.correct;
+    el("btn-quiz-next").style.display = "";
+    el("btn-quiz-next").textContent = qState.index + 1 >= qState.order.length ? "🏁 See my results" : "Next ➜";
+  }
+
+  el("btn-quiz-next").addEventListener("click", function () {
+    qState.index++;
+    if (qState.index >= qState.order.length) finishQuiz();
+    else renderQuizQuestion();
+  });
+
+  function starsFor(correct, total) {
+    var pct = correct / total;
+    if (pct >= 1) return 3;
+    if (pct >= 0.75) return 2;
+    if (pct >= 0.5) return 1;
+    return 0;
+  }
+
+  function finishQuiz() {
+    var total = qState.order.length;
+    var stars = starsFor(qState.correct, total);
+    var passed = stars >= 1;
+
+    saved.quizScore = qState.correct;
+    saved.quizStars = stars;
+    persist();
+
+    el("result-stamp").textContent = stars === 3 ? "🏆" : passed ? "🤝" : "💛";
+    el("result-stamp").className = "stamp-big" + (passed ? "" : " missed");
+    el("result-title").textContent =
+      stars === 3 ? "🌟 RESPECT RANGER! 🌟" :
+      passed ? "Great job!" : "Keep practicing!";
+    el("result-sub").textContent =
+      stars === 3
+        ? "You answered every question correctly! You really understand what it means to respect yourself and others."
+        : passed
+          ? "You answered " + qState.correct + " of " + total + " correctly. Review the lesson and try again to earn all 3 stars!"
+          : "You answered " + qState.correct + " of " + total + ". Go back through the lesson — the story and activities will help — then try again!";
+    el("result-score").textContent = "⭐ Score: " + qState.correct + "/" + total + "  " + "★★★".slice(0, stars) + "☆☆☆".slice(0, 3 - stars);
+
+    show("screen-result");
+    if (passed) { sfxWin(); confetti(stars === 3 ? 140 : 70); }
+  }
+
+  function confetti(n) {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var box = el("confetti");
+    var colors = ["#f2b84b", "#e8677d", "#3576a8", "#2f9e44", "#ffffff"];
+    for (var i = 0; i < n; i++) {
+      var p = document.createElement("i");
+      p.style.left = rnd(100) + "vw";
+      p.style.background = pick(colors);
+      p.style.animationDuration = (2 + Math.random() * 2.5) + "s";
+      p.style.animationDelay = (Math.random() * 0.8) + "s";
+      p.style.transform = "rotate(" + rnd(360) + "deg)";
+      box.appendChild(p);
+    }
+    setTimeout(function () { box.innerHTML = ""; }, 6000);
+  }
+
+  /* -------- wire up -------- */
+  el("btn-play").addEventListener("click", startLesson);
+  el("btn-lesson-home").addEventListener("click", goHome);
+  el("btn-sound").addEventListener("click", function () {
+    soundOn = !soundOn;
+    el("btn-sound").textContent = soundOn ? "🔊" : "🔇";
+  });
+  el("btn-result-lesson").addEventListener("click", function () { stepIndex = STEPS.length - 1; show("screen-lesson"); renderStep(); });
+  el("btn-result-retry").addEventListener("click", startQuiz);
+
+  renderHome();
+})();
+</script>
+</body>
+</html>

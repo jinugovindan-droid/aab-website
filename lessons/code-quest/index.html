@@ -1,0 +1,1698 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <meta name="theme-color" content="#4c3f8f"/>
+  <title>Code Quest — Conditionals &amp; Loops</title>
+  <meta name="description" content="Code Quest: build and run real block programs to learn conditionals, loops, variables and sprites — Grade 4 Computer, Module 3."/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%A7%A9%3C%2Ftext%3E%3C%2Fsvg%3E"/>
+  <style>
+    *,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    :root{
+      /* real Scratch category colours, so what she learns here transfers */
+      --motion:#4C97FF; --looks:#9966FF; --events:#FFBF00; --control:#FFAB19;
+      --sensing:#5CB1D6; --operators:#59C059; --variables:#FF8C1A; --pen:#0FBD8C;
+      --bg1:#5b4bb5; --bg2:#33296e; --bg3:#1d1745;
+      --paper:#ffffff; --ink:#2a2a3d; --ink-soft:#6f6f8a; --line:#e3e3ee;
+      --good:#2f9e63; --bad:#e0574c;
+    }
+    html,body{ height:100%; }
+    body{
+      font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+      background:linear-gradient(170deg,var(--bg1),var(--bg2) 55%,var(--bg3));
+      background-attachment:fixed; color:var(--ink); min-height:100vh;
+      display:flex; flex-direction:column; align-items:center; overflow-x:hidden;
+    }
+    .bits{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .bits i{ position:absolute; font-size:26px; opacity:.12; animation:fl 15s ease-in-out infinite; }
+    @keyframes fl{ 0%,100%{ transform:translateY(0) rotate(-8deg);} 50%{ transform:translateY(-26px) rotate(8deg);} }
+
+    .app{ position:relative; z-index:1; width:100%; max-width:760px; padding:14px; flex:1; display:flex; flex-direction:column; }
+    .screen{ display:none; flex:1; flex-direction:column; }
+    .screen.active{ display:flex; animation:in .28s ease; }
+    @keyframes in{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
+    .card{ background:var(--paper); border-radius:18px; padding:16px; box-shadow:0 12px 36px rgba(0,0,0,.35); }
+
+    .btn{ border:0; cursor:pointer; font-family:inherit; font-size:16px; font-weight:800; color:#fff;
+      background:linear-gradient(135deg,#7a5cf0,#5335c4); padding:11px 22px; border-radius:999px;
+      box-shadow:0 5px 0 #3c2597,0 8px 18px rgba(0,0,0,.25); transition:transform .1s,box-shadow .1s; }
+    .btn:active{ transform:translateY(3px); box-shadow:0 2px 0 #3c2597; }
+    .btn.small{ font-size:13.5px; padding:8px 15px; box-shadow:0 4px 0 #3c2597; }
+    .btn.ghost{ background:#eceaf7; color:var(--ink); box-shadow:0 4px 0 #cdc8e6; }
+    .btn.green{ background:linear-gradient(135deg,#3fbb72,#1f8a4d); box-shadow:0 5px 0 #16663a,0 8px 18px rgba(0,0,0,.25); }
+    .btn.red{ background:linear-gradient(135deg,#ef6b5c,#c2392b); box-shadow:0 5px 0 #8f2a20,0 8px 18px rgba(0,0,0,.25); }
+    .btn:disabled{ opacity:.45; cursor:not-allowed; }
+    .icon-btn{ border:0; background:rgba(255,255,255,.18); color:#fff; font-size:17px; width:38px; height:38px;
+      border-radius:50%; cursor:pointer; font-family:inherit; flex:none; }
+
+    .hero{ text-align:center; color:#fff; padding:6px 0 2px; text-shadow:0 2px 10px rgba(0,0,0,.35); }
+    .hero h1{ font-size:clamp(26px,7vw,38px); }
+    .hero .sub{ font-size:14px; opacity:.9; }
+    .hero .chap{ font-size:11.5px; opacity:.72; margin-top:3px; }
+
+    .prog{ background:rgba(255,255,255,.12); border-radius:14px; padding:11px 13px; margin:12px 0; color:#fff; }
+    .prog .r{ display:flex; justify-content:space-between; font-size:13px; font-weight:700; }
+    .prog .bar{ height:9px; background:rgba(255,255,255,.2); border-radius:99px; margin-top:7px; overflow:hidden; }
+    .prog .fill{ height:100%; background:linear-gradient(90deg,#ffbf00,#3fbb72); border-radius:99px; transition:width .6s; }
+
+    .modes{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .mode{ border:0; cursor:pointer; font-family:inherit; text-align:left; border-radius:15px; padding:13px;
+      color:#fff; box-shadow:0 6px 16px rgba(0,0,0,.28); transition:transform .12s; }
+    .mode:hover{ transform:translateY(-3px); }
+    .mode .mi{ font-size:23px; } .mode .mt{ font-weight:800; font-size:15px; margin-top:2px; }
+    .mode .md{ font-size:11.5px; opacity:.93; line-height:1.35; margin-top:2px; }
+    .mode.lab{ background:linear-gradient(135deg,var(--motion),#2a6fd0); grid-column:1/-1; }
+    .mode.trace{ background:linear-gradient(135deg,var(--control),#d07f0a); }
+    .mode.quiz{ background:linear-gradient(135deg,var(--operators),#3a8f3a); }
+    .mode.dict{ background:linear-gradient(135deg,var(--looks),#6a3fc0); grid-column:1/-1; }
+    .mode.bug{ background:linear-gradient(135deg,#e0574c,#a8342a); }
+    .mode.tour{ background:linear-gradient(135deg,var(--sensing),#2f7fa8); }
+
+    /* ---------- blocks ---------- */
+    .blk{ position:relative; display:flex; width:fit-content; max-width:100%;
+      align-items:center; flex-wrap:wrap; gap:5px;
+      color:#fff; font-weight:700; font-size:13.5px; padding:7px 11px; border-radius:6px;
+      margin:2px 0; min-height:32px; box-shadow:0 1px 0 rgba(0,0,0,.18); line-height:1.2; }
+    .blk.motion{background:var(--motion)} .blk.looks{background:var(--looks)} .blk.events{background:var(--events)}
+    .blk.control{background:var(--control)} .blk.sensing{background:var(--sensing)} .blk.operators{background:var(--operators)}
+    .blk.variables{background:var(--variables)} .blk.pen{background:var(--pen)}
+    .blk.hat{ border-radius:14px 14px 6px 6px; }
+    .blk .fld{ background:#fff; color:#1e1e2a; border-radius:99px; padding:2px 9px; font-size:13px; font-weight:800;
+      min-width:26px; text-align:center; cursor:pointer; border:0; font-family:inherit; }
+    .blk .fld.wide{ border-radius:12px; }
+    .blk .bool{ background:var(--operators); color:#fff; border-radius:99px; padding:3px 10px; font-size:12.5px;
+      display:inline-flex; gap:4px; align-items:center; }
+    .blk .rep{ background:var(--variables); color:#fff; border-radius:99px; padding:2px 9px; font-size:12.5px; }
+    .blk .rep.sens{ background:var(--sensing); }
+    .blk.sel{ outline:3px solid #ffd84d; outline-offset:1px; }
+    .blk.running{ outline:3px solid #fff; outline-offset:1px; box-shadow:0 0 0 4px rgba(255,255,255,.35); }
+    .cwrap{ }
+    .cbody{ margin-left:14px; border-left:9px solid rgba(0,0,0,.001); padding-left:4px; min-height:14px; }
+    .cbody.control{ border-left-color:var(--control); }
+    .cfoot{ height:11px; border-radius:0 0 6px 6px; margin-left:0; width:64px; }
+    .cfoot.control{ background:var(--control); }
+    .celse{ display:inline-flex; color:#fff; font-weight:700; font-size:13.5px; padding:5px 11px;
+      border-radius:0; background:var(--control); }
+
+    .scriptarea{ background:#f6f6fb; border:2px dashed #d5d5e6; border-radius:12px; padding:10px;
+      min-height:120px; margin:8px 0; overflow-x:auto; }
+    .cursor{ height:5px; background:#ffd84d; border-radius:99px; margin:3px 0; animation:blink 1s infinite; }
+    @keyframes blink{ 0%,100%{opacity:1} 50%{opacity:.25} }
+    .drop{ font-size:11.5px; color:var(--ink-soft); font-style:italic; padding:2px 0; }
+
+    .palette{ background:#f1f1f8; border-radius:12px; padding:9px; }
+    .cats{ display:flex; gap:5px; flex-wrap:wrap; margin-bottom:8px; }
+    .cat{ border:0; cursor:pointer; font-family:inherit; font-size:11.5px; font-weight:800; color:#fff;
+      padding:5px 10px; border-radius:99px; opacity:.55; }
+    .cat.on{ opacity:1; box-shadow:0 0 0 2px #fff,0 0 0 4px currentColor; }
+    .palist{ display:flex; flex-direction:column; gap:3px; max-height:210px; overflow-y:auto; }
+    .palist .blk{ cursor:pointer; }
+    .palist .blk:hover{ filter:brightness(1.08); }
+
+    /* ---------- stage ---------- */
+    .stagewrap{ position:relative; background:#fff; border:2px solid var(--line); border-radius:12px; overflow:hidden; }
+    .stage{ position:relative; width:100%; aspect-ratio:4/3; background:#fff; }
+    .stage canvas{ position:absolute; inset:0; width:100%; height:100%; }
+    .sprite{ position:absolute; font-size:30px; transform-origin:center; transition:none; pointer-events:none;
+      display:flex; align-items:center; justify-content:center; width:44px; height:44px; margin:-22px 0 0 -22px; }
+    .bubble{ position:absolute; background:#fff; border:2px solid #c8c8d8; border-radius:12px; padding:5px 9px;
+      font-size:12.5px; font-weight:700; color:#2a2a3d; max-width:60%; pointer-events:none; z-index:5; }
+    .door{ position:absolute; width:26px; height:44px; margin:-22px 0 0 -13px; border-radius:3px;
+      background:#3f6fb5; border:2px solid #2a4c80; }
+    .door::after{ content:''; position:absolute; right:4px; top:50%; width:4px; height:4px; border-radius:50%; background:#ffd84d; }
+    .door.open{ background:#cfe0f5; border-color:#7f9fd0; }
+    .door.open::after{ background:#7f9fd0; }
+    .watch{ position:absolute; left:6px; background:#e6e6f0; border:1px solid #c8c8d8; border-radius:5px;
+      font-size:11px; font-weight:800; padding:2px 4px; display:flex; gap:5px; align-items:center; z-index:6; }
+    .watch b{ background:var(--variables); color:#fff; border-radius:4px; padding:1px 6px; }
+    .askbar{ position:absolute; left:6px; right:6px; bottom:6px; display:flex; gap:6px; z-index:7; }
+    .askbar input{ flex:1; border:2px solid var(--motion); border-radius:99px; padding:6px 11px; font-family:inherit; font-size:13px; }
+    .askbar button{ border:0; background:var(--motion); color:#fff; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:15px; }
+    .runbar{ display:flex; gap:8px; align-items:center; padding:7px 9px; background:#f6f6fb; border-top:2px solid var(--line); }
+    .runbar .flag{ font-size:20px; border:0; background:none; cursor:pointer; }
+    .runbar .sp{ margin-left:auto; font-size:12px; color:var(--ink-soft); display:flex; gap:5px; align-items:center; }
+    .runbar select{ font-family:inherit; font-size:12px; border:1px solid var(--line); border-radius:7px; padding:3px 5px; }
+
+    .goal{ background:#fff8e6; border:2px solid #f5e3b3; border-radius:12px; padding:10px 12px; font-size:14px; line-height:1.5; }
+    .goal b{ color:#a5760c; }
+    .fb{ margin-top:9px; border-radius:12px; padding:10px 12px; font-size:14px; display:none; line-height:1.5; }
+    .fb.show{ display:block; animation:in .25s; }
+    .fb.ok{ background:#e2f7ec; border:2px solid var(--good); color:#12633c; }
+    .fb.no{ background:#fdeceb; border:2px solid var(--bad); color:#8f2a20; }
+    .fb.run{ background:#eef2f7; border:2px solid #c3ceda; color:#465a70; }
+
+    .chal{ display:flex; align-items:center; gap:10px; width:100%; text-align:left; font-family:inherit;
+      border:2px solid var(--line); background:#fbfbff; border-radius:12px; padding:10px; cursor:pointer; margin-bottom:8px; }
+    .chal:disabled{ opacity:.5; cursor:not-allowed; }
+    .chal.done{ border-color:var(--good); background:#f0fbf5; }
+    .chal .n{ font-size:22px; width:30px; text-align:center; }
+    .chal .t{ font-weight:800; font-size:14.5px; } .chal .d{ font-size:11.5px; color:var(--ink-soft); }
+
+    .topbar{ display:flex; align-items:center; gap:8px; margin-bottom:9px; color:#fff; }
+    .topbar .chip{ background:rgba(255,255,255,.18); border-radius:99px; padding:6px 12px; font-size:12.5px; font-weight:700; }
+    .topbar .grow{ flex:1; }
+
+    .qtext{ font-size:17px; font-weight:800; margin:4px 0 10px; text-align:center; text-wrap:balance; }
+    .opts{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .opts.one{ grid-template-columns:1fr; }
+    .opt{ border:2.5px solid var(--line); background:#fbfbff; border-radius:12px; font-family:inherit; font-size:14.5px;
+      font-weight:700; color:var(--ink); padding:12px 9px; cursor:pointer; }
+    .opt:hover{ border-color:#ffd84d; }
+    .opt.ok{ background:#e2f7ec; border-color:var(--good); }
+    .opt.no{ background:#fdeceb; border-color:var(--bad); }
+    .opt.sel{ border-color:var(--motion); background:#eaf3ff; }
+    .opt:disabled{ cursor:default; }
+    .explain{ display:none; margin-top:10px; background:#f2f4ff; border:2px solid #d5daf5; border-radius:12px;
+      padding:10px 12px; font-size:14px; line-height:1.55; }
+    .explain.show{ display:block; } .explain b{ color:#4a3fb0; }
+
+    .dictsec h4{ font-size:13px; margin:12px 0 5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:1px; }
+    .dictrow{ display:flex; gap:10px; align-items:flex-start; margin-bottom:7px; flex-wrap:wrap; }
+    .dictrow .dd{ font-size:13px; color:var(--ink); flex:1; min-width:170px; padding-top:6px; }
+
+    /* ---------- Scratch window tour ---------- */
+    .win{ border:2px solid #c9c9dd; border-radius:12px; overflow:hidden; background:#f6f6fb; }
+    .win .bar{ background:#4c3f8f; color:#fff; font-size:11.5px; font-weight:800; padding:6px 9px; display:flex; gap:8px; }
+    .win .tabs{ display:flex; gap:4px; padding:6px; background:#e9e9f4; }
+    .part{ border:2px solid transparent; background:#fff; font-family:inherit; cursor:pointer; text-align:left;
+      border-radius:8px; padding:7px 9px; font-size:11.5px; font-weight:800; color:var(--ink); }
+    .part:hover{ border-color:var(--events); }
+    .part.on{ border-color:var(--events); background:#fff8e6; }
+    .win .row{ display:flex; gap:6px; padding:6px; }
+    .win .col{ display:flex; flex-direction:column; gap:6px; flex:1; }
+    .win .stagebox{ background:#fff; border:2px dashed #c9c9dd; border-radius:8px; min-height:74px;
+      display:flex; align-items:center; justify-content:center; font-size:26px; position:relative; }
+    .win .ctrls{ position:absolute; top:4px; left:4px; display:flex; gap:4px; }
+    .win .palbox{ min-height:96px; }
+    .win .dots{ display:flex; flex-direction:column; gap:3px; margin-top:5px; }
+    .win .dots span{ display:flex; align-items:center; gap:5px; font-size:9.5px; font-weight:800; color:var(--ink-soft); }
+    .win .dots i{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+    .partinfo{ margin-top:10px; background:#f2f4ff; border:2px solid #d5daf5; border-radius:12px; padding:11px 13px;
+      font-size:14px; line-height:1.55; min-height:52px; }
+    .partinfo b{ color:#4a3fb0; }
+    .steps{ counter-reset:st; }
+    .step{ display:flex; gap:10px; margin-bottom:8px; align-items:flex-start; }
+    .step .num{ flex:none; width:24px; height:24px; border-radius:50%; background:var(--events); color:#fff;
+      font-weight:900; font-size:12.5px; display:flex; align-items:center; justify-content:center; }
+    .step .tx{ font-size:14px; line-height:1.5; }
+    .keyrow{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+    .keyrow span{ font-size:10.5px; font-weight:800; color:#fff; padding:4px 9px; border-radius:99px; }
+
+    .qa{ border:2px solid var(--line); border-radius:12px; margin-bottom:8px; overflow:hidden; }
+    .qa button{ width:100%; text-align:left; border:0; background:#fbfbff; font-family:inherit; cursor:pointer;
+      padding:11px 13px; font-size:14.5px; font-weight:800; color:var(--ink); }
+    .qa .a{ display:none; padding:0 13px 11px; font-size:14px; line-height:1.55; }
+    .qa.open .a{ display:block; }
+
+    .conf{ position:fixed; inset:0; pointer-events:none; z-index:60; overflow:hidden; }
+    .conf i{ position:absolute; top:-18px; width:9px; height:14px; border-radius:2px; animation:fall linear forwards; }
+    @keyframes fall{ to{ transform:translateY(112vh) rotate(720deg);} }
+    .foot{ text-align:center; color:rgba(255,255,255,.5); font-size:10.5px; padding:12px 0 4px; }
+
+    .opt:focus-visible,.btn:focus-visible,.mode:focus-visible,.icon-btn:focus-visible,.chal:focus-visible,
+    .cat:focus-visible,.palist .blk:focus-visible,.qa button:focus-visible,.blk .fld:focus-visible{
+      outline:3px solid #ffd84d; outline-offset:2px; }
+    @media(max-width:430px){ .opts{ grid-template-columns:1fr; } .qtext{ font-size:16px; } }
+    @media(prefers-reduced-motion:reduce){ *,*::before,*::after{ animation:none!important; transition:none!important; } }
+  </style>
+</head>
+<body>
+  <div class="bits" aria-hidden="true">
+    <i style="left:6%;top:10%">🧩</i><i style="left:84%;top:8%;animation-delay:2s">🔁</i>
+    <i style="left:10%;top:70%;animation-delay:4s">❓</i><i style="left:88%;top:62%;animation-delay:1s">🐱</i>
+    <i style="left:46%;top:86%;animation-delay:3s">✏️</i>
+  </div>
+
+  <div class="app">
+    <!-- HOME -->
+    <section id="s-home" class="screen active">
+      <div class="hero">
+        <h1>🧩 Code Quest</h1>
+        <div class="sub">Build real block programs — then press the green flag</div>
+        <div class="chap">Computer · Module 3 · Conditionals &amp; Loops using Visual Coding</div>
+      </div>
+      <div class="prog">
+        <div class="r"><span>Challenges solved</span><b id="h-solved">0 / 7</b></div>
+        <div class="bar"><div class="fill" id="h-fill" style="width:0%"></div></div>
+        <div class="r" style="margin-top:8px"><span>Quiz questions right</span><b id="h-quiz">0</b></div>
+      </div>
+      <div class="modes">
+        <button class="mode lab" id="m-lab">
+          <div class="mi">🐱</div><div class="mt">Sprite Lab</div>
+          <div class="md">Build the programs from your worksheet block by block, then run them and watch the sprite obey.</div>
+        </button>
+        <button class="mode bug" id="m-bug">
+          <div class="mi">🐛</div><div class="mt">Fix the Bug</div>
+          <div class="md">Five programs that almost work. Find what is wrong and repair it.</div>
+        </button>
+        <button class="mode tour" id="m-tour">
+          <div class="mi">🖥️</div><div class="mt">Scratch Tour</div>
+          <div class="md">Tap each part of the Scratch window to learn its name and job.</div>
+        </button>
+        <button class="mode trace" id="m-trace">
+          <div class="mi">🔎</div><div class="mt">Trace It</div>
+          <div class="md">Read a script and predict what it does.</div>
+        </button>
+        <button class="mode quiz" id="m-quiz">
+          <div class="mi">📝</div><div class="mt">Quiz Zone</div>
+          <div class="md">Every textbook exercise.</div>
+        </button>
+        <button class="mode dict" id="m-dict">
+          <div class="mi">📘</div><div class="mt">Block Dictionary</div>
+          <div class="md">What every block does, in the same colours as Scratch.</div>
+        </button>
+      </div>
+      <div class="foot">Built from Grade 4 Module 3 practice questions and textbook exercises</div>
+    </section>
+
+    <!-- CHALLENGE LIST -->
+    <section id="s-chals" class="screen">
+      <div class="topbar"><button class="icon-btn" id="ch-home">🏠</button>
+        <span class="chip" id="ch-title">🐱 Sprite Lab</span><span class="grow"></span>
+        <span class="chip" id="ch-count"></span></div>
+      <div class="card"><div id="chal-list"></div></div>
+    </section>
+
+    <!-- LAB -->
+    <section id="s-lab" class="screen">
+      <div class="topbar"><button class="icon-btn" id="lab-back">←</button>
+        <span class="chip" id="lab-name"></span><span class="grow"></span>
+        <button class="icon-btn" id="lab-help" title="Show me">💡</button></div>
+      <div class="card">
+        <div class="goal" id="lab-goal"></div>
+        <div class="stagewrap" style="margin-top:10px">
+          <div class="stage" id="stage"><canvas id="pen"></canvas></div>
+          <div class="runbar">
+            <button class="flag" id="btn-run" title="Run">🟢</button>
+            <button class="flag" id="btn-stop" title="Stop">🔴</button>
+            <span class="sp">Speed
+              <select id="speed"><option value="200">🐢</option><option value="70" selected>🚶</option><option value="8">🐇</option></select>
+            </span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+          <b style="font-size:13px">Script</b>
+          <span class="grow" style="flex:1"></span>
+          <button class="btn ghost small" id="btn-del">🗑 Delete</button>
+          <button class="btn ghost small" id="btn-clear">↺ Clear</button>
+        </div>
+        <div class="scriptarea" id="scriptarea"></div>
+        <div class="palette">
+          <div class="cats" id="cats"></div>
+          <div class="palist" id="palist"></div>
+        </div>
+        <div class="fb" id="lab-fb" aria-live="polite"></div>
+        <div style="text-align:center;margin-top:11px">
+          <button class="btn green" id="btn-check">✔ Check my program</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRACE / QUIZ shared play screen -->
+    <section id="s-play" class="screen">
+      <div class="topbar"><button class="icon-btn" id="p-quit">✕</button>
+        <span class="chip" id="p-mode"></span><span class="grow"></span>
+        <span class="chip">✅ <b id="p-right">0</b>/<b id="p-total">0</b></span></div>
+      <div class="card">
+        <div class="qtext" id="q-text"></div>
+        <div id="q-script"></div>
+        <div id="q-body"></div>
+        <div style="text-align:center;font-size:18px;font-weight:900;min-height:24px;margin-top:10px" id="q-verdict"></div>
+        <div class="explain" id="q-explain"></div>
+        <div style="text-align:center;margin-top:11px;min-height:46px">
+          <button class="btn small" id="q-next" style="display:none">Next ➜</button></div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="s-res" class="screen">
+      <div class="card" style="text-align:center">
+        <div style="font-size:52px" id="r-emoji"></div>
+        <h2 id="r-title" style="font-size:23px;margin:4px 0"></h2>
+        <p id="r-sub" style="color:var(--ink-soft);font-size:14.5px;margin-bottom:14px"></p>
+        <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
+          <button class="btn ghost small" id="r-home">🏠 Home</button>
+          <button class="btn small" id="r-again">🔁 Again</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DICTIONARY -->
+    <section id="s-dict" class="screen">
+      <div class="topbar"><button class="icon-btn" id="d-home">🏠</button>
+        <span class="chip">📘 Block Dictionary</span></div>
+      <div class="card"><div class="dictsec" id="dict"></div></div>
+    </section>
+
+    <!-- SCRATCH TOUR -->
+    <section id="s-tour" class="screen">
+      <div class="topbar"><button class="icon-btn" id="t-home">🏠</button>
+        <span class="chip">🖥️ Scratch Tour</span></div>
+      <div class="card">
+        <div style="font-size:14px;color:var(--ink-soft);margin-bottom:9px">
+          This is what the Scratch window looks like. <b>Tap any part</b> to learn its name and what it does.
+        </div>
+        <div class="win">
+          <div class="bar"><span>Scratch</span><span style="opacity:.7">File</span><span style="opacity:.7">Edit</span></div>
+          <div class="tabs">
+            <button class="part" data-part="code">🧩 Code</button>
+            <button class="part" data-part="costumes">🎨 Costumes</button>
+            <button class="part" data-part="sounds">🔊 Sounds</button>
+          </div>
+          <div class="row">
+            <div class="col" style="flex:1.05">
+              <button class="part palbox" data-part="palette">Blocks Palette
+                <span class="dots">
+                  <span><i style="background:var(--motion)"></i>Motion</span>
+                  <span><i style="background:var(--looks)"></i>Looks</span>
+                  <span><i style="background:var(--events)"></i>Events</span>
+                  <span><i style="background:var(--control)"></i>Control</span>
+                  <span><i style="background:var(--sensing)"></i>Sensing</span>
+                  <span><i style="background:var(--operators)"></i>Operators</span>
+                  <span><i style="background:var(--variables)"></i>Variables</span>
+                </span>
+              </button>
+              <button class="part" data-part="extension">➕ Add Extension</button>
+            </div>
+            <div class="col" style="flex:1.2">
+              <button class="part" data-part="script" style="min-height:96px">Script / Code Area<br/>
+                <span style="font-weight:400;color:var(--ink-soft)">drop your blocks here</span></button>
+            </div>
+            <div class="col" style="flex:1.1">
+              <button class="part stagebox" data-part="stage">
+                <span class="ctrls"><span>🟢</span><span>🔴</span></span>🐱</button>
+              <button class="part" data-part="sprite">🐱 Sprite pane<br/>
+                <span style="font-weight:400;color:var(--ink-soft)">Choose a Sprite</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="partinfo" id="partinfo">👆 Tap a part of the window above.</div>
+
+        <h4 style="font-size:13px;margin:16px 0 6px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:1px">Block colours</h4>
+        <div class="keyrow" id="colourkey"></div>
+        <div style="font-size:13px;color:var(--ink-soft)">Every group of blocks has its own colour, so you can find them quickly.</div>
+
+        <h4 style="font-size:13px;margin:16px 0 6px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:1px">How to make a variable</h4>
+        <div class="steps" id="howvar"></div>
+
+        <h4 style="font-size:13px;margin:16px 0 6px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:1px">How to draw with the Pen</h4>
+        <div class="steps" id="howpen"></div>
+      </div>
+    </section>
+
+    <!-- QUIZ MENU -->
+    <section id="s-qmenu" class="screen">
+      <div class="topbar"><button class="icon-btn" id="qm-home">🏠</button>
+        <span class="chip">📝 Quiz Zone</span></div>
+      <div class="card">
+        <div id="qm-list"></div>
+        <h4 style="font-size:13px;margin:16px 0 7px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:1px">Answer the following — read &amp; revise</h4>
+        <div id="qm-long"></div>
+      </div>
+    </section>
+  </div>
+  <div class="conf" id="conf" aria-hidden="true"></div>
+
+<script>
+(function(){
+  "use strict";
+  function el(id){ return document.getElementById(id); }
+  function rnd(n){ return Math.floor(Math.random()*n); }
+  function pick(a){ return a[rnd(a.length)]; }
+  function shuffle(a){ var b=a.slice(); for(var i=b.length-1;i>0;i--){ var j=rnd(i+1),t=b[i]; b[i]=b[j]; b[j]=t; } return b; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function sleep(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+
+  var soundOn=true, actx=null;
+  function beep(f,d,t,w){ if(!soundOn) return; try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    var o=actx.createOscillator(),g=actx.createGain(),s=actx.currentTime+(w||0);
+    o.type=t||'sine'; o.frequency.value=f; g.gain.setValueAtTime(.08,s);
+    g.gain.exponentialRampToValueAtTime(.001,s+d); o.connect(g); g.connect(actx.destination);
+    o.start(s); o.stop(s+d+.05);
+  }catch(e){} }
+  function sfxOK(){ beep(680,.1); beep(920,.15,'sine',.09); }
+  function sfxNo(){ beep(200,.22,'square'); }
+  function sfxWin(){ [523,659,784,1047].forEach(function(f,i){ beep(f,.16,'sine',i*.11); }); }
+
+  /* ==========================================================
+     BLOCK DEFINITIONS
+     Each block: op, category, and a parts template where
+     {name} marks an editable field and <name> a boolean slot.
+  ========================================================== */
+  var DEFS = {
+    whenFlag:    { cat:'events',  hat:true, parts:['when ','🏳️',' clicked'] },
+    whenSprite:  { cat:'events',  hat:true, parts:['when this sprite clicked'] },
+    move:        { cat:'motion',  parts:['move ','{n}',' steps'], f:{n:10} },
+    turnR:       { cat:'motion',  parts:['turn ↻ ','{n}',' degrees'], f:{n:15} },
+    turnL:       { cat:'motion',  parts:['turn ↺ ','{n}',' degrees'], f:{n:15} },
+    goxy:        { cat:'motion',  parts:['go to x: ','{x}',' y: ','{y}'], f:{x:0,y:0} },
+    pointDir:    { cat:'motion',  parts:['point in direction ','{d}'], f:{d:90} },
+    say:         { cat:'looks',   parts:['say ','{t|wide}'], f:{t:'Hello!'} },
+    sayFor:      { cat:'looks',   parts:['say ','{t|wide}',' for ','{s}',' seconds'], f:{t:'Hello!',s:2} },
+    setSize:     { cat:'looks',   parts:['set size to ','{n}',' %'], f:{n:100} },
+    repeat:      { cat:'control', c:true, parts:['repeat ','{n}'], f:{n:10} },
+    repeatUntil: { cat:'control', c:true, parts:['repeat until ','<c>'], f:{} },
+    ifThen:      { cat:'control', c:true, parts:['if ','<c>',' then'], f:{} },
+    ifElse:      { cat:'control', c:true, c2:true, parts:['if ','<c>',' then'], f:{} },
+    wait:        { cat:'control', parts:['wait ','{n}',' seconds'], f:{n:1} },
+    ask:         { cat:'sensing', parts:['ask ','{t|wide}',' and wait'], f:{t:'Please enter a number'} },
+    penClear:    { cat:'pen',     parts:['✏️ erase all'] },
+    penDown:     { cat:'pen',     parts:['✏️ pen down'] },
+    penUp:       { cat:'pen',     parts:['✏️ pen up'] },
+    penSize:     { cat:'pen',     parts:['✏️ set pen size to ','{n}'], f:{n:1} },
+    penColor:    { cat:'pen',     parts:['✏️ change pen color by ','{n}'], f:{n:10} },
+    setVar:      { cat:'variables', parts:['set ','{v|var}',' to ','{n}'], f:{v:'time',n:0} },
+    changeVar:   { cat:'variables', parts:['change ','{v|var}',' by ','{n}'], f:{v:'time',n:1} }
+  };
+  // boolean (hexagon) blocks that slot into <c>
+  var BOOLS = {
+    eq:       { cat:'operators', parts:['{a|rep}',' = ','{b}'], f:{a:'time',b:12} },
+    gt:       { cat:'operators', parts:['{a|rep}',' > ','{b}'], f:{a:'answer',b:10} },
+    lt:       { cat:'operators', parts:['{a|rep}',' < ','{b}'], f:{a:'answer',b:10} },
+    touching: { cat:'sensing',   parts:['touching ','{t|repsens}',' ?'], f:{t:'Closed door'} }
+  };
+  var CAT_NAME = { motion:'Motion', looks:'Looks', events:'Events', control:'Control',
+                   sensing:'Sensing', operators:'Operators', variables:'Variables', pen:'Pen' };
+
+  function newBlock(op){
+    var d=DEFS[op]; var b={ op:op, f:Object.assign({}, d.f||{}) };
+    if(d.c) b.body=[];
+    if(d.c2) b.body2=[];
+    return b;
+  }
+  function newBool(op){ var d=BOOLS[op]; return { op:op, f:Object.assign({}, d.f||{}) }; }
+
+  /* ---------- block rendering ---------- */
+  function renderBool(bool, opts){
+    if(!bool) return '<span class="bool" data-slot="1" style="background:#3f8f3f">&nbsp;&nbsp;&nbsp;</span>';
+    var d=BOOLS[bool.op];
+    var h='<span class="bool">';
+    d.parts.forEach(function(p){
+      var m=/^\{(\w+)(\|(\w+))?\}$/.exec(p);
+      if(m){
+        var v=bool.f[m[1]];
+        if(m[3]==='rep') h+='<span class="rep">'+esc(v)+'</span>';
+        else if(m[3]==='repsens') h+='<span class="rep sens">'+esc(v)+'</span>';
+        else h+='<span class="fld" data-bf="'+m[1]+'">'+esc(v)+'</span>';
+      } else h+=esc(p);
+    });
+    return h+'</span>';
+  }
+  function renderBlock(b, path, opts){
+    opts=opts||{};
+    var d=DEFS[b.op]; if(!d) return '';
+    var cls='blk '+d.cat+(d.hat?' hat':'');
+    if(opts.selPath===path) cls+=' sel';
+    if(opts.runPath===path) cls+=' running';
+    var h='<div class="'+cls+'" data-path="'+path+'"'+(opts.tab?' tabindex="0"':'')+'>';
+    d.parts.forEach(function(p){
+      if(p==='<c>'){ h+=renderBool(b.c, opts); return; }
+      var m=/^\{(\w+)(\|(\w+))?\}$/.exec(p);
+      if(m){
+        var v=b.f[m[1]];
+        var extra=(m[3]==='wide')?' wide':'';
+        if(m[3]==='var') h+='<span class="fld'+extra+'" data-f="'+m[1]+'">'+esc(v)+' ▾</span>';
+        else h+='<span class="fld'+extra+'" data-f="'+m[1]+'">'+esc(v)+'</span>';
+      } else h+=esc(p);
+    });
+    h+='</div>';
+    if(d.c){
+      h+='<div class="cwrap"><div class="cbody control" data-body="'+path+'">'+
+         renderList(b.body,path+'/b',opts)+'</div>';
+      if(d.c2){
+        h+='<div class="celse">else</div><div class="cbody control" data-body="'+path+'/2">'+
+           renderList(b.body2,path+'/e',opts)+'</div>';
+      }
+      h+='<div class="cfoot control"></div></div>';
+    }
+    return h;
+  }
+  function renderList(list, base, opts){
+    var h='';
+    if(!list.length) h+='<div class="drop" data-drop="'+base+'|0">drop blocks here</div>';
+    list.forEach(function(b,i){
+      if(opts.cursor && opts.cursor.base===base && opts.cursor.i===i) h+='<div class="cursor"></div>';
+      h+=renderBlock(b, base+'|'+i, opts);
+    });
+    if(opts.cursor && opts.cursor.base===base && opts.cursor.i===list.length) h+='<div class="cursor"></div>';
+    return h;
+  }
+  // path "root|0/b|1" -> resolve to {list,index}
+  function listAt(script, base){
+    if(base==='root') return script;
+    var parts=base.split('/');
+    var list=script;
+    for(var i=1;i<parts.length;i++){
+      var seg=parts[i];
+      var which=seg[0]; // 'b' body, 'e' else
+      var idxPart=parts[i-1].split('|');
+      var idx=parseInt(idxPart[idxPart.length-1],10);
+      var blk=list[idx];
+      if(!blk) return null;
+      list = (which==='b')? blk.body : blk.body2;
+      if(!list) return null;
+    }
+    return list;
+  }
+  function blockAt(script, path){
+    var seg=path.split('|');
+    var base=seg.slice(0,-1).join('|');
+    var idx=parseInt(seg[seg.length-1],10);
+    var list=listAt(script, base||'root');
+    return list? {list:list, index:idx, block:list[idx]} : null;
+  }
+
+  /* ==========================================================
+     RUNTIME — a small Scratch interpreter
+  ========================================================== */
+  var SW=480, SH=360;
+  function Runtime(stageEl, canvas, opts){
+    opts=opts||{};
+    var ctx=canvas.getContext('2d');
+    var sprite=document.createElement('div');
+    sprite.className='sprite'; sprite.textContent=opts.emoji||'🐱';
+    stageEl.appendChild(sprite);
+    var bubble=null, askbar=null;
+    var st, log, stopped=false, running=false, budget=0;
+    var doors=[];
+    var pendingAsk=null;   // resolver for an ask that is still waiting for input
+    var startedAt=0;
+
+    function resetCanvas(){
+      canvas.width=SW; canvas.height=SH;
+      ctx.clearRect(0,0,SW,SH); ctx.lineCap='round'; ctx.lineJoin='round';
+    }
+    function toPx(x,y){ return { l:(x+SW/2)/SW*100, t:(SH/2-y)/SH*100 }; }
+    function paint(){
+      var p=toPx(st.x,st.y);
+      sprite.style.left=p.l+'%'; sprite.style.top=p.t+'%';
+      sprite.style.transform='rotate('+(st.dir-90)+'deg) scale('+(st.size/100)+')';
+      sprite.style.opacity=st.visible?1:0;
+      if(bubble){
+        if(st.saying){ bubble.style.display=''; bubble.textContent=st.saying;
+          bubble.style.left=Math.min(70,p.l+6)+'%'; bubble.style.top=Math.max(2,p.t-22)+'%'; }
+        else bubble.style.display='none';
+      }
+      // variable watchers
+      var wl=stageEl.querySelectorAll('.watch');
+      for(var i=0;i<wl.length;i++) wl[i].remove();
+      var order=Object.keys(st.vars);
+      if(st.answerShown) order.push('answer');
+      order.forEach(function(k,i){
+        var w=document.createElement('div'); w.className='watch';
+        w.style.top=(6+i*22)+'px';
+        w.innerHTML='<span>'+esc(k)+'</span><b>'+esc(k==='answer'?(st.answer===''?' ':st.answer):st.vars[k])+'</b>';
+        stageEl.appendChild(w);
+      });
+    }
+    function reset(cfg){
+      cfg=cfg||{};
+      st={ x:cfg.x||0, y:cfg.y||0, dir:cfg.dir||90, size:100, visible:true, saying:'',
+           penDown:false, penSize:1, penHue:0, vars:Object.assign({},cfg.vars||{}),
+           answer:'', answerShown:false };
+      log=[]; stopped=false; budget=0;
+      resetCanvas();
+      if(!bubble){ bubble=document.createElement('div'); bubble.className='bubble'; stageEl.appendChild(bubble); }
+      bubble.style.display='none';
+      doors.forEach(function(d){ d.remove(); }); doors=[];
+      if(cfg.doors){
+        cfg.doors.forEach(function(d){
+          var e=document.createElement('div');
+          e.className='door'+(d.closed?'':' open');
+          var p=toPx(d.x,0);
+          e.style.left=p.l+'%'; e.style.top=p.t+'%';
+          stageEl.appendChild(e); doors.push(e);
+          if(d.closed) st.closedX=d.x;
+        });
+      }
+      if(askbar){ askbar.remove(); askbar=null; }
+      paint();
+    }
+    function penLineTo(nx,ny){
+      if(!st.penDown) return;
+      log.push({t:'draw'});
+      ctx.strokeStyle='hsl('+((st.penHue*3.6)%360)+',85%,50%)';
+      ctx.lineWidth=st.penSize;
+      ctx.beginPath();
+      ctx.moveTo(st.x+SW/2, SH/2-st.y);
+      ctx.lineTo(nx+SW/2, SH/2-ny);
+      ctx.stroke();
+    }
+    function num(v){ var n=parseFloat(v); return isFinite(n)?n:0; }
+    // Scratch keeps a sprite on the stage; without this a big "move" sends it
+    // off into nowhere and conditions like "touching" can never come true.
+    function fenceX(v){ return Math.max(-SW/2, Math.min(SW/2, v)); }
+    function fenceY(v){ return Math.max(-SH/2, Math.min(SH/2, v)); }
+    function readVal(v){
+      if(typeof v==='string'){
+        if(v==='answer') return st.answer;
+        if(Object.prototype.hasOwnProperty.call(st.vars,v)) return st.vars[v];
+      }
+      return v;
+    }
+    function evalBool(c){
+      if(!c) return false;
+      var a=readVal(c.f.a), b=readVal(c.f.b);
+      switch(c.op){
+        case 'eq': return String(a)===String(b) || (num(a)===num(b) && a!=='' && b!=='');
+        case 'gt': return num(a)>num(b);
+        case 'lt': return num(a)<num(b);
+        case 'touching': return st.closedX!==undefined && Math.abs(st.x-st.closedX)<22;
+      }
+      return false;
+    }
+    function ask(prompt){
+      return new Promise(function(res){
+        pendingAsk=res;
+        st.saying=prompt; paint();
+        askbar=document.createElement('div'); askbar.className='askbar';
+        askbar.innerHTML='<input type="text" aria-label="Your answer"/><button type="button">✓</button>';
+        stageEl.appendChild(askbar);
+        var inp=askbar.querySelector('input'), btn=askbar.querySelector('button');
+        function done(){
+          st.answer=inp.value; st.answerShown=true; st.saying='';
+          if(askbar){ askbar.remove(); askbar=null; }
+          pendingAsk=null; paint(); res();
+        }
+        btn.addEventListener('click',done);
+        inp.addEventListener('keydown',function(e){ if(e.key==='Enter') done(); });
+        inp.focus();
+      });
+    }
+
+    var onStep=null;
+    async function tick(path){
+      budget++;
+      if(budget>120000){ stopped=true; log.push({t:'timeout'}); return; }
+      // A big "repeat" or a loop that never ends would otherwise sit there for
+      // minutes looking broken. Stop after 20s and say so instead.
+      if(startedAt && Date.now()-startedAt>20000){ stopped=true; log.push({t:'timeout'}); return; }
+      if(onStep) onStep(path);
+      var d=opts.getDelay?opts.getDelay():60;
+      if(d>0) await sleep(d);
+    }
+    async function runList(list, base){
+      for(var i=0;i<list.length && !stopped;i++){
+        await runBlock(list[i], base+'|'+i);
+      }
+    }
+    async function runBlock(b, path){
+      if(stopped) return;
+      var f=b.f||{};
+      switch(b.op){
+        case 'whenFlag': case 'whenSprite': break;
+        case 'move': {
+          var n=num(f.n);
+          var r=st.dir*Math.PI/180;
+          var nx=fenceX(st.x+Math.sin(r)*n), ny=fenceY(st.y+Math.cos(r)*n);
+          penLineTo(nx,ny); st.x=nx; st.y=ny;
+          log.push({t:'move',n:n}); break; }
+        case 'turnR': st.dir=(st.dir+num(f.n))%360; log.push({t:'turn',n:num(f.n)}); break;
+        case 'turnL': st.dir=(st.dir-num(f.n)+360)%360; log.push({t:'turn',n:-num(f.n)}); break;
+        case 'goxy': st.x=fenceX(num(f.x)); st.y=fenceY(num(f.y)); log.push({t:'goto'}); break;
+        case 'pointDir': st.dir=num(f.d); break;
+        case 'say': st.saying=String(readVal(f.t)); log.push({t:'say',v:st.saying}); break;
+        case 'sayFor': {
+          st.saying=String(readVal(f.t)); log.push({t:'say',v:st.saying}); paint();
+          var secs=Math.min(num(f.s),3);
+          var dl=opts.getDelay?opts.getDelay():60;
+          await sleep(dl>0?secs*400:0);
+          st.saying=''; break; }
+        case 'setSize': st.size=num(f.n); break;
+        case 'wait': { var dl2=opts.getDelay?opts.getDelay():60; await sleep(dl2>0?Math.min(num(f.n),3)*400:0); break; }
+        case 'ask': await ask(String(f.t)); log.push({t:'ask'}); break;
+        case 'penClear': resetCanvas(); log.push({t:'clear'}); break;
+        case 'penDown': st.penDown=true; log.push({t:'pendown'}); break;
+        case 'penUp': st.penDown=false; break;
+        case 'penSize': st.penSize=num(f.n); break;
+        case 'penColor': st.penHue=(st.penHue+num(f.n))%100; log.push({t:'pencolor'}); break;
+        case 'setVar': st.vars[f.v]=num(f.n); log.push({t:'setvar',v:f.v,n:num(f.n)}); break;
+        case 'changeVar': st.vars[f.v]=num(st.vars[f.v])+num(f.n); break;
+        case 'repeat': {
+          var times=num(f.n); log.push({t:'repeat',n:times});
+          for(var i=0;i<times && !stopped;i++) await runList(b.body, path+'/b');
+          break; }
+        case 'repeatUntil': {
+          var guard=0; log.push({t:'repeatUntil'});
+          // 500 is generous for any of these exercises, and keeps a loop whose
+          // condition never comes true from looking like a frozen page.
+          while(!evalBool(b.c) && !stopped && guard++<500) await runList(b.body, path+'/b');
+          if(guard>=500) log.push({t:'runaway'});
+          break; }
+        case 'ifThen': {
+          var r1=evalBool(b.c); log.push({t:'if',v:r1});
+          if(r1) await runList(b.body, path+'/b'); break; }
+        case 'ifElse': {
+          var r2=evalBool(b.c); log.push({t:'ifelse',v:r2});
+          if(r2) await runList(b.body, path+'/b'); else await runList(b.body2, path+'/e');
+          break; }
+      }
+      paint();
+      await tick(path);
+    }
+    return {
+      reset:reset,
+      run:async function(script, stepCb){
+        if(running) return null;
+        running=true; startedAt=Date.now(); onStep=stepCb||null;
+        try{ await runList(script,'root'); }
+        finally{ running=false; startedAt=0; onStep=null; paint(); }
+        return { log:log, state:st };
+      },
+      stop:function(){
+        stopped=true;
+        if(askbar){ askbar.remove(); askbar=null; }
+        // Releasing this matters: without it a run halted mid-question never
+        // finishes, and every later run is blocked until the page reloads.
+        if(pendingAsk){ var r=pendingAsk; pendingAsk=null; r(); }
+      },
+      isRunning:function(){ return running; },
+      getLog:function(){ return log; },
+      getState:function(){ return st; },
+      canvasCtx:function(){ return ctx; }
+    };
+  }
+
+  /* ==========================================================
+     CHALLENGES — the programs from her worksheet
+  ========================================================== */
+  function hasOp(list, op){
+    for(var i=0;i<list.length;i++){
+      if(list[i].op===op) return true;
+      if(list[i].body && hasOp(list[i].body,op)) return true;
+      if(list[i].body2 && hasOp(list[i].body2,op)) return true;
+    }
+    return false;
+  }
+  function findOp(list, op){
+    for(var i=0;i<list.length;i++){
+      if(list[i].op===op) return list[i];
+      var r;
+      if(list[i].body && (r=findOp(list[i].body,op))) return r;
+      if(list[i].body2 && (r=findOp(list[i].body2,op))) return r;
+    }
+    return null;
+  }
+  function said(log){ return log.filter(function(e){ return e.t==='say'; }).map(function(e){ return e.v; }); }
+  function hasSay(list){ return hasOp(list,'say')||hasOp(list,'sayFor'); }
+  function drewAnything(log){ return log.some(function(e){ return e.t==='draw'; }); }
+
+  var CHALLENGES = [
+    { id:0, icon:'👋', name:'Warm-up: move and say',
+      goal:'Make the cat <b>move 10 steps</b> and then <b>say “Hello!”</b> when the green flag is clicked.<br/><span style="color:#7a6a4f">Tap a block in the palette to add it. Tap a white oval to change its value.</span>',
+      palette:['whenFlag','move','say','sayFor'],
+      vars:{}, emoji:'🐱',
+      check:function(sc,log){
+        if(!hasOp(sc,'whenFlag')) return {ok:false,msg:'Start your script with the <b>when 🏳️ clicked</b> hat block.'};
+        var mv=findOp(sc,'move');
+        if(!mv) return {ok:false,msg:'Add a <b>move ( ) steps</b> block.'};
+        if(Number(mv.f.n)!==10) return {ok:false,msg:'Set the move block to <b>10</b> steps.'};
+        var s=said(log);
+        if(!s.length) return {ok:false,msg:'Add a <b>say</b> block so the cat talks.'};
+        if(!/hello/i.test(s.join(' '))) return {ok:false,msg:'Make the cat say <b>Hello!</b>'};
+        return {ok:true,msg:'The cat moved 10 steps and said hello. That is a <b>script</b> — blocks joined in order.'};
+      } },
+
+    { id:1, icon:'🔁', name:'Loop: draw a square',
+      goal:'Use a <b>repeat</b> loop to draw a square. Put <b>pen down</b> first, then repeat <b>4</b> times: <b>move 80 steps</b> and <b>turn ↻ 90 degrees</b>.<br/><span style="color:#7a6a4f">A loop saves you from adding the same blocks over and over.</span>',
+      palette:['whenFlag','penClear','penDown','penUp','penSize','move','turnR','repeat'],
+      vars:{}, emoji:'✏️', speed:'8', start:{x:-40,y:-40,dir:90},
+      check:function(sc,log){
+        var rp=findOp(sc,'repeat');
+        if(!rp) return {ok:false,msg:'You need a <b>repeat</b> block — that is the loop.'};
+        if(Number(rp.f.n)!==4) return {ok:false,msg:'A square has 4 sides, so repeat <b>4</b> times.'};
+        if(!hasOp(sc,'penDown')) return {ok:false,msg:'Add <b>pen down</b> before the loop, or nothing gets drawn.'};
+        if(!hasOp(rp.body,'move')||!hasOp(rp.body,'turnR'))
+          return {ok:false,msg:'Put <b>move</b> AND <b>turn ↻</b> <i>inside</i> the repeat block.'};
+        var t=findOp(rp.body,'turnR');
+        if(Number(t.f.n)!==90) return {ok:false,msg:'To make square corners, turn <b>90</b> degrees.'};
+        var moves=log.filter(function(e){ return e.t==='move'; }).length;
+        if(moves<4) return {ok:false,msg:'The loop should run 4 times — press 🟢 to run it.'};
+        if(!drewAnything(log)) return {ok:false,msg:'Nothing was actually drawn. Make sure the pen is <b>down</b> while the sprite moves — a <b>pen up</b> block will stop it drawing.'};
+        return {ok:true,msg:'A <b>loop</b> runs the same blocks again and again. 4 sides × (move + turn 90°) = a square!'};
+      } },
+
+    { id:2, icon:'❓', name:'if: time = 12',
+      goal:'Worksheet Q1. Create a variable called <b>time</b> and <b>set it to 12</b>. Then use an <b>if</b> block to check whether <b>time = 12</b>. If it is true, <b>say “Do your work !!”</b>.',
+      palette:['whenFlag','setVar','ifThen','sayFor','say'],
+      bools:['eq'], vars:{time:0}, emoji:'🐱',
+      check:function(sc,log){
+        var sv=findOp(sc,'setVar');
+        if(!sv) return {ok:false,msg:'Use <b>set time to ( )</b> to give the variable a value.'};
+        if(Number(sv.f.n)!==12) return {ok:false,msg:'Set <b>time</b> to <b>12</b>.'};
+        var iff=findOp(sc,'ifThen');
+        if(!iff) return {ok:false,msg:'Add an <b>if … then</b> block from Control.'};
+        if(!iff.c) return {ok:false,msg:'Drop the <b>( ) = ( )</b> operator into the if block\'s hexagon.'};
+        if(iff.c.op!=='eq'||String(iff.c.f.a)!=='time'||Number(iff.c.f.b)!==12)
+          return {ok:false,msg:'The condition should read <b>time = 12</b>.'};
+        if(!hasSay(iff.body)) return {ok:false,msg:'The <b>say</b> block must go <i>inside</i> the if block — tap the empty space inside it, then add the say. Outside the if, it would run no matter what the condition said.'};
+        var s=said(log);
+        if(!s.length) return {ok:false,msg:'Put a <b>say</b> block INSIDE the if block.'};
+        if(!/do your work/i.test(s.join(' '))) return {ok:false,msg:'It should say <b>Do your work !!</b>'};
+        return {ok:true,msg:'The condition <b>time = 12</b> was <b>true</b>, so the blocks inside the <b>if</b> ran. If it were false, they would be skipped.'};
+      } },
+
+    { id:3, icon:'🔀', name:'if–else: time = 10?',
+      goal:'Worksheet Q2. Keep <b>time set to 12</b>, but now check whether <b>time = 10</b> using <b>if … else</b>. If true say <b>“Do your work”</b>; otherwise say <b>“Play”</b>.<br/><span style="color:#7a6a4f">Think first: which one will the cat actually say?</span>',
+      palette:['whenFlag','setVar','ifElse','sayFor','say'],
+      bools:['eq'], vars:{time:0}, emoji:'🐱',
+      check:function(sc,log){
+        var sv=findOp(sc,'setVar');
+        if(!sv||Number(sv.f.n)!==12) return {ok:false,msg:'Set <b>time</b> to <b>12</b> first.'};
+        var ie=findOp(sc,'ifElse');
+        if(!ie) return {ok:false,msg:'Use the <b>if … then … else</b> block.'};
+        if(!ie.c||ie.c.op!=='eq'||String(ie.c.f.a)!=='time'||Number(ie.c.f.b)!==10)
+          return {ok:false,msg:'The condition should read <b>time = 10</b>.'};
+        if(!ie.body.length||!ie.body2.length)
+          return {ok:false,msg:'Put a <b>say</b> block in BOTH parts — the if part and the else part.'};
+        var s=said(log).join(' ');
+        if(!/play/i.test(s)) return {ok:false,msg:'Run it. Since time is 12 (not 10) the cat should say <b>Play</b> — check your else part.'};
+        return {ok:true,msg:'time is <b>12</b>, so <b>time = 10</b> is <b>false</b> — the <b>else</b> part ran and the cat said “Play”. That is how if–else chooses between two paths.'};
+      } },
+
+    { id:4, icon:'💬', name:'Ask the user a number',
+      goal:'Worksheet Q3. <b>Ask</b> the user to enter a number, then use <b>if … else</b> with <b>answer &gt; 10</b> to say <b>“The number is greater than 10”</b> or <b>“The number is less than 10”</b>.<br/><span style="color:#7a6a4f">Type a number into the box on the stage when it asks.</span>',
+      palette:['whenFlag','ask','ifElse','sayFor','say'],
+      bools:['gt','lt'], vars:{}, emoji:'🐱',
+      check:function(sc,log){
+        if(!hasOp(sc,'ask')) return {ok:false,msg:'Add <b>ask ( ) and wait</b> from Sensing.'};
+        var ie=findOp(sc,'ifElse');
+        if(!ie) return {ok:false,msg:'Use an <b>if … then … else</b> block.'};
+        if(!ie.c||String(ie.c.f.a)!=='answer')
+          return {ok:false,msg:'Compare the <b>answer</b> — set the left side of the operator to <b>answer</b>.'};
+        if(!ie.body.length||!ie.body2.length)
+          return {ok:false,msg:'Put a <b>say</b> block in both the if part and the else part.'};
+        if(!log.some(function(e){ return e.t==='ask'; }))
+          return {ok:false,msg:'Press 🟢 and type a number so the program actually runs.'};
+        var s=said(log).join(' ');
+        if(!/greater|less/i.test(s)) return {ok:false,msg:'The messages should mention <b>greater than 10</b> and <b>less than 10</b>.'};
+        return {ok:true,msg:'<b>answer</b> stores whatever the user typed. The condition decided which message to say — the same program gives different results for different input.'};
+      } },
+
+    { id:5, icon:'🚪', name:'repeat until: find the closed door',
+      goal:'Worksheet Loops Q1. Move the cat forward <b>20 steps</b> at a time using <b>repeat until touching “Closed door”</b>. When it stops, <b>say “I have found a closed door”</b>.<br/><span style="color:#7a6a4f">A <b>repeat until</b> loop keeps going until its condition becomes true.</span>',
+      palette:['whenFlag','repeatUntil','move','sayFor','say'],
+      bools:['touching'], vars:{}, emoji:'🐱',
+      start:{x:-200,y:-40,dir:90},
+      doors:[{x:-100,closed:false},{x:-30,closed:false},{x:40,closed:true},{x:110,closed:false},{x:180,closed:false}],
+      check:function(sc,log){
+        var ru=findOp(sc,'repeatUntil');
+        if(!ru) return {ok:false,msg:'Use the <b>repeat until</b> block from Control.'};
+        if(!ru.c||ru.c.op!=='touching') return {ok:false,msg:'Drop <b>touching (Closed door)?</b> into the hexagon.'};
+        var mv=findOp(ru.body,'move');
+        if(!mv) return {ok:false,msg:'Put <b>move ( ) steps</b> INSIDE the repeat until loop.'};
+        if(Number(mv.f.n)!==20) return {ok:false,msg:'Move <b>20</b> steps each time.'};
+        if(hasSay(ru.body)) return {ok:false,msg:'Your <b>say</b> block is <i>inside</i> the loop, so the cat announces the door on every single step. Move it <b>after</b> the loop — select the repeat-until block, then add the say.'};
+        if(!hasSay(sc)) return {ok:false,msg:'After the loop, add <b>say “I have found a closed door”</b>.'};
+        var s=said(log).join(' ');
+        if(!/closed door/i.test(s)) return {ok:false,msg:'After the loop, <b>say “I have found a closed door”</b> — put it AFTER the loop, not inside.'};
+        return {ok:true,msg:'<b>repeat until</b> checks its condition <i>before</i> each turn of the loop, and stops as soon as it is true. The cat kept moving until it touched the closed door.'};
+      } },
+
+    { id:6, icon:'🌸', name:'Pen art: 6 circles',
+      goal:'Worksheet Loops Q2. Draw 6 circles in a tessellation. Use <b>erase all</b>, <b>go to x:0 y:0</b>, <b>pen down</b>, <b>set pen size to 8</b>, then <b>repeat 6</b> ⟨ <b>repeat 36</b> ⟨ move 10, turn ↻ 10 ⟩, turn ↻ 60, change pen color by 10 ⟩.<br/><span style="color:#7a6a4f">A loop inside a loop — the inner one draws a circle, the outer one repeats it around.</span>',
+      palette:['whenFlag','penClear','penDown','penSize','penColor','goxy','move','turnR','repeat','setSize'],
+      vars:{}, emoji:'➡️', speed:'8', start:{x:0,y:0,dir:90},
+      check:function(sc,log){
+        var outer=findOp(sc,'repeat');
+        if(!outer) return {ok:false,msg:'You need a <b>repeat</b> loop.'};
+        if(Number(outer.f.n)!==6) return {ok:false,msg:'The outer loop draws 6 circles — repeat <b>6</b>.'};
+        var inner=findOp(outer.body,'repeat');
+        if(!inner) return {ok:false,msg:'Put ANOTHER <b>repeat</b> block inside the first one — that inner loop draws one circle.'};
+        if(Number(inner.f.n)!==36) return {ok:false,msg:'A circle needs <b>36</b> small steps (36 × 10° = 360°).'};
+        var im=findOp(inner.body,'move'), it=findOp(inner.body,'turnR');
+        if(!im||!it) return {ok:false,msg:'Inside the inner loop put <b>move 10 steps</b> and <b>turn ↻ 10 degrees</b>.'};
+        if(Number(it.f.n)!==10) return {ok:false,msg:'Turn <b>10</b> degrees each time so 36 turns make a full circle.'};
+        if(!hasOp(sc,'penDown')) return {ok:false,msg:'Add <b>pen down</b> so the sprite draws.'};
+        var outerTurns=outer.body.filter(function(b){ return b.op==='turnR'; });
+        if(!outerTurns.length) return {ok:false,msg:'After the inner loop, add <b>turn ↻ 60 degrees</b> so the next circle starts in a new direction.'};
+        if(Number(outerTurns[0].f.n)!==60) return {ok:false,msg:'Turn <b>60</b> degrees between circles (6 × 60° = 360°).'};
+        var moves=log.filter(function(e){ return e.t==='move'; }).length;
+        if(moves<200) return {ok:false,msg:'Press 🟢 and let it finish drawing.'};
+        if(!drewAnything(log)) return {ok:false,msg:'The blocks are right but nothing was drawn — check that the pen is <b>down</b>.'};
+        return {ok:true,msg:'A <b>nested loop</b>! The inner loop ran 36 times to draw one circle, and the outer loop repeated that 6 times — 216 moves from just a few blocks.'};
+      } }
+  ];
+
+  /* ==========================================================
+     TRACE IT
+  ========================================================== */
+  var TRACE = [
+    { q:'How many steps will the sprite move altogether when clicked?',
+      script:[ {op:'whenSprite',f:{}}, {op:'repeat',f:{n:3},body:[{op:'move',f:{n:5}}]}, {op:'move',f:{n:-5}} ],
+      o:['10','15','5','7'], a:'10',
+      e:'The loop runs <b>3</b> times moving <b>5</b> steps: 3 × 5 = <b>15</b>. Then <b>move -5</b> goes backwards 5. 15 − 5 = <b>10</b>.' },
+    { q:'What will the cat say?',
+      script:[ {op:'whenFlag',f:{}}, {op:'setVar',f:{v:'time',n:12}},
+               {op:'ifElse',f:{},c:{op:'eq',f:{a:'time',b:10}},
+                body:[{op:'sayFor',f:{t:'Do your work',s:2}}], body2:[{op:'sayFor',f:{t:'Play',s:2}}] } ],
+      o:['Play','Do your work','Both of them','Nothing'], a:'Play',
+      e:'<b>time</b> is 12, so <b>time = 10</b> is <b>false</b>. When the condition is false, the <b>else</b> part runs — so the cat says “Play”.' },
+    { q:'How many times will the cat say “Hi”?',
+      script:[ {op:'whenFlag',f:{}}, {op:'repeat',f:{n:5},body:[{op:'say',f:{t:'Hi'}}]} ],
+      o:['5','1','0','10'], a:'5',
+      e:'A <b>repeat 5</b> loop runs the blocks inside it <b>5</b> times.' },
+    { q:'What shape will the pen draw?',
+      script:[ {op:'whenFlag',f:{}}, {op:'penDown',f:{}},
+               {op:'repeat',f:{n:4},body:[{op:'move',f:{n:80}},{op:'turnR',f:{n:90}}]} ],
+      o:['A square','A triangle','A circle','A straight line'], a:'A square',
+      e:'4 sides with a <b>90°</b> turn after each one makes a <b>square</b>. 4 × 90° = 360°, a full turn.' },
+    { q:'The variable <b>time</b> is set to 12. Will the cat say anything?',
+      script:[ {op:'whenFlag',f:{}}, {op:'setVar',f:{v:'time',n:12}},
+               {op:'ifThen',f:{},c:{op:'eq',f:{a:'time',b:12}}, body:[{op:'sayFor',f:{t:'Do your work !!',s:2}}] } ],
+      o:['Yes — “Do your work !!”','No, nothing happens','It says “Play”','It shows an error'], a:'Yes — “Do your work !!”',
+      e:'<b>time = 12</b> is <b>true</b>, so the blocks inside the <b>if</b> run. An <b>if</b> with no else simply skips everything when the condition is false.' },
+    { q:'When does this loop STOP?',
+      script:[ {op:'whenFlag',f:{}},
+               {op:'repeatUntil',f:{},c:{op:'touching',f:{t:'Closed door'}}, body:[{op:'move',f:{n:20}}]},
+               {op:'sayFor',f:{t:'I have found a closed door',s:2}} ],
+      o:['When the sprite touches the closed door','After exactly 20 moves','It never stops','As soon as it starts'],
+      a:'When the sprite touches the closed door',
+      e:'<b>repeat until</b> keeps repeating while the condition is false, and stops the moment it becomes <b>true</b> — here, when the sprite is touching the closed door.' },
+    { q:'How many times does <b>move 10 steps</b> run in total?',
+      script:[ {op:'whenFlag',f:{}},
+               {op:'repeat',f:{n:6},body:[ {op:'repeat',f:{n:36},body:[{op:'move',f:{n:10}},{op:'turnR',f:{n:10}}]},
+                                            {op:'turnR',f:{n:60}} ]} ],
+      o:['216','36','6','42'], a:'216',
+      e:'This is a <b>nested loop</b>. The inner loop runs 36 times, and the outer loop repeats that 6 times: 6 × 36 = <b>216</b>.' },
+    { q:'Which block makes the program START?',
+      script:[ {op:'whenFlag',f:{}}, {op:'move',f:{n:10}} ],
+      o:['when 🏳️ clicked','move 10 steps','repeat','say'], a:'when 🏳️ clicked',
+      e:'<b>when 🏳️ clicked</b> is an <b>Event</b> block — an event is something that <b>initiates an action</b>. Clicking the green flag starts the program.' }
+  ];
+
+  /* ==========================================================
+     QUIZ — every textbook exercise
+  ========================================================== */
+  var QUIZ = {
+    fill: { name:'Fill in the blanks', icon:'✏️', qs:[
+      { q:'______ runs the same block of code multiple times.', o:['Loop','Event','Variable','Sprite'], a:'Loop',
+        e:'A <b>loop</b> runs the same block of code multiple times.' },
+      { q:'Something that initiates an action is called an ______.', o:['Event','Loop','Operator','Costume'], a:'Event',
+        e:'An <b>event</b> initiates an action — like clicking the green flag.' },
+      { q:'______ changes determine the flow of the program based on whether a statement is true or false.',
+        o:['Conditional','Loop','Variable','Sprite'], a:'Conditional',
+        e:'<b>Conditional</b> changes decide the flow based on true or false.' },
+      { q:'A ______ is a placeholder for data such as numbers, strings, etc., in a program.',
+        o:['Variable','Loop','Stage','Sprite'], a:'Variable',
+        e:'A <b>variable</b> is a placeholder that stores data.' },
+      { q:'When the “if” condition is added, the expression will be either true or ______.',
+        o:['False','Maybe','Empty','Repeat'], a:'False',
+        e:'A condition is always either <b>true</b> or <b>false</b>.' }
+    ]},
+    tf: { name:'True or False', icon:'⚖️', qs:[
+      { q:'Programming languages are used for giving instructions to computers.', tf:true,
+        e:'True — that is exactly what a programming language is for.' },
+      { q:'A graphic object on stage is called a Sprite.', tf:true,
+        e:'True — a <b>sprite</b> is the character or object on the stage.' },
+      { q:'If…else is used for repeated execution of a block of code.', tf:false,
+        e:'False — <b>if…else</b> makes a <b>decision</b>. Repeating is what a <b>loop</b> does.' },
+      { q:'A loop doesn\'t check any conditions before executing a code block inside it.', tf:false,
+        e:'False — some loops do check. A <b>repeat until</b> loop checks its condition before each turn.' },
+      { q:'A variable in programming can only store numbers.', tf:false,
+        e:'False — a variable can also store text (strings) and other kinds of data.' }
+    ]},
+    match: { name:'Match the following', icon:'🔗', pairs:[
+      ['Sprite','Acting object'], ['Conditional','If … else'], ['Loop','for(...)'],
+      ['VPL','Diagrammatic programming'], ['Variable','Store values']
+    ], e:'Sprite → acting object · Conditional → if…else · Loop → for(...) · VPL → diagrammatic programming · Variable → store values.' },
+    mcq: { name:'Multiple choice', icon:'🔘', qs:[
+      { q:'How many steps will the sprite move when clicked?',
+        script:[ {op:'whenSprite',f:{}}, {op:'repeat',f:{n:3},body:[{op:'move',f:{n:5}}]}, {op:'move',f:{n:-5}} ],
+        o:['10','15','5','7'], a:'10',
+        e:'repeat 3 × move 5 = 15, then move −5 → <b>10</b>.' },
+      { q:'Which of these is an example of a loop?',
+        o:['repeat (10)','( ) + ( )','touching color ( )?','when 🏳️ clicked'], a:'repeat (10)',
+        e:'<b>repeat</b> is the loop block. The others are an operator, a sensing block and an event.' },
+      { q:'What is the main area where the Sprite moves and performs actions in Visual Coding?',
+        o:['Stage','Palette','Script','Script Area'], a:'Stage',
+        e:'The <b>stage</b> is the main area where the sprite moves and performs.' },
+      { q:'What happens when the 🏳️ flag is clicked?',
+        o:['Program starts','Program ends','Program gets deleted','None of the above'], a:'Program starts',
+        e:'Clicking the green flag <b>starts</b> the program.' },
+      { q:'In VPL, a character or object is referred to as a…',
+        o:['Sprite','Sprint','Spring','Split'], a:'Sprite',
+        e:'It is called a <b>sprite</b>.' }
+    ]},
+    oneword: { name:'One word answers', icon:'💡', qs:[
+      { q:'What is the stage in VPL?',
+        o:['The main working area where the sprite performs actions','The list of coding blocks','The place scripts are stored','The sprite\'s costume'],
+        a:'The main working area where the sprite performs actions',
+        e:'The <b>stage</b> is the main working area where the sprite performs actions.' },
+      { q:'What is the “script area”?',
+        o:['The place where you create a script for a sprite','The area where the sprite moves','A kind of loop','A type of variable'],
+        a:'The place where you create a script for a sprite',
+        e:'The <b>script area</b> is where you build a script for a sprite.' },
+      { q:'What is a variable?',
+        o:['The place where data is stored','A moving object','A repeated instruction','The green flag'],
+        a:'The place where data is stored',
+        e:'A <b>variable</b> is the place where data is stored.' },
+      { q:'Which programming concept allows repeating tasks multiple times?',
+        o:['Loop','Variable','Sprite','Costume'], a:'Loop', e:'A <b>loop</b> repeats tasks.' },
+      { q:'In Visual Coding, which tab is used to change the appearance of a sprite?',
+        o:['Costume tab','Sound tab','Script tab','Stage tab'], a:'Costume tab',
+        e:'The <b>Costume tab</b> changes how a sprite looks.' }
+    ]}
+  };
+  var LONG = [
+    { q:'What is VPL?', a:'A <b>Visual Programming Language</b> is any programming language that uses <b>blocks already defined with the code</b> to create programs — you join blocks together instead of typing text.' },
+    { q:'What are conditionals?', a:'Conditionals are instructions for the computer to <b>make decisions</b> based on whether something is true or false. It is like telling the computer, “<b>If</b> this is true, do one thing; <b>if it is false</b>, do another.”' },
+    { q:'Explain a loop with an example.', a:'Repeated instructions are known as a <b>loop</b>. For example, using a <b>repeat</b> block you can make a sprite move forward 10 steps five times.' },
+    { q:'What is a sprite, and how can you change its appearance?', a:'A <b>sprite</b> is a moving object — it can be any image. You change its appearance using the <b>Costume tab</b>.' },
+    { q:'What is the blocks palette?', a:'The <b>Blocks Palette</b> is the area that shows the different coding blocks. You drag and drop these blocks together to create programs.' }
+  ];
+
+  /* ==========================================================
+     FIX THE BUG — programs that almost work
+     Each one starts with a script already on screen and one classic
+     mistake in it, so she practises reading code, not just writing it.
+  ========================================================== */
+  var DEBUG = [
+    { id:'d0', icon:'🔢', name:'The square with a missing side',
+      goal:'This should draw a <b>square</b>, but one thing is wrong. Press 🟢 to see what it draws, find the mistake and fix it.<br/><span style="color:#7a6a4f">Tap a white oval to change a number.</span>',
+      palette:['whenFlag','penDown','penUp','move','turnR','repeat','penClear'],
+      vars:{}, emoji:'✏️', speed:'8', start:{x:-40,y:-40,dir:90},
+      starter:[ {op:'whenFlag',f:{}}, {op:'penDown',f:{}},
+                {op:'repeat',f:{n:3},body:[{op:'move',f:{n:80}},{op:'turnR',f:{n:90}}]} ],
+      bug:'The loop only repeats 3 times, so only 3 sides get drawn.',
+      check:function(sc,log){
+        var rp=findOp(sc,'repeat');
+        if(!rp) return {ok:false,msg:'Keep the <b>repeat</b> block — it is the loop.'};
+        if(Number(rp.f.n)!==4) return {ok:false,msg:'Count the sides of a square. How many times must the loop repeat?'};
+        if(!drewAnything(log)) return {ok:false,msg:'Press 🟢 so it draws.'};
+        return {ok:true,msg:'Found it — a square has <b>4</b> sides, so the loop must repeat <b>4</b> times. One wrong number changes the whole shape.'};
+      } },
+
+    { id:'d1', icon:'📐', name:'The wonky corners',
+      goal:'This repeats the right number of times, but the shape still is not a square. Run it, look at the corners, and fix the mistake.',
+      palette:['whenFlag','penDown','move','turnR','repeat','penClear'],
+      vars:{}, emoji:'✏️', speed:'8', start:{x:-40,y:-40,dir:90},
+      starter:[ {op:'whenFlag',f:{}}, {op:'penDown',f:{}},
+                {op:'repeat',f:{n:4},body:[{op:'move',f:{n:80}},{op:'turnR',f:{n:60}}]} ],
+      bug:'It turns 60 degrees instead of 90, so the corners are wrong.',
+      check:function(sc,log){
+        var rp=findOp(sc,'repeat'); if(!rp) return {ok:false,msg:'Keep the <b>repeat</b> block.'};
+        var t=findOp(rp.body,'turnR');
+        if(!t) return {ok:false,msg:'The <b>turn</b> block belongs inside the loop.'};
+        if(Number(t.f.n)!==90) return {ok:false,msg:'A square corner is a right angle. How many degrees is that?'};
+        if(Number(rp.f.n)!==4) return {ok:false,msg:'The loop should still repeat 4 times.'};
+        return {ok:true,msg:'A square turns <b>90°</b> at each corner — and 4 × 90° = 360°, one full turn. With 60° the shape could never close up.'};
+      } },
+
+    { id:'d2', icon:'✏️', name:'The invisible drawing',
+      goal:'The blocks look right and the sprite moves — but nothing appears on the stage. Something is missing. Add it.',
+      palette:['whenFlag','penDown','penUp','penClear','move','turnR','repeat'],
+      vars:{}, emoji:'✏️', speed:'8', start:{x:-40,y:-40,dir:90},
+      starter:[ {op:'whenFlag',f:{}},
+                {op:'repeat',f:{n:4},body:[{op:'move',f:{n:80}},{op:'turnR',f:{n:90}}]} ],
+      bug:'There is no pen down block, so the sprite moves without drawing.',
+      check:function(sc,log){
+        if(!hasOp(sc,'penDown')) return {ok:false,msg:'The sprite is moving, but the pen is not touching the stage. Which <b>Pen</b> block starts the drawing?'};
+        if(!drewAnything(log)) return {ok:false,msg:'Add <b>pen down</b> <i>before</i> the loop, then press 🟢.'};
+        return {ok:true,msg:'<b>pen down</b> puts the pen on the stage. Without it the sprite still moves — it just leaves no line.'};
+      } },
+
+    { id:'d3', icon:'❓', name:'The condition that does nothing',
+      goal:'The cat should only speak when <b>time = 12</b>. But it speaks no matter what — even if you change time to 5. Try it, then fix the script.<br/><span style="color:#7a6a4f">Look carefully at <i>where</i> the say block sits.</span>',
+      palette:['whenFlag','setVar','ifThen','say','sayFor'],
+      bools:['eq'], vars:{time:0}, emoji:'🐱',
+      starter:[ {op:'whenFlag',f:{}}, {op:'setVar',f:{v:'time',n:12}},
+                {op:'ifThen',f:{},c:{op:'eq',f:{a:'time',b:12}},body:[]},
+                {op:'sayFor',f:{t:'Do your work !!',s:2}} ],
+      bug:'The say block is after the if block instead of inside it.',
+      check:function(sc,log){
+        var iff=findOp(sc,'ifThen');
+        if(!iff) return {ok:false,msg:'Keep the <b>if</b> block.'};
+        if(!iff.c) return {ok:false,msg:'The if block still needs its <b>time = 12</b> condition.'};
+        if(!hasSay(iff.body)) return {ok:false,msg:'The say block must sit <i>inside</i> the if block. Delete it, tap the empty space inside the if, then add it there.'};
+        var outside=sc.some(function(b){ return b.op==='say'||b.op==='sayFor'; });
+        if(outside) return {ok:false,msg:'There is still a say block <i>outside</i> the if — delete that one, or the cat speaks either way.'};
+        return {ok:true,msg:'Now the say is <b>inside</b> the if, so it only runs when the condition is true. A block placed after the if runs every time — the condition was being ignored.'};
+      } },
+
+    { id:'d4', icon:'🔀', name:'The muddled messages',
+      goal:'Ask a number and this should say the right thing. Run it and type <b>25</b> — it says the wrong message! Fix it so the answer always matches.',
+      palette:['whenFlag','ask','ifElse','sayFor','say'],
+      bools:['gt','lt'], vars:{}, emoji:'🐱',
+      starter:[ {op:'whenFlag',f:{}}, {op:'ask',f:{t:'Please enter a number'}},
+                {op:'ifElse',f:{},c:{op:'gt',f:{a:'answer',b:10}},
+                 body:[{op:'sayFor',f:{t:'The number is less than 10',s:2}}],
+                 body2:[{op:'sayFor',f:{t:'The number is greater than 10',s:2}}] } ],
+      bug:'The two messages are the wrong way round.',
+      check:function(sc,log){
+        var ie=findOp(sc,'ifElse');
+        if(!ie||!ie.c) return {ok:false,msg:'Keep the <b>if … else</b> block and its condition.'};
+        if(!ie.body.length||!ie.body2.length) return {ok:false,msg:'Both parts still need a say block.'};
+        function txt(list){ return list.map(function(b){ return String(b.f&&b.f.t||''); }).join(' ').toLowerCase(); }
+        var ifTxt=txt(ie.body), elseTxt=txt(ie.body2);
+        var op=ie.c.op;
+        var good = (op==='gt' && /greater/.test(ifTxt) && /less/.test(elseTxt)) ||
+                   (op==='lt' && /less/.test(ifTxt) && /greater/.test(elseTxt));
+        if(!good) return {ok:false,msg:'Think it through: if the condition is <b>true</b>, the <i>first</i> part runs. Make that part match what the condition actually says. You can swap the two messages, or change &gt; to &lt;.'};
+        if(!log.some(function(e){ return e.t==='ask'; })) return {ok:false,msg:'Press 🟢 and type a number to test it.'};
+        return {ok:true,msg:'The <b>if</b> part runs when the condition is true and the <b>else</b> part when it is false — so the messages have to match the condition. Both fixes work: swap the messages, or flip the operator.'};
+      } }
+  ];
+
+  /* ---------- Scratch window tour ---------- */
+  var PARTS = {
+    stage:    ['Stage','The main working area where the <b>sprite</b> moves and performs actions. The 🟢 green flag <b>starts</b> the program and the 🔴 red sign stops it.'],
+    sprite:   ['Sprite pane','A <b>sprite</b> is a graphic object on the stage — the character or object of your program. It can be any image. <b>Choose a Sprite</b> adds a new one, like the Arrow1 sprite used for pen drawing.'],
+    palette:  ['Blocks Palette','The area that shows all the different coding blocks. You <b>drag and drop</b> them together to build a program. Blocks are grouped by colour.'],
+    script:   ['Script / Code Area','The place where you <b>create a script</b> for a sprite. A script is blocks joined together in order.'],
+    code:     ['Code tab','Where you build the script — this is the tab you work in most of the time.'],
+    costumes: ['Costumes tab','The tab used to <b>change the appearance</b> of a sprite. Each different look is called a costume.'],
+    sounds:   ['Sounds tab','Where you add and edit the sounds a sprite can play.'],
+    extension:['Add Extension','The button at the bottom left that adds extra groups of blocks. The <b>Pen</b> extension is added this way, and it lets your sprite draw as it moves.']
+  };
+  var HOW_VAR = [
+    'Click on <b>Variables</b> in the blocks palette.',
+    'Click the button <b>Make a Variable</b>.',
+    'Provide the <b>name</b> of the variable (for example, <i>time</i>).',
+    'Click <b>OK</b>.',
+    'Use the <b>set</b> block to assign a value to the variable.'
+  ];
+  var HOW_PEN = [
+    'Click <b>Choose a Sprite</b> and select the sprite <b>Arrow1</b>.',
+    'Click the <b>Add Extension</b> button at the bottom left, and choose the <b>Pen</b> extension.',
+    'Now use <b>pen down</b>, <b>set pen size</b> and <b>change pen color</b> together with a loop to draw your pattern.'
+  ];
+
+  /* ---------- save ---------- */
+  var KEY='cq-save-v1';
+  var S={ solved:{}, quizRight:0 };
+  function obj(v){ return (v&&typeof v==='object'&&!Array.isArray(v))?v:{}; }
+  try{ var raw=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(raw&&typeof raw==='object'&&!Array.isArray(raw)){
+      S.solved=obj(raw.solved);
+      S.quizRight=(typeof raw.quizRight==='number'&&isFinite(raw.quizRight))?raw.quizRight:0;
+    } }catch(e){}
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+
+  function show(id){
+    ['s-home','s-chals','s-lab','s-play','s-res','s-dict','s-qmenu'].forEach(function(s){ el(s).classList.remove('active'); });
+    el(id).classList.add('active'); window.scrollTo(0,0);
+  }
+  function renderHome(){
+    var all=CHALLENGES.concat(DEBUG);
+    var n=all.filter(function(c){ return S.solved[c.id]; }).length;
+    el('h-solved').textContent=n+' / '+all.length;
+    el('h-fill').style.width=(n/all.length*100)+'%';
+    el('h-quiz').textContent=S.quizRight;
+  }
+
+  /* ==========================================================
+     LAB
+  ========================================================== */
+  var L={ ch:null, script:[], cursor:{base:'root',i:0}, sel:null, rt:null, cat:null, running:false };
+
+  var CUR_SET=CHALLENGES, CUR_LABEL='🐱 Sprite Lab';
+  function renderChalList(list, label, verb){
+    CUR_SET=list||CHALLENGES; CUR_LABEL=label||'🐱 Sprite Lab';
+    var doneN=CUR_SET.filter(function(c){ return S.solved[c.id]; }).length;
+    el('ch-title').textContent=CUR_LABEL;
+    el('ch-count').textContent=doneN+' / '+CUR_SET.length;
+    el('chal-list').innerHTML='';
+    CUR_SET.forEach(function(c,i){
+      var locked = i>0 && !S.solved[CUR_SET[i-1].id];
+      var b=document.createElement('button');
+      b.className='chal'+(S.solved[c.id]?' done':'');
+      b.disabled=locked;
+      b.innerHTML='<span class="n">'+(locked?'🔒':c.icon)+'</span><span style="flex:1">'+
+        '<span class="t">'+esc(c.name)+'</span><br/><span class="d">'+
+        (locked?'Solve the one above first':(S.solved[c.id]?'✔ solved':(verb||'tap to build')))+'</span></span>';
+      if(!locked) b.addEventListener('click',function(){ openLab(c); });
+      el('chal-list').appendChild(b);
+    });
+    show('s-chals');
+  }
+  // deep copy so a starter script is never shared between attempts
+  function cloneScript(list){
+    return (list||[]).map(function(b){
+      var n={ op:b.op, f:Object.assign({},b.f||{}) };
+      if(b.c) n.c={ op:b.c.op, f:Object.assign({},b.c.f||{}) };
+      if(b.body) n.body=cloneScript(b.body);
+      if(b.body2) n.body2=cloneScript(b.body2);
+      return n;
+    });
+  }
+
+  function openLab(c){
+    L.ch=c; L.script=cloneScript(c.starter); L.cursor={base:'root',i:L.script.length}; L.sel=null; L.cat=null;
+    el('lab-name').textContent=c.icon+' '+c.name;
+    el('lab-goal').innerHTML=c.goal;
+    el('lab-fb').className='fb';
+    if(c.speed) el('speed').value=c.speed;
+    // fresh stage
+    var stage=el('stage');
+    stage.innerHTML='<canvas id="pen"></canvas>';
+    L.rt=Runtime(stage, el('pen'), { emoji:c.emoji, getDelay:function(){ return parseInt(el('speed').value,10); } });
+    resetStage();
+    renderPalette(); renderScript();
+    show('s-lab');
+  }
+  function resetStage(){
+    var c=L.ch;
+    L.rt.reset(Object.assign({ vars:c.vars||{}, doors:c.doors }, c.start||{}));
+  }
+  function renderPalette(){
+    var c=L.ch;
+    var cats=[];
+    (c.palette||[]).forEach(function(op){ var k=DEFS[op].cat; if(cats.indexOf(k)<0) cats.push(k); });
+    (c.bools||[]).forEach(function(op){ var k=BOOLS[op].cat; if(cats.indexOf(k)<0) cats.push(k); });
+    if(!L.cat||cats.indexOf(L.cat)<0) L.cat=cats[0];
+    el('cats').innerHTML=cats.map(function(k){
+      return '<button class="cat'+(k===L.cat?' on':'')+'" data-cat="'+k+'" style="background:var(--'+k+');color:var(--'+k+')">'+
+        '<span style="color:#fff">'+CAT_NAME[k]+'</span></button>';
+    }).join('');
+    el('cats').querySelectorAll('.cat').forEach(function(b){
+      b.addEventListener('click',function(){ L.cat=b.dataset.cat; renderPalette(); });
+    });
+    var h='';
+    (c.palette||[]).forEach(function(op){
+      if(DEFS[op].cat!==L.cat) return;
+      h+='<div tabindex="0" data-add="'+op+'">'+renderBlock(newBlock(op),'pal-'+op,{})+'</div>';
+    });
+    (c.bools||[]).forEach(function(op){
+      if(BOOLS[op].cat!==L.cat) return;
+      h+='<div tabindex="0" data-addbool="'+op+'" style="padding:3px 0">'+renderBool(newBool(op),{})+'</div>';
+    });
+    el('palist').innerHTML=h||'<div class="drop">No blocks in this group.</div>';
+    el('palist').querySelectorAll('[data-add]').forEach(function(w){
+      var go=function(){ addBlock(w.dataset.add); };
+      w.addEventListener('click',go);
+      w.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+    });
+    el('palist').querySelectorAll('[data-addbool]').forEach(function(w){
+      var go=function(){ attachBool(w.dataset.addbool); };
+      w.addEventListener('click',go);
+      w.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+    });
+  }
+  function addBlock(op){
+    var list=listAt(L.script, L.cursor.base);
+    if(!list) { L.cursor={base:'root',i:L.script.length}; list=L.script; }
+    var b=newBlock(op);
+    list.splice(L.cursor.i,0,b);
+    L.cursor.i++;
+    beep(660,.05);
+    renderScript();
+  }
+  function attachBool(op){
+    // drop the operator into the selected C-block's hexagon, or the last one that needs it
+    var target=null;
+    if(L.sel){ var r=blockAt(L.script,L.sel); if(r&&r.block&&DEFS[r.block.op]&&/<c>/.test(DEFS[r.block.op].parts.join(''))) target=r.block; }
+    if(!target){
+      (function scan(list){
+        list.forEach(function(b){
+          var d=DEFS[b.op];
+          if(d && d.parts.indexOf('<c>')>=0 && !b.c && !target) target=b;
+          if(b.body) scan(b.body); if(b.body2) scan(b.body2);
+        });
+      })(L.script);
+    }
+    if(!target){ flash('Add an <b>if</b> or <b>repeat until</b> block first, then tap the green operator.'); return; }
+    target.c=newBool(op);
+    beep(720,.05);
+    renderScript();
+  }
+  function flash(msg){
+    var fb=el('lab-fb'); fb.className='fb no show'; fb.innerHTML=msg;
+    setTimeout(function(){ if(fb.classList.contains('no')) fb.className='fb'; },3200);
+  }
+  function renderScript(runPath){
+    var opts={ cursor:L.cursor, selPath:L.sel, runPath:runPath, tab:true };
+    el('scriptarea').innerHTML = L.script.length
+      ? renderList(L.script,'root',opts)
+      : '<div class="drop">Tap blocks below to build your script…</div>';
+    // click a block -> select + move cursor after it
+    el('scriptarea').querySelectorAll('.blk[data-path]').forEach(function(n){
+      n.addEventListener('click',function(e){
+        if(e.target.classList.contains('fld')) return;
+        e.stopPropagation();
+        var p=n.dataset.path;
+        L.sel=p;
+        var seg=p.split('|'); var base=seg.slice(0,-1).join('|')||'root';
+        L.cursor={ base:base, i:parseInt(seg[seg.length-1],10)+1 };
+        renderScript();
+      });
+    });
+    // click inside a C-block body -> cursor goes in there
+    el('scriptarea').querySelectorAll('.cbody').forEach(function(n){
+      n.addEventListener('click',function(e){
+        if(e.target!==n) return;
+        e.stopPropagation();
+        var raw=n.dataset.body;
+        var base = raw.slice(-2)==='/2' ? raw.slice(0,-2)+'/e' : raw+'/b';
+        var list=listAt(L.script, base);
+        L.cursor={ base:base, i:list?list.length:0 }; L.sel=null;
+        renderScript();
+      });
+    });
+    el('scriptarea').querySelectorAll('.drop[data-drop]').forEach(function(n){
+      n.addEventListener('click',function(e){
+        e.stopPropagation();
+        var d=n.dataset.drop.split('|');
+        L.cursor={ base:d[0], i:parseInt(d[1],10) }; L.sel=null; renderScript();
+      });
+    });
+    // editable fields
+    el('scriptarea').querySelectorAll('.fld[data-f]').forEach(function(n){
+      n.addEventListener('click',function(e){
+        e.stopPropagation();
+        var host=n.closest('.blk'); var r=blockAt(L.script,host.dataset.path);
+        if(!r||!r.block) return;
+        editField(r.block, n.dataset.f, n);
+      });
+    });
+    el('scriptarea').querySelectorAll('.bool .fld[data-bf]').forEach(function(n){
+      n.addEventListener('click',function(e){
+        e.stopPropagation();
+        var host=n.closest('.blk'); var r=blockAt(L.script,host.dataset.path);
+        if(!r||!r.block||!r.block.c) return;
+        editField(r.block.c, n.dataset.bf, n, true);
+      });
+    });
+  }
+  function editField(block, key, node, isBool){
+    var cur=block.f[key];
+    var vars=Object.keys(L.ch.vars||{});
+    if(key==='v' && vars.length){
+      var i=vars.indexOf(String(cur)); block.f[key]=vars[(i+1)%vars.length]; renderScript(); return;
+    }
+    if(isBool && key==='a'){
+      var choices=vars.concat(['answer']);
+      var j=choices.indexOf(String(cur)); block.f[key]=choices[(j+1)%choices.length]; renderScript(); return;
+    }
+    var wantsNumber=(typeof cur==='number');
+    var v=prompt(wantsNumber?'Type a number:':'Value:', cur);
+    if(v===null) return;
+    if(wantsNumber){
+      if(v.trim()==='' || !isFinite(Number(v))){
+        flash('That block needs a <b>number</b>. “'+esc(v)+'” was not used.');
+        return;
+      }
+      block.f[key]=Number(v);
+    } else block.f[key]=v;
+    renderScript();
+  }
+
+  el('btn-del').addEventListener('click',function(){
+    if(!L.sel){ flash('Tap a block in your script first, then press Delete.'); return; }
+    var r=blockAt(L.script,L.sel);
+    if(r&&r.list){ r.list.splice(r.index,1); L.sel=null; L.cursor={base:'root',i:L.script.length}; renderScript(); }
+  });
+  el('btn-clear').addEventListener('click',function(){
+    // on a Fix the Bug task, "clear" restores the original broken script
+    L.script = L.ch && L.ch.starter ? cloneScript(L.ch.starter) : [];
+    L.sel=null; L.cursor={base:'root',i:L.script.length}; renderScript(); resetStage();
+  });
+  el('btn-stop').addEventListener('click',function(){ if(L.rt) L.rt.stop(); });
+  el('btn-run').addEventListener('click',runScript);
+  async function runScript(){
+    if(!L.rt) return;
+    if(L.rt.isRunning()){          // stop whatever is in flight so we grade a fresh run
+      L.rt.stop();
+      for(var w=0; w<60 && L.rt.isRunning(); w++) await sleep(25);
+    }
+    resetStage();
+    L.running=true;
+    var res=await L.rt.run(L.script, function(path){ renderScript(path); });
+    L.running=false;
+    renderScript();
+    return res;
+  }
+  el('btn-check').addEventListener('click',async function(){
+    if(!L.script.length){ flash('Build a script first — tap blocks from the palette.'); return; }
+    var fb=el('lab-fb');
+    // Clear the previous verdict first. Leaving it up while the new run plays
+    // out reads as "still wrong" for the whole run, even after a correct fix.
+    fb.className='fb run show'; fb.innerHTML='⏳ Running your program…';
+    var res=await runScript();
+    var log=res?res.log:[];
+    var out=L.ch.check(L.script, log, res?res.state:null);
+    if(log.some(function(e){ return e.t==='timeout'; })){
+      out={ ok:false, msg:'That program ran for a very long time, so I stopped it. Try smaller numbers in your loops — a <b>repeat</b> of a few hundred is plenty.' };
+    } else if(!out.ok && log.some(function(e){ return e.t==='runaway'; })){
+      out.msg='Your <b>repeat until</b> loop kept going and never stopped — its condition never became true. '+
+              'Check the condition, and make sure the sprite can actually reach it. '+out.msg;
+    }
+    fb.className='fb '+(out.ok?'ok':'no')+' show';
+    fb.innerHTML=(out.ok?'✅ ':'💡 ')+out.msg;
+    if(out.ok){
+      if(!S.solved[L.ch.id]){ S.solved[L.ch.id]=1; save(); confetti(80); }
+      sfxWin();
+    } else sfxNo();
+  });
+  el('lab-help').addEventListener('click',function(){
+    var fb=el('lab-fb'); fb.className='fb ok show';
+    fb.innerHTML='💡 <b>Hint:</b> '+(L.ch.bug || L.ch.goal.replace(/<span[\s\S]*?<\/span>/,''));
+  });
+  el('lab-back').addEventListener('click',function(){ if(L.rt) L.rt.stop(); renderChalList(CUR_SET,CUR_LABEL,CUR_SET===DEBUG?'tap to fix':'tap to build'); });
+  el('ch-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+
+  /* ==========================================================
+     TRACE + QUIZ play
+  ========================================================== */
+  var P={ list:[], i:0, right:0, mode:'', locked:false };
+  function startTrace(){
+    P={ list:shuffle(TRACE), i:0, right:0, mode:'trace', locked:false };
+    el('p-mode').textContent='🔎 Trace It'; el('p-total').textContent=P.list.length;
+    show('s-play'); renderPlay();
+  }
+  function startQuiz(sec){
+    var qs;
+    if(sec==='match'){ qs=[{ match:true }]; }
+    else qs=shuffle(QUIZ[sec].qs);
+    P={ list:qs, i:0, right:0, mode:'quiz:'+sec, locked:false, sec:sec };
+    el('p-mode').textContent=QUIZ[sec].icon+' '+QUIZ[sec].name;
+    el('p-total').textContent=qs.length;
+    show('s-play'); renderPlay();
+  }
+  function renderPlay(){
+    var q=P.list[P.i]; P.locked=false;
+    el('p-right').textContent=P.right;
+    el('q-verdict').textContent=''; el('q-verdict').style.color='';
+    el('q-explain').className='explain'; el('q-explain').innerHTML='';
+    el('q-next').style.display='none';
+    el('q-script').innerHTML='';
+    var body=el('q-body'); body.innerHTML='';
+
+    if(q.match){ renderMatchQ(body); return; }
+    el('q-text').innerHTML=q.q;
+    if(q.script){
+      el('q-script').innerHTML='<div class="scriptarea" style="border-style:solid">'+
+        renderList(q.script,'root',{})+'</div>';
+    }
+    if(typeof q.tf==='boolean'){
+      mkOpts(['True','False'], body, function(t,b,wrap){
+        var ok=((t==='True')===q.tf);
+        wrap.querySelectorAll('.opt').forEach(function(x){ if((x.textContent==='True')===q.tf) x.classList.add('ok'); });
+        if(!ok) b.classList.add('no');
+        lock(wrap); done(q,ok);
+      });
+    } else {
+      mkOpts(shuffle(q.o), body, function(t,b,wrap){
+        var ok=(t===q.a);
+        wrap.querySelectorAll('.opt').forEach(function(x){ if(x.textContent===q.a) x.classList.add('ok'); });
+        if(!ok) b.classList.add('no');
+        lock(wrap); done(q,ok);
+      });
+    }
+  }
+  function mkOpts(list, body, cb){
+    var wrap=document.createElement('div');
+    wrap.className='opts'+(list.some(function(t){ return String(t).length>24; })?' one':'');
+    list.forEach(function(t){
+      var b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=t;
+      b.addEventListener('click',function(){ if(!P.locked) cb(t,b,wrap); });
+      wrap.appendChild(b);
+    });
+    body.appendChild(wrap); return wrap;
+  }
+  function lock(wrap){ wrap.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; }); }
+  function renderMatchQ(body){
+    el('q-text').textContent='Match each word with what it means.';
+    var pairs=QUIZ.match.pairs;
+    var want={}; pairs.forEach(function(p){ want[p[0]]=p[1]; });
+    var L2=shuffle(pairs.map(function(p){ return p[0]; }));
+    var R2=shuffle(pairs.map(function(p){ return p[1]; }));
+    var grid=document.createElement('div');
+    grid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:8px';
+    var cl=document.createElement('div'), cr=document.createElement('div');
+    cl.style.cssText='display:flex;flex-direction:column;gap:6px';
+    cr.style.cssText='display:flex;flex-direction:column;gap:6px';
+    var sel=null, done2={};
+    L2.forEach(function(t){
+      var b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=t; b.style.fontSize='13.5px';
+      b.addEventListener('click',function(){ if(b.disabled||P.locked) return;
+        cl.querySelectorAll('.opt').forEach(function(x){ x.classList.remove('sel'); });
+        b.classList.add('sel'); sel={t:t,b:b}; });
+      cl.appendChild(b);
+    });
+    R2.forEach(function(t){
+      var b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=t; b.style.fontSize='13.5px';
+      b.addEventListener('click',function(){ if(!sel||b.disabled||P.locked) return;
+        var ok=(want[sel.t]===t);
+        sel.b.classList.remove('sel');
+        sel.b.classList.add(ok?'ok':'no'); b.classList.add(ok?'ok':'no');
+        sel.b.disabled=true; b.disabled=true; done2[sel.t]=ok; sel=null;
+        if(Object.keys(done2).length===pairs.length){
+          var all=Object.keys(done2).every(function(k){ return done2[k]; });
+          done({e:QUIZ.match.e}, all);
+        } });
+      cr.appendChild(b);
+    });
+    grid.appendChild(cl); grid.appendChild(cr); body.appendChild(grid);
+    var tip=document.createElement('div');
+    tip.style.cssText='text-align:center;font-size:12.5px;color:var(--ink-soft);margin-top:8px';
+    tip.textContent='Tap one on the left, then its match on the right.';
+    body.appendChild(tip);
+  }
+  function done(q, ok){
+    P.locked=true;
+    var v=el('q-verdict');
+    if(ok){ P.right++; S.quizRight++; save();
+      v.textContent=pick(['🎉 Correct!','⭐ Yes!','💪 Nailed it!']); v.style.color='var(--good)'; sfxOK(); }
+    else { v.textContent='❌ Not quite'; v.style.color='var(--bad)'; sfxNo(); }
+    if(q.e){ el('q-explain').innerHTML='<b>💡 Why:</b> '+q.e; el('q-explain').className='explain show'; }
+    el('p-right').textContent=P.right;
+    el('q-next').textContent=(P.i+1>=P.list.length)?'🏁 Finish':'Next ➜';
+    el('q-next').style.display=''; el('q-next').focus();
+  }
+  el('q-next').addEventListener('click',function(){
+    P.i++;
+    if(P.i>=P.list.length){
+      var pct=P.right/P.list.length;
+      el('r-emoji').textContent = pct===1?'🏆':pct>=0.6?'🎉':'📘';
+      el('r-title').textContent = pct===1?'Perfect!':pct>=0.6?'Well done!':'Keep practising';
+      el('r-sub').textContent = 'You got '+P.right+' out of '+P.list.length+' right.';
+      show('s-res'); if(pct>=0.6){ sfxWin(); confetti(pct===1?130:70); }
+    } else renderPlay();
+  });
+  el('p-quit').addEventListener('click',function(){ renderHome(); show('s-home'); });
+  el('r-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+  el('r-again').addEventListener('click',function(){
+    if(P.mode==='trace') startTrace(); else startQuiz(P.sec);
+  });
+
+  /* ---------- quiz menu ---------- */
+  function openQuizMenu(){
+    var order=['fill','tf','match','mcq','oneword'];
+    el('qm-list').innerHTML='';
+    order.forEach(function(k){
+      var sec=QUIZ[k];
+      var n=sec.qs?sec.qs.length:sec.pairs.length;
+      var b=document.createElement('button');
+      b.className='chal';
+      b.innerHTML='<span class="n">'+sec.icon+'</span><span style="flex:1"><span class="t">'+esc(sec.name)+
+        '</span><br/><span class="d">'+n+' question'+(n>1?'s':'')+'</span></span>';
+      b.addEventListener('click',function(){ startQuiz(k); });
+      el('qm-list').appendChild(b);
+    });
+    el('qm-long').innerHTML=LONG.map(function(x,i){
+      return '<div class="qa"><button type="button">▸ '+esc(x.q)+'</button><div class="a">'+x.a+'</div></div>';
+    }).join('');
+    el('qm-long').querySelectorAll('.qa button').forEach(function(b){
+      b.addEventListener('click',function(){
+        var qa=b.parentNode; qa.classList.toggle('open');
+        b.textContent=(qa.classList.contains('open')?'▾ ':'▸ ')+b.textContent.slice(2);
+      });
+    });
+    show('s-qmenu');
+  }
+
+  /* ---------- dictionary ---------- */
+  var DICT=[
+    ['events','whenFlag','Starts the program when the green flag is clicked. An <b>event</b> initiates an action.'],
+    ['events','whenSprite','Starts the script when you click the sprite itself.'],
+    ['motion','move','Moves the sprite forward by the number of steps you type.'],
+    ['motion','turnR','Turns the sprite clockwise by that many degrees.'],
+    ['motion','goxy','Jumps the sprite straight to a point. x is left–right, y is up–down. (0,0) is the middle.'],
+    ['looks','say','Shows a speech bubble that stays.'],
+    ['looks','sayFor','Shows a speech bubble for a number of seconds, then hides it.'],
+    ['looks','setSize','Makes the sprite bigger or smaller (100% is normal size).'],
+    ['control','repeat','A <b>loop</b>. Runs the blocks inside it that many times.'],
+    ['control','repeatUntil','A loop that keeps going <b>until</b> its condition becomes true — it checks before every turn.'],
+    ['control','ifThen','A <b>conditional</b>. Runs the blocks inside only <b>if</b> the condition is true; otherwise skips them.'],
+    ['control','ifElse','Runs one set of blocks if the condition is true and a different set if it is false.'],
+    ['control','wait','Pauses for a number of seconds.'],
+    ['sensing','ask','Asks the user a question and waits. What they type is stored in <b>answer</b>.'],
+    ['variables','setVar','Puts a value into a variable. A <b>variable</b> is a place where data is stored.'],
+    ['variables','changeVar','Adds to the value already in a variable.'],
+    ['pen','penClear','Wipes everything the pen has drawn.'],
+    ['pen','penDown','Puts the pen on the stage so the sprite draws as it moves.'],
+    ['pen','penSize','Sets how thick the pen line is.'],
+    ['pen','penColor','Changes the pen colour, so each shape can be a different colour.']
+  ];
+  function openDict(){
+    var groups={};
+    DICT.forEach(function(r){ (groups[r[0]]=groups[r[0]]||[]).push(r); });
+    var h='';
+    Object.keys(groups).forEach(function(cat){
+      h+='<h4>'+CAT_NAME[cat]+'</h4>';
+      groups[cat].forEach(function(r){
+        h+='<div class="dictrow">'+renderBlock(newBlock(r[1]),'d-'+r[1],{})+'<div class="dd">'+r[2]+'</div></div>';
+      });
+    });
+    h+='<h4>Operators &amp; Sensing (the hexagon blocks)</h4>';
+    h+='<div class="dictrow">'+renderBool(newBool('eq'),{})+'<div class="dd">Is one value <b>equal</b> to another? Fits into an if or repeat-until hexagon.</div></div>';
+    h+='<div class="dictrow">'+renderBool(newBool('gt'),{})+'<div class="dd">Is the first value <b>greater than</b> the second?</div></div>';
+    h+='<div class="dictrow">'+renderBool(newBool('touching'),{})+'<div class="dd">Is the sprite <b>touching</b> that object right now?</div></div>';
+    el('dict').innerHTML=h;
+    show('s-dict');
+  }
+
+  /* ---------- confetti ---------- */
+  function confetti(n){
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var box=el('conf'), cols=['#4C97FF','#FFAB19','#9966FF','#59C059','#FF8C1A','#ffffff'];
+    for(var i=0;i<n;i++){
+      var p=document.createElement('i');
+      p.style.left=rnd(100)+'vw'; p.style.background=pick(cols);
+      p.style.animationDuration=(2+Math.random()*2.2)+'s';
+      p.style.animationDelay=(Math.random()*.6)+'s';
+      p.style.transform='rotate('+rnd(360)+'deg)';
+      p.addEventListener('animationend',function(){ this.remove(); });
+      box.appendChild(p);
+    }
+  }
+
+  function openTour(){
+    el('partinfo').innerHTML='👆 Tap a part of the window above.';
+    document.querySelectorAll('#s-tour .part').forEach(function(b){
+      b.onclick=function(){
+        document.querySelectorAll('#s-tour .part').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        var d=PARTS[b.dataset.part];
+        if(d) el('partinfo').innerHTML='<b>'+esc(d[0])+'</b><br/>'+d[1];
+        beep(640,.05);
+      };
+    });
+    el('colourkey').innerHTML=Object.keys(CAT_NAME).map(function(k){
+      return '<span style="background:var(--'+k+')">'+CAT_NAME[k]+'</span>';
+    }).join('');
+    function steps(list){ return list.map(function(t,i){
+      return '<div class="step"><span class="num">'+(i+1)+'</span><span class="tx">'+t+'</span></div>'; }).join(''); }
+    el('howvar').innerHTML=steps(HOW_VAR);
+    el('howpen').innerHTML=steps(HOW_PEN);
+    show('s-tour');
+  }
+  el('t-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+  el('m-tour').addEventListener('click',openTour);
+  el('m-bug').addEventListener('click',function(){ renderChalList(DEBUG,'🐛 Fix the Bug','tap to fix'); });
+  el('m-lab').addEventListener('click',function(){ renderChalList(CHALLENGES,'🐱 Sprite Lab','tap to build'); });
+  el('m-trace').addEventListener('click',startTrace);
+  el('m-quiz').addEventListener('click',openQuizMenu);
+  el('m-dict').addEventListener('click',openDict);
+  el('d-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+  el('qm-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+
+  renderHome();
+})();
+</script>
+</body>
+</html>
