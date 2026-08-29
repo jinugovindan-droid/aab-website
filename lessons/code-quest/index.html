@@ -67,6 +67,8 @@
     .mode.trace{ background:linear-gradient(135deg,var(--control),#d07f0a); }
     .mode.quiz{ background:linear-gradient(135deg,var(--operators),#3a8f3a); }
     .mode.dict{ background:linear-gradient(135deg,var(--looks),#6a3fc0); grid-column:1/-1; }
+    .mode.bug{ background:linear-gradient(135deg,#e0574c,#a8342a); }
+    .mode.tour{ background:linear-gradient(135deg,var(--sensing),#2f7fa8); }
 
     /* ---------- blocks ---------- */
     .blk{ position:relative; display:flex; width:fit-content; max-width:100%;
@@ -139,6 +141,7 @@
     .fb.show{ display:block; animation:in .25s; }
     .fb.ok{ background:#e2f7ec; border:2px solid var(--good); color:#12633c; }
     .fb.no{ background:#fdeceb; border:2px solid var(--bad); color:#8f2a20; }
+    .fb.run{ background:#eef2f7; border:2px solid #c3ceda; color:#465a70; }
 
     .chal{ display:flex; align-items:center; gap:10px; width:100%; text-align:left; font-family:inherit;
       border:2px solid var(--line); background:#fbfbff; border-radius:12px; padding:10px; cursor:pointer; margin-bottom:8px; }
@@ -168,6 +171,34 @@
     .dictsec h4{ font-size:13px; margin:12px 0 5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:1px; }
     .dictrow{ display:flex; gap:10px; align-items:flex-start; margin-bottom:7px; flex-wrap:wrap; }
     .dictrow .dd{ font-size:13px; color:var(--ink); flex:1; min-width:170px; padding-top:6px; }
+
+    /* ---------- Scratch window tour ---------- */
+    .win{ border:2px solid #c9c9dd; border-radius:12px; overflow:hidden; background:#f6f6fb; }
+    .win .bar{ background:#4c3f8f; color:#fff; font-size:11.5px; font-weight:800; padding:6px 9px; display:flex; gap:8px; }
+    .win .tabs{ display:flex; gap:4px; padding:6px; background:#e9e9f4; }
+    .part{ border:2px solid transparent; background:#fff; font-family:inherit; cursor:pointer; text-align:left;
+      border-radius:8px; padding:7px 9px; font-size:11.5px; font-weight:800; color:var(--ink); }
+    .part:hover{ border-color:var(--events); }
+    .part.on{ border-color:var(--events); background:#fff8e6; }
+    .win .row{ display:flex; gap:6px; padding:6px; }
+    .win .col{ display:flex; flex-direction:column; gap:6px; flex:1; }
+    .win .stagebox{ background:#fff; border:2px dashed #c9c9dd; border-radius:8px; min-height:74px;
+      display:flex; align-items:center; justify-content:center; font-size:26px; position:relative; }
+    .win .ctrls{ position:absolute; top:4px; left:4px; display:flex; gap:4px; }
+    .win .palbox{ min-height:96px; }
+    .win .dots{ display:flex; flex-direction:column; gap:3px; margin-top:5px; }
+    .win .dots span{ display:flex; align-items:center; gap:5px; font-size:9.5px; font-weight:800; color:var(--ink-soft); }
+    .win .dots i{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+    .partinfo{ margin-top:10px; background:#f2f4ff; border:2px solid #d5daf5; border-radius:12px; padding:11px 13px;
+      font-size:14px; line-height:1.55; min-height:52px; }
+    .partinfo b{ color:#4a3fb0; }
+    .steps{ counter-reset:st; }
+    .step{ display:flex; gap:10px; margin-bottom:8px; align-items:flex-start; }
+    .step .num{ flex:none; width:24px; height:24px; border-radius:50%; background:var(--events); color:#fff;
+      font-weight:900; font-size:12.5px; display:flex; align-items:center; justify-content:center; }
+    .step .tx{ font-size:14px; line-height:1.5; }
+    .keyrow{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+    .keyrow span{ font-size:10.5px; font-weight:800; color:#fff; padding:4px 9px; border-radius:99px; }
 
     .qa{ border:2px solid var(--line); border-radius:12px; margin-bottom:8px; overflow:hidden; }
     .qa button{ width:100%; text-align:left; border:0; background:#fbfbff; font-family:inherit; cursor:pointer;
@@ -212,6 +243,14 @@
           <div class="mi">🐱</div><div class="mt">Sprite Lab</div>
           <div class="md">Build the programs from your worksheet block by block, then run them and watch the sprite obey.</div>
         </button>
+        <button class="mode bug" id="m-bug">
+          <div class="mi">🐛</div><div class="mt">Fix the Bug</div>
+          <div class="md">Five programs that almost work. Find what is wrong and repair it.</div>
+        </button>
+        <button class="mode tour" id="m-tour">
+          <div class="mi">🖥️</div><div class="mt">Scratch Tour</div>
+          <div class="md">Tap each part of the Scratch window to learn its name and job.</div>
+        </button>
         <button class="mode trace" id="m-trace">
           <div class="mi">🔎</div><div class="mt">Trace It</div>
           <div class="md">Read a script and predict what it does.</div>
@@ -231,7 +270,7 @@
     <!-- CHALLENGE LIST -->
     <section id="s-chals" class="screen">
       <div class="topbar"><button class="icon-btn" id="ch-home">🏠</button>
-        <span class="chip">🐱 Sprite Lab</span><span class="grow"></span>
+        <span class="chip" id="ch-title">🐱 Sprite Lab</span><span class="grow"></span>
         <span class="chip" id="ch-count"></span></div>
       <div class="card"><div id="chal-list"></div></div>
     </section>
@@ -305,6 +344,62 @@
       <div class="topbar"><button class="icon-btn" id="d-home">🏠</button>
         <span class="chip">📘 Block Dictionary</span></div>
       <div class="card"><div class="dictsec" id="dict"></div></div>
+    </section>
+
+    <!-- SCRATCH TOUR -->
+    <section id="s-tour" class="screen">
+      <div class="topbar"><button class="icon-btn" id="t-home">🏠</button>
+        <span class="chip">🖥️ Scratch Tour</span></div>
+      <div class="card">
+        <div style="font-size:14px;color:var(--ink-soft);margin-bottom:9px">
+          This is what the Scratch window looks like. <b>Tap any part</b> to learn its name and what it does.
+        </div>
+        <div class="win">
+          <div class="bar"><span>Scratch</span><span style="opacity:.7">File</span><span style="opacity:.7">Edit</span></div>
+          <div class="tabs">
+            <button class="part" data-part="code">🧩 Code</button>
+            <button class="part" data-part="costumes">🎨 Costumes</button>
+            <button class="part" data-part="sounds">🔊 Sounds</button>
+          </div>
+          <div class="row">
+            <div class="col" style="flex:1.05">
+              <button class="part palbox" data-part="palette">Blocks Palette
+                <span class="dots">
+                  <span><i style="background:var(--motion)"></i>Motion</span>
+                  <span><i style="background:var(--looks)"></i>Looks</span>
+                  <span><i style="background:var(--events)"></i>Events</span>
+                  <span><i style="background:var(--control)"></i>Control</span>
+                  <span><i style="background:var(--sensing)"></i>Sensing</span>
+                  <span><i style="background:var(--operators)"></i>Operators</span>
+                  <span><i style="background:var(--variables)"></i>Variables</span>
+                </span>
+              </button>
+              <button class="part" data-part="extension">➕ Add Extension</button>
+            </div>
+            <div class="col" style="flex:1.2">
+              <button class="part" data-part="script" style="min-height:96px">Script / Code Area<br/>
+                <span style="font-weight:400;color:var(--ink-soft)">drop your blocks here</span></button>
+            </div>
+            <div class="col" style="flex:1.1">
+              <button class="part stagebox" data-part="stage">
+                <span class="ctrls"><span>🟢</span><span>🔴</span></span>🐱</button>
+              <button class="part" data-part="sprite">🐱 Sprite pane<br/>
+                <span style="font-weight:400;color:var(--ink-soft)">Choose a Sprite</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="partinfo" id="partinfo">👆 Tap a part of the window above.</div>
+
+        <h4 style="font-size:13px;margin:16px 0 6px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:1px">Block colours</h4>
+        <div class="keyrow" id="colourkey"></div>
+        <div style="font-size:13px;color:var(--ink-soft)">Every group of blocks has its own colour, so you can find them quickly.</div>
+
+        <h4 style="font-size:13px;margin:16px 0 6px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:1px">How to make a variable</h4>
+        <div class="steps" id="howvar"></div>
+
+        <h4 style="font-size:13px;margin:16px 0 6px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:1px">How to draw with the Pen</h4>
+        <div class="steps" id="howpen"></div>
+      </div>
     </section>
 
     <!-- QUIZ MENU -->
@@ -970,6 +1065,122 @@
     { q:'What is the blocks palette?', a:'The <b>Blocks Palette</b> is the area that shows the different coding blocks. You drag and drop these blocks together to create programs.' }
   ];
 
+  /* ==========================================================
+     FIX THE BUG — programs that almost work
+     Each one starts with a script already on screen and one classic
+     mistake in it, so she practises reading code, not just writing it.
+  ========================================================== */
+  var DEBUG = [
+    { id:'d0', icon:'🔢', name:'The square with a missing side',
+      goal:'This should draw a <b>square</b>, but one thing is wrong. Press 🟢 to see what it draws, find the mistake and fix it.<br/><span style="color:#7a6a4f">Tap a white oval to change a number.</span>',
+      palette:['whenFlag','penDown','penUp','move','turnR','repeat','penClear'],
+      vars:{}, emoji:'✏️', speed:'8', start:{x:-40,y:-40,dir:90},
+      starter:[ {op:'whenFlag',f:{}}, {op:'penDown',f:{}},
+                {op:'repeat',f:{n:3},body:[{op:'move',f:{n:80}},{op:'turnR',f:{n:90}}]} ],
+      bug:'The loop only repeats 3 times, so only 3 sides get drawn.',
+      check:function(sc,log){
+        var rp=findOp(sc,'repeat');
+        if(!rp) return {ok:false,msg:'Keep the <b>repeat</b> block — it is the loop.'};
+        if(Number(rp.f.n)!==4) return {ok:false,msg:'Count the sides of a square. How many times must the loop repeat?'};
+        if(!drewAnything(log)) return {ok:false,msg:'Press 🟢 so it draws.'};
+        return {ok:true,msg:'Found it — a square has <b>4</b> sides, so the loop must repeat <b>4</b> times. One wrong number changes the whole shape.'};
+      } },
+
+    { id:'d1', icon:'📐', name:'The wonky corners',
+      goal:'This repeats the right number of times, but the shape still is not a square. Run it, look at the corners, and fix the mistake.',
+      palette:['whenFlag','penDown','move','turnR','repeat','penClear'],
+      vars:{}, emoji:'✏️', speed:'8', start:{x:-40,y:-40,dir:90},
+      starter:[ {op:'whenFlag',f:{}}, {op:'penDown',f:{}},
+                {op:'repeat',f:{n:4},body:[{op:'move',f:{n:80}},{op:'turnR',f:{n:60}}]} ],
+      bug:'It turns 60 degrees instead of 90, so the corners are wrong.',
+      check:function(sc,log){
+        var rp=findOp(sc,'repeat'); if(!rp) return {ok:false,msg:'Keep the <b>repeat</b> block.'};
+        var t=findOp(rp.body,'turnR');
+        if(!t) return {ok:false,msg:'The <b>turn</b> block belongs inside the loop.'};
+        if(Number(t.f.n)!==90) return {ok:false,msg:'A square corner is a right angle. How many degrees is that?'};
+        if(Number(rp.f.n)!==4) return {ok:false,msg:'The loop should still repeat 4 times.'};
+        return {ok:true,msg:'A square turns <b>90°</b> at each corner — and 4 × 90° = 360°, one full turn. With 60° the shape could never close up.'};
+      } },
+
+    { id:'d2', icon:'✏️', name:'The invisible drawing',
+      goal:'The blocks look right and the sprite moves — but nothing appears on the stage. Something is missing. Add it.',
+      palette:['whenFlag','penDown','penUp','penClear','move','turnR','repeat'],
+      vars:{}, emoji:'✏️', speed:'8', start:{x:-40,y:-40,dir:90},
+      starter:[ {op:'whenFlag',f:{}},
+                {op:'repeat',f:{n:4},body:[{op:'move',f:{n:80}},{op:'turnR',f:{n:90}}]} ],
+      bug:'There is no pen down block, so the sprite moves without drawing.',
+      check:function(sc,log){
+        if(!hasOp(sc,'penDown')) return {ok:false,msg:'The sprite is moving, but the pen is not touching the stage. Which <b>Pen</b> block starts the drawing?'};
+        if(!drewAnything(log)) return {ok:false,msg:'Add <b>pen down</b> <i>before</i> the loop, then press 🟢.'};
+        return {ok:true,msg:'<b>pen down</b> puts the pen on the stage. Without it the sprite still moves — it just leaves no line.'};
+      } },
+
+    { id:'d3', icon:'❓', name:'The condition that does nothing',
+      goal:'The cat should only speak when <b>time = 12</b>. But it speaks no matter what — even if you change time to 5. Try it, then fix the script.<br/><span style="color:#7a6a4f">Look carefully at <i>where</i> the say block sits.</span>',
+      palette:['whenFlag','setVar','ifThen','say','sayFor'],
+      bools:['eq'], vars:{time:0}, emoji:'🐱',
+      starter:[ {op:'whenFlag',f:{}}, {op:'setVar',f:{v:'time',n:12}},
+                {op:'ifThen',f:{},c:{op:'eq',f:{a:'time',b:12}},body:[]},
+                {op:'sayFor',f:{t:'Do your work !!',s:2}} ],
+      bug:'The say block is after the if block instead of inside it.',
+      check:function(sc,log){
+        var iff=findOp(sc,'ifThen');
+        if(!iff) return {ok:false,msg:'Keep the <b>if</b> block.'};
+        if(!iff.c) return {ok:false,msg:'The if block still needs its <b>time = 12</b> condition.'};
+        if(!hasSay(iff.body)) return {ok:false,msg:'The say block must sit <i>inside</i> the if block. Delete it, tap the empty space inside the if, then add it there.'};
+        var outside=sc.some(function(b){ return b.op==='say'||b.op==='sayFor'; });
+        if(outside) return {ok:false,msg:'There is still a say block <i>outside</i> the if — delete that one, or the cat speaks either way.'};
+        return {ok:true,msg:'Now the say is <b>inside</b> the if, so it only runs when the condition is true. A block placed after the if runs every time — the condition was being ignored.'};
+      } },
+
+    { id:'d4', icon:'🔀', name:'The muddled messages',
+      goal:'Ask a number and this should say the right thing. Run it and type <b>25</b> — it says the wrong message! Fix it so the answer always matches.',
+      palette:['whenFlag','ask','ifElse','sayFor','say'],
+      bools:['gt','lt'], vars:{}, emoji:'🐱',
+      starter:[ {op:'whenFlag',f:{}}, {op:'ask',f:{t:'Please enter a number'}},
+                {op:'ifElse',f:{},c:{op:'gt',f:{a:'answer',b:10}},
+                 body:[{op:'sayFor',f:{t:'The number is less than 10',s:2}}],
+                 body2:[{op:'sayFor',f:{t:'The number is greater than 10',s:2}}] } ],
+      bug:'The two messages are the wrong way round.',
+      check:function(sc,log){
+        var ie=findOp(sc,'ifElse');
+        if(!ie||!ie.c) return {ok:false,msg:'Keep the <b>if … else</b> block and its condition.'};
+        if(!ie.body.length||!ie.body2.length) return {ok:false,msg:'Both parts still need a say block.'};
+        function txt(list){ return list.map(function(b){ return String(b.f&&b.f.t||''); }).join(' ').toLowerCase(); }
+        var ifTxt=txt(ie.body), elseTxt=txt(ie.body2);
+        var op=ie.c.op;
+        var good = (op==='gt' && /greater/.test(ifTxt) && /less/.test(elseTxt)) ||
+                   (op==='lt' && /less/.test(ifTxt) && /greater/.test(elseTxt));
+        if(!good) return {ok:false,msg:'Think it through: if the condition is <b>true</b>, the <i>first</i> part runs. Make that part match what the condition actually says. You can swap the two messages, or change &gt; to &lt;.'};
+        if(!log.some(function(e){ return e.t==='ask'; })) return {ok:false,msg:'Press 🟢 and type a number to test it.'};
+        return {ok:true,msg:'The <b>if</b> part runs when the condition is true and the <b>else</b> part when it is false — so the messages have to match the condition. Both fixes work: swap the messages, or flip the operator.'};
+      } }
+  ];
+
+  /* ---------- Scratch window tour ---------- */
+  var PARTS = {
+    stage:    ['Stage','The main working area where the <b>sprite</b> moves and performs actions. The 🟢 green flag <b>starts</b> the program and the 🔴 red sign stops it.'],
+    sprite:   ['Sprite pane','A <b>sprite</b> is a graphic object on the stage — the character or object of your program. It can be any image. <b>Choose a Sprite</b> adds a new one, like the Arrow1 sprite used for pen drawing.'],
+    palette:  ['Blocks Palette','The area that shows all the different coding blocks. You <b>drag and drop</b> them together to build a program. Blocks are grouped by colour.'],
+    script:   ['Script / Code Area','The place where you <b>create a script</b> for a sprite. A script is blocks joined together in order.'],
+    code:     ['Code tab','Where you build the script — this is the tab you work in most of the time.'],
+    costumes: ['Costumes tab','The tab used to <b>change the appearance</b> of a sprite. Each different look is called a costume.'],
+    sounds:   ['Sounds tab','Where you add and edit the sounds a sprite can play.'],
+    extension:['Add Extension','The button at the bottom left that adds extra groups of blocks. The <b>Pen</b> extension is added this way, and it lets your sprite draw as it moves.']
+  };
+  var HOW_VAR = [
+    'Click on <b>Variables</b> in the blocks palette.',
+    'Click the button <b>Make a Variable</b>.',
+    'Provide the <b>name</b> of the variable (for example, <i>time</i>).',
+    'Click <b>OK</b>.',
+    'Use the <b>set</b> block to assign a value to the variable.'
+  ];
+  var HOW_PEN = [
+    'Click <b>Choose a Sprite</b> and select the sprite <b>Arrow1</b>.',
+    'Click the <b>Add Extension</b> button at the bottom left, and choose the <b>Pen</b> extension.',
+    'Now use <b>pen down</b>, <b>set pen size</b> and <b>change pen color</b> together with a loop to draw your pattern.'
+  ];
+
   /* ---------- save ---------- */
   var KEY='cq-save-v1';
   var S={ solved:{}, quizRight:0 };
@@ -986,9 +1197,10 @@
     el(id).classList.add('active'); window.scrollTo(0,0);
   }
   function renderHome(){
-    var n=Object.keys(S.solved).length;
-    el('h-solved').textContent=n+' / '+CHALLENGES.length;
-    el('h-fill').style.width=(n/CHALLENGES.length*100)+'%';
+    var all=CHALLENGES.concat(DEBUG);
+    var n=all.filter(function(c){ return S.solved[c.id]; }).length;
+    el('h-solved').textContent=n+' / '+all.length;
+    el('h-fill').style.width=(n/all.length*100)+'%';
     el('h-quiz').textContent=S.quizRight;
   }
 
@@ -997,26 +1209,39 @@
   ========================================================== */
   var L={ ch:null, script:[], cursor:{base:'root',i:0}, sel:null, rt:null, cat:null, running:false };
 
-  function renderChalList(){
-    el('ch-count').textContent=Object.keys(S.solved).length+' / '+CHALLENGES.length;
+  var CUR_SET=CHALLENGES, CUR_LABEL='🐱 Sprite Lab';
+  function renderChalList(list, label, verb){
+    CUR_SET=list||CHALLENGES; CUR_LABEL=label||'🐱 Sprite Lab';
+    var doneN=CUR_SET.filter(function(c){ return S.solved[c.id]; }).length;
+    el('ch-title').textContent=CUR_LABEL;
+    el('ch-count').textContent=doneN+' / '+CUR_SET.length;
     el('chal-list').innerHTML='';
-    CHALLENGES.forEach(function(c,i){
-      var locked = i>0 && !S.solved[i-1];
+    CUR_SET.forEach(function(c,i){
+      var locked = i>0 && !S.solved[CUR_SET[i-1].id];
       var b=document.createElement('button');
       b.className='chal'+(S.solved[c.id]?' done':'');
       b.disabled=locked;
       b.innerHTML='<span class="n">'+(locked?'🔒':c.icon)+'</span><span style="flex:1">'+
         '<span class="t">'+esc(c.name)+'</span><br/><span class="d">'+
-        (locked?'Solve the one above first':(S.solved[c.id]?'✔ solved':'tap to build'))+'</span></span>';
-      if(!locked) b.addEventListener('click',function(){ openLab(c.id); });
+        (locked?'Solve the one above first':(S.solved[c.id]?'✔ solved':(verb||'tap to build')))+'</span></span>';
+      if(!locked) b.addEventListener('click',function(){ openLab(c); });
       el('chal-list').appendChild(b);
     });
     show('s-chals');
   }
+  // deep copy so a starter script is never shared between attempts
+  function cloneScript(list){
+    return (list||[]).map(function(b){
+      var n={ op:b.op, f:Object.assign({},b.f||{}) };
+      if(b.c) n.c={ op:b.c.op, f:Object.assign({},b.c.f||{}) };
+      if(b.body) n.body=cloneScript(b.body);
+      if(b.body2) n.body2=cloneScript(b.body2);
+      return n;
+    });
+  }
 
-  function openLab(id){
-    var c=CHALLENGES[id];
-    L.ch=c; L.script=[]; L.cursor={base:'root',i:0}; L.sel=null; L.cat=null;
+  function openLab(c){
+    L.ch=c; L.script=cloneScript(c.starter); L.cursor={base:'root',i:L.script.length}; L.sel=null; L.cat=null;
     el('lab-name').textContent=c.icon+' '+c.name;
     el('lab-goal').innerHTML=c.goal;
     el('lab-fb').className='fb';
@@ -1181,7 +1406,9 @@
     if(r&&r.list){ r.list.splice(r.index,1); L.sel=null; L.cursor={base:'root',i:L.script.length}; renderScript(); }
   });
   el('btn-clear').addEventListener('click',function(){
-    L.script=[]; L.sel=null; L.cursor={base:'root',i:0}; renderScript(); resetStage();
+    // on a Fix the Bug task, "clear" restores the original broken script
+    L.script = L.ch && L.ch.starter ? cloneScript(L.ch.starter) : [];
+    L.sel=null; L.cursor={base:'root',i:L.script.length}; renderScript(); resetStage();
   });
   el('btn-stop').addEventListener('click',function(){ if(L.rt) L.rt.stop(); });
   el('btn-run').addEventListener('click',runScript);
@@ -1200,10 +1427,13 @@
   }
   el('btn-check').addEventListener('click',async function(){
     if(!L.script.length){ flash('Build a script first — tap blocks from the palette.'); return; }
+    var fb=el('lab-fb');
+    // Clear the previous verdict first. Leaving it up while the new run plays
+    // out reads as "still wrong" for the whole run, even after a correct fix.
+    fb.className='fb run show'; fb.innerHTML='⏳ Running your program…';
     var res=await runScript();
     var log=res?res.log:[];
     var out=L.ch.check(L.script, log, res?res.state:null);
-    var fb=el('lab-fb');
     if(log.some(function(e){ return e.t==='timeout'; })){
       out={ ok:false, msg:'That program ran for a very long time, so I stopped it. Try smaller numbers in your loops — a <b>repeat</b> of a few hundred is plenty.' };
     } else if(!out.ok && log.some(function(e){ return e.t==='runaway'; })){
@@ -1219,9 +1449,9 @@
   });
   el('lab-help').addEventListener('click',function(){
     var fb=el('lab-fb'); fb.className='fb ok show';
-    fb.innerHTML='💡 <b>Hint:</b> '+L.ch.goal.replace(/<span[\s\S]*?<\/span>/,'');
+    fb.innerHTML='💡 <b>Hint:</b> '+(L.ch.bug || L.ch.goal.replace(/<span[\s\S]*?<\/span>/,''));
   });
-  el('lab-back').addEventListener('click',function(){ if(L.rt) L.rt.stop(); renderChalList(); });
+  el('lab-back').addEventListener('click',function(){ if(L.rt) L.rt.stop(); renderChalList(CUR_SET,CUR_LABEL,CUR_SET===DEBUG?'tap to fix':'tap to build'); });
   el('ch-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
 
   /* ==========================================================
@@ -1431,7 +1661,30 @@
     }
   }
 
-  el('m-lab').addEventListener('click',renderChalList);
+  function openTour(){
+    el('partinfo').innerHTML='👆 Tap a part of the window above.';
+    document.querySelectorAll('#s-tour .part').forEach(function(b){
+      b.onclick=function(){
+        document.querySelectorAll('#s-tour .part').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        var d=PARTS[b.dataset.part];
+        if(d) el('partinfo').innerHTML='<b>'+esc(d[0])+'</b><br/>'+d[1];
+        beep(640,.05);
+      };
+    });
+    el('colourkey').innerHTML=Object.keys(CAT_NAME).map(function(k){
+      return '<span style="background:var(--'+k+')">'+CAT_NAME[k]+'</span>';
+    }).join('');
+    function steps(list){ return list.map(function(t,i){
+      return '<div class="step"><span class="num">'+(i+1)+'</span><span class="tx">'+t+'</span></div>'; }).join(''); }
+    el('howvar').innerHTML=steps(HOW_VAR);
+    el('howpen').innerHTML=steps(HOW_PEN);
+    show('s-tour');
+  }
+  el('t-home').addEventListener('click',function(){ renderHome(); show('s-home'); });
+  el('m-tour').addEventListener('click',openTour);
+  el('m-bug').addEventListener('click',function(){ renderChalList(DEBUG,'🐛 Fix the Bug','tap to fix'); });
+  el('m-lab').addEventListener('click',function(){ renderChalList(CHALLENGES,'🐱 Sprite Lab','tap to build'); });
   el('m-trace').addEventListener('click',startTrace);
   el('m-quiz').addEventListener('click',openQuizMenu);
   el('m-dict').addEventListener('click',openDict);
