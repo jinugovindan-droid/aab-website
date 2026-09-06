@@ -2225,7 +2225,7 @@ function OctoberChangesBody({ onNav }) {
       style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
 
-  // The autumn 2026 dates on one axis. Defined inside the body so it ships in
+  // The dates from July 2026 to January 2027 on one axis. Defined inside the body so it ships in
   // this article's chunk, not the shared bundle. Six markers on a span of
   // 30 Jul 2026 -> 1 Jan 2027 (155 days; ~3.87px/day over 600px). Two pairs
   // sit within days of each other — 30 Sep / 1 Oct and 28 Oct / 30 Oct — so
@@ -2236,7 +2236,7 @@ function OctoberChangesBody({ onNav }) {
   const Mark = ({ x, big }) => big
     ? <g><circle cx={x} cy="120" r="9.5" fill="#00B0F0" stroke="#125A79" strokeWidth="2.5" /><circle cx={x} cy="120" r="3.5" fill="#fff" /></g>
     : <g><circle cx={x} cy="120" r="7.5" fill="#fff" stroke="#176E93" strokeWidth="2.5" /><circle cx={x} cy="120" r="3" fill="#00B0F0" /></g>;
-  const AutumnTimeline = () => (
+  const OctoberTimeline = () => (
     <figure className="aa-figwide" style={{ margin: '36px 0 40px' }}>
       <div style={{ overflowX: 'auto' }}>
         <svg
@@ -2268,16 +2268,16 @@ function OctoberChangesBody({ onNav }) {
         </svg>
       </div>
       <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>
-        THE AUTUMN 2026 DATE STACK — TWO NEW FTA INSTRUMENTS, ONE E-INVOICING DEADLINE, AND THE ROUTINE DATES AROUND THEM
+        THE DATE STACK, JULY 2026 TO JANUARY 2027 — TWO NEW FTA INSTRUMENTS, ONE E-INVOICING DEADLINE, AND THE ROUTINE DATES AROUND THEM
       </figcaption>
     </figure>
   );
 
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>Three things change for UAE businesses this autumn, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks. This page puts all of it on one line, in order, with a link to the detail on each.</p>
+      <p style={LEAD}>Three things change for UAE businesses before the end of October 2026, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks. This page puts all of it on one line, in order, with a link to the detail on each.</p>
 
-      <AutumnTimeline />
+      <OctoberTimeline />
 
       <h3 style={H3}>The dates, in order</h3>
       <div style={{ overflowX: 'auto', marginTop: 8 }}>
