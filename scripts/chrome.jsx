@@ -377,6 +377,7 @@ function Footer({ onNav }) {
       ['30 Oct 2026 deadline', 'einv-deadline'],
       ['About', 'about'],
       ['Insights', 'insights'],
+      ['Tools', 'tools'],
       ['Careers', 'careers'],
       ['Contact', 'contact'],
     ]},
@@ -709,6 +710,8 @@ const SEARCH_PAGES = [
   ['industry-manufacturing', 'Manufacturing', 'cost accounting'],
   ['about', 'About', 'our firm since 2017 team'],
   ['insights', 'Insights', 'articles guides blog'],
+  ['tools', 'Tools', 'free calculators checkers estimator'],
+  ['tool-gratuity', 'UAE Gratuity Calculator', 'end of service benefits eosb labour law provision'],
   ['careers', 'Careers', 'jobs vacancies apply cv'],
   ['contact', 'Contact', 'book consultation reach us office'],
 ];

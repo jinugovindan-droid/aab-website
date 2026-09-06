@@ -70,6 +70,8 @@ PAGE_TO_PATH = {
     "contact": "/contact",
     "privacy": "/privacy",
     "terms": "/terms",
+    "tools": "/tools",
+    "tool-gratuity": "/tools/gratuity-calculator",
 }
 
 PAGE_SEO = {
@@ -244,6 +246,14 @@ PAGE_SEO = {
     "terms": {
         "title": "Terms of Use — aaccounting.me",
         "description": "Terms governing use of the aaccounting.me website — general information, not professional advice or an engagement; governed by UAE law as applied in Dubai.",
+    },
+    "tools": {
+        "title": "Free UAE Tax & Finance Calculators — Authentic Accounting",
+        "description": "Free calculators built from the law they apply: UAE gratuity, Corporate Tax estimate, VAT registration check, supplier verification and e-invoicing readiness.",
+    },
+    "tool-gratuity": {
+        "title": "UAE Gratuity Calculator 2026 — End-of-Service Benefits",
+        "description": "UAE gratuity under Decree-Law 33 of 2021, each figure cited to its article: 21 and 30 days of basic wage, the cap, part-time, and the monthly provision to book.",
     },
 }
 
@@ -439,6 +449,7 @@ BREADCRUMB_LABELS = {
     "location-ras-al-khaimah": "Ras Al Khaimah", "location-fujairah": "Fujairah", "location-umm-al-quwain": "Umm Al Quwain",
     "insights": "Insights", "careers": "Careers", "contact": "Contact",
     "privacy": "Privacy Policy", "terms": "Terms of Use",
+    "tools": "Tools", "tool-gratuity": "UAE Gratuity Calculator",
 }
 
 MONTHS = {"Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04", "May": "05", "Jun": "06",
@@ -700,9 +711,36 @@ def full_url(page):
     return SITE_ORIGIN + (PAGE_TO_PATH[page] if PAGE_TO_PATH[page] != "/" else "/")
 
 
+# Gratuity calculator FAQ (keep in sync with scripts/routes.js)
+GRATUITY_FAQ = [
+    {"q": "How is gratuity calculated in the UAE in 2026?",
+     "a": "Article 51 of Federal Decree-Law No. 33 of 2021 sets it: after one year of continuous service, 21 days of basic wage for each of the first five years, then 30 days of basic wage for each further year, with part years pro-rata and a ceiling of two years’ wage. Article 51 carries no amendment marker in the Ministry’s consolidated text of the law."},
+    {"q": "Is gratuity calculated on basic salary or total salary?",
+     "a": "Basic wage. Article 51(2) says the benefit is calculated according to the basic wage, and Article 1 defines basic wage as the contract wage excluding allowances and benefits in kind. Housing, transport and similar allowances are not in the base."},
+    {"q": "Does resigning reduce my gratuity?",
+     "a": "Not under the current law. The 1980 labour law reduced the gratuity of an employee who resigned before five years; Federal Decree-Law No. 33 of 2021 contains no such provision. The entitlement is the same whether the contract ends by resignation, non-renewal or termination."},
+    {"q": "What if I have worked for less than one year?",
+     "a": "No gratuity is due. Article 51(2) requires a year of continuous service, and Article 51(4) excludes unpaid days of absence from the count. Temporary employment of under a year is also excluded by Cabinet Resolution No. 1 of 2022, Article 30."},
+    {"q": "How is gratuity calculated for part-time employees?",
+     "a": "Cabinet Resolution No. 1 of 2022, Article 30: divide the contracted hours per year by the hours in a full-time contract, and apply that percentage to the full-time gratuity. The calculator uses contracted hours per week against the 48-hour full-time week."},
+    {"q": "Is there a maximum gratuity?",
+     "a": "Yes. Article 51(6) caps the total at two years’ wage. The calculator applies 24 times the last monthly basic wage, the reading used in practice; the article’s word is “wage”, the wider defined term, so the true ceiling may be higher. The cap only bites after roughly 25 years of service."},
+    {"q": "Does this apply in free zones such as JAFZA, or in Abu Dhabi?",
+     "a": "Yes. The Decree-Law applies to private-sector employment across the UAE, including free zones, with two exceptions: the DIFC and ADGM have their own employment laws and end-of-service rules. UAE nationals come under the pension legislation rather than Article 51."},
+    {"q": "When must gratuity be paid?",
+     "a": "Within 14 days of the end date of the contract, together with wages and other entitlements — Article 53. The employer may deduct amounts lawfully due from the worker under Article 51(7), on the conditions in Cabinet Resolution No. 1 of 2022, Article 29."},
+    {"q": "What is the alternative end-of-service savings scheme?",
+     "a": "A voluntary scheme under Cabinet Resolution No. 96 of 2023 in which the employer pays monthly contributions into an approved investment fund — 5.83% of basic wage for service under five years and 8.33% after — instead of accruing a gratuity. Benefits accrued under the Decree-Law before joining are calculated at that date, on the basic wage at that time, and paid when employment ends."},
+]
+
+
 def breadcrumb_chain(page, slug):
     items = [{"name": "Home", "url": SITE_ORIGIN + "/"}]
     if page == "home":
+        return items
+    if page.startswith("tool-") and page in BREADCRUMB_LABELS:
+        items.append({"name": "Tools", "url": SITE_ORIGIN + PAGE_TO_PATH["tools"]})
+        items.append({"name": BREADCRUMB_LABELS[page], "url": full_url(page)})
         return items
     if page.startswith("service-") and page in BREADCRUMB_LABELS:
         items.append({"name": "Services", "url": SITE_ORIGIN + PAGE_TO_PATH["services"]})
@@ -1003,10 +1041,13 @@ FAQ_BY_PAGE = {
     "service-internal-controls": CONTROLS_FAQ, "service-financial-modelling": MODELLING_FAQ,
     "service-feasibility-studies": FEASIBILITY_FAQ, "service-strategic-advisory": STRATEGIC_FAQ,
     "service-ct-filing": CT_FILING_FAQ, "service-vat-filing": VAT_FILING_FAQ, "service-vat-refund": VAT_REFUND_FAQ, "service-tax-advisory": TAX_ADVISORY_FAQ, "location-abu-dhabi": LOC_ABUDHABI_FAQ, "location-sharjah": LOC_SHARJAH_FAQ, "location-ajman": LOC_AJMAN_FAQ, "location-ras-al-khaimah": LOC_RAK_FAQ, "location-fujairah": LOC_FUJAIRAH_FAQ, "location-umm-al-quwain": LOC_UAQ_FAQ, "einv-deadline": EINV_DEADLINE_FAQ, "service-transfer-pricing": TRANSFER_PRICING_FAQ, "service-vat-registration": VAT_REGISTRATION_FAQ, "services": SERVICES_HUB_FAQ, "industries": INDUSTRIES_HUB_FAQ, "industry-real-estate": IND_REALESTATE_FAQ, "industry-construction": IND_CONSTRUCTION_FAQ, "industry-trading": IND_TRADING_FAQ, "industry-hospitality": IND_HOSPITALITY_FAQ, "industry-ecommerce": IND_ECOMMERCE_FAQ, "industry-manufacturing": IND_MANUFACTURING_FAQ,
+    "tool-gratuity": GRATUITY_FAQ,
 }
 
 # Answer-first capsules for the money pages — mirror of routes.js ANSWER_FIRST.
 ANSWER_FIRST = {
+    "tool-gratuity": {"h": "How is end-of-service gratuity calculated in the UAE?", "text":
+        "Under Article 51 of Federal Decree-Law No. 33 of 2021, a full-time foreign worker who completes one year of continuous service is entitled to 21 days of basic wage for each of the first five years and 30 days of basic wage for each year after that, pro-rata for part years, capped at two years’ wage and paid within 14 days of the end of service. The Decree-Law does not reduce the figure when the employee resigns, and it does not state how a day’s wage is derived from a monthly wage — this calculator applies the ÷30 convention and says so."},
     "service-vat": {"h": "VAT registration and return filing in the UAE — the short answer", "text":
         "UAE VAT is a 5% tax on most goods and services. Registration with the Federal Tax Authority is mandatory once taxable supplies and imports exceed AED 375,000 over the previous 12 months — or are expected to within the next 30 days — and voluntary from AED 187,500. Registered businesses file VAT returns on EmaraTax, quarterly for most, with the return and payment due within 28 days of the period end."},
     "service-corporate-tax": {"h": "UAE Corporate Tax registration and filing — the short answer", "text":
@@ -1044,6 +1085,12 @@ ANSWER_FIRST = {
 # Contextual related guides & tools per page — mirror of routes.js RELATED_READING.
 # Each entry: (kind, target, label); 'insight' → /insights/<target>, 'page' → PAGE_TO_PATH[target].
 RELATED_READING = {
+    "tool-gratuity": [
+        ("page", "service-bookkeeping", "Bookkeeping & payroll"),
+        ("page", "service-corporate-tax", "Corporate Tax estimator"),
+        ("page", "service-vat", "VAT registration checker"),
+        ("insight", "outsourced-bookkeeping-dubai", "Outsourced bookkeeping in Dubai"),
+    ],
     "service-vat": [
         ("insight", "uae-vat-guide-dubai", "UAE VAT guide"),
         ("insight", "uae-vat-5-percent-primer", "The 5% VAT primer"),
@@ -1059,6 +1106,7 @@ RELATED_READING = {
         ("insight", "small-business-relief-evidence-test", "Proving Small Business Relief"),
         ("insight", "bookkeeping-foundation", "Bookkeeping as the foundation"),
         ("insight", "outsourced-bookkeeping-dubai", "Outsourced bookkeeping in Dubai"),
+        ("page", "tool-gratuity", "UAE gratuity calculator"),
         ("page", "service-vat", "VAT registration checker"),
     ],
     "service-audit-support": [
@@ -1261,6 +1309,20 @@ def build_jsonld(page, slug):
                            else {"@type": "Country", "name": "United Arab Emirates"}),
             "provider": ORG,
         })
+    if page.startswith("tool-"):
+        meta = PAGE_SEO[page]
+        blocks.append({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": BREADCRUMB_LABELS[page],
+            "description": meta["description"],
+            "url": full_url(page),
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web browser",
+            "isAccessibleForFree": True,
+            "offers": {"@type": "Offer", "price": "0", "priceCurrency": "AED"},
+            "provider": ORG,
+        })
     if page in FAQ_BY_PAGE:
         blocks.append({
             "@context": "https://schema.org",
@@ -1317,7 +1379,7 @@ NAV_PAGES = [
     "service-strategic-advisory", "industries",
     "industry-real-estate", "industry-construction", "industry-trading",
     "industry-hospitality", "industry-ecommerce", "industry-manufacturing",
-    "about", "insights", "careers", "contact",
+    "about", "insights", "tools", "careers", "contact",
 ]
 
 
@@ -1443,6 +1505,8 @@ def write_sitemap():
             return "1.0"
         if page.startswith("service-") or page in ("services", "e-invoicing"):
             return "0.8"
+        if page.startswith("tool-") or page == "tools":
+            return "0.7"
         return "0.5"
 
     def changefreq(page):
@@ -1483,6 +1547,16 @@ try:
 except Exception:
     pass
 
+# Tool body chunks, split the same way (dist/tools/<slug>.<hash>.js). Each tool
+# page loads exactly one. page id -> chunk slug; keep in sync with routes.js.
+TOOL_SLUGS = {"tool-gratuity": "gratuity-calculator"}
+TOOL_CHUNKS = {}
+try:
+    with open(os.path.join(ROOT, "dist", "tools", "manifest.json"), encoding="utf-8") as _f:
+        TOOL_CHUNKS = json.load(_f)
+except Exception:
+    pass
+
 
 def main():
     with open(os.path.join(ROOT, "index.html"), encoding="utf-8") as f:
@@ -1497,6 +1571,28 @@ def main():
         meta = PAGE_SEO[page]
         canonical = full_url(page)
         html = render(template, meta["title"], meta["description"], canonical, build_jsonld(page, None), body=seo_body(page))
+        if page in TOOL_SLUGS:
+            # Load ONLY this tool's body chunk — same contract as article pages.
+            chunk = TOOL_CHUNKS.get(TOOL_SLUGS[page])
+            if not chunk:
+                raise SystemExit(
+                    "no tool chunk for '%s' — run scripts/build.mjs first, or the page "
+                    "will render an empty tool." % page
+                )
+            html = html.replace(
+                '<script defer src="dist/app.min.js',
+                '<script defer src="dist/tools/%s"></script>\n  <script defer src="dist/app.min.js' % chunk,
+                1,
+            )
+            # Per-page share card when one has been generated (assets/og/page-<id>.jpg).
+            card = os.path.join(ROOT, "assets", "og", "page-%s.jpg" % page)
+            if os.path.exists(card):
+                with open(card, "rb") as _cf:
+                    _cv = hashlib.sha256(_cf.read()).hexdigest()[:10]
+                card_url = SITE_ORIGIN + "/assets/og/page-%s.jpg?v=%s" % (page, _cv)
+                html = re.sub(r'(<meta property="og:image" content=")[^"]*("/>)', lambda m: m.group(1) + card_url + m.group(2), html, count=1)
+                html = re.sub(r'(<meta name="twitter:image" content=")[^"]*("/>)', lambda m: m.group(1) + card_url + m.group(2), html, count=1)
+                html = re.sub(r'(<meta property="og:image:alt" content=")[^"]*("/>)', lambda m: m.group(1) + esc(meta["title"], attr=True) + m.group(2), html, count=1)
         written.append(write(PAGE_TO_PATH[page], html))
 
     # Insight articles

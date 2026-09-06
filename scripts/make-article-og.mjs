@@ -21,6 +21,13 @@ const W = 1200, H = 630;
 // Cards to generate: slug -> { kicker, headline }. Headline is written for the
 // card (short, high contrast at thumbnail size), not copied from the <h1>.
 const CARDS = {
+  // Tool page (not an article): prerender.py looks for assets/og/page-<id>.jpg.
+  'tool-gratuity': {
+    out: 'page-tool-gratuity',
+    kicker: 'UAE gratuity calculator · Decree-Law 33 of 2021',
+    headline: 'Every figure, cited to its article.',
+    sub: '21 and 30 days of basic wage, the cap, and what the law does not say',
+  },
   'uae-tax-changes-october-2026': {
     kicker: 'UAE tax and reporting · October 2026',
     headline: 'Three changes, one month.',
@@ -109,7 +116,7 @@ for (const slug of slugs) {
   // a fallback-font card without saying so.
   const fontsOk = await page.evaluate(() =>
     document.fonts.ready.then(() => document.fonts.check("700 74px 'Oswald'"))).catch(() => false);
-  const out = join(OUT_DIR, `article-${slug}.jpg`);
+  const out = join(OUT_DIR, `${spec.out || 'article-' + slug}.jpg`);
   await page.screenshot({ path: out, type: 'jpeg', quality: 90 });
   const { size } = await import('node:fs').then((m) => m.promises.stat(out));
   console.log(`${out}  ${W}x${H}  ${(size / 1024).toFixed(1)} KB  brandFont=${fontsOk ? 'Oswald' : 'FALLBACK — check network'}`);

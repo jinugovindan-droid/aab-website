@@ -2355,3 +2355,8 @@ function RelatedReading({ page, onNav }) {
 }
 
 Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, ServiceTransactionAdvisoryPage, ServiceCFOPage, ServiceFinancialStatementsPage, ServiceTaxPlanningPage, ServiceSimplePage, FAQList, AnswerFirst, RelatedReading });
+
+// Lead-tool helpers, surfaced for the tool bodies that scripts/build.mjs splits
+// into dist/tools/<slug>.js (see page-tools.jsx). Like window.AAArt for
+// articles: a fixed cost that does not grow with the number of tools.
+window.AATools = { aaSubmitLead, aaBuildBrandedPdf, AA_MONEY, aaParseNum, AA_TOOL_INPUT, AA_TOOL_LABEL, goContact, aaDubaiToday };

@@ -28,6 +28,17 @@ const W = 1200, H = 1200;
 // fastest thing a reader can absorb. Keep `note` under ~46 characters or it
 // wraps and the card stops being glanceable.
 const CARDS = {
+  'tool-gratuity': {
+    eyebrow: 'UAE LABOUR LAW · END-OF-SERVICE GRATUITY',
+    headline: 'A gratuity calculator<br>that cites the article',
+    chip: 'FREE · DECREE-LAW 33 OF 2021',
+    rows: [
+      { k: '21 days', note: 'Of basic wage, for each of the first five years.' },
+      { k: '30 days', note: 'Of basic wage, for each year after five.' },
+      { k: '÷ 30', note: 'The convention the law never states. We say so.' },
+    ],
+    kicker: 'No reduction for resignation — the 2021 law has none.',
+  },
   'fta-decision-4-accounting-records': {
     eyebrow: 'UAE TAX RECORDS · FTA DECISION 4 OF 2026',
     headline: 'Three gates your records<br>already have to pass',

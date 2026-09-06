@@ -110,6 +110,21 @@
       "source": "/go/einv-flyer-wa",
       "destination": "/e-invoicing?utm_source=flyer&utm_medium=whatsapp&utm_campaign=einvoicing-2027&utm_content=client-flyer-wa",
       "permanent": false
+    },
+    {
+      "source": "/go/gratuity",
+      "destination": "/tools/gratuity-calculator?utm_source=campaign&utm_medium=whatsapp&utm_campaign=gratuity-tool&utm_content=broadcast",
+      "permanent": false
+    },
+    {
+      "source": "/go/gratuity-li",
+      "destination": "/tools/gratuity-calculator?utm_source=linkedin&utm_medium=social&utm_campaign=gratuity-tool&utm_content=founder-post",
+      "permanent": false
+    },
+    {
+      "source": "/go/gratuity-li-page",
+      "destination": "/tools/gratuity-calculator?utm_source=linkedin&utm_medium=social&utm_campaign=gratuity-tool&utm_content=company-page",
+      "permanent": false
     }
   ],
   "headers": [

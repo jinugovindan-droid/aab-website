@@ -146,6 +146,9 @@ async function snapshotRoute(browser, route) {
       const words = result.html.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
       if (words < 500) throw new Error(`article body too short (${words} words) — chunk probably did not load`);
     }
+    // Same idea for tool pages: the frame renders without its body until the
+    // chunk registers, so a missing chunk would capture the loading line.
+    if (route.url.startsWith('/tools/') && /This tool is loading/i.test(result.html)) throw new Error('tool rendered its loading placeholder — chunk missing or failed');
     if (result.rawIcons > 0) throw new Error(`${result.rawIcons} unswapped lucide icon(s)`);
     if (result.consentShown) throw new Error('consent banner rendered during capture');
     if (/\(\d[\d,]* days?\)|\d[\d,]* days? left/.test(result.html)) throw new Error('relative day-count leaked into capture');
@@ -305,6 +308,22 @@ if (prevSitemap) {
     missing.slice(0, 8).forEach((x) => console.error('  ' + x));
     console.error('\n  DO NOT PUSH — those articles would render as empty stubs.');
     console.error('  Run the full `npm run make`, not just `npm run bundle`.');
+    process.exit(1);
+  }
+}
+// Same contract for tool pages and dist/tools/.
+{
+  const missing = [];
+  for (const c of captures.filter((x) => x.url.startsWith('/tools/'))) {
+    const html = await readFile(c.file, 'utf8');
+    const m = html.match(/dist\/tools\/([A-Za-z0-9._-]+\.js)/);
+    if (!m) { missing.push(`${c.url} -> (no tool chunk referenced)`); continue; }
+    if (!existsSync(join(ROOT, 'dist', 'tools', m[1]))) missing.push(`${c.url} -> ${m[1]}`);
+  }
+  if (missing.length) {
+    console.error(`\n${missing.length} tool page(s) reference a chunk that does not exist:`);
+    missing.forEach((x) => console.error('  ' + x));
+    console.error('\n  DO NOT PUSH — those tools would render as empty frames.');
     process.exit(1);
   }
 }

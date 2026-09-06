@@ -54,6 +54,8 @@ const PAGE_LABELS = {
   contact: '10 Contact',
   privacy: '11 Privacy',
   terms: '12 Terms',
+  tools: '13 Tools',
+  'tool-gratuity': '13 Tool · Gratuity Calculator',
 };
 
 const { pageFromPath, pathForPage, pathForInsight, insightSlugFromPath, applyPageMeta, redirectLegacyHash, VALID_PAGES } = window.AARoutes;
@@ -214,6 +216,8 @@ function AppRoot() {
       case 'contact': return <ContactPage onNav={navigateTo}/>;
       case 'privacy': return <PrivacyPolicyPage onNav={navigateTo}/>;
       case 'terms': return <TermsPage onNav={navigateTo}/>;
+      case 'tools': return <ToolsHubPage onNav={navigateTo}/>;
+      case 'tool-gratuity': return <ToolPage page={page} onNav={navigateTo}/>;
       default: return <HomePage onNav={navigateTo}/>;
     }
   };
@@ -222,6 +226,7 @@ function AppRoot() {
                   : page === 'service-vat' ? 'service-vat'
                   : (typeof page === 'string' && page.indexOf('service-') === 0) ? 'services'
                   : (typeof page === 'string' && page.indexOf('industry-') === 0) ? 'industries'
+                  : (typeof page === 'string' && page.indexOf('tool-') === 0) ? 'tools'
                   : page === 'insight' ? 'insights' : page;
 
   return (

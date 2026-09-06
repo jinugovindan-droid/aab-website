@@ -47,11 +47,17 @@
     contact: '/contact',
     privacy: '/privacy',
     terms: '/terms',
+    tools: '/tools',
+    'tool-gratuity': '/tools/gratuity-calculator',
   };
 
   const PATH_ALIASES = {
     '/service-vat': 'service-vat',
   };
+
+  // Tool pages load their body from dist/tools/<slug>.<hash>.js (scripts/build.mjs).
+  // page id -> chunk slug. Keep in sync with prerender.py's mirror.
+  const TOOL_SLUGS = { 'tool-gratuity': 'gratuity-calculator' };
 
   // 'insight' is a valid page id (single-article view) but has no fixed entry in
   // PAGE_TO_PATH — its URL is /insights/<slug>, resolved via pathForInsight().
@@ -490,6 +496,14 @@
       title: 'Terms of Use — aaccounting.me',
       description: 'Terms governing use of the aaccounting.me website — general information, not professional advice or an engagement; governed by UAE law as applied in Dubai.',
     },
+    tools: {
+      title: 'Free UAE Tax & Finance Calculators — Authentic Accounting',
+      description: 'Free calculators built from the law they apply: UAE gratuity, Corporate Tax estimate, VAT registration check, supplier verification and e-invoicing readiness.',
+    },
+    'tool-gratuity': {
+      title: 'UAE Gratuity Calculator 2026 — End-of-Service Benefits',
+      description: 'UAE gratuity under Decree-Law 33 of 2021, each figure cited to its article: 21 and 30 days of basic wage, the cap, part-time, and the monthly provision to book.',
+    },
   };
 
   function normalizePath(pathname) {
@@ -566,6 +580,7 @@
     'location-ras-al-khaimah': 'Ras Al Khaimah', 'location-fujairah': 'Fujairah', 'location-umm-al-quwain': 'Umm Al Quwain',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
+    tools: 'Tools', 'tool-gratuity': 'UAE Gratuity Calculator',
   };
 
   const MONTHS = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
@@ -822,9 +837,38 @@
       a: 'Yes. We document the recommendation and its basis so the Board has a clear, defensible record for its decision.' },
   ];
 
+  // Gratuity calculator FAQ — mirrors the questions people type around
+  // "gratuity calculator" (2026, formula, MOHRE, part-time, free zones).
+  // Keep in sync with prerender.py's mirror.
+  const GRATUITY_FAQ = [
+    { q: 'How is gratuity calculated in the UAE in 2026?',
+      a: 'Article 51 of Federal Decree-Law No. 33 of 2021 sets it: after one year of continuous service, 21 days of basic wage for each of the first five years, then 30 days of basic wage for each further year, with part years pro-rata and a ceiling of two years’ wage. Article 51 carries no amendment marker in the Ministry’s consolidated text of the law.' },
+    { q: 'Is gratuity calculated on basic salary or total salary?',
+      a: 'Basic wage. Article 51(2) says the benefit is calculated according to the basic wage, and Article 1 defines basic wage as the contract wage excluding allowances and benefits in kind. Housing, transport and similar allowances are not in the base.' },
+    { q: 'Does resigning reduce my gratuity?',
+      a: 'Not under the current law. The 1980 labour law reduced the gratuity of an employee who resigned before five years; Federal Decree-Law No. 33 of 2021 contains no such provision. The entitlement is the same whether the contract ends by resignation, non-renewal or termination.' },
+    { q: 'What if I have worked for less than one year?',
+      a: 'No gratuity is due. Article 51(2) requires a year of continuous service, and Article 51(4) excludes unpaid days of absence from the count. Temporary employment of under a year is also excluded by Cabinet Resolution No. 1 of 2022, Article 30.' },
+    { q: 'How is gratuity calculated for part-time employees?',
+      a: 'Cabinet Resolution No. 1 of 2022, Article 30: divide the contracted hours per year by the hours in a full-time contract, and apply that percentage to the full-time gratuity. The calculator uses contracted hours per week against the 48-hour full-time week.' },
+    { q: 'Is there a maximum gratuity?',
+      a: 'Yes. Article 51(6) caps the total at two years’ wage. The calculator applies 24 times the last monthly basic wage, the reading used in practice; the article’s word is “wage”, the wider defined term, so the true ceiling may be higher. The cap only bites after roughly 25 years of service.' },
+    { q: 'Does this apply in free zones such as JAFZA, or in Abu Dhabi?',
+      a: 'Yes. The Decree-Law applies to private-sector employment across the UAE, including free zones, with two exceptions: the DIFC and ADGM have their own employment laws and end-of-service rules. UAE nationals come under the pension legislation rather than Article 51.' },
+    { q: 'When must gratuity be paid?',
+      a: 'Within 14 days of the end date of the contract, together with wages and other entitlements — Article 53. The employer may deduct amounts lawfully due from the worker under Article 51(7), on the conditions in Cabinet Resolution No. 1 of 2022, Article 29.' },
+    { q: 'What is the alternative end-of-service savings scheme?',
+      a: 'A voluntary scheme under Cabinet Resolution No. 96 of 2023 in which the employer pays monthly contributions into an approved investment fund — 5.83% of basic wage for service under five years and 8.33% after — instead of accruing a gratuity. Benefits accrued under the Decree-Law before joining are calculated at that date, on the basic wage at that time, and paid when employment ends.' },
+  ];
+
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
+    if (page.indexOf('tool-') === 0 && BREADCRUMB_LABELS[page]) {
+      items.push({ name: 'Tools', url: SITE_ORIGIN + PAGE_TO_PATH.tools });
+      items.push({ name: BREADCRUMB_LABELS[page], url: fullUrlForPage(page) });
+      return items;
+    }
     if (page.indexOf('service-') === 0 && BREADCRUMB_LABELS[page]) {
       items.push({ name: 'Services', url: SITE_ORIGIN + PAGE_TO_PATH.services });
       items.push({ name: BREADCRUMB_LABELS[page], url: fullUrlForPage(page) });
@@ -1152,6 +1196,11 @@
   // crawlable body. Facts mirror the QC'd page content (thresholds, deadlines).
   // Keep in sync with prerender.py's mirror.
   const ANSWER_FIRST = {
+    'tool-gratuity': {
+      h: 'How is end-of-service gratuity calculated in the UAE?',
+      text:
+      'Under Article 51 of Federal Decree-Law No. 33 of 2021, a full-time foreign worker who completes one year of continuous service is entitled to 21 days of basic wage for each of the first five years and 30 days of basic wage for each year after that, pro-rata for part years, capped at two years’ wage and paid within 14 days of the end of service. The Decree-Law does not reduce the figure when the employee resigns, and it does not state how a day’s wage is derived from a monthly wage — this calculator applies the ÷30 convention and says so.',
+    },
     'service-vat': {
       h: 'VAT registration and return filing in the UAE — the short answer',
       text:
@@ -1239,6 +1288,12 @@
   // links to /insights/<target> and kind 'page' links to pathForPage(target).
   // Keep in sync with prerender.py's mirror.
   const RELATED_READING = {
+    'tool-gratuity': [
+      ['page', 'service-bookkeeping', 'Bookkeeping & payroll'],
+      ['page', 'service-corporate-tax', 'Corporate Tax estimator'],
+      ['page', 'service-vat', 'VAT registration checker'],
+      ['insight', 'outsourced-bookkeeping-dubai', 'Outsourced bookkeeping in Dubai'],
+    ],
     'service-vat': [
       ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
       ['insight', 'uae-vat-5-percent-primer', 'The 5% VAT primer'],
@@ -1254,6 +1309,7 @@
       ['insight', 'small-business-relief-evidence-test', 'Proving Small Business Relief'],
       ['insight', 'bookkeeping-foundation', 'Bookkeeping as the foundation'],
       ['insight', 'outsourced-bookkeeping-dubai', 'Outsourced bookkeeping in Dubai'],
+      ['page', 'tool-gratuity', 'UAE gratuity calculator'],
       ['page', 'service-vat', 'VAT registration checker'],
     ],
     'service-audit-support': [
@@ -1412,7 +1468,7 @@
 
   // Single source for FAQPage JSON-LD + visible page Q&A (templates read it via
   // window.AARoutes.FAQ_BY_PAGE). Keep in sync with prerender.py's mirror.
-  const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ, 'service-ct-filing': CT_FILING_FAQ, 'service-vat-filing': VAT_FILING_FAQ, 'service-vat-refund': VAT_REFUND_FAQ, 'service-tax-advisory': TAX_ADVISORY_FAQ, 'location-abu-dhabi': LOC_ABUDHABI_FAQ, 'location-sharjah': LOC_SHARJAH_FAQ, 'location-ajman': LOC_AJMAN_FAQ, 'location-ras-al-khaimah': LOC_RAK_FAQ, 'location-fujairah': LOC_FUJAIRAH_FAQ, 'location-umm-al-quwain': LOC_UAQ_FAQ, 'einv-deadline': EINV_DEADLINE_FAQ, 'service-transfer-pricing': TRANSFER_PRICING_FAQ, 'service-vat-registration': VAT_REGISTRATION_FAQ, 'services': SERVICES_HUB_FAQ, 'industries': INDUSTRIES_HUB_FAQ, 'industry-real-estate': IND_REALESTATE_FAQ, 'industry-construction': IND_CONSTRUCTION_FAQ, 'industry-trading': IND_TRADING_FAQ, 'industry-hospitality': IND_HOSPITALITY_FAQ, 'industry-ecommerce': IND_ECOMMERCE_FAQ, 'industry-manufacturing': IND_MANUFACTURING_FAQ };
+  const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ, 'service-ct-filing': CT_FILING_FAQ, 'service-vat-filing': VAT_FILING_FAQ, 'service-vat-refund': VAT_REFUND_FAQ, 'service-tax-advisory': TAX_ADVISORY_FAQ, 'location-abu-dhabi': LOC_ABUDHABI_FAQ, 'location-sharjah': LOC_SHARJAH_FAQ, 'location-ajman': LOC_AJMAN_FAQ, 'location-ras-al-khaimah': LOC_RAK_FAQ, 'location-fujairah': LOC_FUJAIRAH_FAQ, 'location-umm-al-quwain': LOC_UAQ_FAQ, 'einv-deadline': EINV_DEADLINE_FAQ, 'service-transfer-pricing': TRANSFER_PRICING_FAQ, 'service-vat-registration': VAT_REGISTRATION_FAQ, 'services': SERVICES_HUB_FAQ, 'industries': INDUSTRIES_HUB_FAQ, 'industry-real-estate': IND_REALESTATE_FAQ, 'industry-construction': IND_CONSTRUCTION_FAQ, 'industry-trading': IND_TRADING_FAQ, 'industry-hospitality': IND_HOSPITALITY_FAQ, 'industry-ecommerce': IND_ECOMMERCE_FAQ, 'industry-manufacturing': IND_MANUFACTURING_FAQ, 'tool-gratuity': GRATUITY_FAQ };
 
   function buildJsonLd(page, slug) {
     const blocks = [];
@@ -1453,6 +1509,21 @@
         areaServed: page.indexOf('location-') === 0
           ? { '@type': 'AdministrativeArea', name: BREADCRUMB_LABELS[page] }
           : { '@type': 'Country', name: 'United Arab Emirates' },
+        provider: ORG,
+      });
+    }
+    if (page.indexOf('tool-') === 0) {
+      const meta = PAGE_SEO[page] || {};
+      blocks.push({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: BREADCRUMB_LABELS[page],
+        description: meta.description,
+        url: fullUrlForPage(page),
+        applicationCategory: 'FinanceApplication',
+        operatingSystem: 'Web browser',
+        isAccessibleForFree: true,
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'AED' },
         provider: ORG,
       });
     }
@@ -1682,6 +1753,8 @@
     VAT_REFUND_FAQ,
     TAX_ADVISORY_FAQ,
     FAQ_BY_PAGE,
+    GRATUITY_FAQ,
+    TOOL_SLUGS,
     ANSWER_FIRST,
     RELATED_READING,
     insightBySlug,
