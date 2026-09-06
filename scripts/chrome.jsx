@@ -2,7 +2,7 @@
 const { useState, useEffect, useRef } = React;
 const { pathForPage } = window.AARoutes;
 
-// Flat list — used by the mobile drawer (it has vertical room for all ten).
+// Flat list — used by the mobile drawer (it has vertical room for all eleven).
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
   { id: 'services', label: 'Services' },
@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { id: 'industries', label: 'Industries' },
   { id: 'about', label: 'About' },
   { id: 'insights', label: 'Insights' },
+  { id: 'tools', label: 'Tools' },
   { id: 'careers', label: 'Careers' },
   { id: 'contact', label: 'Contact' },
 ];
@@ -42,6 +43,7 @@ const DESKTOP_NAV = [
   { id: 'industries', label: 'Industries' },
   { id: 'about', label: 'About' },
   { id: 'insights', label: 'Insights' },
+  { id: 'tools', label: 'Tools' },
   { id: 'careers', label: 'Careers' },
   { id: 'contact', label: 'Contact' },
 ];
