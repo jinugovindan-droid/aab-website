@@ -62,6 +62,15 @@
   // render an honest "in preparation" state so a card never shows the wrong note.
   const INSIGHTS = [
     {
+      slug: 'uae-tax-changes-october-2026',
+      seoTitle: 'UAE Tax & Reporting Changes October 2026: Every Deadline', seoDesc: 'Decision 13 supplier checks from 1 October, the 30 October e-invoicing ASP deadline, Decision 4 records rules already in force, and the CT and VAT dates around them.',
+      tag: 'Compliance', date: '6 Sep 2026', read: '6 min',
+      title: 'What changes in UAE tax and reporting in October 2026: the dates, in order.',
+      author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decisions No. 4 and No. 13 of 2026; Article 54 bis of Federal Decree-Law No. 8 of 2017; Federal Decree-Law No. 47 of 2022; Federal Decree-Law No. 28 of 2022 and Cabinet Decision No. 74 of 2023; Ministry of Finance e-invoicing timeline',
+      excerpt: 'Two new FTA instruments and one e-invoicing deadline arrive within a month of each other, with the routine Corporate Tax and VAT dates in the same weeks. Decision 4 has applied since 30 July; Decision 13 starts on 1 October; Phase 1 businesses appoint an ASP by 30 October. Every date on one line, in order, with the detail behind each.',
+      published: true,
+    },
+    {
       slug: 'fta-decision-4-accounting-records',
       seoTitle: 'UAE Accounting Records: FTA Decision 4 of 2026 Rules', seoDesc: 'Since 30 July 2026, scanned and electronic copies of accounting records must meet an FTA standard: no partial scans, copies that stay legible, and access including passwords.',
       tag: 'Compliance', date: '23 Aug 2026', read: '8 min',

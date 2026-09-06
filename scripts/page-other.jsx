@@ -2215,7 +2215,162 @@ function RecordCopyStandardBody({ onNav }) {
   );
 }
 
+function OctoberChangesBody({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  const ilink = (slug, label) => (
+    <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+
+  // The autumn 2026 dates on one axis. Defined inside the body so it ships in
+  // this article's chunk, not the shared bundle. Six markers on a span of
+  // 30 Jul 2026 -> 1 Jan 2027 (155 days; ~3.87px/day over 600px). Two pairs
+  // sit within days of each other — 30 Sep / 1 Oct and 28 Oct / 30 Oct — so
+  // labels alternate above and below the axis and are anchored away from
+  // each other — each hugs its own marker on the side facing open space.
+  const DATE = { fontSize: 12, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' };
+  const CAP = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
+  const Mark = ({ x, big }) => big
+    ? <g><circle cx={x} cy="120" r="9.5" fill="#00B0F0" stroke="#125A79" strokeWidth="2.5" /><circle cx={x} cy="120" r="3.5" fill="#fff" /></g>
+    : <g><circle cx={x} cy="120" r="7.5" fill="#fff" stroke="#176E93" strokeWidth="2.5" /><circle cx={x} cy="120" r="3" fill="#00B0F0" /></g>;
+  const AutumnTimeline = () => (
+    <figure className="aa-figwide" style={{ margin: '36px 0 40px' }}>
+      <div style={{ overflowX: 'auto' }}>
+        <svg
+          viewBox="0 0 720 232"
+          role="img"
+          aria-label="Timeline of UAE tax and reporting dates from July 2026 to January 2027. 30 July 2026: FTA Decision 4 on keeping accounting records takes effect. 30 September 2026: Corporate Tax return and payment due for businesses with a 31 December 2025 year-end. 1 October 2026: FTA Decision 13 supplier verification rules take effect. 28 October 2026: VAT return due for quarterly filers whose period ended 30 September. 30 October 2026: deadline to appoint an Accredited Service Provider for e-invoicing Phase 1, businesses with revenue of AED 50 million or more. 1 January 2027: e-invoicing goes live for Phase 1."
+          style={{ display: 'block', width: '100%', minWidth: 600, height: 'auto' }}
+        >
+          <line x1="60" y1="120" x2="660" y2="120" stroke="#1A1A2E" strokeWidth="2.5" />
+          <path d="M 300 44 V 110 M 408 44 V 110" stroke="#C7C8CA" strokeWidth="1" strokeDasharray="4 5" />
+
+          {/* above the axis: 30 Sep, 28 Oct */}
+          <text x="296" y="30" textAnchor="end" style={DATE}>30 SEP 2026</text>
+          <text x="296" y="46" textAnchor="end" style={CAP}><tspan x="296">CT return + payment,</tspan><tspan x="296" dy="13">31 Dec 2025 year-ends</tspan></text>
+          <text x="412" y="30" textAnchor="start" style={DATE}>28 OCT 2026</text>
+          <text x="412" y="46" textAnchor="start" style={CAP}><tspan x="412">VAT return, quarter</tspan><tspan x="412" dy="13">ending 30 September</tspan></text>
+
+          <Mark x={60} /><Mark x={300} /><Mark x={304} big /><Mark x={408} /><Mark x={416} big /><Mark x={660} />
+
+          {/* below the axis: 30 Jul, 1 Oct, 30 Oct, 1 Jan */}
+          <text x="52" y="158" style={DATE}>30 JUL 2026</text>
+          <text x="52" y="176" style={CAP}><tspan x="52">Decision 4 in force:</tspan><tspan x="52" dy="13">how records are kept</tspan></text>
+          <text x="308" y="158" textAnchor="end" style={{ ...DATE, fill: '#125A79' }}>1 OCT 2026</text>
+          <text x="308" y="176" textAnchor="end" style={CAP}><tspan x="308">Decision 13: supplier</tspan><tspan x="308" dy="13">checks before input VAT</tspan></text>
+          <text x="420" y="158" textAnchor="start" style={{ ...DATE, fill: '#125A79' }}>30 OCT 2026</text>
+          <text x="420" y="176" textAnchor="start" style={CAP}><tspan x="420">Appoint an ASP,</tspan><tspan x="420" dy="13">revenue AED 50M+</tspan></text>
+          <text x="668" y="158" textAnchor="end" style={DATE}>1 JAN 2027</text>
+          <text x="668" y="176" textAnchor="end" style={CAP}><tspan x="668">E-invoicing live,</tspan><tspan x="668" dy="13">Phase 1</tspan></text>
+        </svg>
+      </div>
+      <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>
+        THE AUTUMN 2026 DATE STACK — TWO NEW FTA INSTRUMENTS, ONE E-INVOICING DEADLINE, AND THE ROUTINE DATES AROUND THEM
+      </figcaption>
+    </figure>
+  );
+
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>Three things change for UAE businesses this autumn, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks. This page puts all of it on one line, in order, with a link to the detail on each.</p>
+
+      <AutumnTimeline />
+
+      <h3 style={H3}>The dates, in order</h3>
+      <div style={{ overflowX: 'auto', marginTop: 8 }}>
+        <table className="aa-table" style={{ width: '100%' }}>
+          <thead>
+            <tr>
+              <th scope="col" className="aa-num" style={{ whiteSpace: 'nowrap' }}>Date</th>
+              <th scope="col">What</th>
+              <th scope="col">Who</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>30 Jul 2026</strong></td>
+              <td>FTA Decision No.&nbsp;4 of 2026 takes effect &mdash; rules for keeping accounting records as scans and copies. <em>Already in force.</em></td>
+              <td>Every person keeping records for tax</td>
+            </tr>
+            <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>30 Sep 2026</strong></td>
+              <td>Corporate Tax return and payment due, nine months after year-end</td>
+              <td>Businesses with a 31&nbsp;December&nbsp;2025 year-end</td>
+            </tr>
+            <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>1 Oct 2026</strong></td>
+              <td>FTA Decision No.&nbsp;13 of 2026 takes effect &mdash; supplier and supply verification before deducting input VAT</td>
+              <td>Every VAT-registered business that deducts input tax</td>
+            </tr>
+            <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>28 Oct 2026</strong></td>
+              <td>VAT return and payment due for the quarter ending 30&nbsp;September</td>
+              <td>Quarterly filers on a Jul&ndash;Sep period</td>
+            </tr>
+            <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>30 Oct 2026</strong></td>
+              <td>Deadline to appoint an Accredited Service Provider for e-invoicing, Phase&nbsp;1</td>
+              <td>Revenue of AED&nbsp;50&nbsp;million or more</td>
+            </tr>
+            <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>1 Jan 2027</strong></td>
+              <td>E-invoicing goes live, Phase&nbsp;1</td>
+              <td>Revenue of AED&nbsp;50&nbsp;million or more</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style={{ marginTop: 20 }}>Businesses under AED&nbsp;50&nbsp;million follow in 2027: an ASP by 31&nbsp;March and go-live on 1&nbsp;July. Government entities appoint by 31&nbsp;March and go live on 1&nbsp;October&nbsp;2027. The phase table is in {ilink('uae-e-invoicing-deadlines-phases', 'our e-invoicing deadlines note')}.</p>
+
+      <h3 style={H3}>1 October &mdash; supplier checks before input VAT</h3>
+      <p>FTA Decision No.&nbsp;13 of 2026 gives content to Article&nbsp;54&nbsp;bis of the VAT Law. It does not make input VAT conditional on checking your suppliers; both limbs of that article require tax evasion somewhere in the chain of supplies. What it does is define what &ldquo;should have known&rdquo; means &mdash; so where evasion is later found and the checks were not done, the defence that you had no way of knowing is gone.</p>
+      <p>Three numbers decide how much of it applies to a purchase. A supply under <strong>AED&nbsp;10,000</strong> can be disregarded entirely &mdash; unless your rolling 12-month spend with that supplier exceeds <strong>AED&nbsp;100,000</strong>, which switches the exception off. Above <strong>AED&nbsp;375,000</strong> with one supplier, a UAE bank confirmation and a documented reputation review are added. The look-back windows run 12&nbsp;months, so on 1&nbsp;October they already reach to October&nbsp;2025.</p>
+      <p>One obligation does not depend on any open question: Article&nbsp;5(4) requires a documented policy naming who implements, reviews and supervises the checks. That has to exist by 1&nbsp;October. {ilink('fta-decision-13-supplier-verification', 'The full note, with a calculator that checks one supplier in seconds →')}</p>
+
+      <h3 style={H3}>Already in force &mdash; how records have to be kept</h3>
+      <p>FTA Decision No.&nbsp;4 of 2026 has applied since 30&nbsp;July. If your accounting records exist as scans, photographs or electronic copies, they have to pass three gates: <strong>identical</strong> to the original, every page in order, with partial scanning expressly not accepted; <strong>legible</strong>, including ink and paper that will not fade over the retention period; and <strong>accessible</strong> to the Authority on request, including the system they sit in and any passwords or encryption keys.</p>
+      <p>A third party may hold the records, but the taxable person remains legally responsible for them. This is not a deadline to prepare for &mdash; it applies to the records you hold today. {ilink('fta-decision-4-accounting-records', 'The full note →')}</p>
+
+      <h3 style={H3}>30 October &mdash; appoint an e-invoicing provider</h3>
+      <p>Phase&nbsp;1 of UAE e-invoicing covers businesses with revenue of AED&nbsp;50&nbsp;million or more. The deadline to appoint an Accredited Service Provider is <strong>30&nbsp;October&nbsp;2026</strong>, and structured e-invoicing goes live for that phase on <strong>1&nbsp;January&nbsp;2027</strong>. The provider validates invoice structure against the FTA&rsquo;s data dictionary; it does not verify who your supplier is, which is why this and Decision&nbsp;13 are separate obligations rather than one. {link('einv-deadline', 'Who must act by 30 October →')} &nbsp;·&nbsp; {ilink('choosing-accredited-service-provider-asp', 'Choosing a provider →')} &nbsp;·&nbsp; {ilink('prepare-erp-for-uae-e-invoicing', 'Getting your ERP ready →')}</p>
+
+      <h3 style={H3}>The routine dates that fall in the same weeks</h3>
+      <ul>
+        <li><strong>Corporate Tax: nine months after year-end.</strong> A 31&nbsp;December&nbsp;2025 year-end files and pays by 30&nbsp;September&nbsp;2026 &mdash; the day before Decision&nbsp;13 starts. Small Business Relief, where it applies, is still elected on that return, and it now runs to periods ending 31&nbsp;December&nbsp;2029. {ilink('small-business-relief-evidence-test', 'What you have to be able to prove →')}</li>
+        <li><strong>VAT: 28 days after the period ends.</strong> A quarter ending 30&nbsp;September is due on 28&nbsp;October. Monthly filers have the same 28-day rule each month.</li>
+        <li><strong>Retention.</strong> Five years under the Tax Procedures rules and seven for Corporate Tax, either extended by four years in dispute or under audit &mdash; and, per Cabinet Decision No.&nbsp;17 of 2026 as reported by advisers, a further two years where a refund application is undecided. Decision&nbsp;4 governs the form those records take for all of it.</li>
+      </ul>
+
+      <h3 style={H3}>What to do in September</h3>
+      <ul>
+        <li><strong>Run a rolling 12-month purchase report by supplier</strong> and sort it at AED&nbsp;100,000 and AED&nbsp;375,000. The data is historic, so this can be done today.</li>
+        <li><strong>Write the Article&nbsp;5(4) policy</strong> and name the three roles. It is the one Decision&nbsp;13 item that does not wait on anything.</li>
+        <li><strong>Spot-check your scans</strong> against Decision&nbsp;4: full documents, every page, readable, and someone who knows the passwords.</li>
+        <li><strong>If you are over AED&nbsp;50&nbsp;million</strong>, the ASP appointment is a procurement decision with under eight weeks left in it.</li>
+        <li><strong>Confirm your CT filing date</strong> from your own year-end rather than the calendar, and your VAT period from your registration.</li>
+      </ul>
+
+      {artNote('Written on 6 September 2026 from the FTA’s published texts of Decision No. 13 of 2026 and Decision No. 4 of 2026, the consolidated VAT Law published by the Ministry of Finance, Federal Decree-Law No. 47 of 2022 on Corporate Tax, Federal Decree-Law No. 28 of 2022 on Tax Procedures and its Executive Regulation, and the Ministry of Finance e-invoicing timeline. The additional two-year retention period is per Cabinet Decision No. 17 of 2026 as reported by advisers; we have not read that amendment in primary text. Dates will be kept current on this page as guidance is published. The English texts are unofficial translations; the Arabic governs. General information on published law, not advice on your own position.')}
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{ilink('fta-decision-13-supplier-verification', 'Supplier checks before you claim input VAT →')}</li>
+          <li>{ilink('fta-decision-4-accounting-records', 'How scanned records must be kept →')}</li>
+          <li>{ilink('uae-e-invoicing-deadlines-phases', 'E-invoicing: every deadline by phase →')}</li>
+          <li>{link('service-vat', 'UAE VAT compliance and filing →')}</li>
+          <li>{link('service-ct-filing', 'Corporate Tax return filing →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 const INSIGHT_BODIES = {
+  'uae-tax-changes-october-2026': OctoberChangesBody,
   'fta-decision-4-accounting-records': RecordCopyStandardBody,
   'fta-decision-13-supplier-verification': SupplierVerificationBody,
   'small-business-relief-evidence-test': SBREvidenceBody,

@@ -21,6 +21,11 @@ const W = 1200, H = 630;
 // Cards to generate: slug -> { kicker, headline }. Headline is written for the
 // card (short, high contrast at thumbnail size), not copied from the <h1>.
 const CARDS = {
+  'uae-tax-changes-october-2026': {
+    kicker: 'UAE tax and reporting · October 2026',
+    headline: 'Three changes, one month.',
+    sub: 'Decision 4, Decision 13 and the e-invoicing deadline, in order',
+  },
   'fta-decision-4-accounting-records': {
     kicker: 'FTA Decision 4 of 2026 · In force since 30 July',
     headline: 'Partial scans are no longer a record.',
