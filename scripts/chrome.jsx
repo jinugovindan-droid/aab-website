@@ -714,6 +714,7 @@ const SEARCH_PAGES = [
   ['insights', 'Insights', 'articles guides blog'],
   ['tools', 'Tools', 'free calculators checkers estimator'],
   ['tool-gratuity', 'UAE Gratuity Calculator', 'end of service benefits eosb labour law provision'],
+  ['tool-vat', 'UAE VAT Calculator', '5% add remove inclusive exclusive reverse vat formula rounding fils'],
   ['careers', 'Careers', 'jobs vacancies apply cv'],
   ['contact', 'Contact', 'book consultation reach us office'],
 ];

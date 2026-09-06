@@ -47,6 +47,46 @@ const TOOLS = [
       ['The Official Portal of the UAE Government — end of service benefits in the private sector', 'https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/end-of-service-benefits-for-employees-in-the-private-sector'],
     ],
   },
+  {
+    page: 'tool-vat', slug: 'vat-calculator',
+    name: 'UAE VAT Calculator',
+    kicker: 'VAT · Federal Decree-Law No. 8 of 2017 · 5% since 1 January 2018',
+    h1a: 'UAE VAT', h1b: 'calculator.',
+    intro: 'Add 5% to a net amount, or take the VAT out of a gross one — with the formula beside the result, rounded to the fils the way the FTA’s own texts describe it, and every rule cited to its article.',
+    hubLine: 'Add 5% or take it out of a gross amount, formula shown, rounded to the fils the way the FTA describes.',
+    needs: 'One amount, in dirhams',
+    updated: '7 Sep 2026',
+    intent: 'VAT compliance',
+    glance: [
+      ['Standard rate', '5% of the value of the supply'],
+      ['Since', '1 January 2018, unchanged'],
+      ['VAT inside a gross', 'gross × 5 ÷ 105 = gross ÷ 21'],
+      ['Rounding', 'Nearest fils, half up — permitted'],
+      ['Displayed prices', 'Inclusive of VAT'],
+      ['Currency', 'Dirhams, Central Bank rate'],
+    ],
+    // What the texts fix, and what this page decides where they are silent.
+    assumptions: [
+      ['The tie-break', 'Article 61 of the Executive Regulation says “mathematical rounding” and stops. The FTA’s Taxable Person Guide says a fraction of a half or more rounds up. This page rounds half up. In add mode an exact half-fils occurs whenever the net ends in 10, 30, 50, 70 or 90 fils; in extract mode it never does, because gross ÷ 21 never lands on an exact half.'],
+      ['What gets rounded', 'Four texts name four objects — the Decree-Law “the total amount to be paid” (Art. 68), the Regulation “the Tax chargeable on a supply” (Art. 61), the Guide “the invoice amount”, VATP006 “the tax value”. This page rounds the VAT figure once and derives the other side from it, so net, VAT and gross always re-add.'],
+      ['Per line or per invoice', 'On a full tax invoice on paper the FTA’s Public Clarification VATP006 calculates and rounds line by line; on an electronic invoice the Ministry of Finance’s June 2026 guidelines round at the invoice-level total only. The two can differ by a fils. This page computes one amount and says so; an invoice mode will carry both conventions.'],
+      ['Permission and practice', 'The Regulation — in English and in the governing Arabic (يُسمح) — permits rounding to the nearest fils; the FTA’s 2022 leaflet says the amount must be rounded. The law permits it, the FTA expects it, this page does it.'],
+      ['A fils', 'Neither VAT text defines it; Article 68 says “one fils of a UAE Dirham”. This page takes a fils as one hundredth of a dirham, so every amount has two decimals.'],
+      ['The arithmetic', '÷ 1.05, ÷ 21 and × 5 ÷ 105 are the same operation, implied by Article 34(1); none is “the” legal formula and nothing here is “approved”. The Guide happens to write ÷ 21.'],
+    ],
+    sources: [
+      ['Federal Decree-Law No. 8 of 2017 on VAT and its amendments — FTA consolidation of 28 November 2025 (four instruments; in force 1 January 2026): Articles 1, 3, 34, 38, 48, 68, 69', 'https://tax.gov.ae//Datafolder/Files/Legislation/2025/Federal%20Decree-Law%20No.%208%20of%202017%20and%20amendments%20-%20publishing%2028%2011%202025.pdf'],
+      ['Cabinet Decision No. 52 of 2017, Executive Regulation, as amended — FTA text of 18 September 2025: Articles 27, 59, 61 (Arabic text checked for Article 61)', 'https://tax.gov.ae/Datafolder/Files/Legislation/Executive-Regulation-of-Federal-Decree-Law-No-08-of-2017-Publish-18-09-2025.pdf'],
+      ['VATP006 — Tax Invoices (FTA Public Clarification): rounding on invoices, line by line on a full tax invoice, worked examples', 'https://tax.gov.ae/DataFolder/Files/Pdf/06-Tax-Invoices.pdf'],
+      ['Taxable Person Guide for VAT (FTA, 2018), §3.5 (÷ 21) and §12.3.4 (a half rounds up)', 'https://tax.gov.ae/DownloadOpenTextFile?fileUrl=en/VAT_VAT_Guides/Taxable_Person_Guide_Value_Added_Tax/Taxable_Person_Guide_June_2018_EN.pdf'],
+      ['“Get to know your tax obligations” (FTA booklet): AED 220 ÷ 21 = AED 10.48', 'https://tax.gov.ae/DataFolder/Files/Guides/VAT/Awareness/Get%20to%20know%20your%20Tax%20Obligations.pdf'],
+      ['VATP020 — VAT-free special offers (FTA): Article 38 and Regulation Article 27 restated', 'https://tax.gov.ae/DataFolder/Files/Pdf/VATP020%20-%20VAT-free%20special%20offers.pdf'],
+      ['VATP046 — Amendments to the VAT Decree-Law (FTA, 2026): the articles amended in 2024 and 2026', 'https://tax.gov.ae//Datafolder/Files/Guides/VAT/PublicClarifications/VATP046%20-%20Amendments%20to%20VAT%20Decree-Law%20-%2009%202026.pdf'],
+      ['VATP004 — Use of exchange rates for VAT purposes (FTA)', 'https://tax.gov.ae/DataFolder/Files/Pdf/04-use-of-exchange-rates.pdf'],
+      ['Cabinet Decision No. 40 of 2017 on administrative penalties, as consolidated November 2025 — Table 3', 'https://tax.gov.ae/Datafolder/Files/Legislation/2025/Cabinet%20Decision%20No.%2040%20of%202017%20and%20its%20amendments%20-%20publishing%2011%202025.pdf'],
+      ['UAE Electronic Invoicing Guidelines V1.1 (Ministry of Finance, 1 June 2026), §12.2 — rounding at invoice level', 'https://mof.gov.ae/wp-content/uploads/2026/06/UAE-Electronic-Invoicing-Guidelines_V-1.1-01June2026.pdf'],
+    ],
+  },
 ];
 
 // Tools that live on other pages, listed on the hub so it is a real index.
@@ -112,13 +152,13 @@ function ToolsHubPage({ onNav }) {
 
       <section className="section section--off">
         <div className="container">
-          <div className="section-head"><div className="section-head__eyebrow">Calculators and checkers</div><h2>Five questions, answered from the text.</h2></div>
+          <div className="section-head"><div className="section-head__eyebrow">Calculators and checkers</div><h2>{['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'][TOOLS.length + HUB_ALSO.length - 1]} questions, answered from the text.</h2></div>
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             {TOOLS.map((t) => card(t.page, 'calculator', t.name, t.hubLine, t.needs, pathForPage(t.page), (e) => go(e, t.page), 'New'))}
             {HUB_ALSO.map((t) => card(t.name, t.icon, t.name, t.line, t.needs, t.insight ? pathForInsight(t.insight) : pathForPage(t.page), (e) => go(e, t.page, t.insight), null))}
           </div>
           <p style={{ margin: '26px 0 0', fontSize: 14, color: 'var(--aa-steel-700)', maxWidth: 720, lineHeight: 1.6 }}>
-            Next in the set: a VAT calculator that shows its formula, a Corporate Tax deadline calculator that takes the year-end and the incorporation date, and a penalty calculator. Each will be built the same way.
+            Next in the set: a Corporate Tax deadline calculator that takes the year-end and the incorporation date, a penalty calculator, and an invoice mode for the VAT calculator that carries both rounding conventions. Each will be built the same way.
           </p>
         </div>
       </section>
@@ -526,11 +566,133 @@ function GratuityToolBody({ onNav, tool }) {
   );
 }
 
+function VatToolBody({ onNav, tool }) {
+  // Integer fils throughout — no floating-point rounding surprises — with the
+  // FTA's half-up tie-break. Helpers come from the chunk prelude: AA_TOOL_INPUT,
+  // AA_TOOL_LABEL, goContact, pathForPage.
+  const toFils = (s) => { const n = parseFloat(String(s).replace(/[^0-9.]/g, '')); return isFinite(n) ? Math.round(n * 100) : NaN; };
+  const addVat = (net) => { const vat = Math.floor((net * 5 + 50) / 100); return { net, vat, gross: net + vat, tie: (net * 5) % 100 === 50 }; };       // Art. 3: 5% of the value; half up (VATG001 §12.3.4)
+  const extractVat = (gross) => { const vat = Math.floor((gross * 10 + 105) / 210); return { gross, vat, net: gross - vat, tie: false }; };            // Art. 34(1): value = consideration less tax → VAT = gross × 5/105 = gross ÷ 21
+  const aed = (f) => 'AED ' + Math.floor(f / 100).toLocaleString('en-US') + '.' + String(f % 100).padStart(2, '0');
+  const plain = (f) => (f / 100).toFixed(2);
+
+  const uid = React.useId();
+  // Fixed example at rest — the FTA's own worked example (AED 220 including VAT).
+  const [mode, setMode] = React.useState('extract');
+  const [amt, setAmt] = React.useState('220.00');
+  const fired = React.useRef(false);
+  const touch = () => { if (!fired.current) { fired.current = true; if (window.gtag) window.gtag('event', 'tool_result', { tool: 'vat' }); } };
+  React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+
+  const f = toFils(amt);
+  const valid = !isNaN(f) && f >= 0;
+  const r = valid ? (mode === 'add' ? addVat(f) : extractVat(f)) : null;
+  const exact = r ? (mode === 'add' ? r.net * 5 / 10000 : r.gross / 21 / 100) : 0;
+
+  const Row = ({ k, v, strong }) => (
+    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.1)', fontSize: 13.5 }}>
+      <span style={{ color: strong ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: strong ? 600 : 400 }}>{k}</span>
+      <span className="mono" style={{ color: '#fff', fontWeight: strong ? 600 : 400 }}>{v}</span>
+    </div>
+  );
+  const Note = ({ warn, children }) => (
+    <div style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.55, padding: '9px 11px', borderLeft: '3px solid ' + (warn ? '#F0C265' : 'var(--aa-cyan)'), background: 'rgba(255,255,255,0.06)', color: '#fff' }}>{children}</div>
+  );
+  const hint = (t) => <p style={{ fontSize: 11.5, color: 'var(--aa-steel)', margin: '5px 0 0', lineHeight: 1.45 }}>{t}</p>;
+  const formulaLines = !r ? [] : mode === 'add'
+    ? ['VAT   = net × 5 ÷ 100   = ' + plain(r.net) + ' × 0.05 = ' + exact.toFixed(4) + ' → ' + plain(r.vat),
+       'Gross = net + VAT        = ' + plain(r.net) + ' + ' + plain(r.vat) + ' = ' + plain(r.gross),
+       'Excel   =ROUND(A2*5%,2)']
+    : ['VAT = gross × 5 ÷ 105 = gross ÷ 21 = ' + plain(r.gross) + ' ÷ 21 = ' + exact.toFixed(4) + ' → ' + plain(r.vat),
+       'Net = gross − VAT       = ' + plain(r.gross) + ' − ' + plain(r.vat) + ' = ' + plain(r.net),
+       'Excel   =ROUND(A2/21,2)   =A2-ROUND(A2/21,2)'];
+
+  return (
+    <div>
+      <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+        <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
+          <div className="eyebrow" style={{ marginBottom: 18 }}>Work it out</div>
+          <label htmlFor={uid + '-mode'} style={AA_TOOL_LABEL}>What do you have?</label>
+          <select id={uid + '-mode'} style={AA_TOOL_INPUT} value={mode} onChange={(e) => { setMode(e.target.value); touch(); }}>
+            <option value="extract">A gross amount — take the VAT out</option>
+            <option value="add">A net amount — add 5%</option>
+          </select>
+          {hint('An advertised or published price is a gross amount by law (Article 38), so “take the VAT out” is the mode that matches a price tag.')}
+          <div style={{ marginTop: 16 }}>
+            <label htmlFor={uid + '-amt'} style={AA_TOOL_LABEL}>Amount (AED)</label>
+            <input id={uid + '-amt'} style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)', fontSize: 18 }} inputMode="decimal" value={amt} onChange={(e) => { setAmt(e.target.value); touch(); }} placeholder="e.g. 1,050.00" />
+            {hint('Dirhams, to two decimals. Another currency converts at the Central Bank rate on the date of supply first (Article 69).')}
+          </div>
+          {r ? (
+            <div className="mono" style={{ marginTop: 18, fontSize: 12.5, lineHeight: 1.75, background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: '12px 14px', whiteSpace: 'pre-wrap', color: 'var(--aa-charcoal-800)' }}>
+              {formulaLines.join('\n')}
+            </div>
+          ) : null}
+          <p style={{ margin: '16px 0 0', fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.5 }}>
+            The figures shown are the FTA’s own worked example until you change them. Nothing you type leaves your browser.
+          </p>
+        </div>
+
+        <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', minHeight: 300 }} aria-live="polite">
+          {!r ? (
+            <div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>VAT</div>
+              <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>—</div>
+              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginTop: 12 }}>Enter an amount in dirhams.</p>
+            </div>
+          ) : (
+            <div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>{mode === 'add' ? 'VAT to add' : 'VAT inside the amount'}</div>
+              <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>{aed(r.vat)}</div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>
+                {mode === 'add' ? 'on a net amount of ' + aed(r.net) : 'in a gross amount of ' + aed(r.gross)} · rounded half up to the fils
+              </div>
+              <div style={{ marginTop: 16, borderTop: '1px solid rgba(255,255,255,0.14)' }}>
+                <Row k="Net — the value of the supply (Art. 34(1))" v={aed(r.net)} />
+                <Row k="VAT at 5% (Art. 3)" v={aed(r.vat)} />
+                <Row k="Gross — the consideration" v={aed(r.gross)} strong />
+              </div>
+              {r.tie ? <Note warn>Exact half-fils: 5% of {aed(r.net)} is {exact.toFixed(3)}. Half up takes it to {aed(r.vat)}, the FTA’s stated tie-break; banker’s rounding would give {aed(r.vat - ((r.vat % 2) ? 1 : 0))}, which is why tools can differ by one fils on cases like this.</Note> : null}
+              <Note>Rounding to the nearest fils is permitted by Article 61 of the Executive Regulation and expected by the FTA. The other side is derived from the rounded VAT, so the three figures always re-add.</Note>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', borderTop: 0, background: 'var(--aa-surface-off)' }}>
+        <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
+          <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>One amount at a time, on purpose</div>
+          <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: '0 0 12px' }}>
+            On a full tax invoice on paper, the FTA’s Public Clarification VATP006 calculates the tax line by line and rounds each line. On an electronic invoice, the Ministry of Finance’s June 2026 guidelines round at the invoice-level total only. Three lines of AED 33.33 give AED 5.01 one way and AED 5.00 the other. An invoice mode that carries both conventions is the next thing this page will do; until then it computes one amount and shows every step.
+          </p>
+          <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: 0 }}>
+            The FTA’s own website has a two-field calculator that adds 5% or extracts 5/105. It shows the figures; this page shows the working and the sources. Neither is “approved” — the arithmetic follows from Articles 3 and 34(1).
+          </p>
+        </div>
+        <div style={{ padding: 32, background: '#fff' }}>
+          <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>If the invoices are yours to file</div>
+          <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: '0 0 16px' }}>
+            The sum is the easy part. The return is the VAT on every line of every invoice, reconciled to the books, filed within 28 days of the period end. We run that cycle as a partner-reviewed quarterly engagement.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <a className="btn btn--primary" href={pathForPage('service-vat-filing')} onClick={(e) => { e.preventDefault(); onNav('service-vat-filing'); }}>VAT return filing <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></a>
+            <a className="btn btn--ghost" href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }}>Do I need to register?</a>
+          </div>
+          <p style={{ margin: '16px 0 0', fontSize: 13 }}>
+            Or <a href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact(tool.intent, onNav); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>talk to us →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Registry: slug -> body. scripts/build.mjs reads this to split each body into
 // dist/tools/<slug>.<hash>.js and replaces it with a proxy over the chunks
 // that have registered at runtime. Keep the quoting exactly like this.
 const TOOL_BODIES = {
   'gratuity-calculator': GratuityToolBody,
+  'vat-calculator': VatToolBody,
 };
 
 Object.assign(window, { ToolsHubPage, ToolPage });

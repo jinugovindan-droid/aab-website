@@ -56,6 +56,7 @@ const PAGE_LABELS = {
   terms: '12 Terms',
   tools: '13 Tools',
   'tool-gratuity': '13 Tool · Gratuity Calculator',
+  'tool-vat': '13 Tool · VAT Calculator',
 };
 
 const { pageFromPath, pathForPage, pathForInsight, insightSlugFromPath, applyPageMeta, redirectLegacyHash, VALID_PAGES } = window.AARoutes;
@@ -217,7 +218,8 @@ function AppRoot() {
       case 'privacy': return <PrivacyPolicyPage onNav={navigateTo}/>;
       case 'terms': return <TermsPage onNav={navigateTo}/>;
       case 'tools': return <ToolsHubPage onNav={navigateTo}/>;
-      case 'tool-gratuity': return <ToolPage page={page} onNav={navigateTo}/>;
+      case 'tool-gratuity':
+      case 'tool-vat': return <ToolPage page={page} onNav={navigateTo}/>;
       default: return <HomePage onNav={navigateTo}/>;
     }
   };

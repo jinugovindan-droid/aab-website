@@ -22,6 +22,12 @@ const W = 1200, H = 630;
 // card (short, high contrast at thumbnail size), not copied from the <h1>.
 const CARDS = {
   // Tool page (not an article): prerender.py looks for assets/og/page-<id>.jpg.
+  'tool-vat': {
+    out: 'page-tool-vat',
+    kicker: 'UAE VAT calculator · Decree-Law 8 of 2017',
+    headline: 'Add 5%. Or take it out. Shown working.',
+    sub: 'Rounded to the fils the way the FTA describes, every rule cited',
+  },
   'tool-gratuity': {
     out: 'page-tool-gratuity',
     kicker: 'UAE gratuity calculator · Decree-Law 33 of 2021',

@@ -49,6 +49,7 @@
     terms: '/terms',
     tools: '/tools',
     'tool-gratuity': '/tools/gratuity-calculator',
+    'tool-vat': '/tools/vat-calculator',
   };
 
   const PATH_ALIASES = {
@@ -57,7 +58,7 @@
 
   // Tool pages load their body from dist/tools/<slug>.<hash>.js (scripts/build.mjs).
   // page id -> chunk slug. Keep in sync with prerender.py's mirror.
-  const TOOL_SLUGS = { 'tool-gratuity': 'gratuity-calculator' };
+  const TOOL_SLUGS = { 'tool-gratuity': 'gratuity-calculator', 'tool-vat': 'vat-calculator' };
 
   // 'insight' is a valid page id (single-article view) but has no fixed entry in
   // PAGE_TO_PATH — its URL is /insights/<slug>, resolved via pathForInsight().
@@ -500,6 +501,10 @@
       title: 'Free UAE Tax & Finance Calculators — Authentic Accounting',
       description: 'Free calculators built from the law they apply: UAE gratuity, Corporate Tax estimate, VAT registration check, supplier verification and e-invoicing readiness.',
     },
+    'tool-vat': {
+      title: 'UAE VAT Calculator — Add or Remove 5%, Rounded to the Fils',
+      description: 'Add 5% or take the VAT out of a gross amount, with the formula shown and rounding to the fils as the FTA describes it, each rule cited to the VAT law.',
+    },
     'tool-gratuity': {
       title: 'UAE Gratuity Calculator 2026 — End-of-Service Benefits',
       description: 'UAE gratuity under Decree-Law 33 of 2021, each figure cited to its article: 21 and 30 days of basic wage, the cap, part-time, and the monthly provision to book.',
@@ -580,7 +585,7 @@
     'location-ras-al-khaimah': 'Ras Al Khaimah', 'location-fujairah': 'Fujairah', 'location-umm-al-quwain': 'Umm Al Quwain',
     insights: 'Insights', careers: 'Careers', contact: 'Contact',
     privacy: 'Privacy Policy', terms: 'Terms of Use',
-    tools: 'Tools', 'tool-gratuity': 'UAE Gratuity Calculator',
+    tools: 'Tools', 'tool-gratuity': 'UAE Gratuity Calculator', 'tool-vat': 'UAE VAT Calculator',
   };
 
   const MONTHS = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
@@ -861,6 +866,28 @@
       a: 'A voluntary scheme under Cabinet Resolution No. 96 of 2023 in which the employer pays monthly contributions into an approved investment fund — 5.83% of basic wage for service under five years and 8.33% after — instead of accruing a gratuity. Benefits accrued under the Decree-Law before joining are calculated at that date, on the basic wage at that time, and paid when employment ends.' },
   ];
 
+  // VAT calculator FAQ — mirrors the questions people type around "vat calculator uae".
+  // Keep in sync with prerender.py's mirror.
+  const VAT_CALC_FAQ = [
+    { q: 'What is the VAT rate in the UAE?',
+      a: '5%, charged on the value of the supply — Article 3 of Federal Decree-Law No. 8 of 2017 — since 1 January 2018. It is a federal tax, so the rate is the same in Dubai, Abu Dhabi and every emirate (the law’s “State” is the United Arab Emirates). The 2024 and 2026 amendments to the Decree-Law did not touch Article 3: the FTA’s own list of amended articles in Public Clarification VATP046 omits it.' },
+    { q: 'How do I add 5% VAT to an amount?',
+      a: 'VAT = net × 5 ÷ 100, and the gross is the net plus that VAT. On AED 1,000 the VAT is AED 50 and the customer pays AED 1,050. In Excel: =ROUND(A2*5%,2), rounding to the fils as the FTA describes.' },
+    { q: 'How do I calculate the VAT included in a total?',
+      a: 'Article 34(1) of the Decree-Law defines the value of a supply as the consideration less the tax, so the VAT inside a gross amount is gross × 5 ÷ 105 — which the FTA’s Taxable Person Guide writes as gross ÷ 21. The net is the gross less that VAT. Taking 5% of the total instead overstates the tax: AED 1,000 including VAT holds AED 47.62 of tax, not AED 50. In Excel: =ROUND(A2/21,2).' },
+    { q: 'Do I round VAT up or down?',
+      a: 'To the nearest fils, and a half rounds up. Article 61 of the Executive Regulation permits rounding the tax on a supply to the nearest fils on a mathematical basis; the FTA’s Taxable Person Guide states the tie-break — a fraction of a half or more rounds up, less than a half rounds down. The FTA’s examples in Public Clarification VATP006: 2.357 becomes 2.36, 9.862 becomes 9.86. Rounding a bill to 25 fils is coin practice, not VAT.' },
+    { q: 'Is VAT rounded per line or on the invoice total?',
+      a: 'It depends on the invoice. For a full tax invoice on paper, the FTA’s Public Clarification VATP006 says the tax is calculated line by line, so any rounding is done line by line too; a simplified tax invoice shows one gross total and one VAT figure. For electronic invoices, the Ministry of Finance’s e-invoicing guidelines (June 2026) say rounding applies at the invoice-level total only, not per line or per tax category. The two conventions can differ by a fils on the same invoice, which is why this calculator works one amount at a time and says so.' },
+    { q: 'Do displayed prices have to include VAT?',
+      a: 'Yes. Article 38 of the Decree-Law requires the advertised price of a taxable supply to include the tax, and Article 27 of the Executive Regulation allows an exclusive price only for exports and for customers who are registrants, and then only if the price is clearly identified as exclusive. Failing to display inclusive prices carries an administrative penalty of AED 5,000 under Cabinet Decision No. 40 of 2017 as amended.' },
+    { q: 'Is “reverse VAT” the same as the reverse charge?',
+      a: 'No. “Reverse VAT” is what people call taking the tax out of a gross amount — the ÷ 21 arithmetic above. The reverse charge is Article 48 of the Decree-Law: a business importing concerned goods or services accounts for the tax itself, at 5% on the value of the supply (Article 34(3)), so it adds tax rather than extracting it. From 1 January 2026 the article says the importer does this “with the exception of issuing a Tax Invoice to himself”.' },
+    { q: 'Does the FTA have its own VAT calculator?',
+      a: 'Yes. The FTA’s website carries a two-field calculator: type a before-tax amount and it adds 5%; type an after-tax amount and it extracts 5/105. It shows the figures without the formula or a rounding statement. This page does the same arithmetic and shows its working and its sources; neither is “approved” — the arithmetic follows from Articles 3 and 34(1).' },
+    { q: 'Can I invoice in US dollars?',
+      a: 'You can price in another currency, but Article 69 of the Decree-Law requires the tax invoice to state the amount converted to dirhams at the Central Bank of the UAE rate on the date of supply, and Article 59(1)(k) of the Executive Regulation requires the invoice to show the tax in AED together with the exchange rate applied. Public Clarification VATP004 explains which rate to use. This calculator works in dirhams; convert first.' },
+  ];
   function breadcrumbChain(page, slug) {
     const items = [{ name: 'Home', url: SITE_ORIGIN + '/' }];
     if (page === 'home') return items;
@@ -1196,6 +1223,11 @@
   // crawlable body. Facts mirror the QC'd page content (thresholds, deadlines).
   // Keep in sync with prerender.py's mirror.
   const ANSWER_FIRST = {
+    'tool-vat': {
+      h: 'How do you calculate 5% VAT in the UAE?',
+      text:
+      'Add 5% to a net amount: VAT = net × 5 ÷ 100. Take the VAT out of a gross amount: VAT = gross × 5 ÷ 105, which is gross ÷ 21 — because Article 34(1) of the VAT Decree-Law defines the value of a supply as the consideration less the tax. Round to the nearest fils, half up: the Executive Regulation permits it and the FTA’s guide states the tie-break. Advertised prices include VAT (Article 38). This calculator does both, shows the formula, and cites each rule.',
+    },
     'tool-gratuity': {
       h: 'How is end-of-service gratuity calculated in the UAE?',
       text:
@@ -1288,6 +1320,12 @@
   // links to /insights/<target> and kind 'page' links to pathForPage(target).
   // Keep in sync with prerender.py's mirror.
   const RELATED_READING = {
+    'tool-vat': [
+      ['page', 'service-vat-filing', 'VAT return filing'],
+      ['page', 'service-vat', 'VAT registration checker'],
+      ['page', 'tool-gratuity', 'UAE gratuity calculator'],
+      ['insight', 'uae-vat-5-percent-primer', 'The 5% VAT primer'],
+    ],
     'tool-gratuity': [
       ['page', 'service-bookkeeping', 'Bookkeeping & payroll'],
       ['page', 'service-corporate-tax', 'Corporate Tax estimator'],
@@ -1297,6 +1335,7 @@
     'service-vat': [
       ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
       ['insight', 'uae-vat-5-percent-primer', 'The 5% VAT primer'],
+      ['page', 'tool-vat', 'UAE VAT calculator'],
       ['insight', 'designated-zone-reclassification', 'Designated zones & VAT'],
     ],
     'service-corporate-tax': [
@@ -1468,7 +1507,7 @@
 
   // Single source for FAQPage JSON-LD + visible page Q&A (templates read it via
   // window.AARoutes.FAQ_BY_PAGE). Keep in sync with prerender.py's mirror.
-  const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ, 'service-ct-filing': CT_FILING_FAQ, 'service-vat-filing': VAT_FILING_FAQ, 'service-vat-refund': VAT_REFUND_FAQ, 'service-tax-advisory': TAX_ADVISORY_FAQ, 'location-abu-dhabi': LOC_ABUDHABI_FAQ, 'location-sharjah': LOC_SHARJAH_FAQ, 'location-ajman': LOC_AJMAN_FAQ, 'location-ras-al-khaimah': LOC_RAK_FAQ, 'location-fujairah': LOC_FUJAIRAH_FAQ, 'location-umm-al-quwain': LOC_UAQ_FAQ, 'einv-deadline': EINV_DEADLINE_FAQ, 'service-transfer-pricing': TRANSFER_PRICING_FAQ, 'service-vat-registration': VAT_REGISTRATION_FAQ, 'services': SERVICES_HUB_FAQ, 'industries': INDUSTRIES_HUB_FAQ, 'industry-real-estate': IND_REALESTATE_FAQ, 'industry-construction': IND_CONSTRUCTION_FAQ, 'industry-trading': IND_TRADING_FAQ, 'industry-hospitality': IND_HOSPITALITY_FAQ, 'industry-ecommerce': IND_ECOMMERCE_FAQ, 'industry-manufacturing': IND_MANUFACTURING_FAQ, 'tool-gratuity': GRATUITY_FAQ };
+  const FAQ_BY_PAGE = { 'e-invoicing': EINVOICE_FAQ, 'service-corporate-tax': CORPTAX_FAQ, 'service-bookkeeping': BOOKKEEPING_FAQ, 'service-audit-support': AUDIT_FAQ, 'service-valuations': VALUATIONS_FAQ, 'service-transaction-advisory': TRANSACTION_FAQ, 'service-cfo': CFO_FAQ, 'service-financial-statements': FS_FAQ, 'service-tax-planning': TAXPLAN_FAQ, 'service-vat': VAT_FAQ, 'service-fixed-asset-tagging': FIXED_ASSET_FAQ, 'service-forensic-accounting': FORENSIC_FAQ, 'service-internal-controls': CONTROLS_FAQ, 'service-financial-modelling': MODELLING_FAQ, 'service-feasibility-studies': FEASIBILITY_FAQ, 'service-strategic-advisory': STRATEGIC_FAQ, 'service-ct-filing': CT_FILING_FAQ, 'service-vat-filing': VAT_FILING_FAQ, 'service-vat-refund': VAT_REFUND_FAQ, 'service-tax-advisory': TAX_ADVISORY_FAQ, 'location-abu-dhabi': LOC_ABUDHABI_FAQ, 'location-sharjah': LOC_SHARJAH_FAQ, 'location-ajman': LOC_AJMAN_FAQ, 'location-ras-al-khaimah': LOC_RAK_FAQ, 'location-fujairah': LOC_FUJAIRAH_FAQ, 'location-umm-al-quwain': LOC_UAQ_FAQ, 'einv-deadline': EINV_DEADLINE_FAQ, 'service-transfer-pricing': TRANSFER_PRICING_FAQ, 'service-vat-registration': VAT_REGISTRATION_FAQ, 'services': SERVICES_HUB_FAQ, 'industries': INDUSTRIES_HUB_FAQ, 'industry-real-estate': IND_REALESTATE_FAQ, 'industry-construction': IND_CONSTRUCTION_FAQ, 'industry-trading': IND_TRADING_FAQ, 'industry-hospitality': IND_HOSPITALITY_FAQ, 'industry-ecommerce': IND_ECOMMERCE_FAQ, 'industry-manufacturing': IND_MANUFACTURING_FAQ, 'tool-gratuity': GRATUITY_FAQ, 'tool-vat': VAT_CALC_FAQ };
 
   function buildJsonLd(page, slug) {
     const blocks = [];
@@ -1754,6 +1793,7 @@
     TAX_ADVISORY_FAQ,
     FAQ_BY_PAGE,
     GRATUITY_FAQ,
+    VAT_CALC_FAQ,
     TOOL_SLUGS,
     ANSWER_FIRST,
     RELATED_READING,

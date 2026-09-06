@@ -277,6 +277,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.aaccounting.me/tools/vat-calculator</loc>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.aaccounting.me/insights/uae-tax-changes-october-2026</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>

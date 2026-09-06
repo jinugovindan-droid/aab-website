@@ -28,6 +28,17 @@ const W = 1200, H = 1200;
 // fastest thing a reader can absorb. Keep `note` under ~46 characters or it
 // wraps and the card stops being glanceable.
 const CARDS = {
+  'tool-vat': {
+    eyebrow: 'UAE VAT · 5% SINCE 1 JANUARY 2018',
+    headline: 'A VAT calculator<br>that shows its working',
+    chip: 'FREE · DECREE-LAW 8 OF 2017',
+    rows: [
+      { k: '× 5 ÷ 100', note: 'Add VAT to a net amount (Article 3).' },
+      { k: '÷ 21', note: 'Take the VAT out of a gross amount (Article 34(1)).' },
+      { k: '0.005 ↑', note: 'A half-fils rounds up — the FTA\u2019s own tie-break.' },
+    ],
+    kicker: 'Two conventions for invoices, one calculator that says which is which.',
+  },
   'tool-gratuity': {
     eyebrow: 'UAE LABOUR LAW · END-OF-SERVICE GRATUITY',
     headline: 'A gratuity calculator<br>that cites the article',

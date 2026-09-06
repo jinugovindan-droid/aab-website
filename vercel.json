@@ -125,6 +125,21 @@
       "source": "/go/gratuity-li-page",
       "destination": "/tools/gratuity-calculator?utm_source=linkedin&utm_medium=social&utm_campaign=gratuity-tool&utm_content=company-page",
       "permanent": false
+    },
+    {
+      "source": "/go/vat",
+      "destination": "/tools/vat-calculator?utm_source=campaign&utm_medium=whatsapp&utm_campaign=vat-tool&utm_content=broadcast",
+      "permanent": false
+    },
+    {
+      "source": "/go/vat-li",
+      "destination": "/tools/vat-calculator?utm_source=linkedin&utm_medium=social&utm_campaign=vat-tool&utm_content=founder-post",
+      "permanent": false
+    },
+    {
+      "source": "/go/vat-li-page",
+      "destination": "/tools/vat-calculator?utm_source=linkedin&utm_medium=social&utm_campaign=vat-tool&utm_content=company-page",
+      "permanent": false
     }
   ],
   "headers": [
