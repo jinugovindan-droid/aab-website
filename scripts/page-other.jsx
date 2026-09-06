@@ -1815,6 +1815,87 @@ function SupplierVerificationBody({ onNav }) {
     </figure>
   );
 
+  // Inline calculator. It lives inside the article body on purpose, so it
+  // travels in this article's chunk rather than the shared bundle, and so the
+  // reader answers their own question at the moment they are asking it —
+  // GA showed hundreds of article readers and almost no traffic reaching the
+  // tool pages, which is the gap this closes.
+  const SupplierCheckTool = () => {
+    const [spend, setSpend] = React.useState('');
+    const [invoice, setInvoice] = React.useState('');
+    const num = (s) => { const n = Number(String(s).replace(/[^0-9.]/g, '')); return isFinite(n) ? n : 0; };
+    const money = (n) => 'AED ' + Math.round(n).toLocaleString('en-AE');
+    const sp = num(spend), inv = num(invoice);
+    const touched = spend.trim() !== '' || invoice.trim() !== '';
+
+    // Article 6(2) switches off the Article 6(1) exception once the rolling
+    // supplier aggregate exceeds AED 100,000 — the interaction most readers miss.
+    const over100 = sp > 100000;
+    const over375 = sp > 375000;
+    const underTen = inv > 0 && inv < 10000;
+    const exempt = underTen && !over100;
+
+    const verdict = exempt
+      ? { tone: 'clear', head: 'Nothing to do for this supply',
+          body: 'Under AED 10,000 and your rolling spend with this supplier stays under AED 100,000, so Article 6(1) lets you disregard the whole Decision for it — supplier checks included.' }
+      : over375
+        ? { tone: 'high', head: 'Full check, plus the two extras',
+            body: 'Spend above AED 375,000 adds a written confirmation from a UAE bank that the supplier holds an account, and a documented review of public reviews and media coverage — on top of the Article 3 supplier file and the Article 4 checks on this invoice.' }
+        : { tone: 'mid', head: 'The full check applies',
+            body: over100 && underTen
+              ? 'This supply is under AED 10,000, but your rolling spend with this supplier exceeds AED 100,000 — which switches that exception off completely. Article 3 supplier file and Article 4 checks are required for this invoice, and for every one after it.'
+              : 'Article 3 supplier file — identity, place of business, risk indicators, refreshed every 12 months — plus the Article 4 checks on this invoice.' };
+
+    const tones = {
+      clear: { bg: '#F2FAF5', br: '#86C7A4', fg: '#1B6E45' },
+      mid:   { bg: '#F7F8F9', br: '#9AA3AF', fg: '#1A1A2E' },
+      high:  { bg: '#ECF7FC', br: '#00B0F0', fg: '#125A79' },
+    };
+    const t = tones[verdict.tone];
+    const inputStyle = { width: '100%', padding: '11px 13px', border: '1px solid var(--aa-rule)', borderRadius: 4, fontSize: 16, fontFamily: 'var(--aa-font-mono, monospace)', background: '#fff', color: 'var(--aa-charcoal)' };
+    const labelStyle = { display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 7 };
+
+    return (
+      <div style={{ margin: '34px 0 38px', border: '1px solid var(--aa-rule)', borderRadius: 4, overflow: 'hidden' }}>
+        <div style={{ background: 'var(--aa-charcoal)', padding: '16px 22px' }}>
+          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', margin: 0 }}>Check one supplier</div>
+          <p style={{ margin: '6px 0 0', color: 'rgba(255,255,255,0.82)', fontSize: 14, lineHeight: 1.5 }}>
+            Two numbers decide how much of this Decision applies to a purchase. Nothing is sent anywhere.
+          </p>
+        </div>
+        <div style={{ padding: 22, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+          <div>
+            <label htmlFor="aa-sc-spend" style={labelStyle}>Rolling 12-month spend with this supplier</label>
+            <input id="aa-sc-spend" style={inputStyle} inputMode="numeric" value={spend}
+              onChange={(e) => setSpend(e.target.value)} placeholder="e.g. 120,000" />
+            <p style={{ fontSize: 11.5, color: 'var(--aa-steel)', margin: '6px 0 0' }}>Past 12 months, or what you expect over the next 12.</p>
+          </div>
+          <div>
+            <label htmlFor="aa-sc-invoice" style={labelStyle}>This invoice, VAT-exclusive</label>
+            <input id="aa-sc-invoice" style={inputStyle} inputMode="numeric" value={invoice}
+              onChange={(e) => setInvoice(e.target.value)} placeholder="e.g. 8,000" />
+            <p style={{ fontSize: 11.5, color: 'var(--aa-steel)', margin: '6px 0 0' }}>The consideration, not the invoice total.</p>
+          </div>
+        </div>
+        {touched ? (
+          <div style={{ margin: '0 22px 22px', padding: '18px 20px', background: t.bg, borderLeft: '3px solid ' + t.br, borderRadius: 4 }}>
+            <div style={{ fontFamily: 'var(--aa-font-display)', fontSize: 21, color: t.fg, textTransform: 'uppercase', letterSpacing: '0.01em' }}>{verdict.head}</div>
+            <p style={{ margin: '9px 0 0', fontSize: 15, lineHeight: 1.6, color: 'var(--aa-charcoal-800)' }}>{verdict.body}</p>
+            <p style={{ margin: '12px 0 0', fontSize: 12.5, color: 'var(--aa-steel)' }}>
+              Spend {money(sp)} · invoice {money(inv)} · thresholds AED 10,000 per supply, AED 100,000 and AED 375,000 per supplier over 12 months.
+            </p>
+          </div>
+        ) : null}
+        <div style={{ padding: '0 22px 22px' }}>
+          <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: 'var(--aa-charcoal-800)' }}>
+            Doing this for one supplier is arithmetic. Doing it across a purchase ledger, before 1&nbsp;October, is the work.
+            We run the rolling 12-month analysis and draft the Article&nbsp;5(4) policy. {link('contact', 'Talk to us →')}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   const Decision13Timeline = () => (
     <figure className="aa-figwide" style={FIG}>
       <div style={{ overflowX: 'auto' }}>
@@ -1923,6 +2004,8 @@ function SupplierVerificationBody({ onNav }) {
       <p>And where the exception does apply, it disapplies the <strong>whole</strong> Decision, not just the invoice-level checks. The mirror of that is the trap &mdash; once AED&nbsp;100,000 is crossed, supplier onboarding becomes due too, even for the small invoices.</p>
 
       <ThresholdFlow />
+
+      <SupplierCheckTool />
 
       <div style={{ marginTop: 28, padding: '20px 22px', background: 'var(--aa-cyan-050)', borderLeft: '3px solid var(--aa-cyan)', borderRadius: 4 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 10 }}>Three different AED 375,000s</div>
