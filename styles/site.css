@@ -313,8 +313,8 @@ main:focus { outline: none; }
   width: 100%;
   padding: 12px 14px;
   font-family: var(--aa-font-sans);
-  font-size: 14px;
-  border: 1px solid var(--aa-steel-200);
+  font-size: 16px;              /* below 16px iOS Safari zooms on focus */
+  border: 1px solid var(--aa-border-control);
   border-radius: 2px;
   background: #fff;
   color: var(--aa-charcoal);

@@ -35,7 +35,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
   const [done, setDone] = React.useState(false);
   const [sentOk, setSentOk] = React.useState(true);
   const upd = (k) => (e) => { const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; setF((p) => ({ ...p, [k]: v })); };
-  const inS = { width: '100%', padding: '10px 12px', fontSize: 15, border: '1px solid var(--aa-rule-strong)', boxSizing: 'border-box', background: '#fff', fontFamily: 'var(--aa-font-sans)' };
+  const inS = { width: '100%', padding: '10px 12px', fontSize: 16, border: '1px solid var(--aa-border-control)', boxSizing: 'border-box', background: '#fff', fontFamily: 'var(--aa-font-sans)' };
   const laS = { display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 6 };
   const lbl = { yes: 'Yes', no: 'No', unsure: 'Not sure', appointed: 'Appointed', evaluating: 'Evaluating' };
   const b2bLbl = { b2bg: 'B2B and/or B2G', mix: 'Business & consumers', b2c: 'Only B2C (consumers)' };

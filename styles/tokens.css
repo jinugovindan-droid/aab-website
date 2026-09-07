@@ -42,6 +42,10 @@
   --aa-surface-raised:  #FFFFFF;  /* Cards, tiles */
   --aa-rule:            #E4E5E7;  /* Rule lines, thin dividers */
   --aa-rule-strong:     #C7C8CA;  /* Stronger divider for tables */
+  /* Form-control boundary. WCAG 1.4.11 wants 3:1 against the surface; the
+     divider greys above are 1.67:1 and are deliberately left alone — they
+     are decoration, not controls. 3.16:1 on white, 3.03:1 on off-white. */
+  --aa-border-control:  #8E9196;
 
   /* Data / status (derived only from palette) */
   --aa-data-primary:    var(--aa-cyan);

@@ -177,7 +177,7 @@ async function aaBuildBrandedPdf(cfg) {
 }
 
 // Shared input styles for the lead tools.
-const AA_TOOL_INPUT = { width: '100%', padding: '10px 12px', fontSize: 15, border: '1px solid var(--aa-rule-strong)', boxSizing: 'border-box', background: '#fff', fontFamily: 'var(--aa-font-sans)' };
+const AA_TOOL_INPUT = { width: '100%', padding: '10px 12px', fontSize: 16, border: '1px solid var(--aa-border-control)', boxSizing: 'border-box', background: '#fff', fontFamily: 'var(--aa-font-sans)' };
 const AA_TOOL_LABEL = { display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 6 };
 
 function ServicesPage({ onNav }) {
