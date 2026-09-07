@@ -45,7 +45,7 @@ function IndustriesPage({ onNav }) {
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0
               }}>
                 Sector-shaped,<br />but never<br />
-                <span style={{ color: 'var(--aa-cyan)' }}>sector-bound</span>.
+                <span style={{ color: 'var(--aa-cyan-text)' }}>sector-bound</span>.
               </h1>
             </div>
             <p className="muted" style={{ fontSize: 17, lineHeight: 1.6, maxWidth: 460, margin: 0 }}>
@@ -100,7 +100,7 @@ function IndustriesPage({ onNav }) {
                 style={{ textDecoration: 'none', color: 'inherit', padding: 28, borderRight: (i % 3 !== 2) ? '1px solid var(--aa-rule)' : 'none', borderTop: i >= 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
-                <div style={{ marginTop: 'auto', paddingTop: 10, color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 13 }}>Explore →</div>
+                <div style={{ marginTop: 'auto', paddingTop: 10, color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 13 }}>Explore →</div>
               </a>
             ))}
           </div>
@@ -120,7 +120,7 @@ function IndustriesPage({ onNav }) {
                 <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                   <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span>{f.q}</span>
-                    <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
+                    <span style={{ color: 'var(--aa-cyan-text)', flexShrink: 0 }}>+</span>
                   </summary>
                   <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
                 </details>
@@ -161,7 +161,7 @@ function AboutPage({ onNav }) {
             textTransform: 'uppercase', letterSpacing: '0.005em',
             margin: 0, color: '#fff', lineHeight: 1.0, maxWidth: 1100, textWrap: 'balance'
           }}>
-            Many hands. One framework.<br />Built on <span style={{ color: 'var(--aa-cyan)' }}>controls</span>.
+            Many hands. One framework.<br />Built on <span style={{ color: 'var(--aa-cyan-text)' }}>controls</span>.
           </h1>
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 64, marginTop: 48 }}>
             <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: 0 }}>
@@ -233,7 +233,7 @@ function AboutPage({ onNav }) {
                   {TRAJ.map(([yr, , label, t, d]) => (
                     <div key={yr} style={{ borderTop: '1px solid var(--aa-rule-strong)' }}>
                       <div style={{ width: 12, height: 12, background: 'var(--aa-cyan)', borderRadius: '50%', marginTop: -6, marginBottom: 14, position: 'relative', zIndex: 1, border: '3px solid var(--aa-surface-off)' }}></div>
-                      <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan)', fontWeight: 600 }}>{yr}</div>
+                      <div className="mono" style={{ fontSize: 13, color: 'var(--aa-cyan-text)', fontWeight: 600 }}>{yr}</div>
                       <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginTop: 6 }}>{t}</div>
                       <div className="mono" style={{ fontSize: 11, color: 'var(--aa-steel-700)', marginTop: 5 }}>{label} engagements / yr</div>
                       <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', marginTop: 6, lineHeight: 1.5 }}>{d}</div>
@@ -264,7 +264,7 @@ function AboutPage({ onNav }) {
             }}>
                 <div style={{
                 width: 64, height: 64,
-                background: 'var(--aa-charcoal)',
+                background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)',
                 color: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 22,
@@ -307,7 +307,7 @@ function AboutPage({ onNav }) {
             ['Quality monitoring', 'Annual cold-file review'],
             ['Whistleblower channel', 'Independent third party']].
             map(([k, v]) =>
-            <div key={k} style={{ background: 'var(--aa-charcoal)', padding: '20px 24px', display: 'flex', justifyContent: 'space-between' }}>
+            <div key={k} style={{ background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', padding: '20px 24px', display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#fff', fontWeight: 500 }}>{k}</span>
                 <span style={{ color: 'var(--aa-cyan-200)', fontFamily: 'var(--aa-font-mono)', fontSize: 13 }}>{v}</span>
               </div>
@@ -365,7 +365,7 @@ function InsightsPage({ onNav }) {
             background: '#fff'
           }}>
             <div style={{
-              background: 'var(--aa-charcoal)',
+              background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)',
               padding: 56,
               display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
               minHeight: 360,
@@ -380,7 +380,7 @@ function InsightsPage({ onNav }) {
                 fontFamily: 'var(--aa-font-display)', fontWeight: 700,
                 fontSize: 280, color: 'rgba(0,176,240,0.08)', lineHeight: 0.85
               }}>9%</div>
-              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', position: 'relative' }}>{featured.tag} · {featured.date}</div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', position: 'relative' }}>{featured.tag} · {featured.date}</div>
               <div style={{ position: 'relative' }}>
                 <div style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 36, textTransform: 'uppercase', letterSpacing: '0.01em', color: '#fff', lineHeight: 1.1, textWrap: 'balance' }}>
                   {featured.title}
@@ -400,7 +400,7 @@ function InsightsPage({ onNav }) {
                 <span className="pill pill--charcoal">Substance</span>
                 <span className="pill pill--charcoal">De minimis</span>
               </div>
-              <span style={{ marginTop: 16, color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14 }}>Read the full note →</span>
+              <span style={{ marginTop: 16, color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14 }}>Read the full note →</span>
             </div>
           </a>
         </div>
@@ -433,7 +433,7 @@ function InsightsPage({ onNav }) {
               minHeight: 220
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                  <span style={{ color: 'var(--aa-cyan)' }}>{a.tag}</span>
+                  <span style={{ color: 'var(--aa-cyan-text)' }}>{a.tag}</span>
                   <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
                 </div>
                 <div style={{ fontSize: 22, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.25, textWrap: 'balance' }}>{a.title}</div>
@@ -499,8 +499,8 @@ const H3 = { fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, 
 // Shared call-to-action that routes readers into the readiness assessment tool.
 function EInvoiceCTA({ onNav }) {
   return (
-    <div style={{ background: 'var(--aa-charcoal)', color: '#fff', padding: 28, marginTop: 40 }}>
-      <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
+    <div style={{ background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', padding: 28, marginTop: 40 }}>
+      <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
       <div style={{ fontSize: 20, fontWeight: 600, lineHeight: 1.3, marginBottom: 8 }}>Find your exact e-invoicing deadline in two minutes.</div>
       <p style={{ margin: '0 0 16px', fontSize: 14, color: 'rgba(255,255,255,0.78)', lineHeight: 1.6 }}>
         Answer a few questions and download your personalised readiness status — your phase, your ASP and go-live dates with live day-counts, and your next steps.
@@ -528,7 +528,7 @@ function EInvoiceGuideLinks({ onNav, current }) {
         {links.map(([slug, label]) => (
           <li key={slug}>
             <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-              style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
+              style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
               {label} →
             </a>
           </li>
@@ -948,12 +948,12 @@ function ChoosingASPBody({ onNav }) {
           At the time of writing (July 2026), the Ministry’s published register — 42 providers at its mid-July update — remains a <strong>pre-approval (Article 15) list</strong>. Individual providers have begun announcing full accreditation (Advintek and Comarch did so in early July 2026), but the Ministry has not yet published an official register of accredited providers — and some earlier &ldquo;accredited&rdquo; marketing in fact referred to pre-approval — so a provider’s Article-16 status still has to be verified individually. Appointing from that list now is exactly what the deadlines anticipate, but make the engagement <strong>accreditation-contingent</strong>: full Article-16 accreditation comfortably before your go-live as a contractual milestone, with exit and migration rights — at no penalty to you — if it is missed. A provider that stalls at the technical stage must be their problem, not yours on go-live morning. Have a lawyer review the engagement terms before you sign.
         </p>
         <p style={{ margin: '14px 0 0', fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.65 }}>
-          <strong>Where to check, in practice:</strong> the public register is the MoF’s pre-approved list at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>mof.gov.ae</a>. Separately, registered businesses can already see the FTA’s operational list inside <strong>EmaraTax</strong> (e-Invoicing → onboarding) — the interface you will actually select and link your provider through. When we checked on <strong>18 July 2026</strong>, that list showed <strong>38 entries</strong> (one of them an FTA test row) under the FTA’s “Accredited Service Providers” heading, against the MoF’s 42 pre-approved names — while the portal still described provider onboarding as in progress. In practice, <strong>EmaraTax is the closest thing to an accredited list available today</strong>, but it is an operational onboarding view, not the official register; the MoF page remains the public pre-approval register, and the two do not fully match. Ask your shortlisted provider for written confirmation of its Article-16 accreditation, check both places at signing, and re-check before go-live.
+          <strong>Where to check, in practice:</strong> the public register is the MoF’s pre-approved list at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>mof.gov.ae</a>. Separately, registered businesses can already see the FTA’s operational list inside <strong>EmaraTax</strong> (e-Invoicing → onboarding) — the interface you will actually select and link your provider through. When we checked on <strong>18 July 2026</strong>, that list showed <strong>38 entries</strong> (one of them an FTA test row) under the FTA’s “Accredited Service Providers” heading, against the MoF’s 42 pre-approved names — while the portal still described provider onboarding as in progress. In practice, <strong>EmaraTax is the closest thing to an accredited list available today</strong>, but it is an operational onboarding view, not the official register; the MoF page remains the public pre-approval register, and the two do not fully match. Ask your shortlisted provider for written confirmation of its Article-16 accreditation, check both places at signing, and re-check before go-live.
         </p>
       </div>
 
       <h3 style={H3}>The pre-approved list, for reference</h3>
-      <p>For convenience, here is the Ministry’s pre-approved list as at its <strong>17 July 2026</strong> update — 42 providers, alphabetical, names as published by the MoF. All are listed by the Ministry as pre-approved under Article 15; some have since announced full (Article 16) accreditation, so verify each provider’s current status individually. The Ministry updates the list periodically, so treat this as a snapshot: confirm a provider’s current status on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
+      <p>For convenience, here is the Ministry’s pre-approved list as at its <strong>17 July 2026</strong> update — 42 providers, alphabetical, names as published by the MoF. All are listed by the Ministry as pre-approved under Article 15; some have since announced full (Article 16) accreditation, so verify each provider’s current status individually. The Ministry updates the list periodically, so treat this as a snapshot: confirm a provider’s current status on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
       <div style={{ border: '1px solid var(--aa-rule)', background: '#fff', padding: '20px 24px', margin: '20px 0 8px' }}>
         <ol style={{ margin: 0, paddingLeft: 22, columns: '2 240px', columnGap: 40, fontSize: 13.5, color: 'var(--aa-charcoal)', lineHeight: 1.9 }}>
           {[
@@ -1068,7 +1068,7 @@ function PrepareERPBody({ onNav }) {
 function CorporateTaxGuideBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1117,7 +1117,7 @@ function CorporateTaxGuideBody({ onNav }) {
         <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
           <li>{link('service-corporate-tax', 'UAE Corporate Tax compliance →')}</li>
           <li>{link('service-tax-planning', 'Corporate Tax planning & structuring →')}</li>
-          <li><a href={pathForInsight('free-zone-qualifying-income')} onClick={(e) => { e.preventDefault(); onNav('insight', 'free-zone-qualifying-income'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>Free zone qualifying income — three traps →</a></li>
+          <li><a href={pathForInsight('free-zone-qualifying-income')} onClick={(e) => { e.preventDefault(); onNav('insight', 'free-zone-qualifying-income'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>Free zone qualifying income — three traps →</a></li>
         </ul>
       </div>
     </div>
@@ -1127,7 +1127,7 @@ function CorporateTaxGuideBody({ onNav }) {
 function VATGuideBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1170,7 +1170,7 @@ function VATGuideBody({ onNav }) {
         <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
           <li>{link('service-vat', 'UAE VAT compliance →')}</li>
           <li>{link('service-corporate-tax', 'UAE Corporate Tax compliance →')}</li>
-          <li><a href={pathForInsight('uae-corporate-tax-guide-sme')} onClick={(e) => { e.preventDefault(); onNav('insight', 'uae-corporate-tax-guide-sme'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>UAE Corporate Tax: a complete guide →</a></li>
+          <li><a href={pathForInsight('uae-corporate-tax-guide-sme')} onClick={(e) => { e.preventDefault(); onNav('insight', 'uae-corporate-tax-guide-sme'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>UAE Corporate Tax: a complete guide →</a></li>
         </ul>
       </div>
     </div>
@@ -1180,7 +1180,7 @@ function VATGuideBody({ onNav }) {
 function BookkeepingGuideBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1233,11 +1233,11 @@ function BookkeepingGuideBody({ onNav }) {
 // Shared helpers for the shorter historical posts.
 const artLink = (onNav, page, label) => (
   <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-    style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+    style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
 );
 const artInsightLink = (onNav, slug, label) => (
   <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-    style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+    style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
 );
 const artNote = (text) => (
   <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>{text}</p>
@@ -1514,7 +1514,7 @@ function DesignatedZoneBody({ onNav }) {
 function IFRSStatementsBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1562,7 +1562,7 @@ function IFRSStatementsBody({ onNav }) {
 function SBRExtendedBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1603,11 +1603,11 @@ function SBRExtendedBody({ onNav }) {
 function SBREvidenceBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   const ilink = (slug, label) => (
     <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   return (
     <div className="container" style={ART}>
@@ -1679,11 +1679,11 @@ function SBREvidenceBody({ onNav }) {
 function SupplierVerificationBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   const ilink = (slug, label) => (
     <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   // Three diagrams, defined inside the body so they travel in this article's
   // own chunk rather than the shared bundle — nothing else on the site uses them.
@@ -1857,8 +1857,8 @@ function SupplierVerificationBody({ onNav }) {
 
     return (
       <div style={{ margin: '34px 0 38px', border: '1px solid var(--aa-rule)', borderRadius: 4, overflow: 'hidden' }}>
-        <div style={{ background: 'var(--aa-charcoal)', padding: '16px 22px' }}>
-          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', margin: 0 }}>Check one supplier</div>
+        <div style={{ background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', padding: '16px 22px' }}>
+          <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', margin: 0 }}>Check one supplier</div>
           <p style={{ margin: '6px 0 0', color: 'rgba(255,255,255,0.82)', fontSize: 14, lineHeight: 1.5 }}>
             Two numbers decide how much of this Decision applies to a purchase. Nothing is sent anywhere.
           </p>
@@ -2074,11 +2074,11 @@ function SupplierVerificationBody({ onNav }) {
 function RecordCopyStandardBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   const ilink = (slug, label) => (
     <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
 
   // Defined in the body so it ships in this article's chunk, not the shared bundle.
@@ -2218,11 +2218,11 @@ function RecordCopyStandardBody({ onNav }) {
 function OctoberChangesBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
   const ilink = (slug, label) => (
     <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-      style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
   );
 
   // The dates from July 2026 to January 2027 on one axis. Defined inside the body so it ships in
@@ -2506,7 +2506,7 @@ function InsightArticlePage({ onNav, slug }) {
               display: 'flex', flexDirection: 'column', gap: 12
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                  <span style={{ color: 'var(--aa-cyan)' }}>{a.tag}</span>
+                  <span style={{ color: 'var(--aa-cyan-text)' }}>{a.tag}</span>
                   <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
                 </div>
                 <div style={{ fontSize: 19, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.3 }}>{a.title}</div>
@@ -2536,7 +2536,7 @@ function CareersPage({ onNav }) {
                 textTransform: 'uppercase', letterSpacing: '0.01em',
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.0
               }}>
-                We hire every quarter. For <span style={{ color: 'var(--aa-cyan)' }}>ourselves</span> — and for our clients.
+                We hire every quarter. For <span style={{ color: 'var(--aa-cyan-text)' }}>ourselves</span> — and for our clients.
               </h1>
             </div>
             <p className="muted" style={{ fontSize: 16, lineHeight: 1.6, margin: 0 }}>
@@ -2558,7 +2558,7 @@ function CareersPage({ onNav }) {
             ['Audit committee voice', 'Every Senior+ presents to a Board at least once a year.', 'mic']].
             map(([t, d, ic]) =>
             <div key={t} style={{ background: '#fff', padding: 28, display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -2602,12 +2602,12 @@ function CareersPage({ onNav }) {
               </div>
 
               <p style={{ marginTop: 14, fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.55 }}>
-                By sending your CV you consent to Authentic Accounting storing and processing it &mdash; including automated indexing to match you to roles, always with a partner&rsquo;s review before any contact &mdash; as described in our <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. We keep it for 18&nbsp;months; withdraw any time.
+                By sending your CV you consent to Authentic Accounting storing and processing it &mdash; including automated indexing to match you to roles, always with a partner&rsquo;s review before any contact &mdash; as described in our <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>Privacy Policy</a>. We keep it for 18&nbsp;months; withdraw any time.
               </p>
             </div>
 
             <div style={{
-              background: 'var(--aa-charcoal)', color: '#fff',
+              background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff',
               padding: 32, position: 'relative', overflow: 'hidden',
             }}>
               <div className="eyebrow eyebrow--cyan-light" style={{ marginBottom: 18 }}>
@@ -2621,7 +2621,7 @@ function CareersPage({ onNav }) {
                   ['04', 'A human writes the first email', 'AI surfaces the match. A partner reads your CV before anyone reaches out. Always.'],
                 ].map(([n, t, d]) => (
                   <div key={n} style={{ display: 'grid', gridTemplateColumns: '40px 1fr', gap: 14 }}>
-                    <div className="mono" style={{ fontSize: 12, letterSpacing: '0.12em', color: 'var(--aa-cyan)', paddingTop: 3 }}>{n}</div>
+                    <div className="mono" style={{ fontSize: 12, letterSpacing: '0.12em', color: 'var(--aa-cyan-text)', paddingTop: 3 }}>{n}</div>
                     <div>
                       <div style={{ fontWeight: 600, fontSize: 15, color: '#fff', marginBottom: 4 }}>{t}</div>
                       <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.72)', lineHeight: 1.55 }} dangerouslySetInnerHTML={{ __html: d }} />
@@ -2876,7 +2876,7 @@ function ContactPage({ onNav }) {
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8
                   }}>
                     <span>{s}</span>
-                    {on && <span aria-hidden="true" style={{ color: 'var(--aa-cyan)', fontWeight: 700 }}>✓</span>}
+                    {on && <span aria-hidden="true" style={{ color: 'var(--aa-cyan-text)', fontWeight: 700 }}>✓</span>}
                   </button>
                       );
                     })}
@@ -2911,7 +2911,7 @@ function ContactPage({ onNav }) {
                     </span>
                     <button onClick={() => setStep(1)} style={{
                       background: 'transparent', border: 0, padding: 0,
-                      color: 'var(--aa-cyan)', fontSize: 12, fontWeight: 600,
+                      color: 'var(--aa-cyan-text)', fontSize: 12, fontWeight: 600,
                       letterSpacing: '0.04em', textTransform: 'uppercase',
                       cursor: 'pointer', fontFamily: 'var(--aa-font-sans)',
                     }}>Change</button>
@@ -2951,7 +2951,7 @@ function ContactPage({ onNav }) {
                   </label>
                   <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55, cursor: 'pointer' }}>
                     <input type="checkbox" checked={form.consent} onChange={(e) => update('consent', e.target.checked)} style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0 }} />
-                    <span>I agree to Authentic Accounting processing my details to respond to my enquiry, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. <span style={{ color: 'var(--aa-negative)' }}>*</span></span>
+                    <span>I agree to Authentic Accounting processing my details to respond to my enquiry, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>Privacy Policy</a>. <span style={{ color: 'var(--aa-negative)' }}>*</span></span>
                   </label>
                   <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55, cursor: 'pointer' }}>
                     <input type="checkbox" checked={form.marketing} onChange={(e) => update('marketing', e.target.checked)} style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0 }} />
@@ -3127,7 +3127,7 @@ function IndustrySimplePage({ page, onNav }) {
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
             {cfg.covers.map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -3142,7 +3142,7 @@ function IndustrySimplePage({ page, onNav }) {
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
             {cfg.considerations.map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -3151,7 +3151,7 @@ function IndustrySimplePage({ page, onNav }) {
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="eyebrow eyebrow--steel">Related services</span>
             {cfg.related.map(([pg, label]) => (
-              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
           {window.RelatedReading && <window.RelatedReading page={page} onNav={onNav} />}
@@ -3174,7 +3174,7 @@ function IndustrySimplePage({ page, onNav }) {
                 <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                   <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span>{f.q}</span>
-                    <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
+                    <span style={{ color: 'var(--aa-cyan-text)', flexShrink: 0 }}>+</span>
                   </summary>
                   <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
                 </details>
@@ -3315,7 +3315,7 @@ function LocationPage({ page, onNav }) {
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
             {cfg.how.map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -3341,14 +3341,14 @@ function LocationPage({ page, onNav }) {
               <a key={pg + label} className="aa-demand-row" href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }}
                 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 24, padding: '18px 4px', borderBottom: '1px solid var(--aa-rule)', textDecoration: 'none' }}>
                 <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', flexShrink: 0 }}>{label}</span>
-                <span style={{ fontSize: 14, color: 'var(--aa-steel-700)', textAlign: 'right' }}>{d} <span style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>→</span></span>
+                <span style={{ fontSize: 14, color: 'var(--aa-steel-700)', textAlign: 'right' }}>{d} <span style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>→</span></span>
               </a>
             ))}
           </div>
           <div className="aa-linkrow" style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="eyebrow eyebrow--steel">Nearby</span>
             {cfg.related.map(([pg, label]) => (
-              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
           {RelatedReading && <RelatedReading page={page} onNav={onNav} />}
@@ -3371,7 +3371,7 @@ function LocationPage({ page, onNav }) {
                 <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                   <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span>{f.q}</span>
-                    <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
+                    <span style={{ color: 'var(--aa-cyan-text)', flexShrink: 0 }}>+</span>
                   </summary>
                   <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
                 </details>

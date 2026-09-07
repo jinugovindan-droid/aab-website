@@ -398,7 +398,7 @@ function Footer({ onNav }) {
               loading="lazy"
               style={{ height: 56 }} />
 
-            <div style={{ marginTop: 18, fontFamily: 'var(--aa-font-display)', fontSize: 18, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--aa-cyan)' }}>
+            <div style={{ marginTop: 18, fontFamily: 'var(--aa-font-display)', fontSize: 18, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--aa-cyan-text)' }}>
               Responsibly Your Accountant.
             </div>
             <div style={{ marginTop: 18, fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.7 }}>
@@ -533,13 +533,13 @@ function CookieConsent({ onNav }) {
       style={{
         position: 'fixed', left: 16, bottom: 16, zIndex: 80, /* above the WhatsApp FAB (70) so its text is never occluded on narrow phones */
         maxWidth: 460, width: 'calc(100% - 32px)',
-        background: 'var(--aa-charcoal)', color: '#fff',
+        background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff',
         border: '1px solid rgba(255,255,255,0.12)',
         boxShadow: '0 12px 40px rgba(0,0,0,0.35)',
         padding: 22,
       }}
     >
-      <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Cookies</div>
+      <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Cookies</div>
       <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.82)' }}>
         We use cookieless analytics to measure traffic. With your consent we also use
         Google Analytics, which sets analytics cookies. You can change your choice any time.{' '}
@@ -795,7 +795,7 @@ function SiteSearchModal({ onNav }) {
                 <span style={{ display: 'block', fontSize: 15, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{it.label}</span>
                 {it.sub ? <span style={{ display: 'block', fontSize: 12, color: 'var(--aa-steel)', marginTop: 2 }}>{it.sub}</span> : null}
               </span>
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--aa-cyan)', flexShrink: 0 }}>{it.type}</span>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--aa-cyan-text)', flexShrink: 0 }}>{it.type}</span>
             </button>
           ))}
         </div>

@@ -50,7 +50,7 @@ summary:focus-visible,
 .btn--primary:focus-visible,
 .topnav__drawer a:focus-visible,
 .topnav__drawer button:focus-visible {
-  outline-color: var(--aa-cyan);
+  outline-color: var(--aa-cyan-text);
 }
 main:focus { outline: none; }
 
@@ -74,9 +74,9 @@ main:focus { outline: none; }
    (#00B0F0, the true logo blue) INSIDE the charcoal, echoing the dark top
    banner. 6.9:1 contrast (AA). The thin blue border keeps the button legible
    on the site's dark charcoal sections (heroes, CTA bands, consent panel). */
-.btn--primary { background: var(--aa-charcoal); color: var(--aa-cyan); border: 1px solid var(--aa-cyan); }
-.btn--primary:hover { background: #23233C; color: var(--aa-cyan); }
-.btn--primary:active { background: #23233C; color: var(--aa-cyan); }
+.btn--primary { background: var(--aa-charcoal); color: var(--aa-cyan-text); border: 1px solid var(--aa-cyan); }
+.btn--primary:hover { background: #23233C; color: var(--aa-cyan-text); }
+.btn--primary:active { background: #23233C; color: var(--aa-cyan-text); }
 
 .btn--ghost {
   background: transparent;
@@ -112,7 +112,7 @@ main:focus { outline: none; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--aa-cyan);
+  color: var(--aa-cyan-text);
   margin-bottom: 16px;
   display: flex;
   align-items: center;
@@ -189,7 +189,7 @@ main:focus { outline: none; }
   font-family: var(--aa-font-sans);
 }
 .topnav__link:hover { color: var(--aa-charcoal); }
-.topnav__link.is-active { color: var(--aa-charcoal); border-bottom-color: var(--aa-cyan); }
+.topnav__link.is-active { color: var(--aa-charcoal); border-bottom-color: var(--aa-cyan-text); }
 
 /* "Tax" dropdown — opens on hover and on keyboard focus */
 .topnav__item { position: relative; display: flex; align-items: center; }
@@ -269,11 +269,25 @@ main:focus { outline: none; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--aa-cyan);
+  color: var(--aa-cyan-text);
 }
 .eyebrow--steel { color: var(--aa-steel); }
 .eyebrow--charcoal { color: var(--aa-charcoal); }
 .eyebrow--cyan-light { color: var(--aa-cyan-200); }
+
+/* Dark surfaces: cyan text is 6.88:1 on charcoal and needs no help, so the
+   token reverts inside them. Anything nested in one of these inherits it. */
+.section--dark,
+.aa-hero-image,
+.aa-hero,                 /* home rotator: photo behind a dark scrim */
+.subbar,
+.aa-marquee,
+.btn--primary,
+.btn--ghost-light,
+.aa-wa-fab,
+.aa-wa-fab__label,
+.skip-link,
+.aa-on-dark { --aa-cyan-text: var(--aa-cyan); }
 
 /* ---------- Misc ---------- */
 .divider-thick { border-top: 2px solid var(--aa-charcoal); padding-top: 20px; }
@@ -291,7 +305,7 @@ main:focus { outline: none; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   background: var(--aa-cyan-050);
-  color: var(--aa-cyan);
+  color: var(--aa-cyan-text);
   border: 1px solid var(--aa-cyan-100);
 }
 .pill--charcoal { background: rgba(26,26,46,0.06); color: var(--aa-charcoal); border-color: rgba(26,26,46,0.1); }
@@ -322,7 +336,7 @@ main:focus { outline: none; }
 }
 .field__input:focus, .field__textarea:focus, .field__select:focus {
   outline: none;
-  border-color: var(--aa-cyan);
+  border-color: var(--aa-cyan-text);
   box-shadow: 0 0 0 3px var(--aa-cyan-100);
 }
 .field__textarea { resize: vertical; min-height: 100px; }
@@ -464,8 +478,8 @@ html { scroll-behavior: smooth; }
   justify-content: space-between;
   transition: color 150ms ease-out, padding-left 200ms ease-out;
 }
-.topnav__drawer-link:hover { color: var(--aa-cyan); padding-left: 8px; }
-.topnav__drawer-link.is-active { color: var(--aa-cyan); }
+.topnav__drawer-link:hover { color: var(--aa-cyan-text); padding-left: 8px; }
+.topnav__drawer-link.is-active { color: var(--aa-cyan-text); }
 .topnav__drawer-link .mono {
   font-family: var(--aa-font-mono);
   font-size: 11px;
@@ -521,7 +535,7 @@ body.no-scroll { overflow: hidden; }
   transition: transform 200ms ease-out, box-shadow 200ms ease-out;
 }
 .aa-wa-fab:hover { transform: translateY(-2px) scale(1.04); }
-.aa-wa-fab:focus-visible { outline: 3px solid var(--aa-cyan); outline-offset: 3px; }
+.aa-wa-fab:focus-visible { outline: 3px solid var(--aa-cyan-text); outline-offset: 3px; }
 .aa-wa-fab svg { width: 28px; height: 28px; }
 .aa-wa-fab__label {
   position: absolute;
@@ -800,7 +814,7 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
   transition: color 150ms ease-out, border-color 150ms ease-out, background 150ms ease-out;
 }
 .aa-hero__arrow:hover { color: var(--aa-charcoal); border-color: var(--aa-charcoal); background: var(--aa-surface-off); }
-.aa-hero__arrow:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: 2px; }
+.aa-hero__arrow:focus-visible { outline: 2px solid var(--aa-cyan-text); outline-offset: 2px; }
 .aa-hero__arrow--prev { left: 24px; }
 .aa-hero__arrow--next { right: 24px; }
 
@@ -819,7 +833,7 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
 }
 .aa-hero__dot:hover { background: var(--aa-steel-300); }
 .aa-hero__dot.is-active { background: var(--aa-cyan); width: 48px; }
-.aa-hero__dot:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: 3px; }
+.aa-hero__dot:focus-visible { outline: 2px solid var(--aa-cyan-text); outline-offset: 3px; }
 
 @media (max-width: 960px) {
   .aa-hero__container { padding: 72px 24px 0; }
@@ -860,7 +874,7 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
   text-transform: uppercase;
   color: var(--aa-charcoal);
 }
-.statline__num small { color: var(--aa-cyan); margin-left: 2px; } /* AA on white */
+.statline__num small { color: var(--aa-cyan-text); margin-left: 2px; } /* AA on white */
 .statline__lbl {
   margin-top: 12px;
   font-size: 12px;
@@ -878,7 +892,7 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
   border-bottom: 1px solid rgba(255,255,255,0.12);
   cursor: pointer;
 }
-.aa-marquee:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: -2px; }
+.aa-marquee:focus-visible { outline: 2px solid var(--aa-cyan-text); outline-offset: -2px; }
 /* !important overrides the site-wide "* { animation: none }" reduced-motion reset
    in tokens.css — the ticker is an intentional exception (dismiss × = WCAG hide). */
 .aa-marquee__track { display: flex; flex-wrap: nowrap; will-change: transform; animation: aa-marquee 58s linear infinite !important; }
@@ -892,8 +906,8 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
   font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--aa-charcoal); background: var(--aa-cyan); padding: 3px 9px; border-radius: 2px;
 }
-.aa-marquee__num { color: var(--aa-cyan); font-weight: 700; font-family: var(--aa-font-mono, ui-monospace, monospace); }
-.aa-marquee__cta { color: var(--aa-cyan); font-weight: 700; }
+.aa-marquee__num { color: var(--aa-cyan-text); font-weight: 700; font-family: var(--aa-font-mono, ui-monospace, monospace); }
+.aa-marquee__cta { color: var(--aa-cyan-text); font-weight: 700; }
 .aa-marquee__dot { color: rgba(255,255,255,0.3); }
 .aa-marquee__close {
   position: absolute; right: 0; top: 0; bottom: 0; width: 52px; z-index: 2;

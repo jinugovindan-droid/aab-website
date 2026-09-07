@@ -338,10 +338,10 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
             <input id={uid + '-erp'} style={inS} value={f.erp} onChange={upd('erp')} placeholder="e.g. Tally, Zoho, SAP" /></div>
         </div>
       </div>
-      <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
+      <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
         {done ? (
           <div>
-            <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
+            <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan-text)' }}></i>
             <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Readiness status downloading</h3>
             <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>{sentOk ? 'Your personalised readiness status is downloading now. We’ve received your details and the team will be in touch — or reach us directly on WhatsApp.' : 'Your personalised readiness status is downloading now. We could not confirm your details reached us — please WhatsApp us on +971 56 548 4635 so we can follow up.'}</p>
             <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={bookReadiness}>Book a readiness call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
@@ -350,16 +350,16 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
           <div>
             {TIER ? (
               <div style={{ marginBottom: 20 }}>
-                <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>{TIER.who}</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Appoint ASP by <strong style={{ color: '#fff' }}>{TIER.asp}</strong>{!window.__AA_SNAPSHOT && <span style={{ color: 'var(--aa-cyan)' }}> ({dlabel(TIER.aspISO)})</span>}</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong>{!window.__AA_SNAPSHOT && <span style={{ color: 'var(--aa-cyan)' }}> ({dlabel(TIER.liveISO)})</span>}</div>
+                <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>{TIER.who}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Appoint ASP by <strong style={{ color: '#fff' }}>{TIER.asp}</strong>{!window.__AA_SNAPSHOT && <span style={{ color: 'var(--aa-cyan-text)' }}> ({dlabel(TIER.aspISO)})</span>}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong>{!window.__AA_SNAPSHOT && <span style={{ color: 'var(--aa-cyan-text)' }}> ({dlabel(TIER.liveISO)})</span>}</div>
               </div>
             ) : (
               <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue band to generate your personalised PDF — your exact deadlines, a tailored verdict, and your next steps.</p>
             )}
             <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5, cursor: 'pointer', marginBottom: 14 }}>
               <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />
-              <span>I agree to Authentic Accounting using my details to prepare this report and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); if (onClose) onClose(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
+              <span>I agree to Authentic Accounting using my details to prepare this report and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); if (onClose) onClose(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
             </label>
             <button className="btn btn--primary" onClick={handleGenerate} disabled={busy}>
               {busy ? 'Generating…' : 'Get my readiness status'}
@@ -398,7 +398,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.02, textWrap: 'balance',
               }}>
                 UAE E-Invoicing is coming.<br />
-                <span style={{ color: 'var(--aa-cyan)' }}>We have you covered.</span>
+                <span style={{ color: 'var(--aa-cyan-text)' }}>We have you covered.</span>
               </h1>
               <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-charcoal-800)', lineHeight: 1.6, maxWidth: 640 }}>
                 The <strong style={{ color: 'var(--aa-charcoal)' }}>UAE Ministry of Finance</strong> is rolling out a
@@ -471,7 +471,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 borderRight: i < concepts.length - 1 ? '1px solid var(--aa-rule)' : 'none',
                 display: 'flex', flexDirection: 'column', gap: 14,
               }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -506,11 +506,11 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                   <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>
                     {p.asp}
                     {/* Live day-counts only — dropped in the static snapshot where they'd go stale. */}
-                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan)', marginTop: 2 }}>{dlabel(p.aspISO)}</span>}
+                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-text)', marginTop: 2 }}>{dlabel(p.aspISO)}</span>}
                   </td>
                   <td className="aa-num" style={{ whiteSpace: 'nowrap', fontWeight: 600, color: 'var(--aa-charcoal)' }}>
                     {p.ready}
-                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan)', marginTop: 2 }}>{dlabel(p.readyISO)}</span>}
+                    {!window.__AA_SNAPSHOT && <span style={{ display: 'block', fontWeight: 400, fontSize: 12, color: 'var(--aa-cyan-text)', marginTop: 2 }}>{dlabel(p.readyISO)}</span>}
                   </td>
                 </tr>
               ))}
@@ -518,7 +518,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
           </table>
 
           <p style={{ marginTop: 20, fontSize: 13, lineHeight: 1.55, color: 'var(--aa-steel)', maxWidth: 860 }}>
-            <span style={{ color: 'var(--aa-cyan)', fontWeight: 600, marginRight: 4 }}>†</span>
+            <span style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, marginRight: 4 }}>†</span>
             <strong style={{ color: 'var(--aa-charcoal)' }}>ASP selection</strong> — deadline for each business to appoint
             its Accredited Service Provider. <strong style={{ color: 'var(--aa-charcoal)' }}>System readiness</strong> —
             mandatory go-live; from this date, only structured invoices transmitted through an accredited ASP will be
@@ -543,7 +543,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-              <i data-lucide="badge-check" style={{ width: 30, height: 30, color: 'var(--aa-cyan)', flexShrink: 0 }}></i>
+              <i data-lucide="badge-check" style={{ width: 30, height: 30, color: 'var(--aa-cyan-text)', flexShrink: 0 }}></i>
               <div>
                 <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 6 }}>Official resource · UAE Ministry of Finance</div>
                 <div style={{ fontSize: 19, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.3 }}>Pre-Approved E-Invoicing Service Providers</div>
@@ -552,7 +552,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 </div>
               </div>
             </div>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, fontWeight: 600, color: 'var(--aa-cyan)', whiteSpace: 'nowrap' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, fontWeight: 600, color: 'var(--aa-cyan-text)', whiteSpace: 'nowrap' }}>
               View the MoF list
               <i data-lucide="external-link" style={{ width: 16, height: 16 }}></i>
             </span>
@@ -625,7 +625,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 }}>
                 <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{title}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{desc}</div>
-                <span style={{ marginTop: 4, fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan)' }}>Read the guide →</span>
+                <span style={{ marginTop: 4, fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan-text)' }}>Read the guide →</span>
               </a>
             ))}
           </div>
@@ -644,7 +644,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
               <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                 <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                   <span>{f.q}</span>
-                  <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
+                  <span style={{ color: 'var(--aa-cyan-text)', flexShrink: 0 }}>+</span>
                 </summary>
                 <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
               </details>
@@ -745,14 +745,14 @@ function EInvoiceReadinessModal({ onNav }) {
         <button onClick={close} aria-label="Close"
           style={{ position: 'absolute', top: 8, right: 10, zIndex: 2, width: 38, height: 38, border: 0, background: 'transparent', fontSize: 26, lineHeight: 1, color: 'var(--aa-steel)', cursor: 'pointer' }}>×</button>
         <div style={{ padding: '28px 28px 0' }}>
-          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
+          <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 8 }}>Free · Instant personalised PDF</div>
           <h2 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(22px, 3vw, 30px)', margin: '0 0 6px', color: 'var(--aa-charcoal)', lineHeight: 1.05 }}>Get your e-invoicing readiness status.</h2>
           <p style={{ margin: '0 0 18px', fontSize: 14, color: 'var(--aa-steel-700)', lineHeight: 1.5 }}>Answer a few quick questions — your exact deadlines, a tailored verdict and next steps, as an instant PDF.</p>
         </div>
         <div style={{ padding: '0 28px 24px' }}>
           <EInvoicingPage formOnly onNav={onNav} onClose={close} />
           <div style={{ marginTop: 16, textAlign: 'center' }}>
-            <a href={pathForPage('e-invoicing')} onClick={viewFull} style={{ fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan)', textDecoration: 'none' }}>Read the full e-invoicing briefing →</a>
+            <a href={pathForPage('e-invoicing')} onClick={viewFull} style={{ fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan-text)', textDecoration: 'none' }}>Read the full e-invoicing briefing →</a>
           </div>
         </div>
       </div>
@@ -791,7 +791,7 @@ function EInvDeadlinePage({ onNav }) {
   return (
     <div>
       {/* Hero */}
-      <section style={{ background: 'var(--aa-charcoal)', color: '#fff', padding: '48px 0 56px' }}>
+      <section style={{ background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', padding: '48px 0 56px' }}>
         <div className="container">
           <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
             <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'rgba(255,255,255,0.75)' }}>E-Invoicing</a>
@@ -799,10 +799,10 @@ function EInvDeadlinePage({ onNav }) {
           </div>
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 64, alignItems: 'end' }}>
             <div>
-              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 16 }}>E-Invoicing · The first binding deadline</div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 16 }}>E-Invoicing · The first binding deadline</div>
               <h1 style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 'clamp(44px, 6vw, 72px)', textTransform: 'uppercase', letterSpacing: '0.01em', margin: 0, lineHeight: 1.0, color: '#fff' }}>
                 30 October 2026.<br />
-                <span style={{ color: 'var(--aa-cyan)' }}>The clock is already running.</span>
+                <span style={{ color: 'var(--aa-cyan-text)' }}>The clock is already running.</span>
               </h1>
               <p style={{ marginTop: 28, fontSize: 17, color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, maxWidth: 640 }}>
                 By this date, UAE businesses with annual revenue of <strong style={{ color: '#fff' }}>AED 50 million or more</strong> must
@@ -825,7 +825,7 @@ function EInvDeadlinePage({ onNav }) {
               {/* Live countdown only — the static snapshot keeps the absolute date. */}
               {!window.__AA_SNAPSHOT && (
                 <div style={{ textAlign: 'center', paddingBottom: 18, marginBottom: 6, borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
-                  <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 56, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{daysLeft > 0 ? daysLeft.toLocaleString() : 'Now'}</div>
+                  <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 56, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan-text)' }}>{daysLeft > 0 ? daysLeft.toLocaleString() : 'Now'}</div>
                   <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 6 }}>{daysLeft > 0 ? (daysLeft === 1 ? 'day left' : 'days left') : 'due'}</div>
                 </div>
               )}
@@ -862,7 +862,7 @@ function EInvDeadlinePage({ onNav }) {
               ['shield', 'Penalties attach before go-live', 'Cabinet Decision 106 of 2025 sets AED 5,000 per month for failing to appoint in time — the first penalty of the regime, and it bites at the appointment deadline, not at go-live.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 2 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13.5, color: 'var(--aa-steel-700)', lineHeight: 1.6 }}>{d}</div>
               </div>
@@ -878,7 +878,7 @@ function EInvDeadlinePage({ onNav }) {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', border: '1px solid var(--aa-rule)', fontSize: 14 }}>
               <thead>
-                <tr style={{ background: 'var(--aa-charcoal)', color: '#fff', textAlign: 'left' }}>
+                <tr style={{ background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>Who</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600, whiteSpace: 'nowrap' }}>Appoint ASP by</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600, whiteSpace: 'nowrap' }}>Go-live</th>
@@ -922,7 +922,7 @@ function EInvDeadlinePage({ onNav }) {
               {GUIDES.map(([slug, label]) => (
                 <li key={slug}>
                   <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
-                    style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
+                    style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
                     {label} →
                   </a>
                 </li>
@@ -942,7 +942,7 @@ function EInvDeadlinePage({ onNav }) {
                 <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                   <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span>{f.q}</span>
-                    <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
+                    <span style={{ color: 'var(--aa-cyan-text)', flexShrink: 0 }}>+</span>
                   </summary>
                   <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
                 </details>
@@ -955,10 +955,10 @@ function EInvDeadlinePage({ onNav }) {
       )}
 
       {/* CTA band */}
-      <section style={{ background: 'var(--aa-charcoal)', color: '#fff', padding: '48px 0' }}>
+      <section style={{ background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', padding: '48px 0' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
           <div>
-            <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Free · 2 minutes · personalised PDF</div>
+            <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 8 }}>Free · 2 minutes · personalised PDF</div>
             <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, lineHeight: 1.05 }}>Where do you stand today?</div>
           </div>
           <button className="btn btn--primary" onClick={bookReadiness}>

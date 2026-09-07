@@ -46,6 +46,14 @@
      divider greys above are 1.67:1 and are deliberately left alone — they
      are decoration, not controls. 3.16:1 on white, 3.03:1 on off-white. */
   --aa-border-control:  #8E9196;
+  /* Brand cyan is 2.48:1 on white and 2.38:1 on off-white — it fails WCAG AA
+     as TEXT on any light surface, while measuring a comfortable 6.88:1 on the
+     charcoal panels. So the brand colour stays exactly as it is, and cyan used
+     as text points at this darker sibling instead: 4.71:1 on white, 4.51:1 on
+     off-white. Dark containers re-point --aa-cyan-text back to --aa-cyan for
+     their subtree (see the block in site.css), which is why a container that
+     is missed shows up as a contrast failure rather than failing silently. */
+  --aa-cyan-text:       #0A7CA8;
 
   /* Data / status (derived only from palette) */
   --aa-data-primary:    var(--aa-cyan);

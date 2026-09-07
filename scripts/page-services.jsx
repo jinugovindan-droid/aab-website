@@ -266,7 +266,7 @@ function ServicesPage({ onNav }) {
                 margin: 0, color: '#fff', lineHeight: 1.0, textWrap: 'balance',
               }}>
                 Many engagements.<br />
-                One <span style={{ color: 'var(--aa-cyan)' }}>controls</span> standard.
+                One <span style={{ color: 'var(--aa-cyan-text)' }}>controls</span> standard.
               </h1>
             </div>
             <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, maxWidth: 460, margin: 0 }}>
@@ -334,7 +334,7 @@ function ServicesPage({ onNav }) {
                 onMouseLeave={(e) => e.currentTarget.style.background = '#fff'}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <i data-lucide={s.icon} style={{ width: 28, height: 28, color: 'var(--aa-cyan)' }}></i>
+                  <i data-lucide={s.icon} style={{ width: 28, height: 28, color: 'var(--aa-cyan-text)' }}></i>
                   <span className="eyebrow eyebrow--steel" style={{ fontSize: 11 }}>{s.reg}</span>
                 </div>
                 <div>
@@ -348,14 +348,14 @@ function ServicesPage({ onNav }) {
                 <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 16px', fontSize: 13, color: 'var(--aa-charcoal)' }}>
                   {s.bullets.map(b => (
                     <li key={b} style={{ display: 'flex', gap: 6 }}>
-                      <span style={{ color: 'var(--aa-cyan)' }}>·</span>
+                      <span style={{ color: 'var(--aa-cyan-text)' }}>·</span>
                       <span>{b}</span>
                     </li>
                   ))}
                 </ul>
                 <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   <span className="mono">{String(i + 1).padStart(2, '0')} / {filtered.length.toString().padStart(2, '0')}</span>
-                  <span style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>
+                  <span style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>
                     {s.page ? 'View details →' : 'Start a scope →'}
                   </span>
                 </div>
@@ -379,7 +379,7 @@ function ServicesPage({ onNav }) {
               ['service-tax-advisory', 'Tax advisory'],
               ['service-transfer-pricing', 'Transfer pricing'],
             ].map(([pg, label]) => (
-              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
           {/* Emirate coverage pages — served from Dubai (no local branches). */}
@@ -393,7 +393,7 @@ function ServicesPage({ onNav }) {
               ['location-fujairah', 'Fujairah'],
               ['location-umm-al-quwain', 'Umm Al Quwain'],
             ].map(([pg, label]) => (
-              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
         </div>
@@ -417,7 +417,7 @@ function ServicesPage({ onNav }) {
             ].map(m => (
               <div key={m.t} style={{ background: '#fff', border: '1px solid var(--aa-rule)', padding: 28, display: 'flex', flexDirection: 'column', gap: 14 }}>
                 <div className="eyebrow eyebrow--charcoal">{m.t}</div>
-                <div style={{ fontSize: 13, color: 'var(--aa-cyan)', fontWeight: 600 }}>{m.sub}</div>
+                <div style={{ fontSize: 13, color: 'var(--aa-cyan-text)', fontWeight: 600 }}>{m.sub}</div>
                 <div style={{ fontSize: 14, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{m.d}</div>
                 <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid var(--aa-rule)', fontSize: 12, color: 'var(--aa-steel)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{m.cta}</div>
               </div>
@@ -439,7 +439,7 @@ function ServicesPage({ onNav }) {
                 <details key={i} style={{ borderBottom: '1px solid var(--aa-rule)', padding: '18px 4px' }}>
                   <summary style={{ cursor: 'pointer', fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span>{f.q}</span>
-                    <span style={{ color: 'var(--aa-cyan)', flexShrink: 0 }}>+</span>
+                    <span style={{ color: 'var(--aa-cyan-text)', flexShrink: 0 }}>+</span>
                   </summary>
                   <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.65, color: 'var(--aa-steel-700)' }}>{f.a}</p>
                 </details>
@@ -469,7 +469,7 @@ function VatDeadlineCard({ onNav }) {
   const shell = (children) => (
     <div className="aa-stack-sm" style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap',
-      background: 'var(--aa-charcoal)', color: '#fff', padding: '28px 32px', borderTop: '3px solid var(--aa-cyan)',
+      background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', padding: '28px 32px', borderTop: '3px solid var(--aa-cyan)',
     }}>{children}</div>
   );
 
@@ -478,7 +478,7 @@ function VatDeadlineCard({ onNav }) {
     return shell(
       <React.Fragment>
         <div style={{ minWidth: 240 }}>
-          <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>VAT filing deadline</div>
+          <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 8 }}>VAT filing deadline</div>
           <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, lineHeight: 1.05 }}>The 28th of the month</div>
           <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 10, lineHeight: 1.5, maxWidth: 540 }}>VAT returns and payment are due the 28th of the month after your tax period ends (moved to the next working day for UAE weekends/holidays). Talk to us to confirm your exact deadline.</div>
         </div>
@@ -494,7 +494,7 @@ function VatDeadlineCard({ onNav }) {
   return shell(
     <React.Fragment>
       <div style={{ minWidth: 240 }}>
-        <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Next VAT filing deadline</div>
+        <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 8 }}>Next VAT filing deadline</div>
         <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 700, lineHeight: 1.05 }}>{next.dueLabel}</div>
         <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.72)', marginTop: 10, lineHeight: 1.5, maxWidth: 560 }}>
           {next.period}. Returns are due the 28th of the month after your tax period ends (shifted for UAE weekends and public holidays). <strong style={{ color: '#fff' }}>Your assigned tax period is on your VAT certificate.</strong>
@@ -505,7 +505,7 @@ function VatDeadlineCard({ onNav }) {
             by the next day, so snapshot mode keeps just the absolute date above. */}
         {!window.__AA_SNAPSHOT && (
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{big}</div>
+            <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan-text)' }}>{big}</div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
           </div>
         )}
@@ -616,10 +616,10 @@ function VatChecker({ onNav }) {
           <p style={{ fontSize: 12, color: 'var(--aa-steel)', marginTop: 8, lineHeight: 1.5 }}>Registration becomes mandatory once turnover exceeds AED 375,000, or when you expect it to within 30 days.</p>
         </div>
       </div>
-      <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
+      <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
         {done ? (
           <div>
-            <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
+            <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan-text)' }}></i>
             <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Result downloading</h3>
             <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>{sentOk ? 'Your VAT registration check is downloading now. We’ve received your details — the team will be in touch, or reach us on WhatsApp.' : 'Your VAT registration check is downloading now. We could not confirm your details reached us — please WhatsApp us on +971 56 548 4635 so we can follow up.'}</p>
             <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={() => goContact('VAT compliance', onNav)}>Book a VAT scoping <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
@@ -628,7 +628,7 @@ function VatChecker({ onNav }) {
           <div>
             {showResult ? (
               <div style={{ marginBottom: 20 }}>
-                <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Registration status</div>
+                <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Registration status</div>
                 <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 30, fontWeight: 700, lineHeight: 1.05, color: statusColor }}>{status}</div>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 10 }}>{v.t}</div>
               </div>
@@ -637,7 +637,7 @@ function VatChecker({ onNav }) {
             )}
             <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5, cursor: 'pointer', marginBottom: 14 }}>
               <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />
-              <span>I agree to Authentic Accounting using my details to prepare this result and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
+              <span>I agree to Authentic Accounting using my details to prepare this result and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
             </label>
             <button className="btn btn--primary" onClick={handle} disabled={busy}>
               {busy ? 'Generating…' : 'Check my VAT status (PDF)'}
@@ -743,7 +743,7 @@ function ServiceVATPage({ onNav }) {
               ['messages-square', 'FTA correspondence', 'Queries, audits, voluntary disclosures and refund claims handled end to end.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -772,7 +772,7 @@ function ServiceVATPage({ onNav }) {
                 borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none',
                 position: 'relative',
               }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -791,11 +791,11 @@ function ServiceVATPage({ onNav }) {
           <FAQList items={VAT_FAQ} asOf />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
-            <a href={pathForPage('service-vat-registration')} onClick={(e) => { e.preventDefault(); onNav('service-vat-registration'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT registration →</a>
-            <a href={pathForPage('service-vat-filing')} onClick={(e) => { e.preventDefault(); onNav('service-vat-filing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT return filing →</a>
-            <a href={pathForPage('service-vat-refund')} onClick={(e) => { e.preventDefault(); onNav('service-vat-refund'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT refunds →</a>
-            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
-            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
+            <a href={pathForPage('service-vat-registration')} onClick={(e) => { e.preventDefault(); onNav('service-vat-registration'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT registration →</a>
+            <a href={pathForPage('service-vat-filing')} onClick={(e) => { e.preventDefault(); onNav('service-vat-filing'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT return filing →</a>
+            <a href={pathForPage('service-vat-refund')} onClick={(e) => { e.preventDefault(); onNav('service-vat-refund'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT refunds →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
           </div>
           <RelatedReading page="service-vat" onNav={onNav} />
         </div>
@@ -821,10 +821,10 @@ function CorpTaxDeadlineCard({ onNav }) {
   return (
     <div className="aa-stack-sm" style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap',
-      background: 'var(--aa-charcoal)', color: '#fff', padding: '28px 32px', borderTop: '3px solid var(--aa-cyan)',
+      background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', padding: '28px 32px', borderTop: '3px solid var(--aa-cyan)',
     }}>
       <div style={{ minWidth: 240 }}>
-        <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 8 }}>Next Corporate Tax return deadline</div>
+        <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 8 }}>Next Corporate Tax return deadline</div>
         <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', letterSpacing: '0.01em', fontSize: 'clamp(26px, 3.6vw, 40px)', fontWeight: 700, lineHeight: 1 }}>{dateLabel}</div>
         <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 10, lineHeight: 1.5, maxWidth: 540 }}>
           For a 31 December financial year-end (FY{fy}) — the return <strong style={{ color: '#fff' }}>and payment</strong> fall due within 9 months. A different year-end? Use the estimator below for your exact date.
@@ -834,7 +834,7 @@ function CorpTaxDeadlineCard({ onNav }) {
         {/* Same rule as the VAT card: no relative counts in the static snapshot. */}
         {!window.__AA_SNAPSHOT && (
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan)' }}>{big}</div>
+            <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 48, fontWeight: 700, lineHeight: 1, color: 'var(--aa-cyan-text)' }}>{big}</div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 4 }}>{cap}</div>
           </div>
         )}
@@ -957,10 +957,10 @@ function CorpTaxEstimator({ onNav }) {
           </label>
         </div>
       </div>
-      <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
+      <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
         {done ? (
           <div>
-            <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
+            <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan-text)' }}></i>
             <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px' }}>Estimate downloading</h3>
             <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6 }}>{sentOk ? 'Your Corporate Tax estimate is downloading now. We’ve received your details — the team will be in touch, or reach us on WhatsApp.' : 'Your Corporate Tax estimate is downloading now. We could not confirm your details reached us — please WhatsApp us on +971 56 548 4635 so we can follow up.'}</p>
             <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={() => goContact('UAE Corporate Tax', onNav)}>Book a scoping call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
@@ -969,17 +969,17 @@ function CorpTaxEstimator({ onNav }) {
           <div>
             {showResult ? (
               <div style={{ marginBottom: 20 }}>
-                <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Estimated CT liability</div>
+                <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Estimated CT liability</div>
                 <div style={{ fontFamily: 'var(--aa-font-mono)', fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>{AA_MONEY(ct)}</div>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>{v.t}</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 6 }}>Return filing due <strong style={{ color: '#fff' }}>{filingDue}</strong> <span style={{ color: 'var(--aa-cyan)' }}>· 9 months after year-end</span></div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 6 }}>Return filing due <strong style={{ color: '#fff' }}>{filingDue}</strong> <span style={{ color: 'var(--aa-cyan-text)' }}>· 9 months after year-end</span></div>
               </div>
             ) : (
               <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Enter your accounting net profit to see an indicative 9% Corporate Tax estimate — then download a personalised PDF with your deadlines and next steps.</p>
             )}
             <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5, cursor: 'pointer', marginBottom: 14 }}>
               <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />
-              <span>I agree to Authentic Accounting using my details to prepare this estimate and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
+              <span>I agree to Authentic Accounting using my details to prepare this estimate and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
             </label>
             <button className="btn btn--primary" onClick={handle} disabled={busy}>
               {busy ? 'Generating…' : 'Get my estimate (PDF)'}
@@ -1087,7 +1087,7 @@ function ServiceCorporateTaxPage({ onNav }) {
               ['file-check', 'Filing & support', 'Return filed on EmaraTax within nine months, with FTA query handling and audit-ready workpapers.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -1112,7 +1112,7 @@ function ServiceCorporateTaxPage({ onNav }) {
               ['05', 'File & pay', 'Return filed on EmaraTax within nine months; workpapers archived for the record.'],
             ].map((s, i) => (
               <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -1134,11 +1134,11 @@ function ServiceCorporateTaxPage({ onNav }) {
           </p>
           <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
-            <a href={pathForPage('service-ct-filing')} onClick={(e) => { e.preventDefault(); onNav('service-ct-filing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax filing →</a>
-            <a href={pathForPage('service-tax-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-tax-advisory'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Tax advisory →</a>
-            <a href={pathForPage('service-transfer-pricing')} onClick={(e) => { e.preventDefault(); onNav('service-transfer-pricing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transfer pricing →</a>
-            <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
-            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
+            <a href={pathForPage('service-ct-filing')} onClick={(e) => { e.preventDefault(); onNav('service-ct-filing'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax filing →</a>
+            <a href={pathForPage('service-tax-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-tax-advisory'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Tax advisory →</a>
+            <a href={pathForPage('service-transfer-pricing')} onClick={(e) => { e.preventDefault(); onNav('service-transfer-pricing'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transfer pricing →</a>
+            <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
+            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
           </div>
           <RelatedReading page="service-corporate-tax" onNav={onNav} />
         </div>
@@ -1226,7 +1226,7 @@ function ServiceBookkeepingPage({ onNav }) {
               ['bar-chart-3', 'Management reporting', 'A monthly pack — profit & loss, balance sheet and cash flow — so you can actually run the business.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -1251,7 +1251,7 @@ function ServiceBookkeepingPage({ onNav }) {
               ['05', 'Close & report', 'Monthly close, then your management pack and tax-ready data delivered.'],
             ].map((s, i) => (
               <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -1270,9 +1270,9 @@ function ServiceBookkeepingPage({ onNav }) {
           <FAQList items={BK_FAQ} />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
-            <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
-            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
-            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
+            <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForPage('e-invoicing')} onClick={(e) => { e.preventDefault(); onNav('e-invoicing'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>E-invoicing readiness →</a>
           </div>
           <RelatedReading page="service-bookkeeping" onNav={onNav} />
         </div>
@@ -1360,7 +1360,7 @@ function ServiceAuditSupportPage({ onNav }) {
               ['check-check', 'Findings & closeout', 'Audit adjustments posted, financial statements finalised, and findings tracked to resolution.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -1385,7 +1385,7 @@ function ServiceAuditSupportPage({ onNav }) {
               ['05', 'Finalise', 'Sign-off-ready financial statements and a clean closeout file, archived for the record.'],
             ].map((s, i) => (
               <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -1404,9 +1404,9 @@ function ServiceAuditSupportPage({ onNav }) {
           <FAQList items={AU_FAQ} />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
-            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
-            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
-            <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
+            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>VAT compliance →</a>
           </div>
           <RelatedReading page="service-audit-support" onNav={onNav} />
         </div>
@@ -1494,7 +1494,7 @@ function ServiceValuationsPage({ onNav }) {
               ['file-text', 'Report & support', 'An independent report with assumptions and sensitivities, and support for auditors, investors and courts.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -1519,7 +1519,7 @@ function ServiceValuationsPage({ onNav }) {
               ['05', 'Review & report', 'Partner review, then an independent valuation report you can put in front of third parties.'],
             ].map((s, i) => (
               <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -1538,9 +1538,9 @@ function ServiceValuationsPage({ onNav }) {
           <FAQList items={VL_FAQ} />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
-            <a href={pathForInsight('dcf-terminal-values-family-office')} onClick={(e) => { e.preventDefault(); onNav('insight', 'dcf-terminal-values-family-office'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Insight: DCF terminal values →</a>
-            <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
-            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForInsight('dcf-terminal-values-family-office')} onClick={(e) => { e.preventDefault(); onNav('insight', 'dcf-terminal-values-family-office'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Insight: DCF terminal values →</a>
+            <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
           </div>
           <RelatedReading page="service-valuations" onNav={onNav} />
         </div>
@@ -1628,7 +1628,7 @@ function ServiceTransactionAdvisoryPage({ onNav }) {
               ['briefcase', 'Sell-side readiness', 'Vendor due diligence, the information memorandum and data-room support for a clean process.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -1653,7 +1653,7 @@ function ServiceTransactionAdvisoryPage({ onNav }) {
               ['05', 'Close', 'Completion accounts, closing mechanics and post-close adjustments.'],
             ].map((s, i) => (
               <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -1672,9 +1672,9 @@ function ServiceTransactionAdvisoryPage({ onNav }) {
           <FAQList items={TX_FAQ} />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
-            <a href={pathForInsight('working-capital-pegs-uae-deals')} onClick={(e) => { e.preventDefault(); onNav('insight', 'working-capital-pegs-uae-deals'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Insight: Working-capital pegs →</a>
-            <a href={pathForPage('service-valuations')} onClick={(e) => { e.preventDefault(); onNav('service-valuations'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Valuations →</a>
-            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForInsight('working-capital-pegs-uae-deals')} onClick={(e) => { e.preventDefault(); onNav('insight', 'working-capital-pegs-uae-deals'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Insight: Working-capital pegs →</a>
+            <a href={pathForPage('service-valuations')} onClick={(e) => { e.preventDefault(); onNav('service-valuations'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Valuations →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
           </div>
           <RelatedReading page="service-transaction-advisory" onNav={onNav} />
         </div>
@@ -1762,7 +1762,7 @@ function ServiceCFOPage({ onNav }) {
               ['rocket', 'Fundraising & finance build', 'Investor reporting, model and data room — plus building the team, systems and controls to scale.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -1787,7 +1787,7 @@ function ServiceCFOPage({ onNav }) {
               ['05', 'Strategic agenda', 'Fundraising, transactions and the priorities the Board cares about.'],
             ].map((s, i) => (
               <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -1806,9 +1806,9 @@ function ServiceCFOPage({ onNav }) {
           <FAQList items={CF_FAQ} />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
-            <a href={pathForPage('service-transaction-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-transaction-advisory'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transaction advisory →</a>
-            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
-            <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
+            <a href={pathForPage('service-transaction-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-transaction-advisory'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transaction advisory →</a>
+            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
+            <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
           </div>
           <RelatedReading page="service-cfo" onNav={onNav} />
         </div>
@@ -1896,7 +1896,7 @@ function ServiceFinancialStatementsPage({ onNav }) {
               ['check-check', 'Audit & tax ready', 'Lead schedules and a basis consistent with your audit and Corporate Tax computation.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -1921,7 +1921,7 @@ function ServiceFinancialStatementsPage({ onNav }) {
               ['05', 'Review & finalise', 'Partner review, then a sign-off-ready set of financial statements.'],
             ].map((s, i) => (
               <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -1940,9 +1940,9 @@ function ServiceFinancialStatementsPage({ onNav }) {
           <FAQList items={FS_FAQ} />
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
-            <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
-            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
-            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForPage('service-audit-support')} onClick={(e) => { e.preventDefault(); onNav('service-audit-support'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Audit support →</a>
+            <a href={pathForPage('service-bookkeeping')} onClick={(e) => { e.preventDefault(); onNav('service-bookkeeping'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Bookkeeping →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
           </div>
           <RelatedReading page="service-financial-statements" onNav={onNav} />
         </div>
@@ -2030,7 +2030,7 @@ function ServiceTaxPlanningPage({ onNav }) {
               ['git-merge', 'Transaction structuring', 'Pre-deal tax structuring with documented Corporate Tax positions and their legal basis.'],
             ].map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -2055,7 +2055,7 @@ function ServiceTaxPlanningPage({ onNav }) {
               ['05', 'Implement', 'Support implementation and the related Corporate Tax filings.'],
             ].map((s, i) => (
               <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -2077,10 +2077,10 @@ function ServiceTaxPlanningPage({ onNav }) {
           </p>
           <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
-            <a href={pathForPage('service-tax-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-tax-advisory'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Tax advisory →</a>
-            <a href={pathForInsight('free-zone-qualifying-income')} onClick={(e) => { e.preventDefault(); onNav('insight', 'free-zone-qualifying-income'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Insight: Free-zone qualifying income →</a>
-            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
-            <a href={pathForPage('service-transaction-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-transaction-advisory'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transaction advisory →</a>
+            <a href={pathForPage('service-tax-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-tax-advisory'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Tax advisory →</a>
+            <a href={pathForInsight('free-zone-qualifying-income')} onClick={(e) => { e.preventDefault(); onNav('insight', 'free-zone-qualifying-income'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Insight: Free-zone qualifying income →</a>
+            <a href={pathForPage('service-corporate-tax')} onClick={(e) => { e.preventDefault(); onNav('service-corporate-tax'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Corporate Tax →</a>
+            <a href={pathForPage('service-transaction-advisory')} onClick={(e) => { e.preventDefault(); onNav('service-transaction-advisory'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>Transaction advisory →</a>
           </div>
           <RelatedReading page="service-tax-planning" onNav={onNav} />
         </div>
@@ -2264,7 +2264,7 @@ function ServiceSimplePage({ page, onNav }) {
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
             {cfg.covers.map(([ic, t, d], i) => (
               <div key={t} style={{ padding: 28, borderRight: i < 3 ? '1px solid var(--aa-rule)' : 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan)' }}></i>
+                <i data-lucide={ic} style={{ width: 24, height: 24, color: 'var(--aa-cyan-text)' }}></i>
                 <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{t}</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{d}</div>
               </div>
@@ -2280,7 +2280,7 @@ function ServiceSimplePage({ page, onNav }) {
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
             {cfg.process.map((s, i) => (
               <div key={i} style={{ padding: 24, borderRight: i < 4 ? '1px solid var(--aa-rule)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan)', marginBottom: 8 }}>{s[0]}</div>
+                <div className="mono" style={{ fontSize: 11, color: 'var(--aa-cyan-text)', marginBottom: 8 }}>{s[0]}</div>
                 <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--aa-charcoal)', marginBottom: 8 }}>{s[1]}</div>
                 <div style={{ fontSize: 12, color: 'var(--aa-steel-700)', lineHeight: 1.55 }}>{s[2]}</div>
               </div>
@@ -2297,7 +2297,7 @@ function ServiceSimplePage({ page, onNav }) {
           <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <span className="eyebrow eyebrow--steel">Related</span>
             {cfg.related.map(([pg, label]) => (
-              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
+              <a key={pg} href={pathForPage(pg)} onClick={(e) => { e.preventDefault(); onNav(pg); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{label} →</a>
             ))}
           </div>
           <RelatedReading page={page} onNav={onNav} />
@@ -2336,7 +2336,7 @@ function FAQList({ items, asOf }) {
             }}
           >
             <span style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{it.q}</span>
-            <i data-lucide={open === i ? 'minus' : 'plus'} style={{ width: 18, height: 18, color: 'var(--aa-cyan)', flexShrink: 0 }} aria-hidden="true"></i>
+            <i data-lucide={open === i ? 'minus' : 'plus'} style={{ width: 18, height: 18, color: 'var(--aa-cyan-text)', flexShrink: 0 }} aria-hidden="true"></i>
           </button>
           </h3>
           {/* Always in the DOM (hidden-toggled, not conditionally rendered) so the
@@ -2385,7 +2385,7 @@ function RelatedReading({ page, onNav }) {
           key={kind + target + label}
           href={kind === 'insight' ? pathForInsight(target) : pathForPage(target)}
           onClick={(e) => { e.preventDefault(); if (kind === 'insight') { onNav('insight', target); } else { onNav(target); } }}
-          style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}
+          style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}
         >{label} →</a>
       ))}
     </div>

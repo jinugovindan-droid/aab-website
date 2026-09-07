@@ -110,12 +110,12 @@ function ToolsHubPage({ onNav }) {
   const go = (e, page, slug) => { e.preventDefault(); if (slug) onNav('insight', slug); else onNav(page); };
   const card = (key, icon, name, line, needs, href, onClick, badge) => (
     <a key={key} href={href} onClick={onClick} style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: 28, background: '#fff', border: '1px solid var(--aa-rule)', textDecoration: 'none', color: 'inherit', position: 'relative' }}>
-      {badge ? <span className="eyebrow" style={{ position: 'absolute', top: 16, right: 20, color: 'var(--aa-cyan)', margin: 0 }}>{badge}</span> : null}
-      <i data-lucide={icon} style={{ width: 26, height: 26, color: 'var(--aa-cyan)' }}></i>
+      {badge ? <span className="eyebrow" style={{ position: 'absolute', top: 16, right: 20, color: 'var(--aa-cyan-text)', margin: 0 }}>{badge}</span> : null}
+      <i data-lucide={icon} style={{ width: 26, height: 26, color: 'var(--aa-cyan-text)' }}></i>
       <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', color: 'var(--aa-charcoal)', lineHeight: 1.1 }}>{name}</div>
       <div style={{ fontSize: 14.5, lineHeight: 1.6, color: 'var(--aa-charcoal-800)' }}>{line}</div>
       <div style={{ marginTop: 'auto', fontSize: 12.5, color: 'var(--aa-steel)', borderTop: '1px solid var(--aa-rule)', paddingTop: 12 }}>Needs: {needs}</div>
-      <span style={{ color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 14 }}>Open the tool →</span>
+      <span style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14 }}>Open the tool →</span>
     </a>
   );
   return (
@@ -257,7 +257,7 @@ function ToolPage({ page, onNav }) {
               <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
                 {tool.sources.map(([label, href]) => (
                   <li key={href} style={{ padding: '12px 0', borderTop: '1px solid var(--aa-rule)', fontSize: 14.5, lineHeight: 1.55 }}>
-                    <a href={href} target="_blank" rel="noopener" style={{ color: 'var(--aa-charcoal)', textDecoration: 'none' }}>{label} <span style={{ color: 'var(--aa-cyan)' }}>↗</span></a>
+                    <a href={href} target="_blank" rel="noopener" style={{ color: 'var(--aa-charcoal)', textDecoration: 'none' }}>{label} <span style={{ color: 'var(--aa-cyan-text)' }}>↗</span></a>
                   </li>
                 ))}
               </ul>
@@ -601,7 +601,7 @@ function GratuityToolBody({ onNav, tool }) {
             <div>
               <label htmlFor={uid + '-end'} style={{ ...AA_TOOL_LABEL, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                 <span>Last day of service</span>
-                <button type="button" onClick={() => setF((s) => ({ ...s, end: isoToday() }))} style={{ background: 'none', border: 0, padding: 0, color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}>Use today</button>
+                <button type="button" onClick={() => setF((s) => ({ ...s, end: isoToday() }))} style={{ background: 'none', border: 0, padding: 0, color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}>Use today</button>
               </label>
               <DateField id={uid + '-end'} label="Last day of service" style={dateStyle} value={f.end} onIso={setIso('end')} />
               {hint('The last day is worked too, so both ends count.')}
@@ -629,22 +629,22 @@ function GratuityToolBody({ onNav, tool }) {
           </p>
         </div>
 
-        <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', minHeight: 320 }} aria-live="polite">
+        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 320 }} aria-live="polite">
           {national ? (
             <div>
-              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Result</div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Result</div>
               <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 26, lineHeight: 1.1 }}>Pension, not gratuity</div>
               <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, lineHeight: 1.6, marginTop: 12 }}>Article 51(1): a national worker’s end-of-service benefit is governed by the pension and social-security legislation, not by the 21- and 30-day rule. There is nothing to compute here.</p>
             </div>
           ) : !r ? (
             <div>
-              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Gratuity payable</div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Gratuity payable</div>
               <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>—</div>
               <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginTop: 12 }}>Enter a basic wage and a start date before the end date.</p>
             </div>
           ) : (
             <div>
-              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Gratuity payable</div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Gratuity payable</div>
               <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>{AA_MONEY(r.total)}</div>
               <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>
                 {r.days.toLocaleString('en-US')} days of service · {yrs(r.years)} years · a day = {AA_MONEY(r.daily)} (basic ÷ 30){r.frozen ? ' · accrual frozen at scheme joining' : ''}{r.eligible && r.totalDays !== r.days ? ' · of ' + r.totalDays.toLocaleString('en-US') + ' days employed' : ''}
@@ -691,13 +691,13 @@ function GratuityToolBody({ onNav, tool }) {
             The statement puts this case on one page — the figure, the breakdown by article, the pay-by date and the monthly accrual — for the file. If you are the employee, the figure above is yours to use; no form needed.
           </p>
           <p style={{ margin: '18px 0 0', fontSize: 14 }}>
-            We run payroll, the end-of-service provision and the year-end schedule as part of bookkeeping. <a href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact(tool.intent, onNav); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>Talk to us →</a>
+            We run payroll, the end-of-service provision and the year-end schedule as part of bookkeeping. <a href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact(tool.intent, onNav); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>Talk to us →</a>
           </p>
         </div>
         <div style={{ padding: 32, background: '#fff' }}>
           {done ? (
             <div>
-              <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan)' }}></i>
+              <i data-lucide="check-circle-2" style={{ width: 34, height: 34, color: 'var(--aa-cyan-text)' }}></i>
               <h3 style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', margin: '14px 0 8px', color: 'var(--aa-charcoal)' }}>Statement downloading</h3>
               <p style={{ color: 'var(--aa-charcoal-800)', fontSize: 14, lineHeight: 1.6 }}>{sentOk ? 'Your end-of-service statement is downloading now. We’ve received your details — the team will be in touch, or reach us on WhatsApp.' : 'Your statement is downloading now. We could not confirm your details reached us — please WhatsApp us on +971 56 548 4635 so we can follow up.'}</p>
               <button className="btn btn--primary btn--sm" style={{ marginTop: 16 }} onClick={() => goContact(tool.intent, onNav)}>Book a scoping call <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i></button>
@@ -713,7 +713,7 @@ function GratuityToolBody({ onNav, tool }) {
               </div>
               <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'var(--aa-charcoal-800)', lineHeight: 1.5, cursor: 'pointer', margin: '14px 0' }}>
                 <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />
-                <span>I agree to Authentic Accounting using my details to prepare this statement and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
+                <span>I agree to Authentic Accounting using my details to prepare this statement and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
               </label>
               <button className="btn btn--primary" onClick={handle} disabled={busy}>
                 {busy ? 'Generating…' : 'Get the statement (PDF)'}
@@ -796,16 +796,16 @@ function VatToolBody({ onNav, tool }) {
           </p>
         </div>
 
-        <div style={{ padding: 32, background: 'var(--aa-charcoal)', color: '#fff', minHeight: 300 }} aria-live="polite">
+        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 300 }} aria-live="polite">
           {!r ? (
             <div>
-              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>VAT</div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>VAT</div>
               <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>—</div>
               <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginTop: 12 }}>Enter an amount in dirhams.</p>
             </div>
           ) : (
             <div>
-              <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>{mode === 'add' ? 'VAT to add' : 'VAT inside the amount'}</div>
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>{mode === 'add' ? 'VAT to add' : 'VAT inside the amount'}</div>
               <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>{aed(r.vat)}</div>
               <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>
                 {mode === 'add' ? 'on a net amount of ' + aed(r.net) : 'in a gross amount of ' + aed(r.gross)} · rounded half up to the fils
@@ -842,7 +842,7 @@ function VatToolBody({ onNav, tool }) {
             <a className="btn btn--ghost" href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }}>Do I need to register?</a>
           </div>
           <p style={{ margin: '16px 0 0', fontSize: 13 }}>
-            Or <a href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact(tool.intent, onNav); }} style={{ color: 'var(--aa-cyan)', fontWeight: 600, textDecoration: 'none' }}>talk to us →</a>
+            Or <a href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact(tool.intent, onNav); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>talk to us →</a>
           </p>
         </div>
       </div>

@@ -14,7 +14,7 @@ const HERO_SLIDES = [
     title: (
       <>
         Advisory<br />
-        Engineered<span style={{ color: 'var(--aa-cyan)' }}>.</span>
+        Engineered<span style={{ color: 'var(--aa-cyan-text)' }}>.</span>
       </>
     ),
     lead: 'Accounting, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government organisations across the UAE — delivered with reconciliation discipline.',
@@ -27,7 +27,7 @@ const HERO_SLIDES = [
     eyebrow: 'Phase 1 · AED 50M+ · go-live 1 January 2027',
     title: (
       <>
-        UAE <span style={{ color: 'var(--aa-cyan)' }}>E-Invoicing</span><br />
+        UAE <span style={{ color: 'var(--aa-cyan-text)' }}>E-Invoicing</span><br />
         is coming.<br />
         Are you ready?
       </>
@@ -44,7 +44,7 @@ const HERO_SLIDES = [
       <>
         Corporate Tax,<br />
         filed on time.<br />
-        <span style={{ color: 'var(--aa-cyan)' }}>Defensible</span> by line.
+        <span style={{ color: 'var(--aa-cyan-text)' }}>Defensible</span> by line.
       </>
     ),
     lead: 'Registration, period computation, QFZP analysis where relevant, and FTA filing — with a position memo behind every contested item and a review-ready return file at the end of every period.',
@@ -272,7 +272,7 @@ function HomeHero({ onNav }) {
           background: '#fff',
           position: 'relative', zIndex: 2,
         }}>
-          <i data-lucide="shield-check" style={{ width: 16, height: 16, color: 'var(--aa-cyan)' }}></i>
+          <i data-lucide="shield-check" style={{ width: 16, height: 16, color: 'var(--aa-cyan-text)' }}></i>
           <span>Every workpaper carries an evidence trail. Every deliverable passes a two-line review before it leaves the firm.</span>
         </div>
       </div>
@@ -434,12 +434,12 @@ function ServiceColumn({ kicker, desc, items, onNav }) {
             <div className="mono" style={{ fontSize: 12, color: 'var(--aa-steel)', paddingTop: 4 }}>
               {String(i + 1).padStart(2, '0')}
             </div>
-            <i data-lucide={it.icon} style={{ width: 20, height: 20, color: 'var(--aa-cyan)', marginTop: 2 }}></i>
+            <i data-lucide={it.icon} style={{ width: 20, height: 20, color: 'var(--aa-cyan-text)', marginTop: 2 }}></i>
             <div>
               <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--aa-charcoal)' }}>{it.t}</div>
               <div style={{ fontSize: 14, color: 'var(--aa-steel-700)', marginTop: 4, lineHeight: 1.5 }}>{it.d}</div>
             </div>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan)', whiteSpace: 'nowrap', paddingTop: 2 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--aa-cyan-text)', whiteSpace: 'nowrap', paddingTop: 2 }}>
               Read more →
             </span>
           </a>
@@ -472,7 +472,7 @@ function HomeIndustries({ onNav }) {
               margin: 0, color: 'var(--aa-charcoal)', lineHeight: 1.05,
             }}>
               Regulated and<br />unregulated,<br />
-              <span style={{ color: 'var(--aa-cyan)' }}>without shortcuts</span>.
+              <span style={{ color: 'var(--aa-cyan-text)' }}>without shortcuts</span>.
             </h2>
             <p style={{ marginTop: 24, fontSize: 15, color: 'var(--aa-steel-700)', maxWidth: 360, lineHeight: 1.6 }}>
               We serve clients across the full spectrum — every engagement is scoped against the same control framework regardless of size or sector.
@@ -623,7 +623,7 @@ function HomeInsights({ onNav }) {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                <span style={{ color: 'var(--aa-cyan)' }}>{a.tag}</span>
+                <span style={{ color: 'var(--aa-cyan-text)' }}>{a.tag}</span>
                 <span style={{ color: 'var(--aa-steel)' }}>{a.date}</span>
               </div>
               <div style={{ fontSize: 22, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.25, textWrap: 'balance' }}>
@@ -631,7 +631,7 @@ function HomeInsights({ onNav }) {
               </div>
               <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: 'var(--aa-steel)' }}>
                 <span>{a.published ? a.read + ' read' : 'In preparation'}</span>
-                <span style={{ color: 'var(--aa-cyan)', fontWeight: 600 }}>{a.published ? 'Read note →' : 'View →'}</span>
+                <span style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>{a.published ? 'Read note →' : 'View →'}</span>
               </div>
             </a>
           ))}
@@ -691,7 +691,7 @@ function HomeQuote() {
               display: 'flex', flexDirection: 'column', gap: 18,
               minHeight: 200,
             }}>
-              <i data-lucide="quote" style={{ width: 22, height: 22, color: 'var(--aa-cyan)' }}></i>
+              <i data-lucide="quote" style={{ width: 22, height: 22, color: 'var(--aa-cyan-text)' }}></i>
               <blockquote style={{
                 margin: 0, fontSize: 16, lineHeight: 1.55, color: 'var(--aa-charcoal)',
                 fontFamily: 'var(--aa-font-sans)', fontWeight: 500,
@@ -713,7 +713,7 @@ function HomeQuote() {
 // ---------- CTA band ----------
 function HomeCTA({ onNav }) {
   return (
-    <section style={{ background: 'var(--aa-charcoal)', color: '#fff', padding: '72px 0' }}>
+    <section style={{ background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', padding: '72px 0' }}>
       <div className="container" style={{
         display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 48, alignItems: 'center',
       }}>
