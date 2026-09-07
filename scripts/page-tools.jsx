@@ -385,9 +385,9 @@ function GratuityToolBody({ onNav, tool }) {
         ['Day-wage convention', 'Basic ÷ 30 (the Decree-Law states no divisor)'],
       ];
       const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Basic wage: ' + AA_MONEY(p.basic), 'Service: ' + dmy(p.start) + ' to ' + dmy(p.end), 'Days: ' + r.days, 'Years: ' + r.years.toFixed(2), 'Pattern: ' + pattern, 'Unpaid days: ' + (p.unpaid || 0), 'Scheme joined: ' + (p.schemeJoin != null ? dmy(p.schemeJoin) : 'No'), 'Deductions: ' + (p.deductions || 0), 'Gratuity: ' + AA_MONEY(r.total), 'Monthly accrual: ' + AA_MONEY(r.provisionMonthly), 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
-      const sent = await aaSubmitLead({ type: 'Gratuity Calculation', company: f.company, name: f.name, email: f.email, phone: f.phone, basicWage: AA_MONEY(p.basic), serviceFrom: dmy(p.start), serviceTo: dmy(p.end), serviceDays: String(r.days), serviceYears: r.years.toFixed(2), workPattern: pattern, unpaidDays: String(p.unpaid || 0), schemeJoined: p.schemeJoin != null ? dmy(p.schemeJoin) : 'No', deductions: p.deductions ? AA_MONEY(p.deductions) : '', gratuity: AA_MONEY(r.total), provisionMonthly: AA_MONEY(r.provisionMonthly), verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
-      setSentOk(sent);
-      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'gratuity', event_label: r.eligible ? (r.capped ? 'capped' : 'payable') : 'under-one-year' });
+      // The document is built BEFORE the lead is recorded. The first version did
+      // it the other way round, so a failure here left the visitor with an
+      // error and us with their details for a statement they never received.
       await aaBuildBrandedPdf({
         title: 'End-of-Service Gratuity Statement',
         subtitle: 'Federal Decree-Law No. 33 of 2021, Article 51 · indicative figures',
@@ -406,7 +406,16 @@ function GratuityToolBody({ onNav, tool }) {
         legal: 'Indicative calculation, not legal or tax advice. Federal Decree-Law No. 33 of 2021 fixes the entitlement in days of basic wage and does not state how a day is derived from a monthly wage; this statement applies the ÷30 convention, a ceiling of 24 × basic wage and 365-day years. The Ministry’s English texts are not official translations; the Arabic texts govern. DIFC and ADGM employers are outside this law.',
         fileName: 'UAE-Gratuity-Statement-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf',
       });
-    } catch (e) { setErr('Sorry — the statement could not be generated. Please try again or contact us.'); setBusy(false); return; }
+      // Best-effort, and never allowed to cost the visitor the statement.
+      const sent = await aaSubmitLead({ type: 'Gratuity Calculation', company: f.company, name: f.name, email: f.email, phone: f.phone, basicWage: AA_MONEY(p.basic), serviceFrom: dmy(p.start), serviceTo: dmy(p.end), serviceDays: String(r.days), serviceYears: r.years.toFixed(2), workPattern: pattern, unpaidDays: String(p.unpaid || 0), schemeJoined: p.schemeJoin != null ? dmy(p.schemeJoin) : 'No', deductions: p.deductions ? AA_MONEY(p.deductions) : '', gratuity: AA_MONEY(r.total), provisionMonthly: AA_MONEY(r.provisionMonthly), verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
+      setSentOk(sent);
+      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'gratuity', event_label: r.eligible ? (r.capped ? 'capped' : 'payable') : 'under-one-year' });
+    } catch (e) {
+      const reason = (e && e.message) ? String(e.message).slice(0, 120) : 'unknown error';
+      console.error('[AAB] gratuity statement failed', e);
+      setErr('Sorry \u2014 the statement could not be generated: ' + reason + '. Your figures are on screen \u2014 WhatsApp us on +971 56 548 4635 and we will send it.');
+      setBusy(false); return;
+    }
     setBusy(false); setDone(true);
   };
 

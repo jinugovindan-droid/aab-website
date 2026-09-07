@@ -244,7 +244,12 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
       setSentOk(sent);
       if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'e-invoicing', event_label: TIER.who });
     } catch (e) {}
-    try { await generatePdf(); } catch (e) { setErr('Sorry — the report could not be generated. Please try again or contact us.'); setBusy(false); return; }
+    try { await generatePdf(); } catch (e) {
+      const reason = (e && e.message) ? String(e.message).slice(0, 120) : 'unknown error';
+      console.error('[AAB] e-invoicing report failed', e);
+      setErr('Sorry \u2014 the report could not be generated: ' + reason + '. Your figures are on screen \u2014 WhatsApp us on +971 56 548 4635 and we will send it.');
+      setBusy(false); return;
+    }
     setBusy(false); setDone(true);
   };
 

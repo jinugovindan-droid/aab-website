@@ -22,15 +22,43 @@ const AA_MONEY = (n) => {
   return 'AED ' + v.toLocaleString('en-US');
 };
 const aaParseNum = (s) => { const n = parseFloat(String(s).replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; };
-const aaLoadJsPDF = () => new Promise((res, rej) => {
-  if (window.jspdf && window.jspdf.jsPDF) return res();
-  // Self-hosted first (corporate networks often block CDNs); unpkg as fallback.
-  const s = document.createElement('script');
-  s.src = 'assets/vendor/jspdf-2.5.1.umd.min.js';
-  s.onload = res;
-  s.onerror = rej;   // no third-party CDN fallback: jsPDF is self-hosted
-  document.head.appendChild(s);
-});
+// jsPDF is 364 KB and is fetched at the moment the visitor clicks — the point
+// of highest intent and the worst moment to lose. The first version had no
+// retry, no timeout and rejected with a bare Event, so one dropped request
+// (flaky connection, a content blocker, a corporate proxy) cost the visitor
+// their document and told them nothing. It now retries once, gives up after
+// 15s rather than leaving the button spinning forever, rejects with a sentence
+// a human can act on, and shares one in-flight promise between callers.
+const aaLoadJsPDF = (() => {
+  let pending = null;
+  const attempt = (bust) => new Promise((res, rej) => {
+    const s = document.createElement('script');
+    // Self-hosted: corporate networks often block CDNs, and there is no
+    // third-party fallback by design.
+    s.src = 'assets/vendor/jspdf-2.5.1.umd.min.js' + (bust ? '?r=' + bust : '');
+    let settled = false;
+    const finish = (fn, arg) => { if (settled) return; settled = true; clearTimeout(timer); fn(arg); };
+    const timer = setTimeout(() => { try { s.remove(); } catch (e) {} finish(rej, new Error('timed out')); }, 15000);
+    s.onload = () => finish(res);
+    s.onerror = () => { try { s.remove(); } catch (e) {} finish(rej, new Error('request failed')); };
+    document.head.appendChild(s);
+  });
+  return async () => {
+    if (window.jspdf && window.jspdf.jsPDF) return;
+    if (pending) return pending;
+    pending = (async () => {
+      try {
+        await attempt(0);
+      } catch (first) {
+        try { await attempt(Date.now()); } catch (second) {
+          throw new Error('the PDF library could not be loaded \u2014 check your connection or any content blocker');
+        }
+      }
+      if (!(window.jspdf && window.jspdf.jsPDF)) throw new Error('the PDF library loaded but did not start');
+    })();
+    try { await pending; } catch (e) { pending = null; throw e; }
+  };
+})();
 const aaLogoDataUrl = (src) => new Promise((res) => {
   const img = new Image(); img.crossOrigin = 'anonymous';
   img.onload = () => { try { const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext('2d').drawImage(img, 0, 0); res({ url: c.toDataURL('image/png'), w: img.naturalWidth, h: img.naturalHeight }); } catch (e) { res(null); } };
@@ -557,7 +585,12 @@ function VatChecker({ onNav }) {
         legal: 'Indicative check only — not tax advice. Registration also depends on taxable expenses and specific supply rules under Federal Decree-Law No. 8 of 2017 on VAT (as amended). Confirm against the latest UAE Federal Tax Authority sources.',
         fileName: 'UAE-VAT-Registration-Check-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf',
       });
-    } catch (e) { setErr('Sorry — the result could not be generated. Please try again or contact us.'); setBusy(false); return; }
+    } catch (e) {
+      const reason = (e && e.message) ? String(e.message).slice(0, 120) : 'unknown error';
+      console.error('[AAB] VAT check failed', e);
+      setErr('Sorry \u2014 the result could not be generated: ' + reason + '. Your figures are on screen \u2014 WhatsApp us on +971 56 548 4635 and we will send it.');
+      setBusy(false); return;
+    }
     setBusy(false); setDone(true);
   };
 
@@ -889,7 +922,12 @@ function CorpTaxEstimator({ onNav }) {
         legal: 'Indicative estimate only — not tax advice. Taxable income is simplified here as accounting profit; your actual position reflects add-backs, exempt income, reliefs, transfer pricing and interest-limitation rules under Federal Decree-Law No. 47 of 2022 and related decisions. Confirm against the latest UAE Ministry of Finance / Federal Tax Authority sources.',
         fileName: 'UAE-Corporate-Tax-Estimate-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf',
       });
-    } catch (e) { setErr('Sorry — the estimate could not be generated. Please try again or contact us.'); setBusy(false); return; }
+    } catch (e) {
+      const reason = (e && e.message) ? String(e.message).slice(0, 120) : 'unknown error';
+      console.error('[AAB] CT estimate failed', e);
+      setErr('Sorry \u2014 the estimate could not be generated: ' + reason + '. Your figures are on screen \u2014 WhatsApp us on +971 56 548 4635 and we will send it.');
+      setBusy(false); return;
+    }
     setBusy(false); setDone(true);
   };
 
