@@ -23,7 +23,7 @@ const TOOLS = [
     intro: 'End-of-service gratuity worked from Article 51 of the Labour Law — every figure traced to its clause, the conventions the law leaves open stated on the page, and the monthly provision an employer should be booking.',
     hubLine: 'Gratuity payable, the breakdown by article, the pay-by date and the monthly accrual to book.',
     needs: 'Basic wage, start and end dates',
-    updated: '6 Sep 2026',
+    updated: '7 Sep 2026',
     intent: 'Bookkeeping & payroll',
     glance: [
       ['Entitlement', '21 / 30 days of basic wage per year'],
@@ -37,13 +37,14 @@ const TOOLS = [
     assumptions: [
       ['A day’s wage', 'The Decree-Law fixes the entitlement in days of basic wage and does not say how a day is derived from a monthly wage. This page uses monthly basic ÷ 30 and shows the figure at ÷ 30.4167 beside it.'],
       ['The ceiling', 'Article 51(6) says “two years’ wage” — the defined term that includes allowances. The page applies 24 × last basic wage, the reading used in practice, and flags it when it bites.'],
+      ['A day of service', 'Both ends count here: an employee works their first day and their last day, so service is taken as the difference between the two dates plus one. The Decree-Law does not state the convention. Subtracting the dates alone gives one day less, and 364 days for a full calendar year — a difference worth checking against whichever basis your payroll uses.'],
       ['A year', 'Years of service are counted as 365-day blocks on calendar days served, less unpaid absence. The difference from anniversary counting is a day or two.'],
       ['Scope', 'Employers under the federal Labour Law, mainland and free zones. DIFC and ADGM have their own employment laws. UAE nationals come under the pension legislation.'],
     ],
     sources: [
       ['Federal Decree-Law No. 33 of 2021 — Articles 1, 51, 52 and 53 (MOHRE consolidated text)', 'https://www.mohre.gov.ae/assets/download/e82f7872/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx'],
       ['Cabinet Resolution No. 1 of 2022 — Articles 29 and 30 (Executive Regulation)', 'https://mohre.gov.ae/assets/download/522c19d4/Cabinet%20Resolution%20_Executive%20Regulations%20Decree-Law%20No.%2033.pdf.aspx'],
-      ['Cabinet Resolution No. 96 of 2023 — Article 6 (alternative end-of-service scheme)', 'https://mohre.gov.ae/assets/download/c7ea6970/cabinet-resolution-no-96-of-2023-regarding-an-alternative-end-of-service-benefits-system-en.aspx'],
+      ['Cabinet Resolution No. 96 of 2023 — Articles 5(3) and 6 (alternative end-of-service scheme)', 'https://mohre.gov.ae/assets/download/c7ea6970/cabinet-resolution-no-96-of-2023-regarding-an-alternative-end-of-service-benefits-system-en.aspx'],
       ['The Official Portal of the UAE Government — end of service benefits in the private sector', 'https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/end-of-service-benefits-for-employees-in-the-private-sector'],
     ],
   },
@@ -293,72 +294,219 @@ function GratuityToolBody({ onNav, tool }) {
   const dmy = (ts) => { const d = new Date(ts); return d.getUTCDate() + ' ' + MON[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); };
   const isoToday = () => { try { return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' }); } catch (e) { return new Date().toISOString().slice(0, 10); } };
   const pct = (x) => (x * 100).toFixed(2) + '%';
+  // Years are shown TRUNCATED, never rounded: 364 days is 0.99 of a year, and
+  // displaying it as "1.00 years" beside a nil result reads as a mistake.
+  // The money is always computed from the exact figure, never from this.
+  const yrs = (x) => (Math.floor((x + 1e-9) * 100) / 100).toFixed(2);
+
+  // ---- Dates you can type, paste or pick -------------------------------
+  // A bare <input type="date"> refuses a pasted "10/02/2026" and hands back
+  // nothing to copy, which is the first thing anyone working through a list
+  // of leavers wants to do. This takes the formats people actually hold —
+  // a spreadsheet cell, an offer letter, an ISO string — and keeps the
+  // native picker beside it.
+  const PAD2 = (n) => (n < 10 ? '0' + n : '' + n);
+  const MON_NUM = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+  // Returns an ISO date, '' for empty, or null when it cannot be read.
+  const toIso = (txt, strict) => {
+    let s = String(txt == null ? '' : txt).trim().replace(/,/g, ' ').replace(/\s+/g, ' ');
+    // A cell pasted from a spreadsheet or a system export usually drags a time
+    // along with it: "01/03/2021 00:00", "2021-03-01 00:00:00", "… 9:30 AM".
+    s = s.replace(/[ T]\d{1,2}:\d{2}(:\d{2})?(\.\d+)?\s*([AaPp][Mm])?$/, '').trim();
+    if (!s) return '';
+    const m = s.match(/^(\d{1,4})[\/\-. ](\d{1,2}|[A-Za-z]{3,9})[\/\-. ](\d{1,4})$/);
+    if (!m) return null;
+    // While the user is still typing, a 1-3 digit year is an unfinished 4-digit
+    // year, not a 2-digit one: without this, "01/03/2021" passes through 2002
+    // and 2020 on its way, and the result panel jumps with it.
+    if (strict && m[1].length !== 4 && m[3].length !== 4) return null;
+    const mid = m[2];
+    const mo = /^\d+$/.test(mid) ? Number(mid) : MON_NUM[mid.slice(0, 3).toLowerCase()];
+    if (!mo) return null;
+    let d, y;
+    if (m[1].length === 4) { y = Number(m[1]); d = Number(m[3]); }   // 2026-02-10
+    else { d = Number(m[1]); y = Number(m[3]); }                     // 10/02/2026, 10-Feb-26
+    if (y < 100) y += y < 70 ? 2000 : 1900;
+    if (!(d >= 1 && d <= 31 && mo >= 1 && mo <= 12 && y >= 1900 && y <= 2999)) return null;
+    const probe = new Date(Date.UTC(y, mo - 1, d));
+    if (probe.getUTCDate() !== d || probe.getUTCMonth() !== mo - 1) return null;   // 31 February
+    return y + '-' + PAD2(mo) + '-' + PAD2(d);
+  };
+  const isoToDmy = (iso) => { const p = String(iso || '').split('-'); return p.length === 3 && p[0] ? p[2] + '/' + p[1] + '/' + p[0] : ''; };
+
+  // Memoised so the component's identity is STABLE across renders. Declared
+  // plainly inside this function it would be a new type on every keystroke,
+  // React would remount the input, and the field would lose focus after one
+  // character. It lives in here rather than at module scope because the build
+  // lifts this whole function into its own chunk.
+  const DateField = React.useMemo(() => function DateField({ id, value, onIso, style, label, describedBy }) {
+    const [txt, setTxt] = React.useState(isoToDmy(value));
+    const [bad, setBad] = React.useState(false);
+    const pick = React.useRef(null);
+    const mine = React.useRef(value);
+    // Follow the value when something ELSE sets it — "Use today", the picker —
+    // but never overwrite what the user is typing.
+    React.useEffect(() => {
+      if ((value || '') !== (mine.current || '')) { mine.current = value; setTxt(isoToDmy(value)); setBad(false); }
+    }, [value]);
+    const emit = (v) => { mine.current = v; if (v !== (value || '')) onIso(v); };
+    // An unreadable box must not leave the PREVIOUS date quietly in force: the
+    // panel would keep showing money for a date no longer on screen, and the
+    // branded statement would print it. Empty out instead, so the result
+    // honestly falls back to "—".
+    const type = (raw) => {
+      setTxt(raw);
+      setBad(false);                       // never red mid-keystroke; judged on blur
+      const iso = toIso(raw, true);
+      emit(iso === null ? '' : iso);
+    };
+    const blur = () => {
+      const iso = toIso(txt);              // relaxed: a 2-digit year is fine now
+      if (!txt.trim()) { setBad(false); emit(''); return; }
+      if (iso) { setTxt(isoToDmy(iso)); setBad(false); emit(iso); return; }
+      setBad(true); emit('');
+    };
+    const openPicker = () => {
+      const el = pick.current;
+      if (!el) return;
+      try { if (el.showPicker) { el.showPicker(); return; } } catch (e) { /* needs a gesture, or unsupported */ }
+      el.focus();
+    };
+    return (
+      <div style={{ position: 'relative' }}>
+        <input
+          id={id} value={txt} onChange={(e) => type(e.target.value)} onBlur={blur}
+          placeholder="dd/mm/yyyy" autoComplete="off" spellCheck={false}
+          aria-invalid={bad ? 'true' : undefined}
+          aria-describedby={bad ? id + '-err' : describedBy}
+          style={{ ...style, paddingRight: 40, border: bad ? '1px solid #C0392B' : (style && style.border) }}
+        />
+        <input
+          ref={pick} type="date" tabIndex={-1} aria-hidden="true" value={value || ''}
+          onChange={(e) => { mine.current = e.target.value; onIso(e.target.value); }}
+          style={{ position: 'absolute', right: 34, bottom: 6, width: 1, height: 1, opacity: 0, padding: 0, border: 0, pointerEvents: 'none' }}
+        />
+        <button
+          type="button" onClick={openPicker} title="Pick from a calendar"
+          aria-label={'Pick ' + (label || 'a date') + ' from a calendar'}
+          style={{ position: 'absolute', right: 1, top: 1, bottom: 1, width: 36, minHeight: 0, border: 0, background: 'none', cursor: 'pointer', color: 'var(--aa-steel)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
+          </svg>
+        </button>
+        {bad ? <p id={id + '-err'} role="alert" style={{ fontSize: 11.5, color: '#C0392B', margin: '5px 0 0', lineHeight: 1.45 }}>That is not a date we can read. Try 30/09/2026, 2026-09-30 or 30 Sep 2026 — or use the calendar.</p> : null}
+      </div>
+    );
+  }, []);
 
   // The formula. Each line maps to a clause listed in the sources block.
+  // The whole entitlement at ONE day-divisor. Called twice — at ÷30 for the
+  // headline and at ÷30.4167 for the sensitivity line — because the ceiling
+  // and the deductions are fixed dirham amounts that do not scale with the
+  // divisor. Rescaling the finished total, as this once did, produced a
+  // "÷30.4167" figure below the statutory ceiling that no convention yields.
+  const entitle = (p, divisor, wage, firstYears, beyondYears, ratio) => {
+    const daily = wage / divisor;
+    const grossFT = firstYears * 21 * daily + beyondYears * 30 * daily;         // Art. 51(2)(a),(b); 51(3)
+    // The ratio is part of computing the part-timer's gratuity (CR 1/2022
+    // Art. 30); the Article 51(6) ceiling then applies to that gratuity. Doing
+    // it the other way round shrank a part-timer's ceiling to 24 × basic × ratio.
+    const scaled = grossFT * ratio;
+    const cap = 24 * wage;                                                       // Art. 51(6), conservative reading
+    const gross = Math.min(scaled, cap);
+    const deductions = Math.min(p.deductions || 0, gross);                       // Art. 51(7)
+    return { daily, grossFT, cap, capped: scaled > cap, gross, deductions, total: gross - deductions };
+  };
+
   const eosb = (p) => {
     const r = { eligible: false, frozen: false, total: 0 };
     let endTs = p.end;
-    if (p.schemeJoin != null && p.schemeJoin < p.end) { endTs = p.schemeJoin; r.frozen = true; }   // CR 96/2023: Decree-Law accrual stops at joining
-    r.calDays = Math.round((endTs - p.start) / DAY);
+    if (p.schemeJoin != null && p.schemeJoin > p.start && p.schemeJoin < p.end) { endTs = p.schemeJoin; r.frozen = true; }   // CR 96/2023: Decree-Law accrual stops at joining
+    r.schemeBad = p.schemeJoin != null && p.schemeJoin <= p.start;               // a joining date before the job started
+    // Both ends count. Someone who starts on the 1st and leaves on the 31st
+    // worked the 1st AND the 31st, so service is the difference plus one day.
+    // Subtracting the dates alone loses a day everywhere and, at exactly one
+    // calendar year, denied the entitlement outright: 1 Jan to 31 Dec came to
+    // 364 days and failed the Article 51(2) test.
+    r.calDays = Math.round((endTs - p.start) / DAY) + 1;
     r.days = Math.max(0, r.calDays - (p.unpaid || 0));                                         // Art. 51(4)
     r.years = r.days / 365;                                                                    // assumption: 365-day years
-    r.daily = p.basic / 30;                                                                    // assumption: ÷30
-    r.ratio = (p.hoursWeek != null && p.hoursWeek > 0) ? Math.min(p.hoursWeek / 48, 1) : 1;    // CR 1/2022 Art. 30
+    // Total continuous service to the REAL end date. Article 51(2) conditions
+    // the entitlement on a year of service with the employer, not on the
+    // pre-scheme slice being a year: someone who joined the savings scheme in
+    // month eight was shown nil for the rest of their career.
+    r.totalDays = Math.max(0, Math.round((p.end - p.start) / DAY) + 1 - (p.unpaid || 0));
+    r.totalYears = r.totalDays / 365;
+    // CR 96/2023 Art. 5(3): the preserved pre-scheme benefit is fixed on the
+    // basic wage AS AT the date of joining, not the wage on the way out.
+    r.wage = (r.frozen && p.basicAtJoin > 0) ? p.basicAtJoin : p.basic;
+    r.daily = r.wage / 30;                                                                     // assumption: ÷30
+    r.fullWeek = (p.fullWeek != null && p.fullWeek > 0) ? p.fullWeek : 48;                     // CR 1/2022 Art. 30 denominator
+    r.ratio = (p.hoursWeek != null && p.hoursWeek > 0) ? Math.min(p.hoursWeek / r.fullWeek, 1) : 1;
     r.payBy = p.end + 14 * DAY;                                                                // Art. 53
-    if (r.days < 365) return r;                                                                // Art. 51(2): one year of continuous service
-    r.eligible = true;
-    r.firstYears = Math.min(r.years, 5); r.beyondYears = Math.max(r.years - 5, 0);              // Art. 51(2)(a),(b); 51(3)
-    r.firstPortion = r.firstYears * 21 * r.daily;
-    r.beyondPortion = r.beyondYears * 30 * r.daily;
-    r.grossFT = r.firstPortion + r.beyondPortion;
-    r.capFT = 24 * p.basic;                                                                    // Art. 51(6), conservative reading
-    r.capped = r.grossFT > r.capFT;
-    r.fullTime = Math.min(r.grossFT, r.capFT);
-    r.gross = r.fullTime * r.ratio;
-    r.deductions = Math.min(p.deductions || 0, r.gross);                                        // Art. 51(7)
-    r.total = r.gross - r.deductions;
-    r.provisionRate = r.years < 5 ? 21 / 30 / 12 : 30 / 30 / 12;                                // = 5.83% / 8.33%
+    // Set before the eligibility gate: the employer accrues from month one,
+    // and the branded statement printed "NaN%" for every short-service leaver
+    // because these lived below the early return.
+    r.provisionRate = r.totalYears < 5 ? 21 / 30 / 12 : 30 / 30 / 12;                          // = 5.83% / 8.33%
     r.provisionMonthly = p.basic * r.provisionRate * r.ratio;
-    r.alt = r.total * 30 / (365 / 12);                                                          // sensitivity: ÷30.4167
+    r.alt = 0;
+    if (r.totalDays < 365) return r;                                                           // Art. 51(2): one year of continuous service
+    r.eligible = true;
+    r.firstYears = Math.min(r.years, 5); r.beyondYears = Math.max(r.years - 5, 0);
+    const main = entitle(p, 30, r.wage, r.firstYears, r.beyondYears, r.ratio);
+    r.firstPortion = r.firstYears * 21 * main.daily;
+    r.beyondPortion = r.beyondYears * 30 * main.daily;
+    r.grossFT = main.grossFT; r.capFT = main.cap; r.capped = main.capped;
+    r.gross = main.gross; r.deductions = main.deductions; r.total = main.total;
+    r.alt = entitle(p, 365 / 12, r.wage, r.firstYears, r.beyondYears, r.ratio).total;           // sensitivity: ÷30.4167
     return r;
   };
 
   const uid = React.useId();
   // Fixed example, not "today": the prerendered page and the live page must
   // agree at rest, and a static day-count would be stale the day after build.
-  const [f, setF] = React.useState({ basic: '8,000', type: 'foreign', start: '2021-03-01', end: '2026-09-30', unpaid: '0', hours: '24', join: '', ded: '', company: '', name: '', email: '', phone: '', consent: false });
+  const [f, setF] = React.useState({ basic: '8,000', type: 'foreign', start: '2021-03-01', end: '2026-09-30', unpaid: '0', hours: '24', fullWeek: '48', join: '', joinBasic: '', ded: '', company: '', name: '', email: '', phone: '', consent: false });
   const [err, setErr] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [done, setDone] = React.useState(false);
   const [sentOk, setSentOk] = React.useState(true);
   const fired = React.useRef(false);
-  const CALC_KEYS = ['basic', 'type', 'start', 'end', 'unpaid', 'hours', 'join', 'ded'];
+  const CALC_KEYS = ['basic', 'type', 'start', 'end', 'unpaid', 'hours', 'fullWeek', 'join', 'joinBasic', 'ded'];
   const upd = (k) => (e) => {
     const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setF((p) => ({ ...p, [k]: v }));
     // One event per visit, on the first input that changes the example.
     if (!fired.current && CALC_KEYS.indexOf(k) !== -1) { fired.current = true; if (window.gtag) window.gtag('event', 'tool_result', { tool: 'gratuity' }); }
   };
+  // The date field hands back a plain ISO string rather than an event.
+  const setIso = (k) => (v) => {
+    setF((p) => ({ ...p, [k]: v }));
+    if (!fired.current && CALC_KEYS.indexOf(k) !== -1) { fired.current = true; if (window.gtag) window.gtag('event', 'tool_result', { tool: 'gratuity' }); }
+  };
   React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
   const p = {
     type: f.type, basic: aaParseNum(f.basic), start: utc(f.start), end: utc(f.end), unpaid: aaParseNum(f.unpaid),
-    hoursWeek: f.type === 'part' ? aaParseNum(f.hours) : null, schemeJoin: utc(f.join), deductions: aaParseNum(f.ded),
+    hoursWeek: f.type === 'part' ? aaParseNum(f.hours) : null, fullWeek: f.type === 'part' ? aaParseNum(f.fullWeek) : null,
+    schemeJoin: utc(f.join), basicAtJoin: aaParseNum(f.joinBasic), deductions: aaParseNum(f.ded),
   };
   const national = f.type === 'national';
-  const valid = !national && p.start != null && p.end != null && p.basic > 0 && p.end > p.start;
+  // end >= start: under the both-ends convention a single day IS a day of
+  // service, so a same-day engagement is a valid entry, not an error.
+  const valid = !national && p.start != null && p.end != null && p.basic > 0 && p.end >= p.start;
   const r = valid ? eosb(p) : null;
 
   const verdict = () => {
     if (!r) return { t: '—', b: '' };
     if (!r.eligible) return { t: 'No gratuity due yet — service under one year', b: 'Article 51(2) requires a year of continuous service before the entitlement begins' + (r.frozen ? ', counted to the date the employee joined the savings scheme' : '') + '. Unpaid absence does not count towards it (Article 51(4)). Wages and other entitlements are still payable within 14 days of the end date (Article 53).' };
-    const parts = ['Service of ' + r.days.toLocaleString('en-US') + ' days — ' + r.years.toFixed(2) + ' years on a 365-day count — at a last basic wage of ' + AA_MONEY(p.basic) + '.',
-      'First five years: ' + r.firstYears.toFixed(2) + ' years × 21 days × ' + AA_MONEY(r.daily) + ' a day = ' + AA_MONEY(r.firstPortion) + '.'];
-    if (r.beyondYears > 0) parts.push('Beyond five: ' + r.beyondYears.toFixed(2) + ' years × 30 days × ' + AA_MONEY(r.daily) + ' = ' + AA_MONEY(r.beyondPortion) + '.');
+    const parts = ['Service of ' + r.days.toLocaleString('en-US') + ' days — ' + yrs(r.years) + ' years on a 365-day count — at a last basic wage of ' + AA_MONEY(p.basic) + '.',
+      'First five years: ' + yrs(r.firstYears) + ' years × 21 days × ' + AA_MONEY(r.daily) + ' a day = ' + AA_MONEY(r.firstPortion) + '.'];
+    if (r.beyondYears > 0) parts.push('Beyond five: ' + yrs(r.beyondYears) + ' years × 30 days × ' + AA_MONEY(r.daily) + ' = ' + AA_MONEY(r.beyondPortion) + '.');
     if (r.capped) parts.push('The Article 51(6) ceiling applies: 24 × basic wage = ' + AA_MONEY(r.capFT) + '.');
     if (r.ratio < 1) parts.push('Part-time ratio ' + (p.hoursWeek) + '/48 hours applied to the full-time figure (Cabinet Resolution 1 of 2022, Article 30).');
     if (r.deductions > 0) parts.push('Less lawful deductions of ' + AA_MONEY(r.deductions) + ' (Article 51(7)).');
-    if (r.frozen) parts.push('Decree-Law accrual counted to the savings-scheme joining date, on the basic wage at that date (Cabinet Resolution 96 of 2023); contributions since then sit in the fund, outside this figure.');
+    if (r.frozen) parts.push('Decree-Law accrual counted to the savings-scheme joining date and computed on ' + AA_MONEY(r.wage) + ' a month' + (p.basicAtJoin > 0 ? ', the basic wage entered as at that date' : ' — the last basic wage entered, because no wage as at the joining date was given') + ' (Cabinet Resolution 96 of 2023, Article 5(3)); contributions since then sit in the fund, outside this figure.');
     return { t: 'Gratuity payable: ' + AA_MONEY(r.total) + (r.capped ? ' (ceiling applied)' : ''), b: parts.join(' ') };
   };
 
@@ -377,14 +525,15 @@ function GratuityToolBody({ onNav, tool }) {
       const inputs = [
         ['Last monthly basic wage', AA_MONEY(p.basic)],
         ['Service', dmy(p.start) + ' to ' + dmy(p.end)],
-        ['Days of service counted', r.days.toLocaleString('en-US') + ' (' + r.years.toFixed(2) + ' years)'],
+        ['Days of service counted', r.days.toLocaleString('en-US') + ' (' + yrs(r.years) + ' years)'],
         ['Unpaid absence', p.unpaid ? p.unpaid + ' days' : 'None'],
         ['Work pattern', pattern],
         ['Savings scheme joined', p.schemeJoin != null ? dmy(p.schemeJoin) : 'No'],
         ['Lawful deductions', p.deductions ? AA_MONEY(p.deductions) : 'None'],
-        ['Day-wage convention', 'Basic ÷ 30 (the Decree-Law states no divisor)'],
+        ['Day-wage convention', 'Basic ÷ 30 (the Decree-Law states no divisor). At ÷ 30.4167 the gratuity would be ' + AA_MONEY(r.alt) + '.'],
+        ['Service-day convention', 'Both ends counted — the first and last days are days worked, so service is the difference between the dates plus one'],
       ];
-      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Basic wage: ' + AA_MONEY(p.basic), 'Service: ' + dmy(p.start) + ' to ' + dmy(p.end), 'Days: ' + r.days, 'Years: ' + r.years.toFixed(2), 'Pattern: ' + pattern, 'Unpaid days: ' + (p.unpaid || 0), 'Scheme joined: ' + (p.schemeJoin != null ? dmy(p.schemeJoin) : 'No'), 'Deductions: ' + (p.deductions || 0), 'Gratuity: ' + AA_MONEY(r.total), 'Monthly accrual: ' + AA_MONEY(r.provisionMonthly), 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
+      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Basic wage: ' + AA_MONEY(p.basic), 'Service: ' + dmy(p.start) + ' to ' + dmy(p.end), 'Days: ' + r.days, 'Years: ' + yrs(r.years), 'Pattern: ' + pattern, 'Unpaid days: ' + (p.unpaid || 0), 'Scheme joined: ' + (p.schemeJoin != null ? dmy(p.schemeJoin) : 'No'), 'Deductions: ' + (p.deductions || 0), 'Gratuity: ' + AA_MONEY(r.total), 'Monthly accrual: ' + AA_MONEY(r.provisionMonthly), 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
       // The document is built BEFORE the lead is recorded. The first version did
       // it the other way round, so a failure here left the visitor with an
       // error and us with their details for a statement they never received.
@@ -393,7 +542,7 @@ function GratuityToolBody({ onNav, tool }) {
         subtitle: 'Federal Decree-Law No. 33 of 2021, Article 51 · indicative figures',
         forWho: 'Prepared for ' + f.company + '  ·  ' + f.name,
         stats: [
-          { label: 'Gratuity payable', big: AA_MONEY(r.total), sub: r.eligible ? r.years.toFixed(2) + ' years of service' : 'under one year of service' },
+          { label: 'Gratuity payable', big: AA_MONEY(r.total), sub: r.eligible ? yrs(r.years) + ' years of service' : 'under one year of service' },
           { label: 'Monthly accrual to book', big: AA_MONEY(r.provisionMonthly), sub: pct(r.provisionRate) + ' of basic wage' },
         ],
         verdictTitle: v.t, verdictBody: v.b,
@@ -407,7 +556,7 @@ function GratuityToolBody({ onNav, tool }) {
         fileName: 'UAE-Gratuity-Statement-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf',
       });
       // Best-effort, and never allowed to cost the visitor the statement.
-      const sent = await aaSubmitLead({ type: 'Gratuity Calculation', company: f.company, name: f.name, email: f.email, phone: f.phone, basicWage: AA_MONEY(p.basic), serviceFrom: dmy(p.start), serviceTo: dmy(p.end), serviceDays: String(r.days), serviceYears: r.years.toFixed(2), workPattern: pattern, unpaidDays: String(p.unpaid || 0), schemeJoined: p.schemeJoin != null ? dmy(p.schemeJoin) : 'No', deductions: p.deductions ? AA_MONEY(p.deductions) : '', gratuity: AA_MONEY(r.total), provisionMonthly: AA_MONEY(r.provisionMonthly), verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
+      const sent = await aaSubmitLead({ type: 'Gratuity Calculation', company: f.company, name: f.name, email: f.email, phone: f.phone, basicWage: AA_MONEY(p.basic), serviceFrom: dmy(p.start), serviceTo: dmy(p.end), serviceDays: String(r.days), serviceYears: yrs(r.years), workPattern: pattern, unpaidDays: String(p.unpaid || 0), schemeJoined: p.schemeJoin != null ? dmy(p.schemeJoin) : 'No', deductions: p.deductions ? AA_MONEY(p.deductions) : '', gratuity: AA_MONEY(r.total), provisionMonthly: AA_MONEY(r.provisionMonthly), verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
       setSentOk(sent);
       if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'gratuity', event_label: r.eligible ? (r.capped ? 'capped' : 'payable') : 'under-one-year' });
     } catch (e) {
@@ -448,26 +597,30 @@ function GratuityToolBody({ onNav, tool }) {
               </select>{hint('UAE nationals come under the pension legislation (Article 51(1)).')}</div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-            <div><label htmlFor={uid + '-start'} style={AA_TOOL_LABEL}>First day of service</label><input id={uid + '-start'} type="date" style={dateStyle} value={f.start} onChange={upd('start')} /></div>
+            <div><label htmlFor={uid + '-start'} style={AA_TOOL_LABEL}>First day of service</label><DateField id={uid + '-start'} label="First day of service" style={dateStyle} value={f.start} onIso={setIso('start')} />{hint('Type, paste or pick — dd/mm/yyyy. Counted as a day worked.')}</div>
             <div>
               <label htmlFor={uid + '-end'} style={{ ...AA_TOOL_LABEL, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                 <span>Last day of service</span>
                 <button type="button" onClick={() => setF((s) => ({ ...s, end: isoToday() }))} style={{ background: 'none', border: 0, padding: 0, color: 'var(--aa-cyan)', fontWeight: 600, fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}>Use today</button>
               </label>
-              <input id={uid + '-end'} type="date" style={dateStyle} value={f.end} onChange={upd('end')} />
+              <DateField id={uid + '-end'} label="Last day of service" style={dateStyle} value={f.end} onIso={setIso('end')} />
+              {hint('The last day is worked too, so both ends count.')}
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
             <div><label htmlFor={uid + '-unpaid'} style={AA_TOOL_LABEL}>Unpaid absence (days)</label><input id={uid + '-unpaid'} style={numStyle} inputMode="numeric" value={f.unpaid} onChange={upd('unpaid')} placeholder="0" />{hint('Not counted as service (Article 51(4)).')}</div>
             {f.type === 'part' ? (
-              <div><label htmlFor={uid + '-hours'} style={AA_TOOL_LABEL}>Contracted hours per week</label><input id={uid + '-hours'} style={numStyle} inputMode="numeric" value={f.hours} onChange={upd('hours')} placeholder="e.g. 24" />{hint('Ratio to the 48-hour full-time week (Cabinet Resolution 1 of 2022, Article 30).')}</div>
+              <React.Fragment>
+              <div><label htmlFor={uid + '-hours'} style={AA_TOOL_LABEL}>Contracted hours per week</label><input id={uid + '-hours'} style={numStyle} inputMode="numeric" value={f.hours} onChange={upd('hours')} placeholder="e.g. 24" />{hint('Article 30 of Cabinet Resolution 1 of 2022 divides these by the hours of an equivalent full-time contract at the same employer.')}</div>
+              <div><label htmlFor={uid + '-fullweek'} style={AA_TOOL_LABEL}>Full-time hours per week here</label><input id={uid + '-fullweek'} style={numStyle} inputMode="numeric" value={f.fullWeek} onChange={upd('fullWeek')} placeholder="48" />{hint('The equivalent full-time contract at this employer. 48 is the statutory maximum, not necessarily your figure.')}</div>
+              </React.Fragment>
             ) : (
-              <div><label htmlFor={uid + '-join'} style={AA_TOOL_LABEL}>Joined the savings scheme on</label><input id={uid + '-join'} type="date" style={dateStyle} value={f.join} onChange={upd('join')} />{hint('Optional. Freezes Decree-Law accrual at this date (Cabinet Resolution 96 of 2023).')}</div>
+              <div><label htmlFor={uid + '-join'} style={AA_TOOL_LABEL}>Joined the savings scheme on</label><DateField id={uid + '-join'} label="Joined the savings scheme on" style={dateStyle} value={f.join} onIso={setIso('join')} />{hint('Optional. Freezes Decree-Law accrual at this date (Cabinet Resolution 96 of 2023).')}{f.join ? <div style={{ marginTop: 10 }}><label htmlFor={uid + '-joinbasic'} style={AA_TOOL_LABEL}>Basic wage at that date (AED)</label><input id={uid + '-joinbasic'} style={numStyle} inputMode="numeric" value={f.joinBasic} onChange={upd('joinBasic')} placeholder={f.basic || 'e.g. 8,000'} />{hint('Cabinet Resolution 96 of 2023 fixes the preserved entitlement on the basic wage as at the joining date. Left blank, the last basic wage above is used.')}</div> : null}</div>
             )}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
             {f.type === 'part' ? (
-              <div><label htmlFor={uid + '-join2'} style={AA_TOOL_LABEL}>Joined the savings scheme on</label><input id={uid + '-join2'} type="date" style={dateStyle} value={f.join} onChange={upd('join')} />{hint('Optional (Cabinet Resolution 96 of 2023).')}</div>
+              <div><label htmlFor={uid + '-join2'} style={AA_TOOL_LABEL}>Joined the savings scheme on</label><DateField id={uid + '-join2'} label="Joined the savings scheme on" style={dateStyle} value={f.join} onIso={setIso('join')} />{hint('Optional (Cabinet Resolution 96 of 2023).')}{f.join ? <div style={{ marginTop: 10 }}><label htmlFor={uid + '-joinbasic2'} style={AA_TOOL_LABEL}>Basic wage at that date (AED)</label><input id={uid + '-joinbasic2'} style={numStyle} inputMode="numeric" value={f.joinBasic} onChange={upd('joinBasic')} placeholder={f.basic || 'e.g. 8,000'} />{hint('Cabinet Resolution 96 of 2023 fixes the preserved entitlement on the basic wage as at the joining date. Left blank, the last basic wage above is used.')}</div> : null}</div>
             ) : null}
             <div><label htmlFor={uid + '-ded'} style={AA_TOOL_LABEL}>Lawfully deductible amounts (AED)</label><input id={uid + '-ded'} style={numStyle} inputMode="numeric" value={f.ded} onChange={upd('ded')} placeholder="0" />{hint('Optional — loans, overpayments, court debts (Article 51(7); Cabinet Resolution 1 of 2022, Article 29).')}</div>
           </div>
@@ -494,13 +647,13 @@ function GratuityToolBody({ onNav, tool }) {
               <div className="eyebrow" style={{ color: 'var(--aa-cyan)', marginBottom: 10 }}>Gratuity payable</div>
               <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>{AA_MONEY(r.total)}</div>
               <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>
-                {r.days.toLocaleString('en-US')} days of service · {r.years.toFixed(2)} years · a day = {AA_MONEY(r.daily)} (basic ÷ 30){r.frozen ? ' · accrual frozen at scheme joining' : ''}
+                {r.days.toLocaleString('en-US')} days of service · {yrs(r.years)} years · a day = {AA_MONEY(r.daily)} (basic ÷ 30){r.frozen ? ' · accrual frozen at scheme joining' : ''}{r.eligible && r.totalDays !== r.days ? ' · of ' + r.totalDays.toLocaleString('en-US') + ' days employed' : ''}
               </div>
               <div style={{ marginTop: 16, borderTop: '1px solid rgba(255,255,255,0.14)' }}>
                 {r.eligible ? (
                   <div>
-                    <Row k={'First five years · ' + r.firstYears.toFixed(2) + ' yrs × 21 days'} v={AA_MONEY(r.firstPortion)} />
-                    {r.beyondYears > 0 ? <Row k={'Beyond five · ' + r.beyondYears.toFixed(2) + ' yrs × 30 days'} v={AA_MONEY(r.beyondPortion)} /> : null}
+                    <Row k={'First five years · ' + yrs(r.firstYears) + ' yrs × 21 days'} v={AA_MONEY(r.firstPortion)} />
+                    {r.beyondYears > 0 ? <Row k={'Beyond five · ' + yrs(r.beyondYears) + ' yrs × 30 days'} v={AA_MONEY(r.beyondPortion)} /> : null}
                     {r.capped ? <Row k="Ceiling · 24 × basic wage (Art. 51(6))" v={AA_MONEY(r.capFT)} /> : null}
                     {r.ratio < 1 ? <Row k={'Part-time ratio · ' + p.hoursWeek + '/48 hours'} v={'× ' + r.ratio.toFixed(3)} /> : null}
                     {r.deductions > 0 ? <Row k="Deductions (Art. 51(7))" v={'− ' + AA_MONEY(r.deductions)} /> : null}
@@ -518,7 +671,8 @@ function GratuityToolBody({ onNav, tool }) {
               </div>
               {!r.eligible ? <Note warn>Article 51(2): the entitlement begins once a year of continuous service is complete{r.frozen ? ' — counted to the scheme joining date' : ''}. Unpaid absence does not count (Article 51(4)).</Note> : null}
               {r.capped ? <Note warn>Ceiling reached. Article 51(6) says “two years’ wage” — the defined term that includes allowances — so the true ceiling may be higher than 24 × basic. Shown at the conservative reading.</Note> : null}
-              {r.frozen ? <Note>Savings scheme: Decree-Law accrual counted to the joining date, on the basic wage at that date (Cabinet Resolution 96 of 2023). Contributions since then sit in the fund, outside this figure.</Note> : null}
+              {r.schemeBad ? <Note warn>The savings-scheme joining date is on or before the first day of service, so it has been ignored. Check it.</Note> : null}
+              {r.frozen ? <Note warn={!(p.basicAtJoin > 0)}>Savings scheme: Decree-Law accrual counted to the joining date and computed on {AA_MONEY(r.wage)} a month{p.basicAtJoin > 0 ? ', the wage you entered as at that date' : ' — the LAST basic wage, because no wage as at the joining date was entered. Cabinet Resolution 96 of 2023 (Article 5(3)) fixes the preserved entitlement on the wage as at that date, so enter it above if the pay has changed since'}. Contributions since then sit in the fund, outside this figure.</Note> : null}
               <Note>No reduction for resignation: Federal Decree-Law No. 33 of 2021 contains none (Article 51(2)).</Note>
             </div>
           )}
