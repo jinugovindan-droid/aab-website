@@ -504,7 +504,7 @@ function GratuityToolBody({ onNav, tool }) {
       'First five years: ' + yrs(r.firstYears) + ' years × 21 days × ' + AA_MONEY(r.daily) + ' a day = ' + AA_MONEY(r.firstPortion) + '.'];
     if (r.beyondYears > 0) parts.push('Beyond five: ' + yrs(r.beyondYears) + ' years × 30 days × ' + AA_MONEY(r.daily) + ' = ' + AA_MONEY(r.beyondPortion) + '.');
     if (r.capped) parts.push('The Article 51(6) ceiling applies: 24 × basic wage = ' + AA_MONEY(r.capFT) + '.');
-    if (r.ratio < 1) parts.push('Part-time ratio ' + (p.hoursWeek) + '/48 hours applied to the full-time figure (Cabinet Resolution 1 of 2022, Article 30).');
+    if (r.ratio < 1) parts.push('Part-time ratio ' + p.hoursWeek + '/' + r.fullWeek + ' hours applied to the full-time figure (Cabinet Resolution 1 of 2022, Article 30).');
     if (r.deductions > 0) parts.push('Less lawful deductions of ' + AA_MONEY(r.deductions) + ' (Article 51(7)).');
     if (r.frozen) parts.push('Decree-Law accrual counted to the savings-scheme joining date and computed on ' + AA_MONEY(r.wage) + ' a month' + (p.basicAtJoin > 0 ? ', the basic wage entered as at that date' : ' — the last basic wage entered, because no wage as at the joining date was given') + ' (Cabinet Resolution 96 of 2023, Article 5(3)); contributions since then sit in the fund, outside this figure.');
     return { t: 'Gratuity payable: ' + AA_MONEY(r.total) + (r.capped ? ' (ceiling applied)' : ''), b: parts.join(' ') };
@@ -521,7 +521,7 @@ function GratuityToolBody({ onNav, tool }) {
     try {
       let downloadDate = '';
       try { downloadDate = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Dubai', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' (GST)'; } catch (e) { downloadDate = new Date().toISOString(); }
-      const pattern = f.type === 'part' ? 'Part-time, ' + f.hours + ' h/week' : 'Full-time';
+      const pattern = f.type === 'part' ? 'Part-time, ' + f.hours + ' of ' + r.fullWeek + ' h/week' : 'Full-time';
       const inputs = [
         ['Last monthly basic wage', AA_MONEY(p.basic)],
         ['Service', dmy(p.start) + ' to ' + dmy(p.end)],
@@ -655,7 +655,7 @@ function GratuityToolBody({ onNav, tool }) {
                     <Row k={'First five years · ' + yrs(r.firstYears) + ' yrs × 21 days'} v={AA_MONEY(r.firstPortion)} />
                     {r.beyondYears > 0 ? <Row k={'Beyond five · ' + yrs(r.beyondYears) + ' yrs × 30 days'} v={AA_MONEY(r.beyondPortion)} /> : null}
                     {r.capped ? <Row k="Ceiling · 24 × basic wage (Art. 51(6))" v={AA_MONEY(r.capFT)} /> : null}
-                    {r.ratio < 1 ? <Row k={'Part-time ratio · ' + p.hoursWeek + '/48 hours'} v={'× ' + r.ratio.toFixed(3)} /> : null}
+                    {r.ratio < 1 ? <Row k={'Part-time ratio · ' + p.hoursWeek + '/' + r.fullWeek + ' hours'} v={'× ' + r.ratio.toFixed(3)} /> : null}
                     {r.deductions > 0 ? <Row k="Deductions (Art. 51(7))" v={'− ' + AA_MONEY(r.deductions)} /> : null}
                     <Row k="Net payable" v={AA_MONEY(r.total)} strong />
                     <Row k="Pay by (Art. 53)" v={dmy(r.payBy)} />
