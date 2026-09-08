@@ -39,6 +39,7 @@ const TOOLS = [
       ['The ceiling', 'Article 51(6) says “two years’ wage” — the defined term that includes allowances. The page applies 24 × last basic wage, the reading used in practice, and flags it when it bites.'],
       ['A day of service', 'Both ends count here: an employee works their first day and their last day, so service is taken as the difference between the two dates plus one. The Decree-Law does not state the convention. Subtracting the dates alone gives one day less, and 364 days for a full calendar year — a difference worth checking against whichever basis your payroll uses.'],
       ['A year', 'Years of service are counted as 365-day blocks on calendar days served, less unpaid absence. The difference from anniversary counting is a day or two.'],
+      ['Amounts the employee owes', 'The figure is the entitlement, not the cheque. Article 51(7) lets an employer deduct amounts due by law or under a court judgment, and Cabinet Resolution No. 1 of 2022, Article 29 sets out the cases — loans and overpayments, pension or insurance contributions, penalties under a Ministry-approved disciplinary regulation, court-ordered debts, and damage the employee caused, the last two within three months of falling due unless otherwise agreed. Those turn on documents this page cannot see, so it states the right rather than netting off a number you would have to guess.'],
       ['Scope', 'Employers under the federal Labour Law, mainland and free zones. DIFC and ADGM have their own employment laws. UAE nationals come under the pension legislation.'],
     ],
     sources: [
@@ -402,10 +403,10 @@ function GratuityToolBody({ onNav, tool }) {
 
   // The formula. Each line maps to a clause listed in the sources block.
   // The whole entitlement at ONE day-divisor. Called twice — at ÷30 for the
-  // headline and at ÷30.4167 for the sensitivity line — because the ceiling
-  // and the deductions are fixed dirham amounts that do not scale with the
-  // divisor. Rescaling the finished total, as this once did, produced a
-  // "÷30.4167" figure below the statutory ceiling that no convention yields.
+  // headline and at ÷30.4167 for the sensitivity line — because the ceiling is
+  // a fixed dirham amount that does not scale with the divisor. Rescaling the
+  // finished total, as this once did, produced a "÷30.4167" figure below the
+  // statutory ceiling that no convention yields.
   const entitle = (p, divisor, wage, firstYears, beyondYears, ratio) => {
     const daily = wage / divisor;
     const grossFT = firstYears * 21 * daily + beyondYears * 30 * daily;         // Art. 51(2)(a),(b); 51(3)
@@ -415,8 +416,11 @@ function GratuityToolBody({ onNav, tool }) {
     const scaled = grossFT * ratio;
     const cap = 24 * wage;                                                       // Art. 51(6), conservative reading
     const gross = Math.min(scaled, cap);
-    const deductions = Math.min(p.deductions || 0, gross);                       // Art. 51(7)
-    return { daily, grossFT, cap, capped: scaled > cap, gross, deductions, total: gross - deductions };
+    // Article 51(7) deductions are NOT netted off here. They turn on documents
+    // this page cannot see — a loan balance, an approved penalty, a judgment —
+    // and asking a visitor to total them invites a guess that then reads back
+    // as an entitlement. The right is stated on the page instead.
+    return { daily, grossFT, cap, capped: scaled > cap, gross, total: gross };
   };
 
   const eosb = (p) => {
@@ -458,7 +462,7 @@ function GratuityToolBody({ onNav, tool }) {
     r.firstPortion = r.firstYears * 21 * main.daily;
     r.beyondPortion = r.beyondYears * 30 * main.daily;
     r.grossFT = main.grossFT; r.capFT = main.cap; r.capped = main.capped;
-    r.gross = main.gross; r.deductions = main.deductions; r.total = main.total;
+    r.gross = main.gross; r.total = main.total;
     r.alt = entitle(p, 365 / 12, r.wage, r.firstYears, r.beyondYears, r.ratio).total;           // sensitivity: ÷30.4167
     return r;
   };
@@ -466,13 +470,13 @@ function GratuityToolBody({ onNav, tool }) {
   const uid = React.useId();
   // Fixed example, not "today": the prerendered page and the live page must
   // agree at rest, and a static day-count would be stale the day after build.
-  const [f, setF] = React.useState({ basic: '8,000', type: 'foreign', start: '2021-03-01', end: '2026-09-30', unpaid: '0', hours: '24', fullWeek: '48', join: '', joinBasic: '', ded: '', company: '', name: '', email: '', phone: '', consent: false });
+  const [f, setF] = React.useState({ basic: '8,000', type: 'foreign', start: '2021-03-01', end: '2026-09-30', unpaid: '0', hours: '24', fullWeek: '48', join: '', joinBasic: '', company: '', name: '', email: '', phone: '', consent: false });
   const [err, setErr] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [done, setDone] = React.useState(false);
   const [sentOk, setSentOk] = React.useState(true);
   const fired = React.useRef(false);
-  const CALC_KEYS = ['basic', 'type', 'start', 'end', 'unpaid', 'hours', 'fullWeek', 'join', 'joinBasic', 'ded'];
+  const CALC_KEYS = ['basic', 'type', 'start', 'end', 'unpaid', 'hours', 'fullWeek', 'join', 'joinBasic'];
   const upd = (k) => (e) => {
     const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setF((p) => ({ ...p, [k]: v }));
@@ -489,7 +493,7 @@ function GratuityToolBody({ onNav, tool }) {
   const p = {
     type: f.type, basic: aaParseNum(f.basic), start: utc(f.start), end: utc(f.end), unpaid: aaParseNum(f.unpaid),
     hoursWeek: f.type === 'part' ? aaParseNum(f.hours) : null, fullWeek: f.type === 'part' ? aaParseNum(f.fullWeek) : null,
-    schemeJoin: utc(f.join), basicAtJoin: aaParseNum(f.joinBasic), deductions: aaParseNum(f.ded),
+    schemeJoin: utc(f.join), basicAtJoin: aaParseNum(f.joinBasic),
   };
   const national = f.type === 'national';
   // end >= start: under the both-ends convention a single day IS a day of
@@ -505,7 +509,6 @@ function GratuityToolBody({ onNav, tool }) {
     if (r.beyondYears > 0) parts.push('Beyond five: ' + yrs(r.beyondYears) + ' years × 30 days × ' + AA_MONEY(r.daily) + ' = ' + AA_MONEY(r.beyondPortion) + '.');
     if (r.capped) parts.push('The Article 51(6) ceiling applies: 24 × basic wage = ' + AA_MONEY(r.capFT) + '.');
     if (r.ratio < 1) parts.push('Part-time ratio ' + p.hoursWeek + '/' + r.fullWeek + ' hours applied to the full-time figure (Cabinet Resolution 1 of 2022, Article 30).');
-    if (r.deductions > 0) parts.push('Less lawful deductions of ' + AA_MONEY(r.deductions) + ' (Article 51(7)).');
     if (r.frozen) parts.push('Decree-Law accrual counted to the savings-scheme joining date and computed on ' + AA_MONEY(r.wage) + ' a month' + (p.basicAtJoin > 0 ? ', the basic wage entered as at that date' : ' — the last basic wage entered, because no wage as at the joining date was given') + ' (Cabinet Resolution 96 of 2023, Article 5(3)); contributions since then sit in the fund, outside this figure.');
     return { t: 'Gratuity payable: ' + AA_MONEY(r.total) + (r.capped ? ' (ceiling applied)' : ''), b: parts.join(' ') };
   };
@@ -529,11 +532,10 @@ function GratuityToolBody({ onNav, tool }) {
         ['Unpaid absence', p.unpaid ? p.unpaid + ' days' : 'None'],
         ['Work pattern', pattern],
         ['Savings scheme joined', p.schemeJoin != null ? dmy(p.schemeJoin) : 'No'],
-        ['Lawful deductions', p.deductions ? AA_MONEY(p.deductions) : 'None'],
         ['Day-wage convention', 'Basic ÷ 30 (the Decree-Law states no divisor). At ÷ 30.4167 the gratuity would be ' + AA_MONEY(r.alt) + '.'],
         ['Service-day convention', 'Both ends counted — the first and last days are days worked, so service is the difference between the dates plus one'],
       ];
-      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Basic wage: ' + AA_MONEY(p.basic), 'Service: ' + dmy(p.start) + ' to ' + dmy(p.end), 'Days: ' + r.days, 'Years: ' + yrs(r.years), 'Pattern: ' + pattern, 'Unpaid days: ' + (p.unpaid || 0), 'Scheme joined: ' + (p.schemeJoin != null ? dmy(p.schemeJoin) : 'No'), 'Deductions: ' + (p.deductions || 0), 'Gratuity: ' + AA_MONEY(r.total), 'Monthly accrual: ' + AA_MONEY(r.provisionMonthly), 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
+      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Basic wage: ' + AA_MONEY(p.basic), 'Service: ' + dmy(p.start) + ' to ' + dmy(p.end), 'Days: ' + r.days, 'Years: ' + yrs(r.years), 'Pattern: ' + pattern, 'Unpaid days: ' + (p.unpaid || 0), 'Scheme joined: ' + (p.schemeJoin != null ? dmy(p.schemeJoin) : 'No'), 'Gratuity: ' + AA_MONEY(r.total), 'Monthly accrual: ' + AA_MONEY(r.provisionMonthly), 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
       // The document is built BEFORE the lead is recorded. The first version did
       // it the other way round, so a failure here left the visitor with an
       // error and us with their details for a statement they never received.
@@ -551,12 +553,13 @@ function GratuityToolBody({ onNav, tool }) {
           'Book the accrual monthly — ' + pct(r.provisionRate) + ' of basic wage for this employee — so the liability is on the balance sheet before the leaver appears, and reconcile the provision to the payroll list at every year-end.',
           'Pay within 14 days of the end date (Article 53), together with wages, accrued leave and other entitlements; the pay-by date for this case is ' + dmy(r.payBy) + '.',
           'Keep the basic-wage history. The figure runs on the LAST basic wage (Article 51(5)), so a change in the final months moves the whole entitlement.',
+          'Set any pending dues against this figure before you pay it. Article 51(7) permits an employer to deduct amounts owed by law or under a court judgment, and Cabinet Resolution No. 1 of 2022, Article 29 lists the cases: loans and overpayments, contributions to pension or insurance, penalties under a disciplinary regulation approved by the Ministry, debts under a court ruling, and the cost of damage the employee caused — the last two within three months of falling due unless otherwise agreed. This statement shows the entitlement before any of them.',
         ],
         legal: 'Indicative calculation, not legal or tax advice. Federal Decree-Law No. 33 of 2021 fixes the entitlement in days of basic wage and does not state how a day is derived from a monthly wage; this statement applies the ÷30 convention, a ceiling of 24 × basic wage and 365-day years. The Ministry’s English texts are not official translations; the Arabic texts govern. DIFC and ADGM employers are outside this law.',
         fileName: 'UAE-Gratuity-Statement-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf',
       });
       // Best-effort, and never allowed to cost the visitor the statement.
-      const sent = await aaSubmitLead({ type: 'Gratuity Calculation', company: f.company, name: f.name, email: f.email, phone: f.phone, basicWage: AA_MONEY(p.basic), serviceFrom: dmy(p.start), serviceTo: dmy(p.end), serviceDays: String(r.days), serviceYears: yrs(r.years), workPattern: pattern, unpaidDays: String(p.unpaid || 0), schemeJoined: p.schemeJoin != null ? dmy(p.schemeJoin) : 'No', deductions: p.deductions ? AA_MONEY(p.deductions) : '', gratuity: AA_MONEY(r.total), provisionMonthly: AA_MONEY(r.provisionMonthly), verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
+      const sent = await aaSubmitLead({ type: 'Gratuity Calculation', company: f.company, name: f.name, email: f.email, phone: f.phone, basicWage: AA_MONEY(p.basic), serviceFrom: dmy(p.start), serviceTo: dmy(p.end), serviceDays: String(r.days), serviceYears: yrs(r.years), workPattern: pattern, unpaidDays: String(p.unpaid || 0), schemeJoined: p.schemeJoin != null ? dmy(p.schemeJoin) : 'No', gratuity: AA_MONEY(r.total), provisionMonthly: AA_MONEY(r.provisionMonthly), verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
       setSentOk(sent);
       if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'gratuity', event_label: r.eligible ? (r.capped ? 'capped' : 'payable') : 'under-one-year' });
     } catch (e) {
@@ -618,12 +621,11 @@ function GratuityToolBody({ onNav, tool }) {
               <div><label htmlFor={uid + '-join'} style={AA_TOOL_LABEL}>Joined the savings scheme on</label><DateField id={uid + '-join'} label="Joined the savings scheme on" style={dateStyle} value={f.join} onIso={setIso('join')} />{hint('Optional. Freezes Decree-Law accrual at this date (Cabinet Resolution 96 of 2023).')}{f.join ? <div style={{ marginTop: 10 }}><label htmlFor={uid + '-joinbasic'} style={AA_TOOL_LABEL}>Basic wage at that date (AED)</label><input id={uid + '-joinbasic'} style={numStyle} inputMode="numeric" value={f.joinBasic} onChange={upd('joinBasic')} placeholder={f.basic || 'e.g. 8,000'} />{hint('Cabinet Resolution 96 of 2023 fixes the preserved entitlement on the basic wage as at the joining date. Left blank, the last basic wage above is used.')}</div> : null}</div>
             )}
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-            {f.type === 'part' ? (
+          {f.type === 'part' ? (
+            <div style={{ marginTop: 14, maxWidth: '50%' }}>
               <div><label htmlFor={uid + '-join2'} style={AA_TOOL_LABEL}>Joined the savings scheme on</label><DateField id={uid + '-join2'} label="Joined the savings scheme on" style={dateStyle} value={f.join} onIso={setIso('join')} />{hint('Optional (Cabinet Resolution 96 of 2023).')}{f.join ? <div style={{ marginTop: 10 }}><label htmlFor={uid + '-joinbasic2'} style={AA_TOOL_LABEL}>Basic wage at that date (AED)</label><input id={uid + '-joinbasic2'} style={numStyle} inputMode="numeric" value={f.joinBasic} onChange={upd('joinBasic')} placeholder={f.basic || 'e.g. 8,000'} />{hint('Cabinet Resolution 96 of 2023 fixes the preserved entitlement on the basic wage as at the joining date. Left blank, the last basic wage above is used.')}</div> : null}</div>
-            ) : null}
-            <div><label htmlFor={uid + '-ded'} style={AA_TOOL_LABEL}>Lawfully deductible amounts (AED)</label><input id={uid + '-ded'} style={numStyle} inputMode="numeric" value={f.ded} onChange={upd('ded')} placeholder="0" />{hint('Optional — loans, overpayments, court debts (Article 51(7); Cabinet Resolution 1 of 2022, Article 29).')}</div>
-          </div>
+            </div>
+          ) : null}
           <p style={{ margin: '18px 0 0', fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.5 }}>
             The figures shown are an invented example until you change them. Nothing you type leaves your browser unless you ask for the statement below.
           </p>
@@ -656,8 +658,7 @@ function GratuityToolBody({ onNav, tool }) {
                     {r.beyondYears > 0 ? <Row k={'Beyond five · ' + yrs(r.beyondYears) + ' yrs × 30 days'} v={AA_MONEY(r.beyondPortion)} /> : null}
                     {r.capped ? <Row k="Ceiling · 24 × basic wage (Art. 51(6))" v={AA_MONEY(r.capFT)} /> : null}
                     {r.ratio < 1 ? <Row k={'Part-time ratio · ' + p.hoursWeek + '/' + r.fullWeek + ' hours'} v={'× ' + r.ratio.toFixed(3)} /> : null}
-                    {r.deductions > 0 ? <Row k="Deductions (Art. 51(7))" v={'− ' + AA_MONEY(r.deductions)} /> : null}
-                    <Row k="Net payable" v={AA_MONEY(r.total)} strong />
+                    <Row k="Gratuity due" v={AA_MONEY(r.total)} strong />
                     <Row k="Pay by (Art. 53)" v={dmy(r.payBy)} />
                     <Row k="Accrual to book each month" v={AA_MONEY(r.provisionMonthly) + ' · ' + pct(r.provisionRate)} />
                     <Row k="At ÷ 30.4167 instead of ÷ 30" v={AA_MONEY(r.alt)} />
@@ -673,6 +674,7 @@ function GratuityToolBody({ onNav, tool }) {
               {r.capped ? <Note warn>Ceiling reached. Article 51(6) says “two years’ wage” — the defined term that includes allowances — so the true ceiling may be higher than 24 × basic. Shown at the conservative reading.</Note> : null}
               {r.schemeBad ? <Note warn>The savings-scheme joining date is on or before the first day of service, so it has been ignored. Check it.</Note> : null}
               {r.frozen ? <Note warn={!(p.basicAtJoin > 0)}>Savings scheme: Decree-Law accrual counted to the joining date and computed on {AA_MONEY(r.wage)} a month{p.basicAtJoin > 0 ? ', the wage you entered as at that date' : ' — the LAST basic wage, because no wage as at the joining date was entered. Cabinet Resolution 96 of 2023 (Article 5(3)) fixes the preserved entitlement on the wage as at that date, so enter it above if the pay has changed since'}. Contributions since then sit in the fund, outside this figure.</Note> : null}
+              {r.eligible ? <Note>This is the entitlement before any deduction. An employer may set pending dues against it — Article 51(7) permits deducting amounts owed by law or under a court judgment, and Cabinet Resolution 1 of 2022, Article 29 lists which: loans and overpayments, pension or insurance contributions, penalties under a disciplinary regulation approved by the Ministry, court-ordered debts, and damage the employee caused. The last two must be raised within three months of falling due unless otherwise agreed.</Note> : null}
               <Note>No reduction for resignation: Federal Decree-Law No. 33 of 2021 contains none (Article 51(2)).</Note>
             </div>
           )}
