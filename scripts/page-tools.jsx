@@ -20,10 +20,10 @@ const TOOLS = [
     name: 'UAE Gratuity Calculator',
     kicker: 'End of service · Federal Decree-Law No. 33 of 2021',
     h1a: 'UAE gratuity', h1b: 'calculator.',
-    intro: 'End-of-service gratuity worked from Article 51 of the Labour Law — every figure traced to its clause, the conventions the law leaves open stated on the page, and the monthly provision an employer should be booking.',
-    hubLine: 'Gratuity payable, the breakdown by article, the pay-by date and the monthly accrual to book.',
+    intro: 'End-of-service gratuity worked from Article 51 of the Labour Law — every figure traced to its clause, the conventions the law leaves open stated on the page, and the monthly provision an employer should be booking. A second tab totals the whole final settlement around it.',
+    hubLine: 'Gratuity payable, the breakdown by article, the pay-by date and the monthly accrual to book — plus a worksheet for the full final settlement.',
     needs: 'Basic wage, start and end dates',
-    updated: '7 Sep 2026',
+    updated: '8 Sep 2026',
     intent: 'Bookkeeping & payroll',
     glance: [
       ['Entitlement', '21 / 30 days of basic wage per year'],
@@ -32,6 +32,7 @@ const TOOLS = [
       ['Ceiling', 'Two years’ wage'],
       ['Pay by', '14 days after the end date'],
       ['Resignation', 'No reduction under the 2021 law'],
+      ['Wage deductions', 'Capped by Article 25 — 50% in total'],
     ],
     // What the Decree-Law fixes, and what this page decides where it is silent.
     assumptions: [
@@ -39,12 +40,14 @@ const TOOLS = [
       ['The ceiling', 'Article 51(6) says “two years’ wage” — the defined term that includes allowances. The page applies 24 × last basic wage, the reading used in practice, and flags it when it bites.'],
       ['A day of service', 'Both ends count here: an employee works their first day and their last day, so service is taken as the difference between the two dates plus one. The Decree-Law does not state the convention. Subtracting the dates alone gives one day less, and 364 days for a full calendar year — a difference worth checking against whichever basis your payroll uses.'],
       ['A year', 'Years of service are counted as 365-day blocks on calendar days served, less unpaid absence. The difference from anniversary counting is a day or two.'],
-      ['Amounts the employee owes', 'The figure is the entitlement, not the cheque. Article 51(7) lets an employer deduct amounts due by law or under a court judgment, and Cabinet Resolution No. 1 of 2022, Article 29 sets out the cases — loans and overpayments, pension or insurance contributions, penalties under a Ministry-approved disciplinary regulation, court-ordered debts, and damage the employee caused, the last two within three months of falling due unless otherwise agreed. Those turn on documents this page cannot see, so it states the right rather than netting off a number you would have to guess.'],
+      ['Amounts the employee owes', 'The figure is the entitlement, not the cheque. Article 51(7) lets an employer deduct amounts due by law or under a court judgment, and Cabinet Resolution No. 1 of 2022, Article 29 sets out the cases — loans and overpayments, contributions to pension or insurance, debts under a court ruling, penalties under a disciplinary regulation approved by the Ministry, and the cost of damage the employee caused — the last two only where the Decree-Law’s own procedures were followed and not more than three months have lapsed since the amount fell due, unless otherwise agreed (Cabinet Resolution 1 of 2022, Article 29(2)). Those turn on documents this page cannot see, so it states the right rather than netting off a number you would have to guess.'],
+      ['The settlement tab', 'Only the gratuity is calculated. Unpaid salary, unused leave, notice, loans, penalties and the free rows are figures the visitor enters, because they turn on a contract, a payroll run and a ledger this page cannot see. The tab adds them up and applies the signs; it does not check them, and what a settlement contains varies from one company to the next.'],
+      ['Which wage', 'Two bases run through a settlement, and mixing them is the common error. Gratuity and unused leave are computed on the BASIC wage (Articles 51(2) and 29(9) of Cabinet Resolution 1 of 2022); unpaid salary and pay in lieu of notice run on the FULL wage as defined in Article 1 and required by Article 43(4).'],
       ['Scope', 'Employers under the federal Labour Law, mainland and free zones. DIFC and ADGM have their own employment laws. UAE nationals come under the pension legislation.'],
     ],
     sources: [
-      ['Federal Decree-Law No. 33 of 2021 — Articles 1, 51, 52 and 53 (MOHRE consolidated text)', 'https://www.mohre.gov.ae/assets/download/e82f7872/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx'],
-      ['Cabinet Resolution No. 1 of 2022 — Articles 29 and 30 (Executive Regulation)', 'https://mohre.gov.ae/assets/download/522c19d4/Cabinet%20Resolution%20_Executive%20Regulations%20Decree-Law%20No.%2033.pdf.aspx'],
+      ['Federal Decree-Law No. 33 of 2021 — Articles 1, 25, 29, 43, 51, 52 and 53 (MOHRE consolidated text)', 'https://www.mohre.gov.ae/assets/download/e82f7872/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx'],
+      ['Cabinet Resolution No. 1 of 2022 — Articles 19, 29 and 30 (Executive Regulation)', 'https://mohre.gov.ae/assets/download/522c19d4/Cabinet%20Resolution%20_Executive%20Regulations%20Decree-Law%20No.%2033.pdf.aspx'],
       ['Cabinet Resolution No. 96 of 2023 — Articles 5(3) and 6 (alternative end-of-service scheme)', 'https://mohre.gov.ae/assets/download/c7ea6970/cabinet-resolution-no-96-of-2023-regarding-an-alternative-end-of-service-benefits-system-en.aspx'],
       ['The Official Portal of the UAE Government — end of service benefits in the private sector', 'https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/end-of-service-benefits-for-employees-in-the-private-sector'],
     ],
@@ -470,12 +473,18 @@ function GratuityToolBody({ onNav, tool }) {
   const uid = React.useId();
   // Fixed example, not "today": the prerendered page and the live page must
   // agree at rest, and a static day-count would be stale the day after build.
-  const [f, setF] = React.useState({ basic: '8,000', type: 'foreign', start: '2021-03-01', end: '2026-09-30', unpaid: '0', hours: '24', fullWeek: '48', join: '', joinBasic: '', company: '', name: '', email: '', phone: '', consent: false });
+  const [f, setF] = React.useState({ basic: '8,000', type: 'foreign', start: '2021-03-01', end: '2026-09-30', unpaid: '0', hours: '24', fullWeek: '48', join: '', joinBasic: '',
+    // Final-settlement lines. Every one is entered by hand on purpose: they
+    // live in a contract, a payroll run and a company policy, not in the law.
+    sSalary: '', sLeave: '', sNotice: '', sLoan: '', sPenalty: '',
+    addLbl1: '', addAmt1: '', addLbl2: '', addAmt2: '', dedLbl1: '', dedAmt1: '', dedLbl2: '', dedAmt2: '',
+    company: '', name: '', email: '', phone: '', consent: false });
   const [err, setErr] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [done, setDone] = React.useState(false);
   const [sentOk, setSentOk] = React.useState(true);
   const fired = React.useRef(false);
+  const [tab, setTab] = React.useState('gratuity');
   const CALC_KEYS = ['basic', 'type', 'start', 'end', 'unpaid', 'hours', 'fullWeek', 'join', 'joinBasic'];
   const upd = (k) => (e) => {
     const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -535,33 +544,51 @@ function GratuityToolBody({ onNav, tool }) {
         ['Day-wage convention', 'Basic ÷ 30 (the Decree-Law states no divisor). At ÷ 30.4167 the gratuity would be ' + AA_MONEY(r.alt) + '.'],
         ['Service-day convention', 'Both ends counted — the first and last days are days worked, so service is the difference between the dates plus one'],
       ];
-      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Basic wage: ' + AA_MONEY(p.basic), 'Service: ' + dmy(p.start) + ' to ' + dmy(p.end), 'Days: ' + r.days, 'Years: ' + yrs(r.years), 'Pattern: ' + pattern, 'Unpaid days: ' + (p.unpaid || 0), 'Scheme joined: ' + (p.schemeJoin != null ? dmy(p.schemeJoin) : 'No'), 'Gratuity: ' + AA_MONEY(r.total), 'Monthly accrual: ' + AA_MONEY(r.provisionMonthly), 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
+      if (settle.touched) {
+        inputs.push(['FINAL SETTLEMENT', 'the lines below were entered by hand, not calculated']);
+        // The gratuity is one of the lines, so it belongs in the block: without
+        // it the column does not add up to the net printed under it.
+        inputs.push(['End-of-service gratuity', national ? 'Pension — Article 51(1)' : m2(settle.grat)]);
+        sLines.filter((l) => l.v > 0).forEach((l) => inputs.push([l.k, (l.sign < 0 ? '- ' : '') + m2(l.v).replace('− ', '- ')]));
+        inputs.push(['Net final settlement', m2(settle.net)]);
+      }
+      const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Basic wage: ' + AA_MONEY(p.basic), 'Service: ' + dmy(p.start) + ' to ' + dmy(p.end), 'Days: ' + r.days, 'Years: ' + yrs(r.years), 'Pattern: ' + pattern, 'Unpaid days: ' + (p.unpaid || 0), 'Scheme joined: ' + (p.schemeJoin != null ? dmy(p.schemeJoin) : 'No'), 'Gratuity: ' + AA_MONEY(r.total), 'Monthly accrual: ' + AA_MONEY(r.provisionMonthly), 'Verdict: ' + v.t].concat(settle.touched ? ['Settlement (entered by hand):'].concat(sLines.filter((l) => l.v > 0).map((l) => '  ' + l.k + ': ' + (l.sign < 0 ? '-' : '') + m2(l.v))).concat(['Net final settlement: ' + m2(settle.net)]) : []).concat(['Downloaded: ' + downloadDate]).join('\n');
       // The document is built BEFORE the lead is recorded. The first version did
       // it the other way round, so a failure here left the visitor with an
       // error and us with their details for a statement they never received.
       await aaBuildBrandedPdf({
-        title: 'End-of-Service Gratuity Statement',
-        subtitle: 'Federal Decree-Law No. 33 of 2021, Article 51 · indicative figures',
+        title: settle.touched ? 'Final Settlement Statement' : 'End-of-Service Gratuity Statement',
+        subtitle: settle.touched
+          ? 'Gratuity under Federal Decree-Law No. 33 of 2021, Article 51, plus figures entered by hand · indicative'
+          : 'Federal Decree-Law No. 33 of 2021, Article 51 · indicative figures',
         forWho: 'Prepared for ' + f.company + '  ·  ' + f.name,
-        stats: [
-          { label: 'Gratuity payable', big: AA_MONEY(r.total), sub: r.eligible ? yrs(r.years) + ' years of service' : 'under one year of service' },
-          { label: 'Monthly accrual to book', big: AA_MONEY(r.provisionMonthly), sub: pct(r.provisionRate) + ' of basic wage' },
-        ],
+        stats: settle.touched
+          ? [
+            { label: 'Net final settlement', big: m2(settle.net).replace('− ', '- '), sub: 'gratuity plus dues, less deductions' },
+            { label: 'End-of-service gratuity', big: AA_MONEY(r.total), sub: r.eligible ? yrs(r.years) + ' years of service' : 'under one year of service' },
+          ]
+          : [
+            { label: 'Gratuity payable', big: AA_MONEY(r.total), sub: r.eligible ? yrs(r.years) + ' years of service' : 'under one year of service' },
+            { label: 'Monthly accrual to book', big: AA_MONEY(r.provisionMonthly), sub: pct(r.provisionRate) + ' of basic wage' },
+          ],
         verdictTitle: v.t, verdictBody: v.b,
         inputs,
-        nextMoves: [
+        nextMoves: [].concat([
           'Book the accrual monthly — ' + pct(r.provisionRate) + ' of basic wage for this employee — so the liability is on the balance sheet before the leaver appears, and reconcile the provision to the payroll list at every year-end.',
           'Pay within 14 days of the end date (Article 53), together with wages, accrued leave and other entitlements; the pay-by date for this case is ' + dmy(r.payBy) + '.',
           'Keep the basic-wage history. The figure runs on the LAST basic wage (Article 51(5)), so a change in the final months moves the whole entitlement.',
-          'Set any pending dues against this figure before you pay it. Article 51(7) permits an employer to deduct amounts owed by law or under a court judgment, and Cabinet Resolution No. 1 of 2022, Article 29 lists the cases: loans and overpayments, contributions to pension or insurance, penalties under a disciplinary regulation approved by the Ministry, debts under a court ruling, and the cost of damage the employee caused — the last two within three months of falling due unless otherwise agreed. This statement shows the entitlement before any of them.',
-        ],
-        legal: 'Indicative calculation, not legal or tax advice. Federal Decree-Law No. 33 of 2021 fixes the entitlement in days of basic wage and does not state how a day is derived from a monthly wage; this statement applies the ÷30 convention, a ceiling of 24 × basic wage and 365-day years. The Ministry’s English texts are not official translations; the Arabic texts govern. DIFC and ADGM employers are outside this law.',
-        fileName: 'UAE-Gratuity-Statement-' + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf',
+          settle.touched ? 'Check the settlement lines against the payroll and the contract before anyone signs. Only the gratuity in this statement is calculated; every other line was typed in, and we have not seen the underlying records. Note the two wage bases: gratuity and unused leave run on the BASIC wage (Articles 51(2) and 29(9)), while unpaid salary and any notice allowance run on the full wage (Articles 1 and 43(4)).' : '',
+          settle.touched && settle.net < 0 ? 'The net is negative — the deductions entered exceed what is owed. Recovering more than the entitlement is not a matter of setting it off on the settlement: what may be taken from the WAGE is capped by Article 25, and what may be taken from the GRATUITY runs under Article 51(7) with Cabinet Resolution 1 of 2022, Article 29.' : '',
+          settle.touched && r.frozen ? 'The gratuity carried into the settlement is the Decree-Law entitlement counted to the savings-scheme joining date. Contributions made since then are paid out by the fund, not by the employer, and are not in this total.' : '',
+          'Set any pending dues against this figure before you pay it. Article 51(7) permits an employer to deduct amounts owed by law or under a court judgment, and Cabinet Resolution No. 1 of 2022, Article 29 lists the cases: loans and overpayments, contributions to pension or insurance, debts under a court ruling, penalties under a disciplinary regulation approved by the Ministry, and the cost of damage the employee caused — the last two only where the Decree-Law’s own procedures were followed and not more than three months have lapsed since the amount fell due, unless otherwise agreed (Cabinet Resolution 1 of 2022, Article 29(2)). This statement shows the entitlement before any of them.',
+        ]).filter(Boolean),
+        legal: (settle.touched ? 'The settlement lines other than the gratuity were entered by the person who generated this statement and have not been verified. ' : '') + 'Indicative calculation, not legal or tax advice. Federal Decree-Law No. 33 of 2021 fixes the entitlement in days of basic wage and does not state how a day is derived from a monthly wage; this statement applies the ÷30 convention, a ceiling of 24 × basic wage and 365-day years. The Ministry’s English texts are not official translations; the Arabic texts govern. DIFC and ADGM employers are outside this law.',
+        fileName: (settle.touched ? 'UAE-Final-Settlement-' : 'UAE-Gratuity-Statement-') + (f.company || 'Report').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf',
       });
       // Best-effort, and never allowed to cost the visitor the statement.
-      const sent = await aaSubmitLead({ type: 'Gratuity Calculation', company: f.company, name: f.name, email: f.email, phone: f.phone, basicWage: AA_MONEY(p.basic), serviceFrom: dmy(p.start), serviceTo: dmy(p.end), serviceDays: String(r.days), serviceYears: yrs(r.years), workPattern: pattern, unpaidDays: String(p.unpaid || 0), schemeJoined: p.schemeJoin != null ? dmy(p.schemeJoin) : 'No', gratuity: AA_MONEY(r.total), provisionMonthly: AA_MONEY(r.provisionMonthly), verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
+      const sent = await aaSubmitLead({ type: 'Gratuity Calculation', company: f.company, name: f.name, email: f.email, phone: f.phone, basicWage: AA_MONEY(p.basic), serviceFrom: dmy(p.start), serviceTo: dmy(p.end), serviceDays: String(r.days), serviceYears: yrs(r.years), workPattern: pattern, unpaidDays: String(p.unpaid || 0), schemeJoined: p.schemeJoin != null ? dmy(p.schemeJoin) : 'No', gratuity: AA_MONEY(r.total), provisionMonthly: AA_MONEY(r.provisionMonthly), settlementNet: settle.touched ? m2(settle.net) : '', settlementEntered: settle.touched ? 'Yes' : 'No', verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
       setSentOk(sent);
-      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'gratuity', event_label: r.eligible ? (r.capped ? 'capped' : 'payable') : 'under-one-year' });
+      if (window.gtag) window.gtag('event', 'generate_lead', { event_category: 'gratuity', event_label: (settle.touched ? 'settlement-' : '') + (r.eligible ? (r.capped ? 'capped' : 'payable') : 'under-one-year') });
     } catch (e) {
       const reason = (e && e.message) ? String(e.message).slice(0, 120) : 'unknown error';
       console.error('[AAB] gratuity statement failed', e);
@@ -570,6 +597,31 @@ function GratuityToolBody({ onNav, tool }) {
     }
     setBusy(false); setDone(true);
   };
+
+  // Addition and deduction lines, in the order they are shown. The gratuity is
+  // carried across from the other tab rather than re-entered.
+  const sLines = [
+    { k: 'Unpaid salary', v: aaParseNum(f.sSalary), sign: 1 },
+    { k: 'Unused annual leave', v: aaParseNum(f.sLeave), sign: 1 },
+    { k: 'Notice period allowance', v: aaParseNum(f.sNotice), sign: 1 },
+    { k: (f.addLbl1.trim() || 'Other addition'), v: aaParseNum(f.addAmt1), sign: 1 },
+    { k: (f.addLbl2.trim() || 'Other addition'), v: aaParseNum(f.addAmt2), sign: 1 },
+    { k: 'Loan or advance recovered', v: aaParseNum(f.sLoan), sign: -1 },
+    { k: 'Penalties or fines', v: aaParseNum(f.sPenalty), sign: -1 },
+    { k: (f.dedLbl1.trim() || 'Other deduction'), v: aaParseNum(f.dedAmt1), sign: -1 },
+    { k: (f.dedLbl2.trim() || 'Other deduction'), v: aaParseNum(f.dedAmt2), sign: -1 },
+  ];
+  // Two decimals here, unlike the gratuity headline: nine rows each rounded to
+  // the dirham under a net rounded once from the unrounded sum need not add up,
+  // and the carried gratuity is always fractional.
+  const m2 = (n) => (n < 0 ? '− ' : '') + 'AED ' + (Math.round(Math.abs(n) * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const settle = (() => {
+    const grat = r ? r.total : 0;
+    const additions = sLines.filter((l) => l.sign > 0).reduce((a, l) => a + l.v, 0);
+    const deductions = sLines.filter((l) => l.sign < 0).reduce((a, l) => a + l.v, 0);
+    const due = grat + additions;
+    return { grat, additions, deductions, due, net: due - deductions, touched: sLines.some((l) => l.v > 0) };
+  })();
 
   const Row = ({ k, v, strong }) => (
     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '7px 0', borderBottom: '1px solid rgba(255,255,255,0.1)', fontSize: 13 }}>
@@ -584,8 +636,65 @@ function GratuityToolBody({ onNav, tool }) {
   const numStyle = { ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' };
   const hint = (t) => <p style={{ fontSize: 11.5, color: 'var(--aa-steel)', margin: '5px 0 0', lineHeight: 1.45 }}>{t}</p>;
 
+  const tabStyle = (id) => ({
+    flex: 1, padding: '13px 18px', fontSize: 14, fontWeight: 600, cursor: 'pointer',
+    fontFamily: 'var(--aa-font-sans)', textAlign: 'center',
+    background: tab === id ? 'var(--aa-charcoal)' : '#fff',
+    color: tab === id ? '#fff' : 'var(--aa-steel-700)',
+    border: '1px solid var(--aa-rule)', borderBottom: tab === id ? '1px solid var(--aa-charcoal)' : '1px solid var(--aa-rule)',
+    borderRight: id === 'gratuity' ? 'none' : '1px solid var(--aa-rule)',
+  });
+  // Roving tabindex + arrow keys: the WAI-ARIA tabs pattern, so the pair is one
+  // stop in the tab order and the arrows move between them.
+  const onTabKey = (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Home' && e.key !== 'End') return;
+    e.preventDefault();
+    const next = e.key === 'Home' ? 'gratuity' : e.key === 'End' ? 'settlement' : (tab === 'gratuity' ? 'settlement' : 'gratuity');
+    setTab(next);
+    const el = document.getElementById(uid + '-tab-' + next);
+    if (el) el.focus();
+  };
+
+  const amountRow = (key, label, hintText, placeholder) => (
+    <div style={{ marginTop: 14 }}>
+      <label htmlFor={uid + '-' + key} style={AA_TOOL_LABEL}>{label}</label>
+      <input id={uid + '-' + key} style={numStyle} inputMode="decimal" value={f[key]} onChange={upd(key)} placeholder={placeholder || '0'} />
+      {hintText ? hint(hintText) : null}
+    </div>
+  );
+  const freeRow = (lblKey, amtKey, n, placeholder) => (
+    <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 12 }}>
+      <div>
+        <label htmlFor={uid + '-' + lblKey} style={AA_TOOL_LABEL}>Description {n}</label>
+        <input id={uid + '-' + lblKey} style={AA_TOOL_INPUT} value={f[lblKey]} onChange={upd(lblKey)} maxLength={32} placeholder={placeholder} />
+      </div>
+      <div>
+        <label htmlFor={uid + '-' + amtKey} style={AA_TOOL_LABEL}>Amount (AED)</label>
+        <input id={uid + '-' + amtKey} style={numStyle} inputMode="decimal" value={f[amtKey]} onChange={upd(amtKey)} placeholder="0" />
+      </div>
+    </div>
+  );
+
   return (
     <div>
+      <div role="tablist" aria-label="Gratuity or full settlement" style={{ display: 'flex' }}>
+        <button type="button" role="tab" id={uid + '-tab-gratuity'} aria-selected={tab === 'gratuity'} aria-controls={uid + '-panel-gratuity'}
+          tabIndex={tab === 'gratuity' ? 0 : -1} onClick={() => setTab('gratuity')} onKeyDown={onTabKey} style={tabStyle('gratuity')}>
+          End-of-service gratuity
+        </button>
+        <button type="button" role="tab" id={uid + '-tab-settlement'} aria-selected={tab === 'settlement'} aria-controls={uid + '-panel-settlement'}
+          tabIndex={tab === 'settlement' ? 0 : -1} onClick={() => setTab('settlement')} onKeyDown={onTabKey} style={tabStyle('settlement')}>
+          Full final settlement
+        </button>
+      </div>
+
+      <p style={{ margin: '10px 0 14px', fontSize: 13, lineHeight: 1.6, color: 'var(--aa-steel-700)' }}>
+        The first tab <strong>calculates</strong> the gratuity from the Labour Law. The second is a <strong>worksheet</strong>:
+        those figures are yours to enter, nothing there is worked out for you, and they differ from one company to the next.
+        Both start filled with an invented example until you change them.
+      </p>
+
+      <div role="tabpanel" id={uid + '-panel-gratuity'} aria-labelledby={uid + '-tab-gratuity'} hidden={tab !== 'gratuity'}>
       {/* ---- The calculator: inputs left, result right ---- */}
       <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
         <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
@@ -675,10 +784,81 @@ function GratuityToolBody({ onNav, tool }) {
               {r.capped ? <Note warn>Ceiling reached. Article 51(6) says “two years’ wage” — the defined term that includes allowances — so the true ceiling may be higher than 24 × basic. Shown at the conservative reading.</Note> : null}
               {r.schemeBad ? <Note warn>The savings-scheme joining date is on or before the first day of service, so it has been ignored. Check it.</Note> : null}
               {r.frozen ? <Note warn={!(p.basicAtJoin > 0)}>Savings scheme: Decree-Law accrual counted to the joining date and computed on {AA_MONEY(r.wage)} a month{p.basicAtJoin > 0 ? ', the wage you entered as at that date' : ' — the LAST basic wage, because no wage as at the joining date was entered. Cabinet Resolution 96 of 2023 (Article 5(3)) fixes the preserved entitlement on the wage as at that date, so enter it above if the pay has changed since'}. Contributions since then sit in the fund, outside this figure.</Note> : null}
-              {r.eligible ? <Note>This is the entitlement before any deduction. An employer may set pending dues against it — Article 51(7) permits deducting amounts owed by law or under a court judgment, and Cabinet Resolution 1 of 2022, Article 29 lists which: loans and overpayments, pension or insurance contributions, penalties under a disciplinary regulation approved by the Ministry, court-ordered debts, and damage the employee caused. The last two must be raised within three months of falling due unless otherwise agreed.</Note> : null}
+              {r.eligible ? <Note>This is the entitlement before any deduction. An employer may set pending dues against it — Article 51(7) permits deducting amounts owed by law or under a court judgment, and Cabinet Resolution 1 of 2022, Article 29 lists which: loans and overpayments, contributions to pension or insurance, debts under a court ruling, penalties under a disciplinary regulation approved by the Ministry, and the cost of damage the employee caused — the last two only where the Decree-Law’s own procedures were followed and not more than three months have lapsed since the amount fell due, unless otherwise agreed (Cabinet Resolution 1 of 2022, Article 29(2)).</Note> : null}
               <Note>No reduction for resignation: Federal Decree-Law No. 33 of 2021 contains none (Article 51(2)).</Note>
             </div>
           )}
+        </div>
+      </div>
+      </div>
+
+      <div role="tabpanel" id={uid + '-panel-settlement'} aria-labelledby={uid + '-tab-settlement'} hidden={tab !== 'settlement'}>
+        <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
+          <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
+            <div className="eyebrow" style={{ marginBottom: 10 }}>The last pay run, line by line</div>
+            <p style={{ fontSize: 14, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: '0 0 6px' }}>
+              <strong>These figures are yours to enter — the page does not work them out.</strong> They sit in your
+              contract, your payroll and your employer’s own policy, and they differ from one company to the next.
+              The gratuity is carried across from the other tab. Anything this page does not name — overtime, a commission,
+              a repatriation ticket, an asset not returned — goes in the free rows.
+            </p>
+            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: 'var(--aa-steel-700)', margin: '0 0 4px' }}>
+              One thing worth knowing before you fill them in: a settlement mixes <strong>two different wage bases</strong>.
+              Gratuity and unused leave are calculated on the <strong>basic wage</strong>; unpaid salary and any notice
+              allowance are on the <strong>full wage</strong>, allowances included.
+            </p>
+
+            <div style={{ marginTop: 26, paddingTop: 18, borderTop: '2px solid var(--aa-charcoal)' }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 4 }}>Add</div>
+              {amountRow('sSalary', 'Unpaid salary (AED)', 'Salary earned but not yet paid, on the full wage — basic plus allowances (Article 1, “Wage”).')}
+              {amountRow('sLeave', 'Unused annual leave (AED)', 'Encashed on the BASIC wage, not the full one — Article 29(9) and Cabinet Resolution 1 of 2022, Article 19(2). Article 29(1) sets the statutory floor at “not less than” 30 days a year, or 2 days a month between six months and a year, pro-rata for the final part-year — your contract may give more.')}
+              {amountRow('sNotice', 'Notice period allowance (AED)', 'Where the EMPLOYER did not serve notice. Article 43(3) makes the allowance payable by whichever party failed to serve it — so if the employee left without serving notice the same amount runs the other way, and belongs under Deduct below. It is the full wage for the unserved part (43(4)); the period is 30 to 90 days under the contract, and shorter during probation (Article 9).')}
+              {freeRow('addLbl1', 'addAmt1', '1', 'e.g. air ticket, overtime, commission')}
+              {freeRow('addLbl2', 'addAmt2', '2', 'e.g. reimbursed expenses')}
+            </div>
+
+            <div style={{ marginTop: 30, paddingTop: 18, borderTop: '2px solid var(--aa-charcoal)' }}>
+              <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 4 }}>Deduct</div>
+              {amountRow('sLoan', 'Loan or advance recovered (AED)', 'Article 25(1)(a) allows it against the wage with the employee’s written agreement, without interest, and within that Article’s monthly ceiling. Recovering a whole outstanding balance in one settlement is a matter for the loan agreement, not something Article 25 authorises by itself.')}
+              {amountRow('sPenalty', 'Penalties or fines (AED)', 'Only under a disciplinary regulation approved by the Ministry, and capped at 5% of the wage — Article 25(1)(f).')}
+              {freeRow('dedLbl1', 'dedAmt1', '1', 'e.g. unreturned company asset')}
+              {freeRow('dedLbl2', 'dedAmt2', '2', 'e.g. notice not served by the employee')}
+            </div>
+
+            <p style={{ margin: '22px 0 0', fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.55 }}>
+              Nothing you type leaves your browser unless you ask for the statement below.
+            </p>
+          </div>
+
+          <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 320, position: 'relative' }}>
+            <AAPanelMark />
+            {/* Only the headline is live. The rows below carry free text the
+                visitor is still typing, and a live region over them reads every
+                keystroke of a description back to a screen-reader user. */}
+            <div aria-live="polite" aria-atomic="true">
+              <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Net final settlement — your figures</div>
+              <div className="mono" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.05 }}>{m2(settle.net)}</div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>
+                {m2(settle.due)} owed{settle.deductions > 0 ? ', less ' + m2(settle.deductions) + ' deducted' : ''}
+              </div>
+            </div>
+            <div style={{ marginTop: 16, borderTop: '1px solid rgba(255,255,255,0.14)' }}>
+              <Row k="End-of-service gratuity" v={national ? 'Pension — Art. 51(1)' : m2(settle.grat)} />
+              {sLines.filter((l) => l.v > 0).map((l, i) => (
+                <Row key={i} k={l.k} v={(l.sign < 0 ? '− ' : '') + m2(l.v)} />
+              ))}
+              <Row k="Net payable" v={m2(settle.net)} strong />
+              <Row k="Pay by (Art. 53)" v={p.end != null ? dmy(p.end + 14 * DAY) : '—'} />
+            </div>
+            <Note warn>This panel is your worksheet, not our figure. Only the gratuity line is calculated from the law — every other line is a number you typed, and we have not seen your contract, payroll or ledger.</Note>
+            {national ? <Note warn>A UAE national’s end-of-service benefit comes under the pension and social-security legislation (Article 51(1)), so there is no gratuity line to carry across. Everything else here — unpaid salary, unused leave, notice, deductions — still applies.</Note> : null}
+            {!r && !national ? <Note warn>The gratuity line stays nil until the basic wage and both dates are filled in on the first tab.</Note> : null}
+            {r && !r.eligible ? <Note warn>Gratuity is nil: service is under one year (Article 51(2)). The other lines are still payable.</Note> : null}
+            {r && r.frozen ? <Note warn>The gratuity carried across is the Decree-Law entitlement counted to the savings-scheme joining date only. What has gone into the fund since then is paid out by the fund, not by the employer, and is not in this total.</Note> : null}
+            {settle.net < 0 ? <Note warn>Deductions exceed what is owed, so the figure is negative. Worth checking before anyone acts on it: what may be taken from the <em>wage</em> is capped by Article 25, while what may be taken from the <em>gratuity</em> runs under Article 51(7) and Cabinet Resolution 1 of 2022, Article 29.</Note> : null}
+            <Note>Everything here — wages, leave and the gratuity — falls due within 14 days of the end date (Article 53).</Note>
+            <Note>Deductions from the <strong>wage</strong> are capped by Article 25: 5% for penalties, 20% to recover an overpayment, a quarter for a court-ordered debt (more is allowed for awarded alimony), five days’ wage a month for damage (more only with the court’s approval), and 50% in total however many reasons there are. A loan needs the employee’s written agreement and carries no interest. Deductions from the <strong>gratuity</strong> run under a different rule — Article 51(7) with Cabinet Resolution 1 of 2022, Article 29 — which sets no percentage.</Note>
+          </div>
         </div>
       </div>
 

@@ -143,7 +143,18 @@ async function aaBuildBrandedPdf(cfg) {
   if (cfg.inputs && cfg.inputs.length) {
     heading('Your inputs');
     doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
-    cfg.inputs.forEach(([k, v]) => { ensure(15); setC(steel); doc.text(k + ':', M, y); setC(ink); doc.text(String(v), M + 200, y); y += 15; });
+    // The value column starts at M+200, so a label wider than that has to be
+    // trimmed rather than run underneath the figure. Nothing built into these
+    // statements is that long; a tool that takes a free-text label can be.
+    cfg.inputs.forEach(([k, v]) => {
+      ensure(15); setC(steel);
+      let key = String(k) + ':';
+      if (doc.getTextWidth(key) > 190) {
+        while (key.length > 5 && doc.getTextWidth(key.slice(0, -2) + '...:') > 190) key = key.slice(0, -1);
+        key = key.slice(0, -2) + '...:';
+      }
+      doc.text(key, M, y); setC(ink); doc.text(String(v), M + 200, y); y += 15;
+    });
     y += 8;
   }
 

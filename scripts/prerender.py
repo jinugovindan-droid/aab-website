@@ -257,8 +257,8 @@ PAGE_SEO = {
         "description": "Add 5% or take the VAT out of a gross amount, with the formula shown and rounding to the fils as the FTA describes it, each rule cited to the VAT law.",
     },
     "tool-gratuity": {
-        "title": "UAE Gratuity Calculator 2026 — End-of-Service Benefits",
-        "description": "UAE gratuity under Decree-Law 33 of 2021, each figure cited to its article: 21 and 30 days of basic wage, the cap, part-time, and the monthly provision to book.",
+        "title": "UAE Gratuity Calculator 2026 — End of Service & Final Settlement",
+        "description": "UAE gratuity under Decree-Law 33 of 2021, each figure cited to its article: 21 and 30 days of basic wage, the cap, part-time and the monthly provision — plus a full final settlement worksheet.",
     },
 }
 
@@ -720,6 +720,8 @@ def full_url(page):
 GRATUITY_FAQ = [
     {"q": "How is gratuity calculated in the UAE in 2026?",
      "a": "Article 51 of Federal Decree-Law No. 33 of 2021 sets it: after one year of continuous service, 21 days of basic wage for each of the first five years, then 30 days of basic wage for each further year, with part years pro-rata and a ceiling of two years’ wage. Article 51 carries no amendment marker in the Ministry’s consolidated text of the law."},
+    {"q": "What is included in a UAE final settlement?",
+     "a": "A final settlement is the gratuity plus everything else that falls due when employment ends. In practice it is unpaid salary to the last working day, payment for annual leave not taken (Article 29 of Cabinet Resolution No. 1 of 2022, on the basic wage), pay in lieu of notice where notice was not served (Article 43(4), on the full wage), the end-of-service gratuity under Article 51, and any repatriation cost the contract puts on the employer — less what the employee owes. Deductions from the wage are capped by Article 25 of the Decree-Law, and cannot exceed 50% in total. Everything is payable within 14 days of the end date (Article 53). What a settlement contains beyond this varies from one company to the next, so the settlement tab on this page is a worksheet you fill in, not a calculation."},
     {"q": "Is gratuity calculated on basic salary or total salary?",
      "a": "Basic wage. Article 51(2) says the benefit is calculated according to the basic wage, and Article 1 defines basic wage as the contract wage excluding allowances and benefits in kind. Housing, transport and similar allowances are not in the base."},
     {"q": "Does resigning reduce my gratuity?",
