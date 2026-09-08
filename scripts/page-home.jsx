@@ -187,7 +187,12 @@ function HomeHero({ onNav }) {
           onMouseLeave={() => setPaused(false)}
           style={{ maxWidth: 980, margin: '0 auto', outline: 'none' }}
         >
-          <div className="eyebrow" style={{
+          {/* Light cyan, not brand cyan: measured against the actual pixels of all
+              three hero photographs under the scrim, 12px #00B0F0 falls to 3.60:1
+              over dubai-night-king.jpg (AA wants 4.5). --aa-cyan-200 is the site's
+              existing answer for cyan on a dark surface (.section--dark .aa-eyebrow)
+              and takes the worst case to 5.72:1. */}
+          <div className="eyebrow eyebrow--cyan-light" style={{
             marginBottom: 28,
             display: 'inline-flex', alignItems: 'center', gap: 12,
             flexWrap: 'wrap', justifyContent: 'center',
