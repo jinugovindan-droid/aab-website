@@ -631,7 +631,8 @@ function GratuityToolBody({ onNav, tool }) {
           </p>
         </div>
 
-        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 320 }} aria-live="polite">
+        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 320, position: 'relative' }} aria-live="polite">
+          <AAPanelMark />
           {national ? (
             <div>
               <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Result</div>
@@ -798,7 +799,8 @@ function VatToolBody({ onNav, tool }) {
           </p>
         </div>
 
-        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 300 }} aria-live="polite">
+        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 300, position: 'relative' }} aria-live="polite">
+          <AAPanelMark />
           {!r ? (
             <div>
               <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>VAT</div>

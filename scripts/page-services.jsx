@@ -2394,7 +2394,23 @@ function RelatedReading({ page, onNav }) {
 
 Object.assign(window, { ServicesPage, ServiceVATPage, ServiceCorporateTaxPage, ServiceBookkeepingPage, ServiceAuditSupportPage, ServiceValuationsPage, ServiceTransactionAdvisoryPage, ServiceCFOPage, ServiceFinancialStatementsPage, ServiceTaxPlanningPage, ServiceSimplePage, FAQList, AnswerFirst, RelatedReading });
 
+// A small mark for the dark result panels. The figure is the thing people
+// screenshot and paste into a WhatsApp thread or a deck; without this it
+// travels with nothing to say where it came from. Stacked rather than side by
+// side: laid out in a row it measured 148px and collided with the panel's own
+// label on a 333px-wide panel at 375px. Decorative here — the page
+// already carries the brand in its chrome — so it is hidden from assistive
+// tech, which also keeps it out of the panel's aria-live announcements.
+function AAPanelMark() {
+  return (
+    <div aria-hidden="true" style={{ position: 'absolute', top: 18, right: 22, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 3, opacity: 0.92, pointerEvents: 'none' }}>
+      <img src="assets/logos/aab-short-eng-classic.png" alt="" style={{ height: 24, width: 'auto', display: 'block' }} />
+      <span className="mono" style={{ fontSize: 9.5, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.6)', lineHeight: 1 }}>aaccounting.me</span>
+    </div>
+  );
+}
+
 // Lead-tool helpers, surfaced for the tool bodies that scripts/build.mjs splits
 // into dist/tools/<slug>.js (see page-tools.jsx). Like window.AAArt for
 // articles: a fixed cost that does not grow with the number of tools.
-window.AATools = { aaSubmitLead, aaBuildBrandedPdf, AA_MONEY, aaParseNum, AA_TOOL_INPUT, AA_TOOL_LABEL, goContact, aaDubaiToday };
+window.AATools = { aaSubmitLead, aaBuildBrandedPdf, AA_MONEY, aaParseNum, AA_TOOL_INPUT, AA_TOOL_LABEL, goContact, aaDubaiToday, AAPanelMark };

@@ -62,7 +62,7 @@ const SPLITS = [
     chunks: 'AAToolChunks', dir: 'dist/tools', label: 'tool body', out: [],
     prelude: 'var T=window.AATools||{},R=window.AARoutes||{};\n' +
       'var aaSubmitLead=T.aaSubmitLead,aaBuildBrandedPdf=T.aaBuildBrandedPdf,AA_MONEY=T.AA_MONEY,aaParseNum=T.aaParseNum,' +
-      'AA_TOOL_INPUT=T.AA_TOOL_INPUT,AA_TOOL_LABEL=T.AA_TOOL_LABEL,goContact=T.goContact,aaDubaiToday=T.aaDubaiToday,' +
+      'AA_TOOL_INPUT=T.AA_TOOL_INPUT,AA_TOOL_LABEL=T.AA_TOOL_LABEL,goContact=T.goContact,aaDubaiToday=T.aaDubaiToday,AAPanelMark=T.AAPanelMark,' +
       'FAQList=window.FAQList;\n' +
       'var pathForPage=R.pathForPage,pathForInsight=R.pathForInsight;\n',
   },
