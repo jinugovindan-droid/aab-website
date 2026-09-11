@@ -2023,6 +2023,7 @@ function SupplierVerificationBody({ onNav }) {
       <p>The workload is asymmetric, and this is the part most easily overlooked. The <strong>supplier</strong> file is annual &mdash; Article&nbsp;5 requires verification when you deal with a supplier for the first time, or on recurrent dealings where they have not been verified in the previous 12&nbsp;months. The <strong>supply</strong> check under Article&nbsp;4 runs on every taxable supply you receive that is not inside the AED&nbsp;10,000 exception.</p>
       <p>Article&nbsp;4 asks you to satisfy yourself that there is a genuine commercial rationale for the transaction; that price and margin are justifiable against the market; that the supply is not outside the supplier&rsquo;s licensed activity; and, where a third party or intermediary is involved, that there is a reasonable commercial explanation for their role. For <strong>goods</strong> it adds authenticity and origin, and the validity of the supplier&rsquo;s ownership or right to dispose. The Decision says what to verify. It sets no documentary standard for how &mdash; so do not accept that a certificate of origin has suddenly become mandatory.</p>
       <p><strong>Payment carries its own condition, in mandatory language.</strong> The consideration &ldquo;shall be paid by electronic means&rdquo;. Cash is not prohibited &mdash; the clause expressly contemplates it &mdash; but a cash payment must rest on a documented commercial reason, be easily verifiable, and fall within &ldquo;the thresholds specified in the applicable Tax legislation&rdquo;. We went looking for that threshold. The word &ldquo;cash&rdquo; does not appear anywhere in the VAT Law itself, and the one mention of it in the Tax Procedures Law is about settling a disputed amount with the Authority &mdash; not a ceiling on what you may pay a supplier. So two of the three conditions are workable today, and the third points at a figure we have not been able to find.</p>
+      <p><strong>Update, 11 September 2026.</strong> The threshold now has a home. Cabinet Decision No.&nbsp;149 of 2026, issued on 1&nbsp;September, adds a Clause&nbsp;3 to Article&nbsp;54 of the VAT Executive Regulation, in force from 1&nbsp;October &mdash; the same day as this Decision: input tax may not be recovered on any supply whose value exceeds an amount to be set in a decision of the Minister of Finance, where the consideration is paid <em>or intended to be paid</em> in cash, in accordance with the controls in that decision. The amount itself is still to come; at the date of this update the Minister&rsquo;s decision had not been published. Two things follow. The cash condition above no longer points at nothing &mdash; it points at a ministerial threshold that will also, on its own and without any evasion in the chain, bar the input tax above it. And &ldquo;intended to be paid&rdquo; puts the test at the point of claim, not at settlement. {ilink('vat-executive-regulation-amendments-october-2026', 'Every amendment in Cabinet Decision 149, article by article →')}</p>
 
       <h3 style={H3}>The one document that has to exist by 1 October</h3>
       <p>Article&nbsp;5(4) requires a documented policy for these verification procedures, stating the powers and responsibilities of the persons implementing, reviewing and supervising them, kept with your tax records.</p>
@@ -2053,10 +2054,10 @@ function SupplierVerificationBody({ onNav }) {
         <li><strong>Build the supplier file</strong> for both upper buckets: identification, incorporation, place of business, risk-indicator notes. Add the bank confirmation and the reputation review for the top bucket &mdash; and start the bank letters early, because they run on someone else&rsquo;s turnaround.</li>
         <li><strong>Write the Article&nbsp;5(4) policy</strong> and name who implements, who reviews and who supervises.</li>
         <li><strong>Put the Article&nbsp;4 checks into the purchase-invoice approval workflow.</strong> They run on every invoice, and nobody will do them as a separate monthly exercise.</li>
-        <li><strong>Decide your position on cash payments</strong> now, in writing, while it is a policy choice rather than an audit answer.</li>
+        <li><strong>Decide your position on cash payments</strong> now, in writing, while it is a policy choice rather than an audit answer &mdash; and tag cash-settled purchase invoices in the ledger, because from 1&nbsp;October the Executive Regulation bars input tax on cash purchases above a threshold the Minister is to set (Article&nbsp;54(3), added by Cabinet Decision No.&nbsp;149 of 2026).</li>
       </ul>
 
-      {artNote('Written on 20 August 2026 from the FTA’s published text of Decision No. 13 of 2026 and the consolidated VAT Law published by the Ministry of Finance (the consolidation of 28 November 2025, which carries Article 54 bis as inserted by Federal Decree-Law No. 16 of 2025). Article 54 bis is quoted from the UAE legislation portal, uaelegislation.gov.ae. Tax Evasion is defined at Article 1 of Federal Decree-Law No. 28 of 2022 on Tax Procedures. The FTA had issued no guidance on this Decision at that date, and we found no published commentary on it. The English texts are unofficial translations; the Arabic governs. We will update this page when guidance is published. General information on published law, not advice on your own position.')}
+      {artNote('Written on 20 August 2026 from the FTA’s published text of Decision No. 13 of 2026 and the consolidated VAT Law published by the Ministry of Finance (the consolidation of 28 November 2025, which carries Article 54 bis as inserted by Federal Decree-Law No. 16 of 2025). Article 54 bis is quoted from the UAE legislation portal, uaelegislation.gov.ae. Tax Evasion is defined at Article 1 of Federal Decree-Law No. 28 of 2022 on Tax Procedures. The FTA had issued no guidance on this Decision at that date, and we found no published commentary on it. Updated 11 September 2026 for Cabinet Decision No. 149 of 2026, which adds Article 54(3) to the Executive Regulation from 1 October 2026; the Minister’s decision setting the cash threshold had not been published at that date. The English texts are unofficial translations; the Arabic governs. We will update this page again when the threshold or FTA guidance is published. General information on published law, not advice on your own position.')}
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
@@ -2215,6 +2216,128 @@ function RecordCopyStandardBody({ onNav }) {
   );
 }
 
+function ERAmendments2026Body({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  const ilink = (slug, label) => (
+    <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  const TD = { verticalAlign: 'top' };
+  const NUM = { whiteSpace: 'nowrap', verticalAlign: 'top' };
+
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>Cabinet Decision No.&nbsp;149 of 2026 was issued on <strong>1&nbsp;September</strong> and amends the VAT Executive Regulation from <strong>1&nbsp;October&nbsp;2026</strong> &mdash; the same day FTA Decision&nbsp;13 starts. It touches twelve points. Most are narrow. Three are not: input VAT on purchases paid in <strong>cash</strong> above a threshold the Minister has yet to set; <strong>staff accommodation</strong> taken out of the rule that keeps input VAT on mandatory employee benefits recoverable; and, from the first tax year beginning after 1&nbsp;October&nbsp;2027, a <strong>partial-exemption ratio</strong> that runs on turnover instead of on input tax. This page goes through every amended article against the Ministry&rsquo;s consolidated text, with the date each one bites.</p>
+
+      <h3 style={H3}>Every change, and when it applies</h3>
+      <div style={{ overflowX: 'auto', marginTop: 8 }}>
+        <table className="aa-table" style={{ width: '100%' }}>
+          <thead>
+            <tr>
+              <th scope="col" className="aa-num" style={{ whiteSpace: 'nowrap' }}>Article</th>
+              <th scope="col">What changes</th>
+              <th scope="col" style={{ whiteSpace: 'nowrap' }}>From</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td className="aa-num" style={NUM}><strong>54(3)</strong> new</td><td style={TD}>No input tax recovery on a supply whose value exceeds an amount the Minister will set, where the consideration is paid or intended to be paid in cash</td><td style={NUM}>1 Oct 2026</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>53(1)(c)(1)</strong></td><td style={TD}>Benefits that labour legislation makes mandatory &mdash; now expressly including financial and non-financial free zones &mdash; stay recoverable, <em>except employee accommodation</em>, unless MoHRE decisions or directives make it mandatory</td><td style={NUM}>1 Oct 2026</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>53(1)(c)(2)</strong></td><td style={TD}>Benefits provided under a contract or documented policy stay recoverable &ldquo;in accordance with the cases and conditions specified by the Authority&rdquo;</td><td style={NUM}>1 Oct 2026</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>4(6)</strong> new</td><td style={TD}>A supply whose components are interconnected and cannot be separated may not be treated as multiple supplies; it is a single composite supply, taxed as its principal component</td><td style={NUM}>1 Oct 2026</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>41(4)</strong></td><td style={TD}>Zero-rating covers &ldquo;any medical product as specified in a decision issued by the Cabinet&rdquo;, replacing the separate pharmaceutical-products and medical-equipment paragraphs</td><td style={NUM}>1 Oct 2026</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>57(1)</strong></td><td style={TD}>A Capital Asset is &ldquo;a business asset with a cost amounting to AED&nbsp;5,000,000 or more&rdquo;, in place of &ldquo;a single item of expenditure&rdquo; of that amount</td><td style={NUM}>1 Oct 2026</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>29(5)</strong></td><td style={TD}>Profit-margin scheme: purchase costs and fees count towards the purchase price only where the input tax on them is not recoverable</td><td style={NUM}>1 Oct 2026</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>52(2)</strong></td><td style={TD}>A person is &ldquo;outside the State&rdquo; if present for less than 30 days (was &ldquo;less than a month&rdquo;) and the presence is not connected with the supply</td><td style={NUM}>1 Oct 2026</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>60(1)(a)</strong></td><td style={TD}>The words &ldquo;Tax Credit Note&rdquo; must be displayed on the credit note (the text previously said &ldquo;on the invoice&rdquo;)</td><td style={NUM}>1 Oct 2026</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>55(6), 55(7)</strong></td><td style={TD}>The standard apportionment ratio moves from input tax to the value of supplies, with capital-asset sales and reverse-charge receipts excluded</td><td style={NUM}>First tax year starting after 1 Oct 2027</td></tr>
+            <tr><td className="aa-num" style={NUM}><strong>55(19)</strong> new</td><td style={TD}>Government entities and charities keep the input-tax ratio</td><td style={NUM}>First tax year starting after 1 Oct 2027</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style={{ marginTop: 16, fontSize: 15, color: 'var(--aa-steel-700)' }}>Article numbers are those of Cabinet Decision No.&nbsp;52 of 2017 as consolidated. The English text is the Ministry&rsquo;s unofficial translation; the Arabic governs.</p>
+
+      <h3 style={H3}>Cash: the threshold Decision&nbsp;13 pointed at</h3>
+      <p>When we wrote up {ilink('fta-decision-13-supplier-verification', 'FTA Decision 13')} in August, its payment condition pointed at a cash threshold &ldquo;specified in the applicable Tax legislation&rdquo; that we could not find in the VAT Law or the Tax Procedures Law. It now has a home. New Clause&nbsp;3 of Article&nbsp;54 reads, in the Ministry&rsquo;s translation:</p>
+      <blockquote style={{ margin: '18px 0', padding: '14px 20px', borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', fontSize: 16 }}>
+        &ldquo;Input Tax may not be recovered on any supply which has a value exceeding the amount specified in a decision issued by the Minister where the consideration is paid or intended to be paid in cash, in accordance with the controls specified in that decision.&rdquo;
+      </blockquote>
+      <p>Three things in that sentence deserve a slow read. The <strong>amount is not in the Regulation</strong>; it comes in a decision of the Minister of Finance that had not been published when this was written. The block attaches where consideration is paid <strong>&ldquo;or intended to be paid&rdquo;</strong> in cash &mdash; so the test is at the point of claim, not at settlement, and an invoice you plan to settle in cash is caught before a note has changed hands. And the clause is a stand-alone bar on recovery: it does not depend on tax evasion in the chain the way Article&nbsp;54&nbsp;bis does. Decision&nbsp;13 asks you to document a commercial reason for paying cash; from 1&nbsp;October, above the Minister&rsquo;s figure and subject to whatever controls that decision sets, the input tax is simply not recoverable.</p>
+      <p>What this means in practice depends entirely on the figure, so we will not guess at it. The policy decision does not: a business that pays suppliers in cash above small sums needs a written position now, and a way of flagging those invoices in the purchase ledger so that the claim is not made by default.</p>
+
+      <h3 style={H3}>Staff accommodation</h3>
+      <p>Article&nbsp;53 lists the input tax that cannot be recovered. Since 2018, goods and services bought for employees&rsquo; personal benefit have been blocked, with four exceptions: where labour law makes providing them mandatory; where a contract or documented policy provides them so that staff can do their jobs; health insurance within stated limits; and deemed supplies. The first two are rewritten. The first now covers benefits mandatory &ldquo;under the applicable labour legislation in the State or any free zone, including financial and non-financial free zones&rdquo; &mdash; which settles a point for DIFC and ADGM employers &mdash; but it then carves out <strong>accommodation provided by the employer to its employees</strong>, &ldquo;unless the provision of such accommodation is mandatory pursuant to the decisions or directives issued by the Ministry of Human Resources and Emiratisation&rdquo;.</p>
+      <p>The second exception, for contractual and documented-policy benefits, loses its own test (&ldquo;in order that they may perform their role and it can be proven to be normal business practice&rdquo;) and instead applies &ldquo;in accordance with the cases and conditions specified by the Authority&rdquo;. Until the FTA specifies them, the safe reading is that the exception exists and its boundary is not yet drawn.</p>
+      <p>The businesses this reaches are the ones that house people as a matter of course &mdash; construction, hospitality, manufacturing, facilities management, any employer running labour accommodation or staff housing. The question for each of them is whether the housing is <em>mandatory under a MoHRE decision or directive</em> for the workers concerned, or provided by contract or policy. Only the first keeps the input tax without further conditions. That is a fact about your workforce and your paperwork, not about the Regulation, and it is the first thing to establish.</p>
+
+      <h3 style={H3}>One price, one supply</h3>
+      <p>Article&nbsp;4 already said when a bundle is a single composite supply (one price, one supplier, components that would be unnatural to split) and that a bundle failing those tests is multiple supplies. New Clause&nbsp;6 closes the door from the other side: a taxable person <strong>may not</strong> treat a supply as multiple supplies &ldquo;if the nature of the supply and its economic substance demonstrate that these components are interconnected and cannot be separated&rdquo;. In that case it is a single composite supply and takes the treatment of its principal component.</p>
+      <p>The obvious use is pricing that separates a zero-rated or exempt element from a standard-rated one to lower the tax on a package. The Regulation now says substance decides, not the invoice layout. If you sell bundles &mdash; equipment with installation, a course with materials, accommodation with services &mdash; the review is whether the elements genuinely stand alone, and whether the tax treatment you apply follows the principal component when they do not.</p>
+
+      <h3 style={H3}>Medical products</h3>
+      <p>Article&nbsp;41(4) zero-rated pharmaceutical products and medical equipment as specified in Cabinet decisions. Both paragraphs are replaced by one: &ldquo;any medical product as specified in a decision issued by the Cabinet&rdquo;. The Ministry describes the change as aligning the VAT text with the updated legislative framework for the healthcare sector. The zero rate is not withdrawn &mdash; the goods that qualify are those a Cabinet decision names &mdash; and the residual paragraph for other goods necessary to zero-rated healthcare services is kept. For pharmacies, distributors and clinics the question is which Cabinet decision now carries the list, and that is one to watch rather than assume.</p>
+
+      <h3 style={H3}>The Capital Assets Scheme</h3>
+      <p>Article&nbsp;57 defined a Capital Asset as &ldquo;a single item of expenditure of the Business amounting to AED&nbsp;5,000,000 or more&rdquo;. It now reads &ldquo;a business asset with a cost amounting to AED&nbsp;5,000,000 or more&rdquo;, excluding tax, with the same useful-life tests: ten years for a building or part of one, five years for anything else. The staged-payment rule that aggregates smaller sums for a building or an installed asset is unchanged. The Ministry calls this a clarification for consistency with the Decree-Law, which defines Capital Assets as &ldquo;business assets designated for long-term use&rdquo;. The practical reading is that the scheme follows the <em>asset</em> and its cost, however the spend was invoiced &mdash; worth checking against how your fixed-asset register groups capitalised costs.</p>
+
+      <h3 style={H3}>Three smaller ones</h3>
+      <ul>
+        <li><strong>Profit margin, Article&nbsp;29(5).</strong> The purchase price of second-hand goods, antiques and collectors&rsquo; items includes purchase costs and fees only &ldquo;provided that the Input Tax on such costs or fees, where incurred, is not recoverable&rdquo; under Article&nbsp;54 of the Decree-Law. A cost whose VAT you have recovered cannot also shrink the margin.</li>
+        <li><strong>Outside the State, Article&nbsp;52(2).</strong> For the recovery rule on financial services supplied to non-residents, a person is outside the State if present for <strong>less than 30 days</strong> and the presence is not effectively connected with the supply. The old text said &ldquo;less than a month&rdquo;.</li>
+        <li><strong>Credit notes, Article&nbsp;60(1)(a).</strong> The words &ldquo;Tax Credit Note&rdquo; must be clearly displayed on the credit note. The previous text said &ldquo;on the invoice&rdquo;; nothing changes in practice.</li>
+      </ul>
+
+      <h3 style={H3}>2027: the apportionment ratio moves from costs to sales</h3>
+      <p>This is the largest change and the one with the longest fuse. A business that makes both taxable and exempt supplies recovers input tax on its shared costs &mdash; rent, IT, audit fees &mdash; in proportion. Today, under Article&nbsp;55(7) and as the FTA&rsquo;s apportionment guide sets it out, the proportion is <strong>a&nbsp;&divide;&nbsp;(a&nbsp;+&nbsp;b)</strong>: input tax wholly attributable to taxable supplies over the sum of that and input tax wholly attributable to exempt supplies, rounded to a whole number, applied to the residual. From the first tax year commencing after 1&nbsp;October&nbsp;2027 the ratio is <strong>the value of supplies under Article&nbsp;54(1) of the Decree-Law over the total value of all supplies</strong> &mdash; broadly taxable turnover over total turnover &mdash; with the sale of capital assets and reverse-charge receipts under Article&nbsp;48 left out of both sides, again rounded to a whole number.</p>
+      <p>The same costs can therefore give a different answer, in either direction. Take a business with AED&nbsp;300,000 of input tax on costs used only for taxable supplies, AED&nbsp;100,000 on costs used only for exempt supplies, and AED&nbsp;60,000 on shared overheads:</p>
+      <div style={{ overflowX: 'auto', marginTop: 8 }}>
+        <table className="aa-table" style={{ width: '100%' }}>
+          <thead>
+            <tr>
+              <th scope="col">Method</th>
+              <th scope="col">Ratio</th>
+              <th scope="col" className="aa-num">Percentage</th>
+              <th scope="col" className="aa-num">Of AED 60,000 residual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style={TD}>Current &mdash; input tax</td><td style={TD}>300,000 &divide; (300,000 + 100,000)</td><td className="aa-num">75%</td><td className="aa-num">AED&nbsp;45,000</td></tr>
+            <tr><td style={TD}>From 2027 &mdash; supplies, if taxable turnover is AED&nbsp;8m of AED&nbsp;10m</td><td style={TD}>8,000,000 &divide; 10,000,000</td><td className="aa-num">80%</td><td className="aa-num">AED&nbsp;48,000</td></tr>
+            <tr><td style={TD}>From 2027 &mdash; supplies, if taxable turnover is AED&nbsp;6m of AED&nbsp;10m</td><td style={TD}>6,000,000 &divide; 10,000,000</td><td className="aa-num">60%</td><td className="aa-num">AED&nbsp;36,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style={{ marginTop: 16 }}>A business whose exempt activity is large in turnover but cheap to run &mdash; a landlord with residential lets beside commercial ones, say &mdash; recovers less under the new ratio. One whose exempt activity is small in turnover but costly to run recovers more. Neither is a rounding difference, and the annual wash-up and the actual-use adjustment in Article&nbsp;55 continue to sit on top of whichever ratio applies. Government entities and charities are taken out of the switch by new Clause&nbsp;19 and keep an input-tax ratio.</p>
+      <p><strong>On the date.</strong> &ldquo;The first Tax year commencing after 1&nbsp;October&nbsp;2027&rdquo; is later than it sounds. A tax year under Article&nbsp;55 follows the registration stagger, not the financial year: a monthly filer&rsquo;s tax year is the calendar year, and a quarterly filer&rsquo;s ends on 31&nbsp;January, the last day of February or 31&nbsp;March. So a monthly filer moves to the new ratio on <strong>1&nbsp;January&nbsp;2028</strong>, and a quarterly filer between 1&nbsp;February and 1&nbsp;April&nbsp;2028; a registrant on a twelve-month tax period moves at the start of its first such period after 1&nbsp;October&nbsp;2027. That is time enough to model it &mdash; and, where the standard method would not give a fair result, to consider whether one of the special methods the FTA already approves on application would.</p>
+
+      <h3 style={H3}>What to do before 1 October</h3>
+      <ul>
+        <li><strong>Decide your cash position in writing</strong> and tag cash-settled purchase invoices in the ledger, so that when the Minister&rsquo;s figure lands the claim above it is already excluded rather than corrected later.</li>
+        <li><strong>List every case where you recover VAT on staff accommodation</strong>, and for each one establish whether the housing is mandatory under a MoHRE decision or directive, or provided under contract or policy. Only the first keeps the recovery without further conditions from 1&nbsp;October.</li>
+        <li><strong>Review bundled pricing</strong> for any package whose elements carry different rates, and record why the elements do or do not stand alone.</li>
+        <li><strong>If you sell medical products</strong>, identify the Cabinet decision the zero rate now points to before the next return.</li>
+        <li><strong>If you are partially exempt</strong>, run this year&rsquo;s numbers through both ratios. You have until 2028, which is exactly enough time to change the answer if you need to.</li>
+      </ul>
+      <p>Our {link('service-vat-filing', 'VAT return filing')} work covers the apportionment calculation and the annual wash-up; the {link('service-vat', 'VAT page')} has the checker for whether you need to be registered at all.</p>
+
+      {artNote('Written on 11 September 2026 from the consolidated English text of Cabinet Decision No. 52 of 2017 and its amendments published by the Ministry of Finance in September 2026, which incorporates Cabinet Decision No. 149 of 2026 (issued 1 September 2026, in force 1 October 2026; the Article 55 apportionment provisions apply from the first tax year commencing after 1 October 2027), and from the Ministry’s announcement of the amendments on 8 September 2026 as reported. The current standard apportionment formula is as set out in the FTA’s VAT Guide on Input Tax Apportionment (VATGIT1). At the date of writing the Minister of Finance’s decision setting the cash-payment threshold had not been published and the FTA had issued no guidance on the amendments. The English text is not an official translation; the Arabic governs. We will update this page when the threshold decision or FTA guidance is published. General information on published law, not advice on your own position.')}
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{ilink('fta-decision-13-supplier-verification', 'Decision 13: supplier checks before you claim input VAT →')}</li>
+          <li>{ilink('uae-tax-changes-october-2026', 'Every UAE tax and reporting date in October 2026 →')}</li>
+          <li>{ilink('uae-vat-guide-dubai', 'The UAE VAT guide →')}</li>
+          <li>{link('service-vat-filing', 'VAT return filing →')}</li>
+          <li>{link('tool-vat', 'UAE VAT calculator →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function OctoberChangesBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
@@ -2242,7 +2365,7 @@ function OctoberChangesBody({ onNav }) {
         <svg
           viewBox="0 0 720 232"
           role="img"
-          aria-label="Timeline of UAE tax and reporting dates from July 2026 to January 2027. 30 July 2026: FTA Decision 4 on keeping accounting records takes effect. 30 September 2026: Corporate Tax return and payment due for businesses with a 31 December 2025 year-end. 1 October 2026: FTA Decision 13 supplier verification rules take effect. 28 October 2026: VAT return due for quarterly filers whose period ended 30 September. 30 October 2026: deadline to appoint an Accredited Service Provider for e-invoicing Phase 1, businesses with revenue of AED 50 million or more. 1 January 2027: e-invoicing goes live for Phase 1."
+          aria-label="Timeline of UAE tax and reporting dates from July 2026 to January 2027. 30 July 2026: FTA Decision 4 on keeping accounting records takes effect. 30 September 2026: Corporate Tax return and payment due for businesses with a 31 December 2025 year-end. 1 October 2026: FTA Decision 13 supplier verification rules take effect, and Cabinet Decision 149 of 2026 amending the VAT Executive Regulation comes into force. 28 October 2026: VAT return due for quarterly filers whose period ended 30 September. 30 October 2026: deadline to appoint an Accredited Service Provider for e-invoicing Phase 1, businesses with revenue of AED 50 million or more. 1 January 2027: e-invoicing goes live for Phase 1."
           style={{ display: 'block', width: '100%', minWidth: 600, height: 'auto' }}
         >
           <line x1="60" y1="120" x2="660" y2="120" stroke="#1A1A2E" strokeWidth="2.5" />
@@ -2260,7 +2383,7 @@ function OctoberChangesBody({ onNav }) {
           <text x="52" y="158" style={DATE}>30 JUL 2026</text>
           <text x="52" y="176" style={CAP}><tspan x="52">Decision 4 in force:</tspan><tspan x="52" dy="13">how records are kept</tspan></text>
           <text x="308" y="158" textAnchor="end" style={{ ...DATE, fill: '#125A79' }}>1 OCT 2026</text>
-          <text x="308" y="176" textAnchor="end" style={CAP}><tspan x="308">Decision 13: supplier</tspan><tspan x="308" dy="13">checks before input VAT</tspan></text>
+          <text x="308" y="176" textAnchor="end" style={CAP}><tspan x="308">Decision 13 checks;</tspan><tspan x="308" dy="13">VAT Regulation amended</tspan></text>
           <text x="420" y="158" textAnchor="start" style={{ ...DATE, fill: '#125A79' }}>30 OCT 2026</text>
           <text x="420" y="176" textAnchor="start" style={CAP}><tspan x="420">Appoint an ASP,</tspan><tspan x="420" dy="13">revenue AED 50M+</tspan></text>
           <text x="668" y="158" textAnchor="end" style={DATE}>1 JAN 2027</text>
@@ -2268,14 +2391,14 @@ function OctoberChangesBody({ onNav }) {
         </svg>
       </div>
       <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>
-        THE DATE STACK, JULY 2026 TO JANUARY 2027 — TWO NEW FTA INSTRUMENTS, ONE E-INVOICING DEADLINE, AND THE ROUTINE DATES AROUND THEM
+        THE DATE STACK, JULY 2026 TO JANUARY 2027 — TWO FTA INSTRUMENTS, ONE CABINET DECISION, ONE E-INVOICING DEADLINE, AND THE ROUTINE DATES AROUND THEM
       </figcaption>
     </figure>
   );
 
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>Three things change for UAE businesses before the end of October 2026, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks. This page puts all of it on one line, in order, with a link to the detail on each.</p>
+      <p style={LEAD}>Four things change for UAE businesses before the end of October 2026, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted &mdash; and, from the same day, the VAT Executive Regulation is amended: input VAT is lost on purchases paid in cash above a threshold the Minister is to set, and staff accommodation comes out of the recoverable-benefits rule. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks. This page puts all of it on one line, in order, with a link to the detail on each.</p>
 
       <OctoberTimeline />
 
@@ -2306,6 +2429,11 @@ function OctoberChangesBody({ onNav }) {
               <td>Every VAT-registered business that deducts input tax</td>
             </tr>
             <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>1 Oct 2026</strong></td>
+              <td>Cabinet Decision No.&nbsp;149 of 2026 takes effect &mdash; VAT Executive Regulation amended: no input VAT on cash-paid purchases above a threshold the Minister is to set, staff accommodation out of the recoverable-benefits rule, composite supplies, medical products, the Capital Assets Scheme. The new apportionment ratio waits for the first tax year after 1&nbsp;October&nbsp;2027</td>
+              <td>Every VAT registrant; employers housing staff; partially exempt businesses from 2028</td>
+            </tr>
+            <tr>
               <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>28 Oct 2026</strong></td>
               <td>VAT return and payment due for the quarter ending 30&nbsp;September</td>
               <td>Quarterly filers on a Jul&ndash;Sep period</td>
@@ -2330,6 +2458,10 @@ function OctoberChangesBody({ onNav }) {
       <p>Three numbers decide how much of it applies to a purchase. A supply under <strong>AED&nbsp;10,000</strong> can be disregarded entirely &mdash; unless your rolling 12-month spend with that supplier exceeds <strong>AED&nbsp;100,000</strong>, which switches the exception off. Above <strong>AED&nbsp;375,000</strong> with one supplier, a UAE bank confirmation and a documented reputation review are added. The look-back windows run 12&nbsp;months, so on 1&nbsp;October they already reach to October&nbsp;2025.</p>
       <p>One obligation does not depend on any open question: Article&nbsp;5(4) requires a documented policy naming who implements, reviews and supervises the checks. That has to exist by 1&nbsp;October. {ilink('fta-decision-13-supplier-verification', 'The full note, with a calculator that checks one supplier in seconds →')}</p>
 
+      <h3 style={H3}>1 October &mdash; the VAT Executive Regulation is amended</h3>
+      <p>Cabinet Decision No.&nbsp;149 of 2026, issued on 1&nbsp;September, amends twelve points in the Executive Regulation from the same day Decision&nbsp;13 starts. Two reach almost every business. New Article&nbsp;54(3) bars input tax on any supply above an amount the Minister of Finance is to set where the consideration is paid <em>or intended to be paid</em> in cash &mdash; the threshold decision had not been published when this was updated. And Article&nbsp;53 now takes <strong>employee accommodation</strong> out of the exception that keeps input tax on mandatory staff benefits recoverable, unless a MoHRE decision or directive makes the housing mandatory. The rest: a bar on splitting a single composite supply into parts, zero-rating for &ldquo;medical products&rdquo; as a Cabinet decision specifies, a Capital Asset defined by the asset&rsquo;s cost rather than a single item of expenditure, and three smaller wording changes.</p>
+      <p>The largest change is the one that waits. From the first tax year commencing after 1&nbsp;October&nbsp;2027 &mdash; 1&nbsp;January&nbsp;2028 for a monthly filer &mdash; the standard partial-exemption ratio runs on the value of supplies instead of on input tax. {ilink('vat-executive-regulation-amendments-october-2026', 'Every amendment, article by article, with a worked example of the 2027 switch →')}</p>
+
       <h3 style={H3}>Already in force &mdash; how records have to be kept</h3>
       <p>FTA Decision No.&nbsp;4 of 2026 has applied since 30&nbsp;July. If your accounting records exist as scans, photographs or electronic copies, they have to pass three gates: <strong>identical</strong> to the original, every page in order, with partial scanning expressly not accepted; <strong>legible</strong>, including ink and paper that will not fade over the retention period; and <strong>accessible</strong> to the Authority on request, including the system they sit in and any passwords or encryption keys.</p>
       <p>A third party may hold the records, but the taxable person remains legally responsible for them. This is not a deadline to prepare for &mdash; it applies to the records you hold today. {ilink('fta-decision-4-accounting-records', 'The full note →')}</p>
@@ -2348,12 +2480,14 @@ function OctoberChangesBody({ onNav }) {
       <ul>
         <li><strong>Run a rolling 12-month purchase report by supplier</strong> and sort it at AED&nbsp;100,000 and AED&nbsp;375,000. The data is historic, so this can be done today.</li>
         <li><strong>Write the Article&nbsp;5(4) policy</strong> and name the three roles. It is the one Decision&nbsp;13 item that does not wait on anything.</li>
+        <li><strong>Decide your cash position and tag cash-settled purchase invoices</strong> in the ledger, so that the claim above the Minister&rsquo;s threshold is excluded from 1&nbsp;October rather than corrected later.</li>
+        <li><strong>List every case where you recover VAT on staff accommodation</strong> and establish whether the housing is mandatory under a MoHRE decision or directive. Only that case keeps the recovery without further conditions.</li>
         <li><strong>Spot-check your scans</strong> against Decision&nbsp;4: full documents, every page, readable, and someone who knows the passwords.</li>
         <li><strong>If you are over AED&nbsp;50&nbsp;million</strong>, the ASP appointment is a procurement decision with under eight weeks left in it.</li>
         <li><strong>Confirm your CT filing date</strong> from your own year-end rather than the calendar, and your VAT period from your registration.</li>
       </ul>
 
-      {artNote('Written on 6 September 2026 from the FTA’s published texts of Decision No. 13 of 2026 and Decision No. 4 of 2026, the consolidated VAT Law published by the Ministry of Finance, Federal Decree-Law No. 47 of 2022 on Corporate Tax, Federal Decree-Law No. 28 of 2022 on Tax Procedures and its Executive Regulation, and the Ministry of Finance e-invoicing timeline. The additional two-year retention period is per Cabinet Decision No. 17 of 2026 as reported by advisers; we have not read that amendment in primary text. Dates will be kept current on this page as guidance is published. The English texts are unofficial translations; the Arabic governs. General information on published law, not advice on your own position.')}
+      {artNote('Written on 6 September 2026 from the FTA’s published texts of Decision No. 13 of 2026 and Decision No. 4 of 2026, the consolidated VAT Law published by the Ministry of Finance, Federal Decree-Law No. 47 of 2022 on Corporate Tax, Federal Decree-Law No. 28 of 2022 on Tax Procedures and its Executive Regulation, and the Ministry of Finance e-invoicing timeline. Updated 11 September 2026 to add Cabinet Decision No. 149 of 2026, read in the Ministry of Finance’s consolidated text of the VAT Executive Regulation. The additional two-year retention period is per Cabinet Decision No. 17 of 2026 as reported by advisers; we have not read that amendment in primary text. Dates will be kept current on this page as guidance is published. The English texts are unofficial translations; the Arabic governs. General information on published law, not advice on your own position.')}
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
@@ -2370,6 +2504,7 @@ function OctoberChangesBody({ onNav }) {
 }
 
 const INSIGHT_BODIES = {
+  'vat-executive-regulation-amendments-october-2026': ERAmendments2026Body,
   'uae-tax-changes-october-2026': OctoberChangesBody,
   'fta-decision-4-accounting-records': RecordCopyStandardBody,
   'fta-decision-13-supplier-verification': SupplierVerificationBody,

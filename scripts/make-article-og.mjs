@@ -34,10 +34,15 @@ const CARDS = {
     headline: 'Every figure, cited to its article.',
     sub: '21 and 30 days of basic wage, the cap, and what the law does not say',
   },
+  'vat-executive-regulation-amendments-october-2026': {
+    kicker: 'VAT Executive Regulation · Cabinet Decision 149 of 2026',
+    headline: 'Twelve changes. Two dates.',
+    sub: 'Cash, staff housing and bundles from 1 October; apportionment from 2027',
+  },
   'uae-tax-changes-october-2026': {
     kicker: 'UAE tax and reporting · October 2026',
-    headline: 'Three changes, one month.',
-    sub: 'Decision 4, Decision 13 and the e-invoicing deadline, in order',
+    headline: 'Four changes, one month.',
+    sub: 'Decision 4, Decision 13, the VAT Regulation and the e-invoicing deadline',
   },
   'fta-decision-4-accounting-records': {
     kicker: 'FTA Decision 4 of 2026 · In force since 30 July',

@@ -61,6 +61,17 @@ const CARDS = {
     ],
     kicker: 'Outsourcing the filing does not move the responsibility.',
   },
+  'vat-executive-regulation-amendments-october-2026': {
+    eyebrow: 'UAE VAT · CABINET DECISION 149 OF 2026',
+    headline: 'The VAT Regulation<br>changes on 1 October',
+    chip: 'ISSUED 1 SEPTEMBER · IN FORCE 1 OCTOBER 2026',
+    rows: [
+      { k: 'Cash', note: 'Above a limit, the input VAT is gone.' },
+      { k: 'Art. 53', note: 'Staff housing out of the benefits exception.' },
+      { k: '2028', note: 'Apportionment on turnover, not input tax.' },
+    ],
+    kicker: 'Twelve changes. Two dates. And the cash threshold is not in the text yet.',
+  },
   'fta-decision-13-supplier-verification': {
     eyebrow: 'UAE VAT · FTA DECISION 13 OF 2026',
     headline: 'Check your suppliers<br>before you claim input VAT',

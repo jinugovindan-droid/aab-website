@@ -60,7 +60,7 @@ const TOOLS = [
     intro: 'Add 5% to a net amount, or take the VAT out of a gross one — with the formula beside the result, rounded to the fils the way the FTA’s own texts describe it, and every rule cited to its article.',
     hubLine: 'Add 5% or take it out of a gross amount, formula shown, rounded to the fils the way the FTA describes.',
     needs: 'One amount, in dirhams',
-    updated: '7 Sep 2026',
+    updated: '11 Sep 2026',
     intent: 'VAT compliance',
     glance: [
       ['Standard rate', '5% of the value of the supply'],
@@ -81,7 +81,7 @@ const TOOLS = [
     ],
     sources: [
       ['Federal Decree-Law No. 8 of 2017 on VAT and its amendments — FTA consolidation of 28 November 2025 (four instruments; in force 1 January 2026): Articles 1, 3, 34, 38, 48, 68, 69', 'https://tax.gov.ae//Datafolder/Files/Legislation/2025/Federal%20Decree-Law%20No.%208%20of%202017%20and%20amendments%20-%20publishing%2028%2011%202025.pdf'],
-      ['Cabinet Decision No. 52 of 2017, Executive Regulation, as amended — FTA text of 18 September 2025: Articles 27, 59, 61 (Arabic text checked for Article 61)', 'https://tax.gov.ae/Datafolder/Files/Legislation/Executive-Regulation-of-Federal-Decree-Law-No-08-of-2017-Publish-18-09-2025.pdf'],
+      ['Cabinet Decision No. 52 of 2017, Executive Regulation, as amended — FTA text of 18 September 2025: Articles 27, 59, 61 (Arabic text checked for Article 61). Re-checked 11 September 2026 against the Ministry’s consolidation incorporating Cabinet Decision No. 149 of 2026: none of the three articles is amended', 'https://tax.gov.ae/Datafolder/Files/Legislation/Executive-Regulation-of-Federal-Decree-Law-No-08-of-2017-Publish-18-09-2025.pdf'],
       ['VATP006 — Tax Invoices (FTA Public Clarification): rounding on invoices, line by line on a full tax invoice, worked examples', 'https://tax.gov.ae/DataFolder/Files/Pdf/06-Tax-Invoices.pdf'],
       ['Taxable Person Guide for VAT (FTA, 2018), §3.5 (÷ 21) and §12.3.4 (a half rounds up)', 'https://tax.gov.ae/DownloadOpenTextFile?fileUrl=en/VAT_VAT_Guides/Taxable_Person_Guide_Value_Added_Tax/Taxable_Person_Guide_June_2018_EN.pdf'],
       ['“Get to know your tax obligations” (FTA booklet): AED 220 ÷ 21 = AED 10.48', 'https://tax.gov.ae/DataFolder/Files/Guides/VAT/Awareness/Get%20to%20know%20your%20Tax%20Obligations.pdf'],

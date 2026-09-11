@@ -92,6 +92,21 @@
       "permanent": false
     },
     {
+      "source": "/go/cd149",
+      "destination": "/insights/vat-executive-regulation-amendments-october-2026?utm_source=campaign&utm_medium=whatsapp&utm_campaign=cd149&utm_content=broadcast",
+      "permanent": false
+    },
+    {
+      "source": "/go/cd149-li",
+      "destination": "/insights/vat-executive-regulation-amendments-october-2026?utm_source=linkedin&utm_medium=social&utm_campaign=cd149&utm_content=founder-post",
+      "permanent": false
+    },
+    {
+      "source": "/go/cd149-li-page",
+      "destination": "/insights/vat-executive-regulation-amendments-october-2026?utm_source=linkedin&utm_medium=social&utm_campaign=cd149&utm_content=company-post",
+      "permanent": false
+    },
+    {
       "source": "/go/30-oct",
       "destination": "/e-invoicing/30-october-2026?utm_source=campaign&utm_medium=whatsapp&utm_campaign=asp-30oct&utm_content=broadcast",
       "permanent": false
