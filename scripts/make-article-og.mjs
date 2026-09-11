@@ -37,7 +37,7 @@ const CARDS = {
   'vat-executive-regulation-amendments-october-2026': {
     kicker: 'VAT Executive Regulation · Cabinet Decision 149 of 2026',
     headline: 'Twelve changes. Two dates.',
-    sub: 'Cash, staff housing and bundles from 1 October; apportionment from 2027',
+    sub: 'Cash, staff housing and bundles from 1 October; apportionment from 2028',
   },
   'uae-tax-changes-october-2026': {
     kicker: 'UAE tax and reporting · October 2026',

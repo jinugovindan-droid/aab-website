@@ -70,9 +70,9 @@
   const INSIGHTS = [
     {
       slug: 'vat-executive-regulation-amendments-october-2026',
-      seoTitle: 'UAE VAT Executive Regulation Amendments 2026: Cabinet Decision 149', seoDesc: 'Cabinet Decision 149 of 2026, article by article: cash-paid purchases, staff accommodation, composite supplies, medical products and the Capital Assets Scheme from 1 October 2026, and a new apportionment ratio from 2027.',
+      seoTitle: 'UAE VAT Executive Regulation Amendments 2026: Cabinet Decision 149', seoDesc: 'Cabinet Decision 149 of 2026, article by article: cash-paid purchases, staff accommodation, composite supplies, medical products and the Capital Assets Scheme from 1 October 2026, and a new apportionment ratio from 2028.',
       tag: 'VAT', date: '11 Sep 2026', read: '9 min',
-      title: 'The VAT Executive Regulation changes on 1 October 2026 — every amended article, and the one that waits until 2027.',
+      title: 'The VAT Executive Regulation changes on 1 October 2026 — every amended article, and the one that waits until 2028.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'Cabinet Decision No. 149 of 2026 amending Cabinet Decision No. 52 of 2017, the Executive Regulation of Federal Decree-Law No. 8 of 2017 on VAT (consolidated text published by the Ministry of Finance, September 2026); Article 54 of Federal Decree-Law No. 8 of 2017; FTA VAT Guide on Input Tax Apportionment (VATGIT1)',
       excerpt: 'Issued on 1 September and in force from 1 October 2026, Cabinet Decision 149 touches twelve points in the VAT Executive Regulation. Most are narrow. Three are not: input VAT lost on purchases paid in cash above a threshold the Minister has yet to set, staff accommodation taken out of the recoverable-benefits rule unless MoHRE mandates it, and — from the first tax year starting after 1 October 2027 — a partial-exemption ratio that runs on turnover instead of input tax. Every article, checked against the Ministry’s text, with a worked example of the 2027 switch.',
       published: true,
@@ -80,7 +80,7 @@
     {
       slug: 'uae-tax-changes-october-2026',
       seoTitle: 'UAE Tax & Reporting Changes October 2026: Every Deadline', seoDesc: 'Decision 13 supplier checks and the amended VAT Executive Regulation from 1 October, the 30 October e-invoicing ASP deadline, Decision 4 records rules already in force, and the CT and VAT dates around them.',
-      tag: 'Compliance', date: '6 Sep 2026', read: '6 min',
+      tag: 'Compliance', date: '6 Sep 2026', updated: '11 Sep 2026', read: '6 min',
       title: 'What changes in UAE tax and reporting in October 2026: the dates, in order.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decisions No. 4 and No. 13 of 2026; Cabinet Decision No. 149 of 2026 amending the VAT Executive Regulation; Article 54 bis of Federal Decree-Law No. 8 of 2017; Federal Decree-Law No. 47 of 2022; Federal Decree-Law No. 28 of 2022 and Cabinet Decision No. 74 of 2023; Ministry of Finance e-invoicing timeline',
       excerpt: 'Two FTA instruments, a Cabinet Decision amending the VAT Executive Regulation and one e-invoicing deadline arrive within a month of each other, with the routine Corporate Tax and VAT dates in the same weeks. Decision 4 has applied since 30 July; Decision 13 and Cabinet Decision 149 start on 1 October; Phase 1 businesses appoint an ASP by 30 October. Every date on one line, in order, with the detail behind each.',
@@ -98,7 +98,7 @@
     {
       slug: 'fta-decision-13-supplier-verification',
       seoTitle: 'FTA Decision 13 of 2026: Supplier Checks Before Input VAT', seoDesc: 'Which checks apply to your purchase? Enter two numbers and see in seconds. The three thresholds, what Article 54 bis actually does, and the two points the Decision leaves open.',
-      tag: 'VAT', date: '20 Aug 2026', read: '10 min',
+      tag: 'VAT', date: '20 Aug 2026', updated: '11 Sep 2026', read: '10 min',
       title: 'Supplier checks before you claim input VAT: what changes on 1 October 2026.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 13 of 2026; Article 54 bis of Federal Decree-Law No. 8 of 2017 on VAT, as inserted by Federal Decree-Law No. 16 of 2025; Federal Decree-Law No. 28 of 2022 on Tax Procedures',
       excerpt: 'FTA Decision No. 13 of 2026 takes effect on 1 October and reached the FTA website on 20 August. It does not make input VAT conditional on supplier checks; both limbs of Article 54 bis require tax evasion in the chain. What it removes is the defence that you could not have known. The three thresholds, the AED 10,000 let-off that switches itself off, and the two points the Decision leaves open.',
