@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <meta name="theme-color" content="#4c1d95"/>
+  <title>Pattern Quest — Brain Puzzle Game for Kids</title>
+  <meta name="description" content="Pattern Quest: a fun puzzle game for kids that trains attention and pattern-seeking with numbers, shapes, words and memory challenges across 20 levels."/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%A7%A9%3C%2Ftext%3E%3C%2Fsvg%3E"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --bg1: #4c1d95; --bg2: #1e1b4b;
+      --card: #ffffff; --ink: #2d2a5e; --ink-soft: #6b678f;
+      --accent: #f59e0b; --good: #22c55e; --bad: #ef4444;
+      --purple: #8b5cf6; --pink: #ec4899; --blue: #3b82f6; --teal: #14b8a6;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: "Comic Sans MS", "Chalkboard SE", "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(160deg, var(--bg1), var(--bg2) 70%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      overflow-x: hidden;
+    }
+    /* floating background blobs */
+    .bg-deco { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .bg-deco span {
+      position: absolute; font-size: 42px; opacity: .14;
+      animation: floaty 12s ease-in-out infinite;
+    }
+    @keyframes floaty { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-30px) rotate(8deg); } }
+
+    .app { position: relative; z-index: 1; width: 100%; max-width: 640px; padding: 16px; flex: 1; display: flex; flex-direction: column; }
+
+    .screen { display: none; flex: 1; flex-direction: column; }
+    .screen.active { display: flex; animation: pop-in .35s ease; }
+    @keyframes pop-in { from { opacity: 0; transform: scale(.96) translateY(10px); } to { opacity: 1; transform: none; } }
+
+    .card {
+      background: var(--card); border-radius: 24px; padding: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.35);
+    }
+
+    /* ---------- HOME ---------- */
+    .home-card { text-align: center; margin-top: 24px; }
+    .logo { font-size: 64px; line-height: 1; animation: wiggle 3s ease-in-out infinite; display: inline-block; }
+    @keyframes wiggle { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+    h1 {
+      font-size: clamp(30px, 8vw, 42px); margin: 8px 0 4px;
+      background: linear-gradient(90deg, var(--purple), var(--pink), var(--accent));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .tagline { color: var(--ink-soft); font-size: 16px; margin-bottom: 18px; }
+    .best-line { font-size: 15px; color: var(--ink-soft); margin-bottom: 16px; }
+    .best-line b { color: var(--ink); }
+
+    /* visible keyboard focus — these controls have no border of their own */
+    .btn:focus-visible, .ans:focus-visible, .icon-btn:focus-visible,
+    .grid-odd button:focus-visible, .level:focus-visible {
+      outline: 3px solid var(--accent); outline-offset: 3px;
+    }
+    .btn {
+      display: inline-block; border: 0; cursor: pointer; font-family: inherit;
+      font-size: 20px; font-weight: 700; color: #fff;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      padding: 14px 34px; border-radius: 999px;
+      box-shadow: 0 6px 0 #a21caf55, 0 10px 24px rgba(0,0,0,.25);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #a21caf55; }
+    .btn.small { font-size: 15px; padding: 10px 20px; }
+    .btn.ghost { background: #eef; color: var(--ink); box-shadow: 0 4px 0 #ccd; }
+
+    .how { text-align: left; margin: 18px auto 6px; max-width: 420px; font-size: 15px; color: var(--ink-soft); }
+    .how li { margin: 8px 0; list-style: none; padding-left: 4px; }
+
+    /* ---------- LEVEL MAP ---------- */
+    .map-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+    .lvl {
+      position: relative; border: 0; cursor: pointer; font-family: inherit;
+      aspect-ratio: 1; border-radius: 18px; font-size: 22px; font-weight: 800; color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      box-shadow: 0 4px 0 rgba(0,0,0,.2);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+      transition: transform .12s ease;
+    }
+    .lvl:not(.locked):hover { transform: scale(1.06); }
+    .lvl.locked { background: #cfcfe3; color: #8f8fae; cursor: not-allowed; box-shadow: none; }
+    .lvl .stars { font-size: 11px; letter-spacing: 1px; }
+    .lvl.done { background: linear-gradient(135deg, var(--good), var(--teal)); }
+
+    /* ---------- GAME ---------- */
+    .hud { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; color: #fff; font-weight: 700; flex-wrap: wrap; }
+    .hud .chip { background: rgba(255,255,255,.14); border-radius: 999px; padding: 6px 14px; font-size: 14px; backdrop-filter: blur(4px); }
+    .hud .chip b { color: #fde68a; }
+    .streak-chip.hot { animation: pulse .6s ease infinite alternate; color: #fff; background: linear-gradient(135deg, #f97316, #ef4444); }
+    @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+
+    .timer-track { height: 10px; border-radius: 99px; background: rgba(255,255,255,.18); overflow: hidden; margin-bottom: 14px; }
+    .timer-fill { height: 100%; width: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--good), var(--accent)); transition: width .25s linear; }
+    .timer-fill.low { background: linear-gradient(90deg, var(--accent), var(--bad)); }
+
+    .q-card { min-height: 340px; display: flex; flex-direction: column; }
+    .q-type { font-size: 13px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--purple); margin-bottom: 6px; }
+    .q-text { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+
+    .seq { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 6px 0 20px; }
+    .seq .tile {
+      min-width: 54px; height: 54px; padding: 0 10px; border-radius: 14px;
+      background: #f1effc; border: 2px solid #ddd8f5;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; font-weight: 800; color: var(--ink);
+    }
+    .seq .tile.q { background: #fef3c7; border-color: var(--accent); color: var(--accent); animation: pulse .7s ease infinite alternate; }
+
+    .grid-odd { display: grid; gap: 8px; justify-content: center; margin: 4px 0 18px; }
+    .grid-odd button {
+      width: var(--cell, 56px); height: var(--cell, 56px); font-size: calc(var(--cell, 56px) * .62);
+      border: 2px solid #ddd8f5; border-radius: 14px; background: #f8f7ff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-family: inherit;
+      transition: transform .1s ease;
+    }
+    .grid-odd button:hover { transform: scale(1.08); }
+    .grid-odd button.correct { background: #dcfce7; border-color: var(--good); }
+    .grid-odd button.wrong { background: #fee2e2; border-color: var(--bad); animation: shake .4s ease; }
+
+    .answers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: auto; }
+    .ans {
+      border: 3px solid #ddd8f5; background: #f8f7ff; border-radius: 18px;
+      font-family: inherit; font-size: 24px; font-weight: 800; color: var(--ink);
+      padding: 16px 10px; cursor: pointer; transition: transform .1s ease, border-color .1s;
+    }
+    .ans:hover { transform: scale(1.03); border-color: var(--purple); }
+    .ans.correct { background: #dcfce7; border-color: var(--good); animation: pulse .3s ease 2 alternate; }
+    .ans.wrong { background: #fee2e2; border-color: var(--bad); animation: shake .4s ease; }
+    .ans:disabled { cursor: default; opacity: .95; }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-7px); } 75% { transform: translateX(7px); } }
+
+    .feedback { text-align: center; font-size: 22px; font-weight: 800; min-height: 34px; margin-top: 14px; }
+    .feedback.good { color: var(--good); } .feedback.bad { color: var(--bad); }
+
+    .memory-stage { text-align: center; margin: 10px 0 18px; }
+    .memory-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; font-size: 44px; }
+    .memory-hidden { font-size: 44px; letter-spacing: 8px; color: var(--ink-soft); }
+    .memory-count { font-size: 15px; color: var(--ink-soft); margin-top: 10px; font-weight: 700; }
+
+    /* ---------- RESULTS ---------- */
+    .result-card { text-align: center; margin-top: 40px; }
+    .big-stars { font-size: 54px; letter-spacing: 6px; margin: 10px 0; }
+    .big-stars .dim { opacity: .25; filter: grayscale(1); }
+    .result-title { font-size: 30px; font-weight: 900; }
+    .result-sub { color: var(--ink-soft); margin: 8px 0 20px; font-size: 17px; }
+    .result-score { font-size: 22px; font-weight: 800; color: var(--purple); margin-bottom: 20px; }
+    .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* confetti */
+    .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+    .confetti i {
+      position: absolute; top: -20px; width: 10px; height: 16px; border-radius: 3px;
+      animation: fall linear forwards;
+    }
+    @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .icon-btn {
+      border: 0; background: rgba(255,255,255,.14); color: #fff; font-size: 18px;
+      width: 42px; height: 42px; border-radius: 50%; cursor: pointer; font-family: inherit;
+    }
+    .map-title { color: #fff; font-size: 24px; font-weight: 900; text-align: center; margin: 6px 0 4px; }
+    .map-sub { color: #cbc7ee; text-align: center; font-size: 14px; margin-bottom: 8px; }
+
+    @media (max-width: 420px) {
+      .answers { grid-template-columns: 1fr 1fr; }
+      .ans { font-size: 20px; padding: 14px 6px; }
+      .seq .tile { min-width: 46px; height: 46px; font-size: 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-deco" aria-hidden="true">
+    <span style="left:6%;  top:12%; animation-delay:0s">🧩</span>
+    <span style="left:80%; top:8%;  animation-delay:1.5s">⭐</span>
+    <span style="left:12%; top:70%; animation-delay:3s">🔢</span>
+    <span style="left:85%; top:62%; animation-delay:2s">🔤</span>
+    <span style="left:45%; top:85%; animation-delay:4s">🧠</span>
+    <span style="left:60%; top:30%; animation-delay:5s">✨</span>
+  </div>
+
+  <div class="app">
+
+    <!-- HOME -->
+    <section id="screen-home" class="screen active">
+      <div class="card home-card">
+        <div class="logo">🧩</div>
+        <h1>Pattern Quest</h1>
+        <p class="tagline">Spot the pattern. Train your brain. Become a Pattern Master!</p>
+        <p class="best-line" id="best-line" hidden>🏆 Best score: <b id="best-score">0</b> · Levels beaten: <b id="best-levels">0</b>/20</p>
+        <button class="btn" id="btn-play">▶ Play</button>
+        <ul class="how">
+          <li>🔢 <b>Number Detective</b> — what number comes next?</li>
+          <li>🔷 <b>Shape Patterns</b> — finish the repeating pattern</li>
+          <li>👀 <b>Odd One Out</b> — find the sneaky different one</li>
+          <li>🔤 <b>Word Wizard</b> — letters &amp; words with a secret rule</li>
+          <li>🧠 <b>Memory Flash</b> — look fast, remember well!</li>
+        </ul>
+        <p class="tagline" style="margin-top:10px">20 levels · each one gets trickier ⭐⭐⭐</p>
+      </div>
+    </section>
+
+    <!-- LEVEL MAP -->
+    <section id="screen-map" class="screen">
+      <div class="top-bar">
+        <button class="icon-btn" id="btn-map-home" aria-label="Home">🏠</button>
+        <button class="icon-btn" id="btn-sound" aria-label="Sound on or off">🔊</button>
+      </div>
+      <div class="card">
+        <div class="map-title" style="color:var(--ink)">Choose a Level</div>
+        <p class="map-sub" style="color:var(--ink-soft)">Get ⭐⭐⭐ by answering all 5 puzzles right!</p>
+        <div class="map-grid" id="map-grid"></div>
+      </div>
+    </section>
+
+    <!-- GAME -->
+    <section id="screen-game" class="screen">
+      <div class="hud">
+        <span class="chip">Level <b id="hud-level">1</b></span>
+        <span class="chip">Puzzle <b id="hud-q">1</b>/5</span>
+        <span class="chip streak-chip" id="hud-streak-chip">🔥 <b id="hud-streak">0</b></span>
+        <span class="chip">⭐ <b id="hud-score">0</b></span>
+      </div>
+      <div class="timer-track"><div class="timer-fill" id="timer-fill"></div></div>
+      <div class="card q-card">
+        <div class="q-type" id="q-type"></div>
+        <div class="q-text" id="q-text"></div>
+        <div id="q-stage"></div>
+        <div class="answers" id="answers"></div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- LEVEL RESULT -->
+    <section id="screen-result" class="screen">
+      <div class="card result-card">
+        <div class="big-stars" id="result-stars"></div>
+        <div class="result-title" id="result-title"></div>
+        <p class="result-sub" id="result-sub"></p>
+        <div class="result-score" id="result-score"></div>
+        <div class="result-actions">
+          <button class="btn small ghost" id="btn-result-map">🗺 Levels</button>
+          <button class="btn small ghost" id="btn-result-retry">🔁 Retry</button>
+          <button class="btn small" id="btn-result-next">Next ➜</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var MAX_LEVEL = 20;
+  var QUESTIONS_PER_LEVEL = 5;
+  var QUESTION_SECONDS = 30;
+
+  /* ---------------- helpers ---------------- */
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function pick(arr) { return arr[rnd(arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function pickN(arr, n) { return shuffle(arr).slice(0, n); }
+  function el(id) { return document.getElementById(id); }
+
+  /* Build 4 unique options including the correct one */
+  function buildOptions(correct, distractorFn) {
+    var opts = [String(correct)], guard = 0;
+    while (opts.length < 4 && guard++ < 200) {
+      var d = String(distractorFn());
+      if (opts.indexOf(d) === -1) opts.push(d);
+    }
+    return shuffle(opts);
+  }
+
+  /* ---------------- sound (tiny WebAudio blips) ---------------- */
+  var soundOn = true, actx = null;
+  function beep(freq, dur, type, when) {
+    if (!soundOn) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      var o = actx.createOscillator(), g = actx.createGain();
+      var t = actx.currentTime + (when || 0);
+      o.type = type || "sine"; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.12, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.connect(g); g.connect(actx.destination);
+      o.start(t); o.stop(t + dur + 0.05);
+    } catch (e) { /* no audio available */ }
+  }
+  function sfxCorrect() { beep(660, .12); beep(880, .18, "sine", .1); }
+  function sfxWrong() { beep(220, .25, "square"); }
+  function sfxWin() { [523, 659, 784, 1047].forEach(function (f, i) { beep(f, .18, "sine", i * .13); }); }
+  function sfxTick() { beep(980, .05, "triangle"); }
+
+  /* ---------------- progress (localStorage) ---------------- */
+  var progress = { unlocked: 1, stars: {}, bestScore: 0 };
+  try {
+    var saved = JSON.parse(localStorage.getItem("pq-progress") || "null");
+    if (saved && typeof saved === "object") {
+      progress.unlocked = Math.min(Math.max(saved.unlocked || 1, 1), MAX_LEVEL);
+      progress.stars = saved.stars || {};
+      progress.bestScore = saved.bestScore || 0;
+    }
+  } catch (e) { /* fresh start */ }
+  function saveProgress() {
+    try { localStorage.setItem("pq-progress", JSON.stringify(progress)); } catch (e) {}
+  }
+
+  /* ---------------- puzzle generators ----------------
+     Each returns:
+     { type, title, text, stage(html or fn), options[], answer, prep(optional async reveal) }
+  ----------------------------------------------------- */
+
+  /* 1) NUMBER DETECTIVE — sequences that grow harder with level */
+  function genNumber(level) {
+    var kinds = ["add"];
+    if (level >= 2) kinds.push("sub");
+    if (level >= 3) kinds.push("grow");
+    if (level >= 5) kinds.push("double");
+    if (level >= 7) kinds.push("zigzag");
+    if (level >= 9) kinds.push("square");
+    if (level >= 12) kinds.push("fib");
+    // bias toward the newest (hardest) kinds unlocked
+    var kind = pick(kinds.slice(-3));
+
+    var seq = [], step, i, a, b;
+    if (kind === "add") {
+      step = 2 + rnd(4); a = 1 + rnd(9);
+      for (i = 0; i < 5; i++) seq.push(a + step * i);
+    } else if (kind === "sub") {
+      step = 2 + rnd(4); a = 30 + rnd(20);
+      for (i = 0; i < 5; i++) seq.push(a - step * i);
+    } else if (kind === "grow") {           // +1, +2, +3, +4 ...
+      a = 1 + rnd(5); seq.push(a);
+      for (i = 1; i < 5; i++) seq.push(seq[i - 1] + i);
+    } else if (kind === "double") {
+      a = 1 + rnd(3); seq.push(a);
+      for (i = 1; i < 5; i++) seq.push(seq[i - 1] * 2);
+    } else if (kind === "zigzag") {         // +a then -b, repeating
+      var up, down, tries = 0;
+      do {
+        up = 5 + rnd(4); down = 1 + rnd(3);
+        a = 5 + rnd(10);
+        seq = [a];
+        for (i = 1; i < 5; i++) seq.push(seq[i - 1] + (i % 2 === 1 ? up : -down));
+      } while (new Set(seq).size < seq.length && ++tries < 10);
+    } else if (kind === "square") {
+      a = 1 + rnd(3);
+      for (i = 0; i < 5; i++) { b = a + i; seq.push(b * b); }
+    } else {                                 // fibonacci-style
+      a = 1 + rnd(3); b = a + 1 + rnd(3);
+      seq = [a, b];
+      for (i = 2; i < 5; i++) seq.push(seq[i - 1] + seq[i - 2]);
+    }
+
+    var answer = seq[4], shown = seq.slice(0, 4);
+    var gap = Math.max(1, Math.abs(seq[3] - seq[2]));
+    var options = buildOptions(answer, function () {
+      var d = answer + pick([-2, -1, 1, 2, gap, -gap, gap + 1]);
+      return d > 0 ? d : answer + 1 + rnd(4);
+    });
+
+    return {
+      type: "🔢 Number Detective",
+      text: "What number comes next?",
+      stage: '<div class="seq">' + shown.map(function (n) {
+        return '<span class="tile">' + n + "</span>";
+      }).join("") + '<span class="tile q">?</span></div>',
+      options: options,
+      answer: String(answer)
+    };
+  }
+
+  /* 2) SHAPE PATTERNS — repeating emoji units, longer with level */
+  var SHAPE_SETS = [
+    ["🔴", "🔵", "🟡", "🟢", "🟣"],
+    ["⬛", "🔺", "🟠", "⭐", "💜"],
+    ["🐟", "🐙", "🦀", "🐬", "🐢"],
+    ["🍎", "🍌", "🍇", "🍊", "🍓"],
+    ["☀️", "🌙", "⭐", "☁️", "🌈"],
+    ["🚗", "🚌", "🚲", "✈️", "🚀"]
+  ];
+  function genShape(level) {
+    var unitLen = level <= 2 ? 2 : level <= 5 ? 3 : level <= 10 ? 3 + rnd(2) : 4;
+    var set = pick(SHAPE_SETS);
+    var symbols = pickN(set, Math.min(unitLen, 3));
+    // build a unit like AB / ABC / AABC / ABCB
+    var unit = [];
+    if (unitLen === 2) unit = [symbols[0], symbols[1]];
+    else if (unitLen === 3) unit = shuffle(symbols).slice(0, 3);
+    else {
+      unit = shuffle([symbols[0], symbols[0], symbols[1], symbols[2]]);
+    }
+    // show 2 repeats + part of the third, ask for the next item
+    var showCount = unit.length * 2 + 1 + rnd(unit.length - 1);
+    var shown = [], i;
+    for (i = 0; i < showCount; i++) shown.push(unit[i % unit.length]);
+    var answer = unit[showCount % unit.length];
+
+    var distractorPool = set.filter(function (s) { return s !== answer; });
+    var options = shuffle([answer].concat(pickN(distractorPool, 3)));
+
+    return {
+      type: "🔷 Shape Patterns",
+      text: "The pattern repeats. What comes next?",
+      stage: '<div class="seq">' + shown.map(function (s) {
+        return '<span class="tile">' + s + "</span>";
+      }).join("") + '<span class="tile q">?</span></div>',
+      options: options,
+      answer: answer
+    };
+  }
+
+  /* 3) ODD ONE OUT — attention grid; bigger & sneakier with level */
+  var ODD_PAIRS = [
+    // [main, odd, minLevel] — later pairs look more alike
+    ["🍎", "🍌", 1], ["🐶", "🐷", 1], ["⚽", "🏀", 1], ["🌞", "🌙", 1], ["🚗", "🚌", 1],
+    ["🍎", "🍅", 4], ["🐶", "🦊", 4], ["🌼", "🌻", 4], ["🦋", "🐝", 4], ["😀", "😎", 4],
+    ["😀", "😃", 8], ["🐱", "🐯", 8], ["🌕", "🌝", 8], ["🍩", "🍪", 8], ["🐸", "🦖", 8],
+    ["😄", "😆", 12], ["😺", "😸", 12], ["🐦", "🕊️", 12], ["🟠", "🔴", 12], ["🌰", "🥥", 12]
+  ];
+  function genOdd(level) {
+    var candidates = ODD_PAIRS.filter(function (p) { return p[2] <= level; });
+    // prefer the sneakiest pairs available
+    var maxTier = candidates[candidates.length - 1][2];
+    var top = candidates.filter(function (p) { return p[2] === maxTier; });
+    var pair = pick(rnd(3) === 0 ? candidates : top);
+    if (rnd(2)) pair = [pair[1], pair[0], pair[2]]; // sometimes swap roles
+
+    var size = Math.min(3 + Math.floor(level / 4), 6); // 3x3 → 6x6
+    var total = size * size;
+    var oddIndex = rnd(total);
+
+    return {
+      type: "👀 Odd One Out",
+      text: "One of these is different. Tap it!",
+      gridStage: { main: pair[0], odd: pair[1], size: size, oddIndex: oddIndex },
+      options: null, // answered by tapping the grid
+      answer: String(oddIndex)
+    };
+  }
+
+  /* 4) WORD WIZARD — letter sequences, odd word out, rhymes */
+  var WORD_SETS = [
+    { name: "fruits",    words: ["Apple", "Banana", "Mango", "Grape", "Orange", "Pear"] },
+    { name: "animals",   words: ["Dog", "Cat", "Lion", "Tiger", "Horse", "Bear"] },
+    { name: "colors",    words: ["Red", "Blue", "Green", "Yellow", "Purple", "Pink"] },
+    { name: "vehicles",  words: ["Car", "Bus", "Train", "Plane", "Boat", "Truck"] },
+    { name: "school",    words: ["Pencil", "Eraser", "Book", "Ruler", "Crayon", "Bag"] },
+    { name: "body",      words: ["Hand", "Foot", "Ear", "Nose", "Knee", "Elbow"] },
+    { name: "weather",   words: ["Rain", "Snow", "Wind", "Storm", "Fog", "Thunder"] },
+    { name: "sports",    words: ["Soccer", "Tennis", "Cricket", "Hockey", "Golf", "Rugby"] }
+  ];
+  // trickier: categories that feel similar
+  var TRICKY_SETS = [
+    { name: "birds",     words: ["Eagle", "Parrot", "Owl", "Crow", "Sparrow", "Penguin"] },
+    { name: "insects",   words: ["Ant", "Bee", "Beetle", "Butterfly", "Wasp", "Moth"] },
+    { name: "sea animals", words: ["Shark", "Whale", "Dolphin", "Octopus", "Crab", "Seal"] },
+    { name: "vegetables",  words: ["Carrot", "Potato", "Onion", "Cabbage", "Spinach", "Broccoli"] },
+    { name: "fruits",      words: ["Apple", "Banana", "Mango", "Grape", "Orange", "Pear"] },
+    { name: "land animals", words: ["Dog", "Cat", "Lion", "Tiger", "Horse", "Bear"] }
+  ];
+  var RHYME_SETS = [
+    ["Cat", "Hat", "Bat", "Mat", "Rat"],
+    ["Sun", "Fun", "Run", "Bun"],
+    ["King", "Ring", "Sing", "Wing"],
+    ["Cake", "Lake", "Snake", "Rake"],
+    ["Star", "Car", "Jar", "Far"],
+    ["Light", "Night", "Kite", "Bright"]
+  ];
+  function genWord(level) {
+    var mode;
+    if (level <= 3) mode = pick(["letters", "oddword"]);
+    else if (level <= 7) mode = pick(["letters", "oddword", "rhyme"]);
+    else mode = pick(["letters2", "oddword2", "rhyme"]);
+
+    var A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    if (mode === "letters" || mode === "letters2") {
+      var step = mode === "letters" ? 1 + rnd(2) : 2 + rnd(2); // 1-2 easy, 2-3 hard
+      var back = mode === "letters2" && rnd(2) === 1;
+      var span = step * 4;
+      var start = back ? span + rnd(26 - span - 1) + 1 : rnd(26 - span - 1);
+      var seq = [], i;
+      for (i = 0; i < 5; i++) seq.push(A[back ? start - step * i : start + step * i]);
+      var answer = seq[4];
+      var options = buildOptions(answer, function () {
+        var idx = A.indexOf(answer) + pick([-2, -1, 1, 2, step, -step]);
+        idx = (idx + 26) % 26;
+        return A[idx];
+      });
+      return {
+        type: "🔤 Word Wizard",
+        text: "Which letter comes next?",
+        stage: '<div class="seq">' + seq.slice(0, 4).map(function (c) {
+          return '<span class="tile">' + c + "</span>";
+        }).join("") + '<span class="tile q">?</span></div>',
+        options: options,
+        answer: answer
+      };
+    }
+
+    if (mode === "rhyme") {
+      var set = pick(RHYME_SETS);
+      var others = RHYME_SETS.filter(function (s) { return s !== set; });
+      var oddWord = pick(pick(others));
+      var words = shuffle(pickN(set, 3).concat([oddWord]));
+      return {
+        type: "🔤 Word Wizard",
+        text: "Three words rhyme. Which one does NOT?",
+        stage: "",
+        options: words,
+        answer: oddWord
+      };
+    }
+
+    // odd word out (easy: different topics · hard: similar topics)
+    var pool = mode === "oddword" ? WORD_SETS : TRICKY_SETS;
+    var two = pickN(pool, 2);
+    var mainSet = two[0], oddSet = two[1];
+    var odd = pick(oddSet.words);
+    var words2 = shuffle(pickN(mainSet.words, 3).concat([odd]));
+    return {
+      type: "🔤 Word Wizard",
+      text: "Three of these go together. Which one does NOT belong?",
+      stage: "",
+      options: words2,
+      answer: odd,
+      explain: "The others are all " + mainSet.name + "!"
+    };
+  }
+
+  /* 5) MEMORY FLASH — attention & memory; faster + longer with level */
+  var MEMORY_POOL = ["🍎","🚀","🐸","⭐","🎈","🐠","🌈","🍩","⚽","🦄","🎁","🐝","🍕","🚗","🌵","🎸","🐧","🍉","🔑","🎨"];
+  function genMemory(level) {
+    var count = Math.min(3 + Math.floor(level / 4), 6);       // 3 → 6 items
+    var showMs = Math.max(4200 - level * 140, 1700);           // shorter look time
+    var shown = pickN(MEMORY_POOL, count);
+    var notShown = pickN(MEMORY_POOL.filter(function (e) {
+      return shown.indexOf(e) === -1;
+    }), 3);
+
+    var askWasIn = level < 8;
+    var answer, options;
+    if (askWasIn) {
+      answer = pick(shown);
+      options = shuffle([answer].concat(notShown));
+    } else {
+      answer = notShown[0];
+      options = shuffle(pickN(shown, 3).concat([answer]));
+    }
+
+    return {
+      type: "🧠 Memory Flash",
+      text: askWasIn
+        ? "Which one WAS in the picture?"
+        : "Which one was NOT in the picture?",
+      memoryStage: { items: shown, showMs: showMs },
+      options: options,
+      answer: answer
+    };
+  }
+
+  var GENERATORS = [genNumber, genShape, genOdd, genWord, genMemory];
+
+  /* ---------------- game state ---------------- */
+  var state = {
+    level: 1, qIndex: 0, correct: 0, streak: 0,
+    current: null, locked: false, timerId: null, timeLeft: 0, memoryTimerId: null
+  };
+
+  /* ---------------- screens ---------------- */
+  function show(id) {
+    var screens = document.querySelectorAll(".screen");
+    for (var i = 0; i < screens.length; i++) screens[i].classList.remove("active");
+    el(id).classList.add("active");
+  }
+
+  function renderHome() {
+    var beaten = Object.keys(progress.stars).length;
+    if (progress.bestScore > 0 || beaten > 0) {
+      el("best-line").hidden = false;
+      el("best-score").textContent = progress.bestScore;
+      el("best-levels").textContent = beaten;
+    }
+  }
+
+  function renderMap() {
+    var grid = el("map-grid");
+    grid.innerHTML = "";
+    for (var lv = 1; lv <= MAX_LEVEL; lv++) {
+      (function (lv) {
+        var b = document.createElement("button");
+        var locked = lv > progress.unlocked;
+        var stars = progress.stars[lv] || 0;
+        b.className = "lvl" + (locked ? " locked" : "") + (stars > 0 ? " done" : "");
+        b.innerHTML = (locked ? "🔒" : lv) +
+          '<span class="stars">' + (locked ? "" : "★★★".slice(0, stars) + "☆☆☆".slice(0, 3 - stars)) + "</span>";
+        if (!locked) b.addEventListener("click", function () { startLevel(lv); });
+        grid.appendChild(b);
+      })(lv);
+    }
+  }
+
+  /* ---------------- gameplay ---------------- */
+  function startLevel(lv) {
+    state.level = lv; state.qIndex = 0; state.correct = 0;
+    state.levelScore = 0; state.streak = 0;
+    show("screen-game");
+    nextQuestion();
+  }
+
+  function updateHud() {
+    el("hud-level").textContent = state.level;
+    el("hud-q").textContent = Math.min(state.qIndex + 1, QUESTIONS_PER_LEVEL);
+    el("hud-score").textContent = state.levelScore;
+    el("hud-streak").textContent = state.streak;
+    el("hud-streak-chip").classList.toggle("hot", state.streak >= 3);
+  }
+
+  function stopTimers() {
+    if (state.timerId) { clearInterval(state.timerId); state.timerId = null; }
+    if (state.memoryTimerId) { clearTimeout(state.memoryTimerId); state.memoryTimerId = null; }
+  }
+
+  function startTimer() {
+    stopTimers();
+    state.timeLeft = QUESTION_SECONDS;
+    var fill = el("timer-fill");
+    fill.style.width = "100%"; fill.classList.remove("low");
+    state.timerId = setInterval(function () {
+      state.timeLeft -= 0.25;
+      var pct = Math.max(0, state.timeLeft / QUESTION_SECONDS * 100);
+      fill.style.width = pct + "%";
+      if (pct < 30) fill.classList.add("low");
+      if (state.timeLeft <= 5.05 && state.timeLeft > 4.95) sfxTick();
+      if (state.timeLeft <= 0) {
+        stopTimers();
+        resolveAnswer(null); // time out counts as a miss
+      }
+    }, 250);
+  }
+
+  function nextQuestion() {
+    stopTimers();
+    if (state.qIndex >= QUESTIONS_PER_LEVEL) { finishLevel(); return; }
+
+    // one puzzle of each type per level, in random order
+    if (state.qIndex === 0) state.order = shuffle(GENERATORS);
+    var gen = state.order[state.qIndex];
+    var q = gen(state.level);
+    state.current = q;
+    state.locked = false;
+
+    el("q-type").textContent = q.type;
+    el("q-text").textContent = q.text;
+    el("feedback").textContent = "";
+    el("feedback").className = "feedback";
+    updateHud();
+
+    var stage = el("q-stage"), answers = el("answers");
+    answers.innerHTML = "";
+    stage.innerHTML = "";
+
+    if (q.gridStage) {
+      renderOddGrid(q, stage);
+      startTimer();
+    } else if (q.memoryStage) {
+      renderMemory(q, stage, answers);
+      // timer starts after the reveal
+    } else {
+      stage.innerHTML = q.stage || "";
+      renderAnswerButtons(q, answers);
+      startTimer();
+    }
+  }
+
+  function renderAnswerButtons(q, answers) {
+    q.options.forEach(function (opt) {
+      var b = document.createElement("button");
+      b.className = "ans";
+      b.textContent = opt;
+      b.addEventListener("click", function () { resolveAnswer(opt, b); });
+      answers.appendChild(b);
+    });
+  }
+
+  function renderOddGrid(q, stage) {
+    var g = q.gridStage;
+    var wrap = document.createElement("div");
+    wrap.className = "grid-odd";
+    wrap.style.gridTemplateColumns = "repeat(" + g.size + ", auto)";
+    var cell = g.size >= 6 ? 44 : g.size === 5 ? 50 : 56;
+    // never overflow narrow screens: fit grid inside app + card padding
+    var avail = Math.min(window.innerWidth, 640) - 96 - (g.size - 1) * 8;
+    cell = Math.min(cell, Math.floor(avail / g.size));
+    wrap.style.setProperty("--cell", cell + "px");
+    for (var i = 0; i < g.size * g.size; i++) {
+      (function (i) {
+        var b = document.createElement("button");
+        b.textContent = i === g.oddIndex ? g.odd : g.main;
+        b.setAttribute("aria-label", "tile " + (i + 1));
+        b.addEventListener("click", function () { resolveAnswer(String(i), b); });
+        wrap.appendChild(b);
+      })(i);
+    }
+    stage.appendChild(wrap);
+  }
+
+  function renderMemory(q, stage, answers) {
+    var m = q.memoryStage;
+    var box = document.createElement("div");
+    box.className = "memory-stage";
+    box.innerHTML = '<div class="memory-row">' + m.items.join(" ") + "</div>" +
+      '<div class="memory-count">👀 Look carefully…</div>';
+    stage.appendChild(box);
+
+    state.memoryTimerId = setTimeout(function () {
+      box.innerHTML = '<div class="memory-hidden">' +
+        m.items.map(function () { return "❓"; }).join(" ") + "</div>";
+      renderAnswerButtons(q, answers);
+      startTimer();
+    }, m.showMs);
+  }
+
+  function resolveAnswer(given, btn) {
+    if (state.locked) return;
+    state.locked = true;
+    stopTimers();
+
+    var q = state.current;
+    var right = given !== null && String(given) === String(q.answer);
+    var fb = el("feedback");
+
+    if (right) {
+      state.correct++;
+      state.streak++;
+      var timeBonus = Math.round(Math.max(0, state.timeLeft) / QUESTION_SECONDS * 50);
+      var streakBonus = Math.min(state.streak - 1, 4) * 10;
+      var pts = 100 + timeBonus + streakBonus + state.level * 5;
+      state.levelScore += pts;
+      if (btn) btn.classList.add("correct");
+      fb.textContent = pick(["🎉 Awesome!", "⭐ Brilliant!", "💪 You got it!", "🚀 Super!", "🧠 Big brain!"]) + " +" + pts;
+      fb.classList.add("good");
+      sfxCorrect();
+    } else {
+      state.streak = 0;
+      if (btn) btn.classList.add("wrong");
+      var reveal = q.gridStage ? "" : " The answer was " + q.answer + ".";
+      fb.textContent = (given === null ? "⏰ Time's up!" : "❌ Not quite!") + reveal +
+        (q.explain ? " " + q.explain : "");
+      fb.classList.add("bad");
+      sfxWrong();
+      // highlight the right answer
+      if (q.gridStage) {
+        var tiles = el("q-stage").querySelectorAll("button");
+        if (tiles[q.answer]) tiles[q.answer].style.background = "#dcfce7";
+      } else {
+        var opts = el("answers").querySelectorAll(".ans");
+        for (var i = 0; i < opts.length; i++) {
+          if (opts[i].textContent === String(q.answer)) opts[i].classList.add("correct");
+        }
+      }
+    }
+
+    // freeze buttons
+    var all = document.querySelectorAll("#answers .ans, #q-stage button");
+    for (var j = 0; j < all.length; j++) all[j].disabled = true;
+
+    updateHud();
+    state.qIndex++;
+    setTimeout(nextQuestion, right ? 1200 : 2400);
+  }
+
+  /* ---------------- level end ---------------- */
+  function starsFor(correct) {
+    if (correct >= 5) return 3;
+    if (correct === 4) return 2;
+    if (correct === 3) return 1;
+    return 0;
+  }
+
+  function finishLevel() {
+    stopTimers();
+    var stars = starsFor(state.correct);
+    var passed = stars >= 1;
+
+    if (passed) {
+      var prev = progress.stars[state.level] || 0;
+      if (stars > prev) progress.stars[state.level] = stars;
+      if (state.level >= progress.unlocked && state.level < MAX_LEVEL) {
+        progress.unlocked = state.level + 1;
+      }
+      if (state.levelScore > progress.bestScore) progress.bestScore = state.levelScore;
+    }
+    saveProgress();
+
+    el("result-stars").innerHTML =
+      "★★★".slice(0, stars).split("").map(function (s) { return "<span>⭐</span>"; }).join("") +
+      "☆☆☆".slice(0, 3 - stars).split("").map(function () { return '<span class="dim">⭐</span>'; }).join("");
+
+    var doneAll = state.level === MAX_LEVEL && passed;
+    el("result-title").textContent = doneAll
+      ? "🏆 PATTERN MASTER! 🏆"
+      : passed
+        ? pick(["Level Complete!", "You did it!", "Fantastic!"])
+        : "So close!";
+    el("result-sub").textContent = doneAll
+      ? "You beat all 20 levels. Your brain is officially amazing!"
+      : passed
+        ? "You solved " + state.correct + " of 5 puzzles. " + (stars === 3 ? "PERFECT score!" : "Can you get 3 stars?")
+        : "You solved " + state.correct + " of 5. Get 3 right to pass — try again, detective!";
+    el("result-score").textContent = "⭐ Score: " + state.levelScore;
+
+    el("btn-result-next").style.display = passed && state.level < MAX_LEVEL ? "" : "none";
+    show("screen-result");
+
+    if (passed) { sfxWin(); confetti(stars === 3 ? 120 : 60); }
+  }
+
+  /* ---------------- confetti ---------------- */
+  function confetti(n) {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var box = el("confetti");
+    var colors = ["#f59e0b", "#ec4899", "#8b5cf6", "#22c55e", "#3b82f6", "#ef4444"];
+    for (var i = 0; i < n; i++) {
+      var p = document.createElement("i");
+      p.style.left = rnd(100) + "vw";
+      p.style.background = pick(colors);
+      p.style.animationDuration = (2 + Math.random() * 2.5) + "s";
+      p.style.animationDelay = (Math.random() * 0.8) + "s";
+      p.style.transform = "rotate(" + rnd(360) + "deg)";
+      box.appendChild(p);
+    }
+    setTimeout(function () { box.innerHTML = ""; }, 6000);
+  }
+
+  /* ---------------- wire up ---------------- */
+  el("btn-play").addEventListener("click", function () { renderMap(); show("screen-map"); });
+  el("btn-map-home").addEventListener("click", function () { renderHome(); show("screen-home"); });
+  el("btn-sound").addEventListener("click", function () {
+    soundOn = !soundOn;
+    el("btn-sound").textContent = soundOn ? "🔊" : "🔇";
+  });
+  el("btn-result-map").addEventListener("click", function () { renderMap(); show("screen-map"); });
+  el("btn-result-retry").addEventListener("click", function () { startLevel(state.level); });
+  el("btn-result-next").addEventListener("click", function () { startLevel(state.level + 1); });
+
+  renderHome();
+})();
+</script>
+</body>
+</html>
