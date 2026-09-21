@@ -97,6 +97,31 @@ function NavDropdown({ item, active, go }) {
   );
 }
 
+// Full-bleed photograph behind hero text. An <img> with srcset rather than a
+// CSS background, for two reasons the lab numbers made plain: the browser
+// finds it in the HTML instead of after the stylesheet (earlier LCP), and it
+// can pick a phone-sized file — the 2400px JPEGs were 112-204 KB each, the
+// 640px WebP is 5-15 KB. Variants come from scripts/build-images.py. The
+// scrim stays a sibling element so the gradient is one rule, not per-image.
+function HeroPhoto({ name, alt, priority }) {
+  const widths = [640, 960, 1280, 1920, 2400];
+  const srcSet = widths.map((w) => `assets/images/${name}-${w}.webp ${w}w`).join(', ');
+  return (
+    <img
+      className="aa-hero-photo"
+      src={`assets/images/${name}-1280.webp`}
+      srcSet={srcSet}
+      sizes="100vw"
+      width="2400" height="1350"
+      alt={alt || ''}
+      decoding="async"
+      loading={priority ? 'eager' : 'lazy'}
+      fetchPriority={priority ? 'high' : 'auto'}
+    />
+  );
+}
+window.HeroPhoto = HeroPhoto;
+
 function TopNav({ active, onNav, sticky = true }) {
   const [open, setOpen] = useState(false);
   // Bumping the key remounts the logo stack, which replays the CSS load
@@ -164,12 +189,12 @@ function TopNav({ active, onNav, sticky = true }) {
                 Hovering remounts the stack (key bump) so the morph replays. */}
             {FOOTBALL_LOGO_ACTIVE ? (
               <span className="logo-anim" key={logoPlay}>
-                <img className="logo-anim__ball" src="assets/logos/aab-short-eng.png?v=3" alt="Authentic Accounting" />
-                <img className="logo-anim__wordmark" src="assets/logos/aab-short-eng-classic.png" alt="" aria-hidden="true" />
-                <img className="logo-anim__classic" src="assets/logos/aab-short-eng-classic.png" alt="" aria-hidden="true" />
+                <img className="logo-anim__ball" src="assets/logos/aab-short-eng-nav.png" width="186" height="104" alt="Authentic Accounting" />
+                <img className="logo-anim__wordmark" src="assets/logos/aab-short-eng-classic-nav.png" width="186" height="104" alt="" aria-hidden="true" />
+                <img className="logo-anim__classic" src="assets/logos/aab-short-eng-classic-nav.png" width="186" height="104" alt="" aria-hidden="true" />
               </span>
             ) : (
-              <img src="assets/logos/aab-short-eng-classic.png" alt="Authentic Accounting" />
+              <img src="assets/logos/aab-short-eng-classic-nav.png" width="186" height="104" alt="Authentic Accounting" />
             )}
           </a>
           <nav className="topnav__list" aria-label="Primary">
@@ -393,10 +418,11 @@ function Footer({ onNav }) {
           style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr 1fr', gap: 40, paddingBottom: 48 }}>
           <div>
             <img
-              src={FOOTBALL_LOGO_ACTIVE ? 'assets/logos/authentic-accounting-full.png' : 'assets/logos/authentic-accounting-full-classic.png'}
+              src={FOOTBALL_LOGO_ACTIVE ? 'assets/logos/authentic-accounting-full-footer.png' : 'assets/logos/authentic-accounting-full-classic-footer.png'}
+              width="197" height="112"
               alt="Authentic Accounting and Bookkeeping L.L.C"
               loading="lazy"
-              style={{ height: 56 }} />
+              style={{ height: 56, width: 'auto' }} />
 
             <div style={{ marginTop: 18, fontFamily: 'var(--aa-font-display)', fontSize: 18, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--aa-cyan-text)' }}>
               Responsibly Your Accountant.

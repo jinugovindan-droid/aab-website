@@ -747,12 +747,18 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
 
 /* ---------- Generic image hero (About, etc.) ---------- */
 .aa-hero-image { background: var(--aa-charcoal); color: #fff; }
+/* The photograph (an <img>, see HeroPhoto in chrome.jsx) sits under a scrim
+   div; the text container above both is z-index 2. */
+.aa-hero-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center; z-index: 0;
+}
 .aa-hero-image__bg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  z-index: 0;
+  z-index: 1;
 }
 .aa-hero-image__bg::after {
   content: '';
@@ -789,6 +795,7 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(26,26,46,0.72) 0%, rgba(26,26,46,0.82) 100%);
+  z-index: 1;   /* the scrim sits over the <img> inside (HeroPhoto is z-index 0) */
 }
 
 /* When hero has a background image, the dots and chevron arrows need

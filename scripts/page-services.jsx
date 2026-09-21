@@ -257,12 +257,8 @@ function ServicesPage({ onNav }) {
     <div>
       {/* Hero */}
       <section className="aa-hero-image" style={{ position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--aa-rule)', padding: '72px 0 80px' }}>
-        <div
-          className="aa-hero-image__bg"
-          role="img"
-          aria-label="A single crystal chess rook standing in cool blue mist — the structural framework"
-          style={{ backgroundImage: "url('assets/images/chess-rook.jpg')" }}
-        />
+        <HeroPhoto name="chess-rook" priority alt="A single crystal chess rook standing in cool blue mist — the structural framework" />
+        <div className="aa-hero-image__bg" aria-hidden="true" />
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 80, alignItems: 'end' }}>
             <div>

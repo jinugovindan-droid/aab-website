@@ -147,12 +147,8 @@ function AboutPage({ onNav }) {
   return (
     <div>
       <section className="aa-hero-image" style={{ position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--aa-rule)', padding: '88px 0 96px' }}>
-        <div
-          className="aa-hero-image__bg"
-          role="img"
-          aria-label="A row of distinct crystal chess pieces aligned on polished marble — many engagements, one framework"
-          style={{ backgroundImage: "url('assets/images/chess-row.jpg')" }}
-        />
+        <HeroPhoto name="chess-row" priority alt="A row of distinct crystal chess pieces aligned on polished marble — many engagements, one framework" />
+        <div className="aa-hero-image__bg" aria-hidden="true" />
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="eyebrow" style={{ marginBottom: 16, color: 'var(--aa-cyan-200)' }}>About the firm</div>
           <h1 style={{
@@ -2571,12 +2567,8 @@ function InsightArticlePage({ onNav, slug }) {
     <div>
       <article style={{ background: '#fff' }}>
         <section className="aa-hero-image" style={{ position: 'relative', overflow: 'hidden', padding: '64px 0 48px' }}>
-          <div
-            className="aa-hero-image__bg"
-            role="img"
-            aria-label="A single crystal chess bishop standing in cool blue mist — the considered advisor"
-            style={{ backgroundImage: "url('assets/images/chess-bishop.jpg')" }}
-          />
+          <HeroPhoto name="chess-bishop" priority alt="A single crystal chess bishop standing in cool blue mist — the considered advisor" />
+          <div className="aa-hero-image__bg" aria-hidden="true" />
           <div className="container" style={{ maxWidth: 820, padding: '0 32px', position: 'relative', zIndex: 2 }}>
             <div style={{ display: 'flex', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 32 }}>
               <a href={pathForPage('insights')} onClick={(e) => {e.preventDefault();onNav('insights');}} style={{ color: 'rgba(255,255,255,0.85)' }}>Insights</a>

@@ -183,7 +183,7 @@ await writeFile('dist/app.min.js', runtimeMaps + min, 'utf8');
 // were still the abandoned football design, frozen behind a hand-typed ?v=3
 // that nobody had reason to bump. Content-hashing them means the URL moves
 // whenever the bytes do, so replacing the artwork is enough on its own.
-const STAMPED = ['dist/app.min.js', 'styles/site.css', 'styles/tokens.css', 'assets/vendor/lucide-subset.js',
+const STAMPED = ['dist/app.min.js', 'styles/site.css', 'styles/tokens.css', 'styles/fonts.css', 'assets/vendor/lucide-subset.js',
   'assets/logos/favicon.png', 'assets/logos/apple-touch-icon.png'];
 let tpl = await readFile('index.html', 'utf8');
 const before = tpl;

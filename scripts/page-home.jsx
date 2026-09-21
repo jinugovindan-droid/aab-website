@@ -20,7 +20,7 @@ const HERO_SLIDES = [
     lead: 'Accounting, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government organisations across the UAE — delivered with reconciliation discipline.',
     ctaPrimary:   { label: 'Book a consultation', page: 'contact' },
     ctaSecondary: { label: 'Meet the firm',       page: 'about' },
-    bgImage: 'assets/images/dubai-night-king.jpg',
+    bgImage: 'dubai-night-king',
     bgAlt: 'Crystal chess king on polished marble, Dubai night skyline with Burj Khalifa behind',
   },
   {
@@ -35,7 +35,7 @@ const HERO_SLIDES = [
     lead: 'The Ministry of Finance is rolling out a mandatory OpenPeppol-based, 5-corner e-invoicing system for B2B and B2G transactions (limited exclusions apply) — phased by revenue. Large businesses (AED 50M+) go live 1 January 2027; smaller firms and Government follow through 2027. We help you map readiness, select an ASP, and go live on schedule.',
     ctaPrimary:   { label: 'Read the briefing',       page: 'e-invoicing' },
     ctaSecondary: { label: 'Book a readiness call',   page: 'contact' },
-    bgImage: 'assets/images/chess-knight-mist.jpg',
+    bgImage: 'chess-knight-mist',
     bgAlt: 'A solitary crystal chess knight in cool blue mist — poised, strategic',
   },
   {
@@ -50,7 +50,7 @@ const HERO_SLIDES = [
     lead: 'Registration, period computation, QFZP analysis where relevant, and FTA filing — with a position memo behind every contested item and a review-ready return file at the end of every period.',
     ctaPrimary:   { label: 'Browse services',         page: 'services' },
     ctaSecondary: { label: 'Request a CT scoping',    page: 'contact' },
-    bgImage: 'assets/images/chess-king-line.jpg',
+    bgImage: 'chess-king-line',
     bgAlt: 'A crystal chess king standing in front of a receding line of pawns — defended along the line',
   },
 ];
@@ -126,20 +126,16 @@ function HomeHero({ onNav }) {
           underneath (no animation) while the keyed incoming layer fades in
           over it: a true crossfade, image to image, nothing shows through. */}
       {hasBg && slides.prev !== slideIndex && HERO_SLIDES[slides.prev].bgImage && (
-        <div
-          className="aa-hero__bg-under"
-          aria-hidden="true"
-          style={{ backgroundImage: `url('${HERO_SLIDES[slides.prev].bgImage}')` }}
-        />
+        <div className="aa-hero__bg-under" aria-hidden="true">
+          <HeroPhoto name={HERO_SLIDES[slides.prev].bgImage} />
+        </div>
       )}
       {hasBg && (
-        <div
-          key={`bg-${slideIndex}`}
-          className="aa-hero__bg"
-          role="img"
-          aria-label={slide.bgAlt || ''}
-          style={{ backgroundImage: `url('${slide.bgImage}')` }}
-        />
+        <div key={`bg-${slideIndex}`} className="aa-hero__bg">
+          {/* The first slide's photo is the page's LCP: eager + high priority, and
+              the template preloads the same srcset. Later slides load lazily. */}
+          <HeroPhoto name={slide.bgImage} alt={slide.bgAlt || ''} priority={slideIndex === 0} />
+        </div>
       )}
 
       {/* corner index marker — quiet editorial touch, now indicating slide position */}
