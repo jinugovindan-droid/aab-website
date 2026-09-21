@@ -98,7 +98,7 @@
     {
       slug: 'fta-decision-13-supplier-verification',
       seoTitle: 'FTA Decision 13 of 2026: Supplier Checks Before Input VAT', seoDesc: 'Which checks apply to your purchase? Enter two numbers and see in seconds. The three thresholds, what Article 54 bis does, and what the Decision leaves open.',
-      tag: 'VAT', date: '20 Aug 2026', updated: '11 Sep 2026', read: '10 min',
+      tag: 'VAT', date: '20 Aug 2026', updated: '22 Sep 2026', read: '10 min',
       title: 'Supplier checks before you claim input VAT: what changes on 1 October 2026.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 13 of 2026; Article 54 bis of Federal Decree-Law No. 8 of 2017 on VAT, as inserted by Federal Decree-Law No. 16 of 2025; Federal Decree-Law No. 28 of 2022 on Tax Procedures',
       excerpt: 'FTA Decision No. 13 of 2026 takes effect on 1 October and reached the FTA website on 20 August. It does not make input VAT conditional on supplier checks; both limbs of Article 54 bis require tax evasion in the chain. What it removes is the defence that you could not have known. The three thresholds, the AED 10,000 let-off that switches itself off, and the two points the Decision leaves open.',
@@ -142,11 +142,11 @@
     },
     {
       slug: 'choosing-accredited-service-provider-asp',
-      seoTitle: 'UAE E-Invoicing ASP List: 42 Pre-Approved Providers', seoDesc: 'How to choose an Accredited Service Provider for UAE e-invoicing — with the full MoF pre-approved list of 42 providers and the questions to ask first.',
+      seoTitle: 'UAE E-Invoicing ASP List: 54 Accredited Providers (Sep 2026)', seoDesc: 'The Ministry of Finance accredited service provider list for UAE e-invoicing: 54 providers at 17 September 2026, 8 under final assessment, and what to ask.',
       tag: 'E-Invoicing', date: '22 Jan 2026', read: '6 min',
       title: 'Choosing an Accredited Service Provider (ASP) for UAE e-invoicing.',
-      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026) and MD 64 of 2025 (as amended by MD 56 of 2026), UAE Ministry of Finance', updated: '20 Jul 2026',
-      excerpt: 'Every in-scope business must appoint an Accredited Service Provider to transmit its e-invoices. What an ASP does, pre-approved vs accredited status, the full MoF pre-approved list (42 providers, July 2026), and the questions to ask before you sign.',
+      author: 'CA Kiran Prasad S', reviewer: 'Jinu Govindan', reference: 'Ministerial Decisions 243 and 244 of 2025 (as amended by MD 66 of 2026) and MD 64 of 2025 (as amended by MD 56 of 2026), UAE Ministry of Finance; MoF eInvoicing Accredited Service Providers register (17 September 2026)', updated: '22 Sep 2026',
+      excerpt: 'Every in-scope business must appoint an Accredited Service Provider to transmit its e-invoices. What an ASP does, pre-approved vs accredited status, the full MoF accredited list (54 providers, September 2026) with the 8 still under assessment, and the questions to ask before you sign.',
       published: true,
     },
     {
@@ -1200,7 +1200,7 @@
     { q: 'What is the penalty for missing the ASP-appointment deadline?',
       a: 'Cabinet Decision 106 of 2025 sets AED 5,000 per month for failing to appoint an Accredited Service Provider in time — and it attaches to the appointment deadline itself, before go-live. Once the system is live, late issuance carries AED 100 per invoice (capped at AED 5,000 a month) and notification failures AED 1,000 per day. The appointment penalty is the first one the regime can charge.' },
     { q: 'Can we appoint any provider on the Ministry’s list?',
-      a: 'Check status carefully. The Ministry of Finance publishes a register of pre-approved (Article 15) service providers — 42 names as at July 2026 — but pre-approval is not accreditation. Accreditation is granted by the Ministry under Article 16 of MD 64 of 2025 (as amended by MD 56 of 2026), and the FTA’s EmaraTax onboarding screen listed 38 entries as at July 2026 — one of them an FTA test row. Contract for Article 16 accreditation, not just pre-approval — and say so in the agreement.' },
+      a: 'Check status on the Ministry of Finance register. Since September 2026 it lists accredited (Article 16) service providers with their accreditation numbers — 54 at its 17 September 2026 update — and, separately, pre-approved (Article 15) providers still under final assessment. Pre-approval is not accreditation: a pre-approved provider may sign and onboard you, but accreditation is granted separately under Article 16 of MD 64 of 2025 (as amended by MD 56 of 2026). Write the accreditation number into the agreement, or make accreditation before go-live a contractual milestone.' },
     { q: 'Is 30 October just about signing a contract?',
       a: 'Appointing the ASP is the legal obligation, but the work behind it is integration: cleaning master data (TRNs, legal names, addresses), mapping your ERP fields to the e-invoice format and testing end to end before the 1 January 2027 go-live. Providers onboard clients in queues, and selecting late compresses exactly the stages that need the most time — which is why the appointment date sits two months before go-live.' },
   ];
@@ -1379,6 +1379,7 @@
       ['insight', 'management-accounts-that-drive-decisions', 'Management accounts that drive decisions'],
       ['insight', 'protecting-cash-flow-downturn', 'Protecting cash flow in a downturn'],
       ['page', 'service-corporate-tax', 'Corporate Tax estimator'],
+      ['page', 'tool-gratuity', 'UAE gratuity calculator'],
     ],
     'service-financial-statements': [
       ['insight', 'ifrs-financial-statements-uae', 'IFRS financial statements in the UAE'],
@@ -1428,6 +1429,7 @@
       ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
       ['insight', 'reconciliation-resolve-to-zero', 'Reconciliation: resolve to zero'],
       ['page', 'service-vat', 'VAT registration checker'],
+      ['page', 'tool-vat', 'UAE VAT calculator'],
     ],
     'service-vat-refund': [
       ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
@@ -1483,6 +1485,7 @@
       ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],
       ['insight', 'uae-vat-5-percent-primer', 'The 5% VAT primer'],
       ['page', 'service-vat', 'VAT registration checker'],
+      ['page', 'tool-vat', 'UAE VAT calculator'],
     ],
     'industry-real-estate': [
       ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],

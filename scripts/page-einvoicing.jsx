@@ -546,9 +546,9 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
               <i data-lucide="badge-check" style={{ width: 30, height: 30, color: 'var(--aa-cyan-text)', flexShrink: 0 }}></i>
               <div>
                 <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 6 }}>Official resource · UAE Ministry of Finance</div>
-                <div style={{ fontSize: 19, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.3 }}>Pre-Approved E-Invoicing Service Providers</div>
+                <div style={{ fontSize: 19, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.3 }}>Accredited E-Invoicing Service Providers</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', marginTop: 4, lineHeight: 1.5, maxWidth: 620 }}>
-                  The Ministry of Finance&rsquo;s register of pre-approved (Article&nbsp;15) service providers you can appoint today. Full Article-16 accreditation is granted separately, so verify each provider&rsquo;s current status before you appoint.
+                  The Ministry of Finance&rsquo;s register of accredited (Article&nbsp;16) service providers &mdash; 54 at its 17 September 2026 update, each with an accreditation number &mdash; and, below it, the pre-approved providers still under final assessment. Check the date at the top and the provider&rsquo;s row before you appoint.
                 </div>
               </div>
             </div>
@@ -906,11 +906,11 @@ function EInvDeadlinePage({ onNav }) {
         <div className="container" style={{ maxWidth: 860 }}>
           <div className="section-head"><div className="section-head__eyebrow">Selection under time pressure</div><h2>Choosing fast without choosing badly.</h2></div>
           <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--aa-charcoal-800)', margin: 0 }}>
-            The Ministry of Finance publishes a register of <strong>pre-approved</strong> (Article 15) service providers — 42 names as at July 2026 — but
-            pre-approval is not accreditation. Accreditation is granted by the Ministry under Article 16 of MD 64 of 2025 (as amended by MD 56 of 2026),
-            and the FTA’s EmaraTax onboarding screen listed 38 entries as at July 2026 (one of them an FTA test row) — in practice the closest
-            thing to an accredited list available today, though it is an operational onboarding view, not the official register.
-            Contract for Article 16 accreditation, not just pre-approval — and say so in the agreement.
+            The Ministry of Finance now publishes a register of <strong>accredited</strong> (Article 16) service providers — 54 names at its
+            17 September 2026 update, each with an accreditation number — with a second list of pre-approved (Article 15) providers still under
+            final assessment (eight at that date). Pre-approval is not accreditation: a pre-approved provider may sign and onboard you, but
+            accreditation is granted separately under Article 16 of MD 64 of 2025 (as amended by MD 56 of 2026). Write the accreditation
+            number into the agreement, or, for a pre-approved provider, make accreditation before your go-live a contractual milestone.
           </p>
           <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--aa-charcoal-800)', margin: '14px 0 0' }}>
             Fit matters as much as status: transaction volumes, your ERP’s integration options, exception handling and support model differ sharply

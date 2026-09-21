@@ -941,15 +941,14 @@ function ChoosingASPBody({ onNav }) {
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, margin: '28px 0 8px' }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>Why your contract should care</div>
         <p style={{ margin: 0, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.65 }}>
-          At the time of writing (July 2026), the Ministry’s published register — 42 providers at its mid-July update — remains a <strong>pre-approval (Article 15) list</strong>. Individual providers have begun announcing full accreditation (Advintek and Comarch did so in early July 2026), but the Ministry has not yet published an official register of accredited providers — and some earlier &ldquo;accredited&rdquo; marketing in fact referred to pre-approval — so a provider’s Article-16 status still has to be verified individually. Appointing from that list now is exactly what the deadlines anticipate, but make the engagement <strong>accreditation-contingent</strong>: full Article-16 accreditation comfortably before your go-live as a contractual milestone, with exit and migration rights — at no penalty to you — if it is missed. A provider that stalls at the technical stage must be their problem, not yours on go-live morning. Have a lawyer review the engagement terms before you sign.
+          The Ministry now publishes an <strong>accredited (Article 16) register</strong>: at its 17 September 2026 update it listed 54 accredited providers, with a further eight pre-approved and under final assessment. That changes the contract question rather than removing it. If the provider you are talking to is on the accredited list, ask for its accreditation number and write it into the engagement. If it is on the pre-approved list, make the engagement <strong>accreditation-contingent</strong>: full Article-16 accreditation comfortably before your go-live as a contractual milestone, with exit and migration rights — at no penalty to you — if it is missed. A provider that stalls at the technical stage must be their problem, not yours on go-live morning. Have a lawyer review the engagement terms before you sign.
         </p>
         <p style={{ margin: '14px 0 0', fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.65 }}>
-          <strong>Where to check, in practice:</strong> the public register is the MoF’s pre-approved list at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>mof.gov.ae</a>. Separately, registered businesses can already see the FTA’s operational list inside <strong>EmaraTax</strong> (e-Invoicing → onboarding) — the interface you will actually select and link your provider through. When we checked on <strong>18 July 2026</strong>, that list showed <strong>38 entries</strong> (one of them an FTA test row) under the FTA’s “Accredited Service Providers” heading, against the MoF’s 42 pre-approved names — while the portal still described provider onboarding as in progress. In practice, <strong>EmaraTax is the closest thing to an accredited list available today</strong>, but it is an operational onboarding view, not the official register; the MoF page remains the public pre-approval register, and the two do not fully match. Ask your shortlisted provider for written confirmation of its Article-16 accreditation, check both places at signing, and re-check before go-live.
-        </p>
+          <strong>Where to check, in practice:</strong> the public register is the MoF’s accredited service providers page at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>mof.gov.ae</a>, which carries the accredited list (with each provider’s accreditation number) and, below it, the pre-approved providers still under final assessment. It is dated at the top; check the date before you rely on it.</p>
       </div>
 
-      <h3 style={H3}>The pre-approved list, for reference</h3>
-      <p>For convenience, here is the Ministry’s pre-approved list as at its <strong>17 July 2026</strong> update — 42 providers, alphabetical, names as published by the MoF. All are listed by the Ministry as pre-approved under Article 15; some have since announced full (Article 16) accreditation, so verify each provider’s current status individually. The Ministry updates the list periodically, so treat this as a snapshot: confirm a provider’s current status on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
+      <h3 style={H3}>The accredited list, for reference</h3>
+      <p>The Ministry’s register as at its <strong>17 September 2026</strong> update — <strong>54 accredited providers</strong> under Article 16, alphabetical, names as published by the MoF. The Ministry updates the page as providers complete accreditation, so treat this as a snapshot and confirm a provider’s current status and accreditation number on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
       <div style={{ border: '1px solid var(--aa-rule)', background: '#fff', padding: '20px 24px', margin: '20px 0 8px' }}>
         <ol style={{ margin: 0, paddingLeft: 22, columns: '2 240px', columnGap: 40, fontSize: 13.5, color: 'var(--aa-charcoal)', lineHeight: 1.9 }}>
           {[
@@ -957,11 +956,14 @@ function ChoosingASPBody({ onNav }) {
             'Azentio Software Orion (Middle East) FZ-LLC',
             'BDO Digital Solutions FZ-LLC',
             'Casim L.L.C-FZ',
+            'Citytech Software',
+            'Cloud Consulting LLC-FZ (DocFlow)',
             'Comarch Middle East FZ LLC',
             'Complyance Electronics L.L.C',
             'Covoro AI – FZCO',
             'Cygnet Digital IT Solutions L.L.C',
             'Dariba Technologies LLC',
+            'Data Hub Integrated Solutions Moro LLC',
             'Defmacro Software DMCC (ClearTax)',
             'Deloitte & Touche - M E',
             'DP World Digital GCC FZE',
@@ -975,12 +977,17 @@ function ChoosingASPBody({ onNav }) {
             'InvoiceNow biz - F.Z.C',
             'InvoiceQ For Information Technology Limited',
             'KGRN Chartered Accountants',
+            'KPI Suitetech DMCC',
+            'Mac & Ross Chartered Accountants LLC',
             'Marmin AI Software Design LLC',
+            'McBitss Technologies CO LLC SOC',
             'Microvista Technologies LLC',
             'Moore JFC Consulting LLC',
+            'Namiri Technology Services L.L.C',
             'New Age Software Limited',
             'Orchida Soft Computer Systems LLC',
             'Oxinus Holding Limited',
+            'PACT Software Services LLC',
             'Pagero Gulf FZ-LLC',
             'SAP Middle East & North Africa LLC',
             'Skill Quotient Technologies',
@@ -989,17 +996,24 @@ function ChoosingASPBody({ onNav }) {
             'Suntech Business Solutions DMCC',
             'Tally Software Solutions FZCO',
             'TAXILLA FINOPS 360 – FZCO',
-            'Taxlabs.ai',
             'Tax Star L.L.C-FZ',
+            'Taxlabs.ai',
             'Techventures Information Technology Services',
             'TronStride FZC',
             'Unified SSK Information Technology L.L.C',
             'VATit Consultant Gulf Ltd',
+            'Victorian Fin Technology L.L.C',
+            'Vostok Trading LLC',
+            'Webtel Technologies solutions- FZCO',
+            'Zoho Software Trading LLC',
           ].map((n) => <li key={n}>{n}</li>)}
         </ol>
       </div>
-      <p style={{ fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.6, margin: '10px 0 0' }}>
-        Source: UAE Ministry of Finance, Pre-Approved eInvoicing Service Providers (last updated 17 July 2026). Listing here is a reference, not an endorsement or recommendation of any provider — suitability depends on your systems, volumes and transaction profile.
+      <p style={{ fontSize: 14, color: 'var(--aa-charcoal-800)', lineHeight: 1.65, margin: '16px 0 0' }}>
+        <strong>Pre-approved, under final assessment (8):</strong> Ardentax IT Solutions - FZCO, A ASP by JSR Tax Advisors LLC-FZ, BBIT Accqrate Technology FZCO, Focus Softnet, Ravera EInvoicing Services - FZCO, Veutel International FZC LLC, Wafeq FZ-LLC, Zennovate IT Solutions. These may sign and onboard clients under Article 4 of Ministerial Decision No. 64 of 2025, but are not yet accredited — the contractual milestone above applies.
+      </p>
+      <p style={{ fontSize: 13, color: 'var(--aa-steel)', lineHeight: 1.6, margin: '10px 0 0' }}>
+        Source: UAE Ministry of Finance, eInvoicing Accredited Service Providers (last updated 17 September 2026). Listing here is a reference, not an endorsement or recommendation of any provider — suitability depends on your systems, volumes and transaction profile.
       </p>
 
       <h3 style={H3}>Questions to ask before you sign</h3>
@@ -1515,6 +1529,10 @@ function IFRSStatementsBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>Since Corporate Tax arrived, &ldquo;the accounts&rdquo; are no longer a private internal document — they are the basis of your tax return, your free-zone licence renewal, and your bank&rsquo;s credit decision. Knowing which standard applies, and what a complete set looks like, matters more than it used to.</p>
+
+      <div style={{ margin: '22px 0 4px', padding: '14px 18px', borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', fontSize: 15, lineHeight: 1.6 }}>
+        <strong>Looking for what changes in October 2026?</strong> The reporting and tax dates &mdash; Decision 13 supplier checks and the amended VAT Regulation from 1 October, the 30 October e-invoicing deadline, Decision 4 on how records are kept &mdash; are on one page, in order: <a href={pathForInsight('uae-tax-changes-october-2026')} onClick={(e) => { e.preventDefault(); onNav('insight', 'uae-tax-changes-october-2026'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>UAE tax and reporting changes, October 2026 &rarr;</a>
+      </div>
 
       <h3 style={H3}>Which accounting standard applies to you</h3>
       <p>Under Ministerial Decision No.&nbsp;114 of 2023, UAE Corporate Tax sets the accounting standards: <strong>IFRS</strong> is the default; <strong>IFRS for SMEs</strong> may be used where revenue does not exceed <strong>AED&nbsp;50&nbsp;million</strong>; and a <strong>cash basis</strong> of accounting is permitted where revenue does not exceed <strong>AED&nbsp;3&nbsp;million</strong>. Choosing the right basis early avoids restating later.</p>
@@ -2053,7 +2071,7 @@ function SupplierVerificationBody({ onNav }) {
         <li><strong>Decide your position on cash payments</strong> now, in writing, while it is a policy choice rather than an audit answer &mdash; and tag cash-settled purchase invoices in the ledger, because from 1&nbsp;October the Executive Regulation bars input tax on cash purchases above a threshold the Minister is to set (Article&nbsp;54(3), added by Cabinet Decision No.&nbsp;149 of 2026).</li>
       </ul>
 
-      {artNote('Written on 20 August 2026 from the FTA’s published text of Decision No. 13 of 2026 and the consolidated VAT Law published by the Ministry of Finance (the consolidation of 28 November 2025, which carries Article 54 bis as inserted by Federal Decree-Law No. 16 of 2025). Article 54 bis is quoted from the UAE legislation portal, uaelegislation.gov.ae. Tax Evasion is defined at Article 1 of Federal Decree-Law No. 28 of 2022 on Tax Procedures. The FTA had issued no guidance on this Decision at that date, and we found no published commentary on it. Updated 11 September 2026 for Cabinet Decision No. 149 of 2026, which adds Article 54(3) to the Executive Regulation from 1 October 2026; the Minister’s decision setting the cash threshold had not been published at that date. The English texts are unofficial translations; the Arabic governs. We will update this page again when the threshold or FTA guidance is published. General information on published law, not advice on your own position.')}
+      {artNote('Written on 20 August 2026 from the FTA’s published text of Decision No. 13 of 2026 and the consolidated VAT Law published by the Ministry of Finance (the consolidation of 28 November 2025, which carries Article 54 bis as inserted by Federal Decree-Law No. 16 of 2025). Article 54 bis is quoted from the UAE legislation portal, uaelegislation.gov.ae. Tax Evasion is defined at Article 1 of Federal Decree-Law No. 28 of 2022 on Tax Procedures. The FTA had issued no guidance on this Decision at that date, and we found no published commentary on it. Updated 11 September 2026 for Cabinet Decision No. 149 of 2026, which adds Article 54(3) to the Executive Regulation from 1 October 2026; the Minister’s decision setting the cash threshold had not been published at that date. Checked again on 22 September 2026: the FTA’s page for the Decision still carries the text alone, with no guide or clarification, and the cash threshold is still to be set. The English texts are unofficial translations; the Arabic governs. We will update this page again when the threshold or FTA guidance is published. General information on published law, not advice on your own position.')}
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
