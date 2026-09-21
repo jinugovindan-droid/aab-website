@@ -289,6 +289,9 @@ main:focus { outline: none; }
 .skip-link,
 .aa-on-dark { --aa-cyan-text: var(--aa-cyan); }
 
+/* Footer links are 13–14px text; 4px of vertical padding makes each a 24px+ target. */
+footer a { padding-top: 4px; padding-bottom: 4px; }
+
 /* ---------- Misc ---------- */
 .divider-thick { border-top: 2px solid var(--aa-charcoal); padding-top: 20px; }
 .kicker-rule { border-top: 2px solid var(--aa-cyan); padding-top: 20px; }
@@ -664,8 +667,14 @@ body.no-scroll { overflow: hidden; }
   /* The statline strip uses 1px hairline gaps over a rule-grey background —
      the generic 24px stacking gap turns those hairlines into thick grey bands. */
   main .statline__inner { gap: 1px !important; }
-  /* Prevent any horizontal page scroll on mobile */
-  html, body { overflow-x: hidden; }
+  /* Prevent any horizontal page scroll on mobile.
+     `clip` and not `hidden`: when BOTH html and body carry overflow:hidden, body
+     becomes its own scroll container and the sticky header is then offset from
+     body's padding edge instead of the viewport — every page ≤720px rendered
+     the header 46px low, hiding the first 46px of content behind it. `clip`
+     clips without creating a scroll container; `hidden` stays as the fallback
+     for browsers without `clip` (they keep today's behaviour, nothing worse). */
+  html, body { overflow-x: hidden; overflow-x: clip; }
 
   /* Wide data tables: scroll horizontally instead of being clipped off-screen.
      (The page has overflow-x:hidden, so without this the right-hand columns are
@@ -821,7 +830,7 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
 /* Dot indicators */
 .aa-hero__dots {
   margin-top: 36px;
-  display: flex; gap: 10px; justify-content: center; align-items: center;
+  display: flex; gap: 12px; justify-content: center; align-items: center;
 }
 .aa-hero__dot {
   width: 28px; height: 4px;
@@ -829,8 +838,11 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
   border: 0;
   padding: 0;
   cursor: pointer;
+  position: relative;
   transition: background 150ms ease-out, width 200ms ease-out;
 }
+/* The visible dot stays 4px; the thumb gets 28px (WCAG 2.5.8). */
+.aa-hero__dot::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; bottom: -12px; }
 .aa-hero__dot:hover { background: var(--aa-steel-300); }
 .aa-hero__dot.is-active { background: var(--aa-cyan); width: 48px; }
 .aa-hero__dot:focus-visible { outline: 2px solid var(--aa-cyan-text); outline-offset: 3px; }

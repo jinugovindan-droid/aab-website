@@ -118,7 +118,7 @@ function ToolsHubPage({ onNav }) {
       <i data-lucide={icon} style={{ width: 26, height: 26, color: 'var(--aa-cyan-text)' }}></i>
       <div style={{ fontFamily: 'var(--aa-font-display)', textTransform: 'uppercase', fontSize: 22, letterSpacing: '0.01em', color: 'var(--aa-charcoal)', lineHeight: 1.1 }}>{name}</div>
       <div style={{ fontSize: 14.5, lineHeight: 1.6, color: 'var(--aa-charcoal-800)' }}>{line}</div>
-      <div style={{ marginTop: 'auto', fontSize: 12.5, color: 'var(--aa-steel)', borderTop: '1px solid var(--aa-rule)', paddingTop: 12 }}>Needs: {needs}</div>
+      <div style={{ marginTop: 'auto', fontSize: 13, color: 'var(--aa-steel)', borderTop: '1px solid var(--aa-rule)', paddingTop: 12 }}>Needs: {needs}</div>
       <span style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14 }}>Open the tool →</span>
     </a>
   );
@@ -630,7 +630,7 @@ function GratuityToolBody({ onNav, tool }) {
     </div>
   );
   const Note = ({ warn, children }) => (
-    <div style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.55, padding: '9px 11px', borderLeft: '3px solid ' + (warn ? '#F0C265' : 'var(--aa-cyan)'), background: 'rgba(255,255,255,0.06)', color: '#fff' }}>{children}</div>
+    <div style={{ marginTop: 12, fontSize: 13, lineHeight: 1.55, padding: '9px 11px', borderLeft: '3px solid ' + (warn ? '#F0C265' : 'var(--aa-cyan)'), background: 'rgba(255,255,255,0.06)', color: '#fff' }}>{children}</div>
   );
   const dateStyle = { ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' };
   const numStyle = { ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' };
@@ -735,7 +735,7 @@ function GratuityToolBody({ onNav, tool }) {
               <div><label htmlFor={uid + '-join2'} style={AA_TOOL_LABEL}>Joined the savings scheme on</label><DateField id={uid + '-join2'} label="Joined the savings scheme on" style={dateStyle} value={f.join} onIso={setIso('join')} />{hint('Optional (Cabinet Resolution 96 of 2023).')}{f.join ? <div style={{ marginTop: 10 }}><label htmlFor={uid + '-joinbasic2'} style={AA_TOOL_LABEL}>Basic wage at that date (AED)</label><input id={uid + '-joinbasic2'} style={numStyle} inputMode="numeric" value={f.joinBasic} onChange={upd('joinBasic')} placeholder={f.basic || 'e.g. 8,000'} />{hint('Cabinet Resolution 96 of 2023 fixes the preserved entitlement on the basic wage as at the joining date. Left blank, the last basic wage above is used.')}</div> : null}</div>
             </div>
           ) : null}
-          <p style={{ margin: '18px 0 0', fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.5 }}>
+          <p style={{ margin: '18px 0 0', fontSize: 13, color: 'var(--aa-steel)', lineHeight: 1.5 }}>
             The figures shown are an invented example until you change them. Nothing you type leaves your browser unless you ask for the statement below.
           </p>
         </div>
@@ -825,7 +825,7 @@ function GratuityToolBody({ onNav, tool }) {
               {freeRow('dedLbl2', 'dedAmt2', '2', 'e.g. notice not served by the employee')}
             </div>
 
-            <p style={{ margin: '22px 0 0', fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.55 }}>
+            <p style={{ margin: '22px 0 0', fontSize: 13, color: 'var(--aa-steel)', lineHeight: 1.55 }}>
               Nothing you type leaves your browser unless you ask for the statement below.
             </p>
           </div>
@@ -894,7 +894,7 @@ function GratuityToolBody({ onNav, tool }) {
                 <div><label htmlFor={uid + '-email'} style={AA_TOOL_LABEL}>Work email *</label><input id={uid + '-email'} type="email" autoComplete="email" style={AA_TOOL_INPUT} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
                 <div><label htmlFor={uid + '-phone'} style={AA_TOOL_LABEL}>Phone / WhatsApp *</label><input id={uid + '-phone'} type="tel" autoComplete="tel" style={AA_TOOL_INPUT} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
               </div>
-              <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'var(--aa-charcoal-800)', lineHeight: 1.5, cursor: 'pointer', margin: '14px 0' }}>
+              <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--aa-charcoal-800)', lineHeight: 1.5, cursor: 'pointer', margin: '14px 0' }}>
                 <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />
                 <span>I agree to Authentic Accounting using my details to prepare this statement and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
               </label>
@@ -942,7 +942,7 @@ function VatToolBody({ onNav, tool }) {
     </div>
   );
   const Note = ({ warn, children }) => (
-    <div style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.55, padding: '9px 11px', borderLeft: '3px solid ' + (warn ? '#F0C265' : 'var(--aa-cyan)'), background: 'rgba(255,255,255,0.06)', color: '#fff' }}>{children}</div>
+    <div style={{ marginTop: 12, fontSize: 13, lineHeight: 1.55, padding: '9px 11px', borderLeft: '3px solid ' + (warn ? '#F0C265' : 'var(--aa-cyan)'), background: 'rgba(255,255,255,0.06)', color: '#fff' }}>{children}</div>
   );
   const hint = (t) => <p style={{ fontSize: 11.5, color: 'var(--aa-steel)', margin: '5px 0 0', lineHeight: 1.45 }}>{t}</p>;
   const formulaLines = !r ? [] : mode === 'add'
@@ -970,11 +970,11 @@ function VatToolBody({ onNav, tool }) {
             {hint('Dirhams, to two decimals. Another currency converts at the Central Bank rate on the date of supply first (Article 69).')}
           </div>
           {r ? (
-            <div className="mono" style={{ marginTop: 18, fontSize: 12.5, lineHeight: 1.75, background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: '12px 14px', whiteSpace: 'pre-wrap', color: 'var(--aa-charcoal-800)' }}>
+            <div className="mono" style={{ marginTop: 18, fontSize: 13, lineHeight: 1.75, background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: '12px 14px', whiteSpace: 'pre-wrap', color: 'var(--aa-charcoal-800)' }}>
               {formulaLines.join('\n')}
             </div>
           ) : null}
-          <p style={{ margin: '16px 0 0', fontSize: 12.5, color: 'var(--aa-steel)', lineHeight: 1.5 }}>
+          <p style={{ margin: '16px 0 0', fontSize: 13, color: 'var(--aa-steel)', lineHeight: 1.5 }}>
             The figures shown are the FTA’s own worked example until you change them. Nothing you type leaves your browser.
           </p>
         </div>

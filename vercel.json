@@ -32,6 +32,56 @@
       "permanent": true
     },
     {
+      "source": "/contact-us",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/how-to-register-for-vat-in-uae",
+      "destination": "/services/vat-registration",
+      "permanent": true
+    },
+    {
+      "source": "/trn-registration-uae",
+      "destination": "/services/vat-registration",
+      "permanent": true
+    },
+    {
+      "source": "/vat-de-registration-in-uae",
+      "destination": "/services/vat-registration",
+      "permanent": true
+    },
+    {
+      "source": "/vat-registration-in-uae",
+      "destination": "/services/vat-registration",
+      "permanent": true
+    },
+    {
+      "source": "/vat-return-services",
+      "destination": "/services/vat-return-filing",
+      "permanent": true
+    },
+    {
+      "source": "/maintaining-the-accounts",
+      "destination": "/services/bookkeeping",
+      "permanent": true
+    },
+    {
+      "source": "/vat-consultants-in-dubai",
+      "destination": "/services/vat",
+      "permanent": true
+    },
+    {
+      "source": "/cdn-cgi/l/email-protection",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/insights/choosing-accredited-service-provider-asp;",
+      "destination": "/insights/choosing-accredited-service-provider-asp",
+      "permanent": true
+    },
+    {
       "source": "/go/sbr",
       "destination": "/insights/small-business-relief-extended-2029?utm_source=campaign&utm_medium=whatsapp&utm_campaign=sbr-2029&utm_content=broadcast",
       "permanent": false

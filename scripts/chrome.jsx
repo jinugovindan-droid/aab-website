@@ -427,7 +427,7 @@ function Footer({ onNav }) {
               <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 16, paddingBottom: 12, borderBottom: '2px solid var(--aa-charcoal)' }}>
                 {col.title}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 {col.items.map(([label, route]) => (
                   <a
                     key={label}
