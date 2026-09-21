@@ -292,6 +292,26 @@ main:focus { outline: none; }
 /* Footer links are 13–14px text; 4px of vertical padding makes each a 24px+ target. */
 footer a { padding-top: 4px; padding-bottom: 4px; }
 
+/* Emirates strip: label and names on one line on desktop; on phones the
+   label sits above a wrapped list instead of floating beside a ragged grid. */
+.aa-emirates { display: flex; align-items: center; gap: 32px; justify-content: space-between; flex-wrap: wrap; }
+.aa-emirates__label { flex-shrink: 0; }
+.aa-emirates__list { display: flex; gap: 40px; flex: 1; justify-content: space-between; flex-wrap: wrap; }
+@media (max-width: 720px) {
+  .aa-emirates { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .aa-emirates__list { justify-content: flex-start; gap: 10px 22px; }
+  .aa-emirates__list span { font-size: 14px !important; }
+}
+
+/* Cookie notice on phones: a bar along the bottom, not a card over the hero. */
+@media (max-width: 600px) {
+  .aa-cookie { left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100% !important; max-width: none !important; padding: 14px 16px 16px !important; border-left: 0 !important; border-right: 0 !important; border-bottom: 0 !important; }
+  .aa-cookie .eyebrow { display: none; }
+  .aa-cookie__text { font-size: 12.5px !important; line-height: 1.5 !important; }
+  .aa-cookie__actions { margin-top: 12px !important; }
+  .aa-cookie__actions .btn { padding: 9px 14px; font-size: 12px; }
+}
+
 /* ---------- Misc ---------- */
 .divider-thick { border-top: 2px solid var(--aa-charcoal); padding-top: 20px; }
 .kicker-rule { border-top: 2px solid var(--aa-cyan); padding-top: 20px; }
@@ -622,8 +642,10 @@ body.no-scroll { overflow: hidden; }
   .topnav__dropdown { left: 0; transform: none; } /* keep the Tax menu on-screen when wrapped */
 }
 
-/* True phones: burger + drawer (every page listed individually) */
-@media (max-width: 600px) {
+/* Phones, including landscape: burger + drawer (every page listed individually).
+   Was 600px; between 600 and 720 the wrapped bar left "Contact" alone on a
+   second line. Browser-zoom desktops above 720 still get the wrapped bar. */
+@media (max-width: 720px) {
   .topnav { height: 64px; }
   .topnav__inner { flex-wrap: nowrap; padding-top: 0; padding-bottom: 0; }
   .topnav__list { display: none; }
@@ -667,6 +689,11 @@ body.no-scroll { overflow: hidden; }
   /* The statline strip uses 1px hairline gaps over a rule-grey background —
      the generic 24px stacking gap turns those hairlines into thick grey bands. */
   main .statline__inner { gap: 1px !important; }
+  /* The four hero stats read as a 2x2 on phones, not a 4-row column. */
+  main .aa-hero__stats { grid-template-columns: 1fr 1fr !important; }
+  .aa-hero-stat { border-bottom: 1px solid var(--aa-rule); }
+  .aa-hero-stat:nth-child(odd) { border-right: 1px solid var(--aa-rule); }
+  .aa-hero-stat:nth-child(3), .aa-hero-stat.is-last { border-bottom: 0; }
   /* Prevent any horizontal page scroll on mobile.
      `clip` and not `hidden`: when BOTH html and body carry overflow:hidden, body
      becomes its own scroll container and the sticky header is then offset from
@@ -770,6 +797,48 @@ body[data-density="compact"] .section-head { margin-bottom: 36px; }
 /* ---------- Home hero ---------- */
 .aa-hero__container { padding: 120px 32px 0; position: relative; z-index: 2; }
 .aa-hero__title { font-size: clamp(52px, 7.6vw, 104px); }
+
+/* Static hero (22 Sep 2026): statement left, "Right now" panel right. */
+.aa-hero__split {
+  display: grid; grid-template-columns: 1.2fr 0.9fr; gap: 56px; align-items: center;
+  padding-top: 80px; text-align: left;
+}
+.aa-hero--static .aa-hero__title { font-size: clamp(44px, 6.2vw, 88px); }
+.aa-rightnow {
+  position: relative; z-index: 2;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  color: #fff;
+}
+.aa-rightnow__head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  padding: 13px 20px; border-bottom: 1px solid rgba(255,255,255,0.14);
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--aa-cyan-200);
+}
+.aa-rightnow__head .mono { letter-spacing: 0.06em; text-transform: none; color: rgba(255,255,255,0.6); font-size: 11px; }
+.aa-rightnow__row {
+  display: grid; grid-template-columns: 76px 1fr; gap: 14px; align-items: start;
+  padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.aa-rightnow__row:last-child { border-bottom: 0; }
+.aa-rightnow__num { font-weight: 700; font-size: 22px; line-height: 1; color: var(--aa-cyan); white-space: nowrap; }
+.aa-rightnow__num small {
+  display: block; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6); margin-top: 5px;
+}
+.aa-rightnow__title { font-size: 14px; font-weight: 600; line-height: 1.35; color: #fff; }
+.aa-rightnow__sub { font-size: 12.5px; line-height: 1.45; color: rgba(255,255,255,0.78); margin-top: 3px; }
+.aa-rightnow__sub a { color: var(--aa-cyan-200); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.aa-rightnow__sub a:hover { text-decoration: underline; }
+.aa-rightnow__sub a:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: 2px; }
+@media (max-width: 960px) {
+  .aa-hero__split { grid-template-columns: 1fr; gap: 36px; padding-top: 56px; }
+}
+@media (max-width: 600px) {
+  .aa-hero__split { padding-top: 40px; gap: 28px; }
+  .aa-rightnow__row { grid-template-columns: 64px 1fr; padding: 13px 16px; }
+  .aa-rightnow__head { padding: 11px 16px; }
+}
 
 /* Slider — keep slide content area a steady min-height so auto-advance
    doesn't cause page-jump as slides switch. */

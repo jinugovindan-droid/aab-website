@@ -556,6 +556,7 @@ function CookieConsent({ onNav }) {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
+      className="aa-cookie"
       style={{
         position: 'fixed', left: 16, bottom: 16, zIndex: 80, /* above the WhatsApp FAB (70) so its text is never occluded on narrow phones */
         maxWidth: 460, width: 'calc(100% - 32px)',
@@ -566,7 +567,7 @@ function CookieConsent({ onNav }) {
       }}
     >
       <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Cookies</div>
-      <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.82)' }}>
+      <p className="aa-cookie__text" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.82)' }}>
         We use cookieless analytics to measure traffic. With your consent we also use
         Google Analytics, which sets analytics cookies. You can change your choice any time.{' '}
         <a
@@ -575,7 +576,7 @@ function CookieConsent({ onNav }) {
           style={{ color: 'var(--aa-cyan-200)', textDecoration: 'underline' }}
         >Privacy Policy</a>.
       </p>
-      <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
+      <div className="aa-cookie__actions" style={{ display: 'flex', gap: 10, marginTop: 16 }}>
         <button className="btn btn--primary btn--sm" onClick={() => decide(true)}>Accept analytics</button>
         <button
           onClick={() => decide(false)}
@@ -846,8 +847,10 @@ const latestTime = (d) => {
   return new Date(parseInt(p[2], 10) || 2017, LATEST_MONTHS[p[1]] || 0, parseInt(p[0], 10) || 1).getTime();
 };
 
-// How many recent insights the ribbon carries.
-const LATEST_COUNT = 2;
+// How many recent insights the ribbon carries. One since 22 Sep 2026: two
+// headlines cost 240px of a phone screen on every inner page; the home hero's
+// panel carries the latest note, and the insights hub carries them all.
+const LATEST_COUNT = 1;
 
 // Shown on EVERY page, newest first — no topic gating. The items sit side by
 // side rather than stacked: each is flex 1 1 300px, so two fit across a normal

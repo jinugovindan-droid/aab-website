@@ -5,7 +5,7 @@ const { useState, useEffect, useLayoutEffect } = React;
 // Tweak defaults live in index.html (inside the EDITMODE markers the design host
 // rewrites on disk); we read them from the global so that tooling still works.
 const TWEAK_DEFAULTS = window.AA_TWEAK_DEFAULTS || {
-  displayFont: 'Oswald', accentIntensity: 'default', density: 'comfortable', showSubBar: true,
+  displayFont: 'Oswald', accentIntensity: 'default', density: 'comfortable', showSubBar: false,
 };
 
 const PAGE_LABELS = {
@@ -234,10 +234,9 @@ function AppRoot() {
   return (
     <div data-screen-label={PAGE_LABELS[page] || page}>
       <a className="skip-link" href="#main-content">Skip to content</a>
-      {tweaks.showSubBar && <SubBar/>}
       <TopNav active={navActive} onNav={navigateTo}/>
       <main id="main-content" tabIndex={-1}>
-        <LatestUpdate onNav={navigateTo}/>
+        {page !== 'home' && <LatestUpdate onNav={navigateTo}/>}
         {renderPage()}
       </main>
       <Footer onNav={navigateTo}/>

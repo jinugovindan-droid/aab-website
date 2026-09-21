@@ -488,7 +488,7 @@ function FreeZoneArticleBody() {
 }
 
 // ---------- E-invoicing guide cluster (general-information pages) ----------
-const ART = { maxWidth: 820, padding: '32px', fontSize: 17, lineHeight: 1.75, color: 'var(--aa-charcoal-800)' };
+const ART = { maxWidth: 760, padding: '32px', fontSize: 17, lineHeight: 1.75, color: 'var(--aa-charcoal-800)' };
 const LEAD = { fontSize: 19, color: 'var(--aa-charcoal)', fontWeight: 500, lineHeight: 1.5 };
 const H3 = { fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' };
 
@@ -2578,7 +2578,7 @@ function InsightArticlePage({ onNav, slug }) {
             <div className="eyebrow" style={{ marginBottom: 16, color: 'var(--aa-cyan-200)' }}>{article.tag} · {article.date} · {article.read} read</div>
             <h1 style={{
               fontFamily: 'var(--aa-font-display)', fontWeight: 700,
-              fontSize: 'clamp(36px, 4.6vw, 56px)',
+              fontSize: 'clamp(30px, 4.6vw, 56px)',
               textTransform: 'uppercase', letterSpacing: '0.01em',
               margin: 0, color: '#fff', lineHeight: 1.05, textWrap: 'balance'
             }}>

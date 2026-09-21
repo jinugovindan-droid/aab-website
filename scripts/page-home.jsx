@@ -2,256 +2,162 @@
 const { useState: useStateHome, useEffect: useEffectHome, useRef: useRefHome } = React;
 const { pathForPage, pathForInsight, INSIGHTS } = window.AARoutes;
 
-// ---------- Hero (3-slide editorial slider) ----------
-// Slide content rotates every 5s. Stats + evidence line below stay fixed.
-// Auto-advance pauses on hover/focus/touch. Under prefers-reduced-motion the
-// rotation continues but tokens.css strips the crossfade (instant cut, no
-// motion) — same policy as the marquee: WCAG 2.2.2 is met by the pause
-// controls (hover/focus, arrows, dots), not by freezing the content.
-const HERO_SLIDES = [
-  {
-    eyebrow: 'Advisory · Controls · Compliance',
-    title: (
-      <>
-        Advisory<br />
-        Engineered<span style={{ color: 'var(--aa-cyan-text)' }}>.</span>
-      </>
-    ),
-    lead: 'Accounting, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government organisations across the UAE — delivered with reconciliation discipline.',
-    ctaPrimary:   { label: 'Book a consultation', page: 'contact' },
-    ctaSecondary: { label: 'Meet the firm',       page: 'about' },
-    bgImage: 'dubai-night-king',
-    bgAlt: 'Crystal chess king on polished marble, Dubai night skyline with Burj Khalifa behind',
-  },
-  {
-    eyebrow: 'Phase 1 · AED 50M+ · go-live 1 January 2027',
-    title: (
-      <>
-        UAE <span style={{ color: 'var(--aa-cyan-text)' }}>E-Invoicing</span><br />
-        is coming.<br />
-        Are you ready?
-      </>
-    ),
-    lead: 'The Ministry of Finance is rolling out a mandatory OpenPeppol-based, 5-corner e-invoicing system for B2B and B2G transactions (limited exclusions apply) — phased by revenue. Large businesses (AED 50M+) go live 1 January 2027; smaller firms and Government follow through 2027. We help you map readiness, select an ASP, and go live on schedule.',
-    ctaPrimary:   { label: 'Read the briefing',       page: 'e-invoicing' },
-    ctaSecondary: { label: 'Book a readiness call',   page: 'contact' },
-    bgImage: 'chess-knight-mist',
-    bgAlt: 'A solitary crystal chess knight in cool blue mist — poised, strategic',
-  },
-  {
-    eyebrow: 'UAE Corporate Tax · 9% regime',
-    title: (
-      <>
-        Corporate Tax,<br />
-        filed on time.<br />
-        <span style={{ color: 'var(--aa-cyan-text)' }}>Defensible</span> by line.
-      </>
-    ),
-    lead: 'Registration, period computation, QFZP analysis where relevant, and FTA filing — with a position memo behind every contested item and a review-ready return file at the end of every period.',
-    ctaPrimary:   { label: 'Browse services',         page: 'services' },
-    ctaSecondary: { label: 'Request a CT scoping',    page: 'contact' },
-    bgImage: 'chess-king-line',
-    bgAlt: 'A crystal chess king standing in front of a receding line of pawns — defended along the line',
-  },
+// ---------- Hero (static, with a "Right now" panel) ----------
+// Replaced the three-slide carousel on 22 Sep 2026. The rotation cost more
+// than it earned: slides 2 and 3 were read by almost nobody, the counter,
+// arrows and dots were chrome, and three 2400px photographs made the home
+// page's mobile LCP nine seconds. One statement, one photograph, and the
+// time-sensitive messages live in a panel that reads from live data — the
+// e-invoicing countdown from the same tiers the ticker uses, the latest note
+// from the insights registry — so it stays current without a code change.
+const HERO_MAIN = {
+  eyebrow: 'Advisory · Controls · Compliance',
+  title: (
+    <>
+      Advisory<br />
+      Engineered<span style={{ color: 'var(--aa-cyan-text)' }}>.</span>
+    </>
+  ),
+  lead: 'Accounting, VAT, UAE Corporate Tax, valuations and due diligence for SMEs, enterprises and Government organisations across the UAE — delivered with reconciliation discipline.',
+  ctaPrimary:   { label: 'Book a consultation', page: 'contact' },
+  ctaSecondary: { label: 'Meet the firm',       page: 'about' },
+  bgImage: 'dubai-night-king',
+  bgAlt: 'Crystal chess king on polished marble, Dubai night skyline with Burj Khalifa behind',
+};
+
+// E-invoicing go-live tiers — Ministerial Decisions 243 & 244 of 2025, the
+// same dates the ticker counts down. The panel shows the nearest one still
+// ahead, so it moves on by itself after 1 January 2027.
+const HERO_TIERS = [
+  { who: 'AED 50M+ businesses', asp: '30 October', liveLabel: '1 January 2027', goISO: '2027-01-01T00:00:00', phase: 'Phase 1' },
+  { who: 'businesses under AED 50M', asp: '31 March 2027', liveLabel: '1 July 2027', goISO: '2027-07-01T00:00:00', phase: 'Phase 2' },
+  { who: 'government entities', asp: '31 March 2027', liveLabel: '1 October 2027', goISO: '2027-10-01T00:00:00', phase: 'Phase 3' },
 ];
 
-function HomeHero({ onNav }) {
-  // cur drives the visible slide; prev keeps the outgoing slide's background
-  // mounted underneath so the incoming one crossfades over it (no flash of
-  // the bare section between images).
-  const [slides, setSlides] = useStateHome({ cur: 0, prev: 0 });
-  const slideIndex = slides.cur;
-  const [paused, setPaused] = useStateHome(false);
-  const slideCount = HERO_SLIDES.length;
+const heroDubaiToday = () => {
+  try {
+    const p = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' }).split('-').map(Number);
+    return new Date(p[0], p[1] - 1, p[2]);
+  } catch (e) { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+};
 
-  // Auto-advance every 5s. Pauses on hover/focus/touch. Reduced-motion
-  // visitors keep the rotation with an opacity-only crossfade (site.css
-  // punches it through the global animation kill — no translation, no
-  // scale, so nothing "moves"; the image and copy simply dissolve).
+function RightNowPanel({ onNav }) {
+  const R = window.AARoutes || {};
+  // Days are computed on the client so the static snapshot never bakes in a
+  // count; until React mounts the row shows the date alone.
+  const [days, setDays] = useStateHome(null);
   useEffectHome(() => {
-    if (paused) return;
-    const id = setInterval(() => {
-      setSlides((s) => ({ cur: (s.cur + 1) % slideCount, prev: s.cur }));
-    }, 5000);
-    return () => clearInterval(id);
-  }, [paused, slideCount]);
-
-  // iOS fires a synthetic mouseenter after a tap that would otherwise pause
-  // the rotation forever (mouseleave never comes on touch). Track touches and
-  // ignore the ghost hover that lands within 800ms of one.
-  const lastTouchAt = useRefHome(0);
-
-  // Prewarm the other slides' images once the page is idle, so the 5s
-  // rotation doesn't fetch a 100KB+ JPEG mid-animation.
-  useEffectHome(() => {
-    const warm = () => HERO_SLIDES.forEach((s, i) => { if (i !== 0 && s.bgImage) { const im = new Image(); im.src = s.bgImage; } });
-    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
-    const id = idle(warm);
-    return () => { (window.cancelIdleCallback || clearTimeout)(id); };
+    const now = heroDubaiToday();
+    const left = HERO_TIERS.map((t) => Math.ceil((new Date(t.goISO) - now) / 86400000));
+    setDays(left);
   }, []);
+  const idx = days ? Math.max(0, days.findIndex((d) => d > 0)) : 0;
+  const tier = HERO_TIERS[idx] || HERO_TIERS[HERO_TIERS.length - 1];
+  const n = days ? days[idx] : null;
 
-  const goPrev = () => setSlides((s) => ({ cur: (s.cur - 1 + slideCount) % slideCount, prev: s.cur }));
-  const goNext = () => setSlides((s) => ({ cur: (s.cur + 1) % slideCount, prev: s.cur }));
-  const goTo   = (i) => setSlides((s) => (i === s.cur ? s : { cur: i, prev: s.cur }));
+  const latest = (R.INSIGHTS || []).filter((a) => a.published).slice()
+    .sort((x, y) => heroLatestTime(y.date) - heroLatestTime(x.date))[0];
+  const latestDay = latest ? String(latest.date).split(' ').slice(0, 2).join(' ') : '';
 
-  // Keyboard nav while the hero is focused
-  const onKeyDown = (e) => {
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); goPrev(); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
-  };
-
-  const slide = HERO_SLIDES[slideIndex];
-
-  const hasBg = !!slide.bgImage;
+  const Row = ({ num, small, title, sub, page, slug, label }) => (
+    <div className="aa-rightnow__row">
+      <div className="aa-rightnow__num mono">{num}<small>{small}</small></div>
+      <div>
+        <div className="aa-rightnow__title">{title}</div>
+        <div className="aa-rightnow__sub">
+          {sub}{' '}
+          <a href={slug ? (R.pathForInsight ? R.pathForInsight(slug) : '/insights/' + slug) : pathForPage(page)}
+            onClick={(e) => { e.preventDefault(); slug ? onNav('insight', slug) : onNav(page); }}>{label}</a>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <section
-      className={`aa-hero${hasBg ? ' aa-hero--bg' : ''}`}
-      style={{
-        background: '#fff',
-        borderBottom: '1px solid var(--aa-rule)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-      onTouchStart={() => { lastTouchAt.current = Date.now(); setPaused(true); }}
-      onTouchEnd={() => { lastTouchAt.current = Date.now(); setPaused(false); }}
-      onTouchCancel={() => { lastTouchAt.current = Date.now(); setPaused(false); }}
-      // Pause for KEYBOARD focus only (:focus-visible). A mouse click also
-      // focuses the pressed control, and pausing for that froze the carousel
-      // until the visitor happened to click elsewhere on the page.
-      onFocusCapture={(e) => { try { if (e.target.matches(':focus-visible')) setPaused(true); } catch (err) { setPaused(true); } }}
-      onBlurCapture={() => setPaused(false)}
-    >
-      {/* Slide background — two layers. The outgoing image sits static
-          underneath (no animation) while the keyed incoming layer fades in
-          over it: a true crossfade, image to image, nothing shows through. */}
-      {hasBg && slides.prev !== slideIndex && HERO_SLIDES[slides.prev].bgImage && (
-        <div className="aa-hero__bg-under" aria-hidden="true">
-          <HeroPhoto name={HERO_SLIDES[slides.prev].bgImage} />
-        </div>
+    <aside className="aa-rightnow aa-on-dark" aria-label="Right now">
+      <div className="aa-rightnow__head">
+        <span>Right now</span>
+        {latest && <span className="mono">updated {latestDay}</span>}
+      </div>
+      <Row
+        num={n != null ? n.toLocaleString('en-US') : tier.liveLabel.split(' ')[0]}
+        small={n != null ? 'days' : ''}
+        title={`E-invoicing ${tier.phase} goes live ${tier.liveLabel}`}
+        sub={`${tier.who.charAt(0).toUpperCase() + tier.who.slice(1)} appoint an Accredited Service Provider by ${tier.asp}.`}
+        page="e-invoicing" label="The briefing →" />
+      {latest && (
+        <Row
+          num={latestDay.split(' ')[0]} small={latestDay.split(' ')[1]}
+          title={String(latest.title).replace(/\.\s*$/, '')}
+          sub={latest.tag ? `Latest note · ${latest.tag}.` : 'Latest note.'}
+          slug={latest.slug} label="Read it →" />
       )}
-      {hasBg && (
-        <div key={`bg-${slideIndex}`} className="aa-hero__bg">
-          {/* The first slide's photo is the page's LCP: eager + high priority, and
-              the template preloads the same srcset. Later slides load lazily. */}
-          <HeroPhoto name={slide.bgImage} alt={slide.bgAlt || ''} priority={slideIndex === 0} />
-        </div>
-      )}
+      <Row
+        num="9%" small="CT"
+        title="Corporate Tax, filed on time and defensible by line"
+        sub="A position memo behind every contested item, a review-ready file every period."
+        page="service-corporate-tax" label="Corporate Tax →" />
+    </aside>
+  );
+}
 
-      {/* corner index marker — quiet editorial touch, now indicating slide position */}
-      <div className="mono aa-hide-sm" style={{
-        position: 'absolute', top: 24, right: 32,
-        fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-        color: hasBg ? 'rgba(255,255,255,0.7)' : 'var(--aa-steel)',
-        zIndex: 3,
-      }}>
-        {String(slideIndex + 1).padStart(2, '0')} / {String(slideCount).padStart(2, '0')}
+const HERO_MONTHS = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+const heroLatestTime = (d) => {
+  const p = String(d || '').split(' ');
+  return new Date(parseInt(p[2], 10) || 2017, HERO_MONTHS[p[1]] || 0, parseInt(p[0], 10) || 1).getTime();
+};
+
+function HomeHero({ onNav }) {
+  const S = HERO_MAIN;
+  return (
+    <section
+      className="aa-hero aa-hero--bg aa-hero--static"
+      style={{ background: '#fff', borderBottom: '1px solid var(--aa-rule)', position: 'relative', overflow: 'hidden' }}
+    >
+      <div className="aa-hero__bg">
+        {/* The page's LCP: eager, high priority, and the template preloads the same srcset. */}
+        <HeroPhoto name={S.bgImage} alt={S.bgAlt} priority />
       </div>
 
-      {/* Prev / Next arrows — desktop only */}
-      <button
-        type="button"
-        aria-label="Previous slide"
-        onClick={goPrev}
-        className="aa-hero__arrow aa-hero__arrow--prev aa-hide-sm">
-        <i data-lucide="chevron-left" style={{ width: 22, height: 22 }}></i>
-      </button>
-      <button
-        type="button"
-        aria-label="Next slide"
-        onClick={goNext}
-        className="aa-hero__arrow aa-hero__arrow--next aa-hide-sm">
-        <i data-lucide="chevron-right" style={{ width: 22, height: 22 }}></i>
-      </button>
-
-      <div className="container aa-hero__container" style={{ textAlign: 'center' }}>
-        {/* The slide content. key={slideIndex} forces remount so .fade-in plays each change. */}
-        <div
-          key={slideIndex}
-          className="fade-in aa-hero__slide"
-          tabIndex={0}
-          role="region"
-          aria-roledescription="slide"
-          aria-label={`Slide ${slideIndex + 1} of ${slideCount}`}
-          onKeyDown={onKeyDown}
-          // Hover-pause lives on the slide COPY (headline, lead, CTAs), not the
-          // full-bleed section: a cursor parked on the photo edges of a
-          // viewport-filling hero used to freeze the rotation indefinitely.
-          // The lastTouchAt check ignores the ghost mouseenter iOS fires after
-          // a tap, which would otherwise pause forever (no mouseleave on touch).
-          onMouseEnter={() => { if (Date.now() - lastTouchAt.current < 800) return; setPaused(true); }}
-          onMouseLeave={() => setPaused(false)}
-          style={{ maxWidth: 980, margin: '0 auto', outline: 'none' }}
-        >
-          {/* Light cyan, not brand cyan: measured against the actual pixels of all
-              three hero photographs under the scrim, 12px #00B0F0 falls to 3.60:1
-              over dubai-night-king.jpg (AA wants 4.5). --aa-cyan-200 is the site's
-              existing answer for cyan on a dark surface (.section--dark .aa-eyebrow)
-              and takes the worst case to 5.72:1. */}
-          <div className="eyebrow eyebrow--cyan-light" style={{
-            marginBottom: 28,
-            display: 'inline-flex', alignItems: 'center', gap: 12,
-            flexWrap: 'wrap', justifyContent: 'center',
-          }}>
+      <div className="container aa-hero__container aa-hero__split">
+        <div className="aa-hero__copy">
+          {/* Light cyan, not brand cyan: measured against the pixels of the photograph
+              under the scrim, 12px #00B0F0 falls to 3.60:1 over dubai-night-king (AA
+              wants 4.5); --aa-cyan-200 takes it to 5.34:1. */}
+          <div className="eyebrow eyebrow--cyan-light" style={{ marginBottom: 24, display: 'inline-flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
             <span style={{ width: 24, height: 1, background: 'var(--aa-cyan)', display: 'inline-block' }}></span>
-            <span>{slide.eyebrow}</span>
-            <span style={{ width: 24, height: 1, background: 'var(--aa-cyan)', display: 'inline-block' }}></span>
+            <span>{S.eyebrow}</span>
           </div>
 
           <h1 className="aa-hero__title" style={{
-            fontFamily: 'var(--aa-font-display)',
-            fontWeight: 700,
-            lineHeight: 0.98,
-            letterSpacing: '0.005em',
-            textTransform: 'uppercase',
-            color: hasBg ? '#fff' : 'var(--aa-charcoal)',
-            margin: 0,
-            textWrap: 'balance',
+            fontFamily: 'var(--aa-font-display)', fontWeight: 700, lineHeight: 0.98, letterSpacing: '0.005em',
+            textTransform: 'uppercase', color: '#fff', margin: 0, textWrap: 'balance',
           }}>
-            {slide.title}
+            {S.title}
           </h1>
 
-          <p style={{
-            fontSize: 19, lineHeight: 1.55,
-            color: hasBg ? 'rgba(255,255,255,0.88)' : 'var(--aa-charcoal-800)',
-            marginTop: 36, marginLeft: 'auto', marginRight: 'auto',
-            maxWidth: 720,
-          }}>
-            {slide.lead}
+          <p style={{ fontSize: 19, lineHeight: 1.55, color: 'rgba(255,255,255,0.88)', marginTop: 28, maxWidth: 600 }}>
+            {S.lead}
           </p>
 
-          <div style={{
-            display: 'flex', gap: 12, marginTop: 40,
-            justifyContent: 'center', flexWrap: 'wrap',
-          }}>
-            <button className="btn btn--primary" onClick={() => onNav(slide.ctaPrimary.page)}>
-              {slide.ctaPrimary.label}
+          <div style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
+            <button className="btn btn--primary" onClick={() => onNav(S.ctaPrimary.page)}>
+              {S.ctaPrimary.label}
               <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i>
             </button>
-            <button className={`btn ${hasBg ? 'btn--ghost-light' : 'btn--ghost'}`} onClick={() => onNav(slide.ctaSecondary.page)}>
-              {slide.ctaSecondary.label}
+            <button className="btn btn--ghost-light" onClick={() => onNav(S.ctaSecondary.page)}>
+              {S.ctaSecondary.label}
               <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
             </button>
           </div>
         </div>
 
-        {/* Dot indicators */}
-        <div className="aa-hero__dots" role="tablist" aria-label="Hero slides">
-          {HERO_SLIDES.map((s, i) => (
-            <button
-              key={i}
-              type="button"
-              role="tab"
-              aria-label={`Go to slide ${i + 1}`}
-              aria-selected={i === slideIndex}
-              className={`aa-hero__dot${i === slideIndex ? ' is-active' : ''}`}
-              onClick={() => goTo(i)}
-            />
-          ))}
-        </div>
+        <RightNowPanel onNav={onNav} />
+      </div>
 
-        <div className="aa-hero__below" style={{
-          marginTop: 64,
+      <div className="container aa-hero__container" style={{ paddingTop: 0 }}>
+        <div className="aa-hero__below aa-hero__stats" style={{
+          marginTop: 56,
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
           borderTop: '1px solid var(--aa-rule)',
           gap: 0,
@@ -322,17 +228,11 @@ function TrustStrip() {
       borderBottom: '1px solid var(--aa-rule)',
       padding: '36px 0',
     }}>
-      <div className="container" style={{
-        display: 'flex', alignItems: 'center', gap: 32, justifyContent: 'space-between',
-        flexWrap: 'wrap',
-      }}>
-        <div className="eyebrow eyebrow--steel" style={{ flexShrink: 0 }}>
+      <div className="container aa-emirates">
+        <div className="eyebrow eyebrow--steel aa-emirates__label">
           Serving all 7 Emirates
         </div>
-        <div style={{
-          display: 'flex', gap: 40, flex: 1, justifyContent: 'space-between',
-          flexWrap: 'wrap',
-        }}>
+        <div className="aa-emirates__list">
           {items.map(n => (
             <span key={n} style={{
               fontFamily: 'var(--aa-font-display)',
@@ -354,25 +254,26 @@ function TrustStrip() {
 // ---------- Services ----------
 function HomeServices({ onNav }) {
   const compliance = [
-    { t: 'Outsourced accounting', d: 'Day-to-day bookkeeping, monthly close, reconciliations and a management pack — full finance function on a documented controls engine.', icon: 'book-open' },
+    { t: 'Outsourced accounting', d: 'Day-to-day bookkeeping, monthly close, reconciliations and a management pack — full finance function on a documented controls engine.', icon: 'book-open', route: 'service-bookkeeping' },
     { t: 'VAT compliance', d: 'Registration, return preparation, review and filing with the FTA.', icon: 'file-check', route: 'service-vat' },
-    { t: 'UAE Corporate Tax', d: 'Registration, period computation, and return filing under the 9% regime.', icon: 'landmark' },
-    { t: 'Financial statements', d: 'BS, P&L, Cash Flow and notes prepared to IFRS / IFRS for SMEs.', icon: 'file-spreadsheet' },
-    { t: 'Audit support', d: 'Pre-audit preparation, auditor liaison and post-audit closeout.', icon: 'clipboard-check' },
-    { t: 'E-Invoicing support', d: 'Readiness assessment, ASP selection and go-live support for the UAE e-invoicing mandate.', icon: 'send' },
-    { t: 'Fixed asset tagging', d: 'Physical asset verification, register reconstruction and depreciation review.', icon: 'tag' },
+    { t: 'UAE Corporate Tax', d: 'Registration, period computation, and return filing under the 9% regime.', icon: 'landmark', route: 'service-corporate-tax' },
+    { t: 'Financial statements', d: 'BS, P&L, Cash Flow and notes prepared to IFRS / IFRS for SMEs.', icon: 'file-spreadsheet', route: 'service-financial-statements' },
+    { t: 'Audit support', d: 'Pre-audit preparation, auditor liaison and post-audit closeout.', icon: 'clipboard-check', route: 'service-audit-support' },
+    { t: 'E-Invoicing support', d: 'Readiness assessment, ASP selection and go-live support for the UAE e-invoicing mandate.', icon: 'send', route: 'e-invoicing' },
+    { t: 'Fixed asset tagging', d: 'Physical asset verification, register reconstruction and depreciation review.', icon: 'tag', route: 'service-fixed-asset-tagging' },
+    { t: 'Transfer pricing', d: 'Disclosure form, Master and Local File, and the benchmarking behind them — for groups over the thresholds.', icon: 'git-merge', route: 'service-transfer-pricing' },
   ];
   const advisory = [
-    { t: 'Business valuations', d: 'DCF, comparables and asset-based valuations for transactions and disputes.', icon: 'gauge' },
-    { t: 'M&A support', d: 'Buy-side and sell-side assistance, deal structuring, and closing support.', icon: 'merge' },
-    { t: 'Financial due diligence', d: 'Quality-of-earnings, working capital and debt-like item analyses.', icon: 'search' },
-    { t: 'Forensic accounting', d: 'Fraud investigation, dispute support and expert testimony for contested matters.', icon: 'fingerprint' },
-    { t: 'Internal controls', d: 'Design, walkthroughs and remediation for regulated entities.', icon: 'shield' },
-    { t: 'Financial modeling', d: 'Operating, transaction and board-pack models with full auditability.', icon: 'function-square' },
-    { t: 'CFO services', d: 'Interim and fractional CFO leadership — Board reporting, treasury and finance build-out.', icon: 'briefcase' },
-    { t: 'Tax planning', d: 'Pre-transaction tax structuring, free-zone optimisation and transfer pricing alignment.', icon: 'calculator' },
-    { t: 'Feasibility studies', d: 'Project-level financial feasibility, sensitivity analysis and pre-investment recommendations.', icon: 'bar-chart-3' },
-    { t: 'Strategic advisory', d: 'Accounting policy, complex transactions and Board-level positions.', icon: 'compass' },
+    { t: 'Business valuations', d: 'DCF, comparables and asset-based valuations for transactions and disputes.', icon: 'gauge', route: 'service-valuations' },
+    { t: 'M&A support', d: 'Buy-side and sell-side assistance, deal structuring, and closing support.', icon: 'merge', route: 'service-transaction-advisory' },
+    { t: 'Financial due diligence', d: 'Quality-of-earnings, working capital and debt-like item analyses.', icon: 'search', route: 'service-transaction-advisory' },
+    { t: 'Forensic accounting', d: 'Fraud investigation, dispute support and expert testimony for contested matters.', icon: 'fingerprint', route: 'service-forensic-accounting' },
+    { t: 'Internal controls', d: 'Design, walkthroughs and remediation for regulated entities.', icon: 'shield', route: 'service-internal-controls' },
+    { t: 'Financial modeling', d: 'Operating, transaction and board-pack models with full auditability.', icon: 'function-square', route: 'service-financial-modelling' },
+    { t: 'CFO services', d: 'Interim and fractional CFO leadership — Board reporting, treasury and finance build-out.', icon: 'briefcase', route: 'service-cfo' },
+    { t: 'Tax planning', d: 'Pre-transaction tax structuring, free-zone optimisation and transfer pricing alignment.', icon: 'calculator', route: 'service-tax-planning' },
+    { t: 'Feasibility studies', d: 'Project-level financial feasibility, sensitivity analysis and pre-investment recommendations.', icon: 'bar-chart-3', route: 'service-feasibility-studies' },
+    { t: 'Strategic advisory', d: 'Accounting policy, complex transactions and Board-level positions.', icon: 'compass', route: 'service-strategic-advisory' },
   ];
 
   return (
@@ -384,31 +285,32 @@ function HomeServices({ onNav }) {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
-          <ServiceColumn kicker="Compliance" desc="Statutory close, filings and reporting — on time, on standard." items={compliance} onNav={onNav} />
+          <ServiceColumn kicker="Compliance" desc="Statutory close, filings and reporting — on time, on standard." items={compliance} onNav={onNav}
+            after={(
+              /* Eight items against ten: the scoping card fills the shorter column
+                 instead of leaving two rows of white beside the advisory list. */
+              <div style={{
+                marginTop: 28, padding: '22px 24px',
+                background: '#fff', border: '1px solid var(--aa-rule)',
+                display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start',
+              }}>
+                <div style={{ fontSize: 14, color: 'var(--aa-charcoal)', lineHeight: 1.55 }}>
+                  <strong>Need a scoping note?</strong> Tell us the deliverable and timeline; we'll send a structured proposal within two business days.
+                </div>
+                <button className="btn btn--ghost btn--sm" onClick={() => onNav('contact')}>
+                  Start a scope
+                  <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
+                </button>
+              </div>
+            )} />
           <ServiceColumn kicker="Advisory"   desc="Transaction support, valuations and Board-grade analysis."   items={advisory} onNav={onNav} />
-        </div>
-
-        <div style={{
-          marginTop: 56,
-          padding: '20px 24px',
-          background: '#fff',
-          border: '1px solid var(--aa-rule)',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        }}>
-          <div style={{ fontSize: 14, color: 'var(--aa-charcoal)' }}>
-            <strong>Need a scoping note?</strong> Tell us the deliverable and timeline; we'll send a structured proposal within two business days.
-          </div>
-          <button className="btn btn--ghost btn--sm" onClick={() => onNav('contact')}>
-            Start a scope
-            <i data-lucide="arrow-right" style={{ width: 14, height: 14 }}></i>
-          </button>
         </div>
       </div>
     </section>
   );
 }
 
-function ServiceColumn({ kicker, desc, items, onNav }) {
+function ServiceColumn({ kicker, desc, items, onNav, after }) {
   return (
     <div>
       <div className="divider-thick">
@@ -446,6 +348,7 @@ function ServiceColumn({ kicker, desc, items, onNav }) {
           </a>
         ))}
       </div>
+      {after || null}
     </div>
   );
 }
