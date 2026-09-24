@@ -34,6 +34,11 @@ const CARDS = {
     headline: 'Every figure, cited to its article.',
     sub: '21 and 30 days of basic wage, the cap, and what the law does not say',
   },
+  'fta-decision-15-corporate-tax-exemption': {
+    kicker: 'Corporate Tax · FTA Decision 15 of 2026',
+    headline: 'Ninety days to apply. One catch-up in October.',
+    sub: 'Exemption applications, and the deadlines for periods already past',
+  },
   'vat-executive-regulation-amendments-october-2026': {
     kicker: 'VAT Executive Regulation · Cabinet Decision 149 of 2026',
     headline: 'Twelve changes. Two dates.',

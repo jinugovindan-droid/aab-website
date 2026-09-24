@@ -157,6 +157,21 @@
       "permanent": false
     },
     {
+      "source": "/go/exemption",
+      "destination": "/insights/fta-decision-15-corporate-tax-exemption?utm_source=campaign&utm_medium=whatsapp&utm_campaign=fta15&utm_content=broadcast",
+      "permanent": false
+    },
+    {
+      "source": "/go/exemption-li",
+      "destination": "/insights/fta-decision-15-corporate-tax-exemption?utm_source=linkedin&utm_medium=social&utm_campaign=fta15&utm_content=founder-post",
+      "permanent": false
+    },
+    {
+      "source": "/go/exemption-li-page",
+      "destination": "/insights/fta-decision-15-corporate-tax-exemption?utm_source=linkedin&utm_medium=social&utm_campaign=fta15&utm_content=company-post",
+      "permanent": false
+    },
+    {
       "source": "/go/30-oct",
       "destination": "/e-invoicing/30-october-2026?utm_source=campaign&utm_medium=whatsapp&utm_campaign=asp-30oct&utm_content=broadcast",
       "permanent": false

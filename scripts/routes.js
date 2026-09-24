@@ -69,6 +69,15 @@
   // render an honest "in preparation" state so a card never shows the wrong note.
   const INSIGHTS = [
     {
+      slug: 'fta-decision-15-corporate-tax-exemption',
+      seoTitle: 'FTA Decision 15 of 2026: Corporate Tax Exemption Deadlines', seoDesc: 'FTA Decision 15 of 2026 replaces the 2023 rules: 90 business days to apply for Corporate Tax exemption, and catch-ups due 31 October and 31 December 2026.',
+      tag: 'Corporate Tax', date: '24 Sep 2026', read: '8 min',
+      title: 'Corporate Tax exemption applications: 90 business days now, and a 31 October catch-up for government-owned companies.',
+      author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 15 of 2026 on the Provisions of Exemption from Corporate Tax, repealing FTA Decision No. 7 of 2023; Articles 4 and 51 of Federal Decree-Law No. 47 of 2022; Cabinet Decision No. 34 of 2025; Cabinet Decision No. 55 of 2025; Cabinet Decision No. 1 of 2026',
+      excerpt: 'FTA Decision 15 of 2026, in force from 15 September, replaces the 2023 procedure for applying for Corporate Tax exemption. Qualifying investment funds, pension funds, exempt-owned companies and persons exempted by Cabinet decision now have 90 business days after the tax period ends, not 60. Three catch-up deadlines reopen periods already past: 31 October 2026 for companies wholly owned by a government entity, and 31 December 2026 for foreign companies owned by exempt owners and for qualifying limited partnerships.',
+      published: true,
+    },
+    {
       slug: 'vat-executive-regulation-amendments-october-2026',
       seoTitle: 'UAE VAT Changes October 2026: Cabinet Decision 149 Explained', seoDesc: 'What changes in UAE VAT from 1 October 2026: cash-paid purchases lose input VAT, staff housing, composite supplies, and the 2028 apportionment switch.',
       tag: 'VAT', date: '11 Sep 2026', read: '9 min',
@@ -80,9 +89,9 @@
     {
       slug: 'uae-tax-changes-october-2026',
       seoTitle: 'UAE Tax & Reporting Changes October 2026: Every Deadline', seoDesc: 'Decision 13 supplier checks and the amended VAT Regulation from 1 October, the 30 October e-invoicing deadline, Decision 4 records rules, CT and VAT dates.',
-      tag: 'Compliance', date: '6 Sep 2026', updated: '11 Sep 2026', read: '6 min',
+      tag: 'Compliance', date: '6 Sep 2026', updated: '24 Sep 2026', read: '7 min',
       title: 'What changes in UAE tax and reporting in October 2026: the dates, in order.',
-      author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decisions No. 4 and No. 13 of 2026; Cabinet Decision No. 149 of 2026 amending the VAT Executive Regulation; Article 54 bis of Federal Decree-Law No. 8 of 2017; Federal Decree-Law No. 47 of 2022; Federal Decree-Law No. 28 of 2022 and Cabinet Decision No. 74 of 2023; Ministry of Finance e-invoicing timeline',
+      author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decisions No. 4, No. 13 and No. 15 of 2026; Cabinet Decision No. 149 of 2026 amending the VAT Executive Regulation; Article 54 bis of Federal Decree-Law No. 8 of 2017; Federal Decree-Law No. 47 of 2022; Federal Decree-Law No. 28 of 2022 and Cabinet Decision No. 74 of 2023; Ministry of Finance e-invoicing timeline',
       excerpt: 'Two FTA instruments, a Cabinet Decision amending the VAT Executive Regulation and one e-invoicing deadline arrive within a month of each other, with the routine Corporate Tax and VAT dates in the same weeks. Decision 4 has applied since 30 July; Decision 13 and Cabinet Decision 149 start on 1 October; Phase 1 businesses appoint an ASP by 30 October. Every date on one line, in order, with the detail behind each.',
       published: true,
     },
@@ -1354,6 +1363,7 @@
       ['insight', 'uae-corporate-tax-guide-sme', 'Corporate Tax guide for SMEs'],
       ['insight', 'free-zone-qualifying-income', 'Free-zone qualifying income'],
       ['insight', 'transfer-pricing-thresholds-board', 'Transfer pricing for the Board'],
+      ['insight', 'fta-decision-15-corporate-tax-exemption', 'Corporate Tax exemption applications'],
     ],
     'service-bookkeeping': [
       ['insight', 'small-business-relief-evidence-test', 'Proving Small Business Relief'],
@@ -1424,6 +1434,7 @@
       ['insight', 'uae-corporate-tax-guide-sme', 'Corporate Tax guide for SMEs'],
       ['insight', 'transfer-pricing-thresholds-board', 'Transfer pricing for the Board'],
       ['page', 'service-corporate-tax', 'Corporate Tax estimator'],
+      ['insight', 'fta-decision-15-corporate-tax-exemption', 'Corporate Tax exemption applications'],
     ],
     'service-vat-filing': [
       ['insight', 'uae-vat-guide-dubai', 'UAE VAT guide'],

@@ -61,6 +61,17 @@ const CARDS = {
     ],
     kicker: 'Outsourcing the filing does not move the responsibility.',
   },
+  'fta-decision-15-corporate-tax-exemption': {
+    eyebrow: 'UAE CORPORATE TAX · FTA DECISION 15 OF 2026',
+    headline: 'Exempt? The application<br>rules changed on 15 Sep',
+    chip: 'GOVERNMENT-OWNED COMPANIES · APPLY BY 31 OCTOBER 2026',
+    rows: [
+      { k: '90 days', note: 'Business days to apply, after the period ends.' },
+      { k: '31 Oct', note: 'Catch-up for periods ended before 2026.' },
+      { k: '31 Dec', note: 'Foreign exempt-owned firms and QLPs.' },
+    ],
+    kicker: 'A partnership that misses its first period loses five.',
+  },
   'vat-executive-regulation-amendments-october-2026': {
     eyebrow: 'UAE VAT · CABINET DECISION 149 OF 2026',
     headline: 'The VAT Regulation<br>changes on 1 October',

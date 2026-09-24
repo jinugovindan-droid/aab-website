@@ -9,7 +9,8 @@ function IndustriesPage({ onNav }) {
   { id: 'gov', n: '01', t: 'Government & public sector',
     d: 'Statutory filings, regulatory submissions and Auditor General queries. We work to public-sector procurement standards and clearance protocols.',
     tags: ['Statutory', 'Procurement', 'Performance audit'],
-    cases: ['Federal entity · 18-month statutory remediation', 'Emirate authority · annual statutory'] },
+    cases: ['Federal entity · 18-month statutory remediation', 'Emirate authority · annual statutory'],
+    note: { slug: 'fta-decision-15-corporate-tax-exemption', label: 'Government-owned companies: Corporate Tax exemption catch-up by 31 October 2026 →' } },
   { id: 'ent', n: '02', t: 'Large enterprises',
     d: 'Group consolidations, Corporate Tax compliance and M&A advisory. Custom controls per legal entity, with intercompany elimination logs.',
     tags: ['Consolidation', 'CT', 'M&A', 'Group reporting'],
@@ -71,7 +72,15 @@ function IndustriesPage({ onNav }) {
                   {s.tags.map((tg) => <span key={tg} className="pill pill--charcoal">{tg}</span>)}
                 </div>
               </div>
-              <div style={{ fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.6 }}>{s.d}</div>
+              <div style={{ fontSize: 15, color: 'var(--aa-steel-700)', lineHeight: 1.6 }}>
+                {s.d}
+                {s.note && (
+                  <div style={{ marginTop: 12 }}>
+                    <a href={pathForInsight(s.note.slug)} onClick={(e) => { e.preventDefault(); onNav('insight', s.note.slug); }}
+                      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none', fontSize: 14 }}>{s.note.label}</a>
+                  </div>
+                )}
+              </div>
               <div>
                 <div className="eyebrow eyebrow--steel" style={{ fontSize: 11, marginBottom: 10 }}>Recent</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 13, color: 'var(--aa-charcoal)' }}>
@@ -2352,6 +2361,109 @@ function ERAmendments2026Body({ onNav }) {
   );
 }
 
+function CTExemptionApplications2026Body({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  const ilink = (slug, label) => (
+    <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  const TD = { verticalAlign: 'top' };
+  const NUM = { whiteSpace: 'nowrap', verticalAlign: 'top' };
+
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>FTA Decision No.&nbsp;15 of 2026 was issued on <strong>8&nbsp;September</strong> and has applied since <strong>15&nbsp;September&nbsp;2026</strong>. It replaces FTA Decision No.&nbsp;7 of 2023, the procedure every exempt fund, pension scheme and exempt-owned company has followed for three years. The window to apply for exemption is longer &mdash; <strong>90 business days</strong> after the tax period ends, not 60. And there are three catch-up deadlines for periods that have already passed, the nearest of them <strong>31&nbsp;October&nbsp;2026</strong>, for companies wholly owned by a government entity.</p>
+
+      <h3 style={H3}>Who has to apply at all</h3>
+      <p>Article&nbsp;4 of the Corporate Tax Law lists nine kinds of exempt person. Some never apply to the Authority: government entities, government controlled entities, and extractive and non-extractive natural resource businesses that meet their own conditions under Articles&nbsp;7 and&nbsp;8. Qualifying public benefit entities register but do not apply. The rest must apply to the Authority before the exemption runs, and this Decision is the procedure for them:</p>
+      <ul>
+        <li><strong>Qualifying investment funds</strong> &mdash; paragraph (f).</li>
+        <li><strong>Public and regulated private pension or social security funds</strong> &mdash; paragraph (g).</li>
+        <li><strong>UAE companies wholly owned and controlled by one of those, or by a government entity or government controlled entity</strong>, that carry on the owner&rsquo;s activity, only hold assets or invest funds for it, or only do what is ancillary to it &mdash; paragraph (h).</li>
+        <li><strong>Anyone exempted by Cabinet decision</strong> &mdash; paragraph (i). That now includes foreign companies wholly owned by exempt owners (Cabinet Decision No.&nbsp;55 of 2025) and certain sports entities (Cabinet Decision No.&nbsp;1 of 2026).</li>
+        <li><strong>Qualifying limited partnerships, and companies they wholly own</strong>, under Article&nbsp;5 of Cabinet Decision No.&nbsp;34 of 2025.</li>
+      </ul>
+
+      <h3 style={H3}>What changed, side by side</h3>
+      <div style={{ overflowX: 'auto', marginTop: 8 }}>
+        <table className="aa-table" style={{ width: '100%' }}>
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Decision 7 of 2023</th>
+              <th scope="col">Decision 15 of 2026</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style={TD}><strong>Window to apply</strong></td><td style={TD}>Within 60 business days from the end of the tax period in which the conditions were met</td><td style={TD}>After the end of that tax period and no later than <strong>90 business days</strong> after it (Art.&nbsp;3(1))</td></tr>
+            <tr><td style={TD}><strong>Business day</strong></td><td style={TD}>Not defined in the Decision</td><td style={TD}>Any day except weekends and official holidays of the Federal Government (Art.&nbsp;1)</td></tr>
+            <tr><td style={TD}><strong>Subsidiaries of funds and exempt companies</strong></td><td style={TD}>No sequencing rule</td><td style={TD}>May apply once the owner has applied; no decision until the owner&rsquo;s application is approved (Art.&nbsp;3(4))</td></tr>
+            <tr><td style={TD}><strong>Periods already past</strong></td><td style={TD}>No catch-up</td><td style={TD}>31&nbsp;October&nbsp;2026 for government-owned companies; 31&nbsp;December&nbsp;2026 for two other groups (Art.&nbsp;3(2), (3), (5))</td></tr>
+            <tr><td style={TD}><strong>Registration</strong></td><td style={TD}>Fixed dates: 1&nbsp;October&nbsp;2023 and 1&nbsp;June&nbsp;2024</td><td style={TD}>The timelines in FTA Decision No.&nbsp;3 of 2024 (Art.&nbsp;2(1))</td></tr>
+            <tr><td style={TD}><strong>Annual declaration</strong></td><td style={TD}>The Authority &ldquo;may request&rdquo; one confirming the conditions are still met (Art.&nbsp;2(4))</td><td style={TD}>Not repeated</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style={{ marginTop: 16, fontSize: 15, color: 'var(--aa-steel-700)' }}>Article numbers are those of each Decision. The English texts are the Authority&rsquo;s unofficial translations; the Arabic governs.</p>
+
+      <h3 style={H3}>31 October: government-owned companies</h3>
+      <p>This is the date to act on first. Article&nbsp;3(5) lets a UAE company that is <strong>wholly owned and controlled by a government entity or a government controlled entity</strong> apply for exemption for <strong>any tax period that ended before 1&nbsp;January&nbsp;2026</strong>, provided it met the conditions in that period &mdash; and the application must be in by <strong>31&nbsp;October&nbsp;2026</strong>.</p>
+      <p>Under the 2023 Decision, a company in that position had 60 business days after each year-end. For a 31&nbsp;December&nbsp;2024 year-end that window closed in the spring of 2025, and for a 2025 year-end it has closed too. The catch-up reopens both, and any period back to the start of Corporate Tax, in one filing window. If approved, the exemption runs from the start of the tax period named in the application (Art.&nbsp;3(6)).</p>
+      <p>Two details matter in practice. The clause is written as an exception to the parent-first rule in Article&nbsp;3(4), which makes sense: a government entity does not itself apply for exemption, so there is no parent application to wait for. And the conditions are the ordinary paragraph (h) conditions &mdash; wholly owned and controlled, and doing the owner&rsquo;s work, holding its assets or doing only what is ancillary to it &mdash; tested for each period you name, on the facts of that period.</p>
+
+      <h3 style={H3}>31 December: two more catch-ups</h3>
+      <ul>
+        <li><strong>Foreign companies owned by exempt owners.</strong> Cabinet Decision No.&nbsp;55 of 2025 extended the exemption to foreign-incorporated companies wholly owned by exempt owners such as government entities, government controlled entities, qualifying investment funds and public pension funds, where they meet the conditions. Where such a company is eligible to apply with retrospective effect, the FTA Decision sets <strong>31&nbsp;December&nbsp;2026</strong> as the last day to do so (Art.&nbsp;3(2)(a)).</li>
+        <li><strong>Qualifying limited partnerships.</strong> A partnership, or a company wholly owned by one, entitled to apply under Article&nbsp;5 of Cabinet Decision No.&nbsp;34 of 2025, for tax periods that began in 2025 and ended on or before 31&nbsp;August&nbsp;2026, must apply by <strong>31&nbsp;December&nbsp;2026</strong> (Art.&nbsp;3(3)). The stakes are unusual here. Under Article&nbsp;5(8) of the Cabinet Decision, a partnership that does not apply during the first tax period the Decision applies to it loses the exemption for that period <em>and the four after it</em>.</li>
+      </ul>
+      <p>For Cabinet decisions issued from 1&nbsp;January&nbsp;2026 that apply retrospectively, the window is 90 business days from the end of the tax period in which the decision was issued (Art.&nbsp;3(2)(b)). Cabinet Decision No.&nbsp;1 of 2026 on sports entities &mdash; issued on 12&nbsp;January&nbsp;2026 and effective from 1&nbsp;June&nbsp;2023 &mdash; is the case in point: for a calendar-year entity, the tax period in which it was issued is 2026, so the deadline is 90 business days after 31&nbsp;December&nbsp;2026.</p>
+
+      <h3 style={H3}>The new clock</h3>
+      <p>Ninety business days after the tax period ends, and the application is made <strong>after</strong> it ends, not during it. Business days exclude weekends and federal holidays, so the calendar date moves with the holidays: for a tax period ending 31&nbsp;December&nbsp;2026 the deadline falls around mid-May 2027, depending on how the holidays fall that spring. Work the date out from the published holiday list for your year rather than counting calendar days.</p>
+      <p>Article&nbsp;5 applies the new Decision to every application submitted from 15&nbsp;September&nbsp;2026, for tax periods back to June 2023. Read literally, that covers a period whose 60-day window had already closed under the old Decision but whose 90-day window had not &mdash; a year-end in the late spring of 2026, for example. That is our reading of the text, not a published position of the Authority. If your case turns on it, confirm it before relying on it.</p>
+
+      <h3 style={H3}>Parent first</h3>
+      <p>A company wholly owned by a qualifying investment fund, a pension fund or an exempt subsidiary may apply for its own exemption once the owner has applied, and the Authority will not decide it until the owner&rsquo;s application is approved (Art.&nbsp;3(4)). The same applies to paragraph (i) companies owned by those. For a group, the order of filing is now a matter of rule: the top of the chain applies first, a subsidiary may apply once its owner has, and the subsidiary&rsquo;s application is not decided until the owner&rsquo;s is approved.</p>
+
+      <h3 style={H3}>When the exemption starts</h3>
+      <p>From the start of the tax period named in the application, if approved (Art.&nbsp;3(6)). Article&nbsp;3(7) lets the Authority set another date in listed cases, rewritten from the 2023 text:</p>
+      <ul>
+        <li>The registration showed the wrong tax period &mdash; the exemption starts from the correct one.</li>
+        <li>The company was <strong>acquired mid-period</strong> by a government entity, government controlled entity, fund or pension fund &mdash; the exemption starts from the beginning of a tax period that commences after every condition is met, so the tax period in which the acquisition happens is not covered.</li>
+        <li>The application named the wrong period, and the evidence shows the conditions were met in the following one &mdash; the exemption starts from the start of that following period.</li>
+        <li>The law granting the exemption is retrospective &mdash; the exemption starts from the start of the tax period in which the conditions were met.</li>
+      </ul>
+
+      <h3 style={H3}>What the Decision leaves out</h3>
+      <p>The 2023 Decision allowed the Authority to ask an exempt person for an annual declaration that it still met the conditions. The new Decision does not repeat that clause. The underlying rule in Article&nbsp;4(5) of the Law has not moved: an exempt person that fails a condition at any time in a tax period ceases to be exempt from the start of that period. The evidence that the conditions held all year is still yours to keep, whether or not anyone asks for it.</p>
+
+      <h3 style={H3}>What to do before 31 October</h3>
+      <ul>
+        <li><strong>If your company is wholly owned by a government entity or a government controlled entity</strong>, list every tax period that ended before 1&nbsp;January&nbsp;2026 for which no exemption was granted, test the paragraph (h) conditions for each, and file by 31&nbsp;October.</li>
+        <li><strong>If you are a foreign company owned by an exempt owner, or a qualifying limited partnership</strong>, diarise 31&nbsp;December and start now: for the partnership, a missed first period costs five.</li>
+        <li><strong>If you run a group under a fund or pension scheme</strong>, file the owner first, then the subsidiaries.</li>
+        <li><strong>For every tax period from here on</strong>, the date to diarise is 90 business days after the year-end, worked out from that year&rsquo;s holiday list.</li>
+      </ul>
+      <p>Our {link('service-ct-filing', 'Corporate Tax filing')} work covers registration and exemption applications; the {link('service-corporate-tax', 'Corporate Tax page')} has the estimator for a taxable year.</p>
+
+      {artNote('Written on 24 September 2026 from the Federal Tax Authority’s published text of Decision No. 15 of 2026 (issued 8 September 2026, in force 15 September 2026), compared with FTA Decision No. 7 of 2023, which it repeals; Articles 4 and 51 of Federal Decree-Law No. 47 of 2022 as consolidated by the Ministry of Finance; Articles 5 and 9 of Cabinet Decision No. 34 of 2025; and Cabinet Decision No. 1 of 2026. The scope of Cabinet Decision No. 55 of 2025 is as described in the Ministry of Finance’s announcement of 20 May 2025; we have not read that Decision in primary text. The English texts are unofficial translations; the Arabic governs. General information on published law, not advice on your own position.')}
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{ilink('uae-tax-changes-october-2026', 'Every UAE tax and reporting date in October 2026 →')}</li>
+          <li>{ilink('uae-corporate-tax-guide-sme', 'The Corporate Tax guide for SMEs →')}</li>
+          <li>{link('service-ct-filing', 'Corporate Tax return filing →')}</li>
+          <li>{link('service-corporate-tax', 'UAE Corporate Tax →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function OctoberChangesBody({ onNav }) {
   const link = (page, label) => (
     <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
@@ -2412,7 +2524,7 @@ function OctoberChangesBody({ onNav }) {
 
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>Four things change for UAE businesses before the end of October 2026, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted &mdash; and, from the same day, the VAT Executive Regulation is amended: input VAT is lost on purchases paid in cash above a threshold the Minister is to set, and staff accommodation comes out of the recoverable-benefits rule. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks. This page puts all of it on one line, in order, with a link to the detail on each.</p>
+      <p style={LEAD}>Four things change for UAE businesses before the end of October 2026, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted &mdash; and, from the same day, the VAT Executive Regulation is amended: input VAT is lost on purchases paid in cash above a threshold the Minister is to set, and staff accommodation comes out of the recoverable-benefits rule. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks, and a one-off catch-up deadline for companies owned by a government entity. This page puts all of it on one line, in order, with a link to the detail on each.</p>
 
       <OctoberTimeline />
 
@@ -2458,6 +2570,11 @@ function OctoberChangesBody({ onNav }) {
               <td>Revenue of AED&nbsp;50&nbsp;million or more</td>
             </tr>
             <tr>
+              <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>31 Oct 2026</strong></td>
+              <td>Last day to apply for Corporate Tax exemption for any tax period that ended before 1&nbsp;January&nbsp;2026 &mdash; the catch-up in FTA Decision No.&nbsp;15 of 2026</td>
+              <td>UAE companies wholly owned and controlled by a government entity or government controlled entity</td>
+            </tr>
+            <tr>
               <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>1 Jan 2027</strong></td>
               <td>E-invoicing goes live, Phase&nbsp;1</td>
               <td>Revenue of AED&nbsp;50&nbsp;million or more</td>
@@ -2483,6 +2600,9 @@ function OctoberChangesBody({ onNav }) {
       <h3 style={H3}>30 October &mdash; appoint an e-invoicing provider</h3>
       <p>Phase&nbsp;1 of UAE e-invoicing covers businesses with revenue of AED&nbsp;50&nbsp;million or more. The deadline to appoint an Accredited Service Provider is <strong>30&nbsp;October&nbsp;2026</strong>, and structured e-invoicing goes live for that phase on <strong>1&nbsp;January&nbsp;2027</strong>. The provider validates invoice structure against the FTA&rsquo;s data dictionary; it does not verify who your supplier is, which is why this and Decision&nbsp;13 are separate obligations rather than one. {link('einv-deadline', 'Who must act by 30 October →')} &nbsp;·&nbsp; {ilink('choosing-accredited-service-provider-asp', 'Choosing a provider →')} &nbsp;·&nbsp; {ilink('prepare-erp-for-uae-e-invoicing', 'Getting your ERP ready →')}</p>
 
+      <h3 style={H3}>31 October &mdash; exemption catch-up for government-owned companies</h3>
+      <p>FTA Decision No.&nbsp;15 of 2026, in force from 15&nbsp;September, replaces the 2023 procedure for applying for Corporate Tax exemption and lengthens the window to 90 business days after the tax period ends. It also reopens periods already past. A UAE company wholly owned and controlled by a government entity or a government controlled entity may apply for exemption for <strong>any tax period that ended before 1&nbsp;January&nbsp;2026</strong>, provided it met the conditions in that period &mdash; by <strong>31&nbsp;October&nbsp;2026</strong>. Two further catch-ups, for foreign companies owned by exempt owners and for qualifying limited partnerships, run to 31&nbsp;December. {ilink('fta-decision-15-corporate-tax-exemption', 'The Decision, side by side with the 2023 rules →')}</p>
+
       <h3 style={H3}>The routine dates that fall in the same weeks</h3>
       <ul>
         <li><strong>Corporate Tax: nine months after year-end.</strong> A 31&nbsp;December&nbsp;2025 year-end files and pays by 30&nbsp;September&nbsp;2026 &mdash; the day before Decision&nbsp;13 starts. Small Business Relief, where it applies, is still elected on that return, and it now runs to periods ending 31&nbsp;December&nbsp;2029. {ilink('small-business-relief-evidence-test', 'What you have to be able to prove →')}</li>
@@ -2498,10 +2618,11 @@ function OctoberChangesBody({ onNav }) {
         <li><strong>List every case where you recover VAT on staff accommodation</strong> and establish whether the housing is mandatory under a MoHRE decision or directive. Only that case keeps the recovery without further conditions.</li>
         <li><strong>Spot-check your scans</strong> against Decision&nbsp;4: full documents, every page, readable, and someone who knows the passwords.</li>
         <li><strong>If you are over AED&nbsp;50&nbsp;million</strong>, the ASP appointment is a procurement decision with under eight weeks left in it.</li>
+        <li><strong>If your company is wholly owned by a government entity</strong> and has not been granted exemption for a period that ended before 1&nbsp;January&nbsp;2026, test the conditions for each such period and apply by 31&nbsp;October.</li>
         <li><strong>Confirm your CT filing date</strong> from your own year-end rather than the calendar, and your VAT period from your registration.</li>
       </ul>
 
-      {artNote('Written on 6 September 2026 from the FTA’s published texts of Decision No. 13 of 2026 and Decision No. 4 of 2026, the consolidated VAT Law published by the Ministry of Finance, Federal Decree-Law No. 47 of 2022 on Corporate Tax, Federal Decree-Law No. 28 of 2022 on Tax Procedures and its Executive Regulation, and the Ministry of Finance e-invoicing timeline. Updated 11 September 2026 to add Cabinet Decision No. 149 of 2026, read in the Ministry of Finance’s consolidated text of the VAT Executive Regulation. The additional two-year retention period is per Cabinet Decision No. 17 of 2026 as reported by advisers; we have not read that amendment in primary text. Dates will be kept current on this page as guidance is published. The English texts are unofficial translations; the Arabic governs. General information on published law, not advice on your own position.')}
+      {artNote('Written on 6 September 2026 from the FTA’s published texts of Decision No. 13 of 2026 and Decision No. 4 of 2026, the consolidated VAT Law published by the Ministry of Finance, Federal Decree-Law No. 47 of 2022 on Corporate Tax, Federal Decree-Law No. 28 of 2022 on Tax Procedures and its Executive Regulation, and the Ministry of Finance e-invoicing timeline. Updated 11 September 2026 to add Cabinet Decision No. 149 of 2026, read in the Ministry of Finance’s consolidated text of the VAT Executive Regulation, and on 24 September 2026 to add FTA Decision No. 15 of 2026, read in the Authority’s published text. The additional two-year retention period is per Cabinet Decision No. 17 of 2026 as reported by advisers; we have not read that amendment in primary text. Dates will be kept current on this page as guidance is published. The English texts are unofficial translations; the Arabic governs. General information on published law, not advice on your own position.')}
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
@@ -2518,6 +2639,7 @@ function OctoberChangesBody({ onNav }) {
 }
 
 const INSIGHT_BODIES = {
+  'fta-decision-15-corporate-tax-exemption': CTExemptionApplications2026Body,
   'vat-executive-regulation-amendments-october-2026': ERAmendments2026Body,
   'uae-tax-changes-october-2026': OctoberChangesBody,
   'fta-decision-4-accounting-records': RecordCopyStandardBody,
