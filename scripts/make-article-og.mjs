@@ -34,6 +34,11 @@ const CARDS = {
     headline: 'Every figure, cited to its article.',
     sub: '21 and 30 days of basic wage, the cap, and what the law does not say',
   },
+  'fta-decision-17-employee-benefits-input-vat': {
+    kicker: 'VAT · FTA Decision 17 of 2026',
+    headline: 'Six cases. Every condition.',
+    sub: 'Input VAT on staff transport, housing, meals, phones and parking from 1 October',
+  },
   'fta-decision-15-corporate-tax-exemption': {
     kicker: 'Corporate Tax · FTA Decision 15 of 2026',
     headline: 'Ninety days to apply. One catch-up in October.',

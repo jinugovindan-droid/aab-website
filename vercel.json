@@ -172,6 +172,21 @@
       "permanent": false
     },
     {
+      "source": "/go/staff-vat",
+      "destination": "/insights/fta-decision-17-employee-benefits-input-vat?utm_source=campaign&utm_medium=whatsapp&utm_campaign=fta17&utm_content=broadcast",
+      "permanent": false
+    },
+    {
+      "source": "/go/staff-vat-li",
+      "destination": "/insights/fta-decision-17-employee-benefits-input-vat?utm_source=linkedin&utm_medium=social&utm_campaign=fta17&utm_content=founder-post",
+      "permanent": false
+    },
+    {
+      "source": "/go/staff-vat-li-page",
+      "destination": "/insights/fta-decision-17-employee-benefits-input-vat?utm_source=linkedin&utm_medium=social&utm_campaign=fta17&utm_content=company-post",
+      "permanent": false
+    },
+    {
       "source": "/go/30-oct",
       "destination": "/e-invoicing/30-october-2026?utm_source=campaign&utm_medium=whatsapp&utm_campaign=asp-30oct&utm_content=broadcast",
       "permanent": false

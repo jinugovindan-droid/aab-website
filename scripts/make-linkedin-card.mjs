@@ -61,6 +61,17 @@ const CARDS = {
     ],
     kicker: 'Outsourcing the filing does not move the responsibility.',
   },
+  'fta-decision-17-employee-benefits-input-vat': {
+    eyebrow: 'UAE VAT · FTA DECISION 17 OF 2026',
+    headline: 'Input VAT on staff benefits:<br>six cases from 1 October',
+    chip: 'ISSUED 9 SEPTEMBER · IN FORCE 1 OCTOBER 2026',
+    rows: [
+      { k: 'Housing', note: 'An operational need, not part of the package.' },
+      { k: 'Cash', note: 'If staff can opt for cash, the case fails.' },
+      { k: 'Policy', note: 'Phones and parking need it in writing.' },
+    ],
+    kicker: 'Transport, meals, housing, phones, parking. Every condition must be met.',
+  },
   'fta-decision-15-corporate-tax-exemption': {
     eyebrow: 'UAE CORPORATE TAX · FTA DECISION 15 OF 2026',
     headline: 'Exempt? The application<br>rules changed on 15 Sep',
