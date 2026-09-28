@@ -67,7 +67,7 @@ const CARDS = {
     chip: 'ISSUED 9 SEPTEMBER · IN FORCE 1 OCTOBER 2026',
     rows: [
       { k: 'Housing', note: 'An operational need, not part of the package.' },
-      { k: 'Cash', note: 'If staff can opt for cash, the case fails.' },
+      { k: 'Cash', note: 'A cash option fails housing, transport, meals.' },
       { k: 'Policy', note: 'Phones and parking need it in writing.' },
     ],
     kicker: 'Transport, meals, housing, phones, parking. Every condition must be met.',
