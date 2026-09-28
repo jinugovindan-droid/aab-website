@@ -101,7 +101,7 @@
       tag: 'Compliance', date: '6 Sep 2026', updated: '28 Sep 2026', read: '7 min',
       title: 'What changes in UAE tax and reporting in October 2026: the dates, in order.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decisions No. 4, No. 13, No. 15 and No. 17 of 2026; Cabinet Decision No. 149 of 2026 amending the VAT Executive Regulation; Article 54 bis of Federal Decree-Law No. 8 of 2017; Federal Decree-Law No. 47 of 2022; Federal Decree-Law No. 28 of 2022 and Cabinet Decision No. 74 of 2023 as amended by Cabinet Decision No. 17 of 2026; Ministry of Finance e-invoicing timeline',
-      excerpt: 'Two FTA instruments, a Cabinet Decision amending the VAT Executive Regulation and one e-invoicing deadline arrive within a month of each other, with the routine Corporate Tax and VAT dates in the same weeks. Decision 4 has applied since 30 July; Decision 13 and Cabinet Decision 149 start on 1 October; Phase 1 businesses appoint an ASP by 30 October. Every date on one line, in order, with the detail behind each.',
+      excerpt: 'FTA decisions on supplier checks, staff benefits and Corporate Tax exemptions, a Cabinet Decision amending the VAT Executive Regulation and one e-invoicing deadline arrive within weeks of each other, with the routine Corporate Tax and VAT dates around them. Decision 4 has applied since 30 July; Decisions 13 and 17 and Cabinet Decision 149 start on 1 October; Phase 1 businesses appoint an ASP by 30 October; government-owned companies apply for the exemption catch-up by 31 October. Every date on one line, in order, with the detail behind each.',
       published: true,
     },
     {

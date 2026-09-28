@@ -289,7 +289,7 @@ INSIGHTS = [
      "tag": "Compliance", "date": "6 Sep 2026", "updated": "28 Sep 2026", "read": "7 min",
      "title": "What changes in UAE tax and reporting in October 2026: the dates, in order.",
      "author": "Jinu Kurikesu", "reviewer": "Jinu Govindan", "reference": "FTA Decisions No. 4, No. 13, No. 15 and No. 17 of 2026; Cabinet Decision No. 149 of 2026 amending the VAT Executive Regulation; Article 54 bis of Federal Decree-Law No. 8 of 2017; Federal Decree-Law No. 47 of 2022; Federal Decree-Law No. 28 of 2022 and Cabinet Decision No. 74 of 2023 as amended by Cabinet Decision No. 17 of 2026; Ministry of Finance e-invoicing timeline",
-     "excerpt": "Two FTA instruments, a Cabinet Decision amending the VAT Executive Regulation and one e-invoicing deadline arrive within a month of each other, with the routine Corporate Tax and VAT dates in the same weeks. Decision 4 has applied since 30 July; Decision 13 and Cabinet Decision 149 start on 1 October; Phase 1 businesses appoint an ASP by 30 October. Every date on one line, in order, with the detail behind each.",
+     "excerpt": "FTA decisions on supplier checks, staff benefits and Corporate Tax exemptions, a Cabinet Decision amending the VAT Executive Regulation and one e-invoicing deadline arrive within weeks of each other, with the routine Corporate Tax and VAT dates around them. Decision 4 has applied since 30 July; Decisions 13 and 17 and Cabinet Decision 149 start on 1 October; Phase 1 businesses appoint an ASP by 30 October; government-owned companies apply for the exemption catch-up by 31 October. Every date on one line, in order, with the detail behind each.",
      "published": True},
     {"slug": "fta-decision-4-accounting-records",
      "seoTitle": "UAE Accounting Records: FTA Decision 4 of 2026 Rules", "seoDesc": "Since 30 July 2026, scanned and electronic copies of accounting records must meet an FTA standard: no partial scans, legible copies, password access.",
@@ -1359,7 +1359,15 @@ def build_jsonld(page, slug):
             block["datePublished"] = iso
             # Honest freshness: revised articles carry their real revision date.
             block["dateModified"] = iso_date(a.get("updated", "")) or iso
-        block["image"] = ORG["logo"]  # Article rich results want an image; brand logo as fallback
+        # Article rich results want a large image: the article's own share card
+        # (1200x630, scripts/make-article-og.mjs) when one exists, the brand logo otherwise.
+        card = os.path.join(ROOT, "assets", "og", "article-%s.jpg" % a["slug"])
+        if os.path.exists(card):
+            with open(card, "rb") as _cf:
+                _cv = hashlib.sha256(_cf.read()).hexdigest()[:10]
+            block["image"] = {"@type": "ImageObject", "url": SITE_ORIGIN + "/assets/og/article-%s.jpg?v=%s" % (a["slug"], _cv), "width": 1200, "height": 630}
+        else:
+            block["image"] = ORG["logo"]
         blocks.append(block)
     if page == "services" or page == "e-invoicing" or page.startswith("service-") or page.startswith("industry-") or page.startswith("location-"):
         meta = PAGE_SEO[page]

@@ -2514,7 +2514,7 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
       'Documents proving payment kept, such as receipts showing the date, time, amount and the tax paid.'] },
   ];
   const ROW = { padding: '16px 0', borderBottom: '1px solid var(--aa-rule)' };
-  const HEAD = { display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '4px 12px', fontSize: 17 };
+  const HEAD = { display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '4px 12px', fontSize: 17, margin: 0 };
   const REF = { fontSize: 12, color: 'var(--aa-steel-700)', letterSpacing: '0.04em' };
 
   return (
@@ -2526,7 +2526,7 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
       <div style={{ marginTop: 8, borderTop: '1px solid var(--aa-rule)' }}>
         {ROUTES.map((r) => (
           <div key={r.k} style={ROW}>
-            <div style={HEAD}><strong>{r.k}</strong></div>
+            <h4 style={HEAD}><strong>{r.k}</strong></h4>
             <p style={{ margin: '6px 0 0' }}>{r.covers}</p>
             <p style={{ margin: '4px 0 0' }}><strong>From 1&nbsp;October&nbsp;2026:</strong> {r.now}</p>
           </div>
@@ -2539,7 +2539,7 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
       <div style={{ marginTop: 8, borderTop: '1px solid var(--aa-rule)' }}>
         {CASES.map((c) => (
           <div key={c.k} style={ROW}>
-            <div style={HEAD}><strong>{c.k}</strong><span className="mono" style={REF}>{c.art}</span></div>
+            <h4 style={HEAD}><strong>{c.k}</strong><span className="mono" style={REF}>{c.art}</span></h4>
             <ul style={{ margin: '8px 0 0', paddingLeft: 20, display: 'grid', gap: 4 }}>
               {c.c.map((x) => <li key={x}>{x}</li>)}
             </ul>
@@ -2642,7 +2642,7 @@ function OctoberChangesBody({ onNav }) {
           <text x="52" y="158" style={DATE}>30 JUL 2026</text>
           <text x="52" y="176" style={CAP}><tspan x="52">Decision 4 in force:</tspan><tspan x="52" dy="13">how records are kept</tspan></text>
           <text x="308" y="158" textAnchor="end" style={{ ...DATE, fill: '#125A79' }}>1 OCT 2026</text>
-          <text x="308" y="176" textAnchor="end" style={CAP}><tspan x="308">Decision 13 checks;</tspan><tspan x="308" dy="13">VAT Regulation amended</tspan></text>
+          <text x="308" y="176" textAnchor="end" style={CAP}><tspan x="308">Decisions 13 and 17;</tspan><tspan x="308" dy="13">VAT Regulation amended</tspan></text>
           <text x="420" y="158" textAnchor="start" style={{ ...DATE, fill: '#125A79' }}>30 OCT 2026</text>
           <text x="420" y="176" textAnchor="start" style={CAP}><tspan x="420">Appoint an ASP,</tspan><tspan x="420" dy="13">revenue AED 50M+</tspan></text>
           <text x="668" y="158" textAnchor="end" style={DATE}>1 JAN 2027</text>
@@ -2650,14 +2650,14 @@ function OctoberChangesBody({ onNav }) {
         </svg>
       </div>
       <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>
-        THE DATE STACK, JULY 2026 TO JANUARY 2027 — TWO FTA INSTRUMENTS, ONE CABINET DECISION, ONE E-INVOICING DEADLINE, AND THE ROUTINE DATES AROUND THEM
+        THE DATE STACK, JULY 2026 TO JANUARY 2027 — THREE FTA DECISIONS, ONE CABINET DECISION, ONE E-INVOICING DEADLINE, AND THE ROUTINE DATES AROUND THEM
       </figcaption>
     </figure>
   );
 
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>Four things change for UAE businesses before the end of October 2026, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted &mdash; and, from the same day, the VAT Executive Regulation is amended: input VAT is lost on purchases paid in cash above a threshold the Minister is to set, staff accommodation comes out of the recoverable-benefits rule, and FTA Decision&nbsp;17 sets the six cases in which staff benefits provided under a contract or policy keep their input VAT. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks, and a one-off catch-up deadline for companies owned by a government entity. This page puts all of it on one line, in order, with a link to the detail on each.</p>
+      <p style={LEAD}>Four things change for UAE businesses before the end of October 2026, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted &mdash; and, from the same day, the VAT Executive Regulation is amended: input VAT is lost on purchases paid in cash above a threshold the Minister is to set, and staff accommodation comes out of the recoverable-benefits rule, with FTA Decision&nbsp;17 setting the six cases in which staff benefits provided under a contract or policy keep their input VAT. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks, and a one-off catch-up deadline for companies owned by a government entity. This page puts all of it on one line, in order, with a link to the detail on each.</p>
 
       <OctoberTimeline />
 
@@ -2751,7 +2751,7 @@ function OctoberChangesBody({ onNav }) {
         <li><strong>Retention.</strong> Five years under the Tax Procedures rules and seven for Corporate Tax, either extended by four years in dispute or under audit &mdash; and, since Cabinet Decision No.&nbsp;17 of 2026, by a further two years where a refund application made in time is still undecided. Decision&nbsp;4 governs the form those records take for all of it.</li>
       </ul>
 
-      <h3 style={H3}>What to do in September</h3>
+      <h3 style={H3}>What to do now</h3>
       <ul>
         <li><strong>Run a rolling 12-month purchase report by supplier</strong> and sort it at AED&nbsp;100,000 and AED&nbsp;375,000. The data is historic, so this can be done today.</li>
         <li><strong>Write the Article&nbsp;5(4) policy</strong> and name the three roles. It is the one Decision&nbsp;13 item that does not wait on anything.</li>
