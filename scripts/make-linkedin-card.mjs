@@ -66,11 +66,11 @@ const CARDS = {
     headline: 'Input VAT on staff benefits:<br>six cases from 1 October',
     chip: 'ISSUED 9 SEPTEMBER · IN FORCE 1 OCTOBER 2026',
     rows: [
-      { k: 'Housing', note: 'An operational need, not part of the package.' },
-      { k: 'Cash', note: 'A cash option fails housing, transport, meals.' },
+      { k: 'Housing', note: 'Tied to operational needs, not the pay package.' },
+      { k: 'Cash', note: 'A cash option fails transport, meals, most housing.' },
       { k: 'Policy', note: 'Phones and parking need it in writing.' },
     ],
-    kicker: 'Transport, meals, housing, phones, parking. Every condition must be met.',
+    kicker: 'Six cases for contract or policy benefits. Every condition must be met.',
   },
   'fta-decision-15-corporate-tax-exemption': {
     eyebrow: 'UAE CORPORATE TAX · FTA DECISION 15 OF 2026',

@@ -231,9 +231,14 @@ if (failures.length) {
   console.error('    git checkout -- .     # discard, back to the last commit');
   process.exit(1);
 }
-// React useId values (":r0:" etc.) churn on every capture — normalise them so
-// two builds of unchanged content compare equal.
-const norm = (s) => s.replace(/:r[0-9a-z]+:/gi, ':id:');
+// React useId values (":r0:" etc.) churn on every capture, the ?v= cache-busters
+// change with every bundle, and the site-wide "Latest update" strip changes with
+// every new article — normalise all three so two builds of unchanged content
+// compare equal and only real changes move a route's sitemap lastmod.
+const norm = (s) => s
+  .replace(/:r[0-9a-z]+:/gi, ':id:')
+  .replace(/\?v=[0-9a-z]+/gi, '?v=')
+  .replace(/<section data-aa-volatile[\s\S]*?<\/section>/, '');
 const gitShow = (relPath) => {
   try { return execFileSync('git', ['show', 'HEAD:' + relPath.replace(/\\/g, '/')], { cwd: ROOT, maxBuffer: 16 * 1024 * 1024 }).toString('utf8'); }
   catch { return null; } // new file — counts as changed

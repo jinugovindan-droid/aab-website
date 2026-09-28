@@ -258,17 +258,18 @@ PAGE_SEO = {
     },
     "tool-gratuity": {
         "title": "UAE Gratuity Calculator 2026: End of Service & Settlement",
-        "description": "UAE gratuity under Decree-Law 33 of 2021, each figure cited to its article: 21 and 30 days of basic wage, the cap, part-time, plus a final settlement worksheet.",
+        "description": "UAE gratuity under Decree-Law 33 of 2021, each figure cited to its article: 21 and 30 days of basic wage, the cap, part-time, and a final settlement sheet.",
     },
 }
 
 INSIGHTS = [
     {"slug": "fta-decision-17-employee-benefits-input-vat",
-     "seoTitle": "FTA Decision 17 of 2026: VAT on Staff Housing & Benefits", "seoDesc": "FTA Decision 17 of 2026 sets the six cases in which input VAT on staff transport, housing, meals, phones and parking stays recoverable from 1 October 2026.",
+     "seoTitle": "FTA Decision 17 of 2026: VAT on Staff Housing & Benefits", "seoDesc": "FTA Decision 17 of 2026: the six cases, from staff housing to phones and parking, in which input VAT on contract or policy benefits stays recoverable.",
      "tag": "VAT", "date": "28 Sep 2026", "read": "7 min",
      "title": "Staff benefits and input VAT from 1 October: the six cases in FTA Decision 17 of 2026, and the cash-allowance test.",
      "author": "Jinu Kurikesu", "reviewer": "Jinu Govindan", "reference": "FTA Decision No. 17 of 2026 on the Cases and Conditions for the Recovery of Input Tax Incurred on Employee Expenses; Article 53 of Cabinet Decision No. 52 of 2017, the Executive Regulation of Federal Decree-Law No. 8 of 2017 on VAT, as amended by Cabinet Decision No. 149 of 2026",
-     "excerpt": "FTA Decision 17 of 2026, in force from 1 October, sets the cases in which input VAT on benefits given to staff under a contract or documented policy stays recoverable: transport, food and drink at remote locations, accommodation, up to 30 days’ housing for new employees, phones and home internet, and parking. Every condition in a case must be met. For housing, it must be an operational requirement rather than part of the employee’s benefits or ordinary compensation, and the employee must not be able to take a cash allowance instead.",
+     "excerpt": "FTA Decision 17 of 2026, in force from 1 October, sets the cases in which input VAT on benefits given to staff under a contract or documented policy stays recoverable: transport, food and drink for staff living in remote areas, accommodation, up to 30 days’ housing for new employees, phones and home internet, and parking. Every condition in a case must be met. For accommodation other than a new joiner’s stay of up to 30 days, it must be related to the operational requirements of the work rather than part of the employee’s benefits or ordinary compensation, and the employee must not be able to take a cash allowance instead.",
+     "chips": ["Six cases", "Cash-allowance test", "Accommodation"],
      "published": True},
     {"slug": "fta-decision-15-corporate-tax-exemption",
      "seoTitle": "FTA Decision 15 of 2026: Corporate Tax Exemption Deadlines", "seoDesc": "FTA Decision 15 of 2026 replaces the 2023 rules: 90 business days to apply for Corporate Tax exemption, and catch-ups due 31 October and 31 December 2026.",
@@ -278,14 +279,14 @@ INSIGHTS = [
      "excerpt": "FTA Decision 15 of 2026, in force from 15 September, replaces the 2023 procedure for applying for Corporate Tax exemption. Qualifying investment funds, pension funds, exempt-owned companies and persons exempted by Cabinet decision now have 90 business days after the tax period ends, not 60. Three catch-up deadlines reopen periods already past: 31 October 2026 for companies wholly owned by a government entity, and 31 December 2026 for foreign companies owned by exempt owners and for qualifying limited partnerships.",
      "published": True},
     {"slug": "vat-executive-regulation-amendments-october-2026",
-     "seoTitle": "UAE VAT Changes October 2026: Cabinet Decision 149 Explained", "seoDesc": "What changes in UAE VAT from 1 October 2026: cash-paid purchases lose input VAT, staff housing, composite supplies, and the 2028 apportionment switch.",
+     "seoTitle": "UAE VAT Changes October 2026: Cabinet Decision 149 Explained", "seoDesc": "What changes in UAE VAT from 1 October 2026: input VAT lost on cash purchases above a threshold, staff housing, composite supplies, 2028 apportionment.",
      "tag": "VAT", "date": "11 Sep 2026", "updated": "28 Sep 2026", "read": "9 min",
      "title": "The VAT Executive Regulation changes on 1 October 2026 — every amended article, and the one that waits until 2028.",
      "author": "Jinu Kurikesu", "reviewer": "Jinu Govindan", "reference": "Cabinet Decision No. 149 of 2026 amending Cabinet Decision No. 52 of 2017, the Executive Regulation of Federal Decree-Law No. 8 of 2017 on VAT (consolidated text published by the Ministry of Finance, September 2026); Article 54 of Federal Decree-Law No. 8 of 2017; FTA VAT Guide on Input Tax Apportionment (VATGIT1); FTA Decision No. 17 of 2026",
-     "excerpt": "Issued on 1 September and in force from 1 October 2026, Cabinet Decision 149 touches twelve points in the VAT Executive Regulation. Most are narrow. Three are not: input VAT lost on purchases paid in cash above a threshold the Minister has yet to set, staff accommodation taken out of the recoverable-benefits rule unless MoHRE mandates it, and — from the first tax year starting after 1 October 2027 — a partial-exemption ratio that runs on turnover instead of input tax. Every article, checked against the Ministry’s text, with a worked example of the 2027 switch.",
+     "excerpt": "Issued on 1 September and in force from 1 October 2026, Cabinet Decision 149 touches twelve points in the VAT Executive Regulation. Most are narrow. Three are not: input VAT lost on purchases paid in cash above a threshold the Minister has yet to set, staff accommodation taken out of the mandatory-benefits exception unless MoHRE mandates it, with housing under a contract or policy now held to FTA Decision 17’s conditions, and — from the first tax year starting after 1 October 2027 — a partial-exemption ratio that runs on turnover instead of input tax. Every article, checked against the Ministry’s text, with a worked example of the 2027 switch.",
      "published": True},
     {"slug": "uae-tax-changes-october-2026",
-     "seoTitle": "UAE Tax & Reporting Changes October 2026: Every Deadline", "seoDesc": "Decision 13 supplier checks and the amended VAT Regulation from 1 October, the 30 October e-invoicing deadline, Decision 4 records rules, CT and VAT dates.",
+     "seoTitle": "UAE Tax & Reporting Changes October 2026: Every Deadline", "seoDesc": "Decisions 13 and 17 and the amended VAT Regulation from 1 October, the 30 October e-invoicing deadline, Decision 4 records rules, CT and VAT dates.",
      "tag": "Compliance", "date": "6 Sep 2026", "updated": "28 Sep 2026", "read": "7 min",
      "title": "What changes in UAE tax and reporting in October 2026: the dates, in order.",
      "author": "Jinu Kurikesu", "reviewer": "Jinu Govindan", "reference": "FTA Decisions No. 4, No. 13, No. 15 and No. 17 of 2026; Cabinet Decision No. 149 of 2026 amending the VAT Executive Regulation; Article 54 bis of Federal Decree-Law No. 8 of 2017; Federal Decree-Law No. 47 of 2022; Federal Decree-Law No. 28 of 2022 and Cabinet Decision No. 74 of 2023 as amended by Cabinet Decision No. 17 of 2026; Ministry of Finance e-invoicing timeline",
@@ -295,7 +296,7 @@ INSIGHTS = [
      "seoTitle": "UAE Accounting Records: FTA Decision 4 of 2026 Rules", "seoDesc": "Since 30 July 2026, scanned and electronic copies of accounting records must meet an FTA standard: no partial scans, legible copies, password access.",
      "tag": "Compliance", "date": "23 Aug 2026", "updated": "28 Sep 2026", "read": "8 min",
      "title": "Your scanned records have a standard now — and it has applied since 30 July.",
-     "author": "Jinu Kurikesu", "reviewer": "Jinu Govindan", "reference": "FTA Decision No. 4 of 2026 on the Rules and Requirements for Maintaining the Information Contained in Accounting Records and Commercial Books; Federal Decree-Law No. 28 of 2022 on Tax Procedures",
+     "author": "Jinu Kurikesu", "reviewer": "Jinu Govindan", "reference": "FTA Decision No. 4 of 2026 on the Rules and Requirements for Maintaining the Information Contained in Accounting Records and Commercial Books; Federal Decree-Law No. 28 of 2022 on Tax Procedures; Cabinet Decision No. 74 of 2023 as amended by Cabinet Decision No. 17 of 2026",
      "excerpt": "FTA Decision No. 4 of 2026 sets a published standard for the scans, exports and photocopies almost every business keeps its books in. It took effect on 30 July 2026 and was published on the FTA website on 20 August, so it already applies to the records you keep today. Partial scans are expressly not accepted, copies must stay legible across a retention period that can run to eleven years, the Authority can require your encryption keys, and outsourcing the records does not move the responsibility.",
      "published": True},
     {"slug": "fta-decision-13-supplier-verification",
@@ -1360,14 +1361,15 @@ def build_jsonld(page, slug):
             # Honest freshness: revised articles carry their real revision date.
             block["dateModified"] = iso_date(a.get("updated", "")) or iso
         # Article rich results want a large image: the article's own share card
-        # (1200x630, scripts/make-article-og.mjs) when one exists, the brand logo otherwise.
+        # (1200x630, scripts/make-article-og.mjs) when one exists, the site card otherwise.
         card = os.path.join(ROOT, "assets", "og", "article-%s.jpg" % a["slug"])
         if os.path.exists(card):
             with open(card, "rb") as _cf:
                 _cv = hashlib.sha256(_cf.read()).hexdigest()[:10]
             block["image"] = {"@type": "ImageObject", "url": SITE_ORIGIN + "/assets/og/article-%s.jpg?v=%s" % (a["slug"], _cv), "width": 1200, "height": 630}
         else:
-            block["image"] = ORG["logo"]
+            # The site-wide share card, as og:image already uses for these pages.
+            block["image"] = {"@type": "ImageObject", "url": SITE_ORIGIN + "/assets/og/og-card.jpg?v=6", "width": 1200, "height": 630}
         blocks.append(block)
     if page == "services" or page == "e-invoicing" or page.startswith("service-") or page.startswith("industry-") or page.startswith("location-"):
         meta = PAGE_SEO[page]

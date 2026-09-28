@@ -52,7 +52,7 @@ const CARDS = {
   'uae-tax-changes-october-2026': {
     kicker: 'UAE tax and reporting · October 2026',
     headline: 'Four changes, one month.',
-    sub: 'Decision 4, Decision 13, the VAT Regulation and the e-invoicing deadline',
+    sub: 'Decisions 4 and 13, the VAT Regulation with Decision 17, and e-invoicing',
   },
   'fta-decision-4-accounting-records': {
     kicker: 'FTA Decision 4 of 2026 · In force since 30 July',

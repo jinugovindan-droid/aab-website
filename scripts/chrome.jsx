@@ -651,7 +651,7 @@ function EInvoiceMarquee({ onNav }) {
   // Relative day-counts are only correct at render time — in the static build
   // snapshot they would read stale from the next day on, so snapshot mode keeps
   // the absolute dates and drops the counts.
-  const dcount = (n) => window.__AA_SNAPSHOT ? null : <b className="aa-marquee__num">{n > 0 ? '(' + n.toLocaleString() + ' days)' : '(now due)'}</b>;
+  const dcount = (n) => window.__AA_SNAPSHOT ? null : <b className="aa-marquee__num">{n > 0 ? '(' + n.toLocaleString() + ' days)' : n === 0 ? '(due today)' : '(passed)'}</b>;
 
   const group = (key) => (
     <div className="aa-marquee__group" key={key} aria-hidden={key === 'b' ? 'true' : undefined}>
@@ -867,7 +867,9 @@ function LatestUpdate({ onNav }) {
   if (!items.length) return null;
 
   return (
-    <section style={{ background: 'var(--aa-surface-off)', borderBottom: '1px solid var(--aa-rule)' }}>
+    // data-aa-volatile: snapshot.mjs ignores this strip when deciding whether a page's
+    // content changed, so a new article does not move every page's sitemap lastmod.
+    <section data-aa-volatile="1" style={{ background: 'var(--aa-surface-off)', borderBottom: '1px solid var(--aa-rule)' }}>
       {/* Vertical padding only — the .container class owns the horizontal
           gutter and narrows it on phones; overriding it here would break the
           20px phone gutter. */}

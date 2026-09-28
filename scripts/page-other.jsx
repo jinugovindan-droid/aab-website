@@ -384,7 +384,7 @@ function InsightsPage({ onNav }) {
                 position: 'absolute', right: -20, bottom: -40,
                 fontFamily: 'var(--aa-font-display)', fontWeight: 700,
                 fontSize: 280, color: 'rgba(0,176,240,0.08)', lineHeight: 0.85
-              }}>9%</div>
+              }}>{featured.tag === 'VAT' ? '5%' : featured.tag === 'Corporate Tax' ? '9%' : ''}</div>
               <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', position: 'relative' }}>{featured.tag} · {featured.date}</div>
               <div style={{ position: 'relative' }}>
                 <div style={{ fontFamily: 'var(--aa-font-display)', fontWeight: 700, fontSize: 36, textTransform: 'uppercase', letterSpacing: '0.01em', color: '#fff', lineHeight: 1.1, textWrap: 'balance' }}>
@@ -400,11 +400,11 @@ function InsightsPage({ onNav }) {
               <p style={{ fontSize: 17, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: 0 }}>
                 {featured.excerpt}
               </p>
-              <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
-                <span className="pill pill--charcoal">QFZP</span>
-                <span className="pill pill--charcoal">Substance</span>
-                <span className="pill pill--charcoal">De minimis</span>
-              </div>
+              {featured.chips && featured.chips.length > 0 && (
+                <div style={{ display: 'flex', gap: 12, marginTop: 8, flexWrap: 'wrap' }}>
+                  {featured.chips.map((c) => <span key={c} className="pill pill--charcoal">{c}</span>)}
+                </div>
+              )}
               <span style={{ marginTop: 16, color: 'var(--aa-cyan-text)', fontWeight: 600, fontSize: 14 }}>Read the full note →</span>
             </div>
           </a>
@@ -549,7 +549,7 @@ function EInvoiceGuideLinks({ onNav, current }) {
 function FiveCornerDiagram() {
   const box = { fill: '#fff', stroke: '#C7C8CA', strokeWidth: 1 };
   const title = { fontSize: 15, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'inherit' };
-  const cap = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
+  const cap = { fontSize: 10.5, fill: '#525358', fontFamily: 'inherit' };
   const Badge = ({ x, y, n, dark }) => (
     <g>
       <circle cx={x} cy={y} r={13} fill={dark ? '#00B0F0' : '#176E93'} />
@@ -692,7 +692,7 @@ function EInvoiceExplainedBody({ onNav }) {
 // custom properties; scroll wrapper keeps phones legible.
 function DeadlinesRoadmap() {
   const date = { fontSize: 13, fontWeight: 700, fill: '#176E93', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' };
-  const cap = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
+  const cap = { fontSize: 10.5, fill: '#525358', fontFamily: 'inherit' };
   const ROAD = 'M 40 120 L 620 120 Q 690 120 690 189 Q 690 258 620 258 L 120 258 Q 50 258 50 327 Q 50 396 120 396 L 648 396';
   const Stop = ({ x, y }) => (
     <g>
@@ -776,7 +776,7 @@ function DeadlinesRoadmap() {
 // looks at every period, and leaving the road is permanent.
 function SBRRoadmap() {
   const date = { fontSize: 13, fontWeight: 700, fill: '#176E93', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' };
-  const cap = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
+  const cap = { fontSize: 10.5, fill: '#525358', fontFamily: 'inherit' };
   const ORIG = 'M 60 150 L 580 150 Q 670 150 670 240 Q 670 330 580 330 L 205 330';
   const EXT  = 'M 205 330 Q 115 330 115 420 Q 115 510 205 510 L 655 510';
   const Stop = ({ x, y }) => (
@@ -1672,7 +1672,7 @@ function SBREvidenceBody({ onNav }) {
       <p>With the relief now running to 2029, the last electing period has to be evidenced into the mid-2030s. This is a decade-long filing discipline, not a year-end task.</p>
 
       <h3 style={H3}>If you own more than one company</h3>
-      <p>First separate two situations that get muddled. A sole establishment holding three licences is <strong>one taxable person</strong>: you add the revenue together and file once. No anti-abuse analysis is needed &mdash; only arithmetic. Three separate LLCs are three taxable persons, and there is exactly one route by which the FTA can treat them as one for this purpose: <strong>Article&nbsp;6 of Ministerial Decision No.&nbsp;73 of 2023</strong>, the artificial-separation rule. (Much of the commentary online cites Article&nbsp;5 for this. Article&nbsp;5 is the interest limitation rule.)</p>
+      <p>First separate two situations that get muddled. A sole establishment holding three licences is <strong>one taxable person</strong>: you add the revenue together and file once. No anti-abuse analysis is needed &mdash; only arithmetic. Three separate LLCs are three taxable persons, and there is exactly one route by which the FTA can treat them as one for this purpose: <strong>Article&nbsp;6 of Ministerial Decision No.&nbsp;73 of 2023</strong>, the artificial-separation rule.</p>
       <p>The FTA is careful to protect legitimate structures, and says so: <em>&ldquo;There are legitimate circumstances in which a Business may separate its activities or choose to operate through separate entities.&rdquo;</em> Its own worked example of a franchised second cafe &mdash; same name, same branding, same supplier, customers unable to tell them apart &mdash; is <strong>not</strong> artificial separation, because the ownership is genuinely different. The distinguishing question is ownership and commercial substance, not whether the shopfronts look alike.</p>
       <p>Where it turns serious is intent. The Tax Procedures Law defines deliberately understating your revenue, or failing to consolidate related businesses in order to stay below a threshold, as <strong>tax evasion</strong> &mdash; a criminal matter, not an administrative one. We are not aware of any published FTA statement applying that provision to Small Business Relief by name, and we would not claim otherwise. But the direction of travel is not ambiguous, and &ldquo;we split it to stay under three million&rdquo; is not a sentence to say out loud.</p>
 
@@ -1716,7 +1716,7 @@ function SupplierVerificationBody({ onNav }) {
   const qText = { fontSize: 13, fontWeight: 600, fill: '#1A1A2E', fontFamily: 'inherit' };
   const oTitle = { fontSize: 14, fontWeight: 700, fontFamily: 'inherit' };
   const oText = { fontSize: 11.5, fill: '#4A5260', fontFamily: 'inherit' };
-  const branch = { fontSize: 10, fontWeight: 700, fill: '#6E7887', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.08em' };
+  const branch = { fontSize: 10, fontWeight: 700, fill: '#525358', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.08em' };
   const Arrow = ({ d }) => <path d={d} fill="none" stroke="#9AA3AF" strokeWidth="1.6" markerEnd="url(#aa13-arrow)" />;
 
   const Article54Tree = () => (
@@ -1796,7 +1796,7 @@ function SupplierVerificationBody({ onNav }) {
           {/* Gate 1 — the supplier aggregate governs everything below it */}
           <rect x="185" y="78" width="350" height="76" rx="3" {...qBox} />
           <text x="360" y="104" textAnchor="middle" style={qText}><tspan x="360">Rolling 12-month spend with this supplier</tspan><tspan x="360" dy="18">exceeds AED 100,000?</tspan></text>
-          <text x="360" y="141" textAnchor="middle" style={{ fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' }}>the past 12 months, or what you expect over the next 12</text>
+          <text x="360" y="141" textAnchor="middle" style={{ fontSize: 10.5, fill: '#525358', fontFamily: 'inherit' }}>the past 12 months, or what you expect over the next 12</text>
 
           <Arrow d="M 300 154 V 166 H 165 V 176" />
           <text x="232" y="162" textAnchor="middle" style={branch}>NO</text>
@@ -1952,13 +1952,13 @@ function SupplierVerificationBody({ onNav }) {
           <circle cx="660" cy="122" r="3.5" fill="#fff" />
 
           <text x="52" y="160" style={{ fontSize: 12, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' }}>1 OCT 2025</text>
-          <text x="52" y="178" style={{ fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' }}>look-back opens</text>
+          <text x="52" y="178" style={{ fontSize: 10.5, fill: '#525358', fontFamily: 'inherit' }}>look-back opens</text>
 
           <text x="210" y="160" textAnchor="middle" style={{ fontSize: 12, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' }}>1 JAN 2026</text>
-          <text x="210" y="178" textAnchor="middle" style={{ fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' }}><tspan x="210">Article 54 bis in force</tspan><tspan x="210" dy="14">(FDL 16 of 2025)</tspan></text>
+          <text x="210" y="178" textAnchor="middle" style={{ fontSize: 10.5, fill: '#525358', fontFamily: 'inherit' }}><tspan x="210">Article 54 bis in force</tspan><tspan x="210" dy="14">(FDL 16 of 2025)</tspan></text>
 
           <text x="668" y="160" textAnchor="end" style={{ fontSize: 12, fontWeight: 700, fill: '#125A79', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' }}>1 OCT 2026</text>
-          <text x="668" y="178" textAnchor="end" style={{ fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' }}>Decision 13 takes effect</text>
+          <text x="668" y="178" textAnchor="end" style={{ fontSize: 10.5, fill: '#525358', fontFamily: 'inherit' }}>Decision 13 takes effect</text>
         </svg>
       </div>
       <figcaption className="mono" style={CAP}>THE DATES THAT MATTER — AND WHY THE DATA REQUIREMENT IS ALREADY HISTORIC</figcaption>
@@ -2107,8 +2107,8 @@ function RecordCopyStandardBody({ onNav }) {
 
   // Defined in the body so it ships in this article's chunk, not the shared bundle.
   const GateDiagram = () => {
-    const cap = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
-    const gateNo = { fontSize: 11, fontWeight: 700, fill: '#00B0F0', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.1em' };
+    const cap = { fontSize: 10.5, fill: '#525358', fontFamily: 'inherit' };
+    const gateNo = { fontSize: 11, fontWeight: 700, fill: '#0A7CA8', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.1em' };
     const gateTitle = { fontSize: 15.5, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'inherit' };
     const ok = { fontSize: 11.5, fill: '#1B6E45', fontFamily: 'inherit' };
     const no = { fontSize: 11.5, fill: '#B3261E', fontFamily: 'inherit' };
@@ -2171,7 +2171,7 @@ function RecordCopyStandardBody({ onNav }) {
               fails={['Locked file, no key', 'Storage place unknown']}
             />
 
-            <text x="360" y="330" textAnchor="middle" style={{ fontSize: 11.5, fill: '#6E7887', fontFamily: 'inherit' }}>Fail any one gate and the copy is not a kept record — whoever is holding it for you.</text>
+            <text x="360" y="330" textAnchor="middle" style={{ fontSize: 11.5, fill: '#525358', fontFamily: 'inherit' }}>Fail any one gate and the copy is not a kept record — whoever is holding it for you.</text>
           </svg>
         </div>
         <figcaption className="mono" style={{ fontSize: 11, color: 'var(--aa-steel)', marginTop: 10, letterSpacing: '0.06em' }}>THREE GATES A COPY MUST PASS — FTA DECISION 4 OF 2026, ARTICLES 2 AND 3</figcaption>
@@ -2224,7 +2224,7 @@ function RecordCopyStandardBody({ onNav }) {
         <li><strong>Check your outsourcing terms.</strong> Article&nbsp;4 leaves the responsibility with you; your contract should at least give you a retrieval right and a turnaround.</li>
       </ul>
 
-      {artNote('Written on 23 August 2026 from the FTA’s published text of Decision No. 4 of 2026, read in full. Dates verified against the FTA legislation index (issue 2 June 2026, publish 20 August 2026), the PDF’s own creation timestamp and the web server’s upload timestamp; the 30 July 2026 effective date is as stated on the Authority’s cover page, and we have not been able to inspect the Official Gazette entry itself. Retention periods are from Federal Decree-Law No. 28 of 2022 and its Executive Regulation and, for Corporate Tax, Federal Decree-Law No. 47 of 2022; the additional two years where a refund is pending is Article 3(2)(e) of Cabinet Decision No. 74 of 2023, added by Cabinet Decision No. 17 of 2026 (in force 1 April 2026) and read on 28 September 2026 in the consolidated text the Authority publishes. The English is an unofficial translation; the Arabic governs. General information on published law, not advice on your own position.')}
+      {artNote('Written on 23 August 2026 from the FTA’s published text of Decision No. 4 of 2026, read in full. Dates verified against the FTA legislation index (issue 2 June 2026, publish 20 August 2026), the PDF’s own creation timestamp and the web server’s upload timestamp; the 30 July 2026 effective date is as stated on the Authority’s cover page, and we have not been able to inspect the Official Gazette entry itself. Retention periods are from Federal Decree-Law No. 28 of 2022 and its Executive Regulation and, for Corporate Tax, Federal Decree-Law No. 47 of 2022; the additional two years where a refund is pending is Article 3(2)(e) of Cabinet Decision No. 74 of 2023, added by Cabinet Decision No. 17 of 2026 (in force 1 April 2026) and read on 28 September 2026 in the Ministry of Finance’s consolidated text as published on the Authority’s website. The English is an unofficial translation; the Arabic governs. General information on published law, not advice on your own position.')}
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
@@ -2291,10 +2291,10 @@ function ERAmendments2026Body({ onNav }) {
       <p>What this means in practice depends entirely on the figure, so we will not guess at it. The policy decision does not: a business that pays suppliers in cash above small sums needs a written position now, and a way of flagging those invoices in the purchase ledger so that the claim is not made by default.</p>
 
       <h3 style={H3}>Staff accommodation</h3>
-      <p>Article&nbsp;53 lists the input tax that cannot be recovered. Since 2018, goods and services bought for employees&rsquo; personal benefit have been blocked. The exceptions now number four: where labour law makes providing them mandatory; where a contract or documented policy provides them so that staff can do their jobs; health insurance within stated limits; and deemed supplies. The first two are rewritten. The first now covers benefits mandatory &ldquo;under the applicable labour legislation in the State or any free zone, including financial and non-financial free zones&rdquo; &mdash; which settles a point for DIFC and ADGM employers &mdash; but it then carves out <strong>accommodation provided by the employer to its employees</strong>, &ldquo;unless the provision of such accommodation is mandatory pursuant to the decisions or directives issued by the Ministry of Human Resources and Emiratisation&rdquo;.</p>
+      <p>Article&nbsp;53 lists the input tax that cannot be recovered. Since 2018, goods and services bought for employees&rsquo; personal benefit have been blocked. The exceptions now number four: where labour law makes providing them mandatory; where a contract or documented policy provides them, from 1&nbsp;October only in the cases and on the conditions the Authority specifies; health insurance within stated limits; and deemed supplies. The first two are rewritten. The first now covers benefits mandatory &ldquo;under the applicable labour legislation in the State or any free zone, including financial and non-financial free zones&rdquo; &mdash; which settles a point for DIFC and ADGM employers &mdash; but it then carves out <strong>accommodation provided by the employer to its employees</strong>, &ldquo;unless the provision of such accommodation is mandatory pursuant to the decisions or directives issued by the Ministry of Human Resources and Emiratisation&rdquo;.</p>
       <p>The second exception, for contractual and documented-policy benefits, loses its own test (&ldquo;in order that they may perform their role and it can be proven to be normal business practice&rdquo;) and instead applies &ldquo;in accordance with the cases and conditions specified by the Authority&rdquo;. </p>
-      <p><strong>Update, 28 September 2026.</strong> The Authority has now specified them. FTA Decision No.&nbsp;17 of 2026, issued on 9&nbsp;September and in force from 1&nbsp;October, lists six cases &mdash; transport, food and drink at remote locations, accommodation, up to 30 days&rsquo; housing for new employees, phones and home internet, and parking &mdash; each with conditions that must all be met. Accommodation provided under a contract or policy has five conditions, among them that the housing is an operational requirement of the work and not part of the employee&rsquo;s benefits or ordinary compensation, that the employee cannot take a cash allowance instead, and that it is for the employee alone unless the employee is required to live permanently near the workplace. {ilink('fta-decision-17-employee-benefits-input-vat', 'The six cases, condition by condition →')}</p>
-      <p>The businesses this reaches are the ones that house people as a matter of course &mdash; construction, hospitality, manufacturing, facilities management, any employer running labour accommodation or staff housing. The question for each of them is whether the housing is <em>mandatory under a MoHRE decision or directive</em> for the workers concerned, or provided by contract or policy. Only the first keeps the input tax without further conditions; the second now has to meet every condition in Decision&nbsp;17. That is a fact about your workforce and your paperwork, not about the Regulation, and it is the first thing to establish.</p>
+      <p><strong>Update, 28 September 2026.</strong> The Authority has now specified them. FTA Decision No.&nbsp;17 of 2026, issued on 9&nbsp;September and in force from 1&nbsp;October, lists six cases &mdash; transport, food and drink for staff living in remote areas, accommodation, up to 30 days&rsquo; housing for new employees, phones and home internet, and parking &mdash; each with conditions that must all be met. Accommodation provided under a contract or policy has five conditions, among them that the housing is related to the operational requirements of the work and not part of the employee&rsquo;s benefits or ordinary compensation, that the employee cannot take a cash allowance instead, and that it is for the employee alone unless the employee is required to live permanently near the workplace; a new employee&rsquo;s temporary stay of no more than 30 days has a lighter case of its own. {ilink('fta-decision-17-employee-benefits-input-vat', 'The six cases, condition by condition →')}</p>
+      <p>The businesses this reaches are the ones that house people as a matter of course &mdash; construction, hospitality, manufacturing, facilities management, any employer running labour accommodation or staff housing. The question for each of them is whether the housing is <em>mandatory under a MoHRE decision or directive</em> for the workers concerned, or provided by contract or policy. Only the first keeps the input tax without further conditions; the second now has to meet every condition of Decision&nbsp;17&rsquo;s accommodation case, or of its 30-day case for a new employee&rsquo;s temporary housing. That is a fact about your workforce and your paperwork, not about the Regulation, and it is the first thing to establish.</p>
 
       <h3 style={H3}>One price, one supply</h3>
       <p>Article&nbsp;4 already said when a bundle is a single composite supply (one price, one supplier, components that would be unnatural to split) and that a bundle failing those tests is multiple supplies. New Clause&nbsp;6 closes the door from the other side: a taxable person <strong>may not</strong> treat a supply as multiple supplies &ldquo;if the nature of the supply and its economic substance demonstrate that these components are interconnected and cannot be separated&rdquo;. In that case it is a single composite supply and takes the treatment of its principal component.</p>
@@ -2339,7 +2339,7 @@ function ERAmendments2026Body({ onNav }) {
       <h3 style={H3}>What to do before 1 October</h3>
       <ul>
         <li><strong>Decide your cash position in writing</strong> and tag cash-settled purchase invoices in the ledger, so that when the Minister&rsquo;s figure lands the claim above it is already excluded rather than corrected later.</li>
-        <li><strong>List every case where you recover VAT on staff accommodation</strong>, and for each one establish whether the housing is mandatory under a MoHRE decision or directive, or provided under contract or policy. Only the first keeps the recovery without further conditions from 1&nbsp;October; the second has to meet case&nbsp;3 of FTA Decision&nbsp;17, or case&nbsp;4 for a new employee&rsquo;s first 30 days.</li>
+        <li><strong>List every case where you recover VAT on staff accommodation</strong>, and for each one establish whether the housing is mandatory under a MoHRE decision or directive, or provided under contract or policy. Only the first keeps the recovery without further conditions from 1&nbsp;October; the second has to meet case&nbsp;3 of FTA Decision&nbsp;17, or case&nbsp;4 where a new employee&rsquo;s temporary housing lasts no longer than 30 days.</li>
         <li><strong>Test the other staff benefits you recover VAT on</strong> &mdash; transport, meals, phones, parking &mdash; against Decision&nbsp;17&rsquo;s cases, and look for any option to take cash instead in offer letters and HR policies.</li>
         <li><strong>Review bundled pricing</strong> for any package whose elements carry different rates, and record why the elements do or do not stand alone.</li>
         <li><strong>If you sell medical products</strong>, identify the Cabinet decision the zero rate now points to before the next return.</li>
@@ -2482,7 +2482,7 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
     { k: '(1) Required by labour law', covers: 'Benefits that labour legislation in the State or any free zone, financial free zones included, makes mandatory.', now: 'Accommodation is excluded, unless a MoHRE decision or directive makes providing it mandatory.' },
     { k: '(2) Contract or documented policy', covers: 'Benefits provided under a contractual obligation or a documented policy.', now: 'In the cases, and on the conditions, set by FTA Decision No. 17 of 2026: six cases, every condition met.' },
     { k: '(3) Health insurance', covers: 'Health insurance, enhanced cover included, for employees and family up to one spouse and three children under eighteen.', now: 'Unchanged.' },
-    { k: '(4) Deemed supplies', covers: 'Goods or services whose provision is a deemed supply under the Decree-Law.', now: 'Unchanged.' },
+    { k: '(4) Deemed supplies', covers: 'Goods or services whose provision is a deemed supply under the Decree-Law, on which the employer accounts for output tax (Article 11 of the Decree-Law).', now: 'Unchanged.' },
   ];
   const CASES = [
     { k: 'Transport', art: 'Art. 2(1)', c: [
@@ -2491,7 +2491,7 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
       'The employee cannot opt for a cash allowance or other financial compensation instead.'] },
     { k: 'Food and drink', art: 'Art. 2(2)', c: [
       'The employee lives in a remote, distant or isolated area.',
-      'No appropriate facilities for preparing food at the residence or the workplace, and no restaurants or outlets nearby.',
+      'No appropriate facilities for preparing food at the employee’s residence or workplace, as the case may be, and no nearby restaurants or outlets where food and drink can easily be obtained.',
       'Directly linked to the work or residence period the job requires.',
       'No option of a cash allowance instead.'] },
     { k: 'Accommodation', art: 'Art. 2(3)', c: [
@@ -2509,7 +2509,7 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
       'A documented internal policy sets out the permitted use and the consequences of unauthorised use.',
       'Reasonable monitoring of use and of compliance with the policy, with records kept where there is unauthorised use.'] },
     { k: 'Parking', art: 'Art. 2(6)', c: [
-      'Incurred solely for business purposes, directly related to the employee’s duties or to business visits and related assignments.',
+      'Parking fees for spaces allocated to employees, incurred solely for business purposes, directly related to the employee’s duties or to business visits and related assignments.',
       'A documented internal policy on when parking is reimbursed and how it is approved.',
       'Documents proving payment kept, such as receipts showing the date, time, amount and the tax paid.'] },
   ];
@@ -2519,10 +2519,10 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
 
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>FTA Decision No.&nbsp;17 of 2026 was issued on <strong>9&nbsp;September</strong> and takes effect on <strong>1&nbsp;October&nbsp;2026</strong>, the same day as the amended Article&nbsp;53 of the VAT Executive Regulation. From that day, the exception that keeps input VAT on benefits given to staff under a contract or documented policy recoverable applies only &ldquo;in accordance with the cases and conditions specified by the Authority&rdquo;. This Decision is those cases. There are <strong>six</strong>: transport, food and drink at remote locations, accommodation, up to 30 days&rsquo; housing for new employees, phones and home internet, and parking. Each comes with conditions, and <strong>all</strong> of them must be met. Three of the cases share a test worth checking first: the employee must not be able to take cash instead.</p>
+      <p style={LEAD}>FTA Decision No.&nbsp;17 of 2026 was issued on <strong>9&nbsp;September</strong> and takes effect on <strong>1&nbsp;October&nbsp;2026</strong>, the same day as the amended Article&nbsp;53 of the VAT Executive Regulation. From that day, the exception that keeps input VAT on benefits given to staff under a contract or documented policy recoverable applies only &ldquo;in accordance with the cases and conditions specified by the Authority&rdquo;. This Decision is those cases. There are <strong>six</strong>: transport, food and drink for staff living in remote areas, accommodation, up to 30 days&rsquo; housing for new employees, phones and home internet, and parking. Each comes with conditions, and <strong>all</strong> of them must be met. Three of the cases share a test worth checking first: the employee must not be able to take cash instead.</p>
 
       <h3 style={H3}>Where the Decision sits</h3>
-      <p>Article&nbsp;53(1)(c) of the Executive Regulation blocks input tax on goods and services bought &ldquo;to be used by employees for no charge to them and for their personal benefit&rdquo;. Four exceptions let it back in, and from 1&nbsp;October two of them read differently:</p>
+      <p>Article&nbsp;53(1)(c) of the Executive Regulation blocks input tax on goods and services bought &ldquo;to be used by employees for no charge to them and for their personal benefit including the provision of entertainment services&rdquo;. Four exceptions let it back in, and from 1&nbsp;October two of them read differently:</p>
       <div style={{ marginTop: 8, borderTop: '1px solid var(--aa-rule)' }}>
         {ROUTES.map((r) => (
           <div key={r.k} style={ROW}>
@@ -2532,14 +2532,14 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
           </div>
         ))}
       </div>
-      <p style={{ marginTop: 20 }}>Before 1&nbsp;October route (2) carried its own test: the benefit had to be provided &ldquo;in order that they may perform their role&rdquo; and be shown to be &ldquo;normal business practice&rdquo;. Cabinet Decision No.&nbsp;149 of 2026 removes that test and hands the question to the Authority, and Decision&nbsp;17 answers it. The Decision applies only to route (2) (Art.&nbsp;1). Our reading is that Article&nbsp;2 is a closed list: a benefit that fits none of the six cases does not recover through route (2). It may still recover through another route, and the block itself reaches only what employees use free of charge for their personal benefit.</p>
+      <p style={{ marginTop: 20 }}>Before 1&nbsp;October route (2) carried its own test: the benefit had to be provided &ldquo;in order that they may perform their role&rdquo; and be shown to be &ldquo;normal business practice&rdquo;. Cabinet Decision No.&nbsp;149 of 2026 removes that test and hands the question to the Authority, and Decision&nbsp;17 answers it. The Decision applies only to route (2) (Art.&nbsp;1). Our reading is that Article&nbsp;2 is a closed list: a benefit that fits none of the six cases does not recover through route (2). It may still recover through another route. And the block reaches only what employees use free of charge for their personal benefit &mdash; which, Article&nbsp;53(1)(c) says, includes entertainment services, defined in Article&nbsp;53(2)(a) to include accommodation, and food and drink not provided in the normal course of a meeting.</p>
 
       <h3 style={H3}>The six cases</h3>
       <p>Each case lists its conditions, and every one of them must be met.</p>
       <div style={{ marginTop: 8, borderTop: '1px solid var(--aa-rule)' }}>
         {CASES.map((c) => (
           <div key={c.k} style={ROW}>
-            <h4 style={HEAD}><strong>{c.k}</strong><span className="mono" style={REF}>{c.art}</span></h4>
+            <h4 style={HEAD}><strong>{c.k}</strong>{' '}<span className="mono" style={REF}>{c.art}</span></h4>
             <ul style={{ margin: '8px 0 0', paddingLeft: 20, display: 'grid', gap: 4 }}>
               {c.c.map((x) => <li key={x}>{x}</li>)}
             </ul>
@@ -2547,15 +2547,17 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
         ))}
       </div>
       <p style={{ marginTop: 16, fontSize: 15, color: 'var(--aa-steel-700)' }}>Article numbers are those of FTA Decision No.&nbsp;17 of 2026. The English text is the Authority&rsquo;s unofficial translation; the Arabic governs.</p>
+      <p>Two things sit outside the cases. Transport bought in as a passenger service &mdash; a contracted staff bus with its driver, a taxi &mdash; is usually exempt local passenger transport (Article&nbsp;46(4) of the Decree-Law; Article&nbsp;45 of the Executive Regulation), so there is often no input tax to recover. And a car or van for up to ten people, driver included, that is available for personal use stays blocked by Article&nbsp;53(1)(b), which Decision&nbsp;17 does not change.</p>
 
       <h3 style={H3}>Accommodation: the two routes that matter</h3>
+      <p><strong>First, check that there is VAT to recover.</strong> A lease of a residential building is exempt where it runs for more than six months or the tenant holds an Emirates ID (Article&nbsp;46(2) of the Decree-Law; Article&nbsp;43(1) of the Executive Regulation), so the rent on a flat or villa leased for staff usually carries no input tax at all. Hotels, hotel apartments and serviced apartments are not residential buildings (Article&nbsp;37(2)), and their charges carry VAT. Whether a particular labour camp is a residential building is a question of fact under Article&nbsp;37. The input tax this section is about is on those standard-rated stays, and on standard-rated costs around the housing &mdash; furnishing, maintenance, cleaning, utilities.</p>
       <p>Housing is where the Decision and the amended Regulation meet. From 1&nbsp;October, input tax on accommodation an employer provides free to staff comes back through one of two routes:</p>
       <ul>
         <li><strong>Mandatory under a MoHRE decision or directive.</strong> Route (1) keeps benefits that labour legislation makes mandatory, but now excludes accommodation unless a decision or directive of the Ministry of Human Resources and Emiratisation makes providing it mandatory. Where one does, the input tax recovers on that route, and Decision&nbsp;17 does not apply to it.</li>
-        <li><strong>Under a contract or policy, and meeting case 3</strong> &mdash; or case 4 for a new employee&rsquo;s first weeks &mdash; with every condition met.</li>
+        <li><strong>Under a contract or policy, and meeting case 3</strong> &mdash; or case 4 where a new employee&rsquo;s temporary stay lasts no longer than 30 days &mdash; with every condition met.</li>
       </ul>
-      <p>The condition to think hardest about is 3(b). The accommodation must be &ldquo;related to the operational requirements of the work&rdquo; and must not &ldquo;form part of the employee&rsquo;s benefits or ordinary compensation arrangements&rdquo;. Yet route (2) itself requires a contract or documented policy to provide it. The two fit together where the contract or policy records the housing as a requirement of the work &mdash; a project site, a shift pattern, a remote location, a client&rsquo;s premises &mdash; and not as an item in the pay package. On our reading, housing offered as part of the package, of the kind an employee might otherwise be paid an allowance for, will struggle with 3(b) however the contract is worded. And where the employee could take the allowance instead, 3(a) decides it.</p>
-      <p>Two more conditions narrow it. The housing must be for the employee alone, with no family and no other personal use, unless the employee is required to live permanently near the workplace so that the accommodation is their usual residence (3(d)). And it must be commensurate with the job and basic residency needs, without significant recreational or personal elements (3(e)). Staff accommodation beside a project site is the case these words describe; a family villa in the city is not.</p>
+      <p>The condition to think hardest about is Art.&nbsp;2(3)(b). The accommodation must be &ldquo;related to the operational requirements of the work&rdquo; and must not &ldquo;form part of the employee&rsquo;s benefits or ordinary compensation arrangements&rdquo;. Yet route (2) itself requires a contract or documented policy to provide it. On our reading, the two fit together where the contract or policy records the housing as a requirement of the work &mdash; a project site, a shift pattern, a remote location, a client&rsquo;s premises &mdash; and not as an item in the pay package; housing offered as part of the package, of the kind an employee might otherwise be paid an allowance for, will struggle with Art.&nbsp;2(3)(b) however the contract is worded. And where the employee could take the allowance instead, Art.&nbsp;2(3)(a) decides it.</p>
+      <p>Two more conditions narrow it. The housing must be for the employee alone, with no family and no other personal use, unless the employee is required to live permanently near the workplace so that the accommodation is their usual residence (Art.&nbsp;2(3)(d)). And it must be commensurate with the job and basic residency needs, without significant recreational or personal elements (Art.&nbsp;2(3)(e)). On our reading, staff accommodation beside a project site is the case these words describe; family housing in the city, offered as part of the package, is not.</p>
       <p>New joiners have a separate, lighter case: temporary accommodation for <strong>no longer than 30 days</strong>, commensurate with the job and basic needs (Art.&nbsp;2(4)). Keep the stay inside the 30 days. The condition is on the period of provision, and the text does not say what happens to the first 30 days of a longer stay.</p>
 
       <h3 style={H3}>The cash-allowance test</h3>
@@ -2563,21 +2565,21 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
 
       <h3 style={H3}>Phones, internet and parking: the policy is the evidence</h3>
       <p>The last two cases are about paperwork as much as purpose. Phones, airtime, data and home internet meet case&nbsp;5 only where a <strong>documented internal policy</strong> sets the permitted use and the consequences of misuse, and where the employer can show <strong>reasonable monitoring</strong> of use and compliance, with records where the policy was breached (Art.&nbsp;2(5)(c) and (d)). Personal use has to be incidental and insignificant, not the main purpose. Parking needs a documented reimbursement policy with an approval mechanism, and the evidence of payment kept &mdash; the Decision&rsquo;s example is a receipt showing the date, time, amount and the tax paid (Art.&nbsp;2(6)(b) and (c)).</p>
-      <p>None of that is difficult. All of it has to exist before the claim is made, and the policy is the first thing to have ready if the claim is ever questioned.</p>
+      <p>None of that is difficult. On our reading, all of it has to be in place, and working, for the period the claim covers: a policy written when the return falls due does not show how the phones were used in the months before it. The policy is also the first thing to have ready if the claim is ever questioned.</p>
 
-      <h3 style={H3}>Food and drink: remote locations only</h3>
-      <p>This is the narrowest case. It needs a place of residence that is remote, distant or isolated, no appropriate facilities for preparing food at the residence or the workplace and nowhere nearby to buy it, a direct link to the work or residence period the job requires, and no cash alternative (Art.&nbsp;2(2)). It fits a camp at a remote site. On our reading, meals for staff in a city office &mdash; a catered lunch, a stocked pantry &mdash; do not meet the first two conditions, so they do not recover on this route.</p>
+      <h3 style={H3}>Food and drink: remote residence only</h3>
+      <p>This is the narrowest case. It needs a place of residence that is remote, distant or isolated, no appropriate facilities for preparing food at the residence or workplace, as the case may be, and nowhere nearby to obtain it easily, a direct link to the work or residence period the job requires, and no cash alternative (Art.&nbsp;2(2)). It fits a camp at a remote site. On our reading, meals for staff in a city office &mdash; a catered lunch, a stocked pantry &mdash; do not meet the first two conditions, so they do not recover on this route.</p>
 
       <h3 style={H3}>On the date</h3>
-      <p>The Decision takes effect on 1&nbsp;October&nbsp;2026 (Art.&nbsp;3), the day the amended Article&nbsp;53 does. Neither instrument has a transitional rule. Where one purchase spans the date &mdash; a year&rsquo;s lease on staff housing paid in advance, an annual phone contract &mdash; decide which rule you are applying to which part before the return that claims it, and write the reason down.</p>
+      <p>The Decision takes effect on 1&nbsp;October&nbsp;2026 (Art.&nbsp;3), the day the amended Article&nbsp;53 does. Neither instrument has a transitional rule for Article&nbsp;53. Where one purchase spans the date &mdash; a year&rsquo;s serviced-apartment contract paid in advance, an annual phone contract &mdash; work out which part falls under which rule (on our reading, the date of supply of each part decides it) before the return that claims it, and write the reason down.</p>
 
       <h3 style={H3}>What to do now</h3>
       <ul>
-        <li><strong>Pull every ledger that carries input VAT on staff costs</strong> &mdash; housing, transport, meals, phones and data, parking, and anything else employees receive free &mdash; and map each line to one of the four routes.</li>
-        <li><strong>For housing</strong>, establish for each group of workers whether a MoHRE decision or directive makes it mandatory. Where none does, test case 3, or case 4 for new joiners, condition by condition, and record the operational reason in the contract or policy.</li>
-        <li><strong>Search offer letters and HR policies for a cash alternative</strong> to transport, meals or housing. Where the option exists, that benefit cannot meet Decision&nbsp;17 on the text.</li>
+        <li><strong>Pull every ledger that carries input VAT on staff costs</strong> &mdash; housing, transport, meals, phones and data, parking, and anything else employees receive free &mdash; and map each line either to one of the four routes or, where employees do not use it free of charge for their personal benefit, to &lsquo;outside the block&rsquo;, with the reason.</li>
+        <li><strong>For housing</strong>, establish for each group of workers whether a MoHRE decision or directive makes it mandatory. Where none does, test case 3, or case 4 where a new joiner&rsquo;s stay lasts no more than 30 days, condition by condition, and record the operational reason in the contract or policy. Check first that the housing carries VAT at all.</li>
+        <li><strong>Search offer letters and HR policies for a cash alternative</strong> to transport, meals or housing. Where the option exists, that benefit cannot meet case 1, 2 or 3 on the text; a new joiner&rsquo;s stay of no more than 30 days (case 4) has no cash condition.</li>
         <li><strong>Write or update two policies</strong>: phones and internet (permitted use, consequences, monitoring) and parking reimbursement (when, and who approves). Keep the parking receipts.</li>
-        <li><strong>From the first return that covers October</strong>, stop claiming input tax on anything that fits no route, and tag those ledger codes so the claim does not come back by default.</li>
+        <li><strong>For supplies from 1 October</strong>, stop claiming input tax on benefits that fall within the block and fit no route &mdash; a quarterly return for August to October covers both rules &mdash; and tag those ledger codes so the claim does not come back by default.</li>
       </ul>
       <p>Our {link('service-vat-filing', 'VAT return filing')} work covers the input-tax review behind each return. {ilink('vat-executive-regulation-amendments-october-2026', 'The Cabinet Decision 149 note')} has every other amendment that takes effect on 1&nbsp;October.</p>
 
@@ -2614,7 +2616,7 @@ function OctoberChangesBody({ onNav }) {
   // labels alternate above and below the axis and are anchored away from
   // each other — each hugs its own marker on the side facing open space.
   const DATE = { fontSize: 12, fontWeight: 700, fill: '#1A1A2E', fontFamily: 'var(--aa-font-mono, monospace)', letterSpacing: '0.04em' };
-  const CAP = { fontSize: 10.5, fill: '#6E7887', fontFamily: 'inherit' };
+  const CAP = { fontSize: 10.5, fill: '#525358', fontFamily: 'inherit' };
   const Mark = ({ x, big }) => big
     ? <g><circle cx={x} cy="120" r="9.5" fill="#00B0F0" stroke="#125A79" strokeWidth="2.5" /><circle cx={x} cy="120" r="3.5" fill="#fff" /></g>
     : <g><circle cx={x} cy="120" r="7.5" fill="#fff" stroke="#176E93" strokeWidth="2.5" /><circle cx={x} cy="120" r="3" fill="#00B0F0" /></g>;
@@ -2657,7 +2659,7 @@ function OctoberChangesBody({ onNav }) {
 
   return (
     <div className="container" style={ART}>
-      <p style={LEAD}>Four things change for UAE businesses before the end of October 2026, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, suppliers have to be verified before input VAT is deducted &mdash; and, from the same day, the VAT Executive Regulation is amended: input VAT is lost on purchases paid in cash above a threshold the Minister is to set, and staff accommodation comes out of the recoverable-benefits rule, with FTA Decision&nbsp;17 setting the six cases in which staff benefits provided under a contract or policy keep their input VAT. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks, and a one-off catch-up deadline for companies owned by a government entity. This page puts all of it on one line, in order, with a link to the detail on each.</p>
+      <p style={LEAD}>Four things change for UAE businesses before the end of October 2026, and they arrive within a month of each other. From <strong>1&nbsp;October&nbsp;2026</strong>, FTA Decision&nbsp;13 sets the checks to run on suppliers before input VAT is deducted &mdash; and, from the same day, the VAT Executive Regulation is amended: input VAT is lost on purchases paid in cash above a threshold the Minister is to set, and staff accommodation leaves the exception for mandatory staff benefits unless a MoHRE decision or directive requires it, while FTA Decision&nbsp;17 sets the six cases, accommodation among them, in which staff benefits provided under a contract or policy keep their input VAT. By <strong>30&nbsp;October</strong>, larger businesses must have appointed an e-invoicing service provider. And a new standard for how accounting records are kept has already applied since <strong>30&nbsp;July</strong>. Around them sit the routine Corporate Tax and VAT dates that fall in the same weeks, and a one-off catch-up deadline for companies owned by a government entity. This page puts all of it on one line, in order, with a link to the detail on each.</p>
 
       <OctoberTimeline />
 
@@ -2689,7 +2691,7 @@ function OctoberChangesBody({ onNav }) {
             </tr>
             <tr>
               <td className="aa-num" style={{ whiteSpace: 'nowrap' }}><strong>1 Oct 2026</strong></td>
-              <td>Cabinet Decision No.&nbsp;149 of 2026 takes effect &mdash; VAT Executive Regulation amended: no input VAT on cash-paid purchases above a threshold the Minister is to set, staff accommodation out of the recoverable-benefits rule, composite supplies, medical products, the Capital Assets Scheme. The new apportionment ratio waits for the first tax year after 1&nbsp;October&nbsp;2027</td>
+              <td>Cabinet Decision No.&nbsp;149 of 2026 takes effect &mdash; VAT Executive Regulation amended: no input VAT on cash-paid purchases above a threshold the Minister is to set, staff accommodation out of the mandatory-benefits exception unless MoHRE requires it, composite supplies, medical products, the Capital Assets Scheme. The new apportionment ratio waits for the first tax year after 1&nbsp;October&nbsp;2027</td>
               <td>Every VAT registrant; employers housing staff; partially exempt businesses from 2028</td>
             </tr>
             <tr>
@@ -2732,7 +2734,7 @@ function OctoberChangesBody({ onNav }) {
       <p>The largest change is the one that waits. From the first tax year commencing after 1&nbsp;October&nbsp;2027 &mdash; 1&nbsp;January&nbsp;2028 for a monthly filer &mdash; the standard partial-exemption ratio runs on the value of supplies instead of on input tax. {ilink('vat-executive-regulation-amendments-october-2026', 'Every amendment, article by article, with a worked example of the 2027 switch →')}</p>
 
       <h3 style={H3}>1 October &mdash; which staff benefits keep their input VAT</h3>
-      <p>The amended Article&nbsp;53 keeps input tax on benefits provided under a contract or documented policy recoverable only in the cases the Authority specifies. FTA Decision No.&nbsp;17 of 2026, issued on 9&nbsp;September, specifies them: transport, food and drink at remote locations, accommodation, up to 30 days&rsquo; housing for new employees, phones and home internet, and parking &mdash; each with conditions that must all be met. For housing, the conditions include that it is an operational requirement of the work rather than part of the employee&rsquo;s benefits or ordinary compensation, and that the employee cannot take a cash allowance instead. {ilink('fta-decision-17-employee-benefits-input-vat', 'The six cases, condition by condition →')}</p>
+      <p>The amended Article&nbsp;53 keeps input tax on benefits provided under a contract or documented policy recoverable only in the cases the Authority specifies. FTA Decision No.&nbsp;17 of 2026, issued on 9&nbsp;September, specifies them: transport, food and drink for staff living in remote areas, accommodation, up to 30 days&rsquo; housing for new employees, phones and home internet, and parking &mdash; each with conditions that must all be met. For accommodation other than a new joiner&rsquo;s stay of up to 30 days, the conditions include that it is related to the operational requirements of the work rather than part of the employee&rsquo;s benefits or ordinary compensation, and that the employee cannot take a cash allowance instead. {ilink('fta-decision-17-employee-benefits-input-vat', 'The six cases, condition by condition →')}</p>
 
       <h3 style={H3}>Already in force &mdash; how records have to be kept</h3>
       <p>FTA Decision No.&nbsp;4 of 2026 has applied since 30&nbsp;July. If your accounting records exist as scans, photographs or electronic copies, they have to pass three gates: <strong>identical</strong> to the original, every page in order, with partial scanning expressly not accepted; <strong>legible</strong>, including ink and paper that will not fade over the retention period; and <strong>accessible</strong> to the Authority on request, including the system they sit in and any passwords or encryption keys.</p>
@@ -2758,12 +2760,12 @@ function OctoberChangesBody({ onNav }) {
         <li><strong>Decide your cash position and tag cash-settled purchase invoices</strong> in the ledger, so that the claim above the Minister&rsquo;s threshold is excluded from 1&nbsp;October rather than corrected later.</li>
         <li><strong>List every staff benefit you recover VAT on</strong> &mdash; housing, transport, meals, phones, parking &mdash; and test each against FTA Decision&nbsp;17&rsquo;s six cases. For housing, first establish whether a MoHRE decision or directive makes it mandatory: that route keeps the recovery without Decision&nbsp;17&rsquo;s conditions.</li>
         <li><strong>Spot-check your scans</strong> against Decision&nbsp;4: full documents, every page, readable, and someone who knows the passwords.</li>
-        <li><strong>If you are over AED&nbsp;50&nbsp;million</strong>, the ASP appointment is a procurement decision with under eight weeks left in it.</li>
+        <li><strong>If you are over AED&nbsp;50&nbsp;million</strong>, the ASP appointment is a procurement decision with a fixed deadline: 30&nbsp;October.</li>
         <li><strong>If your company is wholly owned by a government entity</strong> and has not been granted exemption for a period that ended before 1&nbsp;January&nbsp;2026, test the conditions for each such period and apply by 31&nbsp;October.</li>
         <li><strong>Confirm your CT filing date</strong> from your own year-end rather than the calendar, and your VAT period from your registration.</li>
       </ul>
 
-      {artNote('Written on 6 September 2026 from the FTA’s published texts of Decision No. 13 of 2026 and Decision No. 4 of 2026, the consolidated VAT Law published by the Ministry of Finance, Federal Decree-Law No. 47 of 2022 on Corporate Tax, Federal Decree-Law No. 28 of 2022 on Tax Procedures and its Executive Regulation, and the Ministry of Finance e-invoicing timeline. Updated 11 September 2026 to add Cabinet Decision No. 149 of 2026, read in the Ministry of Finance’s consolidated text of the VAT Executive Regulation, and on 24 September 2026 to add FTA Decision No. 15 of 2026, read in the Authority’s published text. Updated on 28 September 2026 to add FTA Decision No. 17 of 2026, read in the Authority’s published text, and to confirm the two-year retention period for undecided refund applications against Article 3(2)(e) of Cabinet Decision No. 74 of 2023 as amended by Cabinet Decision No. 17 of 2026, in the consolidated text the Authority publishes. Dates will be kept current on this page as guidance is published. The English texts are unofficial translations; the Arabic governs. General information on published law, not advice on your own position.')}
+      {artNote('Written on 6 September 2026 from the FTA’s published texts of Decision No. 13 of 2026 and Decision No. 4 of 2026, the consolidated VAT Law published by the Ministry of Finance, Federal Decree-Law No. 47 of 2022 on Corporate Tax, Federal Decree-Law No. 28 of 2022 on Tax Procedures and its Executive Regulation, and the Ministry of Finance e-invoicing timeline. Updated 11 September 2026 to add Cabinet Decision No. 149 of 2026, read in the Ministry of Finance’s consolidated text of the VAT Executive Regulation, and on 24 September 2026 to add FTA Decision No. 15 of 2026, read in the Authority’s published text. Updated on 28 September 2026 to add FTA Decision No. 17 of 2026, read in the Authority’s published text, and to confirm the two-year retention period for undecided refund applications against Article 3(2)(e) of Cabinet Decision No. 74 of 2023 as amended by Cabinet Decision No. 17 of 2026, in the Ministry of Finance’s consolidated text as published on the Authority’s website. Dates will be kept current on this page as guidance is published. The English texts are unofficial translations; the Arabic governs. General information on published law, not advice on your own position.')}
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>

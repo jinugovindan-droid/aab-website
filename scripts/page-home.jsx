@@ -29,7 +29,7 @@ const HERO_MAIN = {
 // same dates the ticker counts down. The panel shows the nearest one still
 // ahead, so it moves on by itself after 1 January 2027.
 const HERO_TIERS = [
-  { who: 'AED 50M+ businesses', asp: '30 October', liveLabel: '1 January 2027', goISO: '2027-01-01T00:00:00', phase: 'Phase 1' },
+  { who: 'AED 50M+ businesses', asp: '30 October', aspPassedISO: '2026-10-31T00:00:00', liveLabel: '1 January 2027', goISO: '2027-01-01T00:00:00', phase: 'Phase 1' },
   { who: 'businesses under AED 50M', asp: '31 March 2027', liveLabel: '1 July 2027', goISO: '2027-07-01T00:00:00', phase: 'Phase 2' },
   { who: 'government entities', asp: '31 March 2027', liveLabel: '1 October 2027', goISO: '2027-10-01T00:00:00', phase: 'Phase 3' },
 ];
@@ -46,10 +46,15 @@ function RightNowPanel({ onNav }) {
   // Days are computed on the client so the static snapshot never bakes in a
   // count; until React mounts the row shows the date alone.
   const [days, setDays] = useStateHome(null);
+  const [aspPassed, setAspPassed] = useStateHome(false);
   useEffectHome(() => {
+    if (window.__AA_SNAPSHOT) return;
     const now = heroDubaiToday();
     const left = HERO_TIERS.map((t) => Math.ceil((new Date(t.goISO) - now) / 86400000));
     setDays(left);
+    const i = Math.max(0, left.findIndex((d) => d > 0));
+    const t = HERO_TIERS[i];
+    setAspPassed(!!(t && t.aspPassedISO && now >= new Date(t.aspPassedISO)));
   }, []);
   const idx = days ? Math.max(0, days.findIndex((d) => d > 0)) : 0;
   const tier = HERO_TIERS[idx] || HERO_TIERS[HERO_TIERS.length - 1];
@@ -81,9 +86,9 @@ function RightNowPanel({ onNav }) {
       </div>
       <Row
         num={n != null ? n.toLocaleString('en-US') : tier.liveLabel.split(' ')[0]}
-        small={n != null ? 'days' : ''}
+        small={n != null ? 'days' : (tier.liveLabel.split(' ')[1] || '').slice(0, 3)}
         title={`E-invoicing ${tier.phase} goes live ${tier.liveLabel}`}
-        sub={`${tier.who.charAt(0).toUpperCase() + tier.who.slice(1)} appoint an Accredited Service Provider by ${tier.asp}.`}
+        sub={`${tier.who.charAt(0).toUpperCase() + tier.who.slice(1)} ${aspPassed ? 'had to appoint' : 'appoint'} an Accredited Service Provider by ${tier.asp}.`}
         page="e-invoicing" label="The briefing →" />
       {latest && (
         <Row
