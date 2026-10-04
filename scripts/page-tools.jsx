@@ -42,7 +42,7 @@ const TOOLS = [
       ['A year', 'Years of service are counted as 365-day blocks on calendar days served, less unpaid absence. The difference from anniversary counting is a day or two.'],
       ['Amounts the employee owes', 'The figure is the entitlement, not the cheque. Article 51(7) lets an employer deduct amounts due by law or under a court judgment, and Cabinet Resolution No. 1 of 2022, Article 29 sets out the cases — loans and overpayments, contributions to pension or insurance, debts under a court ruling, penalties under a disciplinary regulation approved by the Ministry, and the cost of damage the employee caused — the last two only where the Decree-Law’s own procedures were followed and not more than three months have lapsed since the amount fell due, unless otherwise agreed (Cabinet Resolution 1 of 2022, Article 29(2)). Those turn on documents this page cannot see, so it states the right rather than netting off a number you would have to guess.'],
       ['The settlement tab', 'Only the gratuity is calculated. Unpaid salary, unused leave, notice, loans, penalties and the free rows are figures the visitor enters, because they turn on a contract, a payroll run and a ledger this page cannot see. The tab adds them up and applies the signs; it does not check them, and what a settlement contains varies from one company to the next.'],
-      ['Which wage', 'Two bases run through a settlement, and mixing them is the common error. Gratuity and unused leave are computed on the BASIC wage (Articles 51(2) and 29(9) of Cabinet Resolution 1 of 2022); unpaid salary and pay in lieu of notice run on the FULL wage as defined in Article 1 and required by Article 43(4).'],
+      ['Which wage', 'Two bases run through a settlement, and mixing them is the common error. Gratuity and unused leave are computed on the BASIC wage (Articles 51(2) and 29(9) of the Decree-Law, and Article 19(2) of Cabinet Resolution No. 1 of 2022); unpaid salary and pay in lieu of notice run on the FULL wage as defined in Article 1 and required by Article 43(4).'],
       ['Scope', 'Employers under the federal Labour Law, mainland and free zones. DIFC and ADGM have their own employment laws. UAE nationals come under the pension legislation.'],
     ],
     sources: [
@@ -157,7 +157,7 @@ function ToolsHubPage({ onNav }) {
 
       <section className="section section--off">
         <div className="container">
-          <div className="section-head"><div className="section-head__eyebrow">Calculators and checkers</div><h2>{['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'][TOOLS.length + HUB_ALSO.length - 1]} questions, answered from the text.</h2></div>
+          <div className="section-head"><div className="section-head__eyebrow">Calculators and checkers</div><h2>{((n) => ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'][n - 1] || String(n))(TOOLS.length + HUB_ALSO.length)} questions, answered from the text.</h2></div>
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             {TOOLS.map((t) => card(t.page, 'calculator', t.name, t.hubLine, t.needs, pathForPage(t.page), (e) => go(e, t.page), 'New'))}
             {HUB_ALSO.map((t) => card(t.name, t.icon, t.name, t.line, t.needs, t.insight ? pathForInsight(t.insight) : pathForPage(t.page), (e) => go(e, t.page, t.insight), null))}
@@ -740,8 +740,10 @@ function GratuityToolBody({ onNav, tool }) {
           </p>
         </div>
 
-        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 320, position: 'relative' }} aria-live="polite">
+        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 320, position: 'relative' }}>
           <AAPanelMark />
+          {/* Only the headline is announced; a live region over the whole panel re-read every line on each keystroke. */}
+          <p style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }} aria-live="polite" aria-atomic="true">{national ? 'Pension, not gratuity' : !r ? '' : 'Gratuity payable ' + AA_MONEY(r.total)}</p>
           {national ? (
             <div>
               <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>Result</div>
@@ -979,8 +981,9 @@ function VatToolBody({ onNav, tool }) {
           </p>
         </div>
 
-        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 300, position: 'relative' }} aria-live="polite">
+        <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', minHeight: 300, position: 'relative' }}>
           <AAPanelMark />
+          <p style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }} aria-live="polite" aria-atomic="true">{!r ? '' : (mode === 'add' ? 'VAT to add ' : 'VAT inside the amount ') + aed(r.vat)}</p>
           {!r ? (
             <div>
               <div className="eyebrow" style={{ color: 'var(--aa-cyan-text)', marginBottom: 10 }}>VAT</div>

@@ -541,15 +541,17 @@ function VatChecker({ onNav }) {
   // FDL 8/2017: registration obligations attach when the threshold is EXCEEDED
   // (strictly greater), matching the helper copy — not >=.
   const isMandatory = t12 > MAND || fwd > MAND;
-  const isVoluntary = !isMandatory && t12 > VOL;
+  // Art 17: voluntary registration on either test — the past 12 months OR the
+  // next 30 days — exactly as Art 13 does for the mandatory threshold.
+  const isVoluntary = !isMandatory && (t12 > VOL || fwd > VOL);
   const status = isMandatory ? 'Mandatory' : isVoluntary ? 'Voluntary' : 'Not yet required';
   const statusColor = isMandatory ? 'var(--aa-cyan)' : isVoluntary ? '#ffd27a' : 'rgba(255,255,255,0.85)';
   const showResult = f.t12.trim() !== '' || f.fwd.trim() !== '';
 
   const verdict = () => {
     if (isMandatory) return { t: 'Mandatory VAT registration', b: 'Your taxable turnover has exceeded — or is expected to exceed — the AED 375,000 mandatory threshold. UAE law requires you to apply to register for VAT within 30 days of exceeding it; late registration carries an AED 10,000 penalty. Once registered you charge 5% VAT and file returns (usually quarterly) within 28 days of each period-end.' };
-    if (isVoluntary) return { t: 'Voluntary VAT registration available', b: 'Your taxable turnover (or expenses) is above the AED 187,500 voluntary threshold but below the AED 375,000 mandatory one. You may register voluntarily — useful if your customers are VAT-registered or you want to recover input VAT — but it is not yet compulsory.' };
-    return { t: 'Below the VAT thresholds', b: 'On the figures entered, you are below the AED 187,500 voluntary threshold, so VAT registration is not required or available yet. Keep a rolling 12-month view of taxable turnover — you must register within 30 days of crossing AED 375,000, or when you expect to within the next 30 days.' };
+    if (isVoluntary) return { t: 'Voluntary VAT registration available', b: 'Your taxable turnover — over the past 12 months, or expected in the next 30 days — is above the AED 187,500 voluntary threshold but below the AED 375,000 mandatory one. You may register voluntarily — useful if your customers are VAT-registered or you want to recover input VAT — but it is not yet compulsory.' };
+    return { t: 'Below the VAT thresholds', b: 'On the figures entered, your taxable turnover is below the AED 187,500 voluntary threshold on both tests, so registration is not required. You may still register voluntarily if your taxable expenses exceeded AED 187,500 over the past 12 months, or will over the next 30 days (Article 17 of the VAT Decree-Law). Keep a rolling 12-month view of taxable turnover — you must register within 30 days of crossing AED 375,000, or when you expect to within the next 30 days.' };
   };
 
   const handle = async () => {
@@ -620,7 +622,7 @@ function VatChecker({ onNav }) {
         <div style={{ marginTop: 14 }}>
           <label htmlFor={uid + '-fwd'} style={AA_TOOL_LABEL}>Expected taxable turnover — next 30 days (AED)</label>
           <input id={uid + '-fwd'} style={{ ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' }} inputMode="numeric" value={f.fwd} onChange={upd('fwd')} placeholder="optional" />
-          <p style={{ fontSize: 12, color: 'var(--aa-steel)', marginTop: 8, lineHeight: 1.5 }}>Registration becomes mandatory once turnover exceeds AED 375,000, or when you expect it to within 30 days.</p>
+          <p style={{ fontSize: 12, color: 'var(--aa-steel)', marginTop: 8, lineHeight: 1.5 }}>Registration becomes mandatory once turnover exceeds AED 375,000, or when you expect it to within 30 days. Voluntary registration opens at AED 187,500 on the same two tests.</p>
         </div>
       </div>
       <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
@@ -856,7 +858,7 @@ function CorpTaxDeadlineCard({ onNav }) {
 // ---- Corporate Tax liability estimator (lead tool) --------------------------
 function CorpTaxEstimator({ onNav }) {
   const uid = React.useId();
-  const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', profit: '', revenue: '', freezone: false, yearEnd: '12', consent: false });
+  const [f, setF] = React.useState({ company: '', name: '', email: '', phone: '', profit: '', revenue: '', freezone: false, priorOver: false, yearEnd: '12', consent: false });
   const [err, setErr] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [done, setDone] = React.useState(false);
@@ -872,7 +874,10 @@ function CorpTaxEstimator({ onNav }) {
   // SBR is NOT available to Qualifying Free Zone Persons (MD 73/2023), so a
   // free-zone company never gets the automatic AED 0 — the estimate stays at
   // the mainland-equivalent figure the free-zone caption describes.
-  const sbrApplied = sbrEligible && !f.freezone;
+  // MD 73/2023 Art 2(1),(3): revenue must be AED 3M or less in this AND every
+  // earlier tax period — one period above it ends the relief for good.
+  const sbrApplied = sbrEligible && !f.freezone && !f.priorOver;
+  const priorNote = sbrEligible && !f.freezone && f.priorOver ? ' Small Business Relief is not available: revenue went above AED 3,000,000 in an earlier tax period (Ministerial Decision No. 73 of 2023, Article 2(3)).' : '';
   const taxable = Math.max(0, profit);                              // simplified: taxable income ≈ accounting profit
   const ctBeforeRelief = Math.max(0, taxable - THRESH) * 0.09;     // 0% on first 375k, 9% above
   const ct = sbrApplied ? 0 : ctBeforeRelief;
@@ -885,8 +890,8 @@ function CorpTaxEstimator({ onNav }) {
   const verdict = () => {
     if (f.freezone) return { t: 'Free zone — a QFZP analysis is essential', b: 'As a free zone person you may qualify for the 0% rate on qualifying income — but only if you meet the substance, de minimis and qualifying-activity tests. Non-qualifying income is taxed at 9%, and Small Business Relief is not available to Qualifying Free Zone Persons. The figure shown assumes taxable (mainland-equivalent) income; your actual position depends on a QFZP assessment, which we can run for you.' };
     if (sbrApplied) return { t: 'Likely AED 0 — Small Business Relief', b: 'Your revenue is at or below AED 3,000,000, so you may be able to elect Small Business Relief and be treated as having no taxable income for the period. Conditions apply: revenue must be AED 3M or below in this and all previous tax periods (from June 2023), the relief now runs to periods ending 31 December 2029 (extended from 2026 by Ministerial Decision 131 of 2026), and it is not available to Qualifying Free Zone Persons or to constituent companies of multinational groups with consolidated revenue of AED 3.15 billion or more. You still must register and file — the relief is claimed on the return, in every tax period.' };
-    if (ct === 0) return { t: 'Within the 0% band', b: 'Your taxable income is at or below the AED 375,000 threshold, so the estimated Corporate Tax is nil at the 0% band. You must still register with the FTA and file a return for the period.' };
-    return { t: 'Estimated liability: ' + AA_MONEY(ct), b: 'Based on an accounting profit of ' + AA_MONEY(profit) + ', the first AED 375,000 is taxed at 0% and the balance at 9% — an effective rate of about ' + effRate.toFixed(1) + '%. This is an indicative estimate: your actual taxable income reflects add-backs, exempt income, reliefs and interest-limitation rules.' };
+    if (ct === 0) return { t: 'Within the 0% band', b: 'Your taxable income is at or below the AED 375,000 threshold, so the estimated Corporate Tax is nil at the 0% band. You must still register with the FTA and file a return for the period.' + priorNote };
+    return { t: 'Estimated liability: ' + AA_MONEY(ct), b: 'Based on an accounting profit of ' + AA_MONEY(profit) + ', the first AED 375,000 is taxed at 0% and the balance at 9% — an effective rate of about ' + effRate.toFixed(1) + '%. This is an indicative estimate: your actual taxable income reflects add-backs, exempt income, reliefs and interest-limitation rules.' + priorNote };
   };
 
   const handle = async () => {
@@ -904,8 +909,9 @@ function CorpTaxEstimator({ onNav }) {
         ['Accounting net profit', AA_MONEY(profit)],
         ['Annual revenue', revenue ? AA_MONEY(revenue) : '—'],
         ['Free zone person', f.freezone ? 'Yes' : 'No'],
+        ['Revenue above AED 3M in an earlier period', f.priorOver ? 'Yes' : 'No'],
         ['Financial year-end', MONTHS[yeIdx]],
-        ['Small Business Relief', sbrApplied ? 'Likely eligible — verify prior-period revenue too' : (f.freezone && sbrEligible ? 'Not applied — QFZPs are excluded' : 'Not eligible on revenue')],
+        ['Small Business Relief', sbrApplied ? 'Likely eligible — on your answer about earlier periods' : (f.freezone && sbrEligible ? 'Not applied — QFZPs are excluded' : (sbrEligible && f.priorOver ? 'Not available — revenue above AED 3M in an earlier period' : 'Not eligible on revenue'))],
       ];
       const summary = ['Company: ' + f.company, 'Name: ' + f.name, 'Email: ' + f.email, 'Phone: ' + f.phone, 'Profit: ' + AA_MONEY(profit), 'Revenue: ' + (revenue ? AA_MONEY(revenue) : '—'), 'Free zone: ' + (f.freezone ? 'Yes' : 'No'), 'Year-end: ' + MONTHS[yeIdx], 'Estimated CT: ' + AA_MONEY(ct), 'Effective rate: ' + effRate.toFixed(1) + '%', 'Verdict: ' + v.t, 'Downloaded: ' + downloadDate].join('\n');
       const sent = await aaSubmitLead({ type: 'Corporate Tax Estimate', company: f.company, name: f.name, email: f.email, phone: f.phone, profit: AA_MONEY(profit), revenue: revenue ? AA_MONEY(revenue) : '', freezone: f.freezone ? 'Yes' : 'No', yearEnd: MONTHS[yeIdx], estimatedCT: AA_MONEY(ct), effectiveRate: effRate.toFixed(1) + '%', verdict: v.t, downloadDate, summary, consent: 'Yes', consentAt: new Date().toISOString() });
@@ -961,6 +967,9 @@ function CorpTaxEstimator({ onNav }) {
             </select></div>
           <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer', paddingBottom: 10 }}>
             <input type="checkbox" checked={f.freezone} onChange={upd('freezone')} style={{ width: 16, height: 16 }} /> Free zone company
+          </label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--aa-charcoal)', cursor: 'pointer', paddingBottom: 10 }}>
+            <input type="checkbox" checked={f.priorOver} onChange={upd('priorOver')} style={{ width: 16, height: 16 }} /> Revenue went above AED 3M in an earlier tax period
           </label>
         </div>
       </div>
