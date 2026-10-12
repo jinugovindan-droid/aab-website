@@ -1387,6 +1387,7 @@ function VATPrimerBody({ onNav }) {
       <p style={LEAD}>From 1&nbsp;January&nbsp;2018 the UAE introduced Value Added Tax at a standard rate of <strong>5%</strong>. For most businesses it is the first time tax has touched day-to-day operations — here is the first-principles version.</p>
       <h2 style={H3}>Who registers</h2>
       <p>Registration is mandatory once your taxable supplies cross <strong>AED&nbsp;375,000</strong> over twelve months, and voluntary from <strong>AED&nbsp;187,500</strong>. Once registered you charge 5% VAT on your taxable sales (output VAT) and can recover the VAT you pay on business costs (input VAT), paying the FTA the difference.</p>
+      <ToolEmbed slug="vat-calculator" onNav={onNav} />
       <h2 style={H3}>Get the records right from day one</h2>
       <p>VAT lives or dies on documentation: issue compliant tax invoices, keep them, and record every transaction so your periodic return is a report, not a reconstruction. Businesses that set up clean books now will find every future return — and every future tax — far easier.</p>
       {artNote('A primer from 2018, the year VAT launched. For the current detail — EmaraTax filing, recovery and the zero-rated vs exempt distinction — see our full UAE VAT guide.')}

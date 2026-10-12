@@ -147,6 +147,32 @@ function aaLoadTool(slug) {
     .then(() => aaLoadScript('/dist/tools/' + file));
 }
 
+// A tool mounted inside another page (a service page or a note). The page that
+// hosts it is listed in TOOL_HOSTS (routes.js and prerender.py), so a direct
+// visit already carries the tool's libraries and chunk; on an in-app move it
+// fetches them first. The tool renders exactly as on its own page.
+function ToolEmbed({ slug, onNav, mode }) {
+  const tool = TOOLS.find((t) => t.slug === slug) || null;
+  const [, force] = React.useState(0);
+  const Body = tool ? (TOOL_BODIES[slug] || null) : null;
+  React.useEffect(() => {
+    if (!tool || Body) return;
+    aaLoadTool(slug).then(() => force((n) => n + 1), () => force((n) => n + 1));
+  }, [slug, Body]);
+  if (!tool) return null;
+  return (
+    <section id={'aa-embed-' + slug} data-aa-embed="1" aria-label={tool.name} style={{ margin: '36px 0', border: '1px solid var(--aa-rule)', background: '#fff' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '6px 16px', flexWrap: 'wrap', padding: '14px 20px', borderBottom: '1px solid var(--aa-rule)', background: 'var(--aa-surface-off)' }}>
+        <div className="eyebrow eyebrow--charcoal">{tool.name}</div>
+        <a href={pathForPage(tool.page)} onClick={(e) => { e.preventDefault(); onNav(tool.page); }} style={{ fontSize: 13.5, color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>The full tool, with sources and assumptions →</a>
+      </div>
+      <div style={{ padding: 20 }}>
+        {Body ? <Body onNav={onNav} tool={tool} embed mode={mode} /> : <p style={{ color: 'var(--aa-steel)', fontSize: 15, margin: 0 }}>This tool is loading…</p>}
+      </div>
+    </section>
+  );
+}
+
 function ToolPage({ page, onNav }) {
   const tool = toolByPage(page);
   const [, forceBody] = React.useState(0);
@@ -382,6 +408,12 @@ function GratuityToolBody({ onNav, tool, part }) {
   const [sentOk, setSentOk] = React.useState(true);
   const fired = React.useRef(false);
   const [tab, setTab] = React.useState('gratuity');
+  // Deep links: ?tab= is read once after hydration (so the prerendered page and
+  // the first render agree) and kept current with replaceState; the canonical
+  // URL is unchanged.
+  const setParam = (k, v) => { try { const u = new URL(window.location.href); u.searchParams.set(k, v); window.history.replaceState(window.history.state, '', u.pathname + u.search + u.hash); } catch (e) {} };
+  React.useEffect(() => { try { const t = new URLSearchParams(window.location.search).get('tab'); if (t === 'settlement' || t === 'gratuity') setTab(t); } catch (e) {} }, []);
+  const pickTab = (t) => { setTab(t); setParam('tab', t); };
   const CALC_KEYS = ['basic', 'type', 'start', 'end', 'unpaid', 'hours', 'fullWeek', 'join', 'joinBasic'];
   const upd = (k) => (e) => {
     const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -555,7 +587,7 @@ function GratuityToolBody({ onNav, tool, part }) {
 
   return (
     <div>
-      <Tablist id={uid} label="Gratuity or full settlement" value={tab} onChange={setTab}
+      <Tablist id={uid} label="Gratuity or full settlement" value={tab} onChange={pickTab}
         tabs={[{ id: 'gratuity', label: 'End-of-service gratuity' }, { id: 'settlement', label: 'Full final settlement' }]} />
 
       <p style={{ margin: '10px 0 14px', fontSize: 13, lineHeight: 1.6, color: 'var(--aa-steel-700)' }}>
@@ -784,7 +816,7 @@ function GratuityToolBody({ onNav, tool, part }) {
   );
 }
 
-function VatToolBody({ onNav, tool, part }) {
+function VatToolBody({ onNav, tool, part, embed }) {
   // The frame text for this tool (at a glance, assumptions, sources) lives in
   // the tool's own chunk so other pages never download it. ToolPage reads it
   // by calling the body with part='meta', which returns before any hook runs.
@@ -829,6 +861,11 @@ function VatToolBody({ onNav, tool, part }) {
   const uid = React.useId();
   // Fixed example at rest — the FTA's own worked example (AED 220 including VAT).
   const [mode, setMode] = React.useState('extract');
+  // Deep links: ?mode= is read once after hydration (so the prerendered page and
+  // the first render agree) and kept current with replaceState; the canonical
+  // URL is unchanged.
+  const setParam = (k, v) => { try { const u = new URL(window.location.href); u.searchParams.set(k, v); window.history.replaceState(window.history.state, '', u.pathname + u.search + u.hash); } catch (e) {} };
+  React.useEffect(() => { try { const q = new URLSearchParams(window.location.search).get('mode'); if (q === 'add' || q === 'extract') setMode(q); } catch (e) {} }, []);
   const [amt, setAmt] = React.useState('220.00');
   const fired = React.useRef(false);
   const touch = () => { if (!fired.current) { fired.current = true; if (window.gtag) window.gtag('event', 'tool_result', { tool: 'vat' }); } };
@@ -863,7 +900,7 @@ function VatToolBody({ onNav, tool, part }) {
         <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
           <div className="eyebrow" style={{ marginBottom: 18 }}>Work it out</div>
           <label htmlFor={uid + '-mode'} style={AA_TOOL_LABEL}>What do you have?</label>
-          <select id={uid + '-mode'} style={AA_TOOL_INPUT} value={mode} onChange={(e) => { setMode(e.target.value); touch(); }}>
+          <select id={uid + '-mode'} style={AA_TOOL_INPUT} value={mode} onChange={(e) => { setMode(e.target.value); setParam('mode', e.target.value); touch(); }}>
             <option value="extract">A gross amount — take the VAT out</option>
             <option value="add">A net amount — add 5%</option>
           </select>
@@ -911,30 +948,34 @@ function VatToolBody({ onNav, tool, part }) {
         </div>
       </div>
 
-      <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', borderTop: 0, background: 'var(--aa-surface-off)' }}>
-        <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
-          <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>One amount at a time, on purpose</div>
-          <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: '0 0 12px' }}>
-            On a full tax invoice on paper, the FTA’s Public Clarification VATP006 calculates the tax line by line and rounds each line. On an electronic invoice, the Ministry of Finance’s June 2026 guidelines round at the invoice-level total only. Three lines of AED 33.33 give AED 5.01 one way and AED 5.00 the other. An invoice mode that carries both conventions is the next thing this page will do; until then it computes one amount and shows every step.
-          </p>
-          <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: 0 }}>
-            The FTA’s own website has a two-field calculator that adds 5% or extracts 5/105. It shows the figures; this page shows the working and the sources. Neither is “approved” — the arithmetic follows from Articles 3 and 34(1).
-          </p>
-        </div>
-        <div style={{ padding: 32, background: '#fff' }}>
-          <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>If the invoices are yours to file</div>
-          <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: '0 0 16px' }}>
-            The sum is the easy part. The return is the VAT on every line of every invoice, reconciled to the books, filed within 28 days of the period end. We run that cycle as a partner-reviewed quarterly engagement.
-          </p>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a className="btn btn--primary" href={pathForPage('service-vat-filing')} onClick={(e) => { e.preventDefault(); onNav('service-vat-filing'); }}>VAT return filing <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></a>
-            <a className="btn btn--ghost" href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }}>Do I need to register?</a>
+      {/* Inside a note (embed), the calculator alone: the page around it already
+          carries the context, and the full tool page has the rest. */}
+      {embed ? null : (
+        <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', borderTop: 0, background: 'var(--aa-surface-off)' }}>
+          <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
+            <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>One amount at a time, on purpose</div>
+            <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: '0 0 12px' }}>
+              On a full tax invoice on paper, the FTA’s Public Clarification VATP006 calculates the tax line by line and rounds each line. On an electronic invoice, the Ministry of Finance’s June 2026 guidelines round at the invoice-level total only. Three lines of AED 33.33 give AED 5.01 one way and AED 5.00 the other. An invoice mode that carries both conventions is the next thing this page will do; until then it computes one amount and shows every step.
+            </p>
+            <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: 0 }}>
+              The FTA’s own website has a two-field calculator that adds 5% or extracts 5/105. It shows the figures; this page shows the working and the sources. Neither is “approved” — the arithmetic follows from Articles 3 and 34(1).
+            </p>
           </div>
-          <p style={{ margin: '16px 0 0', fontSize: 13 }}>
-            Or <a href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact(tool.intent, onNav); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>talk to us →</a>
-          </p>
+          <div style={{ padding: 32, background: '#fff' }}>
+            <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>If the invoices are yours to file</div>
+            <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--aa-charcoal-800)', margin: '0 0 16px' }}>
+              The sum is the easy part. The return is the VAT on every line of every invoice, reconciled to the books, filed within 28 days of the period end. We run that cycle as a partner-reviewed quarterly engagement.
+            </p>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <a className="btn btn--primary" href={pathForPage('service-vat-filing')} onClick={(e) => { e.preventDefault(); onNav('service-vat-filing'); }}>VAT return filing <i data-lucide="arrow-right" style={{ width: 16, height: 16 }}></i></a>
+              <a className="btn btn--ghost" href={pathForPage('service-vat')} onClick={(e) => { e.preventDefault(); onNav('service-vat'); }}>Do I need to register?</a>
+            </div>
+            <p style={{ margin: '16px 0 0', fontSize: 13 }}>
+              Or <a href={pathForPage('contact')} onClick={(e) => { e.preventDefault(); goContact(tool.intent, onNav); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>talk to us →</a>
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -947,4 +988,4 @@ const TOOL_BODIES = {
   'vat-calculator': VatToolBody,
 };
 
-Object.assign(window, { ToolsHubPage, ToolPage });
+Object.assign(window, { ToolsHubPage, ToolPage, ToolEmbed });

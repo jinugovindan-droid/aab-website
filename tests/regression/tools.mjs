@@ -74,6 +74,9 @@ const CASES = [
   ['t05-free-zone', CT, [['-profit', '1,000,000'], ['-revenue', '10,000,000'], ['check', 'Free zone company']], '-profit'],
   ['t06-at-375000', CT, [['-profit', '375,000'], ['-revenue', '10,000,000']], '-profit'],
   ['t07-loss', CT, [['-profit', '-50,000'], ['-revenue', '4,000,000']], '-profit'],
+  // A tool mounted in a note: same body, inside the article.
+  ['e01-vat-embed-in-primer', '/insights/uae-vat-5-percent-primer', [['-amt', '1,000']], 'aa-embed-vat-calculator'],
+  ['e02-vat-embed-add', '/insights/uae-vat-5-percent-primer', [['-mode', 'add'], ['-amt', '1,000']], 'aa-embed-vat-calculator'],
 ];
 
 function serve() {
@@ -124,7 +127,7 @@ async function runCase(browser, [id, route, steps, capture]) {
   const text = await page.evaluate((capture) => {
     const el = document.querySelector(`[id$="${capture}"]`);
     // A tab panel is the whole tool; for a single field, the tool's section.
-    const box = el.getAttribute('role') === 'tabpanel' ? el : (el.closest('section') || el.parentElement.parentElement.parentElement);
+    const box = (el.getAttribute('role') === 'tabpanel' || el.hasAttribute('data-aa-embed')) ? el : (el.closest('section') || el.parentElement.parentElement.parentElement);
     return box.innerText.replace(/\s+/g, ' ').trim();
   }, capture);
   await page.close();

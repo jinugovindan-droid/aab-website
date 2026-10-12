@@ -1636,6 +1636,8 @@ except Exception:
 # Tool body chunks, split the same way (dist/tools/<slug>.<hash>.js). Each tool
 # page loads exactly one. page id -> chunk slug; keep in sync with routes.js.
 TOOL_SLUGS = {"tool-gratuity": "gratuity-calculator", "tool-vat": "vat-calculator"}
+# Pages that mount a tool with <ToolEmbed> — mirror of routes.js TOOL_HOSTS.
+TOOL_HOSTS = {"insight:uae-vat-5-percent-primer": ["vat-calculator"]}
 TOOL_CHUNKS = {}
 try:
     with open(os.path.join(ROOT, "dist", "tools", "manifest.json"), encoding="utf-8") as _f:
@@ -1681,6 +1683,12 @@ def main():
         meta = PAGE_SEO[page]
         canonical = full_url(page)
         html = render(template, meta["title"], meta["description"], canonical, build_jsonld(page, None), body=seo_body(page))
+        if page in TOOL_HOSTS:
+            html = html.replace(
+                '<script defer src="dist/app.min.js',
+                tool_script_tags(TOOL_HOSTS[page]) + '\n  <script defer src="dist/app.min.js',
+                1,
+            )
         if page in TOOL_SLUGS:
             # Load ONLY this tool's body chunk — same contract as article pages.
             html = html.replace(
@@ -1739,6 +1747,13 @@ def main():
         # so publishing an article costs every other page nothing. Filename
         # carries a content hash, so it is safe to cache for a year.
         chunk = ARTICLE_CHUNKS.get(a["slug"])
+        host = TOOL_HOSTS.get("insight:" + a["slug"])
+        if host:
+            html = html.replace(
+                '<script defer src="dist/app.min.js',
+                tool_script_tags(host) + '\n  <script defer src="dist/app.min.js',
+                1,
+            )
         if chunk:
             html = html.replace(
                 '<script defer src="dist/app.min.js',

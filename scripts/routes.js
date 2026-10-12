@@ -59,6 +59,10 @@
   // Tool pages load their body from dist/tools/<slug>.<hash>.js (scripts/build.mjs).
   // page id -> chunk slug. Keep in sync with prerender.py's mirror.
   const TOOL_SLUGS = { 'tool-gratuity': 'gratuity-calculator', 'tool-vat': 'vat-calculator' };
+  // Pages that mount a tool with <ToolEmbed>: page id, or 'insight:<slug>' for a
+  // note. prerender.py (TOOL_HOSTS, kept in sync) loads the tool's libraries and
+  // chunk on those pages so the first render already has the tool.
+  const TOOL_HOSTS = { 'insight:uae-vat-5-percent-primer': ['vat-calculator'] };
 
   // 'insight' is a valid page id (single-article view) but has no fixed entry in
   // PAGE_TO_PATH — its URL is /insights/<slug>, resolved via pathForInsight().
@@ -1854,6 +1858,7 @@
     GRATUITY_FAQ,
     VAT_CALC_FAQ,
     TOOL_SLUGS,
+    TOOL_HOSTS,
     ANSWER_FIRST,
     RELATED_READING,
     insightBySlug,

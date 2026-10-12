@@ -62,7 +62,8 @@ const SPLITS = [
       'var ART=A.ART,LEAD=A.LEAD,H3=A.H3,artNote=A.artNote,artLink=A.artLink,artInsightLink=A.artInsightLink,' +
       'DeadlinesRoadmap=A.DeadlinesRoadmap,SBRRoadmap=A.SBRRoadmap,FiveCornerDiagram=A.FiveCornerDiagram,' +
       'EInvoiceCTA=A.EInvoiceCTA,EInvoiceGuideLinks=A.EInvoiceGuideLinks;\n' +
-      'var pathForPage=R.pathForPage,pathForInsight=R.pathForInsight,INSIGHTS=R.INSIGHTS;\n',
+      'var pathForPage=R.pathForPage,pathForInsight=R.pathForInsight,INSIGHTS=R.INSIGHTS;\n' +
+      'var ToolEmbed=window.ToolEmbed;\n',
   },
   {
     file: 'scripts/page-tools.jsx', registry: 'TOOL_BODIES', bodies: 'AAToolBodies',
