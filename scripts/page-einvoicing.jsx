@@ -61,6 +61,10 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
   };
 
   const TIER = tierOf(f.revenue, f.isGov);
+  const toolFired = React.useRef(false);
+  React.useEffect(() => {
+    if (TIER && !toolFired.current) { toolFired.current = true; if (window.gtag) window.gtag('event', 'tool_result', { tool: 'einvoicing-check' }); }
+  }, [TIER]);
   const revenueLabel = f.isGov ? 'Government entity'
     : f.revenue === 'gte50' ? 'AED 50 million or more'
     : f.revenue === 'lt50' ? 'Less than AED 50 million'
@@ -296,15 +300,8 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
   const formGrid = (
     <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 0, border: '1px solid var(--aa-rule)', background: '#fff' }}>
       <div style={{ padding: 32, borderRight: '1px solid var(--aa-rule)' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <div><label htmlFor={uid + '-company'} style={laS}>Company name *</label><input id={uid + '-company'} autoComplete="organization" style={inS} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
-          <div><label htmlFor={uid + '-name'} style={laS}>Your name *</label><input id={uid + '-name'} autoComplete="name" style={inS} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
-          <div><label htmlFor={uid + '-email'} style={laS}>Work email *</label><input id={uid + '-email'} type="email" autoComplete="email" style={inS} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
-          <div><label htmlFor={uid + '-phone'} style={laS}>Phone / WhatsApp *</label><input id={uid + '-phone'} type="tel" autoComplete="tel" style={inS} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
-        </div>
-        <div style={{ marginTop: 14 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Your phase and deadlines — free, on screen</div>
+        <div>
           <label htmlFor={uid + '-revenue'} style={laS}>Annual revenue band *</label>
           <select id={uid + '-revenue'} style={inS} value={f.revenue} onChange={upd('revenue')} disabled={f.isGov}>
             <option value="">Select your revenue band…</option>
@@ -337,6 +334,18 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
           <div><label htmlFor={uid + '-erp'} style={laS}>ERP / accounting software</label>
             <input id={uid + '-erp'} style={inS} value={f.erp} onChange={upd('erp')} placeholder="e.g. Tally, Zoho, SAP" /></div>
         </div>
+        <div style={{ borderTop: '1px solid var(--aa-rule)', marginTop: 24, paddingTop: 20 }}>
+          <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 6 }}>For your branded PDF report (optional)</div>
+          <p style={{ fontSize: 13, color: 'var(--aa-steel)', margin: '0 0 14px', lineHeight: 1.5 }}>The result on the right is yours without these. Add them only if you want the PDF and a follow-up from us.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div><label htmlFor={uid + '-company'} style={laS}>Company name *</label><input id={uid + '-company'} autoComplete="organization" style={inS} value={f.company} onChange={upd('company')} placeholder="Your company" /></div>
+          <div><label htmlFor={uid + '-name'} style={laS}>Your name *</label><input id={uid + '-name'} autoComplete="name" style={inS} value={f.name} onChange={upd('name')} placeholder="Full name" /></div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 14 }}>
+          <div><label htmlFor={uid + '-email'} style={laS}>Work email *</label><input id={uid + '-email'} type="email" autoComplete="email" style={inS} value={f.email} onChange={upd('email')} placeholder="name@company.ae" /></div>
+          <div><label htmlFor={uid + '-phone'} style={laS}>Phone / WhatsApp *</label><input id={uid + '-phone'} type="tel" autoComplete="tel" style={inS} value={f.phone} onChange={upd('phone')} placeholder="+971 …" /></div>
+        </div>
+        </div>
       </div>
       <div style={{ padding: 32, background: 'var(--aa-charcoal)', '--aa-cyan-text': 'var(--aa-cyan)', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 320 }}>
         {done ? (
@@ -355,14 +364,20 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Go live by <strong style={{ color: '#fff' }}>{TIER.live}</strong>{!window.__AA_SNAPSHOT && <span style={{ color: 'var(--aa-cyan-text)' }}> ({dlabel(TIER.liveISO)})</span>}</div>
               </div>
             ) : (
-              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Fill in your details and revenue band to generate your personalised PDF — your exact deadlines, a tailored verdict, and your next steps.</p>
+              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>Choose your revenue band (or tick government entity) to see your phase and deadlines here, free. The branded PDF is optional.</p>
             )}
+            {TIER && f.b2b ? (
+              <div style={{ marginBottom: 20, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.15)' }} aria-live="polite">
+                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 6 }}>{verdict().title}</div>
+                <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13.5, lineHeight: 1.6, margin: 0 }}>{verdict().body}</p>
+              </div>
+            ) : null}
             <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 12.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5, cursor: 'pointer', marginBottom: 14 }}>
               <input type="checkbox" checked={f.consent} onChange={upd('consent')} style={{ marginTop: 2, width: 16, height: 16, flexShrink: 0 }} />
               <span>I agree to Authentic Accounting using my details to prepare this report and follow up, as described in the <a href={pathForPage('privacy')} onClick={(e) => { e.preventDefault(); if (onClose) onClose(); onNav('privacy'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>Privacy Policy</a>. *</span>
             </label>
             <button className="btn btn--primary" onClick={handleGenerate} disabled={busy}>
-              {busy ? 'Generating…' : 'Get my readiness status'}
+              {busy ? 'Generating…' : 'Download my PDF report'}
               <i data-lucide="download" style={{ width: 16, height: 16 }}></i>
             </button>
             {err ? <p role="alert" style={{ color: '#ff9a9a', fontSize: 13, marginTop: 12, lineHeight: 1.5 }}>{err}</p> : null}
@@ -533,7 +548,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
       <section className="section">
         <div className="container">
           <a
-            href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/"
+            href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/einvoicing-accredited-service-providers-asps/"
             target="_blank" rel="noopener noreferrer"
             className="aa-stack-sm"
             style={{
@@ -548,7 +563,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
                 <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 6 }}>Official resource · UAE Ministry of Finance</div>
                 <div style={{ fontSize: 19, fontWeight: 600, color: 'var(--aa-charcoal)', lineHeight: 1.3 }}>Accredited E-Invoicing Service Providers</div>
                 <div style={{ fontSize: 13, color: 'var(--aa-steel-700)', marginTop: 4, lineHeight: 1.5, maxWidth: 620 }}>
-                  The Ministry of Finance&rsquo;s register of accredited (Article&nbsp;16) service providers &mdash; 54 at its 17 September 2026 update, each with an accreditation number &mdash; and, below it, the pre-approved providers still under final assessment. Check the date at the top and the provider&rsquo;s row before you appoint.
+                  The Ministry of Finance&rsquo;s register of accredited (Article&nbsp;16) service providers &mdash; 65 at its 12 October 2026 update, each with an accreditation number &mdash; and, below it, the pre-approved providers still under final assessment. Check the date at the top and the provider&rsquo;s row before you appoint.
                 </div>
               </div>
             </div>
@@ -906,9 +921,9 @@ function EInvDeadlinePage({ onNav }) {
         <div className="container" style={{ maxWidth: 860 }}>
           <div className="section-head"><div className="section-head__eyebrow">Selection under time pressure</div><h2>Choosing fast without choosing badly.</h2></div>
           <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--aa-charcoal-800)', margin: 0 }}>
-            The Ministry of Finance now publishes a register of <strong>accredited</strong> (Article 16) service providers — 54 names at its
-            17 September 2026 update, each with an accreditation number — with a second list of pre-approved (Article 15) providers still under
-            final assessment (eight at that date). Pre-approval is not accreditation: a pre-approved provider may sign and onboard you, but
+            The Ministry of Finance now publishes a register of <strong>accredited</strong> (Article 16) service providers — 65 names at its
+            12 October 2026 update, each with an accreditation number — with a second list of pre-approved (Article 15) providers still under
+            final assessment (five at that date). Pre-approval is not accreditation: a pre-approved provider may sign and onboard you, but
             accreditation is granted separately under Article 16 of MD 64 of 2025 (as amended by MD 56 of 2026). Write the accreditation
             number into the agreement, or, for a pre-approved provider, make accreditation before your go-live a contractual milestone.
           </p>

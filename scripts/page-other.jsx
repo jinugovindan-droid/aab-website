@@ -950,20 +950,23 @@ function ChoosingASPBody({ onNav }) {
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, margin: '28px 0 8px' }}>
         <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>Why your contract should care</div>
         <p style={{ margin: 0, fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.65 }}>
-          The Ministry now publishes an <strong>accredited (Article 16) register</strong>: at its 17 September 2026 update it listed 54 accredited providers, with a further eight pre-approved and under final assessment. That changes the contract question rather than removing it. If the provider you are talking to is on the accredited list, ask for its accreditation number and write it into the engagement. If it is on the pre-approved list, make the engagement <strong>accreditation-contingent</strong>: full Article-16 accreditation comfortably before your go-live as a contractual milestone, with exit and migration rights — at no penalty to you — if it is missed. A provider that stalls at the technical stage must be their problem, not yours on go-live morning. Have a lawyer review the engagement terms before you sign.
+          The Ministry now publishes an <strong>accredited (Article 16) register</strong>: at its 12 October 2026 update it listed 65 accredited providers, with a further five pre-approved and under final assessment. That changes the contract question rather than removing it. If the provider you are talking to is on the accredited list, ask for its accreditation number and write it into the engagement. If it is on the pre-approved list, make the engagement <strong>accreditation-contingent</strong>: full Article-16 accreditation comfortably before your go-live as a contractual milestone, with exit and migration rights — at no penalty to you — if it is missed. A provider that stalls at the technical stage must be their problem, not yours on go-live morning. Have a lawyer review the engagement terms before you sign.
         </p>
         <p style={{ margin: '14px 0 0', fontSize: 15, color: 'var(--aa-charcoal)', lineHeight: 1.65 }}>
-          <strong>Where to check, in practice:</strong> the public register is the MoF’s accredited service providers page at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>mof.gov.ae</a>, which carries the accredited list (with each provider’s accreditation number) and, below it, the pre-approved providers still under final assessment. It is dated at the top; check the date before you rely on it.</p>
+          <strong>Where to check, in practice:</strong> the public register is the MoF’s accredited service providers page at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/einvoicing-accredited-service-providers-asps/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>mof.gov.ae</a>, which carries the accredited list (with each provider’s accreditation number) and, below it, the pre-approved providers still under final assessment. It is dated at the top; check the date before you rely on it.</p>
       </div>
 
       <h3 style={H3}>The accredited list, for reference</h3>
-      <p>The Ministry’s register as at its <strong>17 September 2026</strong> update — <strong>54 accredited providers</strong> under Article 16, alphabetical, names as published by the MoF. The Ministry updates the page as providers complete accreditation, so treat this as a snapshot and confirm a provider’s current status and accreditation number on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/pre-approved-einvoicing-service-providers/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
+      <p>The Ministry’s register as at its <strong>12 October 2026</strong> update — <strong>65 accredited providers</strong> under Article 16, alphabetical, names as published by the MoF. The Ministry updates the page as providers complete accreditation, so treat this as a snapshot and confirm a provider’s current status and accreditation number on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/einvoicing-accredited-service-providers-asps/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
       <div style={{ border: '1px solid var(--aa-rule)', background: '#fff', padding: '20px 24px', margin: '20px 0 8px' }}>
         <ol style={{ margin: 0, paddingLeft: 22, columns: '2 240px', columnGap: 40, fontSize: 13.5, color: 'var(--aa-charcoal)', lineHeight: 1.9 }}>
           {[
             'Advintek Consulting Services LLC',
+            'Ardentax IT Solutions - FZCO',
             'Azentio Software Orion (Middle East) FZ-LLC',
+            'BBIT Accqrate Technology FZCO',
             'BDO Digital Solutions FZ-LLC',
+            'Bee Aura Tech FZ LLC',
             'Casim L.L.C-FZ',
             'Citytech Software',
             'Cloud Consulting LLC-FZ (DocFlow)',
@@ -979,14 +982,17 @@ function ChoosingASPBody({ onNav }) {
             'EDICOM Middle East Services',
             'EY Consulting LLC',
             'Flick Network L.L.C',
+            'Focus Softnet',
             'Fynamics Techno Solutions – FZCO',
             'Hamt Information Technology L.L.C (EVATRA)',
+            'Hamwi Computer Software',
             'Infinite IT Solutions FZCO',
             'Information Dynamics LLC',
             'InvoiceNow biz - F.Z.C',
             'InvoiceQ For Information Technology Limited',
             'KGRN Chartered Accountants',
             'KPI Suitetech DMCC',
+            'LightIdea Information Technology L.L.C',
             'Mac & Ross Chartered Accountants LLC',
             'Marmin AI Software Design LLC',
             'McBitss Technologies CO LLC SOC',
@@ -998,6 +1004,8 @@ function ChoosingASPBody({ onNav }) {
             'Oxinus Holding Limited',
             'PACT Software Services LLC',
             'Pagero Gulf FZ-LLC',
+            'Ravera EInvoicing Services - FZCO',
+            'RTC Novatech Solutions',
             'SAP Middle East & North Africa LLC',
             'Skill Quotient Technologies',
             'Spendconsole FZ LLC',
@@ -1011,18 +1019,21 @@ function ChoosingASPBody({ onNav }) {
             'TronStride FZC',
             'Unified SSK Information Technology L.L.C',
             'VATit Consultant Gulf Ltd',
+            'Veutel International FZC LLC',
             'Victorian Fin Technology L.L.C',
             'Vostok Trading LLC',
+            'Wafeq FZ-LLC',
             'Webtel Technologies solutions- FZCO',
+            'Zennovate IT Solutions',
             'Zoho Software Trading LLC',
           ].map((n) => <li key={n}>{n}</li>)}
         </ol>
       </div>
       <p style={{ fontSize: 14, color: 'var(--aa-charcoal-800)', lineHeight: 1.65, margin: '16px 0 0' }}>
-        <strong>Pre-approved, under final assessment (8):</strong> Ardentax IT Solutions - FZCO, A ASP by JSR Tax Advisors LLC-FZ, BBIT Accqrate Technology FZCO, Focus Softnet, Ravera EInvoicing Services - FZCO, Veutel International FZC LLC, Wafeq FZ-LLC, Zennovate IT Solutions. These may sign and onboard clients under Article 4 of Ministerial Decision No. 64 of 2025, but are not yet accredited — the contractual milestone above applies.
+        <strong>Pre-approved, under final assessment (5):</strong> Avalara Gulf Technologies LLC, Fyient Line Technology LLC, Global Experts of Information Technology Consultants, SNB Accounting Management &amp; Tax Consultancy LLC, UHY James Advisory LLC. These may sign and onboard clients under Article 4 of Ministerial Decision No. 64 of 2025, but are not yet accredited — the contractual milestone above applies.
       </p>
       <p style={{ fontSize: 13, color: 'var(--aa-steel)', lineHeight: 1.6, margin: '10px 0 0' }}>
-        Source: UAE Ministry of Finance, eInvoicing Accredited Service Providers (last updated 17 September 2026). Listing here is a reference, not an endorsement or recommendation of any provider — suitability depends on your systems, volumes and transaction profile.
+        Source: UAE Ministry of Finance, eInvoicing Accredited Service Providers (last updated 12 October 2026). Since the 17 September update, seven providers have moved from pre-approved to accredited and four have joined the accredited list directly. Listing here is a reference, not an endorsement or recommendation of any provider — suitability depends on your systems, volumes and transaction profile.
       </p>
 
       <h3 style={H3}>Questions to ask before you sign</h3>
@@ -1038,6 +1049,17 @@ function ChoosingASPBody({ onNav }) {
       <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
         “Your ASP becomes part of your control environment. Choose it like one.”
       </blockquote>
+
+      <h3 style={H3}>Already appointed? Before 1 January 2027</h3>
+      <p>For Phase&nbsp;1 businesses &mdash; revenue of AED&nbsp;50&nbsp;million or more &mdash; the appointment is due by 30&nbsp;October and go-live is 1&nbsp;January&nbsp;2027. The weeks in between are where most problems surface:</p>
+      <ul style={{ margin: '8px 0 0', paddingLeft: 20, lineHeight: 1.7 }}>
+        <li><strong>Confirm the status in writing.</strong> Accredited, with its accreditation number on the register, or pre-approved and under final assessment &mdash; and what your contract says happens if accreditation is not completed.</li>
+        <li><strong>Map every invoice type you issue.</strong> Tax invoices, credit notes, self-billed and reverse-charge documents, exports and zero-rated supplies, each mapped to the data the system will require.</li>
+        <li><strong>Clean your master data.</strong> Customer and supplier TRNs, addresses and identifiers are what most rejections turn on.</li>
+        <li><strong>Test end to end before December.</strong> Issue, receive, reject and correct, using real documents from your own ledger.</li>
+        <li><strong>Agree who watches the rejections.</strong> Someone has to own the exceptions queue from the first day, not just the provider.</li>
+      </ul>
+      <p style={{ fontSize: 14, color: 'var(--aa-charcoal-800)', margin: '14px 0 0' }}>We do not sell or resell an e-invoicing platform. Our part is the independent side of the decision: shortlisting providers against your transaction profile, reviewing the contract and testing the set-up.</p>
 
       <h3 style={H3}>Appoint early, test early</h3>
       <p>Accreditation, contracting and integration take time, and ASPs will get busier as deadlines approach. Appointing early gives you room to run a proper test cycle before go-live — which is where most problems surface. We help clients shortlist ASPs against their transaction profile and validate the set-up independently.</p>
