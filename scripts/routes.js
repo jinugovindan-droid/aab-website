@@ -99,7 +99,7 @@
     },
     {
       slug: 'vat-executive-regulation-amendments-october-2026',
-      seoTitle: 'UAE VAT Changes October 2026: Cabinet Decision 149 Explained', seoDesc: 'What changes in UAE VAT from 1 October 2026: input VAT lost on cash purchases above a threshold, staff housing, composite supplies, 2028 apportionment.',
+      seoTitle: 'UAE VAT Changes from 1 October 2026: Cabinet Decision 149', seoDesc: 'In force since 1 October 2026: the cash-purchase rule (threshold still to be set), staff housing, composite supplies, and the apportionment change in 2028.',
       tag: 'VAT', date: '11 Sep 2026', updated: '12 Oct 2026', read: '9 min',
       title: 'The VAT Executive Regulation changes on 1 October 2026 — every amended article, and the one that waits until 2028.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'Cabinet Decision No. 149 of 2026 amending Cabinet Decision No. 52 of 2017, the Executive Regulation of Federal Decree-Law No. 8 of 2017 on VAT (consolidated text published by the Ministry of Finance, September 2026); Article 54 of Federal Decree-Law No. 8 of 2017; FTA VAT Guide on Input Tax Apportionment (VATGIT1); FTA Decision No. 17 of 2026',
@@ -117,7 +117,7 @@
     },
     {
       slug: 'fta-decision-4-accounting-records',
-      seoTitle: 'UAE Accounting Records: FTA Decision 4 of 2026 Rules', seoDesc: 'Since 30 July 2026, scanned and electronic copies of accounting records must meet an FTA standard: no partial scans, legible copies, password access.',
+      seoTitle: 'FTA Decision No. 4 of 2026: UAE Scanned Records Rules', seoDesc: 'In force since 30 July 2026: scanned and electronic accounting records must meet the FTA standard. No partial scans, legible copies, password access.',
       tag: 'Compliance', date: '23 Aug 2026', updated: '28 Sep 2026', read: '8 min',
       title: 'Your scanned records have a standard now — and it has applied since 30 July.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 4 of 2026 on the Rules and Requirements for Maintaining the Information Contained in Accounting Records and Commercial Books; Federal Decree-Law No. 28 of 2022 on Tax Procedures; Cabinet Decision No. 74 of 2023 as amended by Cabinet Decision No. 17 of 2026',
@@ -126,7 +126,7 @@
     },
     {
       slug: 'fta-decision-13-supplier-verification',
-      seoTitle: 'FTA Decision 13 of 2026: Supplier Checks Before Input VAT', seoDesc: 'Which checks apply to your purchase? Enter two numbers and see in seconds. The three thresholds, what Article 54 bis does, and what the Decision leaves open.',
+      seoTitle: 'FTA Decision 13 of 2026: Supplier Checks Before Input VAT', seoDesc: 'In force since 1 October 2026. Enter two numbers to see which supplier checks apply to a purchase, the three thresholds, and what the Decision leaves open.',
       tag: 'VAT', date: '20 Aug 2026', updated: '12 Oct 2026', read: '10 min',
       title: 'Supplier checks before you claim input VAT: what changes on 1 October 2026.',
       author: 'Jinu Kurikesu', reviewer: 'Jinu Govindan', reference: 'FTA Decision No. 13 of 2026; Article 54 bis of Federal Decree-Law No. 8 of 2017 on VAT, as inserted by Federal Decree-Law No. 16 of 2025; Federal Decree-Law No. 28 of 2022 on Tax Procedures',
@@ -153,7 +153,7 @@
     },
     {
       slug: 'ifrs-financial-statements-uae',
-      seoTitle: 'IFRS Financial Statements in the UAE: Who Needs Them', seoDesc: 'Who must prepare IFRS statements in the UAE, the standards Corporate Tax accepts (IFRS, IFRS for SMEs, cash basis), and what a complete set contains.',
+      seoTitle: 'UAE Financial Reporting Rules: Who Needs IFRS Statements', seoDesc: 'Which standard applies in the UAE (IFRS or IFRS for SMEs), who must prepare and audit financial statements for Corporate Tax, and what a full set contains.',
       tag: 'Financial Reporting', date: '15 Apr 2026', read: '7 min',
       title: 'IFRS financial statements in the UAE: who needs them, and what a full set contains.',
       author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan', reference: 'Ministerial Decision No. 114 of 2023 (accounting standards for UAE Corporate Tax)',
@@ -404,7 +404,7 @@
       description: 'UAE Corporate Tax advisory — group and transaction structuring, free-zone QFZP optimisation, transfer pricing alignment and defensible position memos.',
     },
     'service-fixed-asset-tagging': {
-      title: 'Fixed Asset Tagging & Verification UAE — All 7 Emirates',
+      title: 'Asset Tagging Services in the UAE: Dubai, RAK, UAQ, Sharjah',
       description: 'Physical fixed-asset verification and tagging, register reconstruction and depreciation review — on site across Dubai, RAK, UAQ and all seven emirates.',
     },
     'service-forensic-accounting': {
