@@ -39,6 +39,11 @@ const CARDS = {
     headline: 'Six cases. Every condition.',
     sub: 'Input VAT on staff transport, housing, meals, phones and parking from 1 October',
   },
+  'taxp010-free-zone-designated-zone': {
+    kicker: 'Corporate Tax · VAT · Excise · FTA TAXP010',
+    headline: 'One address. Three tax answers.',
+    sub: 'Free zone or designated zone: check each law separately',
+  },
   'fta-decision-15-corporate-tax-exemption': {
     kicker: 'Corporate Tax · FTA Decision 15 of 2026',
     headline: 'Ninety days to apply. One catch-up in October.',

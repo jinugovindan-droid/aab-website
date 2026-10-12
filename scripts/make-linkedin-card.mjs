@@ -72,6 +72,17 @@ const CARDS = {
     ],
     kicker: 'Six cases for contract or policy benefits. Every condition must be met.',
   },
+  'taxp010-free-zone-designated-zone': {
+    eyebrow: 'UAE TAX · FTA PUBLIC CLARIFICATION TAXP010',
+    headline: 'Free zone or designated zone?<br>Check each tax separately',
+    chip: 'PUBLISHED OCTOBER 2026',
+    rows: [
+      { k: 'CT', note: 'Not every VAT designated zone is a CT one.' },
+      { k: '0%', note: 'Distributors: only in or from a CT designated zone.' },
+      { k: 'VAT', note: 'The list is the start: Article 51(1) must be met.' },
+    ],
+    kicker: 'Four tests, four answers. Get each confirmed in writing.',
+  },
   'fta-decision-15-corporate-tax-exemption': {
     eyebrow: 'UAE CORPORATE TAX · FTA DECISION 15 OF 2026',
     headline: 'Exempt? The application<br>rules changed on 15 Sep',

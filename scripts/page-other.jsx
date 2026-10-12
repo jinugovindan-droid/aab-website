@@ -1546,6 +1546,7 @@ function DesignatedZoneBody({ onNav }) {
         <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
           <li>{artLink(onNav, 'service-vat', 'VAT compliance →')}</li>
           <li>{artInsightLink(onNav, 'uae-vat-guide-dubai', 'VAT in the UAE: the full guide →')}</li>
+          <li>{artInsightLink(onNav, 'taxp010-free-zone-designated-zone', 'Free zone or designated zone? FTA TAXP010 →')}</li>
         </ul>
       </div>
     </div>
@@ -1991,6 +1992,16 @@ function SupplierVerificationBody({ onNav }) {
     <div className="container" style={ART}>
       <p style={LEAD}>FTA Decision No.&nbsp;13 of 2026 was issued on 22&nbsp;July&nbsp;2026, appeared on the Federal Tax Authority&rsquo;s website on 20&nbsp;August, and took effect on <strong>1&nbsp;October&nbsp;2026</strong>. It sets out the checks a business must run on its suppliers, and on individual purchases, before deducting input VAT. No FTA guide has been published alongside it. This note is written from the Authority&rsquo;s own text, and it starts with what the Decision does <em>not</em> do, because that is where the practical answer lies.</p>
 
+      <div style={{ borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', padding: '16px 20px', margin: '0 0 28px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>In force since 1 October 2026 &middot; what to do this month (updated 12 October 2026)</div>
+        <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6, fontSize: 15.5, lineHeight: 1.6 }}>
+          <li><strong>The checks now apply to every purchase you deduct input VAT on.</strong> A supply under AED&nbsp;10,000 can be disregarded unless your rolling 12-month spend with that supplier exceeds AED&nbsp;100,000; above AED&nbsp;375,000 with one supplier, the bank confirmation and the reputation review are added.</li>
+          <li><strong>The Article&nbsp;5(4) policy should already exist.</strong> If it does not, write it now and name who implements, reviews and supervises the checks.</li>
+          <li><strong>For each new supplier from 1&nbsp;October</strong>, keep the verification evidence with the first invoice, not in a separate folder you will have to rebuild later.</li>
+          <li><strong>Cash.</strong> The Minister&rsquo;s decision setting the cash threshold under Article&nbsp;54(3) of the Executive Regulation had still not been published on 12&nbsp;October&nbsp;2026. Keep tagging cash-settled purchases so the claim above it can be excluded when it is.</li>
+        </ul>
+      </div>
+
       <h3 style={H3}>What it does not do</h3>
       <p>It is easy to read this as <em>no supplier checks, no input VAT</em>. The Decision does not go that far, and the position it actually creates is more useful to know.</p>
       <p>Decision&nbsp;13 does not stand on its own. It gives content to <strong>Article&nbsp;54&nbsp;bis</strong> of the VAT Law, inserted by Federal Decree-Law No.&nbsp;16 of 2025 and in force since 1&nbsp;January&nbsp;2026. Everything turns on its exact words, so here it is in full, as published on the UAE legislation portal:</p>
@@ -2277,6 +2288,16 @@ function ERAmendments2026Body({ onNav }) {
     <div className="container" style={ART}>
       <p style={LEAD}>Cabinet Decision No.&nbsp;149 of 2026 was issued on <strong>1&nbsp;September</strong> and amends the VAT Executive Regulation from <strong>1&nbsp;October&nbsp;2026</strong> &mdash; the same day FTA Decision&nbsp;13 started. It touches twelve points. Most are narrow. Three are not: input VAT on purchases paid in <strong>cash</strong> above a threshold the Minister has yet to set; <strong>staff accommodation</strong> taken out of the rule that keeps input VAT on mandatory employee benefits recoverable; and, from the first tax year beginning after 1&nbsp;October&nbsp;2027, a <strong>partial-exemption ratio</strong> that runs on turnover instead of on input tax. This page goes through every amended article against the Ministry&rsquo;s consolidated text, with the date each one bites.</p>
 
+      <div style={{ borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', padding: '16px 20px', margin: '0 0 28px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>In force since 1 October 2026 &middot; where things stand (updated 12 October 2026)</div>
+        <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6, fontSize: 15.5, lineHeight: 1.6 }}>
+          <li><strong>Cash.</strong> Article&nbsp;54(3) is in force, but the Minister&rsquo;s decision setting the threshold had still not been published on 12&nbsp;October&nbsp;2026. Keep tagging cash-settled purchases.</li>
+          <li><strong>Staff accommodation</strong> is outside the exception for mandatory benefits unless a MoHRE decision or directive requires it; housing under a contract or policy now has to meet the accommodation case in FTA Decision&nbsp;17.</li>
+          <li><strong>Composite supplies, medical products and the Capital Assets Scheme</strong> rules in the amended Regulation have applied since 1&nbsp;October.</li>
+          <li><strong>Partially exempt?</strong> The turnover-based ratio starts with the first tax year commencing after 1&nbsp;October&nbsp;2027. This year&rsquo;s figures are the ones to model it on.</li>
+        </ul>
+      </div>
+
       <h3 style={H3}>Every change, and when it applies</h3>
       <div style={{ overflowX: 'auto', marginTop: 8 }}>
         <table className="aa-table" style={{ width: '100%' }}>
@@ -2401,6 +2422,15 @@ function CTExemptionApplications2026Body({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>FTA Decision No.&nbsp;15 of 2026 was issued on <strong>8&nbsp;September</strong> and has applied since <strong>15&nbsp;September&nbsp;2026</strong>. It replaces FTA Decision No.&nbsp;7 of 2023, the procedure every exempt fund, pension scheme and exempt-owned company has followed for three years. The window to apply for exemption is longer &mdash; <strong>90 business days</strong> after the tax period ends, not 60. And there are three catch-up deadlines for periods that have already passed, the nearest of them <strong>31&nbsp;October&nbsp;2026</strong>, for companies wholly owned by a government entity.</p>
+
+      <div style={{ borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', padding: '16px 20px', margin: '0 0 28px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>In force since 15 September 2026 &middot; the dates that remain (updated 12 October 2026)</div>
+        <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6, fontSize: 15.5, lineHeight: 1.6 }}>
+          <li><strong>31&nbsp;October&nbsp;2026</strong> &mdash; last day for a UAE company wholly owned and controlled by a government entity or a government controlled entity to apply for exemption for any tax period that ended before 1&nbsp;January&nbsp;2026 (Art.&nbsp;3(5)).</li>
+          <li><strong>31&nbsp;December&nbsp;2026</strong> &mdash; foreign companies owned by exempt owners that are eligible with retrospective effect (Art.&nbsp;3(2)(a)), and qualifying limited partnerships and their companies for 2025 periods ending on or before 31&nbsp;August&nbsp;2026 (Art.&nbsp;3(3)).</li>
+          <li><strong>Every other application</strong> &mdash; after the tax period ends and within 90 business days of its end (Art.&nbsp;3(1)). Work the date out from the federal holiday list for that year.</li>
+        </ul>
+      </div>
 
       <h3 style={H3}>Who has to apply at all</h3>
       <p>Article&nbsp;4 of the Corporate Tax Law lists nine kinds of exempt person. Some never apply to the Authority: government entities, government controlled entities, and extractive and non-extractive natural resource businesses that meet their own conditions under Articles&nbsp;7 and&nbsp;8. Qualifying public benefit entities register but do not apply. The rest must apply to the Authority before the exemption runs, and this Decision is the procedure for them:</p>
@@ -2543,6 +2573,15 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
     <div className="container" style={ART}>
       <p style={LEAD}>FTA Decision No.&nbsp;17 of 2026 was issued on <strong>9&nbsp;September</strong> and took effect on <strong>1&nbsp;October&nbsp;2026</strong>, the same day as the amended Article&nbsp;53 of the VAT Executive Regulation. From that day, the exception that keeps input VAT on benefits given to staff under a contract or documented policy recoverable applies only &ldquo;in accordance with the cases and conditions specified by the Authority&rdquo;. This Decision is those cases. There are <strong>six</strong>: transport, food and drink for staff living in remote areas, accommodation, up to 30 days&rsquo; housing for new employees, phones and home internet, and parking. Each comes with conditions, and <strong>all</strong> of them must be met. Three of the cases share a test worth checking first: the employee must not be able to take cash instead.</p>
 
+      <div style={{ borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', padding: '16px 20px', margin: '0 0 28px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>In force since 1 October 2026 &middot; what to do this month (updated 12 October 2026)</div>
+        <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6, fontSize: 15.5, lineHeight: 1.6 }}>
+          <li><strong>Supplies from 1&nbsp;October follow the six cases.</strong> A quarterly return for August to October covers both rules, so, on our reading, split the staff-benefit input tax by date of supply before you claim it.</li>
+          <li><strong>Remove any cash alternative</strong> from offer letters and policies where you rely on the transport, food or accommodation case, and record the operational reason for any housing in the contract or policy.</li>
+          <li><strong>The phone, internet and parking policies</strong> have to exist, and be working, for the period the claim covers.</li>
+        </ul>
+      </div>
+
       <h3 style={H3}>Where the Decision sits</h3>
       <p>Article&nbsp;53(1)(c) of the Executive Regulation blocks input tax on goods and services bought &ldquo;to be used by employees for no charge to them and for their personal benefit including the provision of entertainment services&rdquo;. Four exceptions let it back in, and from 1&nbsp;October two of them read differently:</p>
       <div style={{ marginTop: 8, borderTop: '1px solid var(--aa-rule)' }}>
@@ -2615,6 +2654,79 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
           <li>{ilink('uae-tax-changes-october-2026', 'Every UAE tax and reporting date in October 2026 →')}</li>
           <li>{link('service-vat-filing', 'VAT return filing →')}</li>
           <li>{link('tool-vat', 'UAE VAT calculator →')}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function FreeZoneDesignatedZone2026Body({ onNav }) {
+  const link = (page, label) => (
+    <a href={pathForPage(page)} onClick={(e) => { e.preventDefault(); onNav(page); }}
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  const ilink = (slug, label) => (
+    <a href={pathForInsight(slug)} onClick={(e) => { e.preventDefault(); onNav('insight', slug); }}
+      style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>{label}</a>
+  );
+  // Four tests, stacked rather than tabled: each answer is a sentence, and a
+  // grid squeezes them into a strip on a phone.
+  const ZONES = [
+    { k: 'Corporate Tax Free Zone', law: 'Corporate Tax Law, Art. 1', what: 'A designated and defined geographic area within the UAE, specified in a decision issued by the Cabinet at the suggestion of the Minister.', check: 'Ask your free zone authority.' },
+    { k: 'Corporate Tax Designated Zone', law: 'Cabinet Decision No. 100 of 2023, Art. 1', what: 'A designated zone under the VAT Law that has also been included as a Free Zone under the Corporate Tax Law. It has to be both.', check: 'Ask your free zone authority.' },
+    { k: 'VAT Designated Zone', law: 'VAT Law, Art. 1; Executive Regulation, Art. 51(1)', what: 'An area listed by Cabinet decision (Cabinet Decision No. 59 of 2017, as amended) that also meets the Article 51(1) conditions: a fenced area with security measures and customs controls, internal procedures for keeping, storing and processing goods, and an operator that complies with the FTA’s procedures.', check: 'Check the FTA’s published list, then confirm with the zone authority that the specific area where you are based meets the Article 51(1) conditions.' },
+    { k: 'Excise Tax Designated Zone', law: 'Excise Tax Executive Regulation, Art. 15(2)', what: 'A fenced free zone with security measures, customs supervision and an appointed Warehouse Keeper; or another area specified by the FTA that has security measures and a Warehouse Keeper.', check: 'Ask your free zone authority, or the Warehouse Keeper whether the FTA has approved the area.' },
+  ];
+  const ROW = { padding: '16px 0', borderBottom: '1px solid var(--aa-rule)' };
+  const HEAD = { display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '4px 12px', fontSize: 17, margin: 0 };
+  const REF = { fontSize: 12, color: 'var(--aa-steel-700)', letterSpacing: '0.04em' };
+
+  return (
+    <div className="container" style={ART}>
+      <p style={LEAD}>In October 2026 the Federal Tax Authority published Public Clarification <strong>TAXP010</strong>, on free zones and designated zones. Its point is easy to miss: the words mean different things under <strong>Corporate Tax</strong>, <strong>VAT</strong> and <strong>Excise Tax</strong>, and a business has to check where it stands under each law separately. In particular, a VAT designated zone is <strong>not automatically</strong> a designated zone for Corporate Tax &mdash; and that difference decides whether a free-zone distributor&rsquo;s income can be taxed at 0%.</p>
+
+      <h3 style={H3}>Four tests, four answers</h3>
+      <p>The clarification sets out four separate concepts. The same address can pass one test and fail another.</p>
+      <div style={{ marginTop: 8, borderTop: '1px solid var(--aa-rule)' }}>
+        {ZONES.map((z) => (
+          <div key={z.k} style={ROW}>
+            <h4 style={HEAD}><strong>{z.k}</strong>{' '}<span className="mono" style={REF}>{z.law}</span></h4>
+            <p style={{ margin: '6px 0 0' }}>{z.what}</p>
+            <p style={{ margin: '4px 0 0' }}><strong>How to confirm:</strong> {z.check}</p>
+          </div>
+        ))}
+      </div>
+      <p style={{ marginTop: 16, fontSize: 15, color: 'var(--aa-steel-700)' }}>The clarification is published in English and Arabic; where the two differ, the Arabic governs.</p>
+
+      <h3 style={H3}>Why the difference costs money: distribution</h3>
+      <p>A Qualifying Free Zone Person pays Corporate Tax at 0% on its qualifying income, provided it meets the conditions in the Corporate Tax Law, Cabinet Decision No.&nbsp;100 of 2023 and Ministerial Decision No.&nbsp;229 of 2025. One of the qualifying activities in that Ministerial Decision is the &ldquo;distribution of goods or materials in or from a Designated Zone&rdquo; &mdash; and &ldquo;Designated Zone&rdquo; there means the Corporate Tax one. The clarification puts it plainly: a distributor &ldquo;may benefit from the 0% Corporate Tax rate on its Qualifying Income only where such distribution activities are carried out in or from a Corporate Tax Designated Zone&rdquo;.</p>
+      <p>The activity itself has conditions too (Ministerial Decision No.&nbsp;229 of 2025, Article&nbsp;2(3)(l)). The goods entering the UAE have to be imported through the designated zone, and they have to be supplied to a customer who resells, processes or alters them for sale or resale, or to a public benefit entity.</p>
+      <p>The stakes are the usual ones for a Qualifying Free Zone Person: one that fails a condition at any time in a tax period stops qualifying from the start of that period and for the following four (Article&nbsp;5(2) of the same Ministerial Decision). So a distributor working from a zone that is a Corporate Tax free zone but not a Corporate Tax designated zone is relying on the wrong test. On our reading, that is a question to settle before the next return, not after an audit.</p>
+
+      <h3 style={H3}>VAT: the address is not enough</h3>
+      <p>For VAT, appearing on the Cabinet&rsquo;s list is the start, not the end. The clarification asks a business to check the list <em>and</em> confirm with the zone authority that the Article&nbsp;51(1) conditions are met by the specific area where it is based. A designated zone is treated as outside the State only on those conditions, and the VAT treatment of goods moving in and out depends on it. {ilink('designated-zone-reclassification', 'The movement trail to keep in a designated zone →')}</p>
+
+      <h3 style={H3}>What the clarification does not change</h3>
+      <p>The FTA says the clarification states its position and &ldquo;neither amends nor seeks to amend&rdquo; the legislation, so it is effective from the date of the legislation it explains, unless it says otherwise. In practice, it is the Authority&rsquo;s reading of rules that already applied &mdash; including to past periods.</p>
+
+      <h3 style={H3}>What to do now</h3>
+      <ul>
+        <li><strong>Record four answers for each entity</strong> &mdash; Corporate Tax free zone, Corporate Tax designated zone, VAT designated zone (and whether your area meets Article&nbsp;51(1)), Excise designated zone &mdash; each with written confirmation from the zone authority, or the Warehouse Keeper for excise, dated and kept with the tax file.</li>
+        <li><strong>If you distribute goods as a Qualifying Free Zone Person</strong>, confirm that the place you distribute from is a Corporate Tax designated zone, that the goods are imported through it, and that your customers resell or process them. If any answer is no, model that income as non-qualifying before you file.</li>
+        <li><strong>Look back</strong> at earlier tax periods where the distribution activity was treated as qualifying, because the clarification takes effect from the date of the legislation it explains.</li>
+        <li><strong>For VAT</strong>, keep the movement trail for goods entering and leaving the designated zone, so the treatment can be shown and not just asserted.</li>
+      </ul>
+      <p>Our {link('service-corporate-tax', 'Corporate Tax')} work includes Qualifying Free Zone Person reviews; {ilink('free-zone-qualifying-income', 'the free-zone qualifying income note')} sets out the wider tests.</p>
+
+      {artNote('Written on 12 October 2026 from the Federal Tax Authority’s published text of Public Clarification TAXP010, Free Zones and Designated Zones for Tax Purposes (October 2026), and the provisions it cites: Article 1 of Federal Decree-Law No. 47 of 2022; Article 1 of Cabinet Decision No. 100 of 2023; Articles 2(1)(l), 2(3)(l) and 5(2) of Ministerial Decision No. 229 of 2025; Article 1 of Federal Decree-Law No. 8 of 2017 and Article 51(1) of its Executive Regulation; Cabinet Decision No. 59 of 2017; and Article 15(2) of the Excise Tax Executive Regulation. Where the English and Arabic texts differ, the Arabic governs. General information on published law, not advice on your own position.')}
+
+      <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>Related</div>
+        <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 15 }}>
+          <li>{ilink('free-zone-qualifying-income', 'Free-zone qualifying income: the tests →')}</li>
+          <li>{ilink('designated-zone-reclassification', 'Designated zones and VAT: the movement trail →')}</li>
+          <li>{ilink('uae-corporate-tax-guide-sme', 'The Corporate Tax guide for SMEs →')}</li>
+          <li>{link('service-corporate-tax', 'UAE Corporate Tax →')}</li>
         </ul>
       </div>
     </div>
@@ -2805,6 +2917,7 @@ function OctoberChangesBody({ onNav }) {
 }
 
 const INSIGHT_BODIES = {
+  'taxp010-free-zone-designated-zone': FreeZoneDesignatedZone2026Body,
   'fta-decision-17-employee-benefits-input-vat': EmployeeBenefitsInputTax2026Body,
   'fta-decision-15-corporate-tax-exemption': CTExemptionApplications2026Body,
   'vat-executive-regulation-amendments-october-2026': ERAmendments2026Body,

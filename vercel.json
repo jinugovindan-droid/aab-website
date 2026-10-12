@@ -187,6 +187,21 @@
       "permanent": false
     },
     {
+      "source": "/go/taxp010",
+      "destination": "/insights/taxp010-free-zone-designated-zone?utm_source=campaign&utm_medium=whatsapp&utm_campaign=taxp010&utm_content=broadcast",
+      "permanent": false
+    },
+    {
+      "source": "/go/taxp010-li",
+      "destination": "/insights/taxp010-free-zone-designated-zone?utm_source=linkedin&utm_medium=social&utm_campaign=taxp010&utm_content=founder-post",
+      "permanent": false
+    },
+    {
+      "source": "/go/taxp010-li-page",
+      "destination": "/insights/taxp010-free-zone-designated-zone?utm_source=linkedin&utm_medium=social&utm_campaign=taxp010&utm_content=company-post",
+      "permanent": false
+    },
+    {
       "source": "/go/30-oct",
       "destination": "/e-invoicing/30-october-2026?utm_source=campaign&utm_medium=whatsapp&utm_campaign=asp-30oct&utm_content=broadcast",
       "permanent": false
