@@ -464,7 +464,7 @@ function FreeZoneArticleBody() {
       <p style={{ fontSize: 19, color: 'var(--aa-charcoal)', fontWeight: 500, lineHeight: 1.5 }}>
         The UAE free-zone tax rules — Cabinet Decision 100 of 2023 and Ministerial Decision 229 of 2025 (which replaced MD 265 of 2023) — are being read three different ways by tax teams in the UAE. We unpack the three traps we keep seeing in client positions — and what the consequence is at filing.
       </p>
-      <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>1. Substance is tested per activity; income is classified per transaction.</h3>
+      <h2 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>1. Substance is tested per activity; income is classified per transaction.</h2>
       <p>Two different tests are routinely collapsed into one. Adequate substance is assessed at the level of the free-zone person for each qualifying activity: the core income-generating activities must actually be carried out in the zone, with adequate qualified staff, assets and operating expenditure — or outsourced to a related party in the zone under your supervision. Separately, each stream of income is classified as qualifying or non-qualifying, and that classification is effectively a per-transaction question.</p>
       <p>This is the most common position error we have re-papered: clients treat both as a once-a-year statement. The substance file has to evidence real activity in the zone, and the income trail has to be tagged at source so qualifying and non-qualifying revenue can be told apart at filing.</p>
 
@@ -478,10 +478,10 @@ function FreeZoneArticleBody() {
         “Substance is tested per activity in the zone; income is classified per transaction. Neither survives as a year-end memo.”
       </blockquote>
 
-      <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>2. There is no annual election to be a QFZP.</h3>
+      <h2 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>2. There is no annual election to be a QFZP.</h2>
       <p>A free-zone person is automatically a Qualifying Free Zone Person for a tax period whenever it meets the conditions — there is no yearly election to claim the 0% rate. The only election available is the option to opt out and be taxed under the standard 9% regime. What is sticky is failure: breach the conditions in a period and the person loses QFZP status from the start of that tax period and for the four subsequent tax periods. Boards should treat the conditions as binding for the life of the current commercial structure, not something re-chosen each return.</p>
 
-      <h3 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>3. Non-qualifying revenue is capped — watch the de minimis.</h3>
+      <h2 style={{ fontFamily: 'var(--aa-font-display)', fontSize: 28, marginTop: 40, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.01em' }}>3. Non-qualifying revenue is capped — watch the de minimis.</h2>
       <p>Qualifying status is not lost the moment a sliver of non-qualifying revenue appears: the de minimis rule allows non-qualifying revenue up to the lower of 5% of total revenue or AED 5 million. Above that ceiling, QFZP status falls away for the period. The excluded activities are now enumerated in Ministerial Decision 229 of 2025, which replaced Ministerial Decision 265 of 2023. In our experience, activities that share a contract, a counterparty or an underlying asset with an excluded activity invite scrutiny — so map them against both the list and your de minimis headroom before signing.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
@@ -653,10 +653,10 @@ function EInvoiceExplainedBody({ onNav }) {
         “E-invoicing” does not mean emailing a PDF. Under the UAE’s new mandate, an e-invoice is a structured data file — exchanged machine-to-machine through accredited providers — that your accounting system and your counterparty’s system can both read without anyone re-typing it. Here is what is changing, and why.
       </p>
 
-      <h3 style={H3}>1. From documents to structured data</h3>
+      <h2 style={H3}>1. From documents to structured data</h2>
       <p>Today most businesses issue an invoice as a PDF, a printout or a Word file — a document a human reads. A UAE e-invoice is instead a structured electronic file built to a defined data standard, so that software on both sides can validate, post and report it automatically. PDFs and paper will no longer be valid for in-scope transactions once your phase goes live.</p>
 
-      <h3 style={H3}>2. The OpenPeppol 5-corner model</h3>
+      <h2 style={H3}>2. The OpenPeppol 5-corner model</h2>
       <p>The UAE has adopted the international <strong>OpenPeppol</strong> framework in a “5-corner” configuration. In plain terms: you (corner 1) send the invoice to your Accredited Service Provider (corner 2); your provider transmits it over the Peppol network to your customer’s provider (corner 3), who delivers it to your customer (corner 4); and the Federal Tax Authority (corner 5) receives the reporting data. The path is two-way: the buyer’s acceptance — or rejection — travels back to you through the same providers as an <strong>invoice response</strong>, so you know your invoice was received and accepted, not just sent. The invoice never travels as an email attachment — it moves as validated data between accredited providers.</p>
 
       <FiveCornerDiagram />
@@ -665,10 +665,10 @@ function EInvoiceExplainedBody({ onNav }) {
         “An e-invoice is not a prettier PDF. It is data your systems exchange and the FTA can see.”
       </blockquote>
 
-      <h3 style={H3}>3. What is in scope</h3>
+      <h2 style={H3}>3. What is in scope</h2>
       <p>The mandate covers <strong>business-to-business (B2B)</strong> and <strong>business-to-government (B2G)</strong> transactions — and it applies to both sides of each transaction: the supplier that issues, and the customer that receives (so a business that only sells to consumers is still in scope for the B2B invoices it receives from suppliers). Business-to-consumer (B2C) invoicing is currently optional. A short list of transactions is excluded — chiefly VAT-exempt or zero-rated financial services, international airline passenger and (transitionally) air-cargo transport, and government transactions in a sovereign capacity that are not in competition with the private sector — so businesses in those sectors should take specific advice. The rules apply across the UAE — including free zone companies — based on annual revenue thresholds, under Ministerial Decisions 243 and 244 of 2025 (as amended in 2026) issued by the Ministry of Finance.</p>
 
-      <h3 style={H3}>4. Why the UAE is doing this</h3>
+      <h2 style={H3}>4. Why the UAE is doing this</h2>
       <p>Structured e-invoicing gives the tax authority near-real-time visibility of transactions, reduces VAT leakage and fraud, and cuts the manual effort of matching invoices on both sides. For compliant businesses the upside is real: fewer disputes, faster reconciliation, and a clean audit trail that already lines up with what the FTA holds.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
@@ -881,7 +881,7 @@ function EInvoiceDeadlinesBody({ onNav }) {
         The UAE e-invoicing mandate is being rolled out in phases by annual revenue. For every business there are two dates that matter: the deadline to <strong>appoint an Accredited Service Provider (ASP)</strong>, and the <strong>go-live</strong> date from which structured e-invoicing becomes mandatory.
       </p>
 
-      <h3 style={H3}>The phased timeline</h3>
+      <h2 style={H3}>The phased timeline</h2>
       <div style={{ overflowX: 'auto', marginTop: 8 }}>
         <table className="aa-table" style={{ width: '100%' }}>
           <thead>
@@ -913,10 +913,10 @@ function EInvoiceDeadlinesBody({ onNav }) {
 
       <DeadlinesRoadmap />
 
-      <h3 style={H3}>Why the ASP date matters more than it looks</h3>
+      <h2 style={H3}>Why the ASP date matters more than it looks</h2>
       <p>The go-live date is the headline, but the appointment deadline is the one that bites. Appointing an ASP is not a same-day formality — you need to select a provider, contract, connect it to your ERP or accounting system, map your invoice fields and test end-to-end. Treat the ASP deadline as the start of the real work, not the finish line.</p>
 
-      <h3 style={H3}>Which phase am I in?</h3>
+      <h2 style={H3}>Which phase am I in?</h2>
       <p>Your phase follows your annual revenue. If you are at or above AED 50 million you are in Phase 1, with the earliest deadlines. Below AED 50 million places you in Phase 2. Government entities follow Phase 3. Free zone companies are included and follow the same revenue-based thresholds.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
@@ -941,10 +941,19 @@ function ChoosingASPBody({ onNav }) {
         Under the UAE mandate you cannot issue compliant e-invoices on your own — they must be transmitted through an <strong>Accredited Service Provider (ASP)</strong> accredited by the Ministry of Finance. Choosing the right one is the single most important decision in your readiness programme.
       </p>
 
-      <h3 style={H3}>What an ASP actually does</h3>
+      <div style={{ borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', padding: '16px 20px', margin: '0 0 28px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>In short</div>
+        <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6, fontSize: 15.5, lineHeight: 1.6 }}>
+          <li>You cannot issue a compliant UAE e-invoice on your own. It goes through an <strong>Accredited Service Provider</strong>, which validates it, sends it over Peppol and reports the data to the FTA.</li>
+          <li><strong>Pre-approved is not accredited.</strong> At the Ministry&rsquo;s 12&nbsp;October&nbsp;2026 update, 65 providers were accredited under Article&nbsp;16 and five were pre-approved and under final assessment.</li>
+          <li>Businesses with revenue of AED&nbsp;50&nbsp;million or more must appoint one by <strong>30&nbsp;October&nbsp;2026</strong> and go live on 1&nbsp;January&nbsp;2027. Put the accreditation number in the contract.</li>
+        </ul>
+      </div>
+
+      <h2 style={H3}>What an ASP actually does</h2>
       <p>In the 5-corner model, your ASP is the corner that turns your invoice data into a compliant structured document, validates it, transmits it over the Peppol network to your counterparty’s ASP, and reports the required data to the Federal Tax Authority. It sits between your accounting system and the official network — so its reliability becomes your reliability.</p>
 
-      <h3 style={H3}>“Pre-approved” is not “accredited”</h3>
+      <h2 style={H3}>“Pre-approved” is not “accredited”</h2>
       <p>Ministerial Decision No. 64 of 2025 defines two distinct stages, and providers routinely blur them in their marketing. <strong>Pre-approval (Article 15)</strong> means the Ministry of Finance has vetted the provider — Peppol credentials, technical conformance testing, trial runs on the FTA platform, signed undertakings — and listed it while it completes accreditation. Under Article 4, a pre-approved provider may already operate — sign clients, onboard them and provide e-invoicing services — but <em>only on condition</em> that it obtains full accreditation within the timeline the Ministry sets; if it does not, it must stop. <strong>Accreditation (Article 16)</strong> is that full grant, made only after complete technical and operational testing. The practical point for you: your go-live must not depend on a provider still stuck at pre-approval.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, margin: '28px 0 8px' }}>
@@ -956,7 +965,7 @@ function ChoosingASPBody({ onNav }) {
           <strong>Where to check, in practice:</strong> the public register is the MoF’s accredited service providers page at <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/einvoicing-accredited-service-providers-asps/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>mof.gov.ae</a>, which carries the accredited list (with each provider’s accreditation number) and, below it, the pre-approved providers still under final assessment. It is dated at the top; check the date before you rely on it.</p>
       </div>
 
-      <h3 style={H3}>The accredited list, for reference</h3>
+      <h2 style={H3}>The accredited list, for reference</h2>
       <p>The Ministry’s register as at its <strong>12 October 2026</strong> update — <strong>65 accredited providers</strong> under Article 16, alphabetical, names as published by the MoF. The Ministry updates the page as providers complete accreditation, so treat this as a snapshot and confirm a provider’s current status and accreditation number on the <a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/einvoicing-accredited-service-providers-asps/" target="_blank" rel="noopener" style={{ color: 'var(--aa-cyan-text)', fontWeight: 600 }}>MoF page</a> before you sign anything.</p>
       <div style={{ border: '1px solid var(--aa-rule)', background: '#fff', padding: '20px 24px', margin: '20px 0 8px' }}>
         <ol style={{ margin: 0, paddingLeft: 22, columns: '2 240px', columnGap: 40, fontSize: 13.5, color: 'var(--aa-charcoal)', lineHeight: 1.9 }}>
@@ -1036,7 +1045,7 @@ function ChoosingASPBody({ onNav }) {
         Source: UAE Ministry of Finance, eInvoicing Accredited Service Providers (last updated 12 October 2026). Since the 17 September update, seven providers have moved from pre-approved to accredited and four have joined the accredited list directly. Listing here is a reference, not an endorsement or recommendation of any provider — suitability depends on your systems, volumes and transaction profile.
       </p>
 
-      <h3 style={H3}>Questions to ask before you sign</h3>
+      <h2 style={H3}>Questions to ask before you sign</h2>
       <ul style={{ margin: '8px 0 0', paddingLeft: 20, lineHeight: 1.7 }}>
         <li><strong>Accreditation status.</strong> Where exactly is the provider on the Ministry of Finance path — pre-approved (Article 15) or fully accredited (Article 16)? Ask to see it confirmed, not implied, and have your contract reflect the answer.</li>
         <li><strong>Integration with your system.</strong> Does it have a tested connector for your ERP or accounting software (Tally, Zoho, SAP, Microsoft Dynamics, Oracle, QuickBooks, etc.), or will integration be custom work?</li>
@@ -1050,7 +1059,7 @@ function ChoosingASPBody({ onNav }) {
         “Your ASP becomes part of your control environment. Choose it like one.”
       </blockquote>
 
-      <h3 style={H3}>Already appointed? Before 1 January 2027</h3>
+      <h2 style={H3}>Already appointed? Before 1 January 2027</h2>
       <p>For Phase&nbsp;1 businesses &mdash; revenue of AED&nbsp;50&nbsp;million or more &mdash; the appointment is due by 30&nbsp;October and go-live is 1&nbsp;January&nbsp;2027. The weeks in between are where most problems surface:</p>
       <ul style={{ margin: '8px 0 0', paddingLeft: 20, lineHeight: 1.7 }}>
         <li><strong>Confirm the status in writing.</strong> Accredited, with its accreditation number on the register, or pre-approved and under final assessment &mdash; and what your contract says happens if accreditation is not completed.</li>
@@ -1061,7 +1070,7 @@ function ChoosingASPBody({ onNav }) {
       </ul>
       <p style={{ fontSize: 14, color: 'var(--aa-charcoal-800)', margin: '14px 0 0' }}>We do not sell or resell an e-invoicing platform. Our part is the independent side of the decision: shortlisting providers against your transaction profile, reviewing the contract and testing the set-up.</p>
 
-      <h3 style={H3}>Appoint early, test early</h3>
+      <h2 style={H3}>Appoint early, test early</h2>
       <p>Accreditation, contracting and integration take time, and ASPs will get busier as deadlines approach. Appointing early gives you room to run a proper test cycle before go-live — which is where most problems surface. We help clients shortlist ASPs against their transaction profile and validate the set-up independently.</p>
 
       <EInvoiceCTA onNav={onNav} />
@@ -1077,16 +1086,16 @@ function PrepareERPBody({ onNav }) {
         E-invoicing is often framed as a tax change, but the work is mostly a <strong>data</strong> change. The required structured format only validates if the fields behind your invoices are complete and clean. Here is the practical groundwork that decides whether your go-live is smooth or painful.
       </p>
 
-      <h3 style={H3}>1. Fix your master data first</h3>
+      <h2 style={H3}>1. Fix your master data first</h2>
       <p>Structured invoices are validated against required fields, so gaps that PDFs forgave will now fail. Before anything else, clean up the basics: your own and your customers’ Tax Registration Numbers (TRNs), legal names, addresses, and standardised item and tax codes. Duplicate or incomplete customer records are the most common cause of rejected invoices.</p>
 
-      <h3 style={H3}>2. Map your fields to the required format</h3>
+      <h2 style={H3}>2. Map your fields to the required format</h2>
       <p>Every field the e-invoice standard requires has to come from somewhere in your ERP or accounting system. Map each one — invoice lines, tax categories, units, totals — to its source field, and identify the gaps where your system does not currently capture what the format expects. This mapping is the heart of the integration work with your ASP.</p>
 
-      <h3 style={H3}>3. Cover the awkward transactions</h3>
+      <h2 style={H3}>3. Cover the awkward transactions</h2>
       <p>Standard sales invoices are the easy case. Make sure your design also handles credit notes, discounts, multi-currency, partial deliveries, advance payments and any sector-specific documents you raise — these are where field mapping tends to break.</p>
 
-      <h3 style={H3}>4. Test end-to-end before go-live</h3>
+      <h2 style={H3}>4. Test end-to-end before go-live</h2>
       <p>Run real-world invoices through the full path — your system to your ASP, transmitted and acknowledged — well before your mandatory date. Validate the exceptions, not just the happy path, and confirm how failures are surfaced and corrected. A test cycle that only proves the easy invoices is not a test cycle.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
@@ -1117,26 +1126,26 @@ function CorporateTaxGuideBody({ onNav }) {
         UAE Corporate Tax has applied since financial years beginning on or after 1&nbsp;June&nbsp;2023, under Federal Decree-Law No.&nbsp;47 of 2022. Nearly every business in the UAE — mainland or free zone, profitable or not — now has registration and filing obligations. Here is what actually applies, in plain English.
       </p>
 
-      <h3 style={H3}>Who has to pay — and the 0% / 9% bands</h3>
+      <h2 style={H3}>Who has to pay — and the 0% / 9% bands</h2>
       <p>Corporate Tax applies to businesses and commercial activities across the UAE. The headline rates are simple: <strong>0% on taxable income up to AED&nbsp;375,000</strong>, and <strong>9% on taxable income above AED&nbsp;375,000</strong>. The crucial point most owners miss: the AED&nbsp;375,000 threshold is a <em>rate band, not an exemption</em>. Being below it does not take you out of the system — you must still register, keep records, and file a return; you simply pay 0% on that first slice.</p>
 
-      <h3 style={H3}>Registration — and the AED 10,000 penalty</h3>
+      <h2 style={H3}>Registration — and the AED 10,000 penalty</h2>
       <p>Every taxable person must register for Corporate Tax with the Federal Tax Authority and obtain a Corporate Tax registration number, within the FTA&rsquo;s deadlines. Missing your registration deadline carries an <strong>AED&nbsp;10,000 late-registration penalty</strong>. There is relief: the FTA has waived that penalty where the business files its first Corporate Tax return (or annual declaration) <strong>within seven months of the end of its first tax period</strong>, rather than the usual nine. If you have not registered yet, this is the first thing to fix.</p>
 
       <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
         &ldquo;Below AED 375,000 is a 0% rate, not an exemption. You still register, and you still file.&rdquo;
       </blockquote>
 
-      <h3 style={H3}>Filing and payment — the nine-month rule</h3>
+      <h2 style={H3}>Filing and payment — the nine-month rule</h2>
       <p>Corporate Tax is self-assessed and filed once per tax period. The return must be filed, and any tax paid, <strong>within nine months of the end of the tax period</strong>. For a business whose tax period is the 2024 calendar year, that means a deadline of 30&nbsp;September&nbsp;2025. There are no provisional or advance payments — one return, one payment, nine months after year-end. See our {link('service-corporate-tax', 'Corporate Tax compliance')} service for how we scope and file it.</p>
 
-      <h3 style={H3}>Small Business Relief — now extended to 31 December 2029</h3>
+      <h2 style={H3}>Small Business Relief — now extended to 31 December 2029</h2>
       <p>If your revenue is <strong>AED&nbsp;3&nbsp;million or less</strong>, you can elect for <strong>Small Business Relief</strong>: you are treated as having no taxable income for the period (you still register and file, but you do not compute or pay Corporate Tax). Two things to watch. First, it is an <em>election</em> — you have to claim it on the return. Second, it is still <strong>transitional</strong> — but the window just got three years longer: <strong>Ministerial Decision 131 of 2026</strong> (issued 29&nbsp;July&nbsp;2026) replaced the sunset with tax periods ending on or before <strong>31&nbsp;December&nbsp;2029</strong>. The AED&nbsp;3&nbsp;million threshold and the exclusions are unchanged. Plan for the first post-relief period anyway, because the step-up to normal computation is not automatic.</p>
 
-      <h3 style={H3}>Free-zone businesses — the QFZP 0%</h3>
+      <h2 style={H3}>Free-zone businesses — the QFZP 0%</h2>
       <p>A Qualifying Free Zone Person can access a 0% rate on its <em>qualifying</em> income, while non-qualifying income is taxed at 9%. The conditions — adequate substance in the zone, qualifying activities, the de&nbsp;minimis limit on non-qualifying revenue, and audited financials — are strict, and breaching them costs you the status for that period plus four more. We unpack the three traps we see most often in {link('service-tax-planning', 'tax planning')} engagements and in our companion guide on free-zone qualifying income.</p>
 
-      <h3 style={H3}>Large multinationals — the 15% top-up tax</h3>
+      <h2 style={H3}>Large multinationals — the 15% top-up tax</h2>
       <p>Separately, multinational groups with consolidated revenue of <strong>EUR&nbsp;750&nbsp;million or more in at least two of the four preceding financial years</strong> fall within the UAE&rsquo;s <strong>Domestic Minimum Top-up Tax (DMTT)</strong> — a 15% effective-rate floor aligned with the OECD&rsquo;s Pillar Two rules — for financial years starting on or after 1&nbsp;January&nbsp;2025 (Cabinet Decision No.&nbsp;142 of 2024). This does not affect SMEs, but groups near the threshold should model it early.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
@@ -1176,20 +1185,20 @@ function VATGuideBody({ onNav }) {
         VAT has applied in the UAE since 1&nbsp;January&nbsp;2018, under Federal Decree-Law No.&nbsp;8 of 2017. The standard rate is <strong>5%</strong>, and most businesses that buy and sell in the UAE are caught by it. Here is what registration, filing and recovery actually involve.
       </p>
 
-      <h3 style={H3}>When you must register — AED 375,000 and AED 187,500</h3>
+      <h2 style={H3}>When you must register — AED 375,000 and AED 187,500</h2>
       <p>Registration is <strong>mandatory</strong> once your taxable supplies and imports exceed <strong>AED&nbsp;375,000</strong> over the previous 12 months, or you expect to cross it in the next 30 days. You may register <strong>voluntarily</strong> from <strong>AED&nbsp;187,500</strong> of supplies or taxable expenses — often worth it for start-ups that want to recover input VAT on set-up costs. Missing the mandatory deadline carries an <strong>AED&nbsp;10,000 late-registration penalty</strong>.</p>
 
-      <h3 style={H3}>Filing — EmaraTax and the 28-day rule</h3>
+      <h2 style={H3}>Filing — EmaraTax and the 28-day rule</h2>
       <p>VAT returns are filed online through the FTA&rsquo;s <strong>EmaraTax</strong> portal. Most businesses file quarterly; larger ones are assigned monthly periods. Whatever your cycle, the return must be filed and the net VAT paid <strong>by the 28th day of the month following the end of the tax period</strong>. You charge output VAT on your sales, recover input VAT on valid business expenses, and pay (or reclaim) the difference.</p>
 
       <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
         &ldquo;Zero-rated and exempt look the same on a customer&rsquo;s invoice. They are opposites on your VAT return.&rdquo;
       </blockquote>
 
-      <h3 style={H3}>Zero-rated vs exempt — the costliest confusion</h3>
+      <h2 style={H3}>Zero-rated vs exempt — the costliest confusion</h2>
       <p>This is where we re-paper the most positions. <strong>Zero-rated</strong> supplies are taxable at 0% — and crucially you can still <em>recover the input VAT</em> attributable to them. Examples include exports outside the GCC, international transport, and certain healthcare and education. <strong>Exempt</strong> supplies carry no VAT but <em>block input-VAT recovery</em> — examples include certain financial services, bare land, local passenger transport and residential leases. Misclassifying one as the other either overstates your reclaim or silently loses recoverable VAT.</p>
 
-      <h3 style={H3}>Imports, designated zones and corrections</h3>
+      <h2 style={H3}>Imports, designated zones and corrections</h2>
       <p>VAT on imported goods and services is generally accounted for under the <strong>reverse-charge mechanism</strong> — you self-account for it on your return rather than paying it at the border. Designated zones have their own treatment for goods. And if you find an error in a filed return, you correct it through a <strong>voluntary disclosure</strong> rather than quietly adjusting the next return. See our {link('service-vat', 'VAT compliance')} service for how we register, prepare, review and file.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
@@ -1229,20 +1238,20 @@ function BookkeepingGuideBody({ onNav }) {
         For years, bookkeeping in the UAE was optional housekeeping. Since VAT (2018) and Corporate Tax (2023), it is a <strong>legal requirement</strong> — your returns are only as defensible as the records behind them. Here is what good outsourced bookkeeping in Dubai actually looks like.
       </p>
 
-      <h3 style={H3}>It is no longer optional — and the records must last</h3>
+      <h2 style={H3}>It is no longer optional — and the records must last</h2>
       <p>Both regimes require you to keep proper books and supporting documents. VAT records must generally be retained for <strong>five years</strong> (longer for real estate), and Corporate Tax records for <strong>seven years</strong> after the end of the tax period. Reconstructing a year of transactions the week before a deadline is how penalties and overpaid tax happen.</p>
 
-      <h3 style={H3}>What proper bookkeeping covers</h3>
+      <h2 style={H3}>What proper bookkeeping covers</h2>
       <p>Day-to-day recording of every transaction; <strong>bank and ledger reconciliations</strong> so the books tie to reality; a disciplined <strong>monthly close</strong> rather than a year-end scramble; management accounts you can actually run the business on; and records structured to be <strong>VAT- and Corporate-Tax-ready</strong> from the start. We deliver all of this against a documented controls framework — see {link('service-bookkeeping', 'outsourced accounting')}.</p>
 
       <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
         &ldquo;Your VAT and Corporate Tax returns are only as defensible as the books behind them.&rdquo;
       </blockquote>
 
-      <h3 style={H3}>Cloud accounting — Tally, Zoho, QuickBooks, Xero</h3>
+      <h2 style={H3}>Cloud accounting — Tally, Zoho, QuickBooks, Xero</h2>
       <p>Modern bookkeeping runs on cloud platforms — Tally, Zoho Books, QuickBooks and Xero are all common in the UAE. The right choice depends on your transaction volume, VAT complexity and reporting needs; what matters more is that it is set up correctly, reconciled monthly, and mapped cleanly to your VAT and Corporate Tax positions.</p>
 
-      <h3 style={H3}>Outsource or hire in-house?</h3>
+      <h2 style={H3}>Outsource or hire in-house?</h2>
       <p>A full-time bookkeeper is a fixed cost with single-person key-man risk and no built-in review. Outsourcing gives you a reviewed close, continuity, and senior oversight for a fraction of a salaried hire — and it scales with you. For most SMEs and growing groups, outsourced bookkeeping with a clear monthly cadence is the better economics. Our pricing is customised to your scope — there is no one-size-fits-all rate.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
@@ -1288,9 +1297,9 @@ function CorporateTaxComingBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>The UAE has confirmed it will introduce a federal Corporate Tax for financial years starting on or after 1&nbsp;June&nbsp;2023. For a country built on a no-tax reputation, this is a structural shift — and the businesses that prepare early will have the easiest first filing.</p>
-      <h3 style={H3}>What has been announced</h3>
+      <h2 style={H3}>What has been announced</h2>
       <p>The headline rate is <strong>9%</strong> on taxable profits, with a <strong>0% band on the first AED&nbsp;375,000</strong> to protect small businesses and start-ups. Free-zone businesses that meet the qualifying conditions are expected to keep a preferential rate on qualifying income. Detailed rules will follow in the law and its decisions — but the direction is set.</p>
-      <h3 style={H3}>What to do now, before it arrives</h3>
+      <h2 style={H3}>What to do now, before it arrives</h2>
       <p>Three things are worth starting today: get your <strong>bookkeeping clean and current</strong> so you can compute taxable income when the time comes; review your <strong>group and free-zone structure</strong> while there is time to adjust; and map your <strong>related-party transactions</strong>, because transfer-pricing discipline will matter. None of this is wasted effort — it is good housekeeping regardless.</p>
       {artNote('Written in 2022 as the Corporate Tax regime was announced; rules have since been finalised. See our current UAE Corporate Tax guide for the position as enacted.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1308,9 +1317,9 @@ function ManagementAccountsBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>Statutory accounts tell you where you have been. Management accounts should help you decide where to go next — yet most owner-managers we meet only see numbers once a year, far too late to act on them.</p>
-      <h3 style={H3}>What belongs in a monthly pack</h3>
+      <h2 style={H3}>What belongs in a monthly pack</h2>
       <p>A useful monthly pack is short and decision-oriented: a <strong>P&amp;L against budget</strong> with variances explained in plain language; a <strong>cash position and short forecast</strong>; <strong>receivables and payables ageing</strong> so nothing slips; and two or three <strong>KPIs</strong> that actually move your business. If a number does not change a decision, it does not need to be in the pack.</p>
-      <h3 style={H3}>Cadence beats precision</h3>
+      <h2 style={H3}>Cadence beats precision</h2>
       <p>A pack that lands by the tenth of the month, every month, is worth more than a perfect one that arrives in week four. Close quickly, reconcile properly, and review it as a team — the habit is where the value is.</p>
       {artNote('General guidance for UAE owner-managers; tailor the pack to your sector and stage.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1328,9 +1337,9 @@ function CashFlowBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>When revenue slows suddenly — as it has for many UAE businesses this year — the question stops being &ldquo;are we profitable?&rdquo; and becomes &ldquo;do we have cash next week?&rdquo;. Profit is an opinion; cash is a fact.</p>
-      <h3 style={H3}>Build a 13-week cash forecast</h3>
+      <h2 style={H3}>Build a 13-week cash forecast</h2>
       <p>The single most useful tool in a downturn is a rolling <strong>13-week cash flow</strong>: every expected receipt and payment, week by week, updated every week. It turns vague anxiety into a clear view of the tightest week ahead — and buys you time to act before it arrives.</p>
-      <h3 style={H3}>Then protect the runway</h3>
+      <h2 style={H3}>Then protect the runway</h2>
       <p>With the forecast in hand: chase receivables actively, talk to suppliers early about terms, separate essential from deferrable spend, and keep your bank informed rather than surprised. Decisions made six weeks early are choices; the same decisions made in the tight week are emergencies.</p>
       {artNote('Written during the 2020 slowdown; the cash discipline holds in any downturn.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1349,14 +1358,14 @@ function ESRBody({ onNav }) {
     <div className="container" style={ART}>
       <p style={LEAD}>The UAE Economic Substance Regulations are finished. <strong>Cabinet Decision No.&nbsp;98 of 2024</strong> amended Cabinet Decision No.&nbsp;57 of 2020 so that ESR applies only to financial years from <strong>1&nbsp;January&nbsp;2019 to 31&nbsp;December&nbsp;2022</strong>. If your financial year ended after 31&nbsp;December&nbsp;2022 you owe no ESR notification, no ESR report and no substance test.</p>
 
-      <h3 style={H3}>What was cancelled</h3>
+      <h2 style={H3}>What was cancelled</h2>
       <p>All three obligations fall away for financial years ending after 31&nbsp;December&nbsp;2022: the annual <strong>notification</strong>, the <strong>economic substance test</strong>, and the <strong>ESR report</strong>. The decision took effect on 2&nbsp;September&nbsp;2024 and was announced by the Ministry of Finance on 14&nbsp;October&nbsp;2024.</p>
       <p>Administrative penalties already issued for those later periods are <strong>cancelled</strong>, and the Ministry has said penalties already paid for them are to be <strong>refunded</strong>. If you were fined for a 2023 or 2024 financial year, that fine should no longer stand — it is worth checking your status on the Ministry of Finance portal rather than assuming it was written off automatically.</p>
 
-      <h3 style={H3}>What still applies</h3>
+      <h2 style={H3}>What still applies</h2>
       <p>ESR has not been erased retrospectively. Financial years from <strong>2019 through 2022</strong> remain in scope, and filings, assessments and penalties for those years stand. If you had a relevant activity in that window &mdash; banking, insurance, investment-fund management, lease-finance, headquarters, shipping, holding-company, intellectual-property, or distribution-and-service-centre business &mdash; those years can still be reviewed, and the supporting records still need to be retained.</p>
 
-      <h3 style={H3}>Where the substance question went</h3>
+      <h2 style={H3}>Where the substance question went</h2>
       <p>Substance did not stop mattering; it moved. From 1&nbsp;June&nbsp;2023 the questions ESR used to ask &mdash; are the people, the decisions and the expenditure genuinely here? &mdash; are asked inside the Corporate Tax regime instead, under Federal Decree-Law No.&nbsp;47 of 2022. For a free-zone business the sharpest version of that test is whether it holds up as a Qualifying Free Zone Person, and for anyone with related-party dealings it is whether the pricing is defensible. Both are live, and both are examined.</p>
 
       {artNote('First published in September 2019 as ESR was introduced. Rewritten in August 2026 for the position after Cabinet Decision No. 98 of 2024. General information, not advice on your own position.')}
@@ -1376,9 +1385,9 @@ function VATPrimerBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>From 1&nbsp;January&nbsp;2018 the UAE introduced Value Added Tax at a standard rate of <strong>5%</strong>. For most businesses it is the first time tax has touched day-to-day operations — here is the first-principles version.</p>
-      <h3 style={H3}>Who registers</h3>
+      <h2 style={H3}>Who registers</h2>
       <p>Registration is mandatory once your taxable supplies cross <strong>AED&nbsp;375,000</strong> over twelve months, and voluntary from <strong>AED&nbsp;187,500</strong>. Once registered you charge 5% VAT on your taxable sales (output VAT) and can recover the VAT you pay on business costs (input VAT), paying the FTA the difference.</p>
-      <h3 style={H3}>Get the records right from day one</h3>
+      <h2 style={H3}>Get the records right from day one</h2>
       <p>VAT lives or dies on documentation: issue compliant tax invoices, keep them, and record every transaction so your periodic return is a report, not a reconstruction. Businesses that set up clean books now will find every future return — and every future tax — far easier.</p>
       {artNote('A primer from 2018, the year VAT launched. For the current detail — EmaraTax filing, recovery and the zero-rated vs exempt distinction — see our full UAE VAT guide.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1396,9 +1405,9 @@ function BookkeepingFoundationBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>This is our first note as a new firm, and it is the principle everything else rests on: clean, reconciled books are not overhead. They are the foundation on which every financing, audit, valuation and — increasingly — tax position is built.</p>
-      <h3 style={H3}>Why it matters more than it seems</h3>
+      <h2 style={H3}>Why it matters more than it seems</h2>
       <p>When the books are right, every other question gets easier: a bank funds you faster, an auditor signs off cleaner, an investor trusts the numbers, and you make decisions on fact rather than feel. When they are wrong, every one of those becomes a scramble — usually at the worst possible moment.</p>
-      <h3 style={H3}>The discipline we run on</h3>
+      <h2 style={H3}>The discipline we run on</h2>
       <p>Record promptly, <strong>reconcile to zero</strong>, close monthly, and have a second person review before numbers leave the building. It is unglamorous and it is the whole game. It is the standard we are founding this firm on, and the one we will hold to.</p>
       {artNote('Our founding note, December 2017. The discipline has not changed — only the regulations built on top of it.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1416,9 +1425,9 @@ function CostOfEquityBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>Drop a US cost-of-equity into a GCC valuation and you will misprice the asset. The capital-asset-pricing inputs that travel from a textbook do not reflect where the business actually earns and bears risk. We build it up, component by component.</p>
-      <h3 style={H3}>Start from the right risk-free rate</h3>
+      <h2 style={H3}>Start from the right risk-free rate</h2>
       <p>The risk-free rate should match the currency of the cash flows. For AED- or USD-pegged cash flows we anchor on a long US Treasury yield, then layer a <strong>country risk premium</strong> for the specific GCC market — not a blanket &ldquo;emerging markets&rdquo; figure. The peg matters: a dirham cash flow does not carry the same currency risk as a free-floating emerging-market currency.</p>
-      <h3 style={H3}>Then the premia that actually apply</h3>
+      <h2 style={H3}>Then the premia that actually apply</h2>
       <p>On top sit the <strong>equity risk premium</strong>, a <strong>size premium</strong> for smaller private companies, and a <strong>company-specific premium</strong> for concentration — single-customer, single-asset or key-person risk, which is common in family-owned GCC businesses. Each should be argued, not borrowed. A build-up you can defend line by line is worth more than a precise-looking number you cannot.</p>
       {artNote('General valuation guidance for UAE/GCC practitioners; calibrate every input to the specific asset and date.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1436,9 +1445,9 @@ function DCFTerminalBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>In most discounted-cash-flow valuations, well over half the value sits in the terminal value — the period beyond the explicit forecast. So it is striking how often it is the least-examined number on the page, especially in UAE family-office holdings.</p>
-      <h3 style={H3}>The growth assumption that quietly inflates value</h3>
+      <h2 style={H3}>The growth assumption that quietly inflates value</h2>
       <p>A perpetual growth rate that exceeds long-run nominal GDP is a value machine that runs forever — and it is the single most common drift we re-test. Terminal growth should be modest, defensible, and consistent with the economics of the business at maturity, not an extrapolation of a good forecast year.</p>
-      <h3 style={H3}>Make reinvestment consistent with growth</h3>
+      <h2 style={H3}>Make reinvestment consistent with growth</h2>
       <p>Growth is not free. If the terminal value assumes continued growth, it must also assume the reinvestment (capex and working capital) needed to fund it — otherwise the model creates cash from nothing. We check the implied return on capital in perpetuity, and prefer cross-checking the terminal value against an exit-multiple sanity test before relying on it.</p>
       {artNote('General valuation guidance; terminal-value assumptions must be set per asset and reviewed at each valuation date.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1456,9 +1465,9 @@ function WorkingCapitalPegBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>Two parties can agree a headline price and still fight over millions at completion. The battleground is almost always the <strong>working-capital peg</strong> — the closing mechanic that adjusts price for the working capital actually delivered on the day.</p>
-      <h3 style={H3}>The peg is a normalised target, not a snapshot</h3>
+      <h2 style={H3}>The peg is a normalised target, not a snapshot</h2>
       <p>The target (or &ldquo;peg&rdquo;) should be a <strong>normalised</strong> level of working capital — typically an average across a representative period that strips out one-offs and reflects the seasonality of the business. Set it off a single month-end and you bake in whatever distortion happened to sit on the balance sheet that day.</p>
-      <h3 style={H3}>Define the line items before you sign</h3>
+      <h2 style={H3}>Define the line items before you sign</h2>
       <p>Most disputes are definitional: what counts as debt versus working capital, how accruals and provisions are treated, the cut-off, and the true-up timetable. In a cash-free, debt-free deal these definitions decide who keeps the cash. Agree them — in writing, with worked examples — in the SPA, not in a post-completion argument.</p>
       {artNote('General transaction guidance; closing mechanics should be drafted with deal counsel for the specific transaction.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1476,9 +1485,9 @@ function TransferPricingBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>UAE Corporate Tax brought transfer pricing into everyday compliance. Transactions between <strong>related parties</strong> must now be priced at <strong>arm&rsquo;s length</strong> (Article 34), and payments to <strong>connected persons</strong> — owners, directors and their relatives — are deductible only up to their <strong>market value</strong> (Article 36). The Board needs to know what documentation those rules create.</p>
-      <h3 style={H3}>The arm&rsquo;s-length principle, applied</h3>
+      <h2 style={H3}>The arm&rsquo;s-length principle, applied</h2>
       <p>Related-party transactions — management fees, intra-group loans, shared services, IP charges — must be priced as they would be between independent parties, supported by a recognised transfer-pricing method. Mispricing is not just an adjustment risk; it can shift taxable income between entities and draw FTA scrutiny.</p>
-      <h3 style={H3}>What documentation is expected</h3>
+      <h2 style={H3}>What documentation is expected</h2>
       <p>Depending on group size and revenue, obligations escalate from a transfer-pricing <strong>disclosure form</strong> filed with the return, up to a full <strong>master file and local file</strong> for larger groups, with thresholds set by the FTA. A Board should expect, at minimum: a related-party transaction register, a documented pricing policy, and benchmarking support proportionate to the group&rsquo;s size — confirm the exact thresholds that apply to you.</p>
       {artNote('General guidance on UAE Corporate Tax transfer pricing; confirm current thresholds and filing requirements against the latest FTA guidance.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1496,9 +1505,9 @@ function ReconciliationBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>A reconciliation that &ldquo;closes to a tolerance&rdquo; is not reconciled — it is unreconciled by an amount someone decided to ignore. We hold the line at zero, and it is one of the most useful disciplines a finance function can adopt.</p>
-      <h3 style={H3}>Why tolerances hide real problems</h3>
+      <h2 style={H3}>Why tolerances hide real problems</h2>
       <p>Small unexplained differences are not noise; they are usually a timing error, a duplicate, a missed entry or a control gap in miniature. Wave them through as &ldquo;within tolerance&rdquo; and you train the team to stop looking — and the small differences accumulate into a restatement waiting to happen.</p>
-      <h3 style={H3}>How to clear a residual properly</h3>
+      <h2 style={H3}>How to clear a residual properly</h2>
       <p>When a reconciliation will not close, the discipline is to <strong>identify each component</strong> of the difference, not to plug it: list the reconciling items, age them, assign an owner, and resolve them to source. A residual that genuinely cannot be explained is escalated, not absorbed. Zero is not pedantry — it is the only number that proves you understand the account.</p>
       {artNote('A controls discipline we apply across engagements; adapt the escalation path to your organisation.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1516,9 +1525,9 @@ function ControlFrameworkBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>Most control breaks we are called in to fix trace back to one event: an ERP migration. The new system goes live, and controls that were implicit in the old one quietly do not come across. A note on what has to survive the cutover.</p>
-      <h3 style={H3}>Controls do not migrate themselves</h3>
+      <h2 style={H3}>Controls do not migrate themselves</h2>
       <p>Segregation of duties, approval limits, three-way matching, posting restrictions — these live in configuration and roles, not in the data you migrate. If they are not deliberately re-designed and re-tested in the new system, the migration silently loosens them. We map every key control to its new-system equivalent <em>before</em> go-live, not after the first bad month-end.</p>
-      <h3 style={H3}>Protect data integrity at the boundary</h3>
+      <h2 style={H3}>Protect data integrity at the boundary</h2>
       <p>The cutover itself is the highest-risk window: opening balances, master data and in-flight transactions all move at once. Reconcile the conversion to the legacy system, lock down access during the transition, and keep an auditable trail of what moved and how. Get the boundary right and the new controls hold; get it wrong and you spend a year chasing differences.</p>
       {artNote('A practitioner&rsquo;s note on control continuity through system change; scope the control set to your environment.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1536,9 +1545,9 @@ function DesignatedZoneBody({ onNav }) {
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>VAT designated zones can feel like they sit outside VAT — until a movement of goods quietly turns into a taxable supply and the trail to prove otherwise is thin. The position is defensible; the documentation is what makes it so.</p>
-      <h3 style={H3}>When &ldquo;outside scope&rdquo; becomes taxable</h3>
+      <h2 style={H3}>When &ldquo;outside scope&rdquo; becomes taxable</h2>
       <p>Goods within a designated zone can be treated as outside the scope of UAE VAT for certain supplies — but that treatment depends on the goods staying within the zone framework and being used for a qualifying purpose. Consume them, or move them into the mainland, and the supply can be reclassified as taxable. The treatment follows the <em>movement and use</em> of the goods, not the address on the invoice.</p>
-      <h3 style={H3}>Keep the trail that proves the position</h3>
+      <h2 style={H3}>Keep the trail that proves the position</h2>
       <p>What protects you is evidence: entry and exit records, customs and transport documentation, and a clear link between each movement and its VAT treatment. If you cannot show where the goods went and why the treatment applied, expect the FTA to default to taxable. Build the trail as the goods move, not when the query lands.</p>
       {artNote('General VAT guidance on designated zones; confirm the current rules and your specific facts with the latest FTA guidance.')}
       <div style={{ marginTop: 24, borderTop: '1px solid var(--aa-rule)', paddingTop: 18 }}>
@@ -1562,21 +1571,31 @@ function IFRSStatementsBody({ onNav }) {
     <div className="container" style={ART}>
       <p style={LEAD}>Since Corporate Tax arrived, &ldquo;the accounts&rdquo; are no longer a private internal document — they are the basis of your tax return, your free-zone licence renewal, and your bank&rsquo;s credit decision. Knowing which standard applies, and what a complete set looks like, matters more than it used to.</p>
 
+      <div style={{ borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', padding: '16px 20px', margin: '0 0 28px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>In short</div>
+        <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6, fontSize: 15.5, lineHeight: 1.6 }}>
+          <li>For Corporate Tax, <strong>IFRS</strong> is the default. IFRS for SMEs is allowed where revenue is AED&nbsp;50&nbsp;million or less, and the cash basis where it is AED&nbsp;3&nbsp;million or less (Ministerial Decision No.&nbsp;114 of 2023).</li>
+          <li><strong>Audited statements</strong> are required, for tax periods from 1&nbsp;January&nbsp;2025, from a taxable person outside a tax group with revenue above AED&nbsp;50&nbsp;million and from every Qualifying Free Zone Person (Ministerial Decision No.&nbsp;84 of 2025). Many free zones also want them for licence renewal.</li>
+          <li>A full set has five parts: financial position, profit or loss and other comprehensive income, changes in equity, cash flows, and the notes.</li>
+        </ul>
+      </div>
+
       <div style={{ margin: '22px 0 4px', padding: '14px 18px', borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', fontSize: 15, lineHeight: 1.6 }}>
         <strong>Looking for what changes in October 2026?</strong> The reporting and tax dates &mdash; Decision 13 supplier checks and the amended VAT Regulation from 1 October, the 30 October e-invoicing deadline, Decision 4 on how records are kept &mdash; are on one page, in order: <a href={pathForInsight('uae-tax-changes-october-2026')} onClick={(e) => { e.preventDefault(); onNav('insight', 'uae-tax-changes-october-2026'); }} style={{ color: 'var(--aa-cyan-text)', fontWeight: 600, textDecoration: 'none' }}>UAE tax and reporting changes, October 2026 &rarr;</a>
       </div>
 
-      <h3 style={H3}>Which accounting standard applies to you</h3>
+      <h2 style={H3}>Which accounting standard applies to you</h2>
       <p>Under Ministerial Decision No.&nbsp;114 of 2023, UAE Corporate Tax sets the accounting standards: <strong>IFRS</strong> is the default; <strong>IFRS for SMEs</strong> may be used where revenue does not exceed <strong>AED&nbsp;50&nbsp;million</strong>; and a <strong>cash basis</strong> of accounting is permitted where revenue does not exceed <strong>AED&nbsp;3&nbsp;million</strong>. Choosing the right basis early avoids restating later.</p>
 
-      <h3 style={H3}>Who actually needs prepared (and audited) statements</h3>
+      <h2 style={H3}>Who actually needs prepared (and audited) statements</h2>
       <p>Most businesses need a proper set of financial statements to compute taxable income for the FTA. Many <strong>free zones require audited financial statements</strong> each year for licence renewal. And banks, investors and counterparties will ask for them before they lend, invest or transact. Audited or not, statements that are prepared properly the first time save a scramble at every one of those moments.</p>
+      <p>For Corporate Tax, <strong>Ministerial Decision No.&nbsp;84 of 2025</strong> sets who must prepare and maintain audited financial statements, for tax periods starting on or after 1&nbsp;January&nbsp;2025: a taxable person that is not a tax group and has revenue above <strong>AED&nbsp;50&nbsp;million</strong> in the tax period, and every <strong>Qualifying Free Zone Person</strong>. A tax group prepares audited special purpose financial statements in the form the FTA specifies. The Decision replaced Ministerial Decision No.&nbsp;82 of 2023, which still governs tax periods that began before 1&nbsp;January&nbsp;2025.</p>
 
       <blockquote style={{ margin: '40px 0', borderLeft: '2px solid var(--aa-cyan)', paddingLeft: 24, fontFamily: 'var(--aa-font-display)', fontSize: 26, lineHeight: 1.3, color: 'var(--aa-charcoal)', textTransform: 'uppercase', letterSpacing: '0.01em', fontWeight: 700 }}>
         &ldquo;Your financial statements are now the basis of your tax return, your licence renewal and your bank&rsquo;s decision — all at once.&rdquo;
       </blockquote>
 
-      <h3 style={H3}>What a complete set contains</h3>
+      <h2 style={H3}>What a complete set contains</h2>
       <p>A full set under IFRS is more than a profit figure: a <strong>statement of financial position</strong> (balance sheet), a <strong>statement of profit or loss and other comprehensive income</strong>, a <strong>statement of changes in equity</strong>, a <strong>statement of cash flows</strong>, and the <strong>notes</strong> — accounting policies and the disclosures that make the numbers intelligible. Groups also need <strong>consolidation</strong>. The notes are where most preparation effort goes, and where most weak sets fall short.</p>
 
       <div style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24, marginTop: 40 }}>
@@ -1590,7 +1609,7 @@ function IFRSStatementsBody({ onNav }) {
       </div>
 
       <p style={{ fontSize: 13, color: 'var(--aa-steel)', marginTop: 32, fontStyle: 'italic' }}>
-        Tax and reporting rules current as at April 2026. General guidance, not a substitute for a formal engagement — confirm your position against the latest UAE Ministry of Finance / Federal Tax Authority sources, or talk to us.
+        Tax and reporting rules current as at October 2026. General guidance, not a substitute for a formal engagement — confirm your position against the latest UAE Ministry of Finance / Federal Tax Authority sources, or talk to us.
       </p>
 
       <div style={{ marginTop: 28, borderTop: '1px solid var(--aa-rule)', paddingTop: 20 }}>
@@ -1614,18 +1633,18 @@ function SBRExtendedBody({ onNav }) {
     <div className="container" style={ART}>
       <p style={LEAD}>Small Business Relief was written to expire. On 29&nbsp;July&nbsp;2026 the Ministry of Finance issued <strong>Ministerial Decision No.&nbsp;131 of 2026</strong>, which amends the relief&rsquo;s enabling decision and moves its end date out by three years &mdash; to tax periods ending on or before <strong>31&nbsp;December&nbsp;2029</strong>.</p>
 
-      <h3 style={H3}>What actually changed</h3>
+      <h2 style={H3}>What actually changed</h2>
       <p>Exactly one clause. Article&nbsp;2(2) of Ministerial Decision No.&nbsp;73 of 2023 previously applied the revenue threshold to tax periods ending on or before 31&nbsp;December&nbsp;2026. It now reads: the threshold applies to tax periods commencing on or after 1&nbsp;June&nbsp;2023 and continues to apply to subsequent tax periods that <strong>end on or before 31&nbsp;December&nbsp;2029</strong>. The decision takes effect the day after publication.</p>
 
       <SBRRoadmap />
 
-      <h3 style={H3}>What did not change</h3>
+      <h2 style={H3}>What did not change</h2>
       <p>Everything else. The threshold is still <strong>AED&nbsp;3&nbsp;million of revenue</strong>, and it still has to hold in the relevant tax period <em>and</em> in every previous tax period &mdash; one year above AED&nbsp;3&nbsp;million closes the door permanently, extension or not. The relief is still unavailable to Qualifying Free Zone Persons and to constituent companies of multinational groups with consolidated revenue of <strong>AED&nbsp;3.15&nbsp;billion or more</strong> (Cabinet Decision No.&nbsp;44 of 2020 &mdash; the country-by-country reporting test, not the Pillar&nbsp;Two/DMTT one, which is a separate regime with its own threshold). And it is still an <strong>election</strong>, one you have to make in <em>every</em> tax period: you register, you file a return &mdash; a simplified one &mdash; and you claim the relief on it. Nothing about this is automatic, and a period filed without the election cannot be put right later.</p>
 
-      <h3 style={H3}>What it is worth</h3>
+      <h2 style={H3}>What it is worth</h2>
       <p>For an eligible business the relief treats you as having <strong>no taxable income</strong> for the period. Against the 9% rate above the AED&nbsp;375,000 band, the arithmetic is easy: an SME with AED&nbsp;800,000 of taxable income would otherwise owe roughly AED&nbsp;38,000 a year. Three more years of relief is real money, and it lands with the certainty of a published decision rather than a hoped-for renewal.</p>
 
-      <h3 style={H3}>What to do now</h3>
+      <h2 style={H3}>What to do now</h2>
       <ul>
         <li><strong>Re-test eligibility on the prior-period rule, not just this year.</strong> Revenue is measured across every tax period since June&nbsp;2023. Businesses that grew through AED&nbsp;3&nbsp;million in 2024 or 2025 gain nothing from the extension.</li>
         <li><strong>Do not skip registration or filing.</strong> The relief removes the tax, not the obligations. Late registration still carries the AED&nbsp;10,000 penalty, and the return is still due within nine months of year-end.</li>
@@ -1634,7 +1653,7 @@ function SBRExtendedBody({ onNav }) {
         <li><strong>Keep the books that prove it.</strong> The election is only as good as the revenue records behind it &mdash; and the FTA can ask.</li>
       </ul>
 
-      <h3 style={H3}>The wider read</h3>
+      <h2 style={H3}>The wider read</h2>
       <p>Two amendments in under three months &mdash; on 10&nbsp;May&nbsp;2026 the Ministry moved the e-invoicing ASP deadline from 31&nbsp;July to 30&nbsp;October (Ministerial Decision 66 of 2026), and now this &mdash; point the same way: the UAE is willing to move dates when the compliance burden lands faster than the market can absorb it. That is worth remembering when planning against any transitional measure. Plan for the current law, not for the extension you hope arrives.</p>
 
       <p>If you want the eligibility test run properly against your own numbers, our {link('service-corporate-tax', 'Corporate Tax')} service does exactly that &mdash; and the estimator on that page now reflects the 2029 window.</p>
@@ -1659,15 +1678,24 @@ function SBREvidenceBody({ onNav }) {
     <div className="container" style={ART}>
       <p style={LEAD}>Small Business Relief now runs to tax periods ending on or before 31&nbsp;December&nbsp;2029. The condition attached to it did not move: revenue of <strong>AED&nbsp;3&nbsp;million or less</strong> in the relevant tax period <em>and</em> in every previous one. The FTA&rsquo;s own guide puts the burden plainly &mdash; an electing business &ldquo;must be able to provide evidence to the FTA that their Revenue did not exceed the Small Business Relief threshold for all relevant Tax Periods&rdquo;. Three more years of relief is three more years of evidence.</p>
 
-      <h3 style={H3}>Count your periods before you count your revenue</h3>
+      <div style={{ borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', padding: '16px 20px', margin: '0 0 28px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>In short</div>
+        <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6, fontSize: 15.5, lineHeight: 1.6 }}>
+          <li>Small Business Relief now runs to tax periods ending on or before 31&nbsp;December&nbsp;2029, but revenue must be <strong>AED&nbsp;3&nbsp;million or less</strong> in the period and in every earlier tax period since June 2023.</li>
+          <li>The threshold is <strong>never pro-rated</strong>: a short or a long first period still gets AED&nbsp;3&nbsp;million. Revenue includes asset-disposal proceeds, exempt dividends and foreign income; output VAT is left out.</li>
+          <li>Keep the records Cabinet Decision No.&nbsp;74 of 2023 requires, including the papers behind the election, and a short note of why your Corporate Tax revenue differs from your VAT returns.</li>
+        </ul>
+      </div>
+
+      <h2 style={H3}>Count your periods before you count your revenue</h2>
       <p>&ldquo;Every previous period&rdquo; sounds alarming until you work out how many you actually have. Corporate Tax applies to tax periods commencing on or after <strong>1&nbsp;June&nbsp;2023</strong>, so trading history before that is irrelevant to this test. What matters is your financial year-end.</p>
       <p>A December year-end business has its first tax period in 2024, so by the time it files for 2026 it is evidencing three periods. A 31&nbsp;March year-end started earlier, with a first period ending 31&nbsp;March&nbsp;2024. A company incorporated in 2025 has <em>one</em> period to evidence, not three. Establish the count first &mdash; a surprising number of eligibility arguments fall apart because someone tested the wrong years.</p>
 
-      <h3 style={H3}>The first-period trap: nothing is pro-rated</h3>
+      <h2 style={H3}>The first-period trap: nothing is pro-rated</h2>
       <p>This is the most expensive arithmetic error we see, and it runs in both directions. The FTA&rsquo;s public clarification on first tax periods states it without hedging: <em>&ldquo;Where the first Tax Period is longer or shorter than a 12-month period, there is no pro-rating of the various thresholds prescribed under the Corporate Tax Law, for example the Revenue threshold for Small Business Relief.&rdquo;</em></p>
       <p>So a seven-month first period still gets the full AED&nbsp;3&nbsp;million &mdash; businesses routinely and needlessly disqualify themselves by scaling it down to AED&nbsp;1.75&nbsp;million. And an eighteen-month first period also gets AED&nbsp;3&nbsp;million, <strong>not</strong> AED&nbsp;4.5&nbsp;million. Since a UAE company&rsquo;s first financial year can run anywhere from six to eighteen months, the year-end chosen at incorporation is quietly a Small Business Relief decision.</p>
 
-      <h3 style={H3}>What &ldquo;revenue&rdquo; catches that your sales ledger will not</h3>
+      <h2 style={H3}>What &ldquo;revenue&rdquo; catches that your sales ledger will not</h2>
       <p>The test is <strong>revenue</strong>, not profit &mdash; gross, top-line, before a single cost. The working formula is simply <em>sales plus other income</em>, and &ldquo;other income&rdquo; is where eligibility usually dies:</p>
       <ul>
         <li><strong>Asset disposals count at their proceeds, not their gain.</strong> The FTA&rsquo;s own worked example has a business sell a shop for AED&nbsp;1.2&nbsp;million and cross the line at AED&nbsp;4,150,000 of revenue &mdash; permanently, on a transaction that may have made no profit at all.</li>
@@ -1678,28 +1706,28 @@ function SBREvidenceBody({ onNav }) {
       </ul>
       <p>A one-off disposal in year two is the classic way a business that trades comfortably under AED&nbsp;3&nbsp;million loses the relief for good.</p>
 
-      <h3 style={H3}>Your VAT returns will not agree, and forcing them to is the mistake</h3>
+      <h2 style={H3}>Your VAT returns will not agree, and forcing them to is the mistake</h2>
       <p>Corporate Tax revenue and VAT-declared supplies are different measures and will differ legitimately &mdash; output VAT, dividends, disposal proceeds, foreign income, cash-basis timing, and mismatched period boundaries all pull them apart. The discipline is not to make the two numbers match. It is to hold a short written reconciliation explaining <em>why</em> they differ, prepared while you still remember.</p>
       <p>We have not seen anything from the FTA describing an automated cross-check between the two, and we would not tell you there is one. The reason to keep the reconciliation is simpler: a tax audit is notified only ten business days in advance, and under the Tax Procedures Law the burden of proving the accuracy of your return sits with <em>you</em>, not with the Authority.</p>
 
-      <h3 style={H3}>The evidence file the law actually asks for</h3>
+      <h2 style={H3}>The evidence file the law actually asks for</h2>
       <p>Here is the part almost every summary misses. The FTA&rsquo;s relief guide offers an illustrative list &mdash; bank statements, sales ledgers, till rolls &mdash; and says explicitly that the Corporate Tax record rules sit <em>on top of</em> the Tax Procedures Law. That underlying regulation is binding, and it asks for more.</p>
       <p><strong>Cabinet Decision No.&nbsp;74 of 2023</strong> requires every business to keep, as a minimum, a balance sheet and profit-and-loss account, a <strong>fixed asset register</strong>, a wages and salaries register, and inventory records. And then the clause nobody quotes: documents recording <em>&ldquo;any election, assessment, determination or calculation made&hellip; including the basis, or method of assessment, determination or calculation made.&rdquo;</em></p>
       <p>Read that against Small Business Relief and it is unambiguous. The election is an election. The AED&nbsp;3&nbsp;million test is a calculation. So the law requires you to keep, for every period, a record that the election was made <em>and</em> a note of how you computed revenue &mdash; which accounting basis, what you included, what you left out. A clean sales ledger with no written basis behind it does not discharge that.</p>
       <p>The fixed asset register earns its place too: it is precisely the document that evidences the disposal proceeds most likely to have broken the threshold.</p>
       <p>Below AED&nbsp;3&nbsp;million you may prepare accounts on the cash basis rather than accrual &mdash; a real choice, and one the FTA can challenge if the outcome is unreasonable. Because the regulation requires the basis to be recorded, switching it in the one year you would otherwise breach is both visible and challengeable. Write down the commercial reason at the time, not afterwards.</p>
 
-      <h3 style={H3}>Seven years, not five</h3>
+      <h2 style={H3}>Seven years, not five</h2>
       <p>The general period is five years, and for Corporate Tax it is seven. The Tax Procedures regulation sets five <em>&ldquo;unless the Tax Law states otherwise&rdquo;</em> &mdash; and the Corporate Tax Law states otherwise, at <strong>seven years</strong>, expressly overriding it. Five is the right figure for VAT and Excise; for Corporate Tax, work to seven.</p>
       <p>The clock runs from the period the records relate to, and it extends: four further years if you are in dispute with the FTA, under audit, or were notified of an intended audit before the base period expired. Copies are acceptable instead of originals &mdash; but only if you can reproduce a legible copy within the period the FTA specifies, which can be as little as five business days. A lapsed accounting subscription or an unindexed folder of scans does not meet that standard.</p>
       <p>With the relief now running to 2029, the last electing period has to be evidenced into the mid-2030s. This is a decade-long filing discipline, not a year-end task.</p>
 
-      <h3 style={H3}>If you own more than one company</h3>
+      <h2 style={H3}>If you own more than one company</h2>
       <p>First separate two situations that get muddled. A sole establishment holding three licences is <strong>one taxable person</strong>: you add the revenue together and file once. No anti-abuse analysis is needed &mdash; only arithmetic. Three separate LLCs are three taxable persons, and there is exactly one route by which the FTA can treat them as one for this purpose: <strong>Article&nbsp;6 of Ministerial Decision No.&nbsp;73 of 2023</strong>, the artificial-separation rule.</p>
       <p>The FTA is careful to protect legitimate structures, and says so: <em>&ldquo;There are legitimate circumstances in which a Business may separate its activities or choose to operate through separate entities.&rdquo;</em> Its own worked example of a franchised second cafe &mdash; same name, same branding, same supplier, customers unable to tell them apart &mdash; is <strong>not</strong> artificial separation, because the ownership is genuinely different. The distinguishing question is ownership and commercial substance, not whether the shopfronts look alike.</p>
       <p>Where it turns serious is intent. The Tax Procedures Law defines deliberately understating your revenue, or failing to consolidate related businesses in order to stay below a threshold, as <strong>tax evasion</strong> &mdash; a criminal matter, not an administrative one. We are not aware of any published FTA statement applying that provision to Small Business Relief by name, and we would not claim otherwise. But the direction of travel is not ambiguous, and &ldquo;we split it to stay under three million&rdquo; is not a sentence to say out loud.</p>
 
-      <h3 style={H3}>What to do this month</h3>
+      <h2 style={H3}>What to do this month</h2>
       <ul>
         <li><strong>List your tax periods</strong> from your first one commencing on or after 1&nbsp;June&nbsp;2023, and put the revenue figure against each.</li>
         <li><strong>Rebuild each figure as sales plus other income</strong>, adding back disposal proceeds, dividends and foreign income. This is where breaches surface.</li>
@@ -2002,7 +2030,7 @@ function SupplierVerificationBody({ onNav }) {
         </ul>
       </div>
 
-      <h3 style={H3}>What it does not do</h3>
+      <h2 style={H3}>What it does not do</h2>
       <p>It is easy to read this as <em>no supplier checks, no input VAT</em>. The Decision does not go that far, and the position it actually creates is more useful to know.</p>
       <p>Decision&nbsp;13 does not stand on its own. It gives content to <strong>Article&nbsp;54&nbsp;bis</strong> of the VAT Law, inserted by Federal Decree-Law No.&nbsp;16 of 2025 and in force since 1&nbsp;January&nbsp;2026. Everything turns on its exact words, so here it is in full, as published on the UAE legislation portal:</p>
       <div style={{ margin: '24px 0 26px', borderLeft: '3px solid var(--aa-cyan)', paddingLeft: 22, fontSize: 15.5, lineHeight: 1.6, color: 'var(--aa-charcoal-800)' }}>
@@ -2017,11 +2045,11 @@ function SupplierVerificationBody({ onNav }) {
 
       <Article54Tree />
 
-      <h3 style={H3}>Does this apply to you?</h3>
+      <h2 style={H3}>Does this apply to you?</h2>
       <p>Every VAT-registered business that deducts input tax. There is no sectoral carve-out, no government or regulated-entity exception, and nothing in the six pages excludes free zone or designated zone companies &mdash; designated zone status affects where a supply of goods takes place, not a taxable person&rsquo;s deduction. Imports and reverse-charge supplies are caught as well: the Decision&rsquo;s own definition of input tax expressly covers tax due &ldquo;when conducting an Import&rdquo;.</p>
       <p>The only exception is monetary, and it is narrower than it looks.</p>
 
-      <h3 style={H3}>Three numbers, and the one that governs you</h3>
+      <h2 style={H3}>Three numbers, and the one that governs you</h2>
       <div style={{ overflowX: 'auto', marginTop: 8 }}>
         <table className="aa-table" style={{ width: '100%' }}>
           <thead>
@@ -2068,20 +2096,20 @@ function SupplierVerificationBody({ onNav }) {
         <p style={{ margin: 0, fontSize: 15.5 }}>One number, three unrelated tests. <strong>Supplies you make</strong> &mdash; the VAT mandatory registration threshold. <strong>Taxable income</strong> &mdash; the 0% Corporate Tax band. <strong>Purchases from one supplier</strong> &mdash; this Decision. The mechanics differ too: VAT registration looks forward 30&nbsp;days, this Decision looks forward 12&nbsp;months.</p>
       </div>
 
-      <h3 style={H3}>Once per supplier</h3>
+      <h2 style={H3}>Once per supplier</h2>
       <p><strong>Identity.</strong> Where the supplier is a natural person: a copy of the Emirates ID or passport, and &mdash; the part that will surprise people &mdash; you must meet them, in person or virtually, before the supply. Where the supplier is a company: verify incorporation through official records and obtain identification for the authorised representative. <strong>The meeting requirement does not apply to companies.</strong></p>
       <p><strong>Place of business.</strong> Verify that the supplier has a real place of business, electronically or by visiting, and that it is consistent with what they actually do.</p>
       <p><strong>Risk indicators.</strong> Three of them: an address changed more than twice in the previous 12&nbsp;months; key employees &mdash; managers, or the people you deal with &mdash; changed more than twice in the previous 12&nbsp;months; and commercial transactions disproportionate or unexpected in volume, value or nature against the size and history of that supplier&rsquo;s business. Where an indicator is present, the Decision requires you to obtain and document a reasonable explanation. <strong>It does not tell you to stop dealing with the supplier.</strong> It tells you to write the file note.</p>
       <p><strong>Above AED&nbsp;375,000 with one supplier</strong>, two more: a written confirmation from an authorised bank in the State that the supplier holds a bank account, carrying no relevant reservations or conditions &mdash; usefully, it need not be issued to you &mdash; and a documented review of publicly available reviews and media coverage from reliable sources.</p>
       <p>That bank letter is the hardest operational ask in the instrument, and it has an obvious gap. &ldquo;An authorised bank in the State&rdquo; means a UAE bank; a non-resident supplier will not hold one; and the Decision offers no alternative test while plainly bringing imports into scope. That is a question for the FTA, not one we can answer for you.</p>
 
-      <h3 style={H3}>Every invoice</h3>
+      <h2 style={H3}>Every invoice</h2>
       <p>The workload is asymmetric, and this is the part most easily overlooked. The <strong>supplier</strong> file is annual &mdash; Article&nbsp;5 requires verification when you deal with a supplier for the first time, or on recurrent dealings where they have not been verified in the previous 12&nbsp;months. The <strong>supply</strong> check under Article&nbsp;4 runs on every taxable supply you receive that is not inside the AED&nbsp;10,000 exception.</p>
       <p>Article&nbsp;4 asks you to satisfy yourself that there is a genuine commercial rationale for the transaction; that price and margin are justifiable against the market; that the supply is not outside the supplier&rsquo;s licensed activity; and, where a third party or intermediary is involved, that there is a reasonable commercial explanation for their role. For <strong>goods</strong> it adds authenticity and origin, and the validity of the supplier&rsquo;s ownership or right to dispose. The Decision says what to verify. It sets no documentary standard for how &mdash; so do not accept that a certificate of origin has suddenly become mandatory.</p>
       <p><strong>Payment carries its own condition, in mandatory language.</strong> The consideration &ldquo;shall be paid by electronic means&rdquo;. Cash is not prohibited &mdash; the clause expressly contemplates it &mdash; but a cash payment must rest on a documented commercial reason, be easily verifiable, and fall within &ldquo;the thresholds specified in the applicable Tax legislation&rdquo;. We went looking for that threshold. The word &ldquo;cash&rdquo; does not appear anywhere in the VAT Law itself, and the one mention of it in the Tax Procedures Law is about settling a disputed amount with the Authority &mdash; not a ceiling on what you may pay a supplier. So two of the three conditions are workable today, and the third points at a figure we have not been able to find.</p>
       <p><strong>Update, 11 September 2026.</strong> The threshold now has a home. Cabinet Decision No.&nbsp;149 of 2026, issued on 1&nbsp;September, adds a Clause&nbsp;3 to Article&nbsp;54 of the VAT Executive Regulation, in force from 1&nbsp;October &mdash; the same day as this Decision: input tax may not be recovered on any supply whose value exceeds an amount to be set in a decision of the Minister of Finance, where the consideration is paid <em>or intended to be paid</em> in cash, in accordance with the controls in that decision. The amount itself is still to come; at the date of this update the Minister&rsquo;s decision had not been published. Two things follow. The cash condition above no longer points at nothing &mdash; it points at a ministerial threshold that will also, on its own and without any evasion in the chain, bar the input tax above it. And &ldquo;intended to be paid&rdquo; puts the test at the point of claim, not at settlement. {ilink('vat-executive-regulation-amendments-october-2026', 'Every amendment in Cabinet Decision 149, article by article →')}</p>
 
-      <h3 style={H3}>The one document that has had to exist since 1 October</h3>
+      <h2 style={H3}>The one document that has had to exist since 1 October</h2>
       <p>Article&nbsp;5(4) requires a documented policy for these verification procedures, stating the powers and responsibilities of the persons implementing, reviewing and supervising them, kept with your tax records.</p>
       <p>Deal with this one first, for a specific reason: its timing does not depend on any of the open questions below. It is also the single thing an FTA officer can ask for on day one, because either it exists or it does not. It does not require three different people, and it is not filed with the Authority.</p>
       <div style={{ marginTop: 22, padding: '20px 22px', border: '1px solid var(--aa-cyan)', borderRadius: 4 }}>
@@ -2089,22 +2117,22 @@ function SupplierVerificationBody({ onNav }) {
         <p style={{ margin: 0, fontSize: 15.5 }}>The policy is a short document, but it has to name the right people and match how your purchase ledger actually runs &mdash; a template with the wrong names in it is worse than none. We draft it alongside the rolling 12-month supplier analysis that tells you which suppliers sit above AED&nbsp;100,000 and AED&nbsp;375,000, because those two numbers decide how much of this Decision applies to you at all. {link('contact', 'Talk to us about the policy →')}</p>
       </div>
 
-      <h3 style={H3}>What it costs if you get it wrong</h3>
+      <h2 style={H3}>What it costs if you get it wrong</h2>
       <p>Decision&nbsp;13 carries <strong>no penalty of its own</strong>. There is none in its seven articles, and the consolidated administrative penalties schedule contains no violation for failing to verify a supplier, failing to verify a supply, or failing to hold the Article&nbsp;5(4) policy. We have not found a penalty attached to this Decision in either instrument.</p>
       <p>The exposure is the <strong>denied deduction itself</strong>, and then the ordinary consequences of an understated return under the penalty schedule &mdash; with a materially better outcome if you correct by voluntary disclosure before the Authority notifies an audit than after. Whether the general records penalty reaches these particular files is arguable, and we would not assert it either way.</p>
 
-      <h3 style={H3}>Two things the Decision leaves open</h3>
+      <h2 style={H3}>Two things the Decision leaves open</h2>
       <p><strong>Does this catch supplies received before 1&nbsp;October but deducted on or after it?</strong> The Decision is silent &mdash; no transitional provision and no grandfathering, in either language version. There are textual pulls both ways. Article&nbsp;2 scopes the Decision to verification &ldquo;before deduction of Input Tax&rdquo;, which points at the deduction date; but the duty to meet a natural-person supplier arises before the supply, which cannot be complied with retrospectively at all. We will not resolve that for you. The practical answer is the one that is right under either reading: start applying this to new suppliers and new purchases now.</p>
       <p><strong>From what point is the AED&nbsp;10,000 exception lost once you cross AED&nbsp;100,000 with a supplier?</strong> Article&nbsp;6(2) says only that the exception &ldquo;shall not apply&rdquo;. No commencement point, no retrospective-adjustment mechanism, nothing on curing supplies already deducted. The prudent operating position &mdash; verify the supplier as soon as the forward-looking limb makes AED&nbsp;100,000 foreseeable, on signing the framework contract rather than on crossing the line mid-year &mdash; is defensible under either answer.</p>
       <p>There is a third gap worth naming. Article&nbsp;54&nbsp;bis has referred to &ldquo;the measures, procedures and conditions determined by the Authority&rdquo; since 1&nbsp;January&nbsp;2026, but the Decision determining them took effect on 1&nbsp;October&nbsp;2026. We found no earlier instrument specifying them for that nine-month window, and we cannot confirm that none exists. The position for that period is unclear.</p>
 
       <Decision13Timeline />
 
-      <h3 style={H3}>E-invoicing will not do this for you</h3>
+      <h2 style={H3}>E-invoicing will not do this for you</h2>
       <p>Different regimes, different timelines, different populations. Decision&nbsp;13 has applied since 1&nbsp;October&nbsp;2026. E-invoicing Phase&nbsp;1 goes live on 1&nbsp;January&nbsp;2027 for businesses at or above AED&nbsp;50&nbsp;million, with smaller businesses following later in 2027 &mdash; and the Phase&nbsp;1 ASP appointment deadline now sits at 30&nbsp;October&nbsp;2026. E-invoicing covers B2B and B2G; B2C sits outside it, and outside nothing in Decision&nbsp;13.</p>
       <p>More fundamentally, an Accredited Service Provider validates the structure of an invoice against the FTA&rsquo;s data dictionary. It does not verify that your supplier exists, trades from a real address, or sits in an honest chain. That reading of the overlap is ours, not the Authority&rsquo;s.</p>
 
-      <h3 style={H3}>What to do now</h3>
+      <h2 style={H3}>What to do now</h2>
       <ul>
         <li><strong>Run a rolling 12-month purchase report by supplier</strong> and sort it into three buckets: above AED&nbsp;375,000, above AED&nbsp;100,000, and the rest. Note what that means &mdash; on 1&nbsp;October the look-back already reaches back to October&nbsp;2025. The data you need is historic, not future. A business that cannot produce spend by supplier for the last twelve months is already behind.</li>
         <li><strong>Build the supplier file</strong> for both upper buckets: identification, incorporation, place of business, risk-indicator notes. Add the bank confirmation and the reputation review for the top bucket &mdash; and start the bank letters early, because they run on someone else&rsquo;s turnaround.</li>
@@ -2216,39 +2244,48 @@ function RecordCopyStandardBody({ onNav }) {
     <div className="container" style={ART}>
       <p style={LEAD}>If you keep your books as scans, exports or photocopies &mdash; and almost everyone does &mdash; there is now a published standard those copies have to meet. FTA Decision No.&nbsp;4 of 2026 sets it, and it has applied since <strong>30&nbsp;July&nbsp;2026</strong>. It was published on the Authority&rsquo;s website on 20&nbsp;August.</p>
 
-      <h3 style={H3}>The date to work from</h3>
+      <div style={{ borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', padding: '16px 20px', margin: '0 0 28px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>In short</div>
+        <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6, fontSize: 15.5, lineHeight: 1.6 }}>
+          <li>Since <strong>30&nbsp;July&nbsp;2026</strong>, scanned and electronic copies of accounting records must meet FTA Decision No.&nbsp;4 of 2026: complete and identical to the original, clearly legible, and open to the FTA on request.</li>
+          <li><strong>Partial scans are not accepted</strong>, and paper copies must not fade while you keep them: five years under the Tax Procedures rules, seven for Corporate Tax, longer in an audit or dispute.</li>
+          <li>If records sit behind <strong>passwords or encryption</strong>, you must give the FTA the keys, and access runs to the system that holds them.</li>
+        </ul>
+      </div>
+
+      <h2 style={H3}>The date to work from</h2>
       <p>Decision&nbsp;4 was issued on <strong>2&nbsp;June&nbsp;2026</strong>, approved at the FTA Board&rsquo;s 44th meeting on 30&nbsp;April. Article&nbsp;5 makes it effective on publication in the Official Gazette, and the Authority&rsquo;s own cover page gives that as <strong>30&nbsp;July&nbsp;2026</strong>.</p>
       <p>The text was published on tax.gov.ae on <strong>20&nbsp;August&nbsp;2026</strong>, alongside Decisions 7 and 13 of the same year.</p>
       <p>The date to plan against is 30&nbsp;July. That is what separates this Decision from the supplier-verification rules in Decision&nbsp;13, which start on 1&nbsp;October: these requirements already apply to the records you are keeping today, so the question is not what to put in place by a deadline but whether what you have now would stand.</p>
 
-      <h3 style={H3}>What it actually covers</h3>
+      <h2 style={H3}>What it actually covers</h2>
       <p>Two defined terms carry the whole Decision. An <strong>Electronic Copy</strong> is a document created, saved or converted electronically so it can be viewed, retrieved and read. A <strong>Photocopy</strong> is an identical reproduction by photocopying, scanning or photography that preserves content and form legibly. If your accounting records and commercial books exist in either form &mdash; and for most businesses that is all of them &mdash; Decision&nbsp;4 applies.</p>
       <p>Article&nbsp;2 sets three rules. Records must be <strong>complete and identical to the originals</strong>; they must be <strong>clear and easily legible</strong>; and <strong>access must be provided to the Authority on request, including access to the system</strong> in which they are held. Article&nbsp;3 then says what each of those means in practice, and that is where the surprises are.</p>
 
       <GateDiagram />
 
-      <h3 style={H3}>Partial scans are out</h3>
+      <h2 style={H3}>Partial scans are out</h2>
       <p>Article&nbsp;3(1) requires the copy to be identical to the original and to <strong>include all the pages in the same order</strong>. Then, in its own sentence: <em>&ldquo;Partial scanning of any part of the document shall not be accepted.&rdquo;</em></p>
       <p>That is the line that will catch the most businesses. Scanning the first page of a multi-page supplier contract, capturing the invoice but not the annexure, filing the signature page without the schedule &mdash; all of it is ordinary practice in a busy finance function, and none of it now produces a record the Authority has to accept. It is a bright line with no materiality threshold attached to it.</p>
 
-      <h3 style={H3}>Legible &mdash; and still legible in seven years</h3>
+      <h2 style={H3}>Legible &mdash; and still legible in seven years</h2>
       <p>Article&nbsp;3(2) asks for sufficient quality and resolution that the detail is <strong>clear and easily legible when displayed on a computer screen</strong>. It also requires that the <em>&ldquo;ink and paper used must be of a quality that ensures that the Photocopy does not fade during the record-keeping period&rdquo;</em>.</p>
       <p>Read that against how long you have to keep things. Under the Tax Procedures rules the general period is <strong>five years</strong>; for Corporate Tax the Corporate Tax Law overrides it at <strong>seven</strong>, and either can extend by four more years if you are in dispute or under audit. Cabinet Decision No.&nbsp;17 of 2026, in force since 1&nbsp;April&nbsp;2026, adds a further two years where a refund application made within the time limits is still undecided.</p>
       <p>Now consider a thermal till roll, which fades to blank in months, or a cheap inkjet copy of a delivery note. Neither survives five years, let alone eleven. If a document is going to be retained as paper, the fade requirement effectively forces you to scan it &mdash; and once scanned, gates one and three apply to it. One helpful concession: a <strong>black and white copy of a colour original is acceptable</strong>, provided the data stays clearly legible.</p>
 
-      <h3 style={H3}>The part nobody expects: your passwords</h3>
+      <h2 style={H3}>The part nobody expects: your passwords</h2>
       <p>Article&nbsp;3(3) is short and it is the one to read twice. Where electronic copies, or the systems holding them, <em>&ldquo;are protected by encryption or passwords, the Person must provide the encryption keys or passwords necessary to enable access to the Authority.&rdquo;</em> For photocopies, access must include <strong>the places where they are stored</strong>.</p>
       <p>Two things follow. Access runs to the <em>system</em>, not just to an export &mdash; handing over a PDF pack is not obviously the same as giving access to the accounting platform it came from. And any arrangement where nobody in the business can produce the key, because the records sit in an ex-employee&rsquo;s drive or a vendor&rsquo;s vault under someone else&rsquo;s credentials, is a compliance problem waiting for an audit notice.</p>
 
-      <h3 style={H3}>Outsourcing does not move the responsibility</h3>
+      <h2 style={H3}>Outsourcing does not move the responsibility</h2>
       <p>Article&nbsp;4 permits you to engage a third party to maintain the records &mdash; <em>&ldquo;provided that the Person remains legally responsible for maintaining such records and books and ensuring their safety.&rdquo;</em></p>
       <p>That is one sentence and it settles a question a lot of businesses have assumed the other way. If your books sit with an outsourced accountant, a bookkeeping platform or a document-storage provider, the obligation is still yours. Two practical consequences: your engagement terms should say who holds what, in what format, and how fast it can be produced; and you should know today whether you could actually retrieve a complete, legible, unlocked set from that provider inside the window an audit gives you.</p>
 
-      <h3 style={H3}>Where this meets the supplier-verification rules</h3>
+      <h2 style={H3}>Where this meets the supplier-verification rules</h2>
       <p>Decision&nbsp;4 reads like housekeeping until you put it next to <strong>FTA Decision No.&nbsp;13 of 2026</strong>, which from 1&nbsp;October requires you to verify suppliers and supplies before deducting input VAT. Article&nbsp;5(3) of that Decision tells you to <em>&ldquo;document the verification steps taken and retain supporting documents and records, enabling the Authority to verify the correctness of their implementation.&rdquo;</em></p>
       <p>Decision&nbsp;13 tells you <em>what</em> to keep. Decision&nbsp;4 tells you <em>how</em> it has to be kept. A supplier file assembled to satisfy Decision&nbsp;13 &mdash; trade licence, incorporation extract, Emirates ID, bank confirmation, a note of the risk indicators &mdash; is worth nothing if it is a set of partial scans in a password-protected folder nobody can open. And Decision&nbsp;4 is already in force while Decision&nbsp;13 is not, so the standard exists before the files do. {ilink('fta-decision-13-supplier-verification', 'We have written up Decision 13 separately →')}</p>
 
-      <h3 style={H3}>What to do</h3>
+      <h2 style={H3}>What to do</h2>
       <ul>
         <li><strong>Test one document end to end.</strong> Pick a multi-page supplier contract from last year and try to produce it: every page, in order, legible on screen, without asking anyone outside the business for a password. What breaks is your gap.</li>
         <li><strong>Find the partial scans.</strong> Anywhere a workflow captures &ldquo;the invoice&rdquo; rather than the document, that is now non-compliant. Purchase approval and expense apps are the usual culprits.</li>
@@ -2298,7 +2335,7 @@ function ERAmendments2026Body({ onNav }) {
         </ul>
       </div>
 
-      <h3 style={H3}>Every change, and when it applies</h3>
+      <h2 style={H3}>Every change, and when it applies</h2>
       <div style={{ overflowX: 'auto', marginTop: 8 }}>
         <table className="aa-table" style={{ width: '100%' }}>
           <thead>
@@ -2325,7 +2362,7 @@ function ERAmendments2026Body({ onNav }) {
       </div>
       <p style={{ marginTop: 16, fontSize: 15, color: 'var(--aa-steel-700)' }}>Article numbers are those of Cabinet Decision No.&nbsp;52 of 2017 as consolidated. The English text is the Ministry&rsquo;s unofficial translation; the Arabic governs.</p>
 
-      <h3 style={H3}>Cash: the threshold Decision&nbsp;13 pointed at</h3>
+      <h2 style={H3}>Cash: the threshold Decision&nbsp;13 pointed at</h2>
       <p>When we wrote up {ilink('fta-decision-13-supplier-verification', 'FTA Decision 13')} in August, its payment condition pointed at a cash threshold &ldquo;specified in the applicable Tax legislation&rdquo; that we could not find in the VAT Law or the Tax Procedures Law. It now has a home. New Clause&nbsp;3 of Article&nbsp;54 reads, in the Ministry&rsquo;s translation:</p>
       <blockquote style={{ margin: '18px 0', padding: '14px 20px', borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', fontSize: 16 }}>
         &ldquo;Input Tax may not be recovered on any supply which has a value exceeding the amount specified in a decision issued by the Minister where the consideration is paid or intended to be paid in cash, in accordance with the controls specified in that decision.&rdquo;
@@ -2333,30 +2370,30 @@ function ERAmendments2026Body({ onNav }) {
       <p>Three things in that sentence deserve a slow read. The <strong>amount is not in the Regulation</strong>; it comes in a decision of the Minister of Finance that had not been published when this was written. The block attaches where consideration is paid <strong>&ldquo;or intended to be paid&rdquo;</strong> in cash &mdash; so the test is at the point of claim, not at settlement, and an invoice you plan to settle in cash is caught before a note has changed hands. And the clause is a stand-alone bar on recovery: it does not depend on tax evasion in the chain the way Article&nbsp;54&nbsp;bis does. Decision&nbsp;13 asks you to document a commercial reason for paying cash; from 1&nbsp;October, above the Minister&rsquo;s figure and subject to whatever controls that decision sets, the input tax is simply not recoverable.</p>
       <p>What this means in practice depends entirely on the figure, so we will not guess at it. The policy decision does not: a business that pays suppliers in cash above small sums needs a written position now, and a way of flagging those invoices in the purchase ledger so that the claim is not made by default.</p>
 
-      <h3 style={H3}>Staff accommodation</h3>
+      <h2 style={H3}>Staff accommodation</h2>
       <p>Article&nbsp;53 lists the input tax that cannot be recovered. Since 2018, goods and services bought for employees&rsquo; personal benefit have been blocked. The exceptions now number four: where labour law makes providing them mandatory; where a contract or documented policy provides them, from 1&nbsp;October only in the cases and on the conditions the Authority specifies; health insurance within stated limits; and deemed supplies. The first two are rewritten. The first now covers benefits mandatory &ldquo;under the applicable labour legislation in the State or any free zone, including financial and non-financial free zones&rdquo; &mdash; which settles a point for DIFC and ADGM employers &mdash; but it then carves out <strong>accommodation provided by the employer to its employees</strong>, &ldquo;unless the provision of such accommodation is mandatory pursuant to the decisions or directives issued by the Ministry of Human Resources and Emiratisation&rdquo;.</p>
       <p>The second exception, for contractual and documented-policy benefits, loses its own test (&ldquo;in order that they may perform their role and it can be proven to be normal business practice&rdquo;) and instead applies &ldquo;in accordance with the cases and conditions specified by the Authority&rdquo;. </p>
       <p><strong>Update, 28 September 2026.</strong> The Authority has now specified them. FTA Decision No.&nbsp;17 of 2026, issued on 9&nbsp;September and in force from 1&nbsp;October, lists six cases &mdash; transport, food and drink for staff living in remote areas, accommodation, up to 30 days&rsquo; housing for new employees, phones and home internet, and parking &mdash; each with conditions that must all be met. Accommodation provided under a contract or policy has five conditions, among them that the housing is related to the operational requirements of the work and not part of the employee&rsquo;s benefits or ordinary compensation, that the employee cannot take a cash allowance instead, and that it is for the employee alone unless the employee is required to live permanently near the workplace; a new employee&rsquo;s temporary stay of no more than 30 days has a lighter case of its own. {ilink('fta-decision-17-employee-benefits-input-vat', 'The six cases, condition by condition →')}</p>
       <p>The businesses this reaches are the ones that house people as a matter of course &mdash; construction, hospitality, manufacturing, facilities management, any employer running labour accommodation or staff housing. The question for each of them is whether the housing is <em>mandatory under a MoHRE decision or directive</em> for the workers concerned, or provided by contract or policy. Only the first keeps the input tax without further conditions; the second now has to meet every condition of Decision&nbsp;17&rsquo;s accommodation case, or of its 30-day case for a new employee&rsquo;s temporary housing. That is a fact about your workforce and your paperwork, not about the Regulation, and it is the first thing to establish.</p>
 
-      <h3 style={H3}>One price, one supply</h3>
+      <h2 style={H3}>One price, one supply</h2>
       <p>Article&nbsp;4 already said when a bundle is a single composite supply (one price, one supplier, components that would be unnatural to split) and that a bundle failing those tests is multiple supplies. New Clause&nbsp;6 closes the door from the other side: a taxable person <strong>may not</strong> treat a supply as multiple supplies &ldquo;if the nature of the supply and its economic substance demonstrate that these components are interconnected and cannot be separated&rdquo;. In that case it is a single composite supply and takes the treatment of its principal component.</p>
       <p>The obvious target is pricing that separates a zero-rated or exempt element from a standard-rated one to lower the tax on a package. The Regulation now says substance decides, not the invoice layout. If you sell bundles &mdash; equipment with installation, a course with materials, accommodation with services &mdash; the review is whether the elements genuinely stand alone, and whether the tax treatment you apply follows the principal component when they do not.</p>
 
-      <h3 style={H3}>Medical products</h3>
+      <h2 style={H3}>Medical products</h2>
       <p>Article&nbsp;41(4) zero-rated pharmaceutical products and medical equipment as specified in Cabinet decisions. Both paragraphs are replaced by one: &ldquo;any medical product as specified in a decision issued by the Cabinet&rdquo;. The Ministry describes the change as aligning the VAT text with the updated legislative framework for the healthcare sector. The zero rate is not withdrawn &mdash; the goods that qualify are those a Cabinet decision names &mdash; and the residual paragraph for other goods necessary to zero-rated healthcare services is kept. For pharmacies, distributors and clinics the question is which Cabinet decision now carries the list, and that is one to watch rather than assume.</p>
 
-      <h3 style={H3}>The Capital Assets Scheme</h3>
+      <h2 style={H3}>The Capital Assets Scheme</h2>
       <p>Article&nbsp;57 defined a Capital Asset as &ldquo;a single item of expenditure of the Business amounting to AED&nbsp;5,000,000 or more&rdquo;. It now reads &ldquo;a business asset with a cost amounting to AED&nbsp;5,000,000 or more&rdquo;, excluding tax, with the same useful-life tests: ten years for a building or part of one, five years for anything else. The staged-payment rule that aggregates smaller sums for a building or an installed asset is unchanged. The Ministry calls this a clarification for consistency with the Decree-Law, which defines Capital Assets as &ldquo;business assets designated for long-term use&rdquo;. The practical reading is that the scheme follows the <em>asset</em> and its cost, however the spend was invoiced &mdash; worth checking against how your fixed-asset register groups capitalised costs.</p>
 
-      <h3 style={H3}>Three smaller ones</h3>
+      <h2 style={H3}>Three smaller ones</h2>
       <ul>
         <li><strong>Profit margin, Article&nbsp;29(5).</strong> The purchase price of second-hand goods, antiques and collectors&rsquo; items includes purchase costs and fees only &ldquo;provided that the Input Tax on such costs or fees, where incurred, is not recoverable&rdquo; under Article&nbsp;54 of the Decree-Law. A cost whose VAT you have recovered cannot also shrink the margin.</li>
         <li><strong>Outside the State, Article&nbsp;52(2).</strong> For the recovery rule on financial services supplied to non-residents, a person is outside the State if present for <strong>less than 30 days</strong> and the presence is not effectively connected with the supply. The old text said &ldquo;less than a month&rdquo;.</li>
         <li><strong>Credit notes, Article&nbsp;60(1)(a).</strong> The words &ldquo;Tax Credit Note&rdquo; must be clearly displayed on the credit note. The previous text said &ldquo;on the invoice&rdquo;; nothing changes in practice.</li>
       </ul>
 
-      <h3 style={H3}>2027: the apportionment ratio moves from costs to sales</h3>
+      <h2 style={H3}>2027: the apportionment ratio moves from costs to sales</h2>
       <p>This is the largest change and the one with the longest fuse. A business that makes both taxable and exempt supplies recovers input tax on its shared costs &mdash; rent, IT, audit fees &mdash; in proportion. Today, under Article&nbsp;55(7) and as the FTA&rsquo;s apportionment guide sets it out, the proportion is <strong>a&nbsp;&divide;&nbsp;(a&nbsp;+&nbsp;b)</strong>: input tax wholly attributable to taxable supplies over the sum of that and input tax wholly attributable to exempt supplies, rounded to a whole number, applied to the residual. From the first tax year commencing after 1&nbsp;October&nbsp;2027 the ratio is <strong>the value of supplies under Article&nbsp;54(1) of the Decree-Law over the total value of all supplies</strong> &mdash; broadly taxable turnover over total turnover &mdash; with the sale of capital assets and reverse-charge receipts under Article&nbsp;48 left out of the calculation, again rounded to a whole number.</p>
       <p>The same costs can therefore give a different answer, in either direction. Take a business with AED&nbsp;300,000 of input tax on costs used only for taxable supplies, AED&nbsp;100,000 on costs used only for exempt supplies, and AED&nbsp;60,000 on shared overheads:</p>
       <div style={{ overflowX: 'auto', marginTop: 8 }}>
@@ -2379,7 +2416,7 @@ function ERAmendments2026Body({ onNav }) {
       <p style={{ marginTop: 16 }}>A business whose exempt activity is large in turnover but cheap to run &mdash; a landlord with residential lets beside commercial ones, say &mdash; recovers less under the new ratio. One whose exempt activity is small in turnover but costly to run recovers more. Neither is a rounding difference, and the annual wash-up and the actual-use adjustment in Article&nbsp;55 continue to sit on top of whichever ratio applies. Government entities and charities are taken out of the switch by new Clause&nbsp;19 and keep an input-tax ratio.</p>
       <p><strong>On the date.</strong> &ldquo;The first Tax year commencing after 1&nbsp;October&nbsp;2027&rdquo; is later than it sounds. A tax year under Article&nbsp;55 follows the registration stagger, not the financial year: a monthly filer&rsquo;s tax year is the calendar year, and a quarterly filer&rsquo;s ends on 31&nbsp;January, the last day of February or 31&nbsp;March. So, in the ordinary case, a monthly filer moves to the new ratio on <strong>1&nbsp;January&nbsp;2028</strong> and a quarterly filer between 1&nbsp;February and 1&nbsp;April&nbsp;2028; a registrant on a twelve-month tax period moves at the start of its first such period after 1&nbsp;October&nbsp;2027. That is time enough to model it &mdash; and, where the standard method would not give a fair result, to consider whether one of the special methods the FTA already approves on application would.</p>
 
-      <h3 style={H3}>What to do now</h3>
+      <h2 style={H3}>What to do now</h2>
       <ul>
         <li><strong>Decide your cash position in writing</strong> and tag cash-settled purchase invoices in the ledger, so that when the Minister&rsquo;s figure lands the claim above it is already excluded rather than corrected later.</li>
         <li><strong>List every case where you recover VAT on staff accommodation</strong>, and for each one establish whether the housing is mandatory under a MoHRE decision or directive, or provided under contract or policy. Only the first keeps the recovery without further conditions from 1&nbsp;October; the second has to meet case&nbsp;3 of FTA Decision&nbsp;17, or case&nbsp;4 where a new employee&rsquo;s temporary housing lasts no longer than 30 days.</li>
@@ -2432,7 +2469,7 @@ function CTExemptionApplications2026Body({ onNav }) {
         </ul>
       </div>
 
-      <h3 style={H3}>Who has to apply at all</h3>
+      <h2 style={H3}>Who has to apply at all</h2>
       <p>Article&nbsp;4 of the Corporate Tax Law lists nine kinds of exempt person. Some never apply to the Authority: government entities, government controlled entities, and extractive and non-extractive natural resource businesses that meet their own conditions under Articles&nbsp;7 and&nbsp;8. Qualifying public benefit entities register but do not apply. The rest must apply to the Authority before the exemption runs, and this Decision is the procedure for them:</p>
       <ul>
         <li><strong>Qualifying investment funds</strong> &mdash; paragraph (f).</li>
@@ -2442,7 +2479,7 @@ function CTExemptionApplications2026Body({ onNav }) {
         <li><strong>Qualifying limited partnerships, and companies they wholly own</strong>, under Article&nbsp;5 of Cabinet Decision No.&nbsp;34 of 2025.</li>
       </ul>
 
-      <h3 style={H3}>What changed, side by side</h3>
+      <h2 style={H3}>What changed, side by side</h2>
       <div style={{ overflowX: 'auto', marginTop: 8 }}>
         <table className="aa-table" style={{ width: '100%' }}>
           <thead>
@@ -2464,26 +2501,26 @@ function CTExemptionApplications2026Body({ onNav }) {
       </div>
       <p style={{ marginTop: 16, fontSize: 15, color: 'var(--aa-steel-700)' }}>Article numbers are those of each Decision. The English texts are the Authority&rsquo;s unofficial translations; the Arabic governs.</p>
 
-      <h3 style={H3}>31 October: government-owned companies</h3>
+      <h2 style={H3}>31 October: government-owned companies</h2>
       <p>This is the date to act on first. Article&nbsp;3(5) lets a UAE company that is <strong>wholly owned and controlled by a government entity or a government controlled entity</strong> apply for exemption for <strong>any tax period that ended before 1&nbsp;January&nbsp;2026</strong>, provided it met the conditions in that period &mdash; and the application must be in by <strong>31&nbsp;October&nbsp;2026</strong>.</p>
       <p>Under the 2023 Decision, a company in that position had 60 business days after each year-end. For a 31&nbsp;December&nbsp;2024 year-end that window closed in the spring of 2025, and for a 2025 year-end it has closed too. The catch-up reopens both, and any period back to the start of Corporate Tax, in one filing window. If approved, the exemption runs from the start of the tax period named in the application (Art.&nbsp;3(6)).</p>
       <p>Two details matter in practice. The clause is written as an exception to the parent-first rule in Article&nbsp;3(4), which makes sense: a government entity does not itself apply for exemption, so there is no parent application to wait for. And the conditions are the ordinary paragraph (h) conditions &mdash; wholly owned and controlled, and doing the owner&rsquo;s work, holding its assets or doing only what is ancillary to it &mdash; tested for each period you name, on the facts of that period.</p>
 
-      <h3 style={H3}>31 December: two more catch-ups</h3>
+      <h2 style={H3}>31 December: two more catch-ups</h2>
       <ul>
         <li><strong>Foreign companies owned by exempt owners.</strong> Cabinet Decision No.&nbsp;55 of 2025 extended the exemption to foreign-incorporated companies wholly owned by exempt owners such as government entities, government controlled entities, qualifying investment funds and public pension funds, where they meet the conditions. Where such a company is eligible to apply with retrospective effect, the FTA Decision sets <strong>31&nbsp;December&nbsp;2026</strong> as the last day to do so (Art.&nbsp;3(2)(a)).</li>
         <li><strong>Qualifying limited partnerships.</strong> A partnership, or a company wholly owned by one, entitled to apply under Article&nbsp;5 of Cabinet Decision No.&nbsp;34 of 2025, for tax periods that began in 2025 and ended on or before 31&nbsp;August&nbsp;2026, must apply by <strong>31&nbsp;December&nbsp;2026</strong> (Art.&nbsp;3(3)). The stakes are unusual here. Under Article&nbsp;5(8) of the Cabinet Decision, a partnership that does not apply during the first tax period the Decision applies to it loses the exemption for that period <em>and the four after it</em>.</li>
       </ul>
       <p>For Cabinet decisions issued from 1&nbsp;January&nbsp;2026 that apply retrospectively, the window is 90 business days from the end of the tax period in which the decision was issued (Art.&nbsp;3(2)(b)). Cabinet Decision No.&nbsp;1 of 2026 on sports entities &mdash; issued on 12&nbsp;January&nbsp;2026 and effective from 1&nbsp;June&nbsp;2023 &mdash; is the case in point: for a calendar-year entity, the tax period in which it was issued is 2026, so the deadline is 90 business days after 31&nbsp;December&nbsp;2026.</p>
 
-      <h3 style={H3}>The new clock</h3>
+      <h2 style={H3}>The new clock</h2>
       <p>Ninety business days after the tax period ends, and the application is made <strong>after</strong> it ends, not during it. Business days exclude weekends and federal holidays, so the calendar date moves with the holidays: for a tax period ending 31&nbsp;December&nbsp;2026 the deadline falls around mid-May 2027, depending on how the holidays fall that spring. Work the date out from the published holiday list for your year rather than counting calendar days.</p>
       <p>Article&nbsp;5 applies the new Decision to every application submitted from 15&nbsp;September&nbsp;2026, for tax periods back to June 2023. Read literally, that covers a period whose 60-day window had already closed under the old Decision but whose 90-day window had not &mdash; a year-end in the late spring of 2026, for example. That is our reading of the text, not a published position of the Authority. If your case turns on it, confirm it before relying on it.</p>
 
-      <h3 style={H3}>Parent first</h3>
+      <h2 style={H3}>Parent first</h2>
       <p>A company wholly owned by a qualifying investment fund, a pension fund or an exempt subsidiary may apply for its own exemption once the owner has applied, and the Authority will not decide it until the owner&rsquo;s application is approved (Art.&nbsp;3(4)). The same applies to paragraph (i) companies owned by those. For a group, the order of filing is now a matter of rule: the top of the chain applies first, a subsidiary may apply once its owner has, and the subsidiary&rsquo;s application is not decided until the owner&rsquo;s is approved.</p>
 
-      <h3 style={H3}>When the exemption starts</h3>
+      <h2 style={H3}>When the exemption starts</h2>
       <p>From the start of the tax period named in the application, if approved (Art.&nbsp;3(6)). Article&nbsp;3(7) lets the Authority set another date in listed cases, rewritten from the 2023 text:</p>
       <ul>
         <li>The registration showed the wrong tax period &mdash; the exemption starts from the correct one.</li>
@@ -2492,10 +2529,10 @@ function CTExemptionApplications2026Body({ onNav }) {
         <li>The law granting the exemption is retrospective &mdash; the exemption starts from the start of the tax period in which the conditions were met.</li>
       </ul>
 
-      <h3 style={H3}>What the Decision leaves out</h3>
+      <h2 style={H3}>What the Decision leaves out</h2>
       <p>The 2023 Decision allowed the Authority to ask an exempt person for an annual declaration that it still met the conditions. The new Decision does not repeat that clause. The underlying rule in Article&nbsp;4(5) of the Law has not moved: an exempt person that fails a condition at any time in a tax period ceases to be exempt from the start of that period. The evidence that the conditions held all year is still yours to keep, whether or not anyone asks for it.</p>
 
-      <h3 style={H3}>What to do before 31 October</h3>
+      <h2 style={H3}>What to do before 31 October</h2>
       <ul>
         <li><strong>If your company is wholly owned by a government entity or a government controlled entity</strong>, list every tax period that ended before 1&nbsp;January&nbsp;2026 for which no exemption was granted, test the paragraph (h) conditions for each, and file by 31&nbsp;October.</li>
         <li><strong>If you are a foreign company owned by an exempt owner, or a qualifying limited partnership</strong>, diarise 31&nbsp;December and start now: for the partnership, a missed first period costs five.</li>
@@ -2566,7 +2603,7 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
       'Documents proving payment kept, such as receipts showing the date, time, amount and the tax paid.'] },
   ];
   const ROW = { padding: '16px 0', borderBottom: '1px solid var(--aa-rule)' };
-  const HEAD = { display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '4px 12px', fontSize: 17, margin: 0 };
+  const HEAD = { fontFamily: 'var(--aa-font-sans)', fontWeight: 'var(--aa-w-semibold)', textTransform: 'none', letterSpacing: 'normal', display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '4px 12px', fontSize: 17, margin: 0 };
   const REF = { fontSize: 12, color: 'var(--aa-steel-700)', letterSpacing: '0.04em' };
 
   return (
@@ -2582,12 +2619,12 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
         </ul>
       </div>
 
-      <h3 style={H3}>Where the Decision sits</h3>
+      <h2 style={H3}>Where the Decision sits</h2>
       <p>Article&nbsp;53(1)(c) of the Executive Regulation blocks input tax on goods and services bought &ldquo;to be used by employees for no charge to them and for their personal benefit including the provision of entertainment services&rdquo;. Four exceptions let it back in, and from 1&nbsp;October two of them read differently:</p>
       <div style={{ marginTop: 8, borderTop: '1px solid var(--aa-rule)' }}>
         {ROUTES.map((r) => (
           <div key={r.k} style={ROW}>
-            <h4 style={HEAD}><strong>{r.k}</strong></h4>
+            <h3 style={HEAD}><strong>{r.k}</strong></h3>
             <p style={{ margin: '6px 0 0' }}>{r.covers}</p>
             <p style={{ margin: '4px 0 0' }}><strong>From 1&nbsp;October&nbsp;2026:</strong> {r.now}</p>
           </div>
@@ -2595,12 +2632,12 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
       </div>
       <p style={{ marginTop: 20 }}>Before 1&nbsp;October route (2) carried its own test: the benefit had to be provided &ldquo;in order that they may perform their role&rdquo; and be shown to be &ldquo;normal business practice&rdquo;. Cabinet Decision No.&nbsp;149 of 2026 removes that test and hands the question to the Authority, and Decision&nbsp;17 answers it. The Decision applies only to route (2) (Art.&nbsp;1). Our reading is that Article&nbsp;2 is a closed list: a benefit that fits none of the six cases does not recover through route (2). It may still recover through another route. And the block reaches only what employees use free of charge for their personal benefit &mdash; which, Article&nbsp;53(1)(c) says, includes entertainment services, defined in Article&nbsp;53(2)(a) to include accommodation, and food and drink not provided in the normal course of a meeting.</p>
 
-      <h3 style={H3}>The six cases</h3>
+      <h2 style={H3}>The six cases</h2>
       <p>Each case lists its conditions, and every one of them must be met.</p>
       <div style={{ marginTop: 8, borderTop: '1px solid var(--aa-rule)' }}>
         {CASES.map((c) => (
           <div key={c.k} style={ROW}>
-            <h4 style={HEAD}><strong>{c.k}</strong>{' '}<span className="mono" style={REF}>{c.art}</span></h4>
+            <h3 style={HEAD}><strong>{c.k}</strong>{' '}<span className="mono" style={REF}>{c.art}</span></h3>
             <ul style={{ margin: '8px 0 0', paddingLeft: 20, display: 'grid', gap: 4 }}>
               {c.c.map((x) => <li key={x}>{x}</li>)}
             </ul>
@@ -2610,7 +2647,7 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
       <p style={{ marginTop: 16, fontSize: 15, color: 'var(--aa-steel-700)' }}>Article numbers are those of FTA Decision No.&nbsp;17 of 2026. The English text is the Authority&rsquo;s unofficial translation; the Arabic governs.</p>
       <p>Two things sit outside the cases. Transport bought in as a passenger service &mdash; a contracted staff bus with its driver, a taxi &mdash; is usually exempt local passenger transport (Article&nbsp;46(4) of the Decree-Law; Article&nbsp;45 of the Executive Regulation), so there is often no input tax to recover. And a car or van for up to ten people, driver included, that is available for personal use stays blocked by Article&nbsp;53(1)(b), which Decision&nbsp;17 does not change.</p>
 
-      <h3 style={H3}>Accommodation: the two routes that matter</h3>
+      <h2 style={H3}>Accommodation: the two routes that matter</h2>
       <p><strong>First, check that there is VAT to recover.</strong> A lease of a residential building is exempt where it runs for more than six months or the tenant holds an Emirates ID (Article&nbsp;46(2) of the Decree-Law; Article&nbsp;43(1) of the Executive Regulation), so the rent on a flat or villa leased for staff usually carries no input tax at all. Hotels, hotel apartments and serviced apartments are not residential buildings (Article&nbsp;37(2)), and their charges carry VAT. Whether a particular labour camp is a residential building is a question of fact under Article&nbsp;37. The input tax this section is about is on those standard-rated stays, and on standard-rated costs around the housing &mdash; furnishing, maintenance, cleaning, utilities.</p>
       <p>Housing is where the Decision and the amended Regulation meet. From 1&nbsp;October, input tax on accommodation an employer provides free to staff comes back through one of two routes:</p>
       <ul>
@@ -2621,20 +2658,20 @@ function EmployeeBenefitsInputTax2026Body({ onNav }) {
       <p>Two more conditions narrow it. The housing must be for the employee alone, with no family and no other personal use, unless the employee is required to live permanently near the workplace so that the accommodation is their usual residence (Art.&nbsp;2(3)(d)). And it must be commensurate with the job and basic residency needs, without significant recreational or personal elements (Art.&nbsp;2(3)(e)). On our reading, staff accommodation beside a project site is the case these words describe; family housing in the city, offered as part of the package, is not.</p>
       <p>New joiners have a separate, lighter case: temporary accommodation for <strong>no longer than 30 days</strong>, commensurate with the job and basic needs (Art.&nbsp;2(4)). Keep the stay inside the 30 days. The condition is on the period of provision, and the text does not say what happens to the first 30 days of a longer stay.</p>
 
-      <h3 style={H3}>The cash-allowance test</h3>
+      <h2 style={H3}>The cash-allowance test</h2>
       <p>Three of the six cases &mdash; transport, food and drink, accommodation &mdash; fail if the employee is able to take cash instead (Art.&nbsp;2(1)(c), 2(2)(d) and 2(3)(a)). The test is about the <em>option</em>, not the choice made. On our reading, an offer letter or HR policy that says &ldquo;accommodation provided, or a housing allowance in lieu&rdquo; puts the input tax on that housing at risk for everyone the wording covers, including the employees who took the housing. It is the quickest of the tests to check, because the answer is in documents you already hold.</p>
 
-      <h3 style={H3}>Phones, internet and parking: the policy is the evidence</h3>
+      <h2 style={H3}>Phones, internet and parking: the policy is the evidence</h2>
       <p>The last two cases are about paperwork as much as purpose. Phones, airtime, data and home internet meet case&nbsp;5 only where a <strong>documented internal policy</strong> sets the permitted use and the consequences of misuse, and where the employer can show <strong>reasonable monitoring</strong> of use and compliance, with records where the policy was breached (Art.&nbsp;2(5)(c) and (d)). Personal use has to be incidental and insignificant, not the main purpose. Parking needs a documented reimbursement policy with an approval mechanism, and the evidence of payment kept &mdash; the Decision&rsquo;s example is a receipt showing the date, time, amount and the tax paid (Art.&nbsp;2(6)(b) and (c)).</p>
       <p>None of that is difficult. On our reading, all of it has to be in place, and working, for the period the claim covers: a policy written when the return falls due does not show how the phones were used in the months before it. The policy is also the first thing to have ready if the claim is ever questioned.</p>
 
-      <h3 style={H3}>Food and drink: remote residence only</h3>
+      <h2 style={H3}>Food and drink: remote residence only</h2>
       <p>This is the narrowest case. It needs a place of residence that is remote, distant or isolated, no appropriate facilities for preparing food at the residence or workplace, as the case may be, and nowhere nearby to obtain it easily, a direct link to the work or residence period the job requires, and no cash alternative (Art.&nbsp;2(2)). It fits a camp at a remote site. On our reading, meals for staff in a city office &mdash; a catered lunch, a stocked pantry &mdash; do not meet the first two conditions, so they do not recover on this route.</p>
 
-      <h3 style={H3}>On the date</h3>
+      <h2 style={H3}>On the date</h2>
       <p>The Decision took effect on 1&nbsp;October&nbsp;2026 (Art.&nbsp;3), the day the amended Article&nbsp;53 did. Neither instrument has a transitional rule for Article&nbsp;53. Where one purchase spans the date &mdash; a year&rsquo;s serviced-apartment contract paid in advance, an annual phone contract &mdash; work out which part falls under which rule (on our reading, the date of supply of each part decides it) before the return that claims it, and write the reason down.</p>
 
-      <h3 style={H3}>What to do now</h3>
+      <h2 style={H3}>What to do now</h2>
       <ul>
         <li><strong>Pull every ledger that carries input VAT on staff costs</strong> &mdash; housing, transport, meals, phones and data, parking, and anything else employees receive free &mdash; and map each line either to one of the four routes or, where employees do not use it free of charge for their personal benefit, to &lsquo;outside the block&rsquo;, with the reason.</li>
         <li><strong>For housing</strong>, establish for each group of workers whether a MoHRE decision or directive makes it mandatory. Where none does, test case 3, or case 4 where a new joiner&rsquo;s stay lasts no more than 30 days, condition by condition, and record the operational reason in the contract or policy. Check first that the housing carries VAT at all.</li>
@@ -2678,19 +2715,28 @@ function FreeZoneDesignatedZone2026Body({ onNav }) {
     { k: 'Excise Tax Designated Zone', law: 'Excise Tax Executive Regulation, Art. 15(2)', what: 'A fenced free zone with security measures, customs supervision and an appointed Warehouse Keeper; or another area specified by the FTA that has security measures and a Warehouse Keeper.', check: 'Ask your free zone authority, or the Warehouse Keeper whether the FTA has approved the area.' },
   ];
   const ROW = { padding: '16px 0', borderBottom: '1px solid var(--aa-rule)' };
-  const HEAD = { display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '4px 12px', fontSize: 17, margin: 0 };
+  const HEAD = { fontFamily: 'var(--aa-font-sans)', fontWeight: 'var(--aa-w-semibold)', textTransform: 'none', letterSpacing: 'normal', display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '4px 12px', fontSize: 17, margin: 0 };
   const REF = { fontSize: 12, color: 'var(--aa-steel-700)', letterSpacing: '0.04em' };
 
   return (
     <div className="container" style={ART}>
       <p style={LEAD}>In October 2026 the Federal Tax Authority published Public Clarification <strong>TAXP010</strong>, on free zones and designated zones. Its point is easy to miss: the words mean different things under <strong>Corporate Tax</strong>, <strong>VAT</strong> and <strong>Excise Tax</strong>, and a business has to check where it stands under each law separately. In particular, a VAT designated zone is <strong>not automatically</strong> a designated zone for Corporate Tax &mdash; and that difference decides whether a free-zone distributor&rsquo;s income can be taxed at 0%.</p>
 
-      <h3 style={H3}>Four tests, four answers</h3>
+      <div style={{ borderLeft: '3px solid var(--aa-cyan)', background: 'var(--aa-surface-off)', padding: '16px 20px', margin: '0 0 28px' }}>
+        <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 8 }}>In short</div>
+        <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6, fontSize: 15.5, lineHeight: 1.6 }}>
+          <li>FTA Public Clarification TAXP010 sets <strong>four separate tests</strong>: the Corporate Tax free zone, the Corporate Tax designated zone, the VAT designated zone and the Excise designated zone. One address can pass one and fail another.</li>
+          <li>A Qualifying Free Zone Person&rsquo;s distribution income gets <strong>0%</strong> only where it distributes in or from a <strong>Corporate Tax designated zone</strong>, which must be both a VAT designated zone and a Corporate Tax free zone.</li>
+          <li>For VAT, being on the Cabinet list is not enough: the area must meet Article&nbsp;51(1). Get all four answers confirmed in writing.</li>
+        </ul>
+      </div>
+
+      <h2 style={H3}>Four tests, four answers</h2>
       <p>The clarification sets out four separate concepts. The same address can pass one test and fail another.</p>
       <div style={{ marginTop: 8, borderTop: '1px solid var(--aa-rule)' }}>
         {ZONES.map((z) => (
           <div key={z.k} style={ROW}>
-            <h4 style={HEAD}><strong>{z.k}</strong>{' '}<span className="mono" style={REF}>{z.law}</span></h4>
+            <h3 style={HEAD}><strong>{z.k}</strong>{' '}<span className="mono" style={REF}>{z.law}</span></h3>
             <p style={{ margin: '6px 0 0' }}>{z.what}</p>
             <p style={{ margin: '4px 0 0' }}><strong>How to confirm:</strong> {z.check}</p>
           </div>
@@ -2698,18 +2744,18 @@ function FreeZoneDesignatedZone2026Body({ onNav }) {
       </div>
       <p style={{ marginTop: 16, fontSize: 15, color: 'var(--aa-steel-700)' }}>The clarification is published in English and Arabic; where the two differ, the Arabic governs.</p>
 
-      <h3 style={H3}>Why the difference costs money: distribution</h3>
+      <h2 style={H3}>Why the difference costs money: distribution</h2>
       <p>A Qualifying Free Zone Person pays Corporate Tax at 0% on its qualifying income, provided it meets the conditions in the Corporate Tax Law, Cabinet Decision No.&nbsp;100 of 2023 and Ministerial Decision No.&nbsp;229 of 2025. One of the qualifying activities in that Ministerial Decision is the &ldquo;distribution of goods or materials in or from a Designated Zone&rdquo; &mdash; and &ldquo;Designated Zone&rdquo; there means the Corporate Tax one. The clarification puts it plainly: a distributor &ldquo;may benefit from the 0% Corporate Tax rate on its Qualifying Income only where such distribution activities are carried out in or from a Corporate Tax Designated Zone&rdquo;.</p>
       <p>The activity itself has conditions too (Ministerial Decision No.&nbsp;229 of 2025, Article&nbsp;2(3)(l)). The goods entering the UAE have to be imported through the designated zone, and they have to be supplied to a customer who resells, processes or alters them for sale or resale, or to a public benefit entity.</p>
       <p>The stakes are the usual ones for a Qualifying Free Zone Person: one that fails a condition at any time in a tax period stops qualifying from the start of that period and for the following four (Article&nbsp;5(2) of the same Ministerial Decision). So a distributor working from a zone that is a Corporate Tax free zone but not a Corporate Tax designated zone is relying on the wrong test. On our reading, that is a question to settle before the next return, not after an audit.</p>
 
-      <h3 style={H3}>VAT: the address is not enough</h3>
+      <h2 style={H3}>VAT: the address is not enough</h2>
       <p>For VAT, appearing on the Cabinet&rsquo;s list is the start, not the end. The clarification asks a business to check the list <em>and</em> confirm with the zone authority that the Article&nbsp;51(1) conditions are met by the specific area where it is based. A designated zone is treated as outside the State only on those conditions, and the VAT treatment of goods moving in and out depends on it. {ilink('designated-zone-reclassification', 'The movement trail to keep in a designated zone →')}</p>
 
-      <h3 style={H3}>What the clarification does not change</h3>
+      <h2 style={H3}>What the clarification does not change</h2>
       <p>The FTA says the clarification states its position and &ldquo;neither amends nor seeks to amend&rdquo; the legislation, so it is effective from the date of the legislation it explains, unless it says otherwise. In practice, it is the Authority&rsquo;s reading of rules that already applied &mdash; including to past periods.</p>
 
-      <h3 style={H3}>What to do now</h3>
+      <h2 style={H3}>What to do now</h2>
       <ul>
         <li><strong>Record four answers for each entity</strong> &mdash; Corporate Tax free zone, Corporate Tax designated zone, VAT designated zone (and whether your area meets Article&nbsp;51(1)), Excise designated zone &mdash; each with written confirmation from the zone authority, or the Warehouse Keeper for excise, dated and kept with the tax file.</li>
         <li><strong>If you distribute goods as a Qualifying Free Zone Person</strong>, confirm that the place you distribute from is a Corporate Tax designated zone, that the goods are imported through it, and that your customers resell or process them. If any answer is no, model that income as non-qualifying before you file.</li>
@@ -2797,7 +2843,7 @@ function OctoberChangesBody({ onNav }) {
 
       <OctoberTimeline />
 
-      <h3 style={H3}>The dates, in order</h3>
+      <h2 style={H3}>The dates, in order</h2>
       <div style={{ overflowX: 'auto', marginTop: 8 }}>
         <table className="aa-table" style={{ width: '100%' }}>
           <thead>
@@ -2858,36 +2904,36 @@ function OctoberChangesBody({ onNav }) {
       </div>
       <p style={{ marginTop: 20 }}>Businesses under AED&nbsp;50&nbsp;million follow in 2027: an ASP by 31&nbsp;March and go-live on 1&nbsp;July. Government entities appoint by 31&nbsp;March and go live on 1&nbsp;October&nbsp;2027. The phase table is in {ilink('uae-e-invoicing-deadlines-phases', 'our e-invoicing deadlines note')}.</p>
 
-      <h3 style={H3}>1 October &mdash; supplier checks before input VAT</h3>
+      <h2 style={H3}>1 October &mdash; supplier checks before input VAT</h2>
       <p>FTA Decision No.&nbsp;13 of 2026 gives content to Article&nbsp;54&nbsp;bis of the VAT Law. It does not make input VAT conditional on checking your suppliers; both limbs of that article require tax evasion somewhere in the chain of supplies. What it does is define what &ldquo;should have known&rdquo; means &mdash; so where evasion is later found and the checks were not done, the defence that you had no way of knowing is gone.</p>
       <p>Three numbers decide how much of it applies to a purchase. A supply under <strong>AED&nbsp;10,000</strong> can be disregarded entirely &mdash; unless your rolling 12-month spend with that supplier exceeds <strong>AED&nbsp;100,000</strong>, which switches the exception off. Above <strong>AED&nbsp;375,000</strong> with one supplier, a UAE bank confirmation and a documented reputation review are added. The look-back windows run 12&nbsp;months, so on 1&nbsp;October they already reach to October&nbsp;2025.</p>
       <p>One obligation does not depend on any open question: Article&nbsp;5(4) requires a documented policy naming who implements, reviews and supervises the checks. It has had to exist since 1&nbsp;October. {ilink('fta-decision-13-supplier-verification', 'The full note, with a calculator that checks one supplier in seconds →')}</p>
 
-      <h3 style={H3}>1 October &mdash; the VAT Executive Regulation is amended</h3>
+      <h2 style={H3}>1 October &mdash; the VAT Executive Regulation is amended</h2>
       <p>Cabinet Decision No.&nbsp;149 of 2026, issued on 1&nbsp;September, amends twelve points in the Executive Regulation from the same day Decision&nbsp;13 started. Two reach almost every business. New Article&nbsp;54(3) bars input tax on any supply above an amount the Minister of Finance is to set where the consideration is paid <em>or intended to be paid</em> in cash &mdash; the threshold decision had not been published when this was updated. And Article&nbsp;53 now takes <strong>employee accommodation</strong> out of the exception that keeps input tax on mandatory staff benefits recoverable, unless a MoHRE decision or directive makes the housing mandatory. The rest: a bar on splitting a single composite supply into parts, zero-rating for &ldquo;medical products&rdquo; as a Cabinet decision specifies, a Capital Asset defined by the asset&rsquo;s cost rather than a single item of expenditure, and three smaller wording changes.</p>
       <p>The largest change is the one that waits. From the first tax year commencing after 1&nbsp;October&nbsp;2027 &mdash; 1&nbsp;January&nbsp;2028 for a monthly filer &mdash; the standard partial-exemption ratio runs on the value of supplies instead of on input tax. {ilink('vat-executive-regulation-amendments-october-2026', 'Every amendment, article by article, with a worked example of the 2027 switch →')}</p>
 
-      <h3 style={H3}>1 October &mdash; which staff benefits keep their input VAT</h3>
+      <h2 style={H3}>1 October &mdash; which staff benefits keep their input VAT</h2>
       <p>The amended Article&nbsp;53 keeps input tax on benefits provided under a contract or documented policy recoverable only in the cases the Authority specifies. FTA Decision No.&nbsp;17 of 2026, issued on 9&nbsp;September, specifies them: transport, food and drink for staff living in remote areas, accommodation, up to 30 days&rsquo; housing for new employees, phones and home internet, and parking &mdash; each with conditions that must all be met. For accommodation other than a new joiner&rsquo;s stay of up to 30 days, the conditions include that it is related to the operational requirements of the work rather than part of the employee&rsquo;s benefits or ordinary compensation, and that the employee cannot take a cash allowance instead. {ilink('fta-decision-17-employee-benefits-input-vat', 'The six cases, condition by condition →')}</p>
 
-      <h3 style={H3}>Already in force &mdash; how records have to be kept</h3>
+      <h2 style={H3}>Already in force &mdash; how records have to be kept</h2>
       <p>FTA Decision No.&nbsp;4 of 2026 has applied since 30&nbsp;July. If your accounting records exist as scans, photographs or electronic copies, they have to pass three gates: <strong>identical</strong> to the original, every page in order, with partial scanning expressly not accepted; <strong>legible</strong>, including ink and paper that will not fade over the retention period; and <strong>accessible</strong> to the Authority on request, including the system they sit in and any passwords or encryption keys.</p>
       <p>A third party may hold the records, but the taxable person remains legally responsible for them. This is not a deadline to prepare for &mdash; it applies to the records you hold today. {ilink('fta-decision-4-accounting-records', 'The full note →')}</p>
 
-      <h3 style={H3}>30 October &mdash; appoint an e-invoicing provider</h3>
+      <h2 style={H3}>30 October &mdash; appoint an e-invoicing provider</h2>
       <p>Phase&nbsp;1 of UAE e-invoicing covers businesses with revenue of AED&nbsp;50&nbsp;million or more. The deadline to appoint an Accredited Service Provider is <strong>30&nbsp;October&nbsp;2026</strong>, and structured e-invoicing goes live for that phase on <strong>1&nbsp;January&nbsp;2027</strong>. The provider validates invoice structure against the FTA&rsquo;s data dictionary; it does not verify who your supplier is, which is why this and Decision&nbsp;13 are separate obligations rather than one. {link('einv-deadline', 'Who must act by 30 October →')} &nbsp;·&nbsp; {ilink('choosing-accredited-service-provider-asp', 'Choosing a provider →')} &nbsp;·&nbsp; {ilink('prepare-erp-for-uae-e-invoicing', 'Getting your ERP ready →')}</p>
 
-      <h3 style={H3}>31 October &mdash; exemption catch-up for government-owned companies</h3>
+      <h2 style={H3}>31 October &mdash; exemption catch-up for government-owned companies</h2>
       <p>FTA Decision No.&nbsp;15 of 2026, in force from 15&nbsp;September, replaces the 2023 procedure for applying for Corporate Tax exemption and lengthens the window to 90 business days after the tax period ends. It also reopens periods already past. A UAE company wholly owned and controlled by a government entity or a government controlled entity may apply for exemption for <strong>any tax period that ended before 1&nbsp;January&nbsp;2026</strong>, provided it met the conditions in that period &mdash; by <strong>31&nbsp;October&nbsp;2026</strong>. Two further catch-ups, for foreign companies owned by exempt owners and for qualifying limited partnerships, run to 31&nbsp;December. {ilink('fta-decision-15-corporate-tax-exemption', 'The Decision, side by side with the 2023 rules →')}</p>
 
-      <h3 style={H3}>The routine dates that fall in the same weeks</h3>
+      <h2 style={H3}>The routine dates that fall in the same weeks</h2>
       <ul>
         <li><strong>Corporate Tax: nine months after year-end.</strong> A 31&nbsp;December&nbsp;2025 year-end files and pays by 30&nbsp;September&nbsp;2026 &mdash; the day before Decision&nbsp;13 started. Small Business Relief, where it applies, is still elected on that return, and it now runs to periods ending 31&nbsp;December&nbsp;2029. {ilink('small-business-relief-evidence-test', 'What you have to be able to prove →')}</li>
         <li><strong>VAT: 28 days after the period ends.</strong> A quarter ending 30&nbsp;September is due on 28&nbsp;October. Monthly filers have the same 28-day rule each month.</li>
         <li><strong>Retention.</strong> Five years under the Tax Procedures rules and seven for Corporate Tax, either extended by four years in dispute or under audit &mdash; and, since Cabinet Decision No.&nbsp;17 of 2026, by a further two years where a refund application made in time is still undecided. Decision&nbsp;4 governs the form those records take for all of it.</li>
       </ul>
 
-      <h3 style={H3}>What to do now</h3>
+      <h2 style={H3}>What to do now</h2>
       <ul>
         <li><strong>Run a rolling 12-month purchase report by supplier</strong> and sort it at AED&nbsp;100,000 and AED&nbsp;375,000. The data is historic, so this can be done today.</li>
         <li><strong>Write the Article&nbsp;5(4) policy</strong> and name the three roles. It is the one Decision&nbsp;13 item that does not wait on anything.</li>

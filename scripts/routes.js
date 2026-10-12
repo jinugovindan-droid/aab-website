@@ -154,9 +154,9 @@
     {
       slug: 'ifrs-financial-statements-uae',
       seoTitle: 'UAE Financial Reporting Rules: Who Needs IFRS Statements', seoDesc: 'Which standard applies in the UAE (IFRS or IFRS for SMEs), who must prepare and audit financial statements for Corporate Tax, and what a full set contains.',
-      tag: 'Financial Reporting', date: '15 Apr 2026', read: '7 min',
+      tag: 'Financial Reporting', date: '15 Apr 2026', updated: '12 Oct 2026', read: '7 min',
       title: 'IFRS financial statements in the UAE: who needs them, and what a full set contains.',
-      author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan', reference: 'Ministerial Decision No. 114 of 2023 (accounting standards for UAE Corporate Tax)',
+      author: 'Sabith Abdul Rahman', reviewer: 'Jinu Govindan', reference: 'Ministerial Decision No. 114 of 2023 (accounting standards for UAE Corporate Tax); Ministerial Decision No. 84 of 2025 (audited financial statements)',
       excerpt: 'Who must prepare IFRS financial statements in the UAE, the accounting standards Corporate Tax requires (IFRS, IFRS for SMEs up to AED 50M, cash basis up to AED 3M), what a complete set contains, and why audit-ready statements matter for free zones, banks and the FTA.',
       published: true,
     },
