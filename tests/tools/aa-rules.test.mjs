@@ -46,9 +46,11 @@ test('effective dating', () => {
 
 test('as-at line comes from the oldest verified check; unverified rules are listed', () => {
   assert.equal(R.asOf(), 'October 2026');
-  const u = R.unverified().map((r) => r.id);
-  assert.ok(u.includes('ct.zero_rate_band'));
-  assert.ok(!u.includes('vat.mandatory_threshold'));
+  // Every record has now been read in the primary text.
+  assert.deepEqual(R.unverified().map((r) => r.id), []);
+  assert.equal(R.test('ct.zero_rate_band', 375000), true);
+  assert.equal(R.test('ct.zero_rate_band', 375001), false);
+  assert.equal(R.value('ct.standard_rate'), 0.09);
   assert.equal(R.stale('2026-11-01').length, 0);
   assert.ok(R.stale('2027-01-01').length > 0);
 });

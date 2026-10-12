@@ -238,6 +238,9 @@ if (failures.length) {
 const norm = (s) => s
   .replace(/:r[0-9a-z]+:/gi, ':id:')
   .replace(/\?v=[0-9a-z]+/gi, '?v=')
+  // Article and tool chunks carry a content hash in the file name; a rebuilt
+  // chunk is not a change to the page anyone reads.
+  .replace(/(dist\/(?:articles|tools)\/[a-z0-9-]+)\.[0-9a-f]{10}\.js/g, '$1.js')
   .replace(/<section data-aa-volatile[\s\S]*?<\/section>/, '');
 const gitShow = (relPath) => {
   try { return execFileSync('git', ['show', 'HEAD:' + relPath.replace(/\\/g, '/')], { cwd: ROOT, maxBuffer: 16 * 1024 * 1024 }).toString('utf8'); }

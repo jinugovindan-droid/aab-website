@@ -1820,7 +1820,8 @@
     // Bumped 3 Aug 2026: the core figures (CT/VAT thresholds, deadlines,
     // penalties, e-invoicing phases) were re-verified by the intent-page and
     // capsule fact-check panels against current law on this date.
-    TAX_RULES_ASOF: 'October 2026',
+    // Derived from the rules register (the oldest verified check), not typed.
+    TAX_RULES_ASOF: (window.AARules && window.AARules.asOf()) || '',
     VAT_DEADLINES,
     PAGE_TO_PATH,
     VALID_PAGES,

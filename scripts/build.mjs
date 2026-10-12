@@ -15,6 +15,12 @@ import { createHash } from 'node:crypto';
 
 // Load order MUST match the original index.html script order.
 const ORDER = [
+  // Shared libraries first (tools programme M0b): plain UMD files that set
+  // window.AAMoney, window.AADates and window.AARules. The node tests in
+  // tests/tools load the same files, which is why they are not JSX.
+  'scripts/lib/aa-money.js',
+  'scripts/lib/aa-dates.js',
+  'scripts/lib/aa-rules.js',
   'scripts/routes.js',
   'scripts/chrome.jsx',
   'scripts/page-home.jsx',
@@ -63,7 +69,7 @@ const SPLITS = [
     prelude: 'var T=window.AATools||{},R=window.AARoutes||{};\n' +
       'var aaSubmitLead=T.aaSubmitLead,aaBuildBrandedPdf=T.aaBuildBrandedPdf,AA_MONEY=T.AA_MONEY,aaParseNum=T.aaParseNum,' +
       'AA_TOOL_INPUT=T.AA_TOOL_INPUT,AA_TOOL_LABEL=T.AA_TOOL_LABEL,goContact=T.goContact,aaDubaiToday=T.aaDubaiToday,AAPanelMark=T.AAPanelMark,' +
-      'FAQList=window.FAQList;\n' +
+      'FAQList=window.FAQList,AAMoney=window.AAMoney,AADates=window.AADates,AARules=window.AARules;\n' +
       'var pathForPage=R.pathForPage,pathForInsight=R.pathForInsight;\n',
   },
 ];

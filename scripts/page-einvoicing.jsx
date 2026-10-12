@@ -56,7 +56,7 @@ function EInvoicingPage({ onNav, formOnly, onClose }) {
     // Legacy/typed numeric values still resolve, so nothing breaks if an older
     // saved value or a pasted figure reaches this function.
     const n = parseFloat(String(revenue).replace(/[^0-9.]/g, ''));
-    if (!isNaN(n) && n > 0) return n >= 50000000 ? BIG : SMALL;
+    if (!isNaN(n) && n > 0) return window.AARules.test('einv.phase1_revenue', n) ? BIG : SMALL;
     return null;
   };
 

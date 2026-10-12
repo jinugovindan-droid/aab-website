@@ -535,15 +535,17 @@ function VatChecker({ onNav }) {
   const upd = (k) => (e) => { const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; setF((p) => ({ ...p, [k]: v })); };
   React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
 
-  const MAND = 375000, VOL = 187500;
+  // Thresholds and their tests come from the rules register (scripts/lib/aa-rules.js).
+  const RR = window.AARules;
+  const MAND = RR.value('vat.mandatory_threshold'), VOL = RR.value('vat.voluntary_threshold');
   const t12 = aaParseNum(f.t12);
   const fwd = aaParseNum(f.fwd);
   // FDL 8/2017: registration obligations attach when the threshold is EXCEEDED
   // (strictly greater), matching the helper copy — not >=.
-  const isMandatory = t12 > MAND || fwd > MAND;
+  const isMandatory = RR.test('vat.mandatory_threshold', t12) || RR.test('vat.mandatory_threshold', fwd);
   // Art 17: voluntary registration on either test — the past 12 months OR the
   // next 30 days — exactly as Art 13 does for the mandatory threshold.
-  const isVoluntary = !isMandatory && (t12 > VOL || fwd > VOL);
+  const isVoluntary = !isMandatory && (RR.test('vat.voluntary_threshold', t12) || RR.test('vat.voluntary_threshold', fwd));
   const status = isMandatory ? 'Mandatory' : isVoluntary ? 'Voluntary' : 'Not yet required';
   const statusColor = isMandatory ? 'var(--aa-cyan)' : isVoluntary ? '#ffd27a' : 'rgba(255,255,255,0.85)';
   const showResult = f.t12.trim() !== '' || f.fwd.trim() !== '';
@@ -869,8 +871,10 @@ function CorpTaxEstimator({ onNav }) {
   const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const profit = aaParseNum(f.profit);
   const revenue = aaParseNum(f.revenue);
-  const THRESH = 375000;
-  const sbrEligible = revenue > 0 && revenue <= 3000000;           // Small Business Relief: revenue ≤ AED 3M
+  // Band, rate and relief threshold come from the rules register (scripts/lib/aa-rules.js).
+  const RR = window.AARules;
+  const THRESH = RR.value('ct.zero_rate_band');
+  const sbrEligible = revenue > 0 && RR.test('ct.sbr_revenue_threshold', revenue);           // Small Business Relief: revenue ≤ AED 3M
   // SBR is NOT available to Qualifying Free Zone Persons (MD 73/2023), so a
   // free-zone company never gets the automatic AED 0 — the estimate stays at
   // the mainland-equivalent figure the free-zone caption describes.
@@ -879,7 +883,7 @@ function CorpTaxEstimator({ onNav }) {
   const sbrApplied = sbrEligible && !f.freezone && !f.priorOver;
   const priorNote = sbrEligible && !f.freezone && f.priorOver ? ' Small Business Relief is not available: revenue went above AED 3,000,000 in an earlier tax period (Ministerial Decision No. 73 of 2023, Article 2(3)).' : '';
   const taxable = Math.max(0, profit);                              // simplified: taxable income ≈ accounting profit
-  const ctBeforeRelief = Math.max(0, taxable - THRESH) * 0.09;     // 0% on first 375k, 9% above
+  const ctBeforeRelief = Math.max(0, taxable - THRESH) * RR.value('ct.standard_rate');     // 0% on first 375k, 9% above
   const ct = sbrApplied ? 0 : ctBeforeRelief;
   const effRate = taxable > 0 ? (ct / taxable) * 100 : 0;
   const yeIdx = parseInt(f.yearEnd, 10) - 1;
