@@ -25,32 +25,6 @@ const TOOLS = [
     needs: 'Basic wage, start and end dates',
     updated: '8 Sep 2026',
     intent: 'Bookkeeping & payroll',
-    glance: [
-      ['Entitlement', '21 / 30 days of basic wage per year'],
-      ['Minimum service', 'One continuous year'],
-      ['Wage base', 'Last basic wage — no allowances'],
-      ['Ceiling', 'Two years’ wage'],
-      ['Pay by', '14 days after the end date'],
-      ['Resignation', 'No reduction under the 2021 law'],
-      ['Wage deductions', 'Capped by Article 25 — 50% in total'],
-    ],
-    // What the Decree-Law fixes, and what this page decides where it is silent.
-    assumptions: [
-      ['A day’s wage', 'The Decree-Law fixes the entitlement in days of basic wage and does not say how a day is derived from a monthly wage. This page uses monthly basic ÷ 30 and shows the figure at ÷ 30.4167 beside it.'],
-      ['The ceiling', 'Article 51(6) says “two years’ wage” — the defined term that includes allowances. The page applies 24 × last basic wage, the reading used in practice, and flags it when it bites.'],
-      ['A day of service', 'Both ends count here: an employee works their first day and their last day, so service is taken as the difference between the two dates plus one. The Decree-Law does not state the convention. Subtracting the dates alone gives one day less, and 364 days for a full calendar year — a difference worth checking against whichever basis your payroll uses.'],
-      ['A year', 'Years of service are counted as 365-day blocks on calendar days served, less unpaid absence. The difference from anniversary counting is a day or two.'],
-      ['Amounts the employee owes', 'The figure is the entitlement, not the cheque. Article 51(7) lets an employer deduct amounts due by law or under a court judgment, and Cabinet Resolution No. 1 of 2022, Article 29 sets out the cases — loans and overpayments, contributions to pension or insurance, debts under a court ruling, penalties under a disciplinary regulation approved by the Ministry, and the cost of damage the employee caused — the last two only where the Decree-Law’s own procedures were followed and not more than three months have lapsed since the amount fell due, unless otherwise agreed (Cabinet Resolution 1 of 2022, Article 29(2)). Those turn on documents this page cannot see, so it states the right rather than netting off a number you would have to guess.'],
-      ['The settlement tab', 'Only the gratuity is calculated. Unpaid salary, unused leave, notice, loans, penalties and the free rows are figures the visitor enters, because they turn on a contract, a payroll run and a ledger this page cannot see. The tab adds them up and applies the signs; it does not check them, and what a settlement contains varies from one company to the next.'],
-      ['Which wage', 'Two bases run through a settlement, and mixing them is the common error. Gratuity and unused leave are computed on the BASIC wage (Articles 51(2) and 29(9) of the Decree-Law, and Article 19(2) of Cabinet Resolution No. 1 of 2022); unpaid salary and pay in lieu of notice run on the FULL wage as defined in Article 1 and required by Article 43(4).'],
-      ['Scope', 'Employers under the federal Labour Law, mainland and free zones. DIFC and ADGM have their own employment laws. UAE nationals come under the pension legislation.'],
-    ],
-    sources: [
-      ['Federal Decree-Law No. 33 of 2021 — Articles 1, 25, 29, 43, 51, 52 and 53 (MOHRE consolidated text)', 'https://www.mohre.gov.ae/assets/download/e82f7872/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx'],
-      ['Cabinet Resolution No. 1 of 2022 — Articles 19, 29 and 30 (Executive Regulation)', 'https://mohre.gov.ae/assets/download/522c19d4/Cabinet%20Resolution%20_Executive%20Regulations%20Decree-Law%20No.%2033.pdf.aspx'],
-      ['Cabinet Resolution No. 96 of 2023 — Articles 5(3) and 6 (alternative end-of-service scheme)', 'https://mohre.gov.ae/assets/download/c7ea6970/cabinet-resolution-no-96-of-2023-regarding-an-alternative-end-of-service-benefits-system-en.aspx'],
-      ['The Official Portal of the UAE Government — end of service benefits in the private sector', 'https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/end-of-service-benefits-for-employees-in-the-private-sector'],
-    ],
   },
   {
     page: 'tool-vat', slug: 'vat-calculator',
@@ -62,35 +36,6 @@ const TOOLS = [
     needs: 'One amount, in dirhams',
     updated: '11 Sep 2026',
     intent: 'VAT compliance',
-    glance: [
-      ['Standard rate', '5% of the value of the supply'],
-      ['Since', '1 January 2018, unchanged'],
-      ['VAT inside a gross', 'gross × 5 ÷ 105 = gross ÷ 21'],
-      ['Rounding', 'Nearest fils, half up — permitted'],
-      ['Displayed prices', 'Inclusive of VAT'],
-      ['Currency', 'Dirhams, Central Bank rate'],
-    ],
-    // What the texts fix, and what this page decides where they are silent.
-    assumptions: [
-      ['The tie-break', 'Article 61 of the Executive Regulation says “mathematical rounding” and stops. The FTA’s Taxable Person Guide says a fraction of a half or more rounds up. This page rounds half up. In add mode an exact half-fils occurs whenever the net ends in 10, 30, 50, 70 or 90 fils; in extract mode it never does, because gross ÷ 21 never lands on an exact half.'],
-      ['What gets rounded', 'Four texts name four objects — the Decree-Law “the total amount to be paid” (Art. 68), the Regulation “the Tax chargeable on a supply” (Art. 61), the Guide “the invoice amount”, VATP006 “the tax value”. This page rounds the VAT figure once and derives the other side from it, so net, VAT and gross always re-add.'],
-      ['Per line or per invoice', 'On a full tax invoice on paper the FTA’s Public Clarification VATP006 calculates and rounds line by line; on an electronic invoice the Ministry of Finance’s June 2026 guidelines round at the invoice-level total only. The two can differ by a fils. This page computes one amount and says so; an invoice mode will carry both conventions.'],
-      ['Permission and practice', 'The Regulation — in English and in the governing Arabic (يُسمح) — permits rounding to the nearest fils; the FTA’s 2022 leaflet says the amount must be rounded. The law permits it, the FTA expects it, this page does it.'],
-      ['A fils', 'Neither VAT text defines it; Article 68 says “one fils of a UAE Dirham”. This page takes a fils as one hundredth of a dirham, so every amount has two decimals.'],
-      ['The arithmetic', '÷ 1.05, ÷ 21 and × 5 ÷ 105 are the same operation, implied by Article 34(1); none is “the” legal formula and nothing here is “approved”. The Guide happens to write ÷ 21.'],
-    ],
-    sources: [
-      ['Federal Decree-Law No. 8 of 2017 on VAT and its amendments — FTA consolidation of 28 November 2025 (four instruments; in force 1 January 2026): Articles 1, 3, 34, 38, 48, 68, 69', 'https://tax.gov.ae//Datafolder/Files/Legislation/2025/Federal%20Decree-Law%20No.%208%20of%202017%20and%20amendments%20-%20publishing%2028%2011%202025.pdf'],
-      ['Cabinet Decision No. 52 of 2017, Executive Regulation, as amended — FTA text of 18 September 2025: Articles 27, 59, 61 (Arabic text checked for Article 61). Re-checked 11 September 2026 against the Ministry’s consolidation incorporating Cabinet Decision No. 149 of 2026: none of the three articles is amended', 'https://tax.gov.ae/Datafolder/Files/Legislation/Executive-Regulation-of-Federal-Decree-Law-No-08-of-2017-Publish-18-09-2025.pdf'],
-      ['VATP006 — Tax Invoices (FTA Public Clarification): rounding on invoices, line by line on a full tax invoice, worked examples', 'https://tax.gov.ae/DataFolder/Files/Pdf/06-Tax-Invoices.pdf'],
-      ['Taxable Person Guide for VAT (FTA, 2018), §3.5 (÷ 21) and §12.3.4 (a half rounds up)', 'https://tax.gov.ae/DownloadOpenTextFile?fileUrl=en/VAT_VAT_Guides/Taxable_Person_Guide_Value_Added_Tax/Taxable_Person_Guide_June_2018_EN.pdf'],
-      ['“Get to know your tax obligations” (FTA booklet): AED 220 ÷ 21 = AED 10.48', 'https://tax.gov.ae/DataFolder/Files/Guides/VAT/Awareness/Get%20to%20know%20your%20Tax%20Obligations.pdf'],
-      ['VATP020 — VAT-free special offers (FTA): Article 38 and Regulation Article 27 restated', 'https://tax.gov.ae/DataFolder/Files/Pdf/VATP020%20-%20VAT-free%20special%20offers.pdf'],
-      ['VATP046 — Amendments to the VAT Decree-Law (FTA, 2026): the articles amended in 2024 and 2026', 'https://tax.gov.ae//Datafolder/Files/Guides/VAT/PublicClarifications/VATP046%20-%20Amendments%20to%20VAT%20Decree-Law%20-%2009%202026.pdf'],
-      ['VATP004 — Use of exchange rates for VAT purposes (FTA)', 'https://tax.gov.ae/DataFolder/Files/Pdf/04-use-of-exchange-rates.pdf'],
-      ['Cabinet Decision No. 40 of 2017 on administrative penalties, as consolidated November 2025 — Table 3', 'https://tax.gov.ae/Datafolder/Files/Legislation/2025/Cabinet%20Decision%20No.%2040%20of%202017%20and%20its%20amendments%20-%20publishing%2011%202025.pdf'],
-      ['UAE Electronic Invoicing Guidelines V1.1 (Ministry of Finance, 1 June 2026), §12.2 — rounding at invoice level', 'https://mof.gov.ae/wp-content/uploads/2026/06/UAE-Electronic-Invoicing-Guidelines_V-1.1-01June2026.pdf'],
-    ],
   },
 ];
 
@@ -196,6 +141,7 @@ function ToolPage({ page, onNav }) {
   React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
   if (!tool) return null;
   const faq = (window.AARoutes.FAQ_BY_PAGE && window.AARoutes.FAQ_BY_PAGE[page]) || [];
+  const meta = Body ? Body({ part: 'meta' }) : null;
 
   return (
     <div>
@@ -215,17 +161,17 @@ function ToolPage({ page, onNav }) {
               <p style={{ marginTop: 28, fontSize: 17, color: 'var(--aa-steel-700)', lineHeight: 1.6, maxWidth: 620 }}>{tool.intro}</p>
               <p style={{ margin: '14px 0 0', fontSize: 13, color: 'var(--aa-steel)' }}>Free · computed in your browser · sources and assumptions below · updated {tool.updated}</p>
             </div>
-            <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
+            {meta ? <aside style={{ background: 'var(--aa-surface-off)', border: '1px solid var(--aa-rule)', padding: 24 }}>
               <div className="eyebrow eyebrow--charcoal" style={{ marginBottom: 12 }}>At a glance</div>
               <dl style={{ margin: 0, fontSize: 13, lineHeight: 1.7 }}>
-                {tool.glance.map(([k, v]) => (
+                {meta.glance.map(([k, v]) => (
                   <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '11px 0', borderBottom: '1px solid var(--aa-rule)' }}>
                     <dt style={{ color: 'var(--aa-steel)' }}>{k}</dt>
                     <dd style={{ margin: 0, color: 'var(--aa-charcoal)', fontWeight: 600, textAlign: 'right' }}>{v}</dd>
                   </div>
                 ))}
               </dl>
-            </aside>
+            </aside> : <div />}
           </div>
         </div>
       </section>
@@ -242,13 +188,13 @@ function ToolPage({ page, onNav }) {
       </section>
 
       {/* What the page assumes, and where every number comes from */}
-      <section className="section section--off">
+      {meta ? <section className="section section--off">
         <div className="container">
           <div className="aa-stack-sm" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
             <div>
               <div className="section-head"><div className="section-head__eyebrow">Where the text is silent</div><h2>What this page assumes.</h2></div>
               <dl style={{ margin: 0 }}>
-                {tool.assumptions.map(([k, v]) => (
+                {meta.assumptions.map(([k, v]) => (
                   <div key={k} style={{ padding: '14px 0', borderTop: '1px solid var(--aa-rule)' }}>
                     <dt style={{ fontWeight: 600, color: 'var(--aa-charcoal)', fontSize: 15, marginBottom: 4 }}>{k}</dt>
                     <dd style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: 'var(--aa-charcoal-800)' }}>{v}</dd>
@@ -259,7 +205,7 @@ function ToolPage({ page, onNav }) {
             <div>
               <div className="section-head"><div className="section-head__eyebrow">Sources</div><h2>Read the text yourself.</h2></div>
               <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-                {tool.sources.map(([label, href]) => (
+                {meta.sources.map(([label, href]) => (
                   <li key={href} style={{ padding: '12px 0', borderTop: '1px solid var(--aa-rule)', fontSize: 14.5, lineHeight: 1.55 }}>
                     <a href={href} target="_blank" rel="noopener" style={{ color: 'var(--aa-charcoal)', textDecoration: 'none' }}>{label} <span style={{ color: 'var(--aa-cyan-text)' }}>↗</span></a>
                   </li>
@@ -271,7 +217,7 @@ function ToolPage({ page, onNav }) {
             </div>
           </div>
         </div>
-      </section>
+      </section> : null}
 
       {/* FAQ + related */}
       <section className="section">
@@ -287,7 +233,36 @@ function ToolPage({ page, onNav }) {
 
 // ---- Tool bodies (split into dist/tools/ by scripts/build.mjs) ---------------
 
-function GratuityToolBody({ onNav, tool }) {
+function GratuityToolBody({ onNav, tool, part }) {
+  // The frame text for this tool (at a glance, assumptions, sources) lives in
+  // the tool's own chunk so other pages never download it. ToolPage reads it
+  // by calling the body with part='meta', which returns before any hook runs.
+  const META = {
+    glance: [
+      ['Entitlement', '21 / 30 days of basic wage per year'],
+      ['Minimum service', 'One continuous year'],
+      ['Wage base', 'Last basic wage — no allowances'],
+      ['Ceiling', 'Two years’ wage'],
+      ['Pay by', '14 days after the end date'],
+      ['Resignation', 'No reduction under the 2021 law'],
+      ['Wage deductions', 'Capped by Article 25 — 50% in total'],
+    ],    // What the Decree-Law fixes, and what this page decides where it is silent.
+    assumptions: [
+      ['A day’s wage', 'The Decree-Law fixes the entitlement in days of basic wage and does not say how a day is derived from a monthly wage. This page uses monthly basic ÷ 30 and shows the figure at ÷ 30.4167 beside it.'],
+      ['The ceiling', 'Article 51(6) says “two years’ wage” — the defined term that includes allowances. The page applies 24 × last basic wage, the reading used in practice, and flags it when it bites.'],
+      ['A day of service', 'Both ends count here: an employee works their first day and their last day, so service is taken as the difference between the two dates plus one. The Decree-Law does not state the convention. Subtracting the dates alone gives one day less, and 364 days for a full calendar year — a difference worth checking against whichever basis your payroll uses.'],
+      ['A year', 'Years of service are counted as 365-day blocks on calendar days served, less unpaid absence. The difference from anniversary counting is a day or two.'],
+      ['Amounts the employee owes', 'The figure is the entitlement, not the cheque. Article 51(7) lets an employer deduct amounts due by law or under a court judgment, and Cabinet Resolution No. 1 of 2022, Article 29 sets out the cases — loans and overpayments, contributions to pension or insurance, debts under a court ruling, penalties under a disciplinary regulation approved by the Ministry, and the cost of damage the employee caused — the last two only where the Decree-Law’s own procedures were followed and not more than three months have lapsed since the amount fell due, unless otherwise agreed (Cabinet Resolution 1 of 2022, Article 29(2)). Those turn on documents this page cannot see, so it states the right rather than netting off a number you would have to guess.'],
+      ['The settlement tab', 'Only the gratuity is calculated. Unpaid salary, unused leave, notice, loans, penalties and the free rows are figures the visitor enters, because they turn on a contract, a payroll run and a ledger this page cannot see. The tab adds them up and applies the signs; it does not check them, and what a settlement contains varies from one company to the next.'],
+      ['Which wage', 'Two bases run through a settlement, and mixing them is the common error. Gratuity and unused leave are computed on the BASIC wage (Articles 51(2) and 29(9) of the Decree-Law, and Article 19(2) of Cabinet Resolution No. 1 of 2022); unpaid salary and pay in lieu of notice run on the FULL wage as defined in Article 1 and required by Article 43(4).'],
+      ['Scope', 'Employers under the federal Labour Law, mainland and free zones. DIFC and ADGM have their own employment laws. UAE nationals come under the pension legislation.'],
+    ],    sources: [
+      ['Federal Decree-Law No. 33 of 2021 — Articles 1, 25, 29, 43, 51, 52 and 53 (MOHRE consolidated text)', 'https://www.mohre.gov.ae/assets/download/e82f7872/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx'],
+      ['Cabinet Resolution No. 1 of 2022 — Articles 19, 29 and 30 (Executive Regulation)', 'https://mohre.gov.ae/assets/download/522c19d4/Cabinet%20Resolution%20_Executive%20Regulations%20Decree-Law%20No.%2033.pdf.aspx'],
+      ['Cabinet Resolution No. 96 of 2023 — Articles 5(3) and 6 (alternative end-of-service scheme)', 'https://mohre.gov.ae/assets/download/c7ea6970/cabinet-resolution-no-96-of-2023-regarding-an-alternative-end-of-service-benefits-system-en.aspx'],
+      ['The Official Portal of the UAE Government — end of service benefits in the private sector', 'https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/end-of-service-benefits-for-employees-in-the-private-sector'],
+    ],  };
+  if (part === 'meta') return META;
   // Everything the calculator needs is inside this one function so the build
   // can lift it out of the shared bundle. Helpers come from the chunk prelude:
   // aaParseNum, AA_MONEY, AA_TOOL_INPUT, AA_TOOL_LABEL, aaSubmitLead,
@@ -914,7 +889,39 @@ function GratuityToolBody({ onNav, tool }) {
   );
 }
 
-function VatToolBody({ onNav, tool }) {
+function VatToolBody({ onNav, tool, part }) {
+  // The frame text for this tool (at a glance, assumptions, sources) lives in
+  // the tool's own chunk so other pages never download it. ToolPage reads it
+  // by calling the body with part='meta', which returns before any hook runs.
+  const META = {
+    glance: [
+      ['Standard rate', '5% of the value of the supply'],
+      ['Since', '1 January 2018, unchanged'],
+      ['VAT inside a gross', 'gross × 5 ÷ 105 = gross ÷ 21'],
+      ['Rounding', 'Nearest fils, half up — permitted'],
+      ['Displayed prices', 'Inclusive of VAT'],
+      ['Currency', 'Dirhams, Central Bank rate'],
+    ],    // What the texts fix, and what this page decides where they are silent.
+    assumptions: [
+      ['The tie-break', 'Article 61 of the Executive Regulation says “mathematical rounding” and stops. The FTA’s Taxable Person Guide says a fraction of a half or more rounds up. This page rounds half up. In add mode an exact half-fils occurs whenever the net ends in 10, 30, 50, 70 or 90 fils; in extract mode it never does, because gross ÷ 21 never lands on an exact half.'],
+      ['What gets rounded', 'Four texts name four objects — the Decree-Law “the total amount to be paid” (Art. 68), the Regulation “the Tax chargeable on a supply” (Art. 61), the Guide “the invoice amount”, VATP006 “the tax value”. This page rounds the VAT figure once and derives the other side from it, so net, VAT and gross always re-add.'],
+      ['Per line or per invoice', 'On a full tax invoice on paper the FTA’s Public Clarification VATP006 calculates and rounds line by line; on an electronic invoice the Ministry of Finance’s June 2026 guidelines round at the invoice-level total only. The two can differ by a fils. This page computes one amount and says so; an invoice mode will carry both conventions.'],
+      ['Permission and practice', 'The Regulation — in English and in the governing Arabic (يُسمح) — permits rounding to the nearest fils; the FTA’s 2022 leaflet says the amount must be rounded. The law permits it, the FTA expects it, this page does it.'],
+      ['A fils', 'Neither VAT text defines it; Article 68 says “one fils of a UAE Dirham”. This page takes a fils as one hundredth of a dirham, so every amount has two decimals.'],
+      ['The arithmetic', '÷ 1.05, ÷ 21 and × 5 ÷ 105 are the same operation, implied by Article 34(1); none is “the” legal formula and nothing here is “approved”. The Guide happens to write ÷ 21.'],
+    ],    sources: [
+      ['Federal Decree-Law No. 8 of 2017 on VAT and its amendments — FTA consolidation of 28 November 2025 (four instruments; in force 1 January 2026): Articles 1, 3, 34, 38, 48, 68, 69', 'https://tax.gov.ae//Datafolder/Files/Legislation/2025/Federal%20Decree-Law%20No.%208%20of%202017%20and%20amendments%20-%20publishing%2028%2011%202025.pdf'],
+      ['Cabinet Decision No. 52 of 2017, Executive Regulation, as amended — FTA text of 18 September 2025: Articles 27, 59, 61 (Arabic text checked for Article 61). Re-checked 11 September 2026 against the Ministry’s consolidation incorporating Cabinet Decision No. 149 of 2026: none of the three articles is amended', 'https://tax.gov.ae/Datafolder/Files/Legislation/Executive-Regulation-of-Federal-Decree-Law-No-08-of-2017-Publish-18-09-2025.pdf'],
+      ['VATP006 — Tax Invoices (FTA Public Clarification): rounding on invoices, line by line on a full tax invoice, worked examples', 'https://tax.gov.ae/DataFolder/Files/Pdf/06-Tax-Invoices.pdf'],
+      ['Taxable Person Guide for VAT (FTA, 2018), §3.5 (÷ 21) and §12.3.4 (a half rounds up)', 'https://tax.gov.ae/DownloadOpenTextFile?fileUrl=en/VAT_VAT_Guides/Taxable_Person_Guide_Value_Added_Tax/Taxable_Person_Guide_June_2018_EN.pdf'],
+      ['“Get to know your tax obligations” (FTA booklet): AED 220 ÷ 21 = AED 10.48', 'https://tax.gov.ae/DataFolder/Files/Guides/VAT/Awareness/Get%20to%20know%20your%20Tax%20Obligations.pdf'],
+      ['VATP020 — VAT-free special offers (FTA): Article 38 and Regulation Article 27 restated', 'https://tax.gov.ae/DataFolder/Files/Pdf/VATP020%20-%20VAT-free%20special%20offers.pdf'],
+      ['VATP046 — Amendments to the VAT Decree-Law (FTA, 2026): the articles amended in 2024 and 2026', 'https://tax.gov.ae//Datafolder/Files/Guides/VAT/PublicClarifications/VATP046%20-%20Amendments%20to%20VAT%20Decree-Law%20-%2009%202026.pdf'],
+      ['VATP004 — Use of exchange rates for VAT purposes (FTA)', 'https://tax.gov.ae/DataFolder/Files/Pdf/04-use-of-exchange-rates.pdf'],
+      ['Cabinet Decision No. 40 of 2017 on administrative penalties, as consolidated November 2025 — Table 3', 'https://tax.gov.ae/Datafolder/Files/Legislation/2025/Cabinet%20Decision%20No.%2040%20of%202017%20and%20its%20amendments%20-%20publishing%2011%202025.pdf'],
+      ['UAE Electronic Invoicing Guidelines V1.1 (Ministry of Finance, 1 June 2026), §12.2 — rounding at invoice level', 'https://mof.gov.ae/wp-content/uploads/2026/06/UAE-Electronic-Invoicing-Guidelines_V-1.1-01June2026.pdf'],
+    ],  };
+  if (part === 'meta') return META;
   // Integer fils throughout — no floating-point rounding surprises — with the
   // FTA's half-up tie-break. Helpers come from the chunk prelude: AA_TOOL_INPUT,
   // AA_TOOL_LABEL, goContact, pathForPage.
