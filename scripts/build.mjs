@@ -71,6 +71,7 @@ const SPLITS = [
       'var aaSubmitLead=T.aaSubmitLead,aaBuildBrandedPdf=T.aaBuildBrandedPdf,AA_MONEY=T.AA_MONEY,aaParseNum=T.aaParseNum,' +
       'AA_TOOL_INPUT=T.AA_TOOL_INPUT,AA_TOOL_LABEL=T.AA_TOOL_LABEL,goContact=T.goContact,aaDubaiToday=T.aaDubaiToday,AAPanelMark=T.AAPanelMark,' +
       'FAQList=window.FAQList,AAMoney=window.AAMoney,AARules=window.AARules;\n' +
+      'var TK=window.AAToolkit||{},DateField=TK.DateField,Tablist=TK.Tablist;\n' +
       'var pathForPage=R.pathForPage,pathForInsight=R.pathForInsight;\n',
   },
 ];
@@ -143,9 +144,53 @@ await mkdir('dist', { recursive: true });
 await writeFile('dist/app.min.js', min, 'utf8');
 console.log(`dist/app.min.js written — ${(min.length / 1024).toFixed(1)} KB minified (from ${ORDER.length} sources)`);
 
+
+// ---- Shared libraries that only tools need ------------------------------
+//
+// Each becomes dist/lib/<name>.<hash>.js. A tool lists the ones it needs in
+// TOOL_LIBS (page-tools.jsx); prerender.py places them before the tool's chunk
+// on every page that hosts the tool (dist/tools/libs.json), and the client
+// loader fetches them on in-app navigation (window.AALibChunks).
+const LIBS = [
+  { name: 'aa-dates', file: 'scripts/lib/aa-dates.js' },
+  { name: 'aa-finance', file: 'scripts/lib/aa-finance.js' },
+  { name: 'aa-toolkit', file: 'scripts/lib/aa-toolkit.jsx' },
+];
+await mkdir('dist/lib', { recursive: true });
+const libManifest = {};
+for (const lib of LIBS) {
+  const src = await readFile(lib.file, 'utf8');
+  const { code } = await transform(src, {
+    loader: lib.file.endsWith('.jsx') ? 'jsx' : 'js', jsx: 'transform',
+    jsxFactory: 'React.createElement', jsxFragment: 'React.Fragment', target: 'es2019',
+  });
+  const { code: minLib } = await transform(`/* ${lib.name} */\n(function(){\n${code}\n})();\n`, { minify: true, target: 'es2019' });
+  const h = createHash('sha256').update(minLib).digest('hex').slice(0, 10);
+  libManifest[lib.name] = `${lib.name}.${h}.js`;
+  await writeFile(`dist/lib/${libManifest[lib.name]}`, minLib, 'utf8');
+}
+{
+  const keep = new Set([...Object.values(libManifest), 'manifest.json']);
+  for (const f of await readdir('dist/lib')) if (!keep.has(f)) await rm(`dist/lib/${f}`);
+}
+await writeFile('dist/lib/manifest.json', JSON.stringify(libManifest, null, 1), 'utf8');
+// TOOL_LIBS, read from page-tools.jsx so there is one list.
+const toolSrc = await readFile('scripts/page-tools.jsx', 'utf8');
+const tlm = toolSrc.match(/const TOOL_LIBS = \{([\s\S]*?)\};/);
+if (!tlm) throw new Error('TOOL_LIBS not found in page-tools.jsx');
+const toolLibs = {};
+for (const m of tlm[1].matchAll(/'([a-z0-9-]+)':\s*\[([^\]]*)\]/g)) {
+  const names = [...m[2].matchAll(/'([a-z0-9-]+)'/g)].map((x) => x[1]);
+  for (const n of names) if (!libManifest[n]) throw new Error(`TOOL_LIBS: ${m[1]} needs unknown library ${n}`);
+  toolLibs[m[1]] = names.map((n) => libManifest[n]);
+}
+await mkdir('dist/tools', { recursive: true });
+await writeFile('dist/tools/libs.json', JSON.stringify(toolLibs, null, 1), 'utf8');
+console.log(`dist/lib/ — ${LIBS.length} libraries: ${Object.values(libManifest).join(', ')}`);
+
 // Write the per-body chunks and a slug -> hashed-filename manifest per split
 // that prerender.py reads, so each page can load exactly one of them.
-let runtimeMaps = '';
+let runtimeMaps = `window.AALibChunks=${JSON.stringify(libManifest)};\n`;
 for (const split of SPLITS) {
   await mkdir(split.dir, { recursive: true });
   const manifest = {};
@@ -160,7 +205,7 @@ for (const split of SPLITS) {
   // Sweep chunks from previous builds. Filenames carry a content hash, so every
   // edit leaves the old file behind — at weekly cadence that is hundreds of
   // orphans within a year, all of them committed and deployed.
-  const keep = new Set([...Object.values(manifest), 'manifest.json']);
+  const keep = new Set([...Object.values(manifest), 'manifest.json', 'libs.json']);
   let swept = 0;
   for (const f of await readdir(split.dir).catch(() => [])) {
     if (!keep.has(f)) { await rm(`${split.dir}/${f}`); swept++; }

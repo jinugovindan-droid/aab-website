@@ -117,7 +117,35 @@ function ToolsHubPage({ onNav }) {
 }
 
 // ---- Tool page frame ---------------------------------------------------------
-const TOOL_CHUNKS_REQUESTED = new Set();
+// Shared libraries each tool needs (dist/lib/, built by scripts/build.mjs, which
+// reads this object). prerender.py puts the same files before the tool's own
+// chunk on every page that hosts it; aaLoadTool fetches them on client moves.
+const TOOL_LIBS = {
+  'gratuity-calculator': ['aa-toolkit'],
+  'vat-calculator': [],
+};
+
+const AA_SCRIPT_LOADS = {};
+// Load one script once; resolves when it has run.
+function aaLoadScript(src) {
+  if (AA_SCRIPT_LOADS[src]) return AA_SCRIPT_LOADS[src];
+  AA_SCRIPT_LOADS[src] = new Promise((ok, fail) => {
+    const el = document.createElement('script');
+    el.src = src;
+    el.onload = () => ok();
+    el.onerror = () => { delete AA_SCRIPT_LOADS[src]; fail(new Error('could not load ' + src)); };
+    document.head.appendChild(el);
+  });
+  return AA_SCRIPT_LOADS[src];
+}
+// A tool's libraries first, in order, then its body chunk.
+function aaLoadTool(slug) {
+  const libs = (TOOL_LIBS[slug] || []).map((name) => (window.AALibChunks || {})[name]).filter(Boolean);
+  const file = (window.AAToolChunks || {})[slug];
+  if (!file) return Promise.reject(new Error('no chunk for ' + slug));
+  return libs.reduce((p, f) => p.then(() => aaLoadScript('/dist/lib/' + f)), Promise.resolve())
+    .then(() => aaLoadScript('/dist/tools/' + file));
+}
 
 function ToolPage({ page, onNav }) {
   const tool = toolByPage(page);
@@ -128,15 +156,7 @@ function ToolPage({ page, onNav }) {
   // body and fills in on load. A direct visit never hits this path.
   React.useEffect(() => {
     if (!tool || Body) return;
-    const file = (window.AAToolChunks || {})[tool.slug];
-    if (!file) return;
-    if (TOOL_CHUNKS_REQUESTED.has(file)) return;
-    TOOL_CHUNKS_REQUESTED.add(file);
-    const el = document.createElement('script');
-    el.src = '/dist/tools/' + file;
-    el.onload = () => forceBody((n) => n + 1);
-    el.onerror = () => { TOOL_CHUNKS_REQUESTED.delete(file); forceBody((n) => n + 1); };
-    document.head.appendChild(el);
+    aaLoadTool(tool.slug).then(() => forceBody((n) => n + 1), () => forceBody((n) => n + 1));
   }, [tool && tool.slug, Body]);
   React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
   if (!tool) return null;
@@ -278,106 +298,8 @@ function GratuityToolBody({ onNav, tool, part }) {
   // The money is always computed from the exact figure, never from this.
   const yrs = (x) => (Math.floor((x + 1e-9) * 100) / 100).toFixed(2);
 
-  // ---- Dates you can type, paste or pick -------------------------------
-  // A bare <input type="date"> refuses a pasted "10/02/2026" and hands back
-  // nothing to copy, which is the first thing anyone working through a list
-  // of leavers wants to do. This takes the formats people actually hold —
-  // a spreadsheet cell, an offer letter, an ISO string — and keeps the
-  // native picker beside it.
-  const PAD2 = (n) => (n < 10 ? '0' + n : '' + n);
-  const MON_NUM = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
-  // Returns an ISO date, '' for empty, or null when it cannot be read.
-  const toIso = (txt, strict) => {
-    let s = String(txt == null ? '' : txt).trim().replace(/,/g, ' ').replace(/\s+/g, ' ');
-    // A cell pasted from a spreadsheet or a system export usually drags a time
-    // along with it: "01/03/2021 00:00", "2021-03-01 00:00:00", "… 9:30 AM".
-    s = s.replace(/[ T]\d{1,2}:\d{2}(:\d{2})?(\.\d+)?\s*([AaPp][Mm])?$/, '').trim();
-    if (!s) return '';
-    const m = s.match(/^(\d{1,4})[\/\-. ](\d{1,2}|[A-Za-z]{3,9})[\/\-. ](\d{1,4})$/);
-    if (!m) return null;
-    // While the user is still typing, a 1-3 digit year is an unfinished 4-digit
-    // year, not a 2-digit one: without this, "01/03/2021" passes through 2002
-    // and 2020 on its way, and the result panel jumps with it.
-    if (strict && m[1].length !== 4 && m[3].length !== 4) return null;
-    const mid = m[2];
-    const mo = /^\d+$/.test(mid) ? Number(mid) : MON_NUM[mid.slice(0, 3).toLowerCase()];
-    if (!mo) return null;
-    let d, y;
-    if (m[1].length === 4) { y = Number(m[1]); d = Number(m[3]); }   // 2026-02-10
-    else { d = Number(m[1]); y = Number(m[3]); }                     // 10/02/2026, 10-Feb-26
-    if (y < 100) y += y < 70 ? 2000 : 1900;
-    if (!(d >= 1 && d <= 31 && mo >= 1 && mo <= 12 && y >= 1900 && y <= 2999)) return null;
-    const probe = new Date(Date.UTC(y, mo - 1, d));
-    if (probe.getUTCDate() !== d || probe.getUTCMonth() !== mo - 1) return null;   // 31 February
-    return y + '-' + PAD2(mo) + '-' + PAD2(d);
-  };
-  const isoToDmy = (iso) => { const p = String(iso || '').split('-'); return p.length === 3 && p[0] ? p[2] + '/' + p[1] + '/' + p[0] : ''; };
-
-  // Memoised so the component's identity is STABLE across renders. Declared
-  // plainly inside this function it would be a new type on every keystroke,
-  // React would remount the input, and the field would lose focus after one
-  // character. It lives in here rather than at module scope because the build
-  // lifts this whole function into its own chunk.
-  const DateField = React.useMemo(() => function DateField({ id, value, onIso, style, label, describedBy }) {
-    const [txt, setTxt] = React.useState(isoToDmy(value));
-    const [bad, setBad] = React.useState(false);
-    const pick = React.useRef(null);
-    const mine = React.useRef(value);
-    // Follow the value when something ELSE sets it — "Use today", the picker —
-    // but never overwrite what the user is typing.
-    React.useEffect(() => {
-      if ((value || '') !== (mine.current || '')) { mine.current = value; setTxt(isoToDmy(value)); setBad(false); }
-    }, [value]);
-    const emit = (v) => { mine.current = v; if (v !== (value || '')) onIso(v); };
-    // An unreadable box must not leave the PREVIOUS date quietly in force: the
-    // panel would keep showing money for a date no longer on screen, and the
-    // branded statement would print it. Empty out instead, so the result
-    // honestly falls back to "—".
-    const type = (raw) => {
-      setTxt(raw);
-      setBad(false);                       // never red mid-keystroke; judged on blur
-      const iso = toIso(raw, true);
-      emit(iso === null ? '' : iso);
-    };
-    const blur = () => {
-      const iso = toIso(txt);              // relaxed: a 2-digit year is fine now
-      if (!txt.trim()) { setBad(false); emit(''); return; }
-      if (iso) { setTxt(isoToDmy(iso)); setBad(false); emit(iso); return; }
-      setBad(true); emit('');
-    };
-    const openPicker = () => {
-      const el = pick.current;
-      if (!el) return;
-      try { if (el.showPicker) { el.showPicker(); return; } } catch (e) { /* needs a gesture, or unsupported */ }
-      el.focus();
-    };
-    return (
-      <div style={{ position: 'relative' }}>
-        <input
-          id={id} value={txt} onChange={(e) => type(e.target.value)} onBlur={blur}
-          placeholder="dd/mm/yyyy" autoComplete="off" spellCheck={false}
-          aria-invalid={bad ? 'true' : undefined}
-          aria-describedby={bad ? id + '-err' : describedBy}
-          style={{ ...style, paddingRight: 40, border: bad ? '1px solid #C0392B' : (style && style.border) }}
-        />
-        <input
-          ref={pick} type="date" tabIndex={-1} aria-hidden="true" value={value || ''}
-          onChange={(e) => { mine.current = e.target.value; onIso(e.target.value); }}
-          style={{ position: 'absolute', right: 34, bottom: 6, width: 1, height: 1, opacity: 0, padding: 0, border: 0, pointerEvents: 'none' }}
-        />
-        <button
-          type="button" onClick={openPicker} title="Pick from a calendar"
-          aria-label={'Pick ' + (label || 'a date') + ' from a calendar'}
-          style={{ position: 'absolute', right: 1, top: 1, bottom: 1, width: 36, minHeight: 0, border: 0, background: 'none', cursor: 'pointer', color: 'var(--aa-steel)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-            <rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
-          </svg>
-        </button>
-        {bad ? <p id={id + '-err'} role="alert" style={{ fontSize: 11.5, color: '#C0392B', margin: '5px 0 0', lineHeight: 1.45 }}>That is not a date we can read. Try 30/09/2026, 2026-09-30 or 30 Sep 2026 — or use the calendar.</p> : null}
-      </div>
-    );
-  }, []);
+  // Dates you can type, paste or pick: DateField comes from the shared toolkit
+  // (scripts/lib/aa-toolkit.jsx), loaded with this chunk.
 
   // The formula. Each line maps to a clause listed in the sources block.
   // The whole entitlement at ONE day-divisor. Called twice — at ÷30 for the
@@ -611,25 +533,6 @@ function GratuityToolBody({ onNav, tool, part }) {
   const numStyle = { ...AA_TOOL_INPUT, fontFamily: 'var(--aa-font-mono)' };
   const hint = (t) => <p style={{ fontSize: 11.5, color: 'var(--aa-steel)', margin: '5px 0 0', lineHeight: 1.45 }}>{t}</p>;
 
-  const tabStyle = (id) => ({
-    flex: 1, padding: '13px 18px', fontSize: 14, fontWeight: 600, cursor: 'pointer',
-    fontFamily: 'var(--aa-font-sans)', textAlign: 'center',
-    background: tab === id ? 'var(--aa-charcoal)' : '#fff',
-    color: tab === id ? '#fff' : 'var(--aa-steel-700)',
-    border: '1px solid var(--aa-rule)', borderBottom: tab === id ? '1px solid var(--aa-charcoal)' : '1px solid var(--aa-rule)',
-    borderRight: id === 'gratuity' ? 'none' : '1px solid var(--aa-rule)',
-  });
-  // Roving tabindex + arrow keys: the WAI-ARIA tabs pattern, so the pair is one
-  // stop in the tab order and the arrows move between them.
-  const onTabKey = (e) => {
-    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Home' && e.key !== 'End') return;
-    e.preventDefault();
-    const next = e.key === 'Home' ? 'gratuity' : e.key === 'End' ? 'settlement' : (tab === 'gratuity' ? 'settlement' : 'gratuity');
-    setTab(next);
-    const el = document.getElementById(uid + '-tab-' + next);
-    if (el) el.focus();
-  };
-
   const amountRow = (key, label, hintText, placeholder) => (
     <div style={{ marginTop: 14 }}>
       <label htmlFor={uid + '-' + key} style={AA_TOOL_LABEL}>{label}</label>
@@ -652,16 +555,8 @@ function GratuityToolBody({ onNav, tool, part }) {
 
   return (
     <div>
-      <div role="tablist" aria-label="Gratuity or full settlement" style={{ display: 'flex' }}>
-        <button type="button" role="tab" id={uid + '-tab-gratuity'} aria-selected={tab === 'gratuity'} aria-controls={uid + '-panel-gratuity'}
-          tabIndex={tab === 'gratuity' ? 0 : -1} onClick={() => setTab('gratuity')} onKeyDown={onTabKey} style={tabStyle('gratuity')}>
-          End-of-service gratuity
-        </button>
-        <button type="button" role="tab" id={uid + '-tab-settlement'} aria-selected={tab === 'settlement'} aria-controls={uid + '-panel-settlement'}
-          tabIndex={tab === 'settlement' ? 0 : -1} onClick={() => setTab('settlement')} onKeyDown={onTabKey} style={tabStyle('settlement')}>
-          Full final settlement
-        </button>
-      </div>
+      <Tablist id={uid} label="Gratuity or full settlement" value={tab} onChange={setTab}
+        tabs={[{ id: 'gratuity', label: 'End-of-service gratuity' }, { id: 'settlement', label: 'Full final settlement' }]} />
 
       <p style={{ margin: '10px 0 14px', fontSize: 13, lineHeight: 1.6, color: 'var(--aa-steel-700)' }}>
         The first tab <strong>calculates</strong> the gratuity from the Labour Law. The second is a <strong>worksheet</strong>:

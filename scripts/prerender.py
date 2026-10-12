@@ -1642,6 +1642,30 @@ try:
         TOOL_CHUNKS = json.load(_f)
 except Exception:
     pass
+# Shared libraries each tool needs (dist/lib/), written by build.mjs from TOOL_LIBS.
+TOOL_LIB_FILES = {}
+try:
+    with open(os.path.join(ROOT, "dist", "tools", "libs.json"), encoding="utf-8") as _f:
+        TOOL_LIB_FILES = json.load(_f)
+except Exception:
+    pass
+
+
+def tool_script_tags(slugs):
+    """Script tags for these tools: their libraries first (each once), then each
+    tool's chunk. All defer, placed before app.min.js so they run first."""
+    tags, seen = [], set()
+    for slug in slugs:
+        chunk = TOOL_CHUNKS.get(slug)
+        if not chunk:
+            raise SystemExit("no tool chunk for '%s' — run scripts/build.mjs first" % slug)
+        for lib in TOOL_LIB_FILES.get(slug, []):
+            if lib not in seen:
+                seen.add(lib)
+                tags.append('<script defer src="dist/lib/%s"></script>' % lib)
+    for slug in slugs:
+        tags.append('<script defer src="dist/tools/%s"></script>' % TOOL_CHUNKS[slug])
+    return "\n  ".join(tags)
 
 
 def main():
@@ -1659,15 +1683,9 @@ def main():
         html = render(template, meta["title"], meta["description"], canonical, build_jsonld(page, None), body=seo_body(page))
         if page in TOOL_SLUGS:
             # Load ONLY this tool's body chunk — same contract as article pages.
-            chunk = TOOL_CHUNKS.get(TOOL_SLUGS[page])
-            if not chunk:
-                raise SystemExit(
-                    "no tool chunk for '%s' — run scripts/build.mjs first, or the page "
-                    "will render an empty tool." % page
-                )
             html = html.replace(
                 '<script defer src="dist/app.min.js',
-                '<script defer src="dist/tools/%s"></script>\n  <script defer src="dist/app.min.js' % chunk,
+                tool_script_tags([TOOL_SLUGS[page]]) + '\n  <script defer src="dist/app.min.js',
                 1,
             )
             # Per-page share card when one has been generated (assets/og/page-<id>.jpg).

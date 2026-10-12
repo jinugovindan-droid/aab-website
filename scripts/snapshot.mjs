@@ -241,6 +241,8 @@ const norm = (s) => s
   // Article and tool chunks carry a content hash in the file name; a rebuilt
   // chunk is not a change to the page anyone reads.
   .replace(/(dist\/(?:articles|tools)\/[a-z0-9-]+)\.[0-9a-f]{10}\.js/g, '$1.js')
+  // Shared tool libraries are plumbing, not page content.
+  .replace(/<script defer src="dist\/lib\/[^"]+"><\/script>\s*/g, '')
   .replace(/<section data-aa-volatile[\s\S]*?<\/section>/, '');
 const gitShow = (relPath) => {
   try { return execFileSync('git', ['show', 'HEAD:' + relPath.replace(/\\/g, '/')], { cwd: ROOT, maxBuffer: 16 * 1024 * 1024 }).toString('utf8'); }
